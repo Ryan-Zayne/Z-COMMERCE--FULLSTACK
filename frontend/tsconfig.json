@@ -1,0 +1,43 @@
+{
+	"compilerOptions": {
+		"allowJs": false,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"checkJs": false,
+		"esModuleInterop": false,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"noEmit": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedParameters": true,
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		"resolveJsonModule": true,
+		"skipLibCheck": true /* Skip type checking all .d.ts files. */,
+		"strict": true,
+		"target": "ES2016",
+		"types": ["vite/client"],
+		"verbatimModuleSyntax": true
+	},
+	"exclude": ["node_modules"],
+	"include": [
+		"env.d.ts",
+		"postcss.config.cjs",
+		"prettier.config.cjs",
+		"src",
+		"tailwind.config.ts",
+		"vite-env.d.ts",
+		"vite.config.ts"
+	],
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
+}

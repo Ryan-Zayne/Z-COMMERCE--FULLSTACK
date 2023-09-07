@@ -1,0 +1,118 @@
+
+<svg
+						version="1.1"
+						xmlns="http://www.w3.org/2000/svg"
+						xmlns:xlink="http://www.w3.org/1999/xlink"
+						preserveAspectRatio="xMidYMid meet"
+						viewBox="581 256 337 116"
+					>
+						<g data-item-type="text" data-item="Business" id="logo__item--business" class="logo__item">
+							<g
+								class="logo__item__inner"
+								transform="translate(713.8828125 340.25300930859066) scale(1 1) rotate(0 0 0)"
+							>
+								<text
+									dy="0"
+
+									dominant-baseline="auto"
+									alignment-baseline="auto"
+									font-family="Trebuchet Ms"
+									font-size="31px"
+									fill="#00ADEE"
+									letter-spacing="0.5"
+									font-weight="600"
+								>
+									DigitalGenie
+								</text>
+							</g>
+						</g>
+						<g
+						>
+							<g
+								transform="translate(559.2821403334533 235) scale(1.6038062336661205 1.6038062336661205) rotate(0 0 0)"
+							>
+								<g>
+									<linearGradient
+										id="SVGID_1_"
+										gradientUnits="userSpaceOnUse"
+										x1="16.4897"
+										y1="82.3213"
+										x2="70.7209"
+										y2="82.3213"
+									>
+										<stop
+											offset="0.0485"
+											style="stop-color: rgb(255, 255, 255); --darkreader-inline-stopcolor:#f9f7f4;"
+											data-darkreader-inline-stopcolor=""
+										></stop>
+										<stop
+											offset="1"
+											style="stop-color: rgb(0, 173, 238); --darkreader-inline-stopcolor:#22d2ff;"
+											data-darkreader-inline-stopcolor=""
+										></stop>
+									</linearGradient>
+									<path
+										fill="url(#SVGID_1_)"
+										d="M58.531,82.32c0,0.764-9.656,1.389-21.557,1.389c-11.911,0-21.562-0.625-21.562-1.389   c0-0.766,9.651-1.387,21.562-1.387C48.875,80.934,58.531,81.555,58.531,82.32z"
+										data-part-id="logo__item--logo_0__0"
+									></path>
+									<path
+										fill-rule="evenodd"
+										clip-rule="evenodd"
+										fill="#029BD6"
+										d="M54.576,70.209c6.865-1.619,5.956-11.055,14.096-11.395   c3.687,3.92-2.184,8.34-3.54,9.953c3.343-1.637,5.683-4.869,6.355-9.246c0.192,0.283,0.415,0.551,0.654,0.809   c0.193,0.209,0.367,0.438,0.532,0.666C70.574,68.424,63.805,72.219,54.576,70.209z"
+										data-part-id="logo__item--logo_0__1"
+										data-darkreader-inline-fill=""
+										style="--darkreader-inline-fill:#36d4ff;"
+									></path>
+									<radialGradient
+										id="SVGID_2_"
+										cx="73.2002"
+										cy="1.894"
+										r="101.6284"
+										gradientUnits="userSpaceOnUse"
+									>
+										<stop
+											offset="0"
+											style="stop-color: rgb(0, 173, 238); --darkreader-inline-stopcolor:#22d2ff;"
+											data-darkreader-inline-stopcolor=""
+										></stop>
+										<stop
+											offset="0.3939"
+											style="stop-color: rgb(38, 169, 224); --darkreader-inline-stopcolor:#3abdf4;"
+											data-darkreader-inline-stopcolor=""
+										></stop>
+										<stop
+											offset="0.6485"
+											style="stop-color: rgb(27, 117, 187); --darkreader-inline-stopcolor:#66bbf9;"
+											data-darkreader-inline-stopcolor=""
+										></stop>
+										<stop
+											offset="0.8364"
+											style="stop-color: rgb(43, 56, 143); --darkreader-inline-stopcolor:#89b1e9;"
+											data-darkreader-inline-stopcolor=""
+										></stop>
+										<stop
+											offset="1"
+											style="stop-color: rgb(19, 8, 67); --darkreader-inline-stopcolor:#dfdbd4;"
+											data-darkreader-inline-stopcolor=""
+										></stop>
+									</radialGradient>
+									<path
+										fill="url(#SVGID_2_)"
+										d="M55.053,83.193c-14.99,0.174-27.287-11.846-27.457-26.834c-0.004-0.158,0.005-0.313,0.005-0.467   l-0.184,0.033l-0.033-40.4l7.904-0.438l9.227,15.809c3.065-1.248,6.403-1.956,9.916-1.998c13.756-0.16,25.229,9.945,27.164,23.19   l8.639,18.928L70.856,51.971l0.009-0.07c-1.703-7.45-8.408-12.973-16.363-12.881C45.34,39.123,37.996,46.637,38.1,55.801   c0.108,9.168,7.622,16.508,16.788,16.404c1.939-0.023,3.804-0.381,5.532-1.018c0,0,10.301,0.148,12.823-10.014l6.351,5.797   C75.438,76.418,66.05,83.066,55.053,83.193z"
+										data-part-id="logo__item--logo_0__2"
+									></path>
+									<circle
+										fill="#029BD6"
+										cx="51.927"
+										cy="53.133"
+										r="8.215"
+										data-part-id="logo__item--logo_0__3"
+										data-darkreader-inline-fill=""
+										style="--darkreader-inline-fill:#36d4ff;"
+									></circle>
+								</g>
+							</g>
+						</g>
+					</svg>
