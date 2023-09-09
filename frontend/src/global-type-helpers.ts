@@ -1,5 +1,3 @@
-// type NonNullable<T> = T extends null | undefined ? never : T;
-
 export type WithChildren<TProps = NonNullable<unknown>> = TProps & {
 	children: React.ReactNode;
 };

@@ -25,7 +25,7 @@
 	"parserOptions": {
 		"ecmaVersion": "latest",
 		"sourceType": "module",
-		"project": "./frontend/tsconfig.json"
+		"project": "./tsconfig.json"
 	},
 
 	"settings": {
@@ -143,7 +143,7 @@
 		"tailwindcss/classnames-order": [
 			"warn",
 			{
-				"config": "tailwind.config.cjs"
+				"config": "./tailwind.config.ts"
 			}
 		]
 	}

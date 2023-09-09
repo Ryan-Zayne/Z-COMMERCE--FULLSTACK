@@ -17,10 +17,10 @@ const useCarouselOptions = (options: CarouselOptions = {}) => {
 	const nextSlide = useCarouselStore((state) => state.nextSlide);
 
 	// AutoSlide functionality for a given slideInterval
-	useAnimationInterval(
-		nextSlide,
-		isAutoSlide && !isPaused && !isNavShow && !isMobile ? autoSlideInterval : null
-	);
+	useAnimationInterval({
+		callbackFn: nextSlide,
+		intervalDuration: isAutoSlide && !isPaused && !isNavShow && !isMobile ? autoSlideInterval : null,
+	});
 
 	return { setIsPaused };
 };

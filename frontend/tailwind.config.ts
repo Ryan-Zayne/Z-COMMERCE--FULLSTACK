@@ -13,6 +13,10 @@ export default {
 			lg: '1000px',
 		},
 
+		backgroundImage: {
+			'footer-image': "url('/src/pages/GlobalLayout/Footer/images/newsletter-bg.webp')",
+		},
+
 		extend: {
 			colors: {
 				primary: 'var(--color-primary)',

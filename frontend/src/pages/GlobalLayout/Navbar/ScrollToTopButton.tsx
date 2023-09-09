@@ -1,6 +1,5 @@
 import { useScrollObserver } from '@/hooks';
 import { BsChevronUp } from 'react-icons/bs';
-import { useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 function ScrollToTopButton() {

@@ -6,7 +6,11 @@ import { toast } from 'react-hot-toast';
 import { AiFillMinusCircle, AiFillPlusCircle, AiOutlineShoppingCart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
-function ItemDescription({ productItem }: { productItem: ResponseDataItem }) {
+type ItemDescriptionProps = {
+	productItem: ResponseDataItem;
+};
+
+function ItemDescription({ productItem }: ItemDescriptionProps) {
 	const productItemInCart = useShopStore((state) => state.cart).find(
 		(item) => item.id === productItem.id
 	);

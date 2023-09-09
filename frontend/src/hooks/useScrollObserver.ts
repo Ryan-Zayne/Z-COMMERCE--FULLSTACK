@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useScrollObserver = <T extends HTMLElement = HTMLDivElement>(options = {}) => {
+const useScrollObserver = <T extends HTMLDivElement>(options?: IntersectionObserverInit) => {
 	const elementRef = useRef<T>(null);
 	const [isScrolled, setIsScrolled] = useState(false);
 
@@ -12,11 +12,12 @@ const useScrollObserver = <T extends HTMLElement = HTMLDivElement>(options = {})
 	);
 
 	useEffect(() => {
+		const elementNode = elementRef.current;
 		const scrollWatcher = document.createElement('span');
 		scrollWatcher.dataset.scrollWatcher = '';
 
-		if (elementRef.current) {
-			elementRef.current.before(scrollWatcher);
+		if (elementNode) {
+			elementNode.before(scrollWatcher);
 		}
 
 		scrollObserver.observe(scrollWatcher);
@@ -27,7 +28,7 @@ const useScrollObserver = <T extends HTMLElement = HTMLDivElement>(options = {})
 		};
 	}, [scrollObserver]);
 
-	return { isScrolled, elementRef };
+	return { elementRef, isScrolled };
 };
 
 export { useScrollObserver };

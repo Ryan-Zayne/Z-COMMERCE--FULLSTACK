@@ -6,11 +6,11 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { TiArrowBack } from 'react-icons/ti';
 import { Link } from 'react-router-dom';
 
-type ItemHeaderProp = {
+type ItemHeaderProps = {
 	productItem: ResponseDataItem | ShopStore['cart'][number];
 };
 
-function ItemHeader({ productItem }: ItemHeaderProp) {
+function ItemHeader({ productItem }: ItemHeaderProps) {
 	const wishList = useShopStore((state) => state.wishList);
 	const { toggleAddToWishList } = useShopActions();
 	const isProductInWishList = wishList.some((item) => item.id === productItem.id);

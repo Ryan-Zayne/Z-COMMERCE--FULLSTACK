@@ -1,6 +1,8 @@
-module.exports = {
-	// eslint-disable-next-line import/no-extraneous-dependencies, global-require
-	plugins: [require('prettier-plugin-tailwindcss')],
+/** @type {import("prettier").Config} */
+
+const config = {
+	plugins: ['prettier-plugin-tailwindcss'],
+	tailwindFunctions: ['twMerge', 'twJoin'],
 	arrowParens: 'always',
 	bracketSameLine: false,
 	bracketSpacing: true,
@@ -18,3 +20,5 @@ module.exports = {
 	trailingComma: 'es5',
 	useTabs: true,
 };
+
+export default config;

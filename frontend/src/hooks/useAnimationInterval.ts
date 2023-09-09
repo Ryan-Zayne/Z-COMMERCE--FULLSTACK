@@ -1,51 +1,60 @@
 /* eslint-disable consistent-return */
-import { useEffect, useRef } from 'react';
+import { assertDefined } from '@/global-type-helpers';
+import { useCallback, useEffect, useRef } from 'react';
 import { useCallbackRef } from './useCallbackRef';
 
-const useAnimationInterval = (callbackFn: () => void, intervalDuration: number | null) => {
-	// Refs to hold the start time and the current animation frame ID.
+type AnimationOptionsType = {
+	callbackFn: () => void;
+	intervalDuration: number | null;
+};
+
+const useAnimationInterval = (options: AnimationOptionsType) => {
+	const { callbackFn, intervalDuration } = options;
+
 	const startTimeStampRef = useRef<number | null>(null);
 	const animationFrameId = useRef(0);
 
-	// Saved callback function with useCallbackRef hook.
 	const savedCallback = useCallbackRef(callbackFn);
 
-	useEffect(() => {
-		/**
-		 * This is a function that plays the animation and calls the saved callback function when the interval duration has elapsed.
-		 * @param timeStamp - The timestamp of the current animation frame (automatically passed by requestAnimationFrame).
-		 */
+	/**
+	 * @param timeStamp - The timestamp of the current animation frame (automatically passed by requestAnimationFrame API).
+	 */
 
-		const playAnimation = (timeStamp: DOMHighResTimeStamp) => {
-			// If the start time has not been set yet, set it to the current timestamp.
+	// prettier-ignore
+	const smoothAnimation = useCallback((timeStamp: DOMHighResTimeStamp) => {
+			//* If the start time has not been set yet, set it to the current timestamp.
 			if (startTimeStampRef.current === null) {
 				startTimeStampRef.current = timeStamp;
 			}
 
-			// Calculate the elapsed time since the animation started.
 			const elapsedTime = timeStamp - startTimeStampRef.current;
 
-			// Call the callback function and reset the start timestamp when the interval duration elapses.
-			if (intervalDuration && elapsedTime >= intervalDuration) {
+			//* Call the callback function and reset the start timestamp when the interval duration elapses.
+			if (elapsedTime >= assertDefined(intervalDuration)) {
 				savedCallback();
 				startTimeStampRef.current = timeStamp;
 			}
 
-			// Continue the animation by recursively requesting the next animation frame until the interval duration has elapses again.
-			animationFrameId.current = requestAnimationFrame(playAnimation);
-		};
+			//* Continue the animation by recursively requesting the next animation frame until the interval duration has elapses again.
+			animationFrameId.current = requestAnimationFrame(smoothAnimation);
+		},
+		[intervalDuration, savedCallback]
+	);
 
-		// If the delay duration is not null, start the animation frame loop.
+	const onAnimationStart = useCallback(() => requestAnimationFrame(smoothAnimation), [smoothAnimation]);
+
+	const onAnimationStop = useCallback(() => cancelAnimationFrame(animationFrameId.current), []);
+
+	// This effect allows start and stop of the animation from the consumer component just by toggling the interval between a number and null
+	useEffect(() => {
 		if (intervalDuration !== null) {
-			animationFrameId.current = requestAnimationFrame(playAnimation);
+			onAnimationStart();
 
-			// Return a cleanup function to cancel the animation frame on component unmount and prevent memory leaks.
-			return () => cancelAnimationFrame(animationFrameId.current);
+			return () => onAnimationStop();
 		}
-	}, [intervalDuration, savedCallback]);
+	}, [intervalDuration, onAnimationStart, onAnimationStop]);
 
-	// Return the animation frame ID so that it can be used to cancel the animation frame loop in the consuming component.
-	return animationFrameId.current;
+	return { animationFrameId: animationFrameId.current, onAnimationStop };
 };
 
 export { useAnimationInterval };

@@ -1,9 +1,8 @@
-import { useCarouselStore } from '@/components/Carousel/carouselStoreContext';
 import { useEffect, useRef } from 'react';
 
 type ElementRefObject = {
 	heading: HTMLHeadingElement | null;
-	button: HTMLButtonElement | HTMLDivElement | null;
+	button: HTMLButtonElement | null;
 	paragraph: HTMLParagraphElement | null;
 };
 
@@ -21,9 +20,7 @@ const possibleElements = [
 	{ targetElement: 'paragraph', animationClass: 'animate-fade-in-up-2' },
 ] as const;
 
-const useAnimateRef = () => {
-	const currentSlide = useCarouselStore((state) => state.currentSlide);
-
+const useAnimateRef = ({ currentSlide }: { currentSlide: number }) => {
 	const elementRef = useRef<ElementRefObject>({
 		heading: null,
 		button: null,
