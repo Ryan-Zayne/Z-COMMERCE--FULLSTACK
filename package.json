@@ -1,0 +1,10 @@
+{
+	"name": "e-commerce",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "cd frontend && pnpm dev",
+		"build": "cd frontend && pnpm build"
+	}
+}
