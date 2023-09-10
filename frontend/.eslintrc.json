@@ -75,6 +75,9 @@
 			}
 		],
 
+		"no-return-await": "off",
+		"@typescript-eslint/return-await": "error",
+
 		//React plugin rules
 		"import/no-extraneous-dependencies": [
 			"error",

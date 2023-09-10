@@ -29,6 +29,7 @@
 		"env.d.ts",
 		"postcss.config.cjs",
 		"prettier.config.js",
+		"express-plugin.ts",
 		"src",
 		"tailwind.config.ts",
 		"vite-types.d.ts",
