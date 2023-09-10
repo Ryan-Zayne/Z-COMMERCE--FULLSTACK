@@ -5,8 +5,7 @@ import RecentProducts from './RecentProducts';
 import SimilarProducts from './SimilarProducts';
 
 function HomeProductSection() {
-	const { hotSalesProducts, recentlyViewedProducts, similarProducts, isLoading } =
-		useHomePageProducts();
+	const { hotSalesProducts, recentlyViewedProducts, similarProducts, isLoading } = useHomePageProducts();
 
 	if (isLoading) {
 		return <LoadingSkeleton count={10} />;

@@ -1,11 +1,11 @@
+import type { WithChildren } from '@/global-type-helpers';
 import { useCarouselOptions } from '@/hooks/useCarouselOptions';
 import { useGlobalStore } from '@/store/zustand/globalStore';
 import { twMerge } from 'tailwind-merge';
 import { useCarouselStore } from './carouselStoreContext';
 
-type CarouselProps = {
+type CarouselProps = WithChildren<{
 	as?: React.ElementType;
-	children: React.ReactNode;
 	outerClassName?: string;
 	innerClassName?: string;
 	leftBtnClasses?: string;
@@ -14,7 +14,7 @@ type CarouselProps = {
 	isAutoSlide?: boolean;
 	autoSlideInterval?: number;
 	pauseOnHover?: boolean;
-};
+}>;
 
 type CarouselIndicatorProps = {
 	className?: string;

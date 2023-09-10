@@ -1,4 +1,4 @@
-export type WithChildren<TProps = NonNullable<unknown>> = TProps & {
+export type WithChildren<TProps> = TProps & {
 	children: React.ReactNode;
 };
 

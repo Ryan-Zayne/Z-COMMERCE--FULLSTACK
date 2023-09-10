@@ -1,34 +1,20 @@
 import { Button, Carousel, ImageComponent } from '@/components';
 import type { CarouselStore } from '@/components/Carousel/carousel.types';
 import { useCarouselStore } from '@/components/Carousel/carouselStoreContext';
-import { useAnimateRef } from '@/hooks';
+import { useAnimateRef, useElementList } from '@/hooks';
 import { useThemeStore } from '@/store/zustand/themeStore';
 import { RxPaperPlane } from 'react-icons/rx';
 import { twJoin } from 'tailwind-merge';
 
 function Hero() {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
-	const slideImages = useCarouselStore(
-		(state) => state.slideImages as Exclude<CarouselStore['slideImages'], string[]>
-	);
+	// prettier-ignore
+	const slideImages = useCarouselStore((state) => state.slideImages as Exclude<CarouselStore['slideImages'], string[]>);
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
 
 	const { animatedElements } = useAnimateRef({ currentSlide });
-
-	const CarouselItems = slideImages.map((image, index) => (
-		<Carousel.Item key={image.src}>
-			<ImageComponent
-				className="h-full w-full"
-				src={image.src}
-				fetchpriority={index === 0 ? 'high' : 'auto'}
-				blurSrc={image.blurSrc}
-			/>
-		</Carousel.Item>
-	));
-
-	const CarouselIndicators = slideImages.map((image, index) => (
-		<Carousel.Indicator key={image.src} index={index} />
-	));
+	const { For: ItemList } = useElementList();
+	const { For: IndicatorList } = useElementList();
 
 	return (
 		<section id="Hero">
@@ -49,7 +35,23 @@ function Hero() {
 				isAutoSlide={true}
 				pauseOnHover={true}
 			>
-				<Carousel.ItemWrapper className={'brightness-[0.6]'}>{CarouselItems}</Carousel.ItemWrapper>
+				<Carousel.ItemWrapper className={'brightness-[0.6]'}>
+					{
+						<ItemList
+							each={slideImages}
+							render={(image, index) => (
+								<Carousel.Item key={image.src}>
+									<ImageComponent
+										className="h-full w-full"
+										src={image.src}
+										fetchpriority={index === 0 ? 'high' : 'auto'}
+										blurSrc={image.blurSrc}
+									/>
+								</Carousel.Item>
+							)}
+						/>
+					}
+				</Carousel.ItemWrapper>
 
 				<Carousel.Caption
 					className={
@@ -79,7 +81,14 @@ function Hero() {
 					/>
 				</Carousel.Caption>
 
-				<Carousel.IndicatorWrapper>{CarouselIndicators}</Carousel.IndicatorWrapper>
+				<Carousel.IndicatorWrapper>
+					{
+						<IndicatorList
+							each={slideImages}
+							render={(image, index) => <Carousel.Indicator key={image.src} index={index} />}
+						/>
+					}
+				</Carousel.IndicatorWrapper>
 			</Carousel>
 		</section>
 	);
