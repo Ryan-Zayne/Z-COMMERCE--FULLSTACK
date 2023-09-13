@@ -17,7 +17,7 @@ const port = process.env.PORT ?? 5001;
 const publicPath = path.resolve('../', 'frontend', 'public');
 
 app.set('view engine', 'ejs');
-app.set('views', './views');
+// app.set('views', './views');
 
 // Middleware
 app.use(cors());
