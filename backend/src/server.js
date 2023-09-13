@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import path from 'node:path';
-import assetsRouter from './assetsRouter.js';
-import homepageRouter from './homepageRouter.js';
+import assetsRouter from './middleware/assetsRouter.js';
+import homepageRouter from './middleware/homepageRouter.js';
 
 dotenv.config({ path: path.resolve('../', '.env') });
 colors.enable();
@@ -15,6 +15,9 @@ export const app = express();
 
 const port = process.env.PORT ?? 5001;
 const publicPath = path.resolve('../', 'frontend', 'public');
+
+app.set('view engine', 'ejs');
+app.set('views', './views');
 
 // Middleware
 app.use(cors());
