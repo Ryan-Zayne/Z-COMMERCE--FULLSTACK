@@ -2,28 +2,31 @@ import colors from '@colors/colors';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import morgan from 'morgan';
+import path from 'node:path';
+import assetsRouter from './assetsRouter.js';
+import homepageRouter from './homepageRouter.js';
 
-dotenv.config();
+dotenv.config({ path: path.resolve('../', '.env') });
 colors.enable();
 
+// App instance
 export const app = express();
 
 const port = process.env.PORT ?? 5001;
+const publicPath = path.resolve('../', 'frontend', 'public');
 
 // Middleware
-app.use(express.json());
 app.use(cors());
+app.use(morgan('tiny'));
+app.use(express.json());
+app.use(express.static(publicPath));
 
-app.get('/api/test', (_, res) => res.json({ greeting: process.env.IS_VITE_PLUGIN }));
+// Routes
+app.use('/src', assetsRouter);
+app.get('/api/test', (_, res) => res.json({ greeting: 'Flow' }));
 
-if (!process.env.IS_VITE_PLUGIN) {
-	const frontendFiles = `${process.cwd()}/dist`;
-	app.use(express.static(frontendFiles));
+app.use(homepageRouter);
 
-	app.get('/*', (_, res) => {
-		res.send(`${frontendFiles}/index.html`);
-	});
-
-	// eslint-disable-next-line no-console
-	app.listen(port, () => console.log(`Server listening on port ${port}`));
-}
+// eslint-disable-next-line no-console
+app.listen(port, () => console.log(`Server listening on port ${port}`));

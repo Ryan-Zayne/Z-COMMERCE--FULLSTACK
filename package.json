@@ -4,7 +4,10 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "cd frontend && pnpm dev",
-		"build": "cd frontend && pnpm build"
+		"dev:client": "cd frontend && pnpm dev",
+		"dev:server": "cd backend && pnpm dev",
+		"dev": "concurrently 'pnpm:dev:client' 'pnpm:dev:server'",
+		"build": "cd frontend && pnpm build",
+		"preview": "cd frontend && pnpm preview"
 	}
 }

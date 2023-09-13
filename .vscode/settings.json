@@ -1,4 +1,8 @@
 {
 	"typescript.tsdk": "frontend\\node_modules\\typescript\\lib",
-	"eslint.workingDirectories": ["frontend", "backend"]
+	"eslint.workingDirectories": ["frontend", "backend"],
+	"editor.fontFamily": "Cascadia Code PL, Rec Mono Casual, Rec Mono SemiCasual, JetBrains Mono, MonoLisa Nerd Font Mono, Fira Code",
+	"editor.fontLigatures": "'calt', 'ss01'",
+	"editor.fontSize": 14.5,
+	"editor.fontWeight": "normal"
 }
