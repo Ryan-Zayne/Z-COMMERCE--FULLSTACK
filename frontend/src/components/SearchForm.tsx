@@ -5,7 +5,7 @@ import Button, { type ButtonProps } from './Button';
 type SearchFormProps = Pick<ButtonProps, 'theme' | 'variant' | 'size' | 'text' | 'className'> & {
 	btnClassName?: string;
 	inputClassName?: string;
-	buttonIcon?: JSX.Element;
+	buttonIcon?: React.ComponentType;
 	placeholder?: string;
 };
 
@@ -14,7 +14,7 @@ function SearchForm(props: SearchFormProps) {
 		className = '',
 		btnClassName = '',
 		inputClassName = '',
-		buttonIcon = <BiSearchAlt2 />,
+		buttonIcon: ButtonIcon = BiSearchAlt2,
 		theme = 'secondary',
 		variant = 'input',
 		size = 'sm',
@@ -41,7 +41,7 @@ function SearchForm(props: SearchFormProps) {
 				theme={theme}
 				size={size}
 			>
-				{text ?? buttonIcon}
+				{text ?? <ButtonIcon />}
 			</Button>
 		</form>
 	);

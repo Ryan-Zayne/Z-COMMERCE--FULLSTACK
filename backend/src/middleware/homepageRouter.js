@@ -1,26 +1,18 @@
 import express from 'express';
-import fs from 'node:fs/promises';
 import path from 'node:path';
-import { environment } from '../utils/constants.js';
 
 const homepageRouter = express.Router();
 
-const parseManifest = async () => {
-	if (environment !== 'production') return {};
+homepageRouter.get('/', async (req, res) => {
+	//* Supplies manifest and environment data to ejs view template(--disabled)
+	// const data = {
+	// 	environment,
+	// 	manifest: await parseManifest(),
+	// };
 
-	const manifestPath = path.resolve('../', 'frontend', 'dist', 'manifest.json');
-	const manifestFile = await fs.readFile(manifestPath);
+	// res.render(path.resolve('src', 'views', 'index.html.ejs'), data);
 
-	return JSON.parse(manifestFile);
-};
-
-homepageRouter.get('/', async (_, res) => {
-	const data = {
-		environment,
-		manifest: await parseManifest(),
-	};
-
-	res.render(path.resolve('src', 'views', 'index.html.ejs'), data);
+	res.render(path.resolve('../', 'frontend', 'dist', 'index.html'));
 });
 
 export default homepageRouter;

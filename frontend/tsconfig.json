@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"allowJs": false,
+		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
 		"baseUrl": ".",
 		"checkJs": false,
@@ -10,7 +10,8 @@
 		"jsx": "preserve",
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"module": "ESNext",
-		"moduleResolution": "node",
+		"moduleDetection": "force",
+		"moduleResolution": "Bundler",
 		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
@@ -21,7 +22,7 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */,
 		"strict": true,
-		"target": "ES2016",
+		"target": "ES2022",
 		"verbatimModuleSyntax": true
 	},
 	"exclude": ["node_modules"],
@@ -29,7 +30,6 @@
 		"env.d.ts",
 		"postcss.config.cjs",
 		"prettier.config.js",
-		"express-plugin.ts",
 		"src",
 		"tailwind.config.ts",
 		"vite-types.d.ts",

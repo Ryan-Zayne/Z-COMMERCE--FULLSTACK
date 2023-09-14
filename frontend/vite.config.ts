@@ -20,6 +20,7 @@ export default defineConfig({
 	},
 
 	server: {
+		open: '',
 		proxy: {
 			'/api': {
 				target: 'http://localhost:5000',
@@ -29,10 +30,11 @@ export default defineConfig({
 		},
 	},
 
-	build: {
-		manifest: true,
-		rollupOptions: {
-			input: 'src/main.tsx',
-		},
-	},
+	//* Enable this in order to serve html via ejs template (--disabled)
+	// build: {
+	// 	manifest: true,
+	// 	rollupOptions: {
+	// 		input: 'src/main.tsx',
+	// 	},
+	// },
 });

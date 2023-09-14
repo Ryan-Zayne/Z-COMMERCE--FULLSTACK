@@ -1,9 +1,7 @@
-/** @type {import('tailwindcss').Config} */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import plugin from 'tailwindcss/plugin';
 import type { Config } from 'tailwindcss/types/config';
 
-export default {
+const config = {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 
 	theme: {
@@ -171,3 +169,5 @@ export default {
 		}),
 	],
 } satisfies Config;
+
+export default config;

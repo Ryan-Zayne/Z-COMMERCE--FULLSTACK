@@ -36,3 +36,4 @@ const useFetchMultiple = (queryList: QueryListParam) =>
 	});
 
 export { useFetch, useFetchMultiple };
+
