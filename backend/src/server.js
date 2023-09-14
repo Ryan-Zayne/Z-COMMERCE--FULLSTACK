@@ -17,7 +17,7 @@ app.use(express.json());
 // Routes
 app.get('/api/test', (_, res) => res.json({ greeting: 'Flow' }));
 
-// Serving frontend html in production
+// Enables serving of frontend html in production
 if (environment === 'production') {
 	const distPath = path.resolve('../', 'frontend', 'dist');
 
