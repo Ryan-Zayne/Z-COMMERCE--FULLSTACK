@@ -1,4 +1,4 @@
-import '@colors/colors';
+import colors from '@colors/colors';
 import cors from 'cors';
 import 'dotenv/config.js';
 import express from 'express';
@@ -6,6 +6,8 @@ import morgan from 'morgan';
 import path from 'node:path';
 import homepageRouter from './middleware/homepageRouter.js';
 import { environment, port } from './utils/constants.js';
+
+colors.enable();
 
 export const app = express();
 
