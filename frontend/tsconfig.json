@@ -11,7 +11,7 @@
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"module": "ESNext",
 		"moduleDetection": "force",
-		"moduleResolution": "Bundler",
+		"moduleResolution": "Node",
 		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,

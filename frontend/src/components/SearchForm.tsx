@@ -1,3 +1,4 @@
+import type { IconType } from 'react-icons';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { twMerge } from 'tailwind-merge';
 import Button, { type ButtonProps } from './Button';
@@ -5,7 +6,7 @@ import Button, { type ButtonProps } from './Button';
 type SearchFormProps = Pick<ButtonProps, 'theme' | 'variant' | 'size' | 'text' | 'className'> & {
 	btnClassName?: string;
 	inputClassName?: string;
-	buttonIcon?: React.ComponentType;
+	buttonIcon?: React.ComponentType | IconType;
 	placeholder?: string;
 };
 
