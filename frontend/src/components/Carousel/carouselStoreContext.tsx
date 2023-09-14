@@ -44,7 +44,7 @@ const useCarouselStore = <TState,>(callbackFn: (store: CarouselStore) => TState)
 	const store = useContext();
 	const selector = useCallbackRef(callbackFn);
 
-	return useStore<CarouselStoreApi, TState>(store, selector) satisfies TState;
+	return useStore<CarouselStoreApi, TState>(store, selector);
 };
 
 export { CarouselContextProvider, useCarouselStore };

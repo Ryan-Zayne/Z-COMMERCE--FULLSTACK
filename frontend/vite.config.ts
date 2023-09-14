@@ -11,8 +11,6 @@ export default defineConfig({
 		}),
 	],
 
-	envDir: '../backend',
-
 	resolve: {
 		alias: {
 			'@': fileURLToPath(new URL('src', import.meta.url)),
