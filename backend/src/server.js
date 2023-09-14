@@ -15,7 +15,6 @@ app.use(morgan('tiny'));
 app.use(express.json());
 
 // Routes
-app.get('/');
 app.get('/api/test', (req, res) => res.json({ greeting: 'Flow' }));
 
 // Enables serving of frontend html in production
