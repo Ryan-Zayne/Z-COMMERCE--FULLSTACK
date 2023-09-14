@@ -24,6 +24,7 @@
 	},
 	"devDependencies": {
 		"@colors/colors": "^1.6.0",
+		"cross-env": "^7.0.3",
 		"dotenv": "^16.3.1"
 	}
 }
