@@ -12,7 +12,7 @@ homepageRouter.get('/', async (req, res) => {
 
 	// res.render(path.resolve('src', 'views', 'index.html.ejs'), data);
 
-	res.render(path.resolve('../', 'frontend', 'dist', 'index.html'));
+	res.sendFile(path.resolve('../', 'frontend', 'dist', 'index.html'));
 });
 
 export default homepageRouter;
