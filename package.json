@@ -1,5 +1,5 @@
 {
-	"name": "e-commerce",
+	"name": "z-commerce",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -8,6 +8,7 @@
 		"dev:server": "cd backend && pnpm dev",
 		"dev": "concurrently 'pnpm:dev:client' 'pnpm:dev:server'",
 		"build": "cd frontend && pnpm build",
+		"start": "cd backend && pnpm start",
 		"preview": "cd frontend && pnpm preview"
 	}
 }

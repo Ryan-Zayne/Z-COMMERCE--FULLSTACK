@@ -1,1 +1,0 @@
-export { transformData } from './transFormData';

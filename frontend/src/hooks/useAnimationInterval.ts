@@ -41,7 +41,10 @@ const useAnimationInterval = (options: AnimationOptionsType) => {
 		[intervalDuration, savedCallback]
 	);
 
-	const onAnimationStart = useCallback(() => requestAnimationFrame(smoothAnimation), [smoothAnimation]);
+	const onAnimationStart = useCallback(
+		() => (animationFrameId.current = requestAnimationFrame(smoothAnimation)),
+		[smoothAnimation]
+	);
 
 	const onAnimationStop = useCallback(() => cancelAnimationFrame(animationFrameId.current), []);
 

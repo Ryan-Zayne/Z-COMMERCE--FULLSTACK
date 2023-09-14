@@ -1,6 +1,6 @@
 import { fetcher } from '@/api/fetcher';
 import { useQueries, useQuery, type QueryFunction } from '@tanstack/react-query';
-import { transformData } from './helpers';
+import { transformData } from './helpers/transFormData';
 import type { ResponseData } from './query-hook.types';
 
 // Types

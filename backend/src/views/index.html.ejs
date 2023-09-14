@@ -1,29 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme>
 
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="description" content='Welcome to DigitalGenie! Explore our wide range of products and find the perfect items for your needs. Shop now and enjoy a seamless online shopping experience with fast delivery and excellent customer service.' />
+	<meta name="description" content="Welcome to DigitalGenie! Explore our wide range of products and find the perfect items for your needs. Shop now and enjoy a seamless online shopping experience with fast delivery and excellent customer service." />
 	<link rel="icon" href="favicon.png" type="image/x-icon" />
 	<link rel="preload" href="fonts/Roboto-slab.woff2" as="font" type="font/woff2" crossorigin />
 	<link rel="preload" href="fonts/Rubik.woff2" as="font" type="font/woff2" crossorigin />
-	<link rel="stylesheet" href="http://localhost:5173/src/preloader.css">
+	<title>DigitalGenie</title>
 
 	<script type="module">
 		import RefreshRuntime from 'http://localhost:5173/@react-refresh';
 		RefreshRuntime.injectIntoGlobalHook(window);
 		window.$RefreshReg$ = () => { };
 		window.$RefreshSig$ = () => (type) => type;
-		window.__vite_plugin_react_preamble_installed__ = true
+		window.__vite_plugin_react_preamble_installed__ = true;
 	</script>
-	<script type="module" src="http://localhost:5173/@vite/client"></script>
-	<script type="module" src="http://localhost:5173/src/main.tsx"></script>
-	<!-- executing the preloader script after the main.tsx to avoid infinite loading on mobile -->
-	<script type="module" src="http://localhost:5173/src/preloader.ts"></script>
-	<title>DigitalGenie</title>
-</head>
 
+	<% if(environment==='production' ){%>
+		<link rel="stylesheet" href="<%= manifest['src/main.css'].file %>" />
+		<script type="module" src="<%= manifest['src/main.tsx'].file %>"></script>
+
+		<%} else {%>
+			<link rel="stylesheet" href="http://localhost:5173/src/preloader.css" />
+			<script type="module" src="http://localhost:5173/@vite/client"></script>
+			<script type="module" src="http://localhost:5173/src/main.tsx"></script>
+			<!-- executing the preloader script after the main.tsx to avoid infinite loading on mobile -->
+			<script type="module" src="http://localhost:5173/src/preloader.ts"></script>
+
+			<%} %>
+
+</head>
 
 <body>
 	<main id="root"></main>
@@ -64,7 +72,6 @@
 			</div>
 		</div>
 	</div>
-
 </body>
 
 </html>

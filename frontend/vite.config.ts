@@ -11,7 +11,7 @@ export default defineConfig({
 		}),
 	],
 
-	envDir: '../',
+	envDir: '../backend',
 
 	resolve: {
 		alias: {
