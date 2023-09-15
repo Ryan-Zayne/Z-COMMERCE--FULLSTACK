@@ -12,7 +12,7 @@ function HomeProductSection() {
 	}
 
 	return (
-		<section id="Products Section" className="flex flex-col gap-[6rem] pt-[6rem]">
+		<section id="Products Section" className="flex flex-col gap-[6rem] px-[2rem] pt-[6rem]">
 			<HotSalesProducts data={hotSalesProducts} />
 			<RecentProducts data={recentlyViewedProducts} />
 			<SimilarProducts data={similarProducts} />

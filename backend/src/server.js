@@ -10,7 +10,9 @@ import { environment, port } from './utils/constants.js';
 export const app = express();
 
 // Middleware
-app.use(cors({ origin: 'https://zayne-commerce.onrender.com' }));
+app.use(cors({
+	origin: environment === 'production' ? 'https://zayne-commerce.onrender.com' : 'http://localhost:5173',
+}));
 app.use(morgan('tiny'));
 app.use(express.json());
 

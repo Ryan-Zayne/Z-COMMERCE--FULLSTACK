@@ -54,7 +54,7 @@ function ProductCard(props: ProductCardProps) {
 			as={'li'}
 			{...{ aosAnimation, aosDuration, aosEasing }}
 			className={twMerge(
-				`group/card w-[min(100%,25rem)] rounded-[1.2rem] transition-[transform,box-shadow,background-color] duration-[1000ms] ease-in-out hover:scale-[1.03] hover:box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]`,
+				`group/card w-[min(100%,26rem)] rounded-[1.2rem] transition-[transform,box-shadow,background-color] duration-[1000ms] ease-in-out hover:scale-[1.03] hover:box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]`,
 
 				[isHearted && 'scale-[1.03] box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]'],
 				[isDarkMode && 'hover:bg-primary hover:box-shadow-[0_0_6px_0px_var(--carousel-dot)]'],
