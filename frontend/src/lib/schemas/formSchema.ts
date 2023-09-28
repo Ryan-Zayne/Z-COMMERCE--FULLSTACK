@@ -5,7 +5,8 @@ export const SignUpSchema = z
 		username: z
 			.string()
 			.nonempty('Username is required!')
-			.min(3, 'Username must be at least 3 characters!'),
+			.min(3, 'Username must be at least 3 characters!')
+			.regex(/^\w+$/, 'The username must contain only letters, numbers and underscore (_)'),
 		email: z.string().email('Please enter a valid email!'),
 		password: z.string().min(10, 'Password must be at least 10 characters!'),
 		confirmPassword: z.string().nonempty('Password confirmation is required!'),

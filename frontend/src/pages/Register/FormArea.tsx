@@ -2,7 +2,7 @@
 /* eslint-disable unicorn/no-array-for-each */
 import { Button } from '@/components';
 import { useToggle } from '@/hooks';
-import { LoginSchema, SignUpSchema } from '@/lib/schemas/registerSchema';
+import { LoginSchema, SignUpSchema } from '@/lib/schemas/formSchema';
 import { noScrollOnOpen } from '@/utils/no-scroll-on-open';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useId } from 'react';

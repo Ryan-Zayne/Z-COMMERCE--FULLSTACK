@@ -1,6 +1,6 @@
 /* eslint-disable import/no-relative-packages */
 import express from 'express';
-import { LoginSchema, SignUpSchema } from '../../../frontend/src/lib/schemas/registerSchema.js';
+import { LoginSchema, SignUpSchema } from '../lib/schemas/formSchema.js';
 import { loginUser, signUpUser } from './auth.controllers.js';
 import { validateDataWithZod } from './auth.helpers.js';
 

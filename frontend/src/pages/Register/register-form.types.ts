@@ -1,4 +1,4 @@
-import type { LoginSchema, SignUpSchema } from '@/lib/schemas/registerSchema';
+import type { LoginSchema, SignUpSchema } from '@/lib/schemas/formSchema';
 import { z } from 'zod';
 
 export type SetIsLoginProp = {
