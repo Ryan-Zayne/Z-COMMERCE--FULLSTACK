@@ -1,4 +1,4 @@
-import { assertDefined } from '@/global-type-helpers';
+import { assertDefined } from '@/lib/global-type-helpers';
 import { useLocation } from 'react-router-dom';
 import { useGetAllProducts } from './useGetAllProducts';
 

@@ -1,4 +1,10 @@
-const noScrollOnOpen = ({ isOpen }: { isOpen: boolean }) => {
+type NoScrollOnOpenOptions = {
+	isOpen: boolean;
+};
+
+const noScrollOnOpen = (options: NoScrollOnOpenOptions) => {
+	const { isOpen } = options;
+
 	if (!isOpen) {
 		document.body.style.setProperty('--scrollbar-padding', '');
 		document.body.style.setProperty('--overflow-y', '');

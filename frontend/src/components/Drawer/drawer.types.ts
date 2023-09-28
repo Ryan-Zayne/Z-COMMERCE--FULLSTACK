@@ -17,5 +17,6 @@ export type DrawerContentProps = Pick<DrawerProviderProps, 'children'> & {
 	className?: string;
 	placement?: 'left' | 'right';
 };
+
 export type DrawerCloseProps = Pick<DrawerContentProps, 'className'> & { icon?: JSX.Element };
 export type OtherDrawerProps = Omit<DrawerContentProps, 'placement'>;

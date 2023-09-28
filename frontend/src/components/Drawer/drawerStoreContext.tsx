@@ -1,6 +1,6 @@
 import { useCallbackRef } from '@/hooks';
 import { createContext } from '@/hooks/context-hook';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createStore, useStore } from 'zustand';
 import type { DrawerProviderProps, DrawerStore, DrawerStoreApi } from './drawer.types';
 
@@ -22,11 +22,9 @@ const createDrawerStore = () =>
 function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 	const [drawerStore] = useState(() => createDrawerStore());
 
-	const values = useMemo(() => storeValues, [storeValues]);
-
 	useEffect(() => {
-		drawerStore.setState(values);
-	}, [drawerStore, values]);
+		drawerStore.setState(storeValues);
+	}, [drawerStore, storeValues]);
 
 	return <Provider value={drawerStore}>{children}</Provider>;
 }

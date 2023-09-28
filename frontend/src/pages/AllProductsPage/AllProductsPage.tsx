@@ -1,5 +1,5 @@
 import { LoadingSkeleton, ProductCard } from '@/components';
-import { assertDefined } from '@/global-type-helpers';
+import { assertDefined } from '@/lib/global-type-helpers';
 import { useGetAllProducts } from '@/store/react-query';
 import { TiArrowBack } from 'react-icons/ti';
 import { Link } from 'react-router-dom';

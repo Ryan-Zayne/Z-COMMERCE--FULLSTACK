@@ -4,38 +4,31 @@ import 'dotenv/config.js';
 import express from 'express';
 import morgan from 'morgan';
 import path from 'node:path';
-import homepageRouter from './middleware/homepageRouter.js';
-import { environment, port } from './utils/constants.js';
+import authRouter from './auth/auth.routes.js';
+import { corsOptions, setConnectionToDB } from './global/config/index.js';
+import { errorHandler, serveHtmlRouter } from './global/middleware/index.js';
+import { environment } from './global/utils/constants.js';
 
-export const app = express();
+const app = express();
 
 // Middleware
-app.use(cors({
-	origin: environment === 'production' ? 'https://zayne-commerce.onrender.com' : 'http://localhost:5173',
-}));
-app.use(morgan('tiny'));
+app.use(cors(corsOptions));
+app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.get('/api/test', (req, res) => res.json({ greeting: 'Flow' }));
+app.use('/api/auth', authRouter);
 
-// Enables serving of frontend html in production
+// Serving of frontend html from dist folder in production
 if (environment === 'production') {
 	const distPath = path.resolve('../', 'frontend', 'dist');
-
 	app.use(express.static(distPath));
-	app.use(homepageRouter);
+	app.use(serveHtmlRouter);
 }
 
-//* View engine (--disabled)
-// app.set('view engine', 'ejs');
+// Central error handler
+app.use(errorHandler);
 
-//* Enables serving of frontend html in development (--diasbled)
-// if (environment === 'development') {
-// 	const publicPath = path.resolve('../', 'frontend', 'public');
-
-// 	app.use(express.static(publicPath));
-// 	app.use('/src', assetsRouter); // to serve images in the src directory of frontend
-// }
-
-app.listen(port, () => console.log(`Server listening on port ${port}`.brightYellow));
+// Connect to DataBase and Listen for server
+setConnectionToDB(app);

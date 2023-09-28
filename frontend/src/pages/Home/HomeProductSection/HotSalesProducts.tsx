@@ -1,5 +1,5 @@
 import { ProductCard } from '@/components';
-import { assertDefined } from '@/global-type-helpers';
+import { assertDefined } from '@/lib/global-type-helpers';
 import type { DataArrayProp } from './home-product.types';
 
 function HotSalesProducts({ data }: DataArrayProp) {

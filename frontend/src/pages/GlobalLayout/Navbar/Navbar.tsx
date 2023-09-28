@@ -1,5 +1,5 @@
-import NavHeader from './NavHeader';
-import NavigationLinks from './NavigationLinks';
+import NavHeader from './NavHeader/NavHeader';
+import NavigationLinks from './NavigationLinks/NavigationLinks';
 
 function Navbar() {
 	return (

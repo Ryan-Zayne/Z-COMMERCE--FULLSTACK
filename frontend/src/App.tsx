@@ -4,8 +4,8 @@ import 'aos/dist/aos.css';
 import { Suspense, lazy } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import Loader from './components/Loader';
 import GlobalLayout from './pages/GlobalLayout/GlobalLayout';
-import Loader from './pages/GlobalLayout/Loader';
 
 const Home = lazy(() => import('./pages/Home/Home'));
 const AllProductsPage = lazy(() => import('./pages/AllProductsPage/AllProductsPage'));
@@ -30,7 +30,7 @@ function App() {
 					<Route path=":category/:productId" element={<ProductItemPage />} />
 				</Route>
 
-				<Route path="/register" element={<Register />} />
+				<Route errorElement={<ErrorElement />} path="register" element={<Register />} />
 				<Route path="*" element={<PageNotFound />} />
 			</>
 		)

@@ -10,7 +10,7 @@ function Register() {
 	const [isLogin, setIsLogin] = useState(true);
 
 	return (
-		<section className="relative flex items-center justify-center bg-[url(/src/pages/Register/images/yellow-cart-bg.webp)] bg-cover bg-no-repeat md:py-[2rem] lg:justify-between lg:bg-[url(/src/pages/Register/images/glitter.webp)] lg:px-[10rem]">
+		<section className="relative flex items-center justify-center overflow-x-hidden bg-yellow-cart bg-cover bg-no-repeat md:py-[2rem] lg:justify-between lg:bg-glitter-image lg:px-[10rem]">
 			<span id="Background Overlay" className="absolute inset-0 z-[1] bg-[hsl(0,0%,0%,0.45)]" />
 
 			{isDesktop && (

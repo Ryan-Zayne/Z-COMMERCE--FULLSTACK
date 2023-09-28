@@ -36,21 +36,19 @@ function Hero() {
 				pauseOnHover={true}
 			>
 				<Carousel.ItemWrapper className={'brightness-[0.6]'}>
-					{
-						<ItemList
-							each={slideImages}
-							render={(image, index) => (
-								<Carousel.Item key={image.src}>
-									<ImageComponent
-										className="h-full w-full"
-										src={image.src}
-										fetchpriority={index === 0 ? 'high' : 'auto'}
-										blurSrc={image.blurSrc}
-									/>
-								</Carousel.Item>
-							)}
-						/>
-					}
+					<ItemList
+						each={slideImages}
+						render={(image, index) => (
+							<Carousel.Item key={image.src}>
+								<ImageComponent
+									className="h-full w-full"
+									src={image.src}
+									fetchpriority={index === 0 ? 'high' : 'auto'}
+									blurSrc={image.blurSrc}
+								/>
+							</Carousel.Item>
+						)}
+					/>
 				</Carousel.ItemWrapper>
 
 				<Carousel.Caption
@@ -82,12 +80,10 @@ function Hero() {
 				</Carousel.Caption>
 
 				<Carousel.IndicatorWrapper>
-					{
-						<IndicatorList
-							each={slideImages}
-							render={(image, index) => <Carousel.Indicator key={image.src} index={index} />}
-						/>
-					}
+					<IndicatorList
+						each={slideImages}
+						render={(image, index) => <Carousel.Indicator key={image.src} index={index} />}
+					/>
 				</Carousel.IndicatorWrapper>
 			</Carousel>
 		</section>

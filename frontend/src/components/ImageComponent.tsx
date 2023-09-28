@@ -1,5 +1,5 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from 'react';
+import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore';
+import { useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { useThemeStore } from '../store/zustand/themeStore';
 
@@ -26,13 +26,13 @@ function ImageComponent(props: ImageComponentProps) {
 		...restOfProps
 	} = props;
 
-	const [isImageLoaded, setIsImageLoaded] = useState(false);
+	const isImageLoaded = useGlobalStore((state) => state.isImageLoaded);
+	const { handleImageLoad } = useGlobalActions();
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
 	useEffect(() => {
 		img.src = src;
 
-		const handleImageLoad = () => setIsImageLoaded(true);
 
 		if (img.complete) {
 			handleImageLoad();
@@ -44,6 +44,7 @@ function ImageComponent(props: ImageComponentProps) {
 			if (img.complete) return;
 			img.removeEventListener('load', handleImageLoad);
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [src]);
 
 	if (isDynamicImage) {

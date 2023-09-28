@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import { Button, StarRating } from '@/components';
 import type { ResponseDataItem } from '@/store/react-query/query-hook.types';
 import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
@@ -24,33 +25,41 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 			setProductQuantityChosen((prev) => prev + 1);
 
 			if (productQuantityChosen === 0) {
-				toast.success(`Product added successfully`);
+				toast.dismiss('toastId-removed');
+				toast.success(`Product added successfully`, {
+					id: 'toastId-added',
+				});
 				return;
 			}
 
+			toast.dismiss('toastId-added');
 			toast.success(`Item quantity has been updated`, {
-				id: 'toastId',
+				id: 'toastId-updated',
 			});
 		}
 	};
 
 	const handleMinus = () => {
-		// eslint-disable-next-line unicorn/consistent-function-scoping
 		const newState = (prev: number) => prev - 1;
 
 		if (productQuantityChosen > 0) {
 			setProductQuantityChosen(newState);
 			decreaseProductQuantity(productItem);
 
+			toast.dismiss('toastId-added');
 			toast.success(`Item quantity has been updated`, {
-				id: 'toastId',
+				id: 'toastId-updated',
 			});
 		}
 
 		if (newState(productQuantityChosen) === 0) {
 			removeProductFromCart(productItem);
-			toast.dismiss('toastId');
-			toast.success(`Product was removed from cart`);
+
+			toast.dismiss('toastId-added');
+			toast.dismiss('toastId-updated');
+			toast.success(`Product was removed from cart`, {
+				id: 'toastId-removed',
+			});
 		}
 	};
 

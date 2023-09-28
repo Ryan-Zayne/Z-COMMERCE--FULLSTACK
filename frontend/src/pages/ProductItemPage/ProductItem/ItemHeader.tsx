@@ -1,7 +1,7 @@
+import { useToggle } from '@/hooks';
 import type { ResponseDataItem } from '@/store/react-query/query-hook.types';
 import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
 import type { ShopStore } from '@/store/zustand/zustand-store.types';
-import { useState } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { TiArrowBack } from 'react-icons/ti';
 import { Link } from 'react-router-dom';
@@ -14,10 +14,10 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 	const wishList = useShopStore((state) => state.wishList);
 	const { toggleAddToWishList } = useShopActions();
 	const isProductInWishList = wishList.some((item) => item.id === productItem.id);
-	const [isHearted, setIsHearted] = useState(() => isProductInWishList);
+	const [isHearted, toggleHearted] = useToggle(() => isProductInWishList);
 
 	const handleHeartClick = () => {
-		setIsHearted((prev) => !prev);
+		toggleHearted();
 		toggleAddToWishList(productItem);
 	};
 

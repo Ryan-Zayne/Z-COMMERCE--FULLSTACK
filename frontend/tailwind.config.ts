@@ -3,6 +3,7 @@ import type { Config } from 'tailwindcss/types/config';
 
 const config = {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+	darkMode: ['class', '[data-theme="dark"]'],
 
 	theme: {
 		screens: {
@@ -13,7 +14,9 @@ const config = {
 		},
 
 		backgroundImage: {
-			'footer-image': "url('/src/pages/GlobalLayout/Footer/images/newsletter-bg.webp')",
+			'footer-image': "url('/src/assets/footerImages/newsletter-bg.webp')",
+			'glitter-image': "url('/src/assets/registerPageImages/glitter.webp')",
+			'yellow-cart': "url('/src/assets/registerPageImages/yellow-cart-bg.webp')",
 		},
 
 		extend: {
@@ -26,12 +29,14 @@ const config = {
 				heading: 'var(--text-header)',
 				dark: 'var(--text-dark)',
 				light: 'var(--text-light)',
+				facebook: 'var(--color-facebook)',
 				placeholder: 'var(--text-placeholder)',
 				navbar: 'var(--color-navbar)',
 				'nav-text': 'var(--text-navbar)',
 				'dark-ball': 'var(--dark-mode-ball)',
 				input: 'var(--text-input)',
 				label: 'var(--text-label)',
+				error: 'var(--color-error)',
 			},
 
 			fontFamily: {
@@ -57,6 +62,7 @@ const config = {
 				'fade-in-up-2': 'fade-in-up-2 1.3s ease-out',
 				zoom: 'zoom 1.3s infinite linear 0.1s',
 				flicker: 'flicker 3s linear infinite',
+				shake: 'shake 0.2s ease-in-out 0s 3',
 			},
 
 			keyframes: {
@@ -72,10 +78,12 @@ const config = {
 					from: { opacity: '0', transform: 'translateY(150%)' },
 					to: { opacity: '0.86', transform: 'translateY(0)' },
 				},
+
 				zoom: {
 					from: { transform: 'translateX(-300%)' },
 					to: { transform: 'translateX(100%)' },
 				},
+
 				flicker: {
 					'0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, to': {
 						opacity: '.99',
@@ -87,6 +95,12 @@ const config = {
 						opacity: '.4',
 						filter: 'none',
 					},
+				},
+
+				shake: {
+					'0%, 100%': { transform: 'translateX(0rem)' },
+					'25%': { transform: 'translateX(0.6rem)' },
+					'75%': { transform: 'translateX(-0.6rem)' },
 				},
 			},
 		},

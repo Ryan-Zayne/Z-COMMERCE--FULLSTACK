@@ -1,6 +1,6 @@
+import { useToggle } from '@/hooks';
 import type { ResponseDataItem } from '@/store/react-query/query-hook.types';
 import type { ShopStore } from '@/store/zustand/zustand-store.types';
-import { useState } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
@@ -36,7 +36,7 @@ function ProductCard(props: ProductCardProps) {
 	const wishList = useShopStore((state) => state.wishList);
 	const { addToCart, toggleAddToWishList } = useShopActions();
 	const isProductInWishList = wishList.some((item) => item.id === product.id);
-	const [isHearted, setIsHearted] = useState(() => isProductInWishList);
+	const [isHearted, toggleHearted] = useToggle(isProductInWishList);
 
 	const handleAddToCart: React.MouseEventHandler = (event) => {
 		event.preventDefault();
@@ -45,7 +45,7 @@ function ProductCard(props: ProductCardProps) {
 
 	const handleAddToWishList: React.MouseEventHandler = (event) => {
 		event.preventDefault();
-		setIsHearted((prev) => !prev);
+		toggleHearted();
 		toggleAddToWishList(product);
 	};
 
@@ -55,7 +55,6 @@ function ProductCard(props: ProductCardProps) {
 			{...{ aosAnimation, aosDuration, aosEasing }}
 			className={twMerge(
 				`group/card w-[min(100%,26rem)] rounded-[1.2rem] transition-[transform,box-shadow,background-color] duration-[1000ms] ease-in-out hover:scale-[1.03] hover:box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]`,
-
 				[isHearted && 'scale-[1.03] box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]'],
 				[isDarkMode && 'hover:bg-primary hover:box-shadow-[0_0_6px_0px_var(--carousel-dot)]'],
 				[

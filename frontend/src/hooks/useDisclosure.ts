@@ -14,12 +14,14 @@ const useDisclosure = (options: DisclosureOptions = {}) => {
 	const onOpen = useCallback(() => {
 		const newState = true;
 		setIsOpen(newState);
+
 		scrollControl && noScrollOnOpen({ isOpen: newState });
 	}, [scrollControl]);
 
 	const onClose = useCallback(() => {
 		const newState = false;
 		setIsOpen(newState);
+
 		scrollControl && noScrollOnOpen({ isOpen: newState });
 	}, [scrollControl]);
 
@@ -35,3 +37,4 @@ const useDisclosure = (options: DisclosureOptions = {}) => {
 };
 
 export { useDisclosure };
+

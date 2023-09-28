@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { RiCloseFill } from 'react-icons/ri';
 import { twMerge } from 'tailwind-merge';
 import Portal from '../Portal';
@@ -5,10 +6,12 @@ import type { DrawerCloseProps, DrawerContentProps, DrawerProps, OtherDrawerProp
 import { DrawerContextProvider, useDrawerStore } from './drawerStoreContext';
 
 function Drawer({ children, ...restOfDrawerProps }: DrawerProps) {
+	const uniqueId = useId();
+
 	return (
 		<DrawerContextProvider storeValues={restOfDrawerProps}>
 			<Portal>
-				<aside id="CartDrawer Portal">{children}</aside>
+				<aside id={`CartDrawer Portal__(${uniqueId})`}>{children}</aside>
 			</Portal>
 		</DrawerContextProvider>
 	);
