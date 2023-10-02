@@ -1,60 +1,40 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import asyncHandler from '../global/utils/asyncHandler.utils.js';
 import User from '../users/user.model.js';
+import { generateToken } from './auth.helpers.js';
 
 // @desc Register a User
-// @route POST /auth/sign-up
+// @route POST /api/auth/sign-up
 // @access Public
 export const signUpUser = asyncHandler(async (req, res) => {
 	const { username, email, password } = req.validatedBody;
 
-	const userExists = await User.findOne({ email });
-	if (userExists) {
+	const existingUser = await User.findOne({ email });
+
+	if (existingUser) {
 		res.status(400);
 		throw new Error('User with this email has already registered!');
 	}
 
-	const saltRounds = 15;
-	const hashedPassword = await bcrypt.hash(password, saltRounds);
+	const newUser = await User.create({ username, email, password });
 
-	const newUser = await User.create({
-		username,
-		email,
-		password: hashedPassword,
-	});
-
-	res.status(201).json({
-		id: newUser.id,
-		userName: newUser.username,
-	});
+	res.status(201).json({ userName: newUser.username, email: newUser.email });
 });
 
 // @desc Login User
-// @route POST /auth/login
+// @route POST /api/auth/login
 // @access Public
 export const loginUser = asyncHandler(async (req, res) => {
 	const { email, password } = req.validatedBody;
 
-	const user = await User.findOne({ email });
-	const isValidPassword = Boolean(user && (await bcrypt.compare(password, user.password)));
+	const foundUser = await User.findOne({ email });
+	const isValidPassword = await foundUser.comparePassword(password);
 
 	if (!isValidPassword) {
 		res.status(401);
 		throw new Error('Invalid email or password!');
 	}
 
-	const payLoad = {
-		user: {
-			username: user.username,
-			email: user.email,
-			id: user.id,
-		},
-	};
-
-	const encodedToken = jwt.sign(payLoad, process.env.JWT_SECRET, {
-		expiresIn: '20d',
-	});
+	const encodedToken = generateToken(foundUser.id);
 
 	res.json({ encodedToken });
 });

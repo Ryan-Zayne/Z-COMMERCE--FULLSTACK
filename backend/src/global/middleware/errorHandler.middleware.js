@@ -28,4 +28,4 @@ const errorHandler = (err, req, res, next) => {
 	return ERROR_LOOKUP[statusCode]?.() ?? ERROR_LOOKUP.default();
 };
 
-export default errorHandler;
+export { errorHandler };

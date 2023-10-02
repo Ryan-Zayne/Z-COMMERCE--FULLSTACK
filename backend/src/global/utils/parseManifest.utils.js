@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { environment } from './constants.utils.js';
+import { environment } from './constants.js';
 
 export const parseManifest = async () => {
 	if (environment !== 'production') return {};

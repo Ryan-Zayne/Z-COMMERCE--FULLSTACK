@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema(
@@ -22,8 +23,28 @@ const userSchema = new Schema(
 			},
 		],
 	},
-	{ timestamps: true }
+
+	{
+		methods: {
+			async comparePassword(enteredPassword) {
+				const isValidPassword = await bcrypt.compare(enteredPassword, this.password);
+
+				return isValidPassword;
+			},
+		},
+		timestamps: true,
+	}
 );
+
+userSchema.pre('save', async function hashPassword(next) {
+	if (!this.isModified('password')) {
+		next();
+		return;
+	}
+
+	const saltRounds = 10;
+	this.password = await bcrypt.hash(this.password, saltRounds);
+});
 
 const User = model('User', userSchema);
 

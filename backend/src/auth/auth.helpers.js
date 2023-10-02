@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-// eslint-disable-next-line import/no-relative-packages
+import jwt from 'jsonwebtoken';
 
 export const validateDataWithZod = (Schema) => (req, res, next) => {
 	const rawData = req.body;
@@ -12,4 +12,14 @@ export const validateDataWithZod = (Schema) => (req, res, next) => {
 
 	req.validatedBody = result.data;
 	next();
+};
+
+export const generateToken = (userId) => {
+	const payLoad = { userId };
+
+	const encodedToken = jwt.sign(payLoad, process.env.JWT_SECRET, {
+		expiresIn: '20d',
+	});
+
+	return encodedToken;
 };
