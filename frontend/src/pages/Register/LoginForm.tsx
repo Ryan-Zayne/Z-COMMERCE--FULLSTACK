@@ -1,11 +1,11 @@
 import { Button, Logo } from '@/components';
+import type { Setter } from '@/lib/global-type-helpers';
 import { useGlobalStore } from '@/store/zustand/globalStore';
 import { FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import FormArea from './FormArea';
-import type { SetIsLoginProp } from './register-form.types';
 
-const LoginForm = ({ setIsLogin }: SetIsLoginProp) => {
+const LoginForm = ({ setIsLogin }: { setIsLogin: Setter<boolean> }) => {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 
 	return (

@@ -7,10 +7,10 @@ function GlobalLayout() {
 	return (
 		<>
 			<ScrollRestoration />
+			<ScrollToTopButton />
 			<Navbar />
 			<Outlet />
 			<Footer />
-			<ScrollToTopButton />
 		</>
 	);
 }

@@ -20,5 +20,5 @@ export const SignUpSchema = z
 export const LoginSchema = z.object({
 	email: z.string().email('Please enter a valid email!'),
 	password: z.string().min(10, 'Password must be at least 10 characters!'),
-	rememberMe: z.boolean(),
+	rememberMe: z.boolean().optional(),
 });

@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-useless-undefined */
+/* eslint-disable no-console */
 /* eslint-disable consistent-return */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -8,19 +10,12 @@ type Options<TOptions> = {
 	stringifier?: (object: TOptions | undefined) => string;
 };
 
-type Setter<TSetter> = React.Dispatch<React.SetStateAction<TSetter | undefined>>;
-
-/**
- * Custom hook for reading and writing to local storage
- */
-
 const useLocalStorage = <T>(key: string, defaultValue?: T, options?: Options<T>) => {
-	//* For custom serializer, logger, parser and syncData value
+	// For custom serializer, logger, parser and syncData value
 	const defaultOptions = useMemo(
 		() => ({
 			stringifier: JSON.stringify,
 			parser: JSON.parse,
-			// eslint-disable-next-line no-console
 			logger: console.log,
 			syncData: true,
 			...options,
@@ -30,11 +25,11 @@ const useLocalStorage = <T>(key: string, defaultValue?: T, options?: Options<T>)
 
 	const { stringifier, parser, logger, syncData } = defaultOptions;
 
-	//* Use a ref to store the raw value from local storage, as well as to track the previous value when syncing across tabs
+	// Use a ref to store the raw value from local storage, as well as to track the previous value when syncing across tabs
 	const rawValueRef = useRef<string | null>(null);
 
-	//* Use state to store the current value, and attempt to load it from local storage if it exists
-	const [value, setValue] = useState(() => {
+	// Use state to store the current value, and attempt to load it from local storage if it exists
+	const [value, setValue] = useState<T | undefined>(() => {
 		if (typeof window === 'undefined') return defaultValue;
 
 		try {
@@ -47,55 +42,44 @@ const useLocalStorage = <T>(key: string, defaultValue?: T, options?: Options<T>)
 		}
 	});
 
-	useEffect(() => {
-		//* Function for updating the local storage item whenever the value changes
+	// Function for updating the local storage item whenever the value changes
+	const updateLocalStorage = useCallback(() => {
+		if (typeof window === 'undefined') return;
 
-		const updateLocalStorage = () => {
-			if (typeof window === 'undefined') return;
+		const newValue = stringifier(value);
+		const oldValue = rawValueRef.current;
+		rawValueRef.current = newValue;
 
-			if (value !== undefined) {
-				const newValue = stringifier(value);
-				const oldValue = rawValueRef.current;
-				rawValueRef.current = newValue;
+		if (value === undefined) {
+			window.localStorage.removeItem(key);
 
-				//* Set the local storage item and dispatch a storage event to sync across tabs
-				window.localStorage.setItem(key, newValue);
-				window.dispatchEvent(
-					new StorageEvent('storage', {
-						storageArea: window.localStorage,
-						url: window.location.href,
-						key,
-						newValue,
-						oldValue,
-					})
-				);
-			} else {
-				//* If the value is undefined, remove the local storage item and dispatch
-				//* a storage event to sync across tabs
-				window.localStorage.removeItem(key);
-				window.dispatchEvent(
-					new StorageEvent('storage', {
-						storageArea: window.localStorage,
-						url: window.location.href,
-						key,
-					})
-				);
-			}
-		};
-		try {
-			updateLocalStorage();
-		} catch (error) {
-			logger(error);
+			// Dispatching the storage event to sync across tabs
+			window.dispatchEvent(
+				new StorageEvent('storage', {
+					storageArea: window.localStorage,
+					url: window.location.href,
+					key,
+				})
+			);
+			return;
 		}
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [key, value]);
+		window.localStorage.setItem(key, newValue);
 
-	useEffect(() => {
-		if (!syncData) return;
+		window.dispatchEvent(
+			new StorageEvent('storage', {
+				storageArea: window.localStorage,
+				url: window.location.href,
+				key,
+				newValue,
+				oldValue,
+			})
+		);
+	}, [key, value, stringifier]);
 
-		//* Function for handling storage events and syncing across tabs
-		const handleStorageChange = (event: StorageEvent) => {
+	// Function for handling storage events and syncing across tabs
+	const handleStorageChange = useCallback(
+		(event: StorageEvent) => {
 			if (event.key !== key || event.storageArea !== window.localStorage) return;
 
 			try {
@@ -106,27 +90,39 @@ const useLocalStorage = <T>(key: string, defaultValue?: T, options?: Options<T>)
 			} catch (error) {
 				logger(error);
 			}
-		};
-
-		window.addEventListener('storage', handleStorageChange);
-		return () => {
-			window.removeEventListener('storage', handleStorageChange);
-		};
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [key, syncData]);
+		},
+		[key, logger, parser]
+	);
 
 	const removeValue = useCallback(() => {
 		try {
 			window.localStorage.removeItem(key);
-			// eslint-disable-next-line unicorn/no-useless-undefined
+
 			setValue(undefined);
 		} catch {
 			// If user is in private mode or has storage restriction localStorage can throw the error.
 		}
 	}, [key]);
 
-	return [value as T, setValue as Setter<T>, removeValue] as const;
+	useEffect(() => {
+		try {
+			updateLocalStorage();
+		} catch (error) {
+			logger(error);
+		}
+	}, [logger, updateLocalStorage]);
+
+	useEffect(() => {
+		if (!syncData) return;
+
+		window.addEventListener('storage', handleStorageChange);
+
+		return () => {
+			window.removeEventListener('storage', handleStorageChange);
+		};
+	}, [syncData, handleStorageChange]);
+
+	return [value, setValue, removeValue] as const;
 };
 
 export { useLocalStorage };

@@ -9,6 +9,12 @@ export type CreateContextOptions<TContext> = {
 	defaultValue?: TContext;
 };
 
+class ContextError extends Error {
+	name = 'ContextError';
+
+	// Constructor is not needed cuz its generated automatically as well as super
+}
+
 const createContext = <TDefaultContext>(options: CreateContextOptions<TDefaultContext | null>) => {
 	const {
 		name = 'Unnamed Context',
@@ -26,10 +32,7 @@ const createContext = <TDefaultContext>(options: CreateContextOptions<TDefaultCo
 		const contextValue = useReactContext(Context);
 
 		if (contextValue == null) {
-			const error = new Error(errorMessage ?? getErrorMessage(hookName, providerName));
-			error.name = 'ContextError';
-			Error.captureStackTrace?.(error, useContext);
-			throw error;
+			throw new ContextError(errorMessage ?? getErrorMessage(hookName, providerName));
 		}
 
 		return contextValue;

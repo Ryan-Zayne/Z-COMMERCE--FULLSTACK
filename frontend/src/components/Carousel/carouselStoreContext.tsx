@@ -16,18 +16,19 @@ const createCarouselStore = (slideImages: CarouselStore['slideImages']) =>
 	createStore<CarouselStore>((set, get) => ({
 		currentSlide: 0,
 		slideImages,
+		maxSlide: slideImages.length - 1,
 
 		goToSlide: (resetValue: number) => set({ currentSlide: resetValue }),
 
 		nextSlide: () => {
-			const { currentSlide, goToSlide } = get();
-			const maxSlide = slideImages.length - 1;
+			const { currentSlide, maxSlide, goToSlide } = get();
+
 			currentSlide !== maxSlide ? goToSlide(currentSlide + 1) : goToSlide(0);
 		},
 
 		previousSlide: () => {
-			const { currentSlide, goToSlide } = get();
-			const maxSlide = slideImages.length - 1;
+			const { currentSlide, maxSlide, goToSlide } = get();
+
 			currentSlide !== 0 ? goToSlide(currentSlide - 1) : goToSlide(maxSlide);
 		},
 	}));

@@ -12,6 +12,7 @@
 		"module": "ESNext",
 		"moduleDetection": "force",
 		"moduleResolution": "Node",
+		"noErrorTruncation": true, // ANCHOR - noErrorTruncation (May turn off in the future)
 		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,

@@ -9,6 +9,7 @@ export type CarouselStore = {
 				blurSrc?: string;
 		  }>
 		| string[];
+	maxSlide: number;
 	goToSlide: (resetValue: number) => void;
 	nextSlide: () => void;
 	previousSlide: () => void;

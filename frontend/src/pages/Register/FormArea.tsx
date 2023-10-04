@@ -1,11 +1,10 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable unicorn/no-array-for-each */
 import { Button } from '@/components';
 import { useToggle } from '@/hooks';
 import { LoginSchema, SignUpSchema } from '@/lib/schemas/formSchema';
+import { BASE_AUTH_URL } from '@/utils/constants';
 import { noScrollOnOpen } from '@/utils/no-scroll-on-open';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useId } from 'react';
+import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
@@ -34,17 +33,13 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 		resolver: zodResolver(formType === 'Sign Up' ? SignUpSchema : LoginSchema),
 	});
 
-	useEffect(() => {
-		if (isSubmitting) {
-			noScrollOnOpen({ isOpen: true });
-		} else {
-			noScrollOnOpen({ isOpen: false });
-		}
-	}, [isSubmitting]);
-
 	const onSubmit = async (data: FormSchemaType) => {
+		noScrollOnOpen({ isOpen: true });
+
 		try {
-			const response = await fetch(formType === 'Sign Up' ? '/api/auth/sign-up' : '/api/auth/login', {
+			const AUTH_URL = formType === 'Sign Up' ? `${BASE_AUTH_URL}/sign-up` : `${BASE_AUTH_URL}/login`;
+
+			const response = await fetch(AUTH_URL, {
 				method: 'POST',
 				body: JSON.stringify(data),
 				headers: {
@@ -86,6 +81,10 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 					message: error.message,
 				});
 			}
+
+			// Renable scrolling after submit or error
+		} finally {
+			noScrollOnOpen({ isOpen: false });
 		}
 	};
 
@@ -207,12 +206,13 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 					<p className="mb-[-0.7rem] mt-[-1rem] animate-shake pt-[0.3rem] text-[1.3rem] text-error">{`${errors.root.serverError.message}`}</p>
 				)}
 
-				<InputGroup className={'flex flex-row gap-[1rem] text-[1.4rem] text-input'}>
+				<InputGroup className={'flex flex-row gap-[1rem] text-[1.3rem] text-input'}>
 					<input
 						{...register(formType === 'Sign Up' ? 'acceptTerms' : 'rememberMe')}
 						name={formType === 'Sign Up' ? 'acceptTerms' : 'rememberMe'}
 						type="checkbox"
 					/>
+
 					{formType === 'Login' && <p>Remember me</p>}
 					{formType === 'Sign Up' && (
 						<>
