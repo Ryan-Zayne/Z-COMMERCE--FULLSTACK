@@ -5,7 +5,7 @@
 	"main": "src/server.js",
 	"type": "module",
 	"scripts": {
-		"start": "cross-env NODE_ENV=production node --watch src/server.js",
+		"start": "cross-env NODE_ENV=production node src/server.js",
 		"dev": "nodemon src/server.js"
 	},
 	"keywords": [],
