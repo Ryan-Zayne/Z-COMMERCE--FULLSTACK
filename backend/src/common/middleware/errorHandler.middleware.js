@@ -22,7 +22,7 @@ const errorHandler = (err, req, res, next) => {
 
 		[errorConstants.SERVER_ERROR]: () => res.status(500).json({ title: 'Internal Server Error', message, stackTrace }),
 
-		default: () => res.status(500).json({ title: 'Something broke apparently', message, stackTrace }),
+		default: () => res.status(500).json({ title: 'You don break something bah?', message, stackTrace }),
 	};
 
 	return ERROR_LOOKUP[statusCode]?.() ?? ERROR_LOOKUP.default();

@@ -4,22 +4,22 @@ import asyncHandler from '../utils/asyncHandler.utils.js';
 
 const authenticateUser = asyncHandler(async (req, res, next) => {
 	const authHeader = req.headers.authorization ?? req.headers.Authorization;
-	const isValidAuthHeader = Boolean(authHeader && authHeader.startsWith('Bearer'));
+	const isValidAuthHeader = Boolean(authHeader?.startsWith('Bearer'));
 
 	if (!isValidAuthHeader) {
 		res.status(401);
 		throw new Error('Please ensure to set the authorization header!');
 	}
 
-	const { 1: encodedToken } = authHeader.split(' ');
+	const { 1: accessToken } = authHeader.split(' ');
 
-	if (!encodedToken) {
+	if (!accessToken) {
 		res.status(401);
 		throw new Error('User is not authorized or token is missing');
 	}
 
 	try {
-		const decodedPayload = jwt.verify(encodedToken, process.env.JWT_SECRET);
+		const decodedPayload = jwt.verify(accessToken, process.env.ACCESS_SECRET);
 
 		const authenticatedUser = await User.findById(decodedPayload.userId).select('-password');
 
@@ -29,7 +29,7 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
 		// Catch error thrown by jwt.verify if user is not authorized
 	} catch {
 		res.status(401);
-		throw new Error('User is not authorized');
+		throw new Error('User is not authorized!');
 	}
 });
 

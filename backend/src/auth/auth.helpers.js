@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken';
 
 export const validateDataWithZod = (Schema) => (req, res, next) => {
@@ -7,19 +6,30 @@ export const validateDataWithZod = (Schema) => (req, res, next) => {
 
 	if (!result.success) {
 		const zodErrors = { errors: result.error.flatten().fieldErrors };
-		return res.status(422).json(zodErrors);
+		res.status(422).json(zodErrors);
+		return;
 	}
 
 	req.validatedBody = result.data;
 	next();
 };
 
-export const generateToken = (userId) => {
+export const generateAccessToken = (userId) => {
 	const payLoad = { userId };
 
-	const encodedToken = jwt.sign(payLoad, process.env.JWT_SECRET, {
-		expiresIn: '20d',
+	const accessToken = jwt.sign(payLoad, process.env.ACCESS_SECRET, {
+		expiresIn: '5m',
 	});
 
-	return encodedToken;
+	return accessToken;
+};
+
+export const generateRefreshToken = (userId) => {
+	const payLoad = { userId };
+
+	const refreshToken = jwt.sign(payLoad, process.env.REFRESH_SECRET, {
+		expiresIn: '1d',
+	});
+
+	return refreshToken;
 };

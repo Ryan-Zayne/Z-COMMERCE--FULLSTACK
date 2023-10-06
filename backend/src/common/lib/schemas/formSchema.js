@@ -9,7 +9,7 @@ export const SignUpSchema = z
 			.regex(/^\w+$/, 'The username must contain only letters, numbers and underscore (_)'),
 
 		email: z.string().email('Please enter a valid email!'),
-		password: z.string().min(10, 'Password must be at least 10 characters!'),
+		password: z.string().min(8, 'Password must be at least 10 characters!'),
 		confirmPassword: z.string().nonempty('Password confirmation is required!'),
 		acceptTerms: z.boolean().refine((val) => val === true, 'Please check this box!'),
 	})
@@ -21,5 +21,5 @@ export const SignUpSchema = z
 export const LoginSchema = z.object({
 	email: z.string().email('Please enter a valid email!'),
 	password: z.string().min(10, 'Password must be at least 10 characters!'),
-	rememberMe: z.boolean(),
+	rememberMe: z.boolean().optional(),
 });

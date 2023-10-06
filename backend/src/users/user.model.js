@@ -16,22 +16,29 @@ const userSchema = new Schema(
 			type: String,
 			required: [true, 'Please add the user password'],
 		},
+
 		role: [
 			{
 				type: String,
 				default: 'user',
 			},
 		],
+
+		refreshToken: {
+			type: String,
+			default: '',
+		},
 	},
 
 	{
 		methods: {
-			async comparePassword(enteredPassword) {
-				const isValidPassword = await bcrypt.compare(enteredPassword, this.password);
+			async comparePassword(plainPassword) {
+				const isValidPassword = await bcrypt.compare(plainPassword, this.password);
 
 				return isValidPassword;
 			},
 		},
+
 		timestamps: true,
 	}
 );
@@ -46,6 +53,6 @@ userSchema.pre('save', async function hashPassword(next) {
 	this.password = await bcrypt.hash(this.password, saltRounds);
 });
 
-const User = model('User', userSchema);
+const UserModel = model('User', userSchema);
 
-export default User;
+export default UserModel;
