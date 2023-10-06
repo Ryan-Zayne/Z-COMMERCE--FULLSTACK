@@ -10,7 +10,7 @@ import path from 'node:path';
 import authRouter from './auth/auth.routes.js';
 import { corsOptions, helmetOptions, setConnectionToDB } from './common/config/index.js';
 import { errorHandler, notFoundHandler, serveHtmlRouter } from './common/middleware/index.js';
-import { PORT, environment } from './common/utils/constants.js';
+import { PORT } from './common/utils/constants.js';
 import userRouter from './users/user.routes.js';
 
 const app = express();
@@ -29,11 +29,9 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 
-if (environment === 'production') {
-	const distPath = path.resolve('../', 'frontend', 'dist');
-	app.use(express.static(distPath));
-	app.use(serveHtmlRouter);
-}
+const distPath = path.resolve('../', 'frontend', 'dist');
+app.use(express.static(distPath));
+app.use(serveHtmlRouter);
 
 // Route 404 handler
 app.all('*', notFoundHandler);

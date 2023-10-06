@@ -8,9 +8,6 @@
 		"start": "cross-env NODE_ENV=production node src/server.js",
 		"dev": "nodemon src/server.js"
 	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
 		"bcrypt": "^5.1.1",
