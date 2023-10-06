@@ -18,4 +18,4 @@ const setConnectionToDB = async () => {
 	});
 };
 
-export default setConnectionToDB;
+export { setConnectionToDB };

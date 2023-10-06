@@ -8,7 +8,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'node:path';
 import authRouter from './auth/auth.routes.js';
-import { corsOptions, setConnectionToDB } from './common/config/index.js';
+import { corsOptions, helmetOptions, setConnectionToDB } from './common/config/index.js';
 import { errorHandler, notFoundHandler, serveHtmlRouter } from './common/middleware/index.js';
 import { PORT, environment } from './common/utils/constants.js';
 import userRouter from './users/user.routes.js';
@@ -16,9 +16,9 @@ import userRouter from './users/user.routes.js';
 const app = express();
 
 // Middleware - App Security
-app.use(helmet());
+app.use(helmet(helmetOptions));
 app.use(cors(corsOptions));
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 

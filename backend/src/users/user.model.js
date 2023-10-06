@@ -25,8 +25,8 @@ const userSchema = new Schema(
 		],
 
 		refreshToken: {
-			type: String,
-			default: '',
+			type: [String],
+			default: [''],
 		},
 	},
 
