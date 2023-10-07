@@ -1,12 +1,6 @@
 {
 	"rewrites": [
 		{
-			"source": "/[^.]+",
-			"destination": "/",
-			"status": 200
-		},
-
-		{
 			"source": "/api/:path*",
 			"destination": "https://zayne-commerce-server.onrender.com/api/:path*"
 		}
