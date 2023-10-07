@@ -1,16 +1,14 @@
 {
-	"routes": [
-		{
-			"src": "/[^.]+",
-			"dest": "/",
-			"status": 200
-		}
-	],
-
 	"rewrites": [
 		{
-			"source": "/api/*",
-			"destination": "https://zayne-commerce-server.onrender.com/api/*"
+			"source": "/[^.]+",
+			"destination": "/",
+			"status": 200
+		},
+
+		{
+			"source": "/api/:path*",
+			"destination": "https://zayne-commerce-server.onrender.com/api/:path*"
 		}
 	]
 }
