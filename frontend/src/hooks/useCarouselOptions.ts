@@ -9,14 +9,13 @@ type CarouselOptions = {
 };
 
 const useCarouselOptions = (options: CarouselOptions = {}) => {
-	const { isAutoSlide = false, autoSlideInterval = 10000 } = options;
+	const { isAutoSlide = false, autoSlideInterval = 5000 } = options;
 
-	const [isPaused, setIsPaused] = useState(false);
 	const isMobile = useGlobalStore((state) => state.isMobile);
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
 	const nextSlide = useCarouselStore((state) => state.nextSlide);
+	const [isPaused, setIsPaused] = useState(false);
 
-	// AutoSlide functionality for a given slideInterval
 	useAnimationInterval({
 		callbackFn: nextSlide,
 		intervalDuration: isAutoSlide && !isPaused && !isNavShow && !isMobile ? autoSlideInterval : null,

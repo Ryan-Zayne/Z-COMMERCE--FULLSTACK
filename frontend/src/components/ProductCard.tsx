@@ -94,7 +94,7 @@ function ProductCard(props: ProductCardProps) {
 						)}
 						src={image}
 						loading="lazy"
-						isDynamicImage={true}
+						imageType={'dynamic'}
 						onClick={(e) => isMobile && e.preventDefault()}
 					/>
 				</Card.Header>

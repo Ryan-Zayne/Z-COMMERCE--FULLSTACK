@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useRef } from 'react';
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useEffect, useRef } from 'react';
 
 /**
  * Custom hook that returns a memoized version of the callback function.
  * The callback function is saved in a ref to persist across renders.
  * If the callback function changes, the ref is updated.
-
 
  * @param callbackFn The callback function to memoize.
  * @param deps The dependency list for the useCallback hook.
