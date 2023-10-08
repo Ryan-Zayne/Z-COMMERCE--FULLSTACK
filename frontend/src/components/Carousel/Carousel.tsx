@@ -7,10 +7,10 @@ type CarouselProps = {
 	as?: React.ElementType;
 	children: React.ReactNode;
 	outerClassName?: string;
+	arrowIcon: React.ReactNode;
 	innerClassName?: string;
 	leftBtnClasses?: string;
 	rightBtnClasses?: string;
-	arrowIcon: JSX.Element;
 	isAutoSlide?: boolean;
 	autoSlideInterval?: number;
 	pauseOnHover?: boolean;
@@ -30,13 +30,13 @@ function Carousel(props: CarouselProps) {
 	const {
 		as: Element = 'article',
 		children,
+		arrowIcon,
 		outerClassName = '',
 		innerClassName = '',
 		leftBtnClasses = '',
 		rightBtnClasses = '',
-		arrowIcon,
-		isAutoSlide = false,
-		autoSlideInterval = 10000,
+		isAutoSlide,
+		autoSlideInterval,
 		pauseOnHover = false,
 	} = props;
 

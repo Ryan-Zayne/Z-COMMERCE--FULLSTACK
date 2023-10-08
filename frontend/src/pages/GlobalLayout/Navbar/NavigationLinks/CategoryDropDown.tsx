@@ -56,7 +56,7 @@ function CategoryDropDown({ deviceType }: { deviceType: 'mobile' | 'desktop' }) 
 		</li>
 	));
 
-	const DEVICETYPE_LOOKUP = {
+	const DEVICE_TYPE_LOOKUP = {
 		mobile: () => (
 			<DropDown id={'Mobile categories dropdown'}>
 				<DropDown.Header
@@ -123,7 +123,7 @@ function CategoryDropDown({ deviceType }: { deviceType: 'mobile' | 'desktop' }) 
 		},
 	};
 
-	return DEVICETYPE_LOOKUP[deviceType]?.() ?? DEVICETYPE_LOOKUP.default();
+	return DEVICE_TYPE_LOOKUP[deviceType]?.() ?? DEVICE_TYPE_LOOKUP.default();
 }
 
 export default CategoryDropDown;

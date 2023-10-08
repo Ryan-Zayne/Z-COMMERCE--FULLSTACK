@@ -32,7 +32,7 @@ function ItemHero() {
 						each={slideImages}
 						render={(image) => (
 							<Carousel.Item key={image}>
-								<ImageComponent isDynamicImage={true} src={image} />
+								<ImageComponent imageType={'dynamic'} src={image} />
 							</Carousel.Item>
 						)}
 					/>

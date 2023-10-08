@@ -5,15 +5,14 @@ import { useCallbackRef } from './useCallbackRef';
 
 type AnimationOptionsType = {
 	callbackFn: () => void;
-	intervalDuration: number | null;
+	delay: number | null;
 };
 
-const useAnimationInterval = (options: AnimationOptionsType) => {
-	const { callbackFn, intervalDuration } = options;
+const useAnimationTimeout = (options: AnimationOptionsType) => {
+	const { callbackFn, delay = 5000 } = options;
 
-	const startTimeStampRef = useRef<number | null>(null);
 	const animationFrameId = useRef(0);
-
+	const startTimeStampRef = useRef<number | null>(null);
 	const savedCallback = useCallbackRef(callbackFn);
 
 	// prettier-ignore
@@ -24,14 +23,14 @@ const useAnimationInterval = (options: AnimationOptionsType) => {
 
 		const elapsedTime = Math.floor(timeStamp - startTimeStampRef.current);
 
-		if (elapsedTime >= assertDefined(intervalDuration)) {
+		if (elapsedTime >= assertDefined(delay)) {
 			savedCallback();
-			startTimeStampRef.current = timeStamp;
+			return;
 		}
 
 		animationFrameId.current = requestAnimationFrame(smoothAnimation);
 	},
-		[intervalDuration, savedCallback]
+		[delay, savedCallback]
 	);
 
 	const onAnimationStart = useCallback(
@@ -43,14 +42,14 @@ const useAnimationInterval = (options: AnimationOptionsType) => {
 
 	// This effect allows start and stop of the animation from the consumer component just by toggling the interval between a number and null
 	useEffect(() => {
-		if (intervalDuration !== null) {
+		if (delay !== null) {
 			onAnimationStart();
 
 			return () => onAnimationStop();
 		}
-	}, [intervalDuration, onAnimationStart, onAnimationStop]);
+	}, [delay, onAnimationStart, onAnimationStop]);
 
 	return { animationFrameId: animationFrameId.current, onAnimationStop };
 };
 
-export { useAnimationInterval };
+export { useAnimationTimeout };

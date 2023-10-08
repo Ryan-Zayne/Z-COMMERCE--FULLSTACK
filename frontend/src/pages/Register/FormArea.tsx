@@ -22,6 +22,7 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 	const navigate = useNavigate();
 	const uniqueId = useId();
 	const [isPasswordShow, togglePasswordShow] = useToggle(false);
+	const [isConfirmPasswordShow, toggleConfirmPasswordShow] = useToggle(false);
 
 	const {
 		register,
@@ -168,12 +169,13 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 						>{`${errors.password.message}`}</p>
 					)}
 
-					<span
+					<button
 						className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
+						type="button"
 						onClick={togglePasswordShow}
 					>
 						{isPasswordShow ? <AiFillEyeInvisible /> : <AiFillEye />}
-					</span>
+					</button>
 				</InputGroup>
 
 				{formType === 'Sign Up' && (
@@ -184,7 +186,7 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 						<input
 							{...register('confirmPassword')}
 							name="confirmPassword"
-							type={isPasswordShow ? 'text' : 'password'}
+							type={isConfirmPasswordShow ? 'text' : 'password'}
 							id={`confirmPassword__${uniqueId}`}
 							className={twMerge(
 								'min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot',
@@ -199,6 +201,14 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 								className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}
 							>{`${errors.confirmPassword.message}`}</p>
 						)}
+
+						<button
+							className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
+							type="button"
+							onClick={toggleConfirmPasswordShow}
+						>
+							{isConfirmPasswordShow ? <AiFillEyeInvisible /> : <AiFillEye />}
+						</button>
 					</InputGroup>
 				)}
 
@@ -226,9 +236,9 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 								</Link>
 							</p>
 							{errors?.acceptTerms && (
-								<p
-									className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}
-								>{`${errors.acceptTerms.message}`}</p>
+								<p className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}>
+									{`${errors.acceptTerms.message}`}
+								</p>
 							)}
 						</>
 					)}
