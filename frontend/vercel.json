@@ -1,13 +1,10 @@
 {
-	"redirects": [
-		{
-			"source": "/",
-			"destination": "/",
-			"statusCode": 200
-		}
-	],
-
 	"rewrites": [
+		{
+			"source": "/(.*)",
+			"destination": "/"
+		},
+
 		{
 			"source": "/api/:path*",
 			"destination": "https://zayne-commerce-server.onrender.com/api/:path*"
