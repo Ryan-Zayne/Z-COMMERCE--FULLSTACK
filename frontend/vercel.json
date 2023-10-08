@@ -1,9 +1,9 @@
 {
 	"redirects": [
 		{
-			"source": "/[^.]+",
+			"source": "/",
 			"destination": "/",
-			"status": 200
+			"statusCode": 200
 		}
 	],
 
