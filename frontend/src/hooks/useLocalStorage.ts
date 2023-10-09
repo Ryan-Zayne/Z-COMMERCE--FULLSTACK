@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/no-useless-undefined */
 /* eslint-disable no-console */
 /* eslint-disable consistent-return */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type Options<TOptions> = {
 	syncData?: boolean;
@@ -10,26 +10,19 @@ type Options<TOptions> = {
 	stringifier?: (object: TOptions | undefined) => string;
 };
 
-const useLocalStorage = <T>(key: string, defaultValue?: T, options?: Options<T>) => {
-	// For custom serializer, logger, parser and syncData value
-	const defaultOptions = useMemo(
-		() => ({
-			stringifier: JSON.stringify,
-			parser: JSON.parse,
-			logger: console.log,
-			syncData: true,
-			...options,
-		}),
-		[options]
-	);
-
-	const { stringifier, parser, logger, syncData } = defaultOptions;
+const useLocalStorage = <TValue>(key: string, defaultValue?: TValue, options: Options<TValue> = {}) => {
+	const {
+		stringifier = JSON.stringify,
+		parser = JSON.parse,
+		logger = console.log,
+		syncData = true,
+	} = options;
 
 	// Use a ref to store the raw value from local storage, as well as to track the previous value when syncing across tabs
 	const rawValueRef = useRef<string | null>(null);
 
 	// Use state to store the current value, and attempt to load it from local storage if it exists
-	const [value, setValue] = useState<T | undefined>(() => {
+	const [value, setValue] = useState<TValue | undefined>(() => {
 		if (typeof window === 'undefined') return defaultValue;
 
 		try {
@@ -42,8 +35,17 @@ const useLocalStorage = <T>(key: string, defaultValue?: T, options?: Options<T>)
 		}
 	});
 
+	// prettier-ignore
+	const dispatchStorageEvent = useCallback((dispatchOptions: StorageEventInit) => {
+		const { newValue, oldValue, storageArea, url, ...restOfOptions } = dispatchOptions;
+
+		window.dispatchEvent(
+			new StorageEvent('storage', { key, newValue, oldValue, storageArea, url, ...restOfOptions })
+		);
+	}, [key]);
+
 	// Function for updating the local storage item whenever the value changes
-	const updateLocalStorage = useCallback(() => {
+	const handleStorageUpdate = useCallback(() => {
 		if (typeof window === 'undefined') return;
 
 		const newValue = stringifier(value);
@@ -52,40 +54,38 @@ const useLocalStorage = <T>(key: string, defaultValue?: T, options?: Options<T>)
 
 		if (value === undefined) {
 			window.localStorage.removeItem(key);
-
 			// Dispatching the storage event to sync across tabs
-			window.dispatchEvent(
-				new StorageEvent('storage', {
-					storageArea: window.localStorage,
-					url: window.location.href,
-					key,
-				})
-			);
+			dispatchStorageEvent({
+				key,
+				storageArea: window.localStorage,
+				url: window.location.href,
+			});
+
 			return;
 		}
 
 		window.localStorage.setItem(key, newValue);
 
-		window.dispatchEvent(
-			new StorageEvent('storage', {
-				storageArea: window.localStorage,
-				url: window.location.href,
-				key,
-				newValue,
-				oldValue,
-			})
-		);
-	}, [key, value, stringifier]);
+		dispatchStorageEvent({
+			key,
+			newValue,
+			oldValue,
+			storageArea: window.localStorage,
+			url: window.location.href,
+		});
+	}, [value, key, stringifier, dispatchStorageEvent]);
 
+	// prettier-ignore
 	// Function for handling storage events and syncing across tabs
-	const handleStorageChange = useCallback(
-		(event: StorageEvent) => {
+	const handleStorageSyncAcrossTabs = useCallback((event: StorageEvent) => {
 			if (event.key !== key || event.storageArea !== window.localStorage) return;
 
 			try {
 				if (event.newValue !== rawValueRef.current) {
 					rawValueRef.current = event.newValue;
-					setValue(event.newValue ? parser(event.newValue) : undefined);
+					const newValue = event.newValue ? parser(event.newValue) : undefined;
+
+					setValue(newValue);
 				}
 			} catch (error) {
 				logger(error);
@@ -94,33 +94,32 @@ const useLocalStorage = <T>(key: string, defaultValue?: T, options?: Options<T>)
 		[key, logger, parser]
 	);
 
+	useEffect(() => {
+		try {
+			handleStorageUpdate();
+		} catch (error) {
+			logger(error);
+		}
+	}, [logger, handleStorageUpdate]);
+
+	useEffect(() => {
+		if (!syncData) return;
+
+		window.addEventListener('storage', handleStorageSyncAcrossTabs);
+
+		return () => {
+			window.removeEventListener('storage', handleStorageSyncAcrossTabs);
+		};
+	}, [syncData, handleStorageSyncAcrossTabs]);
+
 	const removeValue = useCallback(() => {
 		try {
 			window.localStorage.removeItem(key);
-
 			setValue(undefined);
 		} catch {
 			// If user is in private mode or has storage restriction localStorage can throw the error.
 		}
 	}, [key]);
-
-	useEffect(() => {
-		try {
-			updateLocalStorage();
-		} catch (error) {
-			logger(error);
-		}
-	}, [logger, updateLocalStorage]);
-
-	useEffect(() => {
-		if (!syncData) return;
-
-		window.addEventListener('storage', handleStorageChange);
-
-		return () => {
-			window.removeEventListener('storage', handleStorageChange);
-		};
-	}, [syncData, handleStorageChange]);
 
 	return [value, setValue, removeValue] as const;
 };

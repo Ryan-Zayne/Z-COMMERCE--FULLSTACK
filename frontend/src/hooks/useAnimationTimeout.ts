@@ -5,7 +5,7 @@ import { useCallbackRef } from './useCallbackRef';
 
 type AnimationOptionsType = {
 	callbackFn: () => void;
-	delay: number | null;
+	delay: number;
 };
 
 const useAnimationTimeout = (options: AnimationOptionsType) => {
@@ -40,14 +40,11 @@ const useAnimationTimeout = (options: AnimationOptionsType) => {
 
 	const onAnimationStop = useCallback(() => cancelAnimationFrame(animationFrameId.current), []);
 
-	// This effect allows start and stop of the animation from the consumer component just by toggling the interval between a number and null
 	useEffect(() => {
-		if (delay !== null) {
-			onAnimationStart();
+		onAnimationStart();
 
-			return () => onAnimationStop();
-		}
-	}, [delay, onAnimationStart, onAnimationStop]);
+		return () => onAnimationStop();
+	}, [onAnimationStart, onAnimationStop]);
 
 	return { animationFrameId: animationFrameId.current, onAnimationStop };
 };
