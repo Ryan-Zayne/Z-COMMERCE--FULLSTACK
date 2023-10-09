@@ -6,8 +6,8 @@
 		},
 
 		{
-			"source": "/api/*",
-			"destination": "https://zayne-commerce-server.onrender.com/api/*"
+			"source": "/api",
+			"destination": "https://zayne-commerce-server.onrender.com/api"
 		}
 	]
 }
