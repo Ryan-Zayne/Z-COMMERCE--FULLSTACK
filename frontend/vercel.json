@@ -1,4 +1,6 @@
 {
+	"trailingSlash": false,
+
 	"rewrites": [
 		{
 			"source": "/(.*)",
@@ -8,10 +10,6 @@
 		{
 			"source": "/api/:path*",
 			"destination": "https://zayne-commerce-server.onrender.com/api/:path*"
-		},
-		{
-			"source": "/api/:path*/",
-			"destination": "https://zayne-commerce-server.onrender.com/api/:path*/"
 		}
 	]
 }

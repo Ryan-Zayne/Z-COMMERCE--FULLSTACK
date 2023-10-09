@@ -32,4 +32,3 @@ const useScrollObserver = <T extends HTMLElement = HTMLDivElement>(options?: Int
 };
 
 export { useScrollObserver };
-

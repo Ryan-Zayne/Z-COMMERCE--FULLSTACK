@@ -59,8 +59,8 @@ function ProductCard(props: ProductCardProps) {
 				[isDarkMode && 'hover:bg-primary hover:box-shadow-[0_0_6px_0px_var(--carousel-dot)]'],
 				[
 					isHearted &&
-						isDarkMode &&
-						'scale-[1.03] bg-primary [box-shadow:0_0_6px_0px_var(--carousel-dot)]',
+					isDarkMode &&
+					'scale-[1.03] bg-primary [box-shadow:0_0_6px_0px_var(--carousel-dot)]',
 				]
 			)}
 		>
@@ -79,6 +79,7 @@ function ProductCard(props: ProductCardProps) {
 							]
 						)}
 						onClick={handleAddToWishList}
+
 					>
 						{isHearted ? (
 							<AiFillHeart className="scale-[1.16] text-[1.9rem] text-heading group-active/btn:scale-[1.23]" />

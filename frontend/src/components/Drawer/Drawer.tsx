@@ -55,10 +55,8 @@ Drawer.Content = function DrawerContent({ className, children, placement = 'righ
 	);
 };
 
-Drawer.CloseButton = function DrawerCloseButton({
-	className = '',
-	icon = <RiCloseFill />,
-}: DrawerCloseProps) {
+Drawer.CloseButton = function DrawerCloseButton(props: DrawerCloseProps) {
+	const { className = '', icon = <RiCloseFill /> } = props;
 	const onClose = useDrawerStore((state) => state.onClose);
 
 	return (

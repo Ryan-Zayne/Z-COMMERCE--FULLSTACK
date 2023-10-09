@@ -18,5 +18,5 @@ export type DrawerContentProps = Pick<DrawerProviderProps, 'children'> & {
 	placement?: 'left' | 'right';
 };
 
-export type DrawerCloseProps = Pick<DrawerContentProps, 'className'> & { icon?: JSX.Element };
+export type DrawerCloseProps = Pick<DrawerContentProps, 'className'> & { icon?: React.ReactNode };
 export type OtherDrawerProps = Omit<DrawerContentProps, 'placement'>;

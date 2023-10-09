@@ -1,5 +1,5 @@
 type CardProps = {
-	as?: React.ElementType;
+	as?: keyof JSX.IntrinsicElements;
 	children: React.ReactNode;
 	className?: string;
 	aosAnimation?: string;

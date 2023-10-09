@@ -10,9 +10,8 @@ function Hero() {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	// prettier-ignore
 	const slideImages = useCarouselStore((state) => state.slideImages as Exclude<CarouselStore['slideImages'], string[]>);
-	const currentSlide = useCarouselStore((state) => state.currentSlide);
 
-	const { animatedElements } = useAnimateRef({ currentSlide });
+	const { animatedElements } = useAnimateRef();
 	const { For: ItemList } = useElementList();
 	const { For: IndicatorList } = useElementList();
 

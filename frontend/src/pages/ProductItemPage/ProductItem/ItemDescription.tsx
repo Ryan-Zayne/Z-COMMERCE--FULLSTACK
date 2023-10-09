@@ -29,6 +29,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 				toast.success(`Product added successfully`, {
 					id: 'toastId-added',
 				});
+
 				return;
 			}
 

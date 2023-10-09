@@ -1,21 +1,26 @@
 import { useMediaQueryActions } from '@/store/zustand/globalStore';
 import { desktopQuery, mobileQuery, tabletQuery } from '@/utils/constants';
 import { useEffect } from 'react';
+import { useThrottleByFrame } from './useThrottleCallback';
 
 const useMediaQuery = () => {
 	const { setIsMobile, setIsTablet, setIsDesktop } = useMediaQueryActions();
+	const throttledSetIsMobile = useThrottleByFrame(setIsMobile);
+	const throttledSetIsTablet = useThrottleByFrame(setIsTablet);
+	const throttledSetIsDesktop = useThrottleByFrame(setIsDesktop);
 
 	useEffect(() => {
-		mobileQuery.addEventListener('change', setIsMobile);
-		tabletQuery.addEventListener('change', setIsTablet);
-		desktopQuery.addEventListener('change', setIsDesktop);
+		mobileQuery.addEventListener('change', throttledSetIsMobile);
+		tabletQuery.addEventListener('change', throttledSetIsTablet);
+		desktopQuery.addEventListener('change', throttledSetIsDesktop);
 
 		return () => {
-			mobileQuery.removeEventListener('change', setIsMobile);
-			tabletQuery.removeEventListener('change', setIsTablet);
-			desktopQuery.removeEventListener('change', setIsDesktop);
+			mobileQuery.removeEventListener('change', throttledSetIsMobile);
+			tabletQuery.removeEventListener('change', throttledSetIsTablet);
+			desktopQuery.removeEventListener('change', throttledSetIsDesktop);
 		};
-	}, [setIsDesktop, setIsMobile, setIsTablet]);
+	}, [throttledSetIsDesktop, throttledSetIsMobile, throttledSetIsTablet]);
 };
 
 export { useMediaQuery };
+

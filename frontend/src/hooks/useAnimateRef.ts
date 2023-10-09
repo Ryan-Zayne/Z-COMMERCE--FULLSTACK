@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useCarouselStore } from '@/components/Carousel/carouselStoreContext';
+import { useCallback, useEffect, useRef } from 'react';
 
 type ElementRefObject = {
 	heading: HTMLHeadingElement | null;
@@ -20,38 +21,42 @@ const possibleElements = [
 	{ targetElement: 'paragraph', animationClass: 'animate-fade-in-up-2' },
 ] as const;
 
-const useAnimateRef = ({ currentSlide }: { currentSlide: number }) => {
+const useAnimateRef = () => {
+	const currentSlide = useCarouselStore((state) => state.currentSlide);
+
+	const fadeAnimationId = useRef<NodeJS.Timeout>();
+
 	const elementRef = useRef<ElementRefObject>({
 		heading: null,
 		button: null,
 		paragraph: null,
 	});
 
-	const fadeAnimationId = useRef<NodeJS.Timeout>();
+	const addAnimationClasses = useCallback(() => {
+		for (const { targetElement, animationClass } of possibleElements) {
+			if (!elementRef.current[targetElement]) {
+				throw new ELementError(targetElement);
+			}
+
+			elementRef.current[targetElement]?.classList.add(animationClass);
+		}
+	}, []);
+
+	const removeAnimationClasses = useCallback(() => {
+		for (const { targetElement, animationClass } of possibleElements) {
+			elementRef.current[targetElement]?.classList.remove(animationClass);
+		}
+	}, []);
 
 	useEffect(() => {
-		const addAnimationClasses = () => {
-			for (const { targetElement, animationClass } of possibleElements) {
-				if (!elementRef.current[targetElement]) {
-					throw new ELementError(targetElement);
-				}
-
-				elementRef.current[targetElement]?.classList.add(animationClass);
-			}
-		};
-
 		addAnimationClasses();
 
-		const removeAnimationClasses = () => {
-			for (const { targetElement, animationClass } of possibleElements) {
-				elementRef.current[targetElement]?.classList.remove(animationClass);
-			}
-		};
-
-		fadeAnimationId.current = setTimeout(removeAnimationClasses, 2000);
+		fadeAnimationId.current = setTimeout(() => {
+			removeAnimationClasses();
+		}, 2000);
 
 		return () => clearTimeout(fadeAnimationId.current);
-	}, [currentSlide]);
+	}, [currentSlide, addAnimationClasses, removeAnimationClasses]);
 
 	return { animatedElements: elementRef.current };
 };

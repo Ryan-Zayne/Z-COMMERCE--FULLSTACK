@@ -25,9 +25,9 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 	const [isConfirmPasswordShow, toggleConfirmPasswordShow] = useToggle(false);
 
 	const {
-		register,
 		reset,
 		setError,
+		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm<FormSchemaType>({
@@ -114,7 +114,7 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 								`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
 								[
 									errors?.username &&
-										'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
+									'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
 								]
 							)}
 						/>
@@ -137,7 +137,7 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 							`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
 							[
 								errors?.email &&
-									'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
+								'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
 							]
 						)}
 					/>
@@ -159,7 +159,7 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 							'min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot',
 							[
 								errors?.password &&
-									'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
+								'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
 							]
 						)}
 					/>
@@ -192,7 +192,7 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 								'min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot',
 								[
 									errors?.confirmPassword &&
-										'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
+									'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
 								]
 							)}
 						/>

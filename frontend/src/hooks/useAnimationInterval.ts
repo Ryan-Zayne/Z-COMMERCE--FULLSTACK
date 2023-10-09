@@ -18,19 +18,19 @@ const useAnimationInterval = (options: AnimationOptionsType) => {
 
 	// prettier-ignore
 	const smoothAnimation = useCallback((timeStamp: DOMHighResTimeStamp) => {
-		if (startTimeStampRef.current === null) {
-			startTimeStampRef.current = timeStamp;
-		}
+			if (startTimeStampRef.current === null) {
+				startTimeStampRef.current = Math.floor(timeStamp);
+			}
 
-		const elapsedTime = Math.floor(timeStamp - startTimeStampRef.current);
+			const elapsedTime = Math.floor(timeStamp - startTimeStampRef.current);
 
-		if (elapsedTime >= assertDefined(intervalDuration)) {
-			savedCallback();
-			startTimeStampRef.current = timeStamp;
-		}
+			if (elapsedTime >= assertDefined(intervalDuration)) {
+				savedCallback();
+				startTimeStampRef.current = null;
+			}
 
-		animationFrameId.current = requestAnimationFrame(smoothAnimation);
-	},
+			animationFrameId.current = requestAnimationFrame(smoothAnimation);
+		},
 		[intervalDuration, savedCallback]
 	);
 

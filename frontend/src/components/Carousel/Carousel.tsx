@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { useCarouselStore } from './carouselStoreContext';
 
 type CarouselProps = {
-	as?: React.ElementType;
+	as?: keyof JSX.IntrinsicElements;
 	children: React.ReactNode;
 	outerClassName?: string;
 	arrowIcon: React.ReactNode;

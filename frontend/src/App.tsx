@@ -20,6 +20,8 @@ AOS.init();
 function App() {
 	useMediaQuery();
 
+
+
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<>

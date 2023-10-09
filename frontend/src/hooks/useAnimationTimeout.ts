@@ -1,16 +1,8 @@
 /* eslint-disable consistent-return */
-import { assertDefined } from '@/lib/global-type-helpers';
 import { useCallback, useEffect, useRef } from 'react';
 import { useCallbackRef } from './useCallbackRef';
 
-type AnimationOptionsType = {
-	callbackFn: () => void;
-	delay: number;
-};
-
-const useAnimationTimeout = (options: AnimationOptionsType) => {
-	const { callbackFn, delay = 5000 } = options;
-
+const useAnimationTimeout = (callbackFn: () => void, delay: number) => {
 	const animationFrameId = useRef(0);
 	const startTimeStampRef = useRef<number | null>(null);
 	const savedCallback = useCallbackRef(callbackFn);
@@ -23,15 +15,14 @@ const useAnimationTimeout = (options: AnimationOptionsType) => {
 
 		const elapsedTime = Math.floor(timeStamp - startTimeStampRef.current);
 
-		if (elapsedTime >= assertDefined(delay)) {
+		if (elapsedTime >= delay) {
 			savedCallback();
 			return;
 		}
 
-		animationFrameId.current = requestAnimationFrame(smoothAnimation);
-	},
-		[delay, savedCallback]
-	);
+		animationFrameId.current = requestAnimationFrame(smoothAnimation)
+
+	}, [delay, savedCallback]);
 
 	const onAnimationStart = useCallback(
 		() => (animationFrameId.current = requestAnimationFrame(smoothAnimation)),
