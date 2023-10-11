@@ -3,13 +3,16 @@ import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { FaSun } from 'react-icons/fa';
 import { useThemeActions, useThemeStore } from '../store/zustand/themeStore';
 
-function ThemeSwitchButton({ display = '' }: { display?: string }) {
+function ThemeSwitchButton({ display = '' }: { display?: string; }) {
 	const theme = useThemeStore((state) => state.theme);
 	const { toggleTheme, toggleIsDarkMode } = useThemeActions();
 
-	useEffect(() => {
-		document.documentElement.dataset.theme = theme;
-	}, [theme]);
+	useEffect(
+		function setThemeEffect() {
+			document.documentElement.dataset.theme = theme;
+		},
+		[theme]
+	);
 
 	return (
 		<button

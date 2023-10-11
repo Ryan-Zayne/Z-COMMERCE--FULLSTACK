@@ -9,18 +9,20 @@ const useMediaQuery = () => {
 	const throttledSetIsTablet = useThrottleByFrame(setIsTablet);
 	const throttledSetIsDesktop = useThrottleByFrame(setIsDesktop);
 
-	useEffect(() => {
-		mobileQuery.addEventListener('change', throttledSetIsMobile);
-		tabletQuery.addEventListener('change', throttledSetIsTablet);
-		desktopQuery.addEventListener('change', throttledSetIsDesktop);
+	useEffect(
+		function mediaQueryEffect() {
+			mobileQuery.addEventListener('change', throttledSetIsMobile);
+			tabletQuery.addEventListener('change', throttledSetIsTablet);
+			desktopQuery.addEventListener('change', throttledSetIsDesktop);
 
-		return () => {
-			mobileQuery.removeEventListener('change', throttledSetIsMobile);
-			tabletQuery.removeEventListener('change', throttledSetIsTablet);
-			desktopQuery.removeEventListener('change', throttledSetIsDesktop);
-		};
-	}, [throttledSetIsDesktop, throttledSetIsMobile, throttledSetIsTablet]);
+			return () => {
+				mobileQuery.removeEventListener('change', throttledSetIsMobile);
+				tabletQuery.removeEventListener('change', throttledSetIsTablet);
+				desktopQuery.removeEventListener('change', throttledSetIsDesktop);
+			};
+		},
+		[throttledSetIsDesktop, throttledSetIsMobile, throttledSetIsTablet]
+	);
 };
 
 export { useMediaQuery };
-

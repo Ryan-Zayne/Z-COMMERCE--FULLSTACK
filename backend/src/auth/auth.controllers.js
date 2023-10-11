@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import asyncHandler from '../common/utils/asyncHandler.utils.js';
 import UserModel from '../users/user.model.js';
-import { generateAccessToken, generateRefreshToken } from './auth.helpers.js';
+import { generateAccessToken, generateRefreshToken } from './auth.services.js';
 
 // @desc Register a User
 // @route POST /api/auth/sign-up

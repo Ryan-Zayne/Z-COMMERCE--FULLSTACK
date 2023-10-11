@@ -1,4 +1,5 @@
-export { useAnimateRef } from './useAnimateRef';
+export { useAfterMountEffect } from './useAfterMountEffect';
+export { useAnimateCarouselRefs } from './useAnimateCarouselRefs';
 export { useAnimationInterval } from './useAnimationInterval';
 export { useCallbackRef } from './useCallbackRef';
 export { useDisclosure } from './useDisclosure';

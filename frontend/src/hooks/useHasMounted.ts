@@ -15,4 +15,4 @@ const useHasMounted = () => {
 	return hasMounted;
 };
 
-export default useHasMounted;
+export { useHasMounted };

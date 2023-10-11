@@ -17,24 +17,27 @@ const categories = [
 	{ title: 'Digital Lighting', path: 'lighting' },
 ];
 
-function CategoryDropDown({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
+function CategoryDropDown({ deviceType }: { deviceType: 'mobile' | 'desktop'; }) {
 	const href = useLocation().pathname;
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const { toggleNavShow } = useGlobalActions();
 	const categoryDisclosure = useDisclosure({ initFn: () => isDesktop && href === '/' });
 
-	// Close Desktop Category Menu when on a route that's not the HomePage
-	useEffect(() => {
-		if (!isDesktop) return;
 
-		if (href === '/') {
-			categoryDisclosure.onOpen();
-		} else {
-			categoryDisclosure.onClose();
-		}
+	useEffect(
+		function defaultDropDownStateEffect() {
+			if (!isDesktop) return;
+
+			if (href === '/') {
+				categoryDisclosure.onOpen();
+			} else {
+				categoryDisclosure.onClose();
+			}
+		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [href, isDesktop]);
+		[href, isDesktop]
+	);
 
 	const CategoryList = categories.map((category) => (
 		<li
@@ -46,7 +49,7 @@ function CategoryDropDown({ deviceType }: { deviceType: 'mobile' | 'desktop' }) 
 				to={category.path}
 				className={twJoin(
 					isDesktop &&
-						'flex items-center justify-between py-[1rem] [border-bottom:1px_solid_var(--color-primary)]'
+					'flex items-center justify-between py-[1rem] [border-bottom:1px_solid_var(--color-primary)]'
 				)}
 			>
 				<p>{category.title}</p>

@@ -31,11 +31,15 @@ const useAnimationTimeout = (callbackFn: () => void, delay: number) => {
 
 	const onAnimationStop = useCallback(() => cancelAnimationFrame(animationFrameId.current), []);
 
-	useEffect(() => {
-		onAnimationStart();
+	useEffect(
+		function animationStartEffect() {
+			onAnimationStart();
 
-		return () => onAnimationStop();
-	}, [onAnimationStart, onAnimationStop]);
+			return () => onAnimationStop();
+		},
+
+		[onAnimationStart, onAnimationStop]
+	);
 
 	return { animationFrameId: animationFrameId.current, onAnimationStop };
 };

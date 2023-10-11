@@ -1,7 +1,7 @@
 import express from 'express';
 import { LoginSchema, SignUpSchema } from '../common/lib/schemas/formSchema.js';
 import { handleTokenRefresh, loginUser, logoutUser, signUpUser } from './auth.controllers.js';
-import { validateDataWithZod } from './auth.helpers.js';
+import { validateDataWithZod } from './auth.services.js';
 
 const authRouter = express.Router();
 

@@ -10,9 +10,7 @@ const useFromStore = <T, U>(
 	useStore: (callback: (state: T) => unknown) => unknown,
 	storeCallback: (state: T) => U
 ) => {
-	// Get the state value from the store
 	const stateFromStore = useStore(storeCallback) as U;
-	// Declare a state variable and a function to update it
 	const [state, setState] = useState<U>();
 
 	// Update the state whenever the stateFromStore value changes
@@ -20,7 +18,6 @@ const useFromStore = <T, U>(
 		setState(stateFromStore);
 	}
 
-	// Return the current state value
 	return state;
 };
 

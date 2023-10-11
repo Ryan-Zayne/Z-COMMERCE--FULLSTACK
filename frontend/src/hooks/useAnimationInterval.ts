@@ -41,14 +41,16 @@ const useAnimationInterval = (options: AnimationOptionsType) => {
 
 	const onAnimationStop = useCallback(() => cancelAnimationFrame(animationFrameId.current), []);
 
-	// This effect allows start and stop of the animation from the consumer component just by toggling the interval between a number and null
-	useEffect(() => {
-		if (intervalDuration !== null) {
-			onAnimationStart();
+	useEffect(
+		function toggleAnimationByIntervalEffect() {
+			if (intervalDuration === null) return;
 
+			onAnimationStart();
 			return () => onAnimationStop();
-		}
-	}, [intervalDuration, onAnimationStart, onAnimationStop]);
+		},
+
+		[intervalDuration, onAnimationStart, onAnimationStop]
+	);
 
 	return { animationFrameId: animationFrameId.current, onAnimationStop };
 };

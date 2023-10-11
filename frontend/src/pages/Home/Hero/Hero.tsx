@@ -1,7 +1,7 @@
 import { Button, Carousel, ImageComponent } from '@/components';
 import type { CarouselStore } from '@/components/Carousel/carousel.types';
 import { useCarouselStore } from '@/components/Carousel/carouselStoreContext';
-import { useAnimateRef, useElementList } from '@/hooks';
+import { useAnimateCarouselRefs, useElementList } from '@/hooks';
 import { useThemeStore } from '@/store/zustand/themeStore';
 import { RxPaperPlane } from 'react-icons/rx';
 import { twJoin } from 'tailwind-merge';
@@ -11,7 +11,7 @@ function Hero() {
 	// prettier-ignore
 	const slideImages = useCarouselStore((state) => state.slideImages as Exclude<CarouselStore['slideImages'], string[]>);
 
-	const { animatedElements } = useAnimateRef();
+	const { animatedElements, handleElementsAnimation } = useAnimateCarouselRefs();
 	const { For: ItemList } = useElementList();
 	const { For: IndicatorList } = useElementList();
 
@@ -23,6 +23,7 @@ function Hero() {
 					`rounded-[0.7rem]`,
 					isDarkMode && 'box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]'
 				)}
+				onButtonClick={handleElementsAnimation}
 				leftBtnClasses={
 					'md:left-[0.8rem] hover:box-shadow-[0_0_5px_var(--text-dark)] lg:left-[29.5rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]'
 				}

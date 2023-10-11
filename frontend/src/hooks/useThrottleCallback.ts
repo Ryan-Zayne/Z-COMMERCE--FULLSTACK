@@ -1,42 +1,35 @@
 import { useCallback, useRef } from 'react';
+import { useAfterMountEffect } from './useAfterMountEffect';
 import { useCallbackRef } from './useCallbackRef';
 
-type CallbackType<T, R> = (...values: T[]) => R;
-
-const useThrottleByTimer = <TValues, TResult>(
-	callbackFn: CallbackType<TValues, TResult>,
-	delay: number
-) => {
+const useThrottleByTimer = <V, R>(callbackFn: (...values: V[]) => R, delay: number) => {
 	const savedCallback = useCallbackRef(callbackFn);
 	const startTimeRef = useRef<number | null>(null);
 
 	// prettier-ignore
-	const throttledCallback = useCallback((...values: TValues[]) => {
-			if (startTimeRef.current === null) {
-				startTimeRef.current = Date.now();
-			}
+	const throttledCallback = useCallback((...values: V[]) => {
+		if (startTimeRef.current === null) {
+			startTimeRef.current = Date.now();
+		}
 
-			const elapsedTime = Date.now() - startTimeRef.current;
-			if (elapsedTime < delay) return;
+		const elapsedTime = Date.now() - startTimeRef.current;
 
+		if (elapsedTime >= delay) {
 			savedCallback(...values);
 			startTimeRef.current = null;
-		},
-		[delay, savedCallback]
-	);
+		}
+
+	}, [delay, savedCallback]);
 
 	return throttledCallback;
 };
 
-const useThrottleBySetTimeout = <TValues, TResult>(
-	callbackFn: CallbackType<TValues, TResult>,
-	delay: number
-) => {
+const useThrottleBySetTimeout = <V, R>(callbackFn: (...values: V[]) => R, delay: number) => {
 	const savedCallback = useCallbackRef(callbackFn);
 	const throttleTimeoutId = useRef<NodeJS.Timeout | null>(null);
 
 	// prettier-ignore
-	const throttledCallback = useCallback((...values: TValues[]) => {
+	const throttledCallback = useCallback((...values: V[]) => {
 		if (throttleTimeoutId.current !== null) return;
 
 		throttleTimeoutId.current = setTimeout(() => {
@@ -46,21 +39,25 @@ const useThrottleBySetTimeout = <TValues, TResult>(
 
 	}, [delay, savedCallback]);
 
+	useAfterMountEffect(() => {
+		clearTimeout(throttleTimeoutId.current as NodeJS.Timeout);
+	}, []);
+
 	return throttledCallback;
 };
 
-const useThrottleByFrame = <TValues, TResult>(callbackFn: CallbackType<TValues, TResult>) => {
+const useThrottleByFrame = <V, R>(callbackFn: (...values: V[]) => R) => {
 	const savedCallback = useCallbackRef(callbackFn);
 
-	const throttleRequestId = useRef<number | null>(null);
+	const throttleFrameId = useRef<number | null>(null);
 
 	// prettier-ignore
 	const throttledCallback = useCallback(() => {
-		if (throttleRequestId.current !== null) return;
+		if (throttleFrameId.current !== null) return;
 
-		throttleRequestId.current = requestAnimationFrame(() => {
+		throttleFrameId.current = requestAnimationFrame(() => {
 			savedCallback();
-			throttleRequestId.current = null;
+			throttleFrameId.current = null;
 		});
 
 	}, [savedCallback]);

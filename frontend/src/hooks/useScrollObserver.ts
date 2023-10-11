@@ -11,22 +11,25 @@ const useScrollObserver = <T extends HTMLElement = HTMLDivElement>(options?: Int
 			}, options)
 	);
 
-	useEffect(() => {
-		const elementNode = elementRef.current;
-		const scrollWatcher = document.createElement('span');
-		scrollWatcher.dataset.scrollWatcher = '';
+	useEffect(
+		function scrollObservationEffect() {
+			const elementNode = elementRef.current;
+			const scrollWatcher = document.createElement('span');
+			scrollWatcher.dataset.scrollWatcher = '';
 
-		if (elementNode) {
-			elementNode.before(scrollWatcher);
-		}
+			if (elementNode) {
+				elementNode.before(scrollWatcher);
+			}
 
-		scrollObserver.observe(scrollWatcher);
+			scrollObserver.observe(scrollWatcher);
 
-		return () => {
-			scrollWatcher.remove();
-			scrollObserver.disconnect();
-		};
-	}, [scrollObserver]);
+			return () => {
+				scrollWatcher.remove();
+				scrollObserver.disconnect();
+			};
+		},
+		[scrollObserver]
+	);
 
 	return { elementRef, isScrolled };
 };

@@ -6,8 +6,9 @@ import { useCarouselStore } from './carouselStoreContext';
 type CarouselProps = {
 	as?: keyof JSX.IntrinsicElements;
 	children: React.ReactNode;
-	outerClassName?: string;
 	arrowIcon: React.ReactNode;
+	onButtonClick?: () => void;
+	outerClassName?: string;
 	innerClassName?: string;
 	leftBtnClasses?: string;
 	rightBtnClasses?: string;
@@ -31,6 +32,7 @@ function Carousel(props: CarouselProps) {
 		as: Element = 'article',
 		children,
 		arrowIcon,
+		onButtonClick,
 		outerClassName = '',
 		innerClassName = '',
 		leftBtnClasses = '',
@@ -56,7 +58,10 @@ function Carousel(props: CarouselProps) {
 			onMouseEnter={() => !isMobile && pauseOnHover && setIsPaused(true)}
 			onMouseLeave={() => !isMobile && pauseOnHover && setIsPaused(false)}
 		>
-			<button className="absolute left-0 z-40 h-full w-[9rem]" onClick={previousSlide}>
+			<button className="absolute left-0 z-40 h-full w-[9rem]" onClick={() => {
+				previousSlide();
+				onButtonClick?.();
+			}}>
 				<span
 					className={twMerge(
 						`absolute left-[0.7rem] top-[45%] rotate-180 rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${leftBtnClasses}`
@@ -75,7 +80,10 @@ function Carousel(props: CarouselProps) {
 				{children}
 			</div>
 
-			<button className="absolute right-0 z-40 h-full w-[9rem]" onClick={nextSlide}>
+			<button className="absolute right-0 z-40 h-full w-[9rem]" onClick={() => {
+				nextSlide();
+				onButtonClick?.();
+			}}>
 				<span
 					className={twMerge(
 						`absolute right-[0.7rem] top-[45%] rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${rightBtnClasses}`

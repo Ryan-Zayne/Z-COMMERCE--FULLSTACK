@@ -2,9 +2,11 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 /**
- * Custom hook that returns a memoized version of the callback function.
- * The callback function is saved in a ref to persist across renders.
- * If the callback function changes, the ref is updated.
+ * This is a custom hook that returns a memoized version of the callback function.
+ *
+ *  1. The callback reference is stored in a ref to allow it to be updated.
+ *  2. If the callback reference changes, the ref is updated to the new callback.
+ *  3. Then the up-to-date callback reference is memoized for stable reference and returned.
 
  * @param callbackFn The callback function to memoize.
  * @param deps The dependency list for the useCallback hook.
@@ -17,14 +19,15 @@ const useCallbackRef = <TValues, TResult>(
 ) => {
 	const callbackRef = useRef(callbackFn);
 
-	useEffect(() => {
-		callbackRef.current = callbackFn;
-	}, [callbackFn]);
+	useEffect(
+		function updateCallbackEffect() {
+			callbackRef.current = callbackFn;
+		},
 
-	const savedCallback = useCallback(
-		(...savedValues: TValues[]) => callbackRef.current(...savedValues),
-		deps
+		[callbackFn]
 	);
+
+	const savedCallback = useCallback(callbackRef.current, deps);
 
 	return savedCallback;
 };

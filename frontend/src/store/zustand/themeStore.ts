@@ -1,4 +1,4 @@
-import { type StateCreator, create } from 'zustand';
+import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { prefersDarkMode } from '../../utils/constants';
 import type { ThemeStore } from './zustand-store.types';
@@ -14,6 +14,7 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 			set({ theme: newtheme });
 
 			document.documentElement.classList.add('theme-transition');
+
 			const timeoutId = setTimeout(() => {
 				document.documentElement.classList.remove('theme-transition');
 				clearTimeout(timeoutId);

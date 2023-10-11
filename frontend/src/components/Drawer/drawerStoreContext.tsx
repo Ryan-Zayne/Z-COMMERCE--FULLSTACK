@@ -14,17 +14,21 @@ const [Provider, useContext] = createContext<DrawerStoreApi>({
 const createDrawerStore = () =>
 	createStore<DrawerStore>(() => ({
 		isOpen: false,
-		onOpen: () => {},
-		onClose: () => {},
-		onToggle: () => {},
+		onOpen: () => { },
+		onClose: () => { },
+		onToggle: () => { },
 	}));
 
 function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 	const [drawerStore] = useState(() => createDrawerStore());
 
-	useEffect(() => {
-		drawerStore.setState(storeValues);
-	}, [drawerStore, storeValues]);
+	useEffect(
+		function initializeStoreEffect() {
+			drawerStore.setState(storeValues);
+		},
+
+		[drawerStore, storeValues]
+	);
 
 	return <Provider value={drawerStore}>{children}</Provider>;
 }
@@ -37,3 +41,4 @@ const useDrawerStore = <T,>(callbackFn: (state: DrawerStore) => T) => {
 };
 
 export { DrawerContextProvider, useDrawerStore };
+

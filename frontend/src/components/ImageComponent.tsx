@@ -27,18 +27,21 @@ function ImageComponent(props: ImageComponentProps) {
 	const isImageLoaded = useGlobalStore((state) => state.isImageLoaded);
 	const { handleImageLoad } = useGlobalActions();
 
-	useEffect(() => {
-		img.src = src;
+	useEffect(
+		function imageLoadEffect() {
+			img.src = src;
 
-		if (img.complete) {
-			handleImageLoad();
-		} else {
-			img.addEventListener('load', handleImageLoad);
-		}
+			if (img.complete) {
+				handleImageLoad();
+			} else {
+				img.addEventListener('load', handleImageLoad);
+			}
 
-		return () => img.removeEventListener('load', handleImageLoad);
+			return () => img.removeEventListener('load', handleImageLoad);
+		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [src]);
+		[src]
+	);
 
 	const IMAGE_TYPE_LOOKUP = {
 		hasFallback: () => (
