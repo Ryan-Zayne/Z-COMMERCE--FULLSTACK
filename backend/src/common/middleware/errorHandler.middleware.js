@@ -1,11 +1,11 @@
 /* eslint-disable security/detect-object-injection */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-import { environment, errorConstants } from '../utils/constants.js';
+import { errorConstants, isDevMode } from '../utils/constants.js';
 
 const errorHandler = (err, req, res, next) => {
 	const statusCode = res.statusCode ?? 500;
-	const stackTrace = environment === 'development' ? err.stack : {};
+	const stackTrace = isDevMode ? err.stack : {};
 	const message = err.message ?? 'Something went wrong';
 
 	// prettier-ignore
@@ -25,7 +25,7 @@ const errorHandler = (err, req, res, next) => {
 		default: () => res.status(500).json({ title: 'You don break something bah?', message, stackTrace }),
 	};
 
-	return ERROR_LOOKUP[statusCode]?.() ?? ERROR_LOOKUP.default();
+	return Object.hasOwn(ERROR_LOOKUP, statusCode) ? ERROR_LOOKUP[statusCode]() : ERROR_LOOKUP.default();
 };
 
 export { errorHandler };

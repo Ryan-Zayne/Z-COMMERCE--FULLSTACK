@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
-import User from '../../users/user.model.js';
-import asyncHandler from '../utils/asyncHandler.utils.js';
+import { decodeJwtToken } from '../../auth/auth.services.js';
+import UserModel from '../../users/user.model.js';
+import { asyncHandler } from '../utils/asyncHandler.utils.js';
 
 const authenticateUser = asyncHandler(async (req, res, next) => {
 	const authHeader = req.headers.authorization ?? req.headers.Authorization;
@@ -19,17 +19,16 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
 	}
 
 	try {
-		const decodedPayload = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+		const decodedPayload = decodeJwtToken(accessToken, process.env.ACCESS_SECRET);
 
-		const authenticatedUser = await User.findById(decodedPayload.userId).select('-password');
+		const authenticatedUser = await UserModel.findById(decodedPayload.userId).select('-password');
 
 		req.user = authenticatedUser;
 		next();
-
-		// Catch error thrown by jwt.verify if user is not authorized
+		// Catch error thrown by jwt.verify when token is not valid
 	} catch {
 		res.status(401);
-		throw new Error('User is not authorized!');
+		throw new Error('Expired token!');
 	}
 });
 

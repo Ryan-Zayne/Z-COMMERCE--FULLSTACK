@@ -7,7 +7,7 @@ const helmetOptions = {
 		useDefaults: true,
 
 		directives: {
-			defaultSrc: ["'self'"],
+			defaultSrc: "'self'",
 			imgSrc: ["'self'", 'https://res.cloudinary.com', 'https://i.dummyjson.com', 'data:'],
 			connectSrc: ["'self'", 'https://dummyjson.com'],
 		},

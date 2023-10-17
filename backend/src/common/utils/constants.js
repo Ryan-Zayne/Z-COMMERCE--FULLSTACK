@@ -1,6 +1,6 @@
 export const PORT = process.env.PORT ?? 8001;
 
-export const environment = process.env.NODE_ENV;
+export const isDevMode = process.env.NODE_ENV === 'development';
 
 export const errorConstants = /** @type {const} */ ({
 	BAD_REQUEST: 400,

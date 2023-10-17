@@ -19,7 +19,7 @@
 		window.__vite_plugin_react_preamble_installed__ = true;
 	</script>
 
-	<% if(environment==='production' ){%>
+	<% if(!isDevMode){%>
 		<link rel="stylesheet" href="<%= manifest['src/main.css'].file %>" />
 		<script type="module" src="<%= manifest['src/main.tsx'].file %>"></script>
 

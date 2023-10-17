@@ -27,6 +27,8 @@
 		}
 	},
 
+	"root": true,
+
 	"rules": {
 		"import/extensions": ["error", "always"],
 		"import/no-extraneous-dependencies": [
@@ -35,16 +37,16 @@
 				"devDependencies": true
 			}
 		],
-
+		"no-unused-vars": "warn",
+		"no-implicit-coercion": "error",
+		"require-await": "error",
 		"import/prefer-default-export": "off",
-
 		"n/no-unpublished-import": "off",
 
 		"unicorn/prevent-abbreviations": "off",
+		"unicorn/no-negated-condition": "off",
 		"unicorn/switch-case-braces": ["error", "avoid"],
 		"unicorn/filename-case": "off",
 		"unicorn/no-null": "off"
-
-		// "prefer-destructuring": "off"
 	}
 }
