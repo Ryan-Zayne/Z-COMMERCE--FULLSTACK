@@ -43,11 +43,11 @@
 		//Base Eslint/Typescript Eslint Rules
 		"max-len": "off",
 		"indent": "off",
-		"no-implicit-coercion": "error",
 		"no-tabs": "off",
 		"eol-last": "off",
 		"no-return-assign": ["error", "except-parens"],
-		// "consistent-return": "off",
+		"no-implicit-coercion": "error",
+		"require-await": "error",
 		"no-use-before-define": [
 			"error",
 			{
@@ -83,7 +83,7 @@
 		"no-useless-constructor": "off",
 		"@typescript-eslint/no-useless-constructor": "error",
 
-		//React plugin rules
+		//Airbnb-config/React plugin rules
 		"import/no-extraneous-dependencies": [
 			"error",
 			{

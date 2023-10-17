@@ -6,6 +6,7 @@ const errorMessageDefaults = {
 	'/wishlist': 'WishList page still under construction',
 	'/contact': 'Contact page still under construction',
 	'/checkout': 'Checkout page still under construction',
+	default: 'Category not found!',
 } as const;
 
 const possibleCategories = new Set(['smartphones', 'laptops', 'watches', 'vehicles', 'lighting']);
@@ -16,9 +17,11 @@ const useGetProductCategory = (productCategory: string | undefined) => {
 	const { allProductsArray, isError, isLoading } = useGetAllProducts();
 
 	if (!productCategory || !possibleCategories.has(productCategory)) {
-		throw new Error(
-			errorMessageDefaults[href as keyof typeof errorMessageDefaults] ?? 'Category not found!'
-		);
+		const error = Object.hasOwn(errorMessageDefaults, href)
+			? errorMessageDefaults[href as keyof typeof errorMessageDefaults]
+			: errorMessageDefaults.default;
+
+		throw new Error(error);
 	}
 
 	const PRODUCTS_LOOKUP = {
@@ -35,12 +38,12 @@ const useGetProductCategory = (productCategory: string | undefined) => {
 		],
 	};
 
-	const productsArray = assertDefined(PRODUCTS_LOOKUP[productCategory]);
+	const productsArray = PRODUCTS_LOOKUP[productCategory];
 
 	return {
 		isLoading,
 		isError,
-		productsArray,
+		productsArray: assertDefined(productsArray),
 	};
 };
 

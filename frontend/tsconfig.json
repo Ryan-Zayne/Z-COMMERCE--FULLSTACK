@@ -16,7 +16,6 @@
 		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
-		"noUnusedParameters": true,
 		"paths": {
 			"@/*": ["src/*"]
 		},

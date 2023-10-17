@@ -9,6 +9,7 @@ const handleLoaderRemoval = () => {
 
 	const loaderTimeout = setTimeout(() => {
 		loaderElement.remove();
+
 		window.removeEventListener('DOMContentLoaded', handleLoaderRemoval);
 		clearTimeout(loaderTimeout);
 	}, 1300);

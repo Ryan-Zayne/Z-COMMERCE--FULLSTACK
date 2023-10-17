@@ -10,10 +10,9 @@ type AnimateCarouselOptions = {
 };
 
 class ELementError extends Error {
-	name = 'ELementError';
-
-	constructor(value: string) {
-		super(`"${value}" element does not exist`);
+	constructor(message: string) {
+		super(message);
+		this.name = 'ELementError';
 	}
 }
 
@@ -25,12 +24,11 @@ const defaultElementsInfo = [
 
 const useAnimateCarouselRefs = ({ elementsInfo = defaultElementsInfo }: AnimateCarouselOptions = {}) => {
 	const elementsRef = useRef({} as Record<string, HTMLElement | null>);
-	const fadeAnimationId = useRef<NodeJS.Timeout>();
 
 	const addAnimationClasses = useCallback(() => {
 		for (const { targetElement, animationClass } of elementsInfo) {
 			if (!elementsRef.current[targetElement]) {
-				throw new ELementError(targetElement);
+				throw new ELementError(`"${targetElement}" element does not exist`);
 			}
 
 			elementsRef.current[targetElement]?.classList.add(animationClass);
@@ -47,11 +45,10 @@ const useAnimateCarouselRefs = ({ elementsInfo = defaultElementsInfo }: AnimateC
 	const handleElementsAnimation = useCallback(() => {
 		addAnimationClasses();
 
-		fadeAnimationId.current = setTimeout(() => {
-			removeAnimationClasses();
-			clearTimeout(fadeAnimationId.current);
-		}, 2000);
-	}, [addAnimationClasses, removeAnimationClasses]);
+		for (const { targetElement } of elementsInfo) {
+			elementsRef.current[targetElement]?.addEventListener('animationend', removeAnimationClasses);
+		}
+	}, [addAnimationClasses, elementsInfo, removeAnimationClasses]);
 
 	return { animatedElements: elementsRef.current, handleElementsAnimation };
 };
