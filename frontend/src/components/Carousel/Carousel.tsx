@@ -58,10 +58,13 @@ function Carousel(props: CarouselProps) {
 			onMouseEnter={() => !isMobile && pauseOnHover && setIsPaused(true)}
 			onMouseLeave={() => !isMobile && pauseOnHover && setIsPaused(false)}
 		>
-			<button className="absolute left-0 z-40 h-full w-[9rem]" onClick={() => {
-				previousSlide();
-				onButtonClick?.();
-			}}>
+			<button
+				className="absolute left-0 z-40 h-full w-[9rem]"
+				onClick={() => {
+					previousSlide();
+					onButtonClick?.();
+				}}
+			>
 				<span
 					className={twMerge(
 						`absolute left-[0.7rem] top-[45%] rotate-180 rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${leftBtnClasses}`
@@ -80,10 +83,13 @@ function Carousel(props: CarouselProps) {
 				{children}
 			</div>
 
-			<button className="absolute right-0 z-40 h-full w-[9rem]" onClick={() => {
-				nextSlide();
-				onButtonClick?.();
-			}}>
+			<button
+				className="absolute right-0 z-40 h-full w-[9rem]"
+				onClick={() => {
+					nextSlide();
+					onButtonClick?.();
+				}}
+			>
 				<span
 					className={twMerge(
 						`absolute right-[0.7rem] top-[45%] rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${rightBtnClasses}`
@@ -96,11 +102,11 @@ function Carousel(props: CarouselProps) {
 	);
 }
 
-Carousel.Item = function CarouselItem({ children, className = '' }: OtherCarouselProps) {
+function CarouselItem({ children, className = '' }: OtherCarouselProps) {
 	return <li className={twMerge(`flex w-full shrink-0 ${className}`)}>{children}</li>;
-};
+}
 
-Carousel.ItemWrapper = function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
+function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
 
 	return (
@@ -114,17 +120,17 @@ Carousel.ItemWrapper = function CarouselItemWrapper({ children, className = '' }
 			{children}
 		</ul>
 	);
-};
+}
 
-Carousel.Caption = function CarouselCaption({ children, className = '' }: OtherCarouselProps) {
+function CarouselCaption({ children, className = '' }: OtherCarouselProps) {
 	return (
 		<div id="Carousel Caption" className={twMerge(`absolute text-light ${className}`)}>
 			{children}
 		</div>
 	);
-};
+}
 
-Carousel.Indicator = function CarouselIndicator({
+function CarouselIndicator({
 	className = '',
 	onActiveClassName = 'w-[3.5rem] rounded-[0.5rem] bg-carousel-dot',
 	index,
@@ -142,12 +148,9 @@ Carousel.Indicator = function CarouselIndicator({
 			`)}
 		/>
 	);
-};
+}
 
-Carousel.IndicatorWrapper = function CarouselIndicatorWrapper({
-	children,
-	className = '',
-}: OtherCarouselProps) {
+function CarouselIndicatorWrapper({ children, className = '' }: OtherCarouselProps) {
 	return (
 		<span
 			id="Carousel Indicators"
@@ -158,6 +161,12 @@ Carousel.IndicatorWrapper = function CarouselIndicatorWrapper({
 			{children}
 		</span>
 	);
-};
+}
+
+Carousel.Item = CarouselItem;
+Carousel.ItemWrapper = CarouselItemWrapper;
+Carousel.Caption = CarouselCaption;
+Carousel.Indicator = CarouselIndicator;
+Carousel.IndicatorWrapper = CarouselIndicatorWrapper;
 
 export default Carousel;

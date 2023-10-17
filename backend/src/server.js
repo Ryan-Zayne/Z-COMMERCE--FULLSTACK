@@ -10,7 +10,7 @@ import path from 'node:path';
 import authRouter from './auth/auth.routes.js';
 import { corsOptions, helmetOptions, setConnectionToDB } from './common/config/index.js';
 import { errorHandler, notFoundHandler, serveHtmlRouter } from './common/middleware/index.js';
-import { PORT } from './common/utils/constants.js';
+import { PORT, isDevMode } from './common/utils/constants.js';
 import userRouter from './users/user.routes.js';
 
 const app = express();
@@ -20,7 +20,7 @@ app.use(helmet(helmetOptions));
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Middleware - Logger
 app.use(morgan('dev'));
@@ -29,9 +29,11 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 
-const distPath = path.resolve('../', 'frontend', 'dist');
-app.use(express.static(distPath));
-app.use(serveHtmlRouter);
+if (!isDevMode) {
+	const distPath = path.resolve('../', 'frontend', 'dist');
+	app.use(express.static(distPath));
+	app.use(serveHtmlRouter);
+}
 
 // Route 404 handler
 app.all('*', notFoundHandler);

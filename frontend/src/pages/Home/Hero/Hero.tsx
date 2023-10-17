@@ -8,8 +8,9 @@ import { twJoin } from 'tailwind-merge';
 
 function Hero() {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
-	// prettier-ignore
-	const slideImages = useCarouselStore((state) => state.slideImages as Exclude<CarouselStore['slideImages'], string[]>);
+	const slideImages = useCarouselStore(
+		(state) => state.slideImages as Exclude<CarouselStore['slideImages'], string[]>
+	);
 
 	const { animatedElements, handleElementsAnimation } = useAnimateCarouselRefs();
 	const { For: ItemList } = useElementList();
@@ -18,12 +19,12 @@ function Hero() {
 	return (
 		<section id="Hero">
 			<Carousel
+				onButtonClick={handleElementsAnimation}
 				outerClassName={'mx-[1rem] h-[38rem] md:h-[41.4rem] lg:h-[48.5rem]'}
 				innerClassName={twJoin(
 					`rounded-[0.7rem]`,
 					isDarkMode && 'box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]'
 				)}
-				onButtonClick={handleElementsAnimation}
 				leftBtnClasses={
 					'md:left-[0.8rem] hover:box-shadow-[0_0_5px_var(--text-dark)] lg:left-[29.5rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]'
 				}
