@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 
-const userSchema = new Schema(
+const UserSchema = new Schema(
 	{
 		username: {
 			type: String,
@@ -35,7 +35,7 @@ const userSchema = new Schema(
 	}
 );
 
-userSchema.pre('save', async function hashPassword(next) {
+UserSchema.pre('save', async function hashPassword(next) {
 	if (!this.isModified('password')) {
 		next();
 		return;
@@ -45,7 +45,7 @@ userSchema.pre('save', async function hashPassword(next) {
 	this.password = await bcrypt.hash(this.password, saltRounds);
 });
 
-userSchema.methods = {
+UserSchema.methods = {
 	comparePassword: async function comparePassword(plainPassword) {
 		const isValidPassword = await bcrypt.compare(plainPassword, this.password);
 
@@ -53,6 +53,6 @@ userSchema.methods = {
 	},
 };
 
-const UserModel = model('User', userSchema);
+const UserModel = model('User', UserSchema);
 
 export default UserModel;
