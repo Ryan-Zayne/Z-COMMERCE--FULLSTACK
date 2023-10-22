@@ -1,10 +1,10 @@
 {
 	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["backend/src/*"]
-		},
-		"target": "ES2022"
+		"baseUrl": "."
+		// "paths": {
+		// 	"@/*": ["src/*"]
+		// },
+		// "target": "ES2022"
 	},
 	"exclude": ["node_modules", "public"]
 }

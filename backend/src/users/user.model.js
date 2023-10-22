@@ -11,12 +11,13 @@ const UserSchema = new Schema(
 		email: {
 			type: String,
 			required: [true, 'Please add the user email address'],
-			unique: [true, 'Email already exists'],
+			unique: true,
 		},
 
 		password: {
 			type: String,
 			required: [true, 'Please add the user password'],
+			// select: false,
 		},
 
 		roles: {
@@ -30,9 +31,7 @@ const UserSchema = new Schema(
 		},
 	},
 
-	{
-		timestamps: true,
-	}
+	{ timestamps: true }
 );
 
 UserSchema.pre('save', async function hashPassword(next) {
