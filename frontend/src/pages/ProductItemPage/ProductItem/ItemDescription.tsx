@@ -1,9 +1,7 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { Button, StarRating } from '@/components';
-import type { ResponseDataItem } from '@/store/react-query/query-hook.types';
+import type { ResponseDataItem } from '@/store/react-query/react-query-store.types';
 import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
-import { useState } from 'react';
-import { toast } from 'react-hot-toast';
 import { AiFillMinusCircle, AiFillPlusCircle, AiOutlineShoppingCart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
@@ -15,67 +13,28 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 	const productItemInCart = useShopStore((state) => state.cart).find(
 		(item) => item.id === productItem.id
 	);
-	const [productQuantityChosen, setProductQuantityChosen] = useState(productItemInCart?.quantity ?? 0);
-	const { addToCart, decreaseProductQuantity, removeProductFromCart } = useShopActions();
+	const { addToCart, incrementProductQuantity, decrementProductQuantity, removeProductFromCart } =
+		useShopActions();
+
+	const productQuantityChosen = productItemInCart?.quantity ?? 0;
 	const quantityLeftInStock = productItem.stock - productQuantityChosen;
 
 	const handlePlus = () => {
-		if (productQuantityChosen <= productItem.stock) {
-			addToCart(productItem);
-			setProductQuantityChosen((prev) => prev + 1);
-
-			if (productQuantityChosen === 0) {
-				toast.dismiss('toastId-removed');
-				toast.success(`Product added successfully`, {
-					id: 'toastId-added',
-				});
-
-				return;
-			}
-
-			toast.dismiss('toastId-added');
-			toast.success(`Item quantity has been updated`, {
-				id: 'toastId-updated',
-			});
-		}
-	};
-
-	const handleMinus = () => {
-		const newState = (prev: number) => prev - 1;
-
-		if (productQuantityChosen > 0) {
-			setProductQuantityChosen(newState);
-			decreaseProductQuantity(productItem);
-
-			toast.dismiss('toastId-added');
-			toast.success(`Item quantity has been updated`, {
-				id: 'toastId-updated',
-			});
-		}
-
-		if (newState(productQuantityChosen) === 0) {
-			removeProductFromCart(productItem);
-
-			toast.dismiss('toastId-added');
-			toast.dismiss('toastId-updated');
-			toast.success(`Product was removed from cart`, {
-				id: 'toastId-removed',
-			});
-		}
-	};
-
-	const handleAddToCart = () => {
-		addToCart(productItem);
-		setProductQuantityChosen((prev) => prev + 1);
-
 		if (productQuantityChosen === 0) {
-			toast.success(`Product added successfully`);
+			addToCart(productItem);
 			return;
 		}
 
-		toast.success(`Item quantity has been updated`, {
-			id: 'toastId',
-		});
+		incrementProductQuantity(productItem.id);
+	};
+
+	const handleMinus = () => {
+		if (productQuantityChosen === 1) {
+			removeProductFromCart(productItem.id);
+			return;
+		}
+
+		decrementProductQuantity(productItem.id);
 	};
 
 	return (
@@ -106,7 +65,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 			<div className="mt-[3.5rem] flex items-center gap-[4rem] md:mt-[4.5rem] lg:gap-[6rem]">
 				<div className="flex w-[14rem] items-center justify-between rounded-[4rem] bg-carousel-btn p-[0.6rem_1.1rem] text-[2.3rem] font-[600] md:w-[17rem] md:text-[2.6rem] ">
 					<button
-						className="active:scale-[1.2]"
+						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
 						disabled={productQuantityChosen === 0}
 						onClick={handleMinus}
 					>
@@ -116,7 +75,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 					<p className="font-roboto">{productQuantityChosen}</p>
 
 					<button
-						className="active:scale-[1.2]"
+						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
 						disabled={productQuantityChosen === productItem.stock}
 						onClick={handlePlus}
 					>
@@ -153,7 +112,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 					className={
 						'w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out [box-shadow:0_0_0_1.3px_var(--color-primary)] hover:scale-[1.1] hover:bg-heading hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)] active:scale-[1.17] lg:w-[20rem]'
 					}
-					onClick={handleAddToCart}
+					onClick={handlePlus}
 				>
 					<AiOutlineShoppingCart className="mr-[1rem] text-[2rem]" />
 					<p>Add to Cart</p>

@@ -1,7 +1,7 @@
 import { fetcher } from '@/api/fetcher';
 import { useQueries, useQuery, type QueryFunction } from '@tanstack/react-query';
 import { transformData } from './helpers/transFormData';
-import type { ResponseData } from './query-hook.types';
+import type { ResponseData } from './react-query-store.types';
 
 // Types
 type FetchOptions = {
@@ -36,4 +36,3 @@ const useFetchMultiple = (queryList: QueryListParam) =>
 	});
 
 export { useFetch, useFetchMultiple };
-

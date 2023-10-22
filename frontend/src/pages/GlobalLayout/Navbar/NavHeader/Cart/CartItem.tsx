@@ -1,15 +1,36 @@
 import { useShopActions } from '@/store/zustand/shopStore';
 import { useThemeStore } from '@/store/zustand/themeStore';
-import type { ShopStore } from '@/store/zustand/zustand-store.types';
+import type { ShopStoreType } from '@/store/zustand/zustand-store.types';
 import { TbTrashXFilled } from 'react-icons/tb';
 
-function CartItem({ product }: { product: ShopStore['cart'][number] }) {
+type CartItemProps = { product: ShopStoreType['cart'][number] };
+
+type CartWrapperProps = {
+	children: React.ReactNode;
+	showCartItems: boolean;
+};
+
+function CartItemWrapper({ children, showCartItems }: CartWrapperProps) {
+	if (!showCartItems) {
+		return (
+			<li className="text-center italic">
+				<h4 className="text-[2.8rem] font-[500]">Why here go dey empty?!</h4>
+				<p className="mt-[0.7rem] text-[1.6rem]">
+					Shey na window shopping you come do or abi wetin?😐
+				</p>
+			</li>
+		);
+	}
+
+	return children;
+}
+
+function CartItem({ product }: CartItemProps) {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const { removeProductFromCart } = useShopActions();
 
-	const handleRemoveProduct = () => {
-		removeProductFromCart(product);
-	};
+	const handleRemoveProduct = () => removeProductFromCart(product.id);
+
 	return (
 		<li
 			className={`flex items-center rounded-[5px] p-[1rem] lg:p-[1.6rem] ${
@@ -41,4 +62,5 @@ function CartItem({ product }: { product: ShopStore['cart'][number] }) {
 		</li>
 	);
 }
-export default CartItem;
+
+export { CartItem, CartItemWrapper };

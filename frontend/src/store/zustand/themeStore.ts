@@ -1,10 +1,10 @@
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { prefersDarkMode } from '../../utils/constants';
-import type { ThemeStore } from './zustand-store.types';
+import type { ThemeStoreType } from './zustand-store.types';
 
 // Store Object Initializtion
-const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
+const themeStoreObject: StateCreator<ThemeStoreType> = (set, get) => ({
 	theme: prefersDarkMode ? 'dark' : 'light',
 	isDarkMode: document.documentElement.dataset.theme === 'dark',
 
@@ -29,10 +29,10 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 });
 
 // Store hook Creation
-export const useThemeStore = create<ThemeStore>()(
+export const useThemeStore = create<ThemeStoreType>()(
 	persist(themeStoreObject, {
 		name: 'colorScheme',
-		partialize: ({ themeActions, ...state }) => state,
+		partialize: ({ themeActions, ...actualState }) => actualState,
 	})
 );
 

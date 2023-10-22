@@ -2,8 +2,8 @@ import { useMediaQuery } from '@/hooks';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Suspense, lazy } from 'react';
-import { Toaster } from 'react-hot-toast';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import { DismissableToaster } from './components';
 import Loader from './components/Loader';
 import GlobalLayout from './pages/GlobalLayout/GlobalLayout';
 
@@ -16,11 +16,8 @@ const ErrorElement = lazy(() => import('./pages/ErrorElement'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound'));
 
 AOS.init();
-
 function App() {
 	useMediaQuery();
-
-
 
 	const router = createBrowserRouter(
 		createRoutesFromElements(
@@ -31,7 +28,6 @@ function App() {
 					<Route path=":category" element={<ProductCategoryPage />} />
 					<Route path=":category/:productId" element={<ProductItemPage />} />
 				</Route>
-
 				<Route errorElement={<ErrorElement />} path="register" element={<Register />} />
 				<Route path="*" element={<PageNotFound />} />
 			</>
@@ -44,18 +40,7 @@ function App() {
 				<RouterProvider router={router} />
 			</Suspense>
 
-			<Toaster
-				toastOptions={{
-					success: {
-						style: {
-							backgroundColor: 'hsl(153, 81%, 12%',
-							color: 'hsl(140, 100%, 71%)',
-							border: '2px solid hsl(145, 91%, 23%)',
-							paddingBlock: '1.5rem',
-						},
-					},
-				}}
-			/>
+			<DismissableToaster />
 		</>
 	);
 }

@@ -38,12 +38,14 @@ const useLocalStorage = <TValue>(
 	const rawValueRef = useRef<string | null>(null);
 
 	const readStorageOnMount = useCallback(() => {
-		if (typeof window === 'undefined') return defaultValue;
+		if (typeof window === 'undefined') {
+			return defaultValue;
+		}
 
 		try {
 			rawValueRef.current = window.localStorage.getItem(key);
-			const initialState = rawValueRef.current ? parser(rawValueRef.current) : defaultValue;
-			return initialState;
+
+			return rawValueRef.current ? parser(rawValueRef.current) : defaultValue;
 		} catch (error) {
 			logger(error);
 			return defaultValue;
@@ -67,8 +69,8 @@ const useLocalStorage = <TValue>(
 			return;
 		}
 
-		const newValue = stringifier(storageValue);
 		const oldValue = rawValueRef.current;
+		const newValue = stringifier(storageValue);
 
 		rawValueRef.current = newValue;
 
@@ -139,3 +141,4 @@ const useLocalStorage = <TValue>(
 };
 
 export { useLocalStorage };
+

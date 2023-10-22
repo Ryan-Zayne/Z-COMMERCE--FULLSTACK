@@ -12,7 +12,7 @@ function ProductItemPage() {
 	const { isLoading, productItem } = useGetProductItem(productId);
 
 	if (isLoading) {
-		return <LoadingSkeleton itemDescription={true} />;
+		return <LoadingSkeleton type={'productItemPage'} />;
 	}
 
 	return (

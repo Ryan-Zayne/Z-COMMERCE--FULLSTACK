@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 
 type ImageComponentProps = React.ComponentPropsWithRef<'img'> & {
 	src: string;
-	imageType: 'hasFallback' | 'dynamic';
+	imageType: 'hasFallback' | 'hasSkeleton';
 	blurSrc?: string;
 	className?: string;
 	wrapperClassName?: string;
@@ -53,7 +53,7 @@ function ImageComponent(props: ImageComponentProps) {
 			/>
 		),
 
-		dynamic: () => (
+		hasSkeleton: () => (
 			<div
 				className={twMerge(
 					`h-full w-full`,

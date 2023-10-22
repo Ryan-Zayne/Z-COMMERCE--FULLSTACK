@@ -18,7 +18,7 @@ type FormAreaProps = {
 	formClasses?: string;
 };
 
-function FormArea({ formType, formClasses }: FormAreaProps) {
+function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 	const navigate = useNavigate();
 	const uniqueId = useId();
 	const [isPasswordShow, togglePasswordShow] = useToggle(false);
@@ -97,7 +97,7 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 				onSubmit={handleSubmit(onSubmit)}
 				className={twMerge(
 					'mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem] [&_label]:text-[1.2rem]',
-					formClasses
+					[formClasses]
 				)}
 			>
 				{formType === 'Sign Up' && (
@@ -111,16 +111,12 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 							name="username"
 							id={`username__${uniqueId}`}
 							className={twMerge(
-								`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-								[
-									errors?.username &&
-									'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
-								]
+								`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
+								errors?.username &&
+									'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error'
 							)}
 						/>
-						{errors?.username && (
-							<p className="animate-shake pt-[0.3rem] text-[1.1rem] text-error">{`${errors.username.message}`}</p>
-						)}
+						{errors?.username && <p className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}>{`${errors.username.message}`}</p>}
 					</InputGroup>
 				)}
 
@@ -135,15 +131,11 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 						id={`email__${uniqueId}`}
 						className={twMerge(
 							`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-							[
-								errors?.email &&
-								'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
-							]
+							errors?.email &&
+								'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error'
 						)}
 					/>
-					{errors?.email && (
-						<p className="animate-shake pt-[0.3rem] text-[1.1rem] text-error">{`${errors.email.message}`}</p>
-					)}
+					{errors?.email && <p className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}>{`${errors.email.message}`}</p>}
 				</InputGroup>
 
 				<InputGroup className={'relative'}>
@@ -157,17 +149,11 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 						id={`password__${uniqueId}`}
 						className={twMerge(
 							'min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot',
-							[
-								errors?.password &&
-								'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
-							]
+							errors?.password &&
+								'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error'
 						)}
 					/>
-					{errors?.password && (
-						<p
-							className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}
-						>{`${errors.password.message}`}</p>
-					)}
+					{errors?.password && <p className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}>{`${errors.password.message}`}</p>}
 
 					<button
 						className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
@@ -190,16 +176,12 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 							id={`confirmPassword__${uniqueId}`}
 							className={twMerge(
 								'min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot',
-								[
-									errors?.confirmPassword &&
-									'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
-								]
+								errors?.confirmPassword &&
+									'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error'
 							)}
 						/>
 						{errors?.confirmPassword && (
-							<p
-								className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}
-							>{`${errors.confirmPassword.message}`}</p>
+							<p className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}>{`${errors.confirmPassword.message}`}</p>
 						)}
 
 						<button
@@ -224,21 +206,20 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 					/>
 
 					{formType === 'Login' && <p>Remember me</p>}
+
 					{formType === 'Sign Up' && (
 						<>
 							<p>
 								I agree to all
 								<Link
-									to={'#'}
+									to={' '}
 									className="ml-[0.5rem] font-[500] underline hover:text-[hsl(214,89%,53%)]"
 								>
 									Terms & Conditions
 								</Link>
 							</p>
 							{errors?.acceptTerms && (
-								<p className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}>
-									{`${errors.acceptTerms.message}`}
-								</p>
+								<p className={'animate-shake pt-[0.3rem] text-[1.1rem] text-error'}>{`${errors.acceptTerms.message}`}</p>
 							)}
 						</>
 					)}

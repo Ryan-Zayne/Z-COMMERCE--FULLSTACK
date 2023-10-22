@@ -5,11 +5,6 @@
 		{
 			"source": "/(.*)",
 			"destination": "/"
-		},
-
-		{
-			"source": "/api/:path*",
-			"destination": "https://zayne-commerce-server.onrender.com/api/:path*"
 		}
 	]
 }

@@ -1,6 +1,6 @@
 export { default as Button } from './Button';
-export { default as Card } from './Card/Card';
 export { default as Carousel } from './Carousel/Carousel';
+export { default as DismissableToaster } from './DismissableToaster';
 export { default as Drawer } from './Drawer/Drawer';
 export { default as DropDown } from './DropDown';
 export { default as ImageComponent } from './ImageComponent';

@@ -1,33 +1,24 @@
 import { Button, Drawer, Logo } from '@/components';
 import type { DrawerContentProps, DrawerStore } from '@/components/Drawer/drawer.types';
+import { useElementList } from '@/hooks';
 import { useShopStore } from '@/store/zustand/shopStore';
 import { useThemeStore } from '@/store/zustand/themeStore';
 import { IoMdCart } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import CartItem from './CartItem';
+import { CartItem, CartItemWrapper } from './CartItem';
 
 type CartDrawerProps = DrawerStore & { placement?: DrawerContentProps['placement'] };
 
 function CartDrawer({ isOpen, onClose, onOpen, placement = 'right' }: CartDrawerProps) {
 	const cart = useShopStore((state) => state.cart);
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
+	const { For: CartItemsList } = useElementList();
 	const totalPrice = cart?.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-	const CartItems =
-		cart?.length !== 0 ? (
-			cart?.map((item) => <CartItem key={item.id} product={item} />)
-		) : (
-			<li className="text-center italic">
-				<h4 className="text-[2.8rem] font-[500]">Why here go dey empty?!</h4>
-				<p className="mt-[0.7rem] text-[1.6rem]">
-					Shey na window shopping you come do or abi wetin?😐
-				</p>
-			</li>
-		);
-
 	return (
-		<Drawer {...{ isOpen, onClose, onOpen }}>
+		<Drawer isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
 			<Drawer.Overlay />
+
 			<Drawer.Content
 				placement={placement}
 				className={'w-[min(100%,28rem)] pb-[1.6rem] lg:min-w-[40rem]'}
@@ -46,12 +37,20 @@ function CartDrawer({ isOpen, onClose, onOpen, placement = 'right' }: CartDrawer
 					<Logo />
 
 					<IoMdCart
-						className={`text-[4.5rem] ${isDarkMode ? 'text-carousel-dot' : 'text-primary'} `}
+						className={`text-[4.5rem] ${isDarkMode ? 'text-carousel-dot' : 'text-primary'}`}
 					/>
 				</Drawer.Header>
 
 				<Drawer.Body className={'px-[1.3rem] pt-[4rem] lg:px-[2rem]'}>
-					<ul className="flex min-h-[14rem] flex-col gap-[1rem]">{CartItems}</ul>
+					<ul className="flex min-h-[14rem] flex-col gap-[1rem]">
+						<CartItemWrapper showCartItems={cart?.length !== 0}>
+							<CartItemsList
+								each={cart}
+								render={(item) => <CartItem key={item.title} product={item} />}
+							/>
+						</CartItemWrapper>
+					</ul>
+
 					<div className="mt-[4rem] px-[1rem] lg:px-[2.6rem]">
 						<p className="flex justify-between text-[1.8rem] font-[600]">
 							Total:

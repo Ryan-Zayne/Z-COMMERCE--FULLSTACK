@@ -7,14 +7,14 @@ import { useState } from 'react';
  * */
 
 const useFromStore = <T, U>(
-	useStore: (callback: (state: T) => unknown) => unknown,
+	useStore: (callback: (state: T) => U) => U,
 	storeCallback: (state: T) => U
 ) => {
 	const stateFromStore = useStore(storeCallback) as U;
-	const [state, setState] = useState<U>();
+	const [state, setState] = useState<U>(stateFromStore);
 
 	// Update the state whenever the stateFromStore value changes
-	if (stateFromStore != null && stateFromStore !== state) {
+	if (stateFromStore !== state) {
 		setState(stateFromStore);
 	}
 

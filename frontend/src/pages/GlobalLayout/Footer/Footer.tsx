@@ -19,11 +19,11 @@ function Footer() {
 	const dropFour = useDisclosure();
 	const dropFive = useDisclosure();
 
-	const handleDropDowns = (selectedDropdown: ReturnType<typeof useDisclosure>) => {
+	const handleDropDowns = (selectedDropdown: ReturnType<typeof useDisclosure>) => () => {
 		const dropdownsArray = [dropOne, dropTwo, dropThree, dropFour, dropFive];
 
 		dropdownsArray.forEach((dropdown) =>
-			dropdown === selectedDropdown ? dropdown.onToggle() : dropdown.onClose()
+			dropdown !== selectedDropdown ? dropdown.onClose() : dropdown.onToggle()
 		);
 	};
 
@@ -108,7 +108,7 @@ function Footer() {
 						{!isDesktop && (
 							<DropDown.Header
 								className={'flex cursor-pointer items-center justify-between'}
-								onClick={() => handleDropDowns(dropOne)}
+								onClick={handleDropDowns(dropOne)}
 							>
 								<h4 className="text-[1.5rem] font-[500]">Contact Us</h4>
 
@@ -148,7 +148,7 @@ function Footer() {
 						{!isDesktop && (
 							<DropDown.Header
 								className={'flex cursor-pointer items-center justify-between'}
-								onClick={() => handleDropDowns(dropTwo)}
+								onClick={handleDropDowns(dropTwo)}
 							>
 								<h4 className="text-[1.5rem] font-[500]">Follow Us</h4>
 
@@ -195,7 +195,7 @@ function Footer() {
 								'flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary',
 								isDarkMode && 'lg:text-heading'
 							)}
-							onClick={() => handleDropDowns(dropThree)}
+							onClick={handleDropDowns(dropThree)}
 						>
 							<h4 className="font-[500] lg:text-[1.8rem]">Information</h4>
 

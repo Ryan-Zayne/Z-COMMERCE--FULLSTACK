@@ -12,20 +12,21 @@
 		"airbnb-typescript",
 		"plugin:unicorn/recommended",
 		"plugin:tailwindcss/recommended",
+		"plugin:sonarjs/recommended",
 		"plugin:@tanstack/eslint-plugin-query/recommended",
 		"plugin:@typescript-eslint/recommended",
 		// "plugin:@typescript-eslint/recommended-requiring-type-checking",
 		"prettier"
 	],
 
-	"plugins": ["react", "tailwindcss", "unicorn", "@typescript-eslint"],
+	"plugins": ["react", "tailwindcss", "unicorn", "@typescript-eslint", "write-good-comments"],
 
 	"parser": "@typescript-eslint/parser",
 
 	"parserOptions": {
 		"ecmaVersion": "latest",
 		"sourceType": "module",
-		"project": "./tsconfig.json"
+		"project": "./tsconfig.eslint.json"
 	},
 
 	"settings": {
@@ -115,7 +116,6 @@
 		"react/button-has-type": "off",
 		"react/function-component-definition": "off",
 		"react-hooks/exhaustive-deps": "warn",
-
 		"react/jsx-filename-extension": [
 			"error",
 			{
@@ -156,6 +156,12 @@
 		"unicorn/numeric-separators-style": "off",
 		"unicorn/no-array-reduce": "off",
 		"unicorn/no-array-for-each": "off",
+
+		//SonarJs Rules
+		"sonarjs/prefer-immediate-return": "off",
+
+		//Eslint plugin write good comments
+		"write-good-comments/write-good-comments": "warn",
 
 		//Tailwind rules
 		"tailwindcss/no-custom-classname": "off",

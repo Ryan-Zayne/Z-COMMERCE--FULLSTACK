@@ -8,12 +8,9 @@ type StarRatingProps = {
 	icon?: IconType;
 };
 
-function StarRating({
-	rating,
-	text = '',
-	className = '',
-	icon: RatingIcon = AiFillStar,
-}: StarRatingProps) {
+function StarRating(props: StarRatingProps) {
+	const { rating, text = '', className = '', icon: RatingIcon = AiFillStar } = props;
+
 	const star5 = [...Array(5).keys()].map((id) => <RatingIcon key={id} color="var(--text-header)" />);
 
 	const star4 = [...Array(5).keys()].map((id, index) =>

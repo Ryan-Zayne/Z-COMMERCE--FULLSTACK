@@ -1,13 +1,13 @@
 import { useToggle } from '@/hooks';
-import type { ResponseDataItem } from '@/store/react-query/query-hook.types';
+import type { ResponseDataItem } from '@/store/react-query/react-query-store.types';
 import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
-import type { ShopStore } from '@/store/zustand/zustand-store.types';
+import type { ShopStoreType } from '@/store/zustand/zustand-store.types';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { TiArrowBack } from 'react-icons/ti';
 import { Link } from 'react-router-dom';
 
 type ItemHeaderProps = {
-	productItem: ResponseDataItem | ShopStore['cart'][number];
+	productItem: ResponseDataItem | ShopStoreType['cart'][number];
 };
 
 function ItemHeader({ productItem }: ItemHeaderProps) {

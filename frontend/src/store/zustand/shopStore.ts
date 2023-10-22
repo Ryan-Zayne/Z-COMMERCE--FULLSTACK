@@ -1,64 +1,114 @@
+import { toast } from 'react-hot-toast';
 import { mountStoreDevtool } from 'simple-zustand-devtools';
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { ShopStore } from './zustand-store.types';
+import type { ShopStoreType } from './zustand-store.types';
+
+const toastInfo = {
+	added: {
+		message: 'Product added successfully',
+		id: 'toastId-added',
+	},
+	updated: {
+		message: 'Item quantity has been updated',
+		id: 'toastId-updated',
+	},
+	removed: {
+		message: 'Product was removed from cart',
+		id: 'toastId-removed',
+	},
+};
 
 // Store Object creation
-const shopStateObject: StateCreator<ShopStore> = (set, get) => ({
+const shopStateObject: StateCreator<ShopStoreType> = (set, get) => ({
 	cart: [],
 	wishList: [],
 
 	shopActions: {
-		addToCart: (product, quantity = 1) => {
+		addToCart: (productItem) => {
 			const { cart } = get();
-			const isProductInCart = cart.some((item) => item.id === product.id);
 
-			const newCart = !isProductInCart
-				? [...cart, { ...product, quantity }]
-				: cart.map((item) => {
-						if (item.id === product.id) {
-							return { ...item, quantity: item.quantity + quantity };
-						}
-						return item;
-				  });
+			const isProductItemInCart = cart.some((item) => item.id === productItem.id);
 
-			set({ cart: newCart });
+			if (isProductItemInCart) {
+				const { incrementProductQuantity } = get().shopActions;
+
+				incrementProductQuantity(productItem.id);
+				return;
+			}
+
+			set({ cart: [...cart, { ...productItem, quantity: 1 }] });
+
+			toast.success(toastInfo.added.message, { id: toastInfo.added.id });
+			toast.dismiss(toastInfo.removed.id);
 		},
 
-		removeProductFromCart: (product) => {
-			const newCart = get().cart.filter((item) => item.id !== product.id);
-			set({ cart: newCart });
+		incrementProductQuantity: (productId) => {
+			const { updateProductQuantity } = get().shopActions;
+
+			const productItemInCart = get().cart.find((item) => item.id === productId);
+
+			if (!productItemInCart || productItemInCart.quantity >= productItemInCart.stock) return;
+
+			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity + 1 });
+			toast.success(toastInfo.updated.message, { id: toastInfo.updated.id });
+			toast.dismiss(toastInfo.added.id);
 		},
 
-		decreaseProductQuantity: (product) => {
-			const newCart = get().cart.map((item) => {
-				if (item.id === product.id) {
-					return { ...item, quantity: item.quantity !== 0 ? item.quantity - 1 : item.quantity };
+		decrementProductQuantity: (productId) => {
+			const { updateProductQuantity } = get().shopActions;
+
+			const productItemInCart = get().cart.find((item) => item.id === productId);
+
+			if (!productItemInCart) return;
+
+			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity - 1 });
+			toast.success(toastInfo.updated.message, { id: toastInfo.updated.id });
+			toast.dismiss(toastInfo.added.id);
+		},
+
+		removeProductFromCart: (productId) => {
+			const updatedCart = get().cart.filter((item) => item.id !== productId);
+
+			set({ cart: updatedCart });
+
+			toast.success(toastInfo.removed.message, { id: toastInfo.removed.id });
+			toast.dismiss(toastInfo.updated.id);
+			toast.dismiss(toastInfo.added.id);
+		},
+
+		toggleAddToWishList: (productItem) => {
+			const { wishList } = get();
+			const isItemInWishList = wishList.some((item) => item.id === productItem.id);
+
+			const newWishList = !isItemInWishList
+				? [...wishList, productItem]
+				: wishList.filter((item) => item.id !== productItem.id);
+
+			set({ wishList: newWishList });
+		},
+
+		updateProductQuantity: (productId, { updatedQuantity }) => {
+			const updatedCart = get().cart.map((item) => {
+				if (item.id === productId) {
+					return {
+						...item,
+						quantity: updatedQuantity > 0 ? updatedQuantity : item.quantity,
+					};
 				}
 				return item;
 			});
 
-			set({ cart: newCart });
-		},
-
-		toggleAddToWishList: (product) => {
-			const { wishList } = get();
-			const isItemInWishList = wishList.some((item) => item.id === product.id);
-
-			const newWishList = !isItemInWishList
-				? [...wishList, { ...product }]
-				: wishList.filter((item) => item.id !== product.id);
-
-			set({ wishList: newWishList });
+			set({ cart: updatedCart });
 		},
 	},
 });
 
 // Store hook Creation
-export const useShopStore = create<ShopStore>()(
+export const useShopStore = create<ShopStoreType>()(
 	persist(shopStateObject, {
 		name: 'shop',
-		partialize: ({ shopActions, ...state }) => state,
+		partialize: ({ shopActions, ...actualState }) => actualState,
 	})
 );
 

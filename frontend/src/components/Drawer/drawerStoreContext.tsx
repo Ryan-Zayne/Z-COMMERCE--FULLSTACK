@@ -14,9 +14,9 @@ const [Provider, useContext] = createContext<DrawerStoreApi>({
 const createDrawerStore = () =>
 	createStore<DrawerStore>(() => ({
 		isOpen: false,
-		onOpen: () => { },
-		onClose: () => { },
-		onToggle: () => { },
+		onOpen: () => {},
+		onClose: () => {},
+		onToggle: () => {},
 	}));
 
 function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
@@ -27,18 +27,19 @@ function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 			drawerStore.setState(storeValues);
 		},
 
-		[drawerStore, storeValues]
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[storeValues]
 	);
 
 	return <Provider value={drawerStore}>{children}</Provider>;
 }
 
-const useDrawerStore = <T,>(callbackFn: (state: DrawerStore) => T) => {
+const useDrawerStore = <TSlice,>(callbackFn: (state: DrawerStore) => TSlice) => {
 	const store = useContext();
 	const selector = useCallbackRef(callbackFn);
+	const stateSlice = useStore<DrawerStoreApi, TSlice>(store, selector);
 
-	return useStore<DrawerStoreApi, T>(store, selector);
+	return stateSlice;
 };
 
 export { DrawerContextProvider, useDrawerStore };
-

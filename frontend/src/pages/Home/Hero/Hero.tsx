@@ -22,7 +22,7 @@ function Hero() {
 				onButtonClick={handleElementsAnimation}
 				outerClassName={'mx-[1rem] h-[38rem] md:h-[41.4rem] lg:h-[48.5rem]'}
 				innerClassName={twJoin(
-					`rounded-[0.7rem]`,
+					'rounded-[0.7rem]',
 					isDarkMode && 'box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]'
 				)}
 				leftBtnClasses={

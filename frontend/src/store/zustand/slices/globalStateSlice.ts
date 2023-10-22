@@ -1,8 +1,8 @@
 import type { StateCreator } from 'zustand';
 import { noScrollOnOpen } from '../../../utils/no-scroll-on-open';
-import type { GlobalStateSlice } from '../zustand-store.types';
+import type { GlobalStateSliceType } from '../zustand-store.types';
 
-export const createGlobalStateSlice: StateCreator<GlobalStateSlice, [], [], GlobalStateSlice> = (
+export const createGlobalStateSlice: StateCreator<GlobalStateSliceType, [], [], GlobalStateSliceType> = (
 	set,
 	get
 ) => ({

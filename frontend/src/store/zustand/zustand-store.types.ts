@@ -1,10 +1,11 @@
 // Global State Types
-import type { ResponseDataItem } from '../react-query/query-hook.types';
+import type { ResponseDataItem } from '../react-query/react-query-store.types';
 
-export type GlobalStateSlice = {
+export type GlobalStateSliceType = {
 	isNavShow: boolean;
 	isSearchShow: boolean;
 	isImageLoaded: boolean;
+
 	globalActions: {
 		toggleNavShow: () => void;
 		toggleSearchShow: () => void;
@@ -12,22 +13,24 @@ export type GlobalStateSlice = {
 	};
 };
 
-export type MediaQuerySlice = {
+export type MediaQuerySliceType = {
 	isMobile: boolean;
 	isTablet: boolean;
 	isDesktop: boolean;
+
 	mediaQueryActions: {
 		setIsMobile: () => void;
 		setIsTablet: () => void;
 		setIsDesktop: () => void;
 	};
 };
-export type GlobalStore = GlobalStateSlice & MediaQuerySlice;
+export type GlobalStoreType = GlobalStateSliceType & MediaQuerySliceType;
 
 // ThemeState Types
-export type ThemeStore = {
+export type ThemeStoreType = {
 	theme: string;
 	isDarkMode: boolean;
+
 	themeActions: {
 		toggleTheme: () => void;
 		toggleIsDarkMode: () => void;
@@ -35,13 +38,21 @@ export type ThemeStore = {
 };
 
 // ShopState Types
-export type ShopStore = {
-	cart: Array<ResponseDataItem & { quantity: number }>;
+export type ResponseDataItemInCart = ResponseDataItem & { quantity: number };
+
+export type ShopStoreType = {
+	cart: Array<ResponseDataItemInCart>;
 	wishList: Array<ResponseDataItem>;
+
 	shopActions: {
-		addToCart: (product: ResponseDataItem, quantity?: number) => void;
-		removeProductFromCart: (product: ResponseDataItem) => void;
-		decreaseProductQuantity: (product: ResponseDataItem) => void;
-		toggleAddToWishList: (product: ResponseDataItem) => void;
+		addToCart: (productItem: ResponseDataItem) => void;
+		updateProductQuantity: (
+			productId: ResponseDataItem['id'],
+			{ updatedQuantity }: { updatedQuantity: number }
+		) => void;
+		removeProductFromCart: (productId: ResponseDataItem['id']) => void;
+		decrementProductQuantity: (productId: ResponseDataItem['id']) => void;
+		incrementProductQuantity: (productId: ResponseDataItem['id']) => void;
+		toggleAddToWishList: (productItem: ResponseDataItem) => void;
 	};
 };

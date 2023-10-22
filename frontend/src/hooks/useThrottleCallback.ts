@@ -14,10 +14,10 @@ const useThrottleByTimer = <V, R>(callbackFn: (...values: V[]) => R, delay: numb
 
 		const elapsedTime = Date.now() - startTimeRef.current;
 
-		if (elapsedTime >= delay) {
-			savedCallback(...values);
-			startTimeRef.current = null;
-		}
+		if (elapsedTime < delay) return;
+
+		savedCallback(...values);
+		startTimeRef.current = null;
 
 	}, [delay, savedCallback]);
 
@@ -34,13 +34,14 @@ const useThrottleBySetTimeout = <V, R>(callbackFn: (...values: V[]) => R, delay:
 
 		throttleTimeoutId.current = setTimeout(() => {
 			savedCallback(...values);
+
 			throttleTimeoutId.current = null;
 		}, delay);
 
 	}, [delay, savedCallback]);
 
 	useAfterMountEffect(() => {
-		clearTimeout(throttleTimeoutId.current as NodeJS.Timeout);
+		return () => clearTimeout(throttleTimeoutId.current as NodeJS.Timeout);
 	}, []);
 
 	return throttledCallback;
@@ -52,11 +53,11 @@ const useThrottleByFrame = <V, R>(callbackFn: (...values: V[]) => R) => {
 	const throttleFrameId = useRef<number | null>(null);
 
 	// prettier-ignore
-	const throttledCallback = useCallback(() => {
+	const throttledCallback = useCallback((...values: V[]) => {
 		if (throttleFrameId.current !== null) return;
 
 		throttleFrameId.current = requestAnimationFrame(() => {
-			savedCallback();
+			savedCallback(...values);
 			throttleFrameId.current = null;
 		});
 

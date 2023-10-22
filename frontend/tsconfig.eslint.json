@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"noEmit": true
+	},
+	"exclude": ["dist", "node_modules"],
+
+	"extends": "./tsconfig.json",
+
+	"include": [
+		"env.d.ts",
+		"postcss.config.cjs",
+		"prettier.config.js",
+		"src",
+		"tailwind.config.ts",
+		"vite-types.d.ts",
+		"vite.config.ts"
+	]
+}

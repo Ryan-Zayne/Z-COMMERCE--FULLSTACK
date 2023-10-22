@@ -27,7 +27,7 @@ export default defineConfig({
 		},
 	},
 
-	//* Enable this in order to serve html via ejs template (--disabled)
+	//* Enable this to serve html via ejs template (--disabled)
 	// build: {
 	// 	manifest: true,
 	// 	rollupOptions: {

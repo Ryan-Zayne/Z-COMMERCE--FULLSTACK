@@ -1,12 +1,13 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef } from 'react';
 import { useCallbackRef } from './useCallbackRef';
 
 /**
- * A thin wrapper around “useEffect” which will only fire when the deps changes and not on mount.
+ * A thin wrapper around “useEffect” which will fire when the deps changes and not on mount.
  * */
 
-const useAfterMountEffect = <TCleanUp>(callback: () => TCleanUp, deps: React.DependencyList) => {
+const useAfterMountEffect = (callback: React.EffectCallback, deps: React.DependencyList = []) => {
 	const hasMounted = useRef(false);
 
 	const savedEffectCallback = useCallbackRef(callback);
@@ -17,7 +18,9 @@ const useAfterMountEffect = <TCleanUp>(callback: () => TCleanUp, deps: React.Dep
 			return;
 		}
 
-		savedEffectCallback();
+		const cleanupFn = savedEffectCallback();
+
+		return cleanupFn;
 	}, deps);
 };
 

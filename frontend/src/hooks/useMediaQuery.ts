@@ -1,28 +1,23 @@
 import { useMediaQueryActions } from '@/store/zustand/globalStore';
 import { desktopQuery, mobileQuery, tabletQuery } from '@/utils/constants';
 import { useEffect } from 'react';
-import { useThrottleByFrame } from './useThrottleCallback';
 
 const useMediaQuery = () => {
 	const { setIsMobile, setIsTablet, setIsDesktop } = useMediaQueryActions();
-	const throttledSetIsMobile = useThrottleByFrame(setIsMobile);
-	const throttledSetIsTablet = useThrottleByFrame(setIsTablet);
-	const throttledSetIsDesktop = useThrottleByFrame(setIsDesktop);
 
-	useEffect(
-		function mediaQueryEffect() {
-			mobileQuery.addEventListener('change', throttledSetIsMobile);
-			tabletQuery.addEventListener('change', throttledSetIsTablet);
-			desktopQuery.addEventListener('change', throttledSetIsDesktop);
+	useEffect(function mediaQueryEffect() {
+		mobileQuery.addEventListener('change', setIsMobile);
+		tabletQuery.addEventListener('change', setIsTablet);
+		desktopQuery.addEventListener('change', setIsDesktop);
 
-			return () => {
-				mobileQuery.removeEventListener('change', throttledSetIsMobile);
-				tabletQuery.removeEventListener('change', throttledSetIsTablet);
-				desktopQuery.removeEventListener('change', throttledSetIsDesktop);
-			};
-		},
-		[throttledSetIsDesktop, throttledSetIsMobile, throttledSetIsTablet]
-	);
+		return () => {
+			mobileQuery.removeEventListener('change', setIsMobile);
+			tabletQuery.removeEventListener('change', setIsTablet);
+			desktopQuery.removeEventListener('change', setIsDesktop);
+		};
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 };
 
 export { useMediaQuery };
