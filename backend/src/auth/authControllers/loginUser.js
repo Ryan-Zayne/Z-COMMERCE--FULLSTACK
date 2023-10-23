@@ -35,9 +35,9 @@ const loginUser = asyncHandler(async (req, res) => {
 	const newRefreshToken = generateRefreshToken(user.id, { expiresIn: '15m' });
 
 	if (!refreshToken) {
-		const newTokenArray = [...user.refreshTokenArray, newRefreshToken];
-
-		await UserModel.findByIdAndUpdate(user.id, { refreshTokenArray: newTokenArray });
+		await UserModel.findByIdAndUpdate(user.id, {
+			refreshTokenArray: [...user.refreshTokenArray, newRefreshToken],
+		});
 
 		setCookieAndSendResponse({
 			res,
@@ -50,7 +50,6 @@ const loginUser = asyncHandler(async (req, res) => {
 	}
 
 	const userWithTokenExists = Boolean(await UserModel.exists({ refreshTokenArray: refreshToken }));
-
 	// Clearing all the refresh tokens already in the DB in case of token reuse situation on login
 	const updatedTokenArray = userWithTokenExists
 		? user.refreshTokenArray.filter((token) => token !== refreshToken)
