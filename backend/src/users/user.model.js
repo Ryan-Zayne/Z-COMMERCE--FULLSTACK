@@ -17,7 +17,7 @@ const UserSchema = new Schema(
 		password: {
 			type: String,
 			required: [true, 'Please add the user password'],
-			// select: false,
+			select: false,
 		},
 
 		roles: {

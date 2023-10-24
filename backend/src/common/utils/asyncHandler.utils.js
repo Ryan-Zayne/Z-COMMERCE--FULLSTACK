@@ -1,8 +1,8 @@
 /* eslint-disable consistent-return */
 
-const asyncHandler = (asyncCallbackFn) => async (req, res, next) => {
+const asyncHandler = (controllerFn) => async (req, res, next) => {
 	try {
-		const result = await asyncCallbackFn(req, res, next);
+		const result = await controllerFn(req, res, next);
 
 		return result;
 		// Forward error to error handler
@@ -10,5 +10,11 @@ const asyncHandler = (asyncCallbackFn) => async (req, res, next) => {
 		next(error);
 	}
 };
+
+// const wrapRouteWithAsyncHandler = (controllerFn) => (req, res, next) => {
+// 	const errorResult = asyncHandler(controllerFn)(req, res, next);
+
+// 	return errorResult;
+// };
 
 export { asyncHandler };

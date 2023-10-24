@@ -21,7 +21,7 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
 	try {
 		const decodedPayload = decodeJwtToken(accessToken, process.env.ACCESS_SECRET);
 
-		const authenticatedUser = await UserModel.findById(decodedPayload.userId).select('-password');
+		const authenticatedUser = await UserModel.findById(decodedPayload.userId);
 
 		req.user = authenticatedUser;
 		next();

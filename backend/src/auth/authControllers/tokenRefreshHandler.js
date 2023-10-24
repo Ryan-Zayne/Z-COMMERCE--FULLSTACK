@@ -1,15 +1,21 @@
 import { asyncHandler } from '../../common/utils/asyncHandler.utils.js';
-import { isDevMode } from '../../common/utils/constants.js';
 import UserModel from '../../users/user.model.js';
-import { decodeJwtToken, generateAccessToken, generateRefreshToken } from '../auth.services.js';
+import {
+	clearExistingCookie,
+	decodeJwtToken,
+	generateAccessToken,
+	generateRefreshToken,
+	setCookieAndSendResponse,
+} from '../auth.services.js';
 
 // @desc Refresh the access token
 // @route GET /api/auth/refresh
 // @access Private
-
 const tokenRefreshHandler = asyncHandler(async (req, res) => {
 	const { refreshToken } = req.signedCookies;
 	const user = req.userWithToken;
+
+	clearExistingCookie(res);
 
 	try {
 		const decodedPayload = decodeJwtToken(refreshToken, process.env.REFRESH_SECRET);
@@ -22,8 +28,10 @@ const tokenRefreshHandler = asyncHandler(async (req, res) => {
 		const newAccessToken = generateAccessToken(decodedPayload.userId);
 		const newRefreshToken = generateRefreshToken(decodedPayload.userId, { expiresIn: '15m' });
 
-		const updatedTokenArray = user.refreshTokenArray.map((token, index, arr) => {
-			if (arr.includes(refreshToken)) {
+		const updatedTokenArray = user.refreshTokenArray.map((token) => {
+			const isTargetToken = crypto.timingSafeEqual(Buffer.from(token), Buffer.from(refreshToken));
+
+			if (isTargetToken) {
 				return newRefreshToken;
 			}
 
@@ -32,15 +40,11 @@ const tokenRefreshHandler = asyncHandler(async (req, res) => {
 
 		await UserModel.findByIdAndUpdate(user.id, { refreshTokenArray: updatedTokenArray });
 
-		res.cookie('refreshToken', newRefreshToken, {
-			sameSite: 'strict',
-			secure: !isDevMode,
-			httpOnly: true,
-			signed: true,
-			maxAge: 24 * 60 * 60 * 1000,
+		setCookieAndSendResponse({
+			res,
+			accessToken: newAccessToken,
+			newRefreshToken,
 		});
-
-		res.json({ accessToken: newAccessToken });
 
 		// Catch error thrown when token is no longer valid so we remove the invalid refreshToken
 	} catch (error) {

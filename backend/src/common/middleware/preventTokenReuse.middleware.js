@@ -10,9 +10,7 @@ export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 		throw new Error('Cookie is missing!');
 	}
 
-	clearExistingCookie(res);
-
-	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken }).select('-password');
+	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken });
 
 	if (userWithToken) {
 		req.userWithToken = userWithToken;
@@ -38,5 +36,9 @@ export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 		}
 
 		throw new Error(error.message);
+
+		// Clear existing refreshToken cookie either way
+	} finally {
+		clearExistingCookie(res);
 	}
 });

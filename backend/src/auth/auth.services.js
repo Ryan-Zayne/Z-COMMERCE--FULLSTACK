@@ -23,6 +23,21 @@ export const decodeJwtToken = (token, secretKey) => {
 	return decodedPayload;
 };
 
+export const setCookieAndSendResponse = ({ res, user, accessToken, newRefreshToken }) => {
+	res.cookie('refreshToken', newRefreshToken, {
+		sameSite: 'strict',
+		secure: !isDevMode,
+		httpOnly: true,
+		signed: true,
+		maxAge: 24 * 60 * 60 * 1000,
+	});
+
+	// eslint-disable-next-line no-unused-expressions
+	!user
+		? res.json({ accessToken })
+		: res.json({ accessToken, username: user.username, email: user.email });
+};
+
 export const clearExistingCookie = (res) => {
 	res.clearCookie('refreshToken', {
 		sameSite: 'strict',

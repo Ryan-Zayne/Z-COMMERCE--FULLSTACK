@@ -7,7 +7,7 @@ import UserModel from '../../users/user.model.js';
 const signUpUser = asyncHandler(async (req, res) => {
 	const { username, email, password } = req.validatedBody;
 
-	const existingUser = await UserModel.findOne({ email });
+	const existingUser = Boolean(await UserModel.exists({ email }));
 
 	if (existingUser) {
 		res.status(400);

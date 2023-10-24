@@ -3,10 +3,6 @@ import { isDevMode } from '../../common/utils/constants.js';
 import UserModel from '../../users/user.model.js';
 import { clearExistingCookie, generateAccessToken, generateRefreshToken } from '../auth.services.js';
 
-// @desc Login User
-// @route POST /api/auth/login
-// @access Public
-
 const setCookieAndSendResponse = ({ res, user, newRefreshToken, accessToken }) => {
 	res.cookie('refreshToken', newRefreshToken, {
 		sameSite: 'strict',
@@ -19,11 +15,14 @@ const setCookieAndSendResponse = ({ res, user, newRefreshToken, accessToken }) =
 	res.json({ username: user.username, email: user.email, accessToken });
 };
 
+// @desc Login User
+// @route POST /api/auth/login
+// @access Public
 const loginUser = asyncHandler(async (req, res) => {
 	const { refreshToken } = req.signedCookies;
 	const { email, password } = req.validatedBody;
 
-	const user = await UserModel.findOne({ email });
+	const user = await UserModel.findOne({ email }).select('+password');
 	const isValidPassword = Boolean(await user?.comparePassword(password));
 
 	if (!isValidPassword) {
@@ -42,16 +41,17 @@ const loginUser = asyncHandler(async (req, res) => {
 		setCookieAndSendResponse({
 			res,
 			user,
-			newRefreshToken,
 			accessToken,
+			newRefreshToken,
 		});
 
 		return;
 	}
 
-	const userWithTokenExists = Boolean(await UserModel.exists({ refreshTokenArray: refreshToken }));
+	const existingUserWithToken = Boolean(await UserModel.exists({ refreshTokenArray: refreshToken }));
+
 	// Clearing all the refresh tokens already in the DB in case of token reuse situation on login
-	const updatedTokenArray = userWithTokenExists
+	const updatedTokenArray = existingUserWithToken
 		? user.refreshTokenArray.filter((token) => token !== refreshToken)
 		: [];
 
@@ -64,8 +64,8 @@ const loginUser = asyncHandler(async (req, res) => {
 	setCookieAndSendResponse({
 		res,
 		user,
-		newRefreshToken,
 		accessToken,
+		newRefreshToken,
 	});
 });
 
