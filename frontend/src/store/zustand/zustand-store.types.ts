@@ -1,7 +1,7 @@
 // Global State Types
 import type { ResponseDataItem } from '../react-query/react-query-store.types';
 
-export type GlobalStateSliceType = {
+export type GlobalStateSlice = {
 	isNavShow: boolean;
 	isSearchShow: boolean;
 	isImageLoaded: boolean;
@@ -13,7 +13,7 @@ export type GlobalStateSliceType = {
 	};
 };
 
-export type MediaQuerySliceType = {
+export type MediaQuerySlice = {
 	isMobile: boolean;
 	isTablet: boolean;
 	isDesktop: boolean;
@@ -24,23 +24,23 @@ export type MediaQuerySliceType = {
 		setIsDesktop: () => void;
 	};
 };
-export type GlobalStoreType = GlobalStateSliceType & MediaQuerySliceType;
+
+export type GlobalStore = GlobalStateSlice & MediaQuerySlice;
 
 // ThemeState Types
-export type ThemeStoreType = {
+export type ThemeStore = {
 	theme: string;
 	isDarkMode: boolean;
 
 	themeActions: {
 		toggleTheme: () => void;
-		toggleIsDarkMode: () => void;
 	};
 };
 
 // ShopState Types
 export type ResponseDataItemInCart = ResponseDataItem & { quantity: number };
 
-export type ShopStoreType = {
+export type ShopStore = {
 	cart: Array<ResponseDataItemInCart>;
 	wishList: Array<ResponseDataItem>;
 

@@ -13,7 +13,7 @@
 		"moduleDetection": "force",
 		"moduleResolution": "Node",
 		"noEmit": true,
-		"noErrorTruncation": true, // ANCHOR - (May turn off in the future via perf issues)
+		"noErrorTruncation": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
 		"paths": { "@/*": ["src/*"] },

@@ -1,17 +1,17 @@
-import { asyncHandler } from '../../common/utils/asyncHandler.utils.js';
-import UserModel from '../../users/user.model.js';
+import { asyncHandler } from '../../../common/utils/asyncHandler.utils.js';
+import UserModel from '../../../users/user.model.js';
 import {
 	clearExistingCookie,
 	decodeJwtToken,
 	generateAccessToken,
 	generateRefreshToken,
 	setCookieAndSendResponse,
-} from '../auth.services.js';
+} from '../../auth.services.js';
 
 // @desc Refresh the access token
 // @route GET /api/auth/refresh
 // @access Private
-const tokenRefreshHandler = asyncHandler(async (req, res) => {
+const refreshTokenHandler = asyncHandler(async (req, res) => {
 	const { refreshToken } = req.signedCookies;
 	const user = req.userWithToken;
 
@@ -57,4 +57,4 @@ const tokenRefreshHandler = asyncHandler(async (req, res) => {
 	}
 });
 
-export { tokenRefreshHandler };
+export { refreshTokenHandler };

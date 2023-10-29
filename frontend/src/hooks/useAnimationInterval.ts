@@ -12,7 +12,7 @@ const useAnimationInterval = (options: AnimationOptionsType) => {
 	const { callbackFn, intervalDuration } = options;
 
 	const startTimeStampRef = useRef<number | null>(null);
-	const animationFrameId = useRef(0);
+	const animationFrameId = useRef<number | null>(null);
 
 	const savedCallback = useCallbackRef(callbackFn);
 
@@ -39,7 +39,11 @@ const useAnimationInterval = (options: AnimationOptionsType) => {
 		[smoothAnimation]
 	);
 
-	const onAnimationStop = useCallback(() => cancelAnimationFrame(animationFrameId.current), []);
+	const onAnimationStop = useCallback(() => {
+		cancelAnimationFrame(animationFrameId.current as number);
+		startTimeStampRef.current = null;
+		animationFrameId.current = null;
+	}, []);
 
 	useEffect(
 		function toggleAnimationByIntervalEffect() {

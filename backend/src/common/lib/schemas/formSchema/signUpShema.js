@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const SignUpSchema = z
+const SignUpSchema = z
 	.object({
 		username: z
 			.string()
@@ -18,23 +18,4 @@ export const SignUpSchema = z
 		path: ['confirmPassword'],
 	});
 
-export const LoginSchema = z.object({
-	email: z.string().email('Please enter a valid email!'),
-	password: z.string().min(8, 'Password must be at least 8 characters!'),
-	rememberMe: z.boolean().optional(),
-});
-
-export const validateDataWithZod = (Schema) => (req, res, next) => {
-	const rawData = req.body;
-	const result = Schema.safeParse(rawData);
-
-	if (!result.success) {
-		const zodErrors = { errors: result.error.flatten().fieldErrors };
-
-		res.status(422).json(zodErrors);
-		return;
-	}
-
-	req.validatedBody = result.data;
-	next();
-};
+export { SignUpSchema };

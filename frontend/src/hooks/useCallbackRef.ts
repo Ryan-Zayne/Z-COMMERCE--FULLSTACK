@@ -13,17 +13,17 @@ import { useCallback, useEffect, useRef } from 'react';
  * @returns The memoized callback function.
  */
 
-const useCallbackRef = <TParams, TResult>(
-	callbackFn: (...params: TParams[]) => TResult,
-	deps?: React.DependencyList
-) => {
+const useCallbackRef = <TParams, TResult>(callbackFn: (...params: TParams[]) => TResult) => {
 	const callbackRef = useRef(callbackFn);
 
 	useEffect(() => {
 		callbackRef.current = callbackFn;
 	}, [callbackFn]);
 
-	const savedCallback = useCallback(callbackRef.current, deps ?? []);
+	const savedCallback = useCallback(
+		(...savedParams: TParams[]) => callbackRef.current(...savedParams),
+		[]
+	);
 
 	return savedCallback;
 };

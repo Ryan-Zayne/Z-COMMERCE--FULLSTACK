@@ -5,7 +5,7 @@ import { useShopStore } from '@/store/zustand/shopStore';
 import { useThemeStore } from '@/store/zustand/themeStore';
 import { IoMdCart } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import { CartItem, CartItemWrapper } from './CartItem';
+import { CartItem } from './CartItem';
 
 type CartDrawerProps = DrawerStore & { placement?: DrawerContentProps['placement'] };
 
@@ -43,12 +43,12 @@ function CartDrawer({ isOpen, onClose, onOpen, placement = 'right' }: CartDrawer
 
 				<Drawer.Body className={'px-[1.3rem] pt-[4rem] lg:px-[2rem]'}>
 					<ul className="flex min-h-[14rem] flex-col gap-[1rem]">
-						<CartItemWrapper showCartItems={cart?.length !== 0}>
-							<CartItemsList
-								each={cart}
-								render={(item) => <CartItem key={item.title} product={item} />}
-							/>
-						</CartItemWrapper>
+						<CartItemsList
+							each={cart}
+							render={(item) => (
+								<CartItem key={item.title} showCartItems={cart?.length !== 0} product={item} />
+							)}
+						/>
 					</ul>
 
 					<div className="mt-[4rem] px-[1rem] lg:px-[2.6rem]">

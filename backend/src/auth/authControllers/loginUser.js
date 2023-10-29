@@ -1,19 +1,11 @@
 import { asyncHandler } from '../../common/utils/asyncHandler.utils.js';
-import { isDevMode } from '../../common/utils/constants.js';
 import UserModel from '../../users/user.model.js';
-import { clearExistingCookie, generateAccessToken, generateRefreshToken } from '../auth.services.js';
-
-const setCookieAndSendResponse = ({ res, user, newRefreshToken, accessToken }) => {
-	res.cookie('refreshToken', newRefreshToken, {
-		sameSite: 'strict',
-		secure: !isDevMode,
-		httpOnly: true,
-		signed: true,
-		maxAge: 24 * 60 * 60 * 1000,
-	});
-
-	res.json({ username: user.username, email: user.email, accessToken });
-};
+import {
+	clearExistingCookie,
+	generateAccessToken,
+	generateRefreshToken,
+	setCookieAndSendResponse,
+} from '../auth.services.js';
 
 // @desc Login User
 // @route POST /api/auth/login

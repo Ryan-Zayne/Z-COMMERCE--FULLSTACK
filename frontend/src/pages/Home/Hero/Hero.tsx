@@ -33,7 +33,7 @@ function Hero() {
 				}
 				arrowIcon={<RxPaperPlane className="lg:text-[1.7rem]" />}
 				autoSlideInterval={12000}
-				isAutoSlide={true}
+				hasAutoSlide={true}
 				pauseOnHover={true}
 			>
 				<Carousel.ItemWrapper className={'brightness-[0.6]'}>

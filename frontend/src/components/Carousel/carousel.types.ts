@@ -10,9 +10,12 @@ export type CarouselStore = {
 		  }>
 		| string[];
 	maxSlide: number;
-	goToSlide: (resetValue: number) => void;
-	nextSlide: () => void;
-	previousSlide: () => void;
+
+	actions: {
+		goToSlide: (resetValue: number) => void;
+		nextSlide: () => void;
+		previousSlide: () => void;
+	};
 };
 
 export type CarouselProviderProps = WithChildren<Pick<CarouselStore, 'slideImages'>>;

@@ -1,10 +1,8 @@
 import { desktopQuery, mobileQuery, tabletQuery } from '@/utils/constants';
 import type { StateCreator } from 'zustand';
-import type { MediaQuerySliceType } from '../zustand-store.types';
+import type { MediaQuerySlice } from '../zustand-store.types';
 
-export const createMediaQuerySlice: StateCreator<MediaQuerySliceType, [], [], MediaQuerySliceType> = (
-	set
-) => ({
+export const createMediaQuerySlice: StateCreator<MediaQuerySlice, [], [], MediaQuerySlice> = (set) => ({
 	isMobile: mobileQuery.matches,
 	isTablet: tabletQuery.matches,
 	isDesktop: desktopQuery.matches,

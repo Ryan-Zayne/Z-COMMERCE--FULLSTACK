@@ -2,7 +2,7 @@ import { toast } from 'react-hot-toast';
 import { mountStoreDevtool } from 'simple-zustand-devtools';
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { ShopStoreType } from './zustand-store.types';
+import type { ShopStore } from './zustand-store.types';
 
 const toastInfo = {
 	added: {
@@ -20,7 +20,7 @@ const toastInfo = {
 };
 
 // Store Object creation
-const shopStateObject: StateCreator<ShopStoreType> = (set, get) => ({
+const shopStateObject: StateCreator<ShopStore> = (set, get) => ({
 	cart: [],
 	wishList: [],
 
@@ -105,7 +105,7 @@ const shopStateObject: StateCreator<ShopStoreType> = (set, get) => ({
 });
 
 // Store hook Creation
-export const useShopStore = create<ShopStoreType>()(
+export const useShopStore = create<ShopStore>()(
 	persist(shopStateObject, {
 		name: 'shop',
 		partialize: ({ shopActions, ...actualState }) => actualState,
