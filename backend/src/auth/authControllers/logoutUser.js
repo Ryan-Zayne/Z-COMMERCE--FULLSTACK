@@ -15,7 +15,9 @@ const logoutUser = asyncHandler(async (req, res) => {
 		return;
 	}
 
-	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken });
+	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken }).select(
+		'+refreshTokenArray'
+	);
 
 	if (!userWithToken) {
 		res.sendStatus(204); // No content status

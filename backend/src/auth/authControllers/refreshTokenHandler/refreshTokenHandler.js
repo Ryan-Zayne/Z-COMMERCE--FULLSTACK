@@ -13,14 +13,14 @@ import {
 // @access Private
 const refreshTokenHandler = asyncHandler(async (req, res) => {
 	const { refreshToken } = req.signedCookies;
-	const user = req.userWithToken;
+	const { userWithToken } = req.user;
 
 	clearExistingCookie(res);
 
 	try {
 		const decodedPayload = decodeJwtToken(refreshToken, process.env.REFRESH_SECRET);
 
-		if (user.id !== decodedPayload.userId) {
+		if (userWithToken.id !== decodedPayload.userId) {
 			res.status(403);
 			throw new Error('Access is forbidden!');
 		}
@@ -28,7 +28,7 @@ const refreshTokenHandler = asyncHandler(async (req, res) => {
 		const newAccessToken = generateAccessToken(decodedPayload.userId);
 		const newRefreshToken = generateRefreshToken(decodedPayload.userId, { expiresIn: '15m' });
 
-		const updatedTokenArray = user.refreshTokenArray.map((token) => {
+		const updatedTokenArray = userWithToken.refreshTokenArray.map((token) => {
 			const isTargetToken = crypto.timingSafeEqual(Buffer.from(token), Buffer.from(refreshToken));
 
 			if (isTargetToken) {
@@ -38,7 +38,7 @@ const refreshTokenHandler = asyncHandler(async (req, res) => {
 			return token;
 		});
 
-		await UserModel.findByIdAndUpdate(user.id, { refreshTokenArray: updatedTokenArray });
+		await UserModel.findByIdAndUpdate(userWithToken.id, { refreshTokenArray: updatedTokenArray });
 
 		setCookieAndSendResponse({
 			res,
@@ -48,9 +48,9 @@ const refreshTokenHandler = asyncHandler(async (req, res) => {
 
 		// Catch error thrown when token is no longer valid so we remove the invalid refreshToken
 	} catch (error) {
-		const filteredTokenArray = user.refreshTokenArray.filter((token) => token !== refreshToken);
+		const filteredTokenArray = userWithToken.refreshTokenArray.filter((token) => token !== refreshToken);
 
-		await UserModel.findByIdAndUpdate(user.id, { refreshTokenArray: filteredTokenArray });
+		await UserModel.findByIdAndUpdate(userWithToken.id, { refreshTokenArray: filteredTokenArray });
 
 		res.status(401);
 		throw new Error(error.message);

@@ -8,6 +8,8 @@ export const desktopQuery = window.matchMedia('(min-width: 1000px)');
 
 export const BASE_DUMMY_URL = 'https://dummyjson.com';
 
-export const BASE_AUTH_URL = '/api/auth';
+const BASE_API_URL = '/api/v1';
 
-export const BASE_USER_URL = '/api';
+export const BASE_AUTH_URL = `${BASE_API_URL}/auth`;
+
+export const BASE_USER_URL = `${BASE_API_URL}/user`;

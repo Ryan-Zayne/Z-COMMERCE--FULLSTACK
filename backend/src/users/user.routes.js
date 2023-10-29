@@ -10,4 +10,4 @@ userRouter.use(authenticateUser);
 // Routes
 userRouter.patch('/update-profile', updateUserProfile);
 
-export default userRouter;
+export { userRouter };

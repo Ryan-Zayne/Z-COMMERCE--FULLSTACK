@@ -12,6 +12,8 @@ const UserSchema = new Schema(
 			type: String,
 			required: [true, 'Please add the user email address'],
 			unique: true,
+			lowercase: true,
+			trim: true,
 		},
 
 		password: {
@@ -28,6 +30,7 @@ const UserSchema = new Schema(
 		refreshTokenArray: {
 			type: [String],
 			default: [],
+			select: false,
 		},
 	},
 
@@ -35,22 +38,19 @@ const UserSchema = new Schema(
 );
 
 UserSchema.pre('save', async function hashPassword(next) {
-	if (!this.isModified('password')) {
-		next();
-		return;
+	if (this.isModified('password')) {
+		const saltRounds = 12;
+		this.password = await bcrypt.hash(this.password, saltRounds);
 	}
 
-	const saltRounds = 10;
-	this.password = await bcrypt.hash(this.password, saltRounds);
+	next();
 });
 
-UserSchema.methods = {
-	comparePassword: async function comparePassword(plainPassword) {
-		const isValidPassword = await bcrypt.compare(plainPassword, this.password);
+UserSchema.method('comparePassword', function comparePassword(plainPassword) {
+	const isValidPassword = bcrypt.compare(plainPassword, this.password);
 
-		return isValidPassword;
-	},
-};
+	return isValidPassword;
+});
 
 const UserModel = model('User', UserSchema);
 

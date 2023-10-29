@@ -1,6 +1,6 @@
-import { asyncHandler } from '../../../../common/utils/asyncHandler.utils.js';
-import UserModel from '../../../../users/user.model.js';
-import { clearExistingCookie, decodeJwtToken } from '../../../auth.services.js';
+import { asyncHandler } from '../../../common/utils/asyncHandler.utils.js';
+import UserModel from '../../../users/user.model.js';
+import { clearExistingCookie, decodeJwtToken } from '../../auth.services.js';
 
 export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 	const { refreshToken } = req.signedCookies;
@@ -10,7 +10,9 @@ export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 		throw new Error('Cookie is missing!');
 	}
 
-	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken });
+	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken }).select(
+		'+refreshTokenArray'
+	);
 
 	if (!userWithToken) {
 		// UserWithToken not found, Refresh token reuse detected!
@@ -38,6 +40,6 @@ export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 		}
 	}
 
-	req.userWithToken = userWithToken;
+	req.user = { userWithToken };
 	next();
 });

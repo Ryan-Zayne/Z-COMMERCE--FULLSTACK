@@ -23,7 +23,7 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
 
 		const authenticatedUser = await UserModel.findById(decodedPayload.userId);
 
-		req.user = authenticatedUser;
+		req.user = { authenticatedUser };
 		next();
 		// Catch error thrown by jwt.verify when token is not valid
 	} catch {

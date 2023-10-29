@@ -6,7 +6,7 @@ import UserModel from './user.model.js';
 // @access private
 export const updateUserProfile = asyncHandler(async (req, res) => {
 	const userId = req.user.id;
-	const user = await UserModel.findById(userId);
+	const user = await UserModel.findById(userId).select('+password');
 
 	if (!user) {
 		res.status(404);
