@@ -1,6 +1,6 @@
 import { decodeJwtToken } from '../../auth/auth.services.js';
 import UserModel from '../../users/user.model.js';
-import { asyncHandler } from '../utils/asyncHandler.utils.js';
+import { asyncHandler } from '../lib/utils/asyncHandler.utils.js';
 
 const authenticateUser = asyncHandler(async (req, res, next) => {
 	const authHeader = req.headers.authorization ?? req.headers.Authorization;

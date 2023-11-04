@@ -38,16 +38,16 @@ const UserSchema = new Schema(
 );
 
 UserSchema.pre('save', async function hashPassword(next) {
-	if (this.isModified('password')) {
-		const saltRounds = 12;
-		this.password = await bcrypt.hash(this.password, saltRounds);
+	if (!this.isModified('password')) {
+		next();
 	}
 
-	next();
+	const saltRounds = 12;
+	this.password = await bcrypt.hash(this.password, saltRounds);
 });
 
-UserSchema.method('comparePassword', function comparePassword(plainPassword) {
-	const isValidPassword = bcrypt.compare(plainPassword, this.password);
+UserSchema.method('comparePassword', async function comparePassword(plainPassword) {
+	const isValidPassword = await bcrypt.compare(plainPassword, this.password);
 
 	return isValidPassword;
 });

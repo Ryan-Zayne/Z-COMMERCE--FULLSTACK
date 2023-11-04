@@ -1,4 +1,4 @@
-import { asyncHandler } from '../../common/utils/asyncHandler.utils.js';
+import { asyncHandler } from '../../common/lib/utils/asyncHandler.utils.js';
 import UserModel from '../../users/user.model.js';
 import {
 	clearExistingCookie,
@@ -14,7 +14,7 @@ const loginUser = asyncHandler(async (req, res) => {
 	const { refreshToken } = req.signedCookies;
 	const { email, password } = req.validatedBody;
 
-	const user = await UserModel.findOne({ email }).select('+password');
+	const user = await UserModel.findOne({ email }).select(['+password', '+refreshTokenArray']);
 	const isValidPassword = Boolean(await user?.comparePassword(password));
 
 	if (!isValidPassword) {

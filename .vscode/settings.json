@@ -1,9 +1,6 @@
 {
 	"typescript.tsdk": "frontend\\node_modules\\typescript\\lib",
 	"eslint.workingDirectories": ["frontend", "backend"],
-	"editor.fontLigatures": "'calt', 'ss01'",
-	"editor.fontSize": 14.5,
 	"editor.fontWeight": "normal",
-	"javascript.inlayHints.functionLikeReturnTypes.enabled": false,
 	"javascript.preferences.importModuleSpecifierEnding": "js"
 }

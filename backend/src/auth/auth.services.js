@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { isDevMode } from '../common/utils/constants.js';
+import { isDevMode } from '../common/lib/utils/constants.js';
 
 export const generateAccessToken = (userId, { expiresIn = '5m' } = {}) => {
 	const payLoad = { userId };
