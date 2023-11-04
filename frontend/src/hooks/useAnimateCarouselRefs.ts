@@ -7,9 +7,7 @@ type ElementsInfoType = Array<{
 	animationClass: string;
 }>;
 
-type ElementsRefType = {
-	[key in PossibleElementsType]: HTMLElement | null;
-};
+type ElementsRefType = Record<'button' | 'heading' | 'paragraph', HTMLElement | null>;
 
 type AnimateCarouselOptions = {
 	elementsInfo?: ElementsInfoType;

@@ -67,7 +67,7 @@ function ImageComponent(props: ImageComponentProps) {
 				)}
 
 				<img
-					className={twMerge(`object-cover `, [isImageLoaded && 'h-full'], [className])}
+					className={twMerge('object-cover', [isImageLoaded && 'h-full'], [className])}
 					src={src}
 					alt=""
 					{...restOfProps}

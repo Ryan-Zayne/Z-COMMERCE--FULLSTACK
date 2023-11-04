@@ -1,8 +1,8 @@
+import { Logo } from '@/components';
+import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore';
 import { NavLink } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
-import { Logo } from '../../../../components';
-import { useGlobalActions, useGlobalStore } from '../../../../store/zustand/globalStore';
-import CategoryDropDown from './CategoryDropDown';
+import CategoryMenu from './CategoryMenu';
 
 const NavigationLinks = () => {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -11,8 +11,8 @@ const NavigationLinks = () => {
 
 	return (
 		<div id="Navigation Links" className="w-full">
-			<nav className="flex w-[100%] items-center justify-between font-[500] lg:pr-[2rem] ">
-				{isDesktop && <CategoryDropDown deviceType={'desktop'} />}
+			<nav className="flex w-[100%] items-center justify-between font-[500] lg:pr-[2rem]">
+				{isDesktop && <CategoryMenu deviceType={'desktop'} />}
 
 				<ul
 					id="Navigation List"
@@ -37,12 +37,12 @@ const NavigationLinks = () => {
 
 					{!isDesktop && (
 						<li className="max-lg:pl-[4rem]">
-							<CategoryDropDown deviceType={'mobile'} />
+							<CategoryMenu deviceType={'mobile'} />
 						</li>
 					)}
 
 					<li className="max-lg:pl-[4rem]" onClick={!isDesktop ? toggleNavShow : undefined}>
-						<NavLink to="/all-products">Products</NavLink>
+						<NavLink to="/products/all-products">Products</NavLink>
 					</li>
 
 					<li className="max-lg:pl-[4rem]" onClick={!isDesktop ? toggleNavShow : undefined}>

@@ -10,19 +10,20 @@ export type CreateContextOptions<TContext> = {
 };
 
 class ContextError extends Error {
-	name = 'ContextError';
-
-	// Constructor is not needed cuz its generated automatically as well as super
+	constructor(message: string) {
+		super(message);
+		this.name = 'ContextError';
+	}
 }
 
-const createContext = <TDefaultContext>(options: CreateContextOptions<TDefaultContext | null>) => {
+const createContext = <TDefaultContext>(options: CreateContextOptions<TDefaultContext | null> = {}) => {
 	const {
 		name = 'Unnamed Context',
 		hookName = 'Unnamed Context hook',
 		providerName = 'Unnamed Provider',
 		errorMessage,
 		defaultValue,
-	} = options ?? {};
+	} = options;
 
 	const Context = createReactContext<TDefaultContext | null | undefined>(defaultValue);
 	Context.displayName = name;
@@ -41,4 +42,4 @@ const createContext = <TDefaultContext>(options: CreateContextOptions<TDefaultCo
 	return [Context.Provider, useContext] as const;
 };
 
-export default createContext;
+export { createContext };

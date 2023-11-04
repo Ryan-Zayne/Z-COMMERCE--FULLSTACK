@@ -9,15 +9,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { twJoin } from 'tailwind-merge';
 
 const categories = [
-	{ title: 'All Products', path: 'all-products' },
-	{ title: 'Smartphones', path: 'smartphones' },
-	{ title: 'Laptops', path: 'laptops' },
-	{ title: 'Watches', path: 'watches' },
-	{ title: 'Vehicles', path: 'vehicles' },
-	{ title: 'Digital Lighting', path: 'lighting' },
+	{ title: 'All Products', path: 'products' },
+	{ title: 'Smartphones', path: 'products/smartphones' },
+	{ title: 'Laptops', path: 'products/laptops' },
+	{ title: 'Watches', path: 'products/watches' },
+	{ title: 'Vehicles', path: 'products/vehicles' },
+	{ title: 'Digital Lighting', path: 'products/lighting' },
 ];
 
-function CategoryDropDown({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
+function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 	const href = useLocation().pathname;
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
@@ -129,4 +129,4 @@ function CategoryDropDown({ deviceType }: { deviceType: 'mobile' | 'desktop' }) 
 	return DEVICE_TYPE_LOOKUP[deviceType]?.() ?? DEVICE_TYPE_LOOKUP.default();
 }
 
-export default CategoryDropDown;
+export default CategoryMenu;

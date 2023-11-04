@@ -1,6 +1,6 @@
 import { useCallbackRef } from '@/hooks';
 import { createContext } from '@/hooks/context-hook';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { createStore, useStore } from 'zustand';
 import type { DrawerProviderProps, DrawerStore, DrawerStoreApi } from './drawer.types';
 
@@ -22,7 +22,7 @@ const createDrawerStore = () =>
 function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 	const [drawerStore] = useState(() => createDrawerStore());
 
-	useEffect(
+	useLayoutEffect(
 		function initializeStoreEffect() {
 			drawerStore.setState(storeValues);
 		},
@@ -37,7 +37,7 @@ function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 const useDrawerStore = <TSlice,>(callbackFn: (state: DrawerStore) => TSlice) => {
 	const store = useContext();
 	const selector = useCallbackRef(callbackFn);
-	const stateSlice = useStore<DrawerStoreApi, TSlice>(store, selector);
+	const stateSlice = useStore(store, selector);
 
 	return stateSlice;
 };

@@ -68,7 +68,6 @@
 				"allowNamedFunctions": true
 			}
 		],
-		"comma-dangle": "off",
 		"arrow-body-style": "off",
 		"no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
 		"no-unused-expressions": "off",
@@ -156,6 +155,7 @@
 		"unicorn/numeric-separators-style": "off",
 		"unicorn/no-array-reduce": "off",
 		"unicorn/no-array-for-each": "off",
+		// "unicorn/no-useless-undefined": ["error", { "checkArguments": true }],
 
 		//SonarJs Rules
 		"sonarjs/prefer-immediate-return": "off",

@@ -50,8 +50,9 @@ function CarouselContextProvider({ children, slideImages }: CarouselProviderProp
 const useCarouselStore = <TState,>(callbackFn: (store: CarouselStore) => TState) => {
 	const store = useContext();
 	const selector = useCallbackRef(callbackFn);
+	const stateSlice = useStore(store, selector);
 
-	return useStore<CarouselStoreApi, TState>(store, selector);
+	return stateSlice;
 };
 
 const useCarouselActions = () => useCarouselStore((state) => state.actions);

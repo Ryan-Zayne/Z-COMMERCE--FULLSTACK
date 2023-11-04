@@ -5,6 +5,10 @@
 		{
 			"source": "/(.*)",
 			"destination": "/"
+		},
+		{
+			"source": "/z-api/v1/:matches*",
+			"destination": "https://zayne-commerce-server.onrender.com/z-api/v1/*"
 		}
 	]
 }

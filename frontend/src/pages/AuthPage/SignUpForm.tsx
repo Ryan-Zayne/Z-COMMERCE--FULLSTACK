@@ -1,17 +1,28 @@
 import { Logo } from '@/components';
-import type { Setter } from '@/lib/global-type-helpers';
 import { useGlobalStore } from '@/store/zustand/globalStore';
+import { Transition } from '@headlessui/react';
 import { FcGoogle } from 'react-icons/fc';
-import FormArea from './FormArea';
+import { Link, useLocation } from 'react-router-dom';
+import FormArea from './components/FormArea';
 import { facebook } from './images';
 
-function SignUpForm({ setIsLogin }: { setIsLogin: Setter<boolean> }) {
+function SignUpForm() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
+	const isSignUpPath = useLocation().pathname.endsWith('sign-up');
 
 	return (
-		<>
+		<Transition
+			className={'relative z-10 w-[min(100%,48rem)] rounded-[4px] bg-body p-[2rem_3rem] md:px-[5rem]'}
+			show={isSignUpPath}
+			appear={true}
+			enter={'transition-[opacity,transform] duration-[800ms]'}
+			enterFrom={'opacity-0 translate-x-[2rem]'}
+			enterTo={'opacity-100 translate-x-[0]'}
+			leaveFrom={'opacity-100'}
+			leaveTo={'opacity-0'}
+		>
 			<header>
-				{!isDesktop && <Logo className="ml-[-0.8rem] w-[16rem] md:w-full" />}
+				{!isDesktop && <Logo className={'ml-[-0.8rem] w-[16rem] md:w-full'} />}
 
 				<h2 className="font-roboto text-[3.8rem] font-[800] text-[color:hsl(0,0%,20%)] dark:text-[color:hsl(38,9%,76%)] max-lg:mt-[2rem]">
 					Sign Up
@@ -39,15 +50,15 @@ function SignUpForm({ setIsLogin }: { setIsLogin: Setter<boolean> }) {
 
 				<p className="mx-auto mt-[4rem] text-center text-[1.4rem] font-[500] text-input lg:mt-[3rem]">
 					Already have an account?
-					<button
+					<Link
 						className="ml-[0.4rem] text-[hsl(214,89%,53%)] hover:text-[hsl(214,89%,60%)]"
-						onClick={() => setIsLogin(true)}
+						to={'/auth/login'}
 					>
 						Sign in
-					</button>
+					</Link>
 				</p>
 			</footer>
-		</>
+		</Transition>
 	);
 }
 export default SignUpForm;

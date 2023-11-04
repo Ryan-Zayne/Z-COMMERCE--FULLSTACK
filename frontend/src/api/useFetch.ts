@@ -1,9 +1,8 @@
 import { fetcher } from '@/api/fetcher';
+import { transformData } from '@/store/react-query/helpers/transFormData';
+import type { ResponseData } from '@/store/react-query/react-query-store.types';
 import { useQueries, useQuery, type QueryFunction } from '@tanstack/react-query';
-import { transformData } from './helpers/transFormData';
-import type { ResponseData } from './react-query-store.types';
 
-// Types
 type FetchOptions = {
 	key: string[];
 	url: string;
@@ -17,9 +16,9 @@ type QueryListParam = Array<{
 	staleTime?: number;
 }>;
 
-// Custom Hooks
 const useFetch = (options: FetchOptions) => {
 	const { key, url, staleTime } = options;
+
 	const getData = () => fetcher(url);
 
 	return useQuery({

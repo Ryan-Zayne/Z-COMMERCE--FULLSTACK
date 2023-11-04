@@ -1,19 +1,18 @@
+import type { WithChildren } from '@/lib/global-type-helpers';
 import { useShopActions } from '@/store/zustand/shopStore';
 import { useThemeStore } from '@/store/zustand/themeStore';
 import type { ShopStore } from '@/store/zustand/zustand-store.types';
 import { TbTrashXFilled } from 'react-icons/tb';
 
+type CartItemWrapperProps = WithChildren<{
+	showCartItems: boolean;
+}>;
+
 type CartItemProps = {
 	product: ShopStore['cart'][number];
-	showCartItems: boolean;
 };
 
-function CartItem({ product, showCartItems }: CartItemProps) {
-	const isDarkMode = useThemeStore((state) => state.isDarkMode);
-	const { removeProductFromCart } = useShopActions();
-
-	const handleRemoveProduct = () => removeProductFromCart(product.id);
-
+function CartItemWrapper({ children, showCartItems }: CartItemWrapperProps) {
 	if (!showCartItems) {
 		return (
 			<li className="text-center italic">
@@ -24,6 +23,15 @@ function CartItem({ product, showCartItems }: CartItemProps) {
 			</li>
 		);
 	}
+
+	return children;
+}
+
+function CartItem({ product }: CartItemProps) {
+	const isDarkMode = useThemeStore((state) => state.isDarkMode);
+	const { removeProductFromCart } = useShopActions();
+
+	const handleRemoveProduct = () => removeProductFromCart(product.id);
 
 	return (
 		<li
@@ -57,5 +65,4 @@ function CartItem({ product, showCartItems }: CartItemProps) {
 	);
 }
 
-export { CartItem };
-
+export { CartItem, CartItemWrapper };

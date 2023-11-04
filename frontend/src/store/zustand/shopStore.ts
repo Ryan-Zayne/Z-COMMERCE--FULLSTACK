@@ -51,6 +51,7 @@ const shopStateObject: StateCreator<ShopStore> = (set, get) => ({
 			if (!productItemInCart || productItemInCart.quantity >= productItemInCart.stock) return;
 
 			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity + 1 });
+
 			toast.success(toastInfo.updated.message, { id: toastInfo.updated.id });
 			toast.dismiss(toastInfo.added.id);
 		},
@@ -63,6 +64,7 @@ const shopStateObject: StateCreator<ShopStore> = (set, get) => ({
 			if (!productItemInCart) return;
 
 			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity - 1 });
+
 			toast.success(toastInfo.updated.message, { id: toastInfo.updated.id });
 			toast.dismiss(toastInfo.added.id);
 		},
@@ -93,7 +95,7 @@ const shopStateObject: StateCreator<ShopStore> = (set, get) => ({
 				if (item.id === productId) {
 					return {
 						...item,
-						quantity: updatedQuantity > 0 ? updatedQuantity : item.quantity,
+						quantity: updatedQuantity > 1 ? updatedQuantity : item.quantity,
 					};
 				}
 				return item;

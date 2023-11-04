@@ -74,9 +74,9 @@ const NavHeader = () => {
 							[dropDownDisclosure.isOpen && 'py-[1.5rem]']
 						)}
 					>
-						<Link to={'/register'}>My Account</Link>
+						<Link to={'/auth/login'}>My Account</Link>
 						<Link to={'/'}>Checkout</Link>
-						<Link to={'/register'}>User Login</Link>
+						<Link to={'/auth/login'}>User Login</Link>
 					</DropDown.Panel>
 				</DropDown>
 
