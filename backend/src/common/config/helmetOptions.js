@@ -3,6 +3,8 @@
  */
 
 const helmetOptions = {
+	// crossOriginEmbedderPolicy: false,
+
 	contentSecurityPolicy: {
 		useDefaults: true,
 
