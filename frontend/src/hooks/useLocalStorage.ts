@@ -1,13 +1,10 @@
-/* eslint-disable unicorn/no-useless-undefined */
-/* eslint-disable no-console */
-/* eslint-disable consistent-return */
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-type HookOptions<TOptions> = {
+type StorageHookOptions<TValue> = {
 	syncData?: boolean;
 	logger?: (error: unknown) => void;
-	parser?: (value: string) => TOptions | undefined;
-	stringifier?: (object: TOptions | undefined) => string;
+	parser?: (value: string) => TValue | undefined;
+	stringifier?: (object: TValue | undefined) => string;
 };
 
 const dispatchStorageEvent = (dispatchOptions: StorageEventInit & { eventFn: () => void }) => {
@@ -26,113 +23,108 @@ const dispatchStorageEvent = (dispatchOptions: StorageEventInit & { eventFn: () 
 const useLocalStorage = <TValue>(
 	key: string,
 	defaultValue?: TValue,
-	options: HookOptions<TValue> = {}
+	options: StorageHookOptions<TValue> = {}
 ) => {
 	const {
+		syncData = true,
 		stringifier = JSON.stringify,
 		parser = JSON.parse,
+		// eslint-disable-next-line no-console
 		logger = console.log,
-		syncData = true,
 	} = options;
 
-	const rawValueRef = useRef<string | null>(null);
+	const rawStorageValueRef = useRef<string | null>(null);
 
-	const readStorageOnMount = useCallback(() => {
-		if (typeof window === 'undefined') return defaultValue;
+	const [storageValue, setStorageValue] = useState<TValue | null>(function readStorageOnMount() {
+		if (typeof window === 'undefined') {
+			return defaultValue;
+		}
 
 		try {
-			rawValueRef.current = window.localStorage.getItem(key);
-			const initialState = rawValueRef.current ? parser(rawValueRef.current) : defaultValue;
-			return initialState;
+			rawStorageValueRef.current = window.localStorage.getItem(key);
+
+			const initialStorageValue = rawStorageValueRef.current
+				? parser(rawStorageValueRef.current)
+				: defaultValue;
+
+			return initialStorageValue;
 		} catch (error) {
 			logger(error);
 			return defaultValue;
 		}
-	}, [defaultValue, key, logger, parser]);
-
-	const [storageValue, setStorageValue] = useState<TValue | undefined>(readStorageOnMount);
-
-	const handleStorageUpdate = useCallback(() => {
-		if (typeof window === 'undefined') return;
-
-		if (storageValue === undefined) {
-			// Dispatching the storage event to sync across tabs
-			dispatchStorageEvent({
-				eventFn: () => localStorage.removeItem(key),
-				key,
-				storageArea: window.localStorage,
-				url: window.location.href,
-			});
-
-			return;
-		}
-
-		const newValue = stringifier(storageValue);
-		const oldValue = rawValueRef.current;
-
-		rawValueRef.current = newValue;
-
-		dispatchStorageEvent({
-			eventFn: () => localStorage.setItem(key, newValue),
-			key,
-			newValue,
-			oldValue,
-			storageArea: window.localStorage,
-			url: window.location.href,
-		});
-	}, [storageValue, key, stringifier]);
-
-	// prettier-ignore
-	const handleStorageSyncAcrossTabs = useCallback((event: StorageEvent) => {
-			if (event.key !== key || event.storageArea !== window.localStorage) return;
-
-			try {
-				if (event.newValue !== rawValueRef.current) {
-					rawValueRef.current = event.newValue;
-					const newValue = event.newValue ? parser(event.newValue) : undefined;
-
-					setStorageValue(newValue);
-				}
-			} catch (error) {
-				logger(error);
-			}
-		},
-		[key, logger, parser]
-	);
+	});
 
 	const removeValue = useCallback((storedValueKey: typeof key) => {
 		try {
 			localStorage.removeItem(storedValueKey);
-			setStorageValue(undefined);
+			setStorageValue(null);
 		} catch {
 			// If user is in private mode or has storage restriction localStorage can throw the error.
 		}
 	}, []);
 
 	useEffect(
-		function updateStorageEffect() {
-			try {
-				handleStorageUpdate();
-			} catch (error) {
-				logger(error);
+		function handleStorageUpdateEffect() {
+			if (typeof window === 'undefined') return;
+
+			if (storageValue === null) {
+				// Dispatching the storage event to sync across tabs
+				dispatchStorageEvent({
+					eventFn: () => localStorage.removeItem(key),
+					key,
+					storageArea: window.localStorage,
+					url: window.location.href,
+				});
+
+				return;
 			}
+
+			const oldValue = rawStorageValueRef.current;
+			const newValue = stringifier(storageValue);
+
+			rawStorageValueRef.current = newValue;
+
+			dispatchStorageEvent({
+				eventFn: () => localStorage.setItem(key, newValue),
+				key,
+				newValue,
+				oldValue,
+				storageArea: window.localStorage,
+				url: window.location.href,
+			});
 		},
 
-		[handleStorageUpdate, logger]
+		[key, storageValue, stringifier]
 	);
 
 	useEffect(
-		function syncStorageEffect() {
+		function handleStorageSyncEffect() {
 			if (!syncData) return;
+
+			const handleStorageSyncAcrossTabs = (event: StorageEvent) => {
+				if (event.key !== key || event.storageArea !== window.localStorage) return;
+
+				if (event.newValue === rawStorageValueRef.current) return;
+
+				try {
+					rawStorageValueRef.current = event.newValue;
+					const newValue = event.newValue ? parser(event.newValue) : undefined;
+
+					setStorageValue(newValue);
+				} catch (error) {
+					logger(error);
+				}
+			};
 
 			window.addEventListener('storage', handleStorageSyncAcrossTabs);
 
+			// eslint-disable-next-line consistent-return
 			return () => {
 				window.removeEventListener('storage', handleStorageSyncAcrossTabs);
 			};
 		},
 
-		[syncData, handleStorageSyncAcrossTabs]
+		[syncData, key, parser, logger]
 	);
 
 	return [storageValue, setStorageValue, removeValue] as const;

@@ -1,12 +1,12 @@
 /* eslint-disable security/detect-object-injection */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-import { errorConstants, isDevMode } from '../utils/constants.js';
+import { errorConstants, isDevMode } from '../lib/utils/constants.js';
 
 const errorHandler = (err, req, res, next) => {
 	const statusCode = res.statusCode ?? 500;
-	const stackTrace = isDevMode ? err.stack : {};
 	const message = err.message ?? 'Something went wrong';
+	const stackTrace = isDevMode ? err.stack : 'Just dey play';
 
 	// prettier-ignore
 	const ERROR_LOOKUP = {

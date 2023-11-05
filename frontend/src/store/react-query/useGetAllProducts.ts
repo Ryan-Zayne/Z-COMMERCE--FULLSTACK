@@ -1,6 +1,6 @@
 import { fetcher } from '@/api/fetcher';
+import { useFetchMultiple } from '@/api/useFetch';
 import { transformData } from '@/store/react-query/helpers/transFormData';
-import { useFetchMultiple } from './useFetch';
 
 const useGetAllProducts = () => {
 	const productQueries = [
@@ -32,3 +32,4 @@ const useGetAllProducts = () => {
 };
 
 export { useGetAllProducts };
+

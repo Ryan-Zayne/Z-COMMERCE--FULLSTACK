@@ -1,5 +1,5 @@
 import { useToggle } from '@/hooks';
-import type { ResponseDataItem } from '@/store/react-query/query-hook.types';
+import type { ResponseDataItem } from '@/store/react-query/react-query-store.types';
 import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
 import type { ShopStore } from '@/store/zustand/zustand-store.types';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';

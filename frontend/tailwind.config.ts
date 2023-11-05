@@ -40,8 +40,8 @@ const config = {
 			},
 
 			fontFamily: {
-				roboto: ['"Roboto Slab"', 'Helvetica'],
-				rubik: ['"Rubik"', 'Trebuchet MS'],
+				roboto: ["'Roboto Slab'", 'Helvetica'],
+				rubik: ["'Rubik'", 'Trebuchet MS'],
 			},
 
 			fontWeight: {

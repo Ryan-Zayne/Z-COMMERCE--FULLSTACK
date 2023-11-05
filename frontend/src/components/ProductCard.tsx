@@ -1,6 +1,6 @@
 import { useToggle } from '@/hooks';
-import type { ResponseDataItem } from '@/store/react-query/query-hook.types';
-import type { ShopStore } from '@/store/zustand/zustand-store.types';
+import type { ResponseDataItem } from '@/store/react-query/react-query-store.types';
+import type { ResponseDataItemInCart } from '@/store/zustand/zustand-store.types';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
@@ -8,14 +8,14 @@ import { useGlobalStore } from '../store/zustand/globalStore';
 import { useShopActions, useShopStore } from '../store/zustand/shopStore';
 import { useThemeStore } from '../store/zustand/themeStore';
 import Button from './Button';
-import Card from './Card/Card';
+import Card from './Card';
 import ImageComponent from './ImageComponent';
 import StarRating from './StarRating';
 
 type ProductCardProps = {
 	to: string;
 	image: string;
-	product: ResponseDataItem | ShopStore['cart'][number];
+	productItem: ResponseDataItem | ResponseDataItemInCart;
 	aosAnimation?: string;
 	aosDuration?: string;
 	aosEasing?: string;
@@ -25,7 +25,7 @@ function ProductCard(props: ProductCardProps) {
 	const {
 		to = '',
 		image,
-		product,
+		productItem,
 		aosAnimation = 'zoom-in',
 		aosDuration = '500',
 		aosEasing = 'ease-in-out',
@@ -35,34 +35,36 @@ function ProductCard(props: ProductCardProps) {
 	const isMobile = useGlobalStore((state) => state.isMobile);
 	const wishList = useShopStore((state) => state.wishList);
 	const { addToCart, toggleAddToWishList } = useShopActions();
-	const isProductInWishList = wishList.some((item) => item.id === product.id);
+	const isProductInWishList = wishList.some((item) => item.id === productItem.id);
 	const [isHearted, toggleHearted] = useToggle(isProductInWishList);
 
 	const handleAddToCart: React.MouseEventHandler = (event) => {
 		event.preventDefault();
-		addToCart(product);
+		addToCart(productItem);
 	};
 
 	const handleAddToWishList: React.MouseEventHandler = (event) => {
 		event.preventDefault();
 		toggleHearted();
-		toggleAddToWishList(product);
+		toggleAddToWishList(productItem);
 	};
 
 	return (
 		<Card
 			as={'li'}
-			{...{ aosAnimation, aosDuration, aosEasing }}
 			className={twMerge(
 				`group/card w-[min(100%,26rem)] rounded-[1.2rem] transition-[transform,box-shadow,background-color] duration-[1000ms] ease-in-out hover:scale-[1.03] hover:box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]`,
 				[isHearted && 'scale-[1.03] box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]'],
 				[isDarkMode && 'hover:bg-primary hover:box-shadow-[0_0_6px_0px_var(--carousel-dot)]'],
 				[
 					isHearted &&
-					isDarkMode &&
-					'scale-[1.03] bg-primary [box-shadow:0_0_6px_0px_var(--carousel-dot)]',
+						isDarkMode &&
+						'scale-[1.03] bg-primary [box-shadow:0_0_6px_0px_var(--carousel-dot)]',
 				]
 			)}
+			aosAnimation={aosAnimation}
+			aosDuration={aosDuration}
+			aosEasing={aosEasing}
 		>
 			<Link className="flex h-full w-full flex-col justify-between" to={to}>
 				<Card.Header
@@ -79,7 +81,6 @@ function ProductCard(props: ProductCardProps) {
 							]
 						)}
 						onClick={handleAddToWishList}
-
 					>
 						{isHearted ? (
 							<AiFillHeart className="scale-[1.16] text-[1.9rem] text-heading group-active/btn:scale-[1.23]" />
@@ -95,24 +96,26 @@ function ProductCard(props: ProductCardProps) {
 						)}
 						src={image}
 						loading="lazy"
-						imageType={'dynamic'}
+						imageType={'hasSkeleton'}
 						onClick={(e) => isMobile && e.preventDefault()}
 					/>
 				</Card.Header>
 
 				<Card.Body className="px-[1.4rem] pt-[1rem]">
 					<header className="flex min-h-[7.2rem] items-center justify-between gap-[0.4rem] font-[600]">
-						<h3 className="capitalize">{product.title}</h3>
+						<h3 className="capitalize">{productItem.title}</h3>
 						<span className="text-[1.8rem]">
 							<sup className="text-[1.4rem]">$</sup>
-							{product.price}
+							{productItem.price}
 							<sup className="text-[1.4rem]">.00</sup>
 						</span>
 					</header>
 
-					<p className="mt-[0.5rem] min-h-[6rem] max-w-[30ch] text-[1.2rem]">{product.description}</p>
+					<p className="mt-[0.5rem] min-h-[6rem] max-w-[30ch] text-[1.2rem]">
+						{productItem.description}
+					</p>
 
-					<StarRating rating={product.rating} />
+					<StarRating rating={productItem.rating} />
 				</Card.Body>
 
 				<Card.Footer className="p-[1.3rem_1rem_1rem]">

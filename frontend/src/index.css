@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 
+
+
 @layer base {
 	:root {
 		--text-header: hsl(43, 100%, 55%);
@@ -44,14 +46,14 @@
 
 	@font-face {
 		font-family: 'Rubik';
-		src: url('/fonts/Rubik.woff2') format('woff2');
+		src: url('/public/fonts/Rubik.woff2') format('woff2');
 		font-style: normal;
 		font-display: swap;
 	}
 
 	@font-face {
 		font-family: 'Roboto Slab';
-		src: url('/fonts/Roboto-slab.woff2') format('woff2');
+		src: url('/public/fonts/Roboto-slab.woff2') format('woff2');
 		font-style: normal;
 		font-display: swap;
 	}
@@ -100,6 +102,8 @@
 		/** These will be set dynamically by javascript to prevent layout shift on navbar open */
 		--overflow-y: auto;
 		--scrollbar-padding: 0;
+		overflow-y: var(--overflow-y);
+		padding-right: var(--scrollbar-padding);
 
 		position: relative;
 		font-size: 1.6rem;
@@ -107,8 +111,7 @@
 		background-color: var(--color-body);
 		color: var(--text-body);
 
-		overflow-y: var(--overflow-y);
-		padding-right: var(--scrollbar-padding);
+
 	}
 
 

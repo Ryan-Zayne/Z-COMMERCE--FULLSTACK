@@ -7,11 +7,11 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'node:path';
-import authRouter from './auth/auth.routes.js';
+import { authRouter } from './auth/auth.routes.js';
 import { corsOptions, helmetOptions, setConnectionToDB } from './common/config/index.js';
+import { PORT, isDevMode } from './common/lib/utils/constants.js';
 import { errorHandler, notFoundHandler, serveHtmlRouter } from './common/middleware/index.js';
-import { PORT, isDevMode } from './common/utils/constants.js';
-import userRouter from './users/user.routes.js';
+import { userRouter } from './users/user.routes.js';
 
 const app = express();
 
@@ -26,8 +26,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(morgan('dev'));
 
 // Routes
-app.use('/api/auth', authRouter);
-app.use('/api/users', userRouter);
+app.use('/z-api/v1/auth', authRouter);
+app.use('/z-api/v1/users', userRouter);
 
 if (!isDevMode) {
 	const distPath = path.resolve('../', 'frontend', 'dist');
@@ -43,6 +43,6 @@ app.use(errorHandler);
 
 // Connect to DataBase and Listen for server
 app.listen(PORT, () => {
-	console.info(`Server listening at port ${PORT}`.yellow.italic);
 	setConnectionToDB();
+	console.info(`Server listening at port ${PORT}`.yellow.italic);
 });

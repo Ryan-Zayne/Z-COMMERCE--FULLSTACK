@@ -1,4 +1,3 @@
-export * from './useFetch';
 export { useGetAllProducts } from './useGetAllProducts';
 export { useGetProductCategory } from './useGetProductCategories';
 export { useGetProductItem } from './useGetProductItem';

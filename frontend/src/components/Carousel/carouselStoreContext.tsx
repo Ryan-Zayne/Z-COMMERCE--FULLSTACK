@@ -18,18 +18,24 @@ const createCarouselStore = (slideImages: CarouselStore['slideImages']) =>
 		slideImages,
 		maxSlide: slideImages.length - 1,
 
-		goToSlide: (resetValue: number) => set({ currentSlide: resetValue }),
+		actions: {
+			goToSlide: (value: number) => {
+				set({ currentSlide: value });
+			},
 
-		nextSlide: () => {
-			const { currentSlide, maxSlide, goToSlide } = get();
+			nextSlide: () => {
+				const { currentSlide, maxSlide } = get();
+				const { goToSlide } = get().actions;
 
-			currentSlide !== maxSlide ? goToSlide(currentSlide + 1) : goToSlide(0);
-		},
+				currentSlide !== maxSlide ? goToSlide(currentSlide + 1) : goToSlide(0);
+			},
 
-		previousSlide: () => {
-			const { currentSlide, maxSlide, goToSlide } = get();
+			previousSlide: () => {
+				const { currentSlide, maxSlide } = get();
+				const { goToSlide } = get().actions;
 
-			currentSlide !== 0 ? goToSlide(currentSlide - 1) : goToSlide(maxSlide);
+				currentSlide !== 0 ? goToSlide(currentSlide - 1) : goToSlide(maxSlide);
+			},
 		},
 	}));
 
@@ -40,12 +46,15 @@ function CarouselContextProvider({ children, slideImages }: CarouselProviderProp
 	return <Provider value={carouselStore}>{children}</Provider>;
 }
 
-// useContextStore hook
+// hooks
 const useCarouselStore = <TState,>(callbackFn: (store: CarouselStore) => TState) => {
 	const store = useContext();
 	const selector = useCallbackRef(callbackFn);
+	const stateSlice = useStore(store, selector);
 
-	return useStore<CarouselStoreApi, TState>(store, selector);
+	return stateSlice;
 };
 
-export { CarouselContextProvider, useCarouselStore };
+const useCarouselActions = () => useCarouselStore((state) => state.actions);
+
+export { CarouselContextProvider, useCarouselActions, useCarouselStore };

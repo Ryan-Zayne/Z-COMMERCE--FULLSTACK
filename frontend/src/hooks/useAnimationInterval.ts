@@ -3,16 +3,16 @@ import { assertDefined } from '@/lib/global-type-helpers';
 import { useCallback, useEffect, useRef } from 'react';
 import { useCallbackRef } from './useCallbackRef';
 
-type AnimationOptionsType = {
+type AnimationOptions = {
 	callbackFn: () => void;
 	intervalDuration: number | null;
 };
 
-const useAnimationInterval = (options: AnimationOptionsType) => {
+const useAnimationInterval = (options: AnimationOptions) => {
 	const { callbackFn, intervalDuration } = options;
 
 	const startTimeStampRef = useRef<number | null>(null);
-	const animationFrameId = useRef(0);
+	const animationFrameId = useRef<number | null>(null);
 
 	const savedCallback = useCallbackRef(callbackFn);
 
@@ -39,7 +39,11 @@ const useAnimationInterval = (options: AnimationOptionsType) => {
 		[smoothAnimation]
 	);
 
-	const onAnimationStop = useCallback(() => cancelAnimationFrame(animationFrameId.current), []);
+	const onAnimationStop = useCallback(() => {
+		cancelAnimationFrame(animationFrameId.current as number);
+		startTimeStampRef.current = null;
+		animationFrameId.current = null;
+	}, []);
 
 	useEffect(
 		function toggleAnimationByIntervalEffect() {

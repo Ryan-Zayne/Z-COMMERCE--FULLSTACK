@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { noScrollOnOpen } from '../utils/no-scroll-on-open';
+import { noScrollOnOpen } from '../lib/utils/no-scroll-on-open';
 
 type DisclosureOptions = {
 	scrollControl?: boolean;
@@ -37,4 +37,3 @@ const useDisclosure = (options: DisclosureOptions = {}) => {
 };
 
 export { useDisclosure };
-

@@ -1,9 +1,13 @@
 import { useCallback, useRef } from 'react';
 
+type PossibleElementsType = 'heading' | 'button' | 'paragraph';
+
 type ElementsInfoType = Array<{
-	targetElement: string;
+	targetElement: PossibleElementsType;
 	animationClass: string;
 }>;
+
+type ElementsRefType = Record<'button' | 'heading' | 'paragraph', HTMLElement | null>;
 
 type AnimateCarouselOptions = {
 	elementsInfo?: ElementsInfoType;
@@ -23,7 +27,7 @@ const defaultElementsInfo = [
 ] satisfies ElementsInfoType;
 
 const useAnimateCarouselRefs = ({ elementsInfo = defaultElementsInfo }: AnimateCarouselOptions = {}) => {
-	const elementsRef = useRef({} as Record<string, HTMLElement | null>);
+	const elementsRef = useRef({} as ElementsRefType);
 
 	const addAnimationClasses = useCallback(() => {
 		for (const { targetElement, animationClass } of elementsInfo) {
@@ -37,7 +41,9 @@ const useAnimateCarouselRefs = ({ elementsInfo = defaultElementsInfo }: AnimateC
 
 	const removeAnimationClasses = useCallback(() => {
 		for (const { targetElement, animationClass } of elementsInfo) {
-			elementsRef.current[targetElement]?.classList.remove(animationClass);
+			elementsRef.current[targetElement]?.addEventListener('animationend', () => {
+				elementsRef.current[targetElement]?.classList.remove(animationClass);
+			});
 		}
 	}, [elementsInfo]);
 
@@ -45,13 +51,10 @@ const useAnimateCarouselRefs = ({ elementsInfo = defaultElementsInfo }: AnimateC
 	const handleElementsAnimation = useCallback(() => {
 		addAnimationClasses();
 
-		for (const { targetElement } of elementsInfo) {
-			elementsRef.current[targetElement]?.addEventListener('animationend', removeAnimationClasses);
-		}
-	}, [addAnimationClasses, elementsInfo, removeAnimationClasses]);
+		removeAnimationClasses();
+	}, [addAnimationClasses, removeAnimationClasses]);
 
 	return { animatedElements: elementsRef.current, handleElementsAnimation };
 };
 
 export { useAnimateCarouselRefs };
-

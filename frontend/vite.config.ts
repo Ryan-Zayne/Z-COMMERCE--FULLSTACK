@@ -1,12 +1,12 @@
 import react from '@vitejs/plugin-react-swc';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
-import checker from 'vite-plugin-checker';
+import typeChecker from 'vite-plugin-checker';
 
 export default defineConfig({
 	plugins: [
 		react(),
-		checker({
+		typeChecker({
 			typescript: true,
 		}),
 	],
@@ -20,14 +20,14 @@ export default defineConfig({
 	server: {
 		open: ' ',
 		proxy: {
-			'/api': {
+			'/z-api': {
 				target: 'http://localhost:8000',
 				changeOrigin: true,
 			},
 		},
 	},
 
-	//* Enable this in order to serve html via ejs template (--disabled)
+	//* Enable this to serve html via ejs template (--disabled)
 	// build: {
 	// 	manifest: true,
 	// 	rollupOptions: {

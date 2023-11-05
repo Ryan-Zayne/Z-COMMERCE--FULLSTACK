@@ -12,29 +12,21 @@
 		"module": "ESNext",
 		"moduleDetection": "force",
 		"moduleResolution": "Node",
-		"noErrorTruncation": true, // ANCHOR - noErrorTruncation (May turn off in the future)
 		"noEmit": true,
+		"noErrorTruncation": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
 		"paths": {
 			"@/*": ["src/*"]
 		},
 		"resolveJsonModule": true,
-		"skipLibCheck": true /* Skip type checking all .d.ts files. */,
+		"skipLibCheck": true,
 		"strict": true,
 		"target": "ES2022",
 		"verbatimModuleSyntax": true
 	},
 	"exclude": ["node_modules"],
-	"include": [
-		"env.d.ts",
-		"postcss.config.cjs",
-		"prettier.config.js",
-		"src",
-		"tailwind.config.ts",
-		"vite-types.d.ts",
-		"vite.config.ts"
-	],
+	"include": ["src", "env.d.ts", "tailwind.config.ts", "vite.config.ts"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"

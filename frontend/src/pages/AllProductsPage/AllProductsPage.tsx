@@ -16,7 +16,7 @@ function AllProductsPage() {
 			key={product?.id}
 			to={`/${product?.category}/${product?.id}`}
 			image={product?.images[1] ?? ''}
-			product={assertDefined(product)}
+			productItem={assertDefined(product)}
 		/>
 	));
 

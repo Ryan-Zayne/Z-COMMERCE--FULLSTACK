@@ -1,6 +1,6 @@
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { prefersDarkMode } from '../../utils/constants';
+import { prefersDarkMode } from '../../lib/utils/constants';
 import type { ThemeStore } from './zustand-store.types';
 
 // Store Object Initializtion
@@ -11,19 +11,15 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 	themeActions: {
 		toggleTheme: () => {
 			const newtheme = get().theme === 'dark' ? 'light' : 'dark';
+
 			set({ theme: newtheme });
 
+			document.documentElement.dataset.theme = newtheme;
+
 			document.documentElement.classList.add('theme-transition');
-
-			const timeoutId = setTimeout(() => {
+			document.documentElement.addEventListener('transitionend', () => {
 				document.documentElement.classList.remove('theme-transition');
-				clearTimeout(timeoutId);
-			}, 600);
-		},
-
-		toggleIsDarkMode: () => {
-			const newMode = get().theme === 'dark';
-			set({ isDarkMode: newMode });
+			});
 		},
 	},
 });
@@ -32,7 +28,7 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 export const useThemeStore = create<ThemeStore>()(
 	persist(themeStoreObject, {
 		name: 'colorScheme',
-		partialize: ({ themeActions, ...state }) => state,
+		partialize: ({ themeActions, ...actualState }) => actualState,
 	})
 );
 

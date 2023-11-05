@@ -1,7 +1,7 @@
 import { useCarouselOptions } from '@/hooks/useCarouselOptions';
 import { useGlobalStore } from '@/store/zustand/globalStore';
 import { twMerge } from 'tailwind-merge';
-import { useCarouselStore } from './carouselStoreContext';
+import { useCarouselActions, useCarouselStore } from './carouselStoreContext';
 
 type CarouselProps = {
 	as?: keyof JSX.IntrinsicElements;
@@ -12,7 +12,7 @@ type CarouselProps = {
 	innerClassName?: string;
 	leftBtnClasses?: string;
 	rightBtnClasses?: string;
-	isAutoSlide?: boolean;
+	hasAutoSlide?: boolean;
 	autoSlideInterval?: number;
 	pauseOnHover?: boolean;
 };
@@ -37,17 +37,16 @@ function Carousel(props: CarouselProps) {
 		innerClassName = '',
 		leftBtnClasses = '',
 		rightBtnClasses = '',
-		isAutoSlide,
+		hasAutoSlide,
 		autoSlideInterval,
 		pauseOnHover = false,
 	} = props;
 
 	const isMobile = useGlobalStore((state) => state.isMobile);
-	const nextSlide = useCarouselStore((state) => state.nextSlide);
-	const previousSlide = useCarouselStore((state) => state.previousSlide);
+	const { nextSlide, previousSlide } = useCarouselActions();
 
-	const { setIsPaused } = useCarouselOptions({
-		isAutoSlide,
+	const { setIsAutoSlidePaused } = useCarouselOptions({
+		hasAutoSlide,
 		autoSlideInterval,
 	});
 
@@ -55,8 +54,8 @@ function Carousel(props: CarouselProps) {
 		<Element
 			id="Carousel"
 			className={twMerge(`relative flex h-full touch-none select-none ${outerClassName}`)}
-			onMouseEnter={() => !isMobile && pauseOnHover && setIsPaused(true)}
-			onMouseLeave={() => !isMobile && pauseOnHover && setIsPaused(false)}
+			onMouseEnter={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(true)}
+			onMouseLeave={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(false)}
 		>
 			<button
 				className="absolute left-0 z-40 h-full w-[9rem]"
@@ -136,7 +135,7 @@ function CarouselIndicator({
 	index,
 }: CarouselIndicatorProps) {
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
-	const goToSlide = useCarouselStore((state) => state.goToSlide);
+	const { goToSlide } = useCarouselActions();
 
 	return (
 		<span

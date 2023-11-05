@@ -1,4 +1,4 @@
-import { asyncHandler } from '../../common/utils/asyncHandler.utils.js';
+import { asyncHandler } from '../../common/lib/utils/asyncHandler.utils.js';
 import UserModel from '../../users/user.model.js';
 import { clearExistingCookie } from '../auth.services.js';
 
@@ -8,25 +8,26 @@ import { clearExistingCookie } from '../auth.services.js';
 const logoutUser = asyncHandler(async (req, res) => {
 	const { refreshToken } = req.signedCookies;
 
+	clearExistingCookie(res);
+
 	if (!refreshToken) {
 		res.sendStatus(204); // No content status
 		return;
 	}
 
-	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken });
+	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken }).select(
+		'+refreshTokenArray'
+	);
 
 	if (!userWithToken) {
-		clearExistingCookie(res);
-
-		res.sendStatus(204);
+		res.sendStatus(204); // No content status
 		return;
 	}
 
-	const filteredTokenArray = userWithToken.refreshTokenArray.filter((token) => token !== refreshToken);
+	const updatedTokenArray = userWithToken.refreshTokenArray.filter((token) => token !== refreshToken);
 
-	await UserModel.findByIdAndUpdate(userWithToken.id, { refreshTokenArray: filteredTokenArray });
+	await UserModel.findByIdAndUpdate(userWithToken.id, { refreshTokenArray: updatedTokenArray });
 
-	clearExistingCookie(res);
 	res.sendStatus(204);
 });
 
