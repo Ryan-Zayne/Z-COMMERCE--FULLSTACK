@@ -26,8 +26,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(morgan('dev'));
 
 // Routes
-app.use('/z-api/v1/auth', authRouter);
-app.use('/z-api/v1/users', userRouter);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
 
 if (!isDevMode) {
 	const distPath = path.resolve('../', 'frontend', 'dist');
