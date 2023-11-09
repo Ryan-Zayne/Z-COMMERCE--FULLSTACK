@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
+import { cnMerge } from '@/lib/utils/cn';
 import { forwardRef } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 export type ButtonProps = React.ComponentPropsWithRef<'button'> & {
 	theme?: keyof typeof semanticClasses.themes;
@@ -43,7 +43,7 @@ function Button(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) 
 		...otherValidBtnProps
 	} = props;
 
-	const BTN_CLASSES = twMerge(
+	const BTN_CLASSES = cnMerge(
 		semanticClasses.base,
 		semanticClasses.variants[variant],
 		semanticClasses.themes[theme],

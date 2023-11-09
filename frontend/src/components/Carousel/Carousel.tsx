@@ -1,6 +1,6 @@
 import { useCarouselOptions } from '@/hooks/useCarouselOptions';
-import { useGlobalStore } from '@/store/zustand/globalStore';
-import { twMerge } from 'tailwind-merge';
+import { cnMerge } from '@/lib/utils/cn';
+import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { useCarouselActions, useCarouselStore } from './carouselStoreContext';
 
 type CarouselProps = {
@@ -53,7 +53,7 @@ function Carousel(props: CarouselProps) {
 	return (
 		<Element
 			id="Carousel"
-			className={twMerge(`relative flex h-full touch-none select-none ${outerClassName}`)}
+			className={cnMerge(`relative flex h-full touch-none select-none ${outerClassName}`)}
 			onMouseEnter={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(true)}
 			onMouseLeave={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(false)}
 		>
@@ -65,7 +65,7 @@ function Carousel(props: CarouselProps) {
 				}}
 			>
 				<span
-					className={twMerge(
+					className={cnMerge(
 						`absolute left-[0.7rem] top-[45%] rotate-180 rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${leftBtnClasses}`
 					)}
 				>
@@ -75,7 +75,7 @@ function Carousel(props: CarouselProps) {
 
 			<div
 				id="Carousel Inner"
-				className={twMerge(
+				className={cnMerge(
 					`flex h-full touch-none overflow-x-scroll scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${innerClassName}`
 				)}
 			>
@@ -90,7 +90,7 @@ function Carousel(props: CarouselProps) {
 				}}
 			>
 				<span
-					className={twMerge(
+					className={cnMerge(
 						`absolute right-[0.7rem] top-[45%] rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${rightBtnClasses}`
 					)}
 				>
@@ -102,7 +102,7 @@ function Carousel(props: CarouselProps) {
 }
 
 function CarouselItem({ children, className = '' }: OtherCarouselProps) {
-	return <li className={twMerge(`flex w-full shrink-0 ${className}`)}>{children}</li>;
+	return <li className={cnMerge(`flex w-full shrink-0 ${className}`)}>{children}</li>;
 }
 
 function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
@@ -111,7 +111,7 @@ function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
 	return (
 		<ul
 			id="Carousel Image Wrapper"
-			className={twMerge(
+			className={cnMerge(
 				`flex w-full shrink-0 transition-transform duration-[1000ms] ease-in-out ${className}`
 			)}
 			style={{ transform: `translate3d(-${currentSlide * 100}%, 0, 0)` }}
@@ -123,7 +123,7 @@ function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
 
 function CarouselCaption({ children, className = '' }: OtherCarouselProps) {
 	return (
-		<div id="Carousel Caption" className={twMerge(`absolute text-light ${className}`)}>
+		<div id="Carousel Caption" className={cnMerge(`absolute text-light ${className}`)}>
 			{children}
 		</div>
 	);
@@ -140,7 +140,7 @@ function CarouselIndicator({
 	return (
 		<span
 			onClick={() => goToSlide(index)}
-			className={twMerge(`
+			className={cnMerge(`
 				inline-block h-[0.6rem] w-[0.6rem] shrink-0 cursor-pointer rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot hover:[box-shadow:0_0_5px_var(--carousel-dot)]
 				${className}
 				${index === currentSlide ? `${onActiveClassName}` : ''}
@@ -153,7 +153,7 @@ function CarouselIndicatorWrapper({ children, className = '' }: OtherCarouselPro
 	return (
 		<span
 			id="Carousel Indicators"
-			className={twMerge(
+			className={cnMerge(
 				`absolute bottom-[2.5rem] z-[2] inline-flex w-full items-center justify-center gap-[1.5rem] ${className}`
 			)}
 		>

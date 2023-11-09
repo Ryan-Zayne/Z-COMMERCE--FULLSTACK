@@ -9,7 +9,9 @@ import { CartItem, CartItemWrapper } from './CartItem';
 
 type CartDrawerProps = DrawerStore & { placement?: DrawerContentProps['placement'] };
 
-function CartDrawer({ isOpen, onClose, onOpen, placement = 'right' }: CartDrawerProps) {
+function CartDrawer(props: CartDrawerProps) {
+	const { isOpen, onClose, onOpen, placement = 'right' } = props;
+
 	const cart = useShopStore((state) => state.cart);
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const { For: CartItemsList } = useElementList();

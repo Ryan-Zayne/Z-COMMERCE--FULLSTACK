@@ -1,13 +1,42 @@
 import { Logo } from '@/components';
-import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore';
+import { useElementList } from '@/hooks';
+import { cnMerge } from '@/lib/utils/cn';
+import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { NavLink } from 'react-router-dom';
-import { twMerge } from 'tailwind-merge';
 import CategoryMenu from './CategoryMenu';
+
+type NavItemsType = Array<
+	| {
+			title: string;
+			path: string;
+			className?: string;
+	  }
+	| {
+			id: number;
+			Element: React.ReactNode;
+			shouldShow: boolean;
+			className?: string;
+	  }
+>;
 
 const NavigationLinks = () => {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
 	const { toggleNavShow } = useGlobalActions();
+	const { For: NavItemsList } = useElementList();
+
+	const navItemsArray: NavItemsType = [
+		{ id: 1, Element: <Logo className={'mb-[2rem] ml-[4rem]'} />, shouldShow: !isDesktop },
+		{ title: 'Home', path: '/' },
+		{
+			id: 2,
+			Element: <CategoryMenu deviceType={'mobile'} />,
+			shouldShow: !isDesktop,
+			className: 'max-lg:pl-[4rem]',
+		},
+		{ title: 'Products', path: '/products' },
+		{ title: 'Contact', path: '/contact' },
+	];
 
 	return (
 		<div id="Navigation Links" className="w-full">
@@ -16,38 +45,40 @@ const NavigationLinks = () => {
 
 				<ul
 					id="Navigation List"
-					className={twMerge(
-						`flex gap-[12rem] [&_>_li:not(:first-child)_>_a]:navlink-transition [&_>_li_>_a.active]:text-[--brand-inverse] [&_>_li_>_a]:relative`,
+					className={cnMerge(
+						'flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
 						[
 							!isDesktop &&
 								'fixed z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[250ms] ease-[ease] [backdrop-filter:blur(2rem)_saturate(5)] [inset:0_0_0_auto] md:text-[1.6rem]',
 						],
-						[isNavShow && !isDesktop && 'w-[min(21rem,_80%)] duration-[500ms] md:w-[24rem]']
+
+						{ 'w-[min(21rem,_80%)] duration-[600ms] md:w-[24rem]': !isDesktop && isNavShow }
 					)}
 				>
-					{!isDesktop && (
-						<li className="">
-							<Logo className={'mb-[2rem] ml-[4rem]'} />
-						</li>
-					)}
+					<NavItemsList
+						each={navItemsArray}
+						render={(navItem) => {
+							if ('Element' in navItem) {
+								return navItem.shouldShow
+									? [
+											<li key={navItem.id} className={navItem.className ?? ''}>
+												{navItem.Element}
+											</li>,
+									  ]
+									: [];
+							}
 
-					<li className="max-lg:pl-[4rem]" onClick={!isDesktop ? toggleNavShow : undefined}>
-						<NavLink to="/">Home</NavLink>
-					</li>
-
-					{!isDesktop && (
-						<li className="max-lg:pl-[4rem]">
-							<CategoryMenu deviceType={'mobile'} />
-						</li>
-					)}
-
-					<li className="max-lg:pl-[4rem]" onClick={!isDesktop ? toggleNavShow : undefined}>
-						<NavLink to="/products/all-products">Products</NavLink>
-					</li>
-
-					<li className="max-lg:pl-[4rem]" onClick={!isDesktop ? toggleNavShow : undefined}>
-						<NavLink to={'/contact'}>Contact</NavLink>
-					</li>
+							return (
+								<li
+									className="max-lg:pl-[4rem]"
+									key={navItem.title}
+									onClick={!isDesktop ? toggleNavShow : undefined}
+								>
+									<NavLink to={navItem.path}>{navItem.title}</NavLink>
+								</li>
+							);
+						}}
+					/>
 				</ul>
 
 				{isDesktop && (

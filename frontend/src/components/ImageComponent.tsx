@@ -1,6 +1,6 @@
-import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore';
+import { cnMerge } from '@/lib/utils/cn';
+import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { useEffect } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 type ImageComponentProps = React.ComponentPropsWithRef<'img'> & {
 	src: string;
@@ -47,7 +47,7 @@ function ImageComponent(props: ImageComponentProps) {
 		hasFallback: () => (
 			<img
 				src={isImageLoaded ? src : blurSrc}
-				className={twMerge(`object-cover`, className)}
+				className={cnMerge(`object-cover`, className)}
 				alt=""
 				{...restOfProps}
 			/>
@@ -55,7 +55,7 @@ function ImageComponent(props: ImageComponentProps) {
 
 		hasSkeleton: () => (
 			<div
-				className={twMerge(
+				className={cnMerge(
 					`h-full w-full`,
 					[!isImageLoaded && 'relative bg-white/[0.17] invert dark:bg-black/[0.17] dark:invert-0'],
 					[wrapperClassName]
@@ -67,7 +67,7 @@ function ImageComponent(props: ImageComponentProps) {
 				)}
 
 				<img
-					className={twMerge('object-cover', [isImageLoaded && 'h-full'], [className])}
+					className={cnMerge('object-cover', [isImageLoaded && 'h-full'], [className])}
 					src={src}
 					alt=""
 					{...restOfProps}

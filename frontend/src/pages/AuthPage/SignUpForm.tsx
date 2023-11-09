@@ -1,5 +1,5 @@
 import { Logo } from '@/components';
-import { useGlobalStore } from '@/store/zustand/globalStore';
+import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { Transition } from '@headlessui/react';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation } from 'react-router-dom';

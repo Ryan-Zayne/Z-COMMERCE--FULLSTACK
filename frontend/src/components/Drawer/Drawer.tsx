@@ -1,6 +1,6 @@
+import { cnMerge } from '@/lib/utils/cn';
 import { useId } from 'react';
 import { RiCloseFill } from 'react-icons/ri';
-import { twMerge } from 'tailwind-merge';
 import Portal from '../Portal';
 import type { DrawerCloseProps, DrawerContentProps, DrawerProps, OtherDrawerProps } from './drawer.types';
 import { DrawerContextProvider, useDrawerStore } from './drawerStoreContext';
@@ -9,11 +9,11 @@ function Drawer({ children, ...restOfDrawerProps }: DrawerProps) {
 	const uniqueId = useId();
 
 	return (
-		<DrawerContextProvider storeValues={restOfDrawerProps}>
-			<Portal>
+		<Portal>
+			<DrawerContextProvider storeValues={restOfDrawerProps}>
 				<aside id={`CartDrawer Portal__(${uniqueId})`}>{children}</aside>
-			</Portal>
-		</DrawerContextProvider>
+			</DrawerContextProvider>
+		</Portal>
 	);
 }
 
@@ -25,7 +25,7 @@ function DrawerOverlay() {
 		<div
 			id="Drawer Overlay"
 			onClick={onClose}
-			className={twMerge(
+			className={cnMerge(
 				`fixed z-[200] w-0 bg-[hsl(0,0%,0%,0.5)] [inset:0_0_0_auto]`,
 				isOpen && 'w-screen'
 			)}
@@ -44,7 +44,7 @@ function DrawerContent({ className, children, placement = 'right' }: DrawerConte
 	return (
 		<main
 			id="Drawer Content Container"
-			className={twMerge(
+			className={cnMerge(
 				`custom-scrollbar fixed bottom-0 top-0 z-[500] flex flex-col overflow-y-auto bg-body transition-transform duration-[250ms] ease-slide-out ${placementObject[placement]}`,
 				[isOpen && 'translate-x-0 duration-[650ms] ease-slide-in'],
 				[className]
@@ -60,7 +60,7 @@ function DrawerCloseButton(props: DrawerCloseProps) {
 	const onClose = useDrawerStore((state) => state.onClose);
 
 	return (
-		<button className={twMerge(`absolute ${className}`)} onClick={onClose}>
+		<button className={cnMerge(`absolute ${className}`)} onClick={onClose}>
 			{icon}
 		</button>
 	);

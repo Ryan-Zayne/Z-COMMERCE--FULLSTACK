@@ -12,14 +12,15 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 		toggleTheme: () => {
 			const newtheme = get().theme === 'dark' ? 'light' : 'dark';
 
-			set({ theme: newtheme });
-
 			document.documentElement.dataset.theme = newtheme;
 
 			document.documentElement.classList.add('theme-transition');
+
 			document.documentElement.addEventListener('transitionend', () => {
 				document.documentElement.classList.remove('theme-transition');
 			});
+
+			set({ theme: newtheme });
 		},
 	},
 });

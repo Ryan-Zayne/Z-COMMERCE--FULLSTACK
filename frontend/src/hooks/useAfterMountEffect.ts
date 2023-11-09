@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useCallbackRef } from './useCallbackRef';
 
 /**
- * A thin wrapper around “useEffect” which will fire when the deps changes and not on mount.
+ * A thin wrapper around “useEffect” which will fire when the deps changes, not on mount.
  * */
 
 const useAfterMountEffect = (callback: React.EffectCallback, deps: React.DependencyList = []) => {
@@ -12,15 +12,15 @@ const useAfterMountEffect = (callback: React.EffectCallback, deps: React.Depende
 
 	const savedEffectCallback = useCallbackRef(callback);
 
-	useEffect(() => {
+	useEffect(function afterMountEffect() {
 		if (!hasMounted.current) {
 			hasMounted.current = true;
 			return;
 		}
 
-		const cleanupFn = savedEffectCallback();
+		const cleanUpFn = savedEffectCallback();
 
-		return cleanupFn;
+		return cleanUpFn;
 	}, deps);
 };
 

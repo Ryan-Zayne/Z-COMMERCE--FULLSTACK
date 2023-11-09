@@ -1,6 +1,6 @@
-import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore';
+import { cnMerge } from '@/lib/utils/cn';
+import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { RiCloseFill, RiMenu3Fill } from 'react-icons/ri';
-import { twMerge } from 'tailwind-merge';
 
 function HamBurgerButton() {
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
@@ -10,7 +10,7 @@ function HamBurgerButton() {
 		<>
 			<button
 				id="Hamburger"
-				className={twMerge(
+				className={cnMerge(
 					`z-[120] w-[2.6rem]`,
 					isNavShow && 'fixed right-[1.9rem] animate-[bounce_1.5s_ease_infinite] text-rose-600'
 				)}
@@ -22,7 +22,7 @@ function HamBurgerButton() {
 			{/* HAMBURGER OVERLAY */}
 			<div
 				onClick={toggleNavShow}
-				className={twMerge(
+				className={cnMerge(
 					`fixed z-[80] w-0 bg-[hsl(0,0%,0%,0.6)] [inset:0_0_0_auto]`,
 					isNavShow && 'w-screen'
 				)}

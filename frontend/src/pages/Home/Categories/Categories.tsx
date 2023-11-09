@@ -1,13 +1,13 @@
 import { Button } from '@/components';
 import { useElementList } from '@/hooks';
+import { cnJoin } from '@/lib/utils/cn';
 import { useThemeStore } from '@/store/zustand/themeStore';
 import { Link } from 'react-router-dom';
-import { twJoin } from 'tailwind-merge';
 
 const categories = [
 	{
 		title: 'SmartPhones',
-		path: '/smartphones',
+		path: 'products/smartphones',
 		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436586/smartphone-transformed_jbfngh_t4v6hj.webp',
 		imageAspectRatio: 'aspect-[0.83]',
 		bg_light: 'bg-orange-400',
@@ -15,7 +15,7 @@ const categories = [
 	},
 	{
 		title: 'Laptops',
-		path: '/laptops',
+		path: 'products/laptops',
 		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436585/laptop-transformed_dhamlu_dmts1f.webp',
 		imageAspectRatio: 'aspect-[1.33]',
 		bg_light: 'bg-gray-400',
@@ -23,7 +23,7 @@ const categories = [
 	},
 	{
 		title: 'Vehicles',
-		path: '/vehicles',
+		path: 'products/vehicles',
 		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436585/car-transformed_wegeou.webp',
 		imageAspectRatio: 'aspect-[2.02]',
 		bg_light: 'bg-purple-400',
@@ -31,7 +31,7 @@ const categories = [
 	},
 	{
 		title: 'Watches',
-		path: '/watches',
+		path: 'products/watches',
 		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436588/watches-transformed_tgsflz.webp',
 		imageAspectRatio: 'aspect-[1.21]',
 		bg_light: 'bg-cyan-400',
@@ -39,7 +39,7 @@ const categories = [
 	},
 	{
 		title: 'Digital Lighting',
-		path: '/lighting',
+		path: 'products/lighting',
 		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436587/lighting-transformed_bzmi3h.webp',
 		imageAspectRatio: 'aspect-[1.03]',
 		bg_light: 'bg-green-300',
@@ -50,8 +50,6 @@ const categories = [
 function Categories() {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const { For: CategoryLinksList } = useElementList();
-
-
 
 	return (
 		<article id="Categories" className="mt-[6rem] flex flex-col px-[4rem] lg:items-center">
@@ -66,7 +64,7 @@ function Categories() {
 							data-aos="fade-up"
 							data-aos-duration="600"
 							data-aos-anchor-easing="ease-out"
-							className={twJoin(
+							className={cnJoin(
 								`flex w-[min(100%,27rem)] justify-between gap-[1.5rem] rounded-[5rem] p-[2rem] transition-transform duration-[800ms] ease-in-out hover:scale-[1.09] lg:w-full lg:rounded-[6rem]`,
 								[isDarkMode ? category.bg_dark : category.bg_light]
 							)}
@@ -82,7 +80,12 @@ function Categories() {
 								</Link>
 							</div>
 							<div className="flex w-[12rem] items-center lg:w-[15rem]">
-								<img className={`${category.imageAspectRatio}`} src={category.image} loading="lazy" alt="" />
+								<img
+									className={`${category.imageAspectRatio}`}
+									src={category.image}
+									loading="lazy"
+									alt=""
+								/>
 							</div>
 						</li>
 					)}

@@ -1,10 +1,10 @@
 import { useToggle } from '@/hooks';
+import { cnMerge } from '@/lib/utils/cn';
 import type { ResponseDataItem } from '@/store/react-query/react-query-store.types';
 import type { ResponseDataItemInCart } from '@/store/zustand/zustand-store.types';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { twMerge } from 'tailwind-merge';
-import { useGlobalStore } from '../store/zustand/globalStore';
+import { useGlobalStore } from '../store/zustand/globalStore/globalStore';
 import { useShopActions, useShopStore } from '../store/zustand/shopStore';
 import { useThemeStore } from '../store/zustand/themeStore';
 import Button from './Button';
@@ -52,7 +52,7 @@ function ProductCard(props: ProductCardProps) {
 	return (
 		<Card
 			as={'li'}
-			className={twMerge(
+			className={cnMerge(
 				`group/card w-[min(100%,26rem)] rounded-[1.2rem] transition-[transform,box-shadow,background-color] duration-[1000ms] ease-in-out hover:scale-[1.03] hover:box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]`,
 				[isHearted && 'scale-[1.03] box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]'],
 				[isDarkMode && 'hover:bg-primary hover:box-shadow-[0_0_6px_0px_var(--carousel-dot)]'],
@@ -72,7 +72,7 @@ function ProductCard(props: ProductCardProps) {
 					className="relative h-[18rem] w-full overflow-hidden rounded-[0.8rem_0.8rem_0_0]"
 				>
 					<button
-						className={twMerge(
+						className={cnMerge(
 							`group/btn absolute bottom-[1.1rem] right-[1.3rem] z-[100] rounded-[50%] bg-primary p-[0.7rem]`,
 							[
 								isHearted
@@ -90,7 +90,7 @@ function ProductCard(props: ProductCardProps) {
 					</button>
 
 					<ImageComponent
-						className={twMerge(
+						className={cnMerge(
 							`rounded-[0.8rem_0.8rem_0_0] brightness-[0.9] transition-[transform] duration-[800ms] ease-in-out group-hover/card:scale-[1.17]`,
 							[isHearted && 'scale-[1.17]']
 						)}
@@ -120,7 +120,7 @@ function ProductCard(props: ProductCardProps) {
 
 				<Card.Footer className="p-[1.3rem_1rem_1rem]">
 					<hr
-						className={twMerge(`h-[1.8px] bg-carousel-dot opacity-0 group-hover/card:opacity-100`, [
+						className={cnMerge(`h-[1.8px] bg-carousel-dot opacity-0 group-hover/card:opacity-100`, [
 							isHearted && 'opacity-100',
 						])}
 					/>

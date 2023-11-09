@@ -1,11 +1,11 @@
 import { DropDown, Logo, SearchForm, ThemeSwitchButton } from '@/components';
 import { useDisclosure } from '@/hooks';
-import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore';
+import { cnJoin, cnMerge } from '@/lib/utils/cn';
+import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { useShopStore } from '@/store/zustand/shopStore';
 import { useThemeStore } from '@/store/zustand/themeStore';
 import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import { twJoin, twMerge } from 'tailwind-merge';
 import CartDrawer from './Cart/CartDrawer';
 import HamBurgerButton from './HamBurgerButton';
 
@@ -14,9 +14,10 @@ const NavHeader = () => {
 	const isMobile = useGlobalStore((state) => state.isMobile);
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 	const isSearchShow = useGlobalStore((state) => state.isSearchShow);
-	const cart = useShopStore((state) => state.cart);
 	const { toggleSearchShow } = useGlobalActions();
-	const cartDisclosure = useDisclosure({ scrollControl: true });
+	const cart = useShopStore((state) => state.cart);
+
+	const cartDisclosure = useDisclosure({ hasScrollControl: true });
 	const dropDownDisclosure = useDisclosure();
 
 	return (
@@ -24,10 +25,10 @@ const NavHeader = () => {
 			id="Nav Icons and Logo"
 			className="flex w-full select-none justify-between gap-[1rem] px-[1rem] lg:pr-[4rem] "
 		>
-			<Logo className={twJoin(isDarkMode && 'contrast-[1.8]) brightness-[0.8]')} />
+			<Logo className={cnJoin(isDarkMode && 'contrast-[1.8]) brightness-[0.8]')} />
 
 			<SearchForm
-				className={twMerge(
+				className={cnMerge(
 					[
 						isMobile
 							? 'absolute inset-x-0 top-[6.2rem] z-[10] flex h-0 w-[100%] items-center justify-center overflow-y-hidden rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out'
@@ -49,7 +50,7 @@ const NavHeader = () => {
 				)}
 
 				<div className="flex items-center">
-					<button className="hover:text-heading active:scale-[1.2] lg:text-[2.3rem]">
+					<button className="hover:text-heading hover:[transform:rotateY(360deg)] hover:[transition:transform_1000ms_ease-in-out] active:scale-[1.2] lg:text-[2.3rem]">
 						<Link to={'wishlist'}>
 							<BiHeart />
 						</Link>
@@ -57,9 +58,9 @@ const NavHeader = () => {
 				</div>
 
 				<DropDown className={'relative flex items-center justify-center'}>
-					<DropDown.Header className="flex">
+					<DropDown.Header className={'flex'}>
 						<button
-							className="[transition:transform_800ms_ease-in-out] hover:text-heading hover:[transform:rotateY(360deg)] lg:text-[2.3rem]"
+							className="hover:text-heading hover:[transform:rotateY(360deg)] hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
 							onClick={dropDownDisclosure.onToggle}
 						>
 							<BiUser />
@@ -69,7 +70,7 @@ const NavHeader = () => {
 					<DropDown.Panel
 						isOpen={dropDownDisclosure.isOpen}
 						panelParentClasses={'absolute top-[5.1rem] z-[100] w-[15rem]'}
-						panelListClasses={twJoin(
+						panelListClasses={cnJoin(
 							`flex flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem] text-[1.3rem] [&_>_a:hover]:navlink-transition [&_>_a]:relative`,
 							[dropDownDisclosure.isOpen && 'py-[1.5rem]']
 						)}

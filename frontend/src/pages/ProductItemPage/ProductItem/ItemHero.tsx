@@ -2,9 +2,9 @@ import { Carousel, ImageComponent } from '@/components';
 import type { CarouselStore } from '@/components/Carousel/carousel.types';
 import { useCarouselStore } from '@/components/Carousel/carouselStoreContext';
 import { useElementList } from '@/hooks';
+import { cnJoin } from '@/lib/utils/cn';
 import { useThemeStore } from '@/store/zustand/themeStore';
 import { BsChevronRight } from 'react-icons/bs';
-import { twJoin } from 'tailwind-merge';
 
 function ItemHero() {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
@@ -19,8 +19,8 @@ function ItemHero() {
 		<article className="h-[35rem] w-[min(100%,50rem)] max-md:mx-auto md:h-full">
 			<Carousel
 				as="div"
-				innerClassName={twJoin(
-					`rounded-[0.7rem]`,
+				innerClassName={cnJoin(
+					'rounded-[0.7rem]',
 					isDarkMode && 'max-lg:[box-shadow:0_0_3px_0.1px_var(--carousel-dot)]'
 				)}
 				arrowIcon={<BsChevronRight />}

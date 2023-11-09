@@ -2,17 +2,16 @@
 const theme = JSON.parse(localStorage.getItem('colorScheme') as string)?.state?.theme as string;
 document.documentElement.dataset.theme = theme;
 
+// NOTE - Removes loader after load
 const handleLoaderRemoval = () => {
 	const loaderElement = document.querySelector('.loader-container') as HTMLElement;
 
-	setTimeout(() => {
-		loaderElement.remove();
+	loaderElement.remove();
 
-		window.removeEventListener('DOMContentLoaded', handleLoaderRemoval);
-	}, 1300);
+	window.removeEventListener('load', handleLoaderRemoval);
 };
 
-window.addEventListener('DOMContentLoaded', handleLoaderRemoval);
+window.addEventListener('load', handleLoaderRemoval);
 
 // NOTE - Scroll restoration for moxilla browser
 window.history.scrollRestoration = 'auto';

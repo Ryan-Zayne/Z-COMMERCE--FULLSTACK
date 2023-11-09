@@ -11,6 +11,8 @@
 		"lint:server": "cd backend && pnpm lint",
 		"lint": "concurrently 'pnpm:lint:client' 'pnpm:lint:server'",
 		"format": "concurrently  'cd frontend && pnpm format' 'cd backend && pnpm format'",
+		"format:client": "cd frontend && pnpm format",
+		"format:server": "cd backend && pnpm format",
 		"build": "cd frontend && pnpm build",
 		"preview": "cd frontend && pnpm preview",
 		"start": "cd backend && pnpm start"
