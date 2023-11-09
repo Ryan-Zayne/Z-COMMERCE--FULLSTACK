@@ -34,6 +34,7 @@ const config = {
 				navbar: 'var(--color-navbar)',
 				'nav-text': 'var(--text-navbar)',
 				'dark-ball': 'var(--dark-mode-ball)',
+				'brand-inverse': 'var(--brand-inverse)',
 				input: 'var(--text-input)',
 				label: 'var(--text-label)',
 				error: 'var(--color-error)',

@@ -8,7 +8,7 @@ export const desktopQuery = window.matchMedia('(min-width: 1000px)');
 
 export const BASE_DUMMY_URL = 'https://dummyjson.com';
 
-const BASE_API_URL = '/z-api/v1';
+const BASE_API_URL = '/api/v1';
 
 export const BASE_AUTH_URL = `${BASE_API_URL}/auth`;
 

@@ -1,10 +1,10 @@
-import { createContext } from '@/hooks/context-hook';
+import { createCustomContext } from '@/hooks/context-wrapper-hook';
 import { useCallbackRef } from '@/hooks/useCallbackRef';
 import { useState } from 'react';
 import { createStore, useStore } from 'zustand';
 import type { CarouselProviderProps, CarouselStore, CarouselStoreApi } from './carousel.types';
 
-const [Provider, useContext] = createContext<CarouselStoreApi>({
+const [Provider, useCustomContext] = createCustomContext<CarouselStoreApi>({
 	name: 'CarouselStoreContext',
 	hookName: 'useCarouselStore',
 	providerName: 'CarouselContextProvider',
@@ -48,7 +48,7 @@ function CarouselContextProvider({ children, slideImages }: CarouselProviderProp
 
 // hooks
 const useCarouselStore = <TState,>(callbackFn: (store: CarouselStore) => TState) => {
-	const store = useContext();
+	const store = useCustomContext();
 	const selector = useCallbackRef(callbackFn);
 	const stateSlice = useStore(store, selector);
 

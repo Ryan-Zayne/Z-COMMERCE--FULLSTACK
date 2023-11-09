@@ -20,7 +20,7 @@ export default defineConfig({
 	server: {
 		open: ' ',
 		proxy: {
-			'/z-api': {
+			'/api': {
 				target: 'http://localhost:8000',
 				changeOrigin: true,
 			},

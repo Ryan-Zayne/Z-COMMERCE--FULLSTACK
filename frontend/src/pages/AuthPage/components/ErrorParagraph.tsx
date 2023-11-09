@@ -1,5 +1,5 @@
-import { useElementList } from '@/hooks';
-import { twMerge } from 'tailwind-merge';
+import { For as ErrorMessageList } from '@/components';
+import { cnJoin, cnMerge } from '@/lib/utils/cn';
 
 type ErrorTextProps = {
 	className?: string;
@@ -7,17 +7,23 @@ type ErrorTextProps = {
 };
 
 function ErrorParagraph({ className, message }: ErrorTextProps) {
-	const { For: ErrorMessageList } = useElementList();
-	const paragraphClasses = twMerge(`animate-shake pt-[0.3rem] text-[1.1rem] text-error ${className}`);
+	const paragraphClasses = cnMerge(`animate-shake pt-[0.3rem] text-[1.1rem] text-error ${className}`);
+	const splitterRegex = /, (?=[A-Z])/;
 
-	if (message?.includes(',')) {
-		const splitterRegex = /,(?=[A-Z])/;
+	if (message && splitterRegex.test(message)) {
 		const messageArray = message.split(splitterRegex);
 
 		return (
 			<ErrorMessageList
 				each={messageArray}
-				render={(msg) => <p className={`ml-[1.5rem] list-item ${paragraphClasses}`}>{`${msg}.`}</p>}
+				render={(msg, index) => (
+					<p
+						className={cnJoin(
+							`ml-[1.5rem] list-item ${paragraphClasses}`,
+							index === 0 && 'mt-[0.4rem]'
+						)}
+					>{`${msg}.`}</p>
+				)}
 			/>
 		);
 	}

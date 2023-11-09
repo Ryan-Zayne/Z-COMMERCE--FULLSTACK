@@ -91,6 +91,13 @@
 			}
 		],
 		"import/prefer-default-export": "off",
+		"import/no-cycle": [
+			"error",
+			{
+				"ignoreExternal": true,
+				"maxDepth": 2
+			}
+		],
 		"react/self-closing-comp": [
 			"error",
 			{

@@ -21,3 +21,6 @@ export const assertDefined = <T>(value: T) => {
 };
 
 export const assertRef = <T>(value: T) => value as NonNullable<T>;
+
+// prettier-ignore
+export const isObject = <T = unknown>(obj: T) => typeof obj === 'object' && obj !== null && !Array.isArray(obj);

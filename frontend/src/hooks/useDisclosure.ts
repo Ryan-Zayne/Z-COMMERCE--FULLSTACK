@@ -1,29 +1,41 @@
+import { noScrollOnOpen } from '@/lib/utils/no-scroll-on-open';
 import { useCallback, useState } from 'react';
-import { noScrollOnOpen } from '../lib/utils/no-scroll-on-open';
 
 type DisclosureOptions = {
-	scrollControl?: boolean;
-	initFn?: () => boolean;
+	hasScrollControl?: boolean;
+	initialState?: boolean | (() => boolean);
 };
 
 const useDisclosure = (options: DisclosureOptions = {}) => {
-	const { scrollControl = false, initFn } = options;
+	const { hasScrollControl = false, initialState = false } = options;
 
-	const [isOpen, setIsOpen] = useState(initFn ?? false);
+	const [isOpen, setIsOpen] = useState(
+		typeof initialState === 'boolean' ? initialState : () => initialState()
+	);
+
+	// prettier-ignore
+	const handleScrollControl = useCallback((state: boolean) => {
+			if (!hasScrollControl) return;
+
+			noScrollOnOpen({ isOpen: state });
+		},
+
+		[hasScrollControl]
+	);
 
 	const onOpen = useCallback(() => {
 		const newState = true;
 		setIsOpen(newState);
 
-		scrollControl && noScrollOnOpen({ isOpen: newState });
-	}, [scrollControl]);
+		handleScrollControl(newState);
+	}, [handleScrollControl]);
 
 	const onClose = useCallback(() => {
 		const newState = false;
 		setIsOpen(newState);
 
-		scrollControl && noScrollOnOpen({ isOpen: newState });
-	}, [scrollControl]);
+		handleScrollControl(newState);
+	}, [handleScrollControl]);
 
 	const onToggle = useCallback(() => {
 		if (isOpen) {

@@ -1,7 +1,12 @@
 import { fetcher } from '@/api/fetcher';
 import { transformData } from '@/store/react-query/helpers/transFormData';
 import type { ResponseData } from '@/store/react-query/react-query-store.types';
-import { useQueries, useQuery, type QueryFunction } from '@tanstack/react-query';
+import {
+	useQueries,
+	useQuery,
+	type QueryFunction,
+	type QueryFunctionContext,
+} from '@tanstack/react-query';
 
 type FetchOptions = {
 	key: string[];
@@ -9,17 +14,17 @@ type FetchOptions = {
 	staleTime?: number;
 };
 
-type QueryListParam = Array<{
+type QueryListType = Array<{
 	queryKey: FetchOptions['key'];
-	queryFn: QueryFunction<ResponseData, QueryListParam[number]['queryKey']>;
+	queryFn: QueryFunction<ResponseData, QueryListType[number]['queryKey']>;
 	select: typeof transformData;
 	staleTime?: number;
 }>;
 
-const useFetch = (options: FetchOptions) => {
+export const useFetch = (options: FetchOptions) => {
 	const { key, url, staleTime } = options;
 
-	const getData = () => fetcher(url);
+	const getData = ({ signal }: QueryFunctionContext<string[], unknown>) => fetcher(url, { signal });
 
 	return useQuery({
 		queryKey: key,
@@ -29,9 +34,4 @@ const useFetch = (options: FetchOptions) => {
 	});
 };
 
-const useFetchMultiple = (queryList: QueryListParam) =>
-	useQueries({
-		queries: queryList,
-	});
-
-export { useFetch, useFetchMultiple };
+export const useFetchMultiple = (queryList: QueryListType) => useQueries({ queries: queryList });

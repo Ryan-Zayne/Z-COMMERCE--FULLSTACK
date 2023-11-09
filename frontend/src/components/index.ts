@@ -3,6 +3,7 @@ export { default as Carousel } from './Carousel/Carousel';
 export { default as DismissableToaster } from './DismissableToaster';
 export { default as Drawer } from './Drawer/Drawer';
 export { default as DropDown } from './DropDown';
+export { default as For } from './For';
 export { default as ImageComponent } from './ImageComponent';
 export { default as Loader } from './Loader';
 export { default as LoadingSkeleton } from './LoadingSkeleton';

@@ -11,13 +11,14 @@ function SimilarProducts({ data }: DataArrayProp) {
 			<h2 className="text-[2.5rem] font-[700] max-md:text-center lg:text-[3rem]">
 				Similar Products You Might Like
 			</h2>
+
 			<ul className="grid grid-cols-[repeat(auto-fit,_minmax(min(100%,23.6rem),_1fr))] justify-items-center gap-[3rem_1.5rem]">
 				<ProductCardsList
 					each={data}
 					render={(product) => (
 						<ProductCard
 							key={product?.id}
-							to={`/${product?.category}/${product?.id}`}
+							to={`products/${product?.category}/${product?.id}`}
 							image={product?.images[1] ?? ''}
 							productItem={assertDefined(product)}
 						/>

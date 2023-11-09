@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { twMerge } from 'tailwind-merge';
+
+import { cnMerge } from '@/lib/utils/cn';
 
 type DropDownProps = React.ComponentPropsWithoutRef<'div'>;
 
@@ -25,13 +26,13 @@ DropDown.Panel = function DropDownPanel(props: DropDownPanelProps) {
 	return (
 		<div
 			id={id}
-			className={twMerge(
+			className={cnMerge(
 				`invisible grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-[500ms]`,
-				[isOpen && 'visible grid-rows-[1fr]'],
+				{ 'visible grid-rows-[1fr]': isOpen },
 				[panelParentClasses]
 			)}
 		>
-			<ul className={twMerge(`overflow-y-hidden [transition:padding_500ms]`, panelListClasses)}>
+			<ul className={cnMerge('overflow-y-hidden [transition:padding_500ms]', panelListClasses)}>
 				{children}
 			</ul>
 		</div>

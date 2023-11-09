@@ -1,10 +1,10 @@
 import { useCallbackRef } from '@/hooks';
-import { createContext } from '@/hooks/context-hook';
-import { useLayoutEffect, useState } from 'react';
+import { createCustomContext } from '@/hooks/context-wrapper-hook';
+import { useEffect, useState } from 'react';
 import { createStore, useStore } from 'zustand';
 import type { DrawerProviderProps, DrawerStore, DrawerStoreApi } from './drawer.types';
 
-const [Provider, useContext] = createContext<DrawerStoreApi>({
+const [Provider, useCustomContext] = createCustomContext<DrawerStoreApi>({
 	name: 'DrawerStoreContext',
 	hookName: 'useDrawerStore',
 	providerName: 'DrawerContextProvider',
@@ -22,7 +22,7 @@ const createDrawerStore = () =>
 function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 	const [drawerStore] = useState(() => createDrawerStore());
 
-	useLayoutEffect(
+	useEffect(
 		function initializeStoreEffect() {
 			drawerStore.setState(storeValues);
 		},
@@ -35,7 +35,7 @@ function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 }
 
 const useDrawerStore = <TSlice,>(callbackFn: (state: DrawerStore) => TSlice) => {
-	const store = useContext();
+	const store = useCustomContext();
 	const selector = useCallbackRef(callbackFn);
 	const stateSlice = useStore(store, selector);
 
