@@ -47,7 +47,7 @@ function DrawerContent({ className, children, placement = 'right' }: DrawerConte
 			className={cnMerge(
 				`custom-scrollbar fixed bottom-0 top-0 z-[500] flex flex-col overflow-y-auto bg-body transition-transform duration-[250ms] ease-slide-out`,
 				placementObject[placement],
-				[isOpen && 'translate-x-0 duration-[650ms] ease-slide-in'],
+				[isOpen && 'translate-x-0 duration-[600ms] ease-slide-in'],
 				[className]
 			)}
 		>
