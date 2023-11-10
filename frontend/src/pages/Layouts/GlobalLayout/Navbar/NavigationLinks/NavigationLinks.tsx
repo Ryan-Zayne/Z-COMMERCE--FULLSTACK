@@ -19,13 +19,19 @@ type NavItemsType = Array<
 	  }
 >;
 
+const errorMessageDefaults = {
+	'/wishlist': 'WishList page still under construction',
+	'/contact-us': 'Contact page still under construction',
+	'/checkout': 'Checkout page still under construction',
+};
+
 const NavigationLinks = () => {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
 	const { toggleNavShow } = useGlobalActions();
-	const { For: NavItemsList } = useElementList();
+	const { For: NavLinksList } = useElementList();
 
-	const navItemsArray: NavItemsType = [
+	const navLinkInfoArray: NavItemsType = [
 		{ id: 1, Element: <Logo className={'mb-[2rem] ml-[4rem]'} />, shouldShow: !isDesktop },
 		{ title: 'Home', path: '/' },
 		{
@@ -35,7 +41,7 @@ const NavigationLinks = () => {
 			className: 'max-lg:pl-[4rem]',
 		},
 		{ title: 'Products', path: '/products' },
-		{ title: 'Contact', path: '/contact' },
+		{ title: 'Contact', path: '/contact-us' },
 	];
 
 	return (
@@ -49,32 +55,36 @@ const NavigationLinks = () => {
 						'flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
 						[
 							!isDesktop &&
-								'fixed z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[250ms] ease-[ease] [backdrop-filter:blur(2rem)_saturate(5)] [inset:0_0_0_auto] md:text-[1.6rem]',
+								'fixed z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] [inset:0_0_0_auto] md:text-[1.6rem]',
 						],
 
-						{ 'w-[min(21rem,_80%)] duration-[600ms] md:w-[24rem]': !isDesktop && isNavShow }
+						[
+							!isDesktop &&
+								isNavShow &&
+								'w-[min(21rem,_80%)] duration-[500ms] ease-slide-in md:w-[24rem]',
+						]
 					)}
 				>
-					<NavItemsList
-						each={navItemsArray}
-						render={(navItem) => {
-							if ('Element' in navItem) {
-								return navItem.shouldShow
-									? [
-											<li key={navItem.id} className={navItem.className ?? ''}>
-												{navItem.Element}
-											</li>,
-									  ]
-									: [];
+					<NavLinksList
+						each={navLinkInfoArray}
+						render={(navLinkInfo) => {
+							if ('shouldShow' in navLinkInfo) {
+								return (
+									navLinkInfo.shouldShow && (
+										<li key={navLinkInfo.id} className={navLinkInfo.className ?? ''}>
+											{navLinkInfo.Element}
+										</li>
+									)
+								);
 							}
 
 							return (
 								<li
+									key={navLinkInfo.title}
 									className="max-lg:pl-[4rem]"
-									key={navItem.title}
 									onClick={!isDesktop ? toggleNavShow : undefined}
 								>
-									<NavLink to={navItem.path}>{navItem.title}</NavLink>
+									<NavLink to={navLinkInfo.path}>{navLinkInfo.title}</NavLink>
 								</li>
 							);
 						}}

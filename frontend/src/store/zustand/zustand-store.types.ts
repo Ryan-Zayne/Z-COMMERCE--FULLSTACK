@@ -4,12 +4,10 @@ import type { ResponseDataItem } from '../react-query/react-query-store.types';
 export type GlobalStateSlice = {
 	isNavShow: boolean;
 	isSearchShow: boolean;
-	isImageLoaded: boolean;
 
 	globalActions: {
 		toggleNavShow: () => void;
 		toggleSearchShow: () => void;
-		handleImageLoad: () => void;
 	};
 };
 

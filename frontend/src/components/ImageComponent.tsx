@@ -1,6 +1,5 @@
 import { cnMerge } from '@/lib/utils/cn';
-import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type ImageComponentProps = React.ComponentPropsWithRef<'img'> & {
 	src: string;
@@ -23,13 +22,13 @@ function ImageComponent(props: ImageComponentProps) {
 		onClick,
 		...restOfProps
 	} = props;
-
-	const isImageLoaded = useGlobalStore((state) => state.isImageLoaded);
-	const { handleImageLoad } = useGlobalActions();
+	const [isImageLoaded, setIsImageLoaded] = useState(false);
 
 	useEffect(
 		function imageLoadEffect() {
 			img.src = src;
+
+			const handleImageLoad = () => setIsImageLoaded(true);
 
 			if (img.complete) {
 				handleImageLoad();
@@ -47,7 +46,7 @@ function ImageComponent(props: ImageComponentProps) {
 		hasFallback: () => (
 			<img
 				src={isImageLoaded ? src : blurSrc}
-				className={cnMerge(`object-cover`, className)}
+				className={cnMerge('object-cover', className)}
 				alt=""
 				{...restOfProps}
 			/>

@@ -8,7 +8,7 @@ function RecentProducts({ data }: DataArrayProp) {
 		.map((product) => (
 			<ProductCard
 				key={product?.id}
-				to={`products/${product?.category}/${product?.id}`}
+				to={`/products/${product?.category}/${product?.id}`}
 				image={product?.images[0] ?? ''}
 				productItem={assertDefined(product)}
 			/>

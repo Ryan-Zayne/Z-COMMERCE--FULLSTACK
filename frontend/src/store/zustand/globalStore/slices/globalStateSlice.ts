@@ -7,7 +7,6 @@ type StateSlice = StateCreator<GlobalStateSlice, [], [], GlobalStateSlice>;
 export const createGlobalStateSlice: StateSlice = (set, get) => ({
 	isNavShow: false,
 	isSearchShow: false,
-	isImageLoaded: false,
 
 	globalActions: {
 		toggleNavShow: () => {
@@ -16,7 +15,5 @@ export const createGlobalStateSlice: StateSlice = (set, get) => ({
 		},
 
 		toggleSearchShow: () => set((state) => ({ isSearchShow: !state.isSearchShow })),
-
-		handleImageLoad: () => set({ isImageLoaded: true }),
 	},
 });
