@@ -55,7 +55,7 @@ const NavigationLinks = () => {
 						'flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
 						[
 							!isDesktop &&
-								'fixed z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] [inset:0_0_0_auto] md:text-[1.6rem]',
+								'fixed z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] [inset:0_0_0_auto] md:text-[1.6rem]',
 						],
 
 						[
