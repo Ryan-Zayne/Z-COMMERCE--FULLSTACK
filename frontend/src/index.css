@@ -76,8 +76,7 @@
 		/* -webkit-tap-highlight-color: transparent; */
 	}
 
-	html.theme-transition,
-	html.theme-transition * {
+	:where(html.theme-transition *) {
 		transition: background-color 500ms ease-in-out;
 	}
 
