@@ -1,6 +1,7 @@
 export class ContextError extends Error {
 	constructor(message: string) {
-		super(message, { cause: 'dfdfd' });
+		super(message);
+
 		this.name = 'ContextError';
 	}
 }

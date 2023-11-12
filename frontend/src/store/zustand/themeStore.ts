@@ -10,10 +10,9 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 
 	themeActions: {
 		toggleTheme: () => {
-			const newtheme = get().theme === 'dark' ? 'light' : 'dark';
+			const newtheme = get().theme === 'light' ? 'dark' : 'light';
 
 			document.documentElement.dataset.theme = newtheme;
-
 			document.documentElement.classList.add('theme-transition');
 
 			document.documentElement.addEventListener('transitionend', () => {
@@ -29,7 +28,7 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 export const useThemeStore = create<ThemeStore>()(
 	persist(themeStoreObject, {
 		name: 'colorScheme',
-		partialize: ({ themeActions, ...actualState }) => actualState,
+		partialize: ({ themeActions, ...actualState }) => actualState.theme,
 	})
 );
 

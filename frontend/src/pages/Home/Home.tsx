@@ -1,4 +1,4 @@
-import { CarouselContextProvider } from '@/components/Carousel/carouselStoreContext';
+import { CarouselContextProvider } from '@/components/ui/Carousel/carouselStoreContext';
 import Categories from './Categories/Categories';
 import Hero from './Hero/Hero';
 import slidesImages from './Hero/images';

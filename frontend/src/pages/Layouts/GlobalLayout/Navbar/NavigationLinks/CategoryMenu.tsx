@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import { DropDown } from '@/components';
+import { DropDown } from '@/components/ui';
 import { useDisclosure } from '@/hooks';
 import { cnJoin } from '@/lib/utils/cn';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';

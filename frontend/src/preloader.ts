@@ -1,17 +1,20 @@
+import { preventThemeFlashOnLoad } from './lib/utils/preventThemeFlashOnLoad';
+
 // NOTE - Prevents flicker of wrong theme onLoad
-const theme = JSON.parse(localStorage.getItem('colorScheme') as string)?.state?.theme as string;
-document.documentElement.dataset.theme = theme;
+preventThemeFlashOnLoad();
 
-// NOTE - Removes loader after load
+// NOTE - Remove default loader and let react suspence take over
 const handleLoaderRemoval = () => {
-	const loaderElement = document.querySelector('.loader-container') as HTMLElement;
+	const loaderElement = document.querySelector<HTMLElement>('.loader-container');
 
-	loaderElement.remove();
+	window.setTimeout(() => {
+		if (!loaderElement) return;
 
-	window.removeEventListener('load', handleLoaderRemoval);
+		loaderElement.remove();
+	}, 700);
 };
 
-window.addEventListener('load', handleLoaderRemoval);
+window.addEventListener('DOMContentLoaded', handleLoaderRemoval);
 
 // NOTE - Scroll restoration for moxilla browser
 window.history.scrollRestoration = 'auto';

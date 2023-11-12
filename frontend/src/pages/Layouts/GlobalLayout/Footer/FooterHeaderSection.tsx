@@ -1,4 +1,4 @@
-import { SearchForm } from '@/components';
+import { SearchForm } from '@/components/ui';
 import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from 'react-icons/bs';
 import { TfiYoutube } from 'react-icons/tfi';
 import { getOnApple, getOnGoogle, newsLetterIcon } from './images';

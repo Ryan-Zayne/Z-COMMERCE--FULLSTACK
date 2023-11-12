@@ -1,4 +1,4 @@
-import { Logo } from '@/components';
+import { Logo } from '@/components/primitives';
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { Outlet } from 'react-router-dom';
 

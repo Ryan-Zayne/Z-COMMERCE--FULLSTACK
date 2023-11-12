@@ -34,6 +34,7 @@ const shopStateObject: StateCreator<ShopStore> = (set, get) => ({
 				const { incrementProductQuantity } = get().shopActions;
 
 				incrementProductQuantity(productItem.id);
+
 				return;
 			}
 

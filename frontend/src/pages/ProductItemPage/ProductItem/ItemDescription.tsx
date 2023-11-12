@@ -1,5 +1,4 @@
-/* eslint-disable unicorn/consistent-function-scoping */
-import { Button, StarRating } from '@/components';
+import { Button, StarRating } from '@/components/primitives';
 import type { ResponseDataItem } from '@/store/react-query/react-query-store.types';
 import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
 import { AiFillMinusCircle, AiFillPlusCircle, AiOutlineShoppingCart } from 'react-icons/ai';

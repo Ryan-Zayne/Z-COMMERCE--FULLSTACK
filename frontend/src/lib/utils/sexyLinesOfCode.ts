@@ -1,6 +1,5 @@
-/* eslint-disable write-good-comments/write-good-comments */
-/* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable write-good-comments/write-good-comments */
 
 // == This, is beauty...
 (({ age, ...rest }) => rest)({ name: 'a', age: 1, id: 1 });
@@ -25,7 +24,7 @@ function randomIntOverload(
 	callback: (err: Error | null, value: number) => void
 ): void;
 
-function randomIntOverload(...args: (number | CallBackFnType)[]) {
+function randomIntOverload(...args: (number | CallBackFnType)[]): number | void {
 	const HANDLER_LOOKUP = {
 		1: ([max]: [number]) => {
 			const randomInt = crypto.randomInt(max);
@@ -45,9 +44,9 @@ function randomIntOverload(...args: (number | CallBackFnType)[]) {
 
 			const max = Math.max(arg1, arg2);
 			const min = Math.min(arg1, arg2);
-			// const randomInt = Math.floor(Math.random() * (max - min)) + min;
 			const randomInt = crypto.randomInt(min, max);
 
+			// eslint-disable-next-line consistent-return
 			return randomInt;
 		},
 

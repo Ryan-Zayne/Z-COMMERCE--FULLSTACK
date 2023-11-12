@@ -1,7 +1,8 @@
-import { Logo } from '@/components';
+import { Logo } from '@/components/primitives';
 import { useElementList } from '@/hooks';
 import { cnMerge } from '@/lib/utils/cn';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
+import { RiCloseFill } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
 import CategoryMenu from './CategoryMenu';
 
@@ -13,17 +14,11 @@ type NavItemsType = Array<
 	  }
 	| {
 			id: number;
-			Element: React.ReactNode;
+			childElement: React.ReactNode;
 			shouldShow: boolean;
 			className?: string;
 	  }
 >;
-
-const errorMessageDefaults = {
-	'/wishlist': 'WishList page still under construction',
-	'/contact-us': 'Contact page still under construction',
-	'/checkout': 'Checkout page still under construction',
-};
 
 const NavigationLinks = () => {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -32,11 +27,11 @@ const NavigationLinks = () => {
 	const { For: NavLinksList } = useElementList();
 
 	const navLinkInfoArray: NavItemsType = [
-		{ id: 1, Element: <Logo className={'mb-[2rem] ml-[4rem]'} />, shouldShow: !isDesktop },
+		{ id: 1, childElement: <Logo className={'mb-[2rem] ml-[4rem]'} />, shouldShow: !isDesktop },
 		{ title: 'Home', path: '/' },
 		{
 			id: 2,
-			Element: <CategoryMenu deviceType={'mobile'} />,
+			childElement: <CategoryMenu deviceType={'mobile'} />,
 			shouldShow: !isDesktop,
 			className: 'max-lg:pl-[4rem]',
 		},
@@ -46,21 +41,47 @@ const NavigationLinks = () => {
 
 	return (
 		<div id="Navigation Links" className="w-full">
-			<nav className="flex w-[100%] items-center justify-between font-[500] lg:pr-[2rem]">
+			<nav className="relative flex w-[100%] items-center justify-between font-[500] lg:pr-[2rem]">
 				{isDesktop && <CategoryMenu deviceType={'desktop'} />}
+
+				{/* HAMBURGER OVERLAY */}
+				<div
+					onClick={toggleNavShow}
+					className={cnMerge(
+						`fixed z-[80] w-0 bg-[hsl(0,0%,0%,0.6)] [inset:0_0_0_auto]`,
+						isNavShow && 'w-screen'
+					)}
+				/>
 
 				<ul
 					id="Navigation List"
 					className={cnMerge(
-						'flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
+						'relative flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
 						[
 							!isDesktop &&
-								'fixed bottom-0 right-0 top-0 z-[100] w-[min(21rem,_80%)] translate-x-full flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]',
+								'fixed inset-[0_0_0_auto] z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)]  md:text-[1.6rem]',
 						],
 
-						[!isDesktop && isNavShow && 'translate-x-0 duration-[600ms] ease-slide-in']
+						[
+							!isDesktop &&
+								isNavShow &&
+								'w-[min(22rem,_80%)] duration-[500ms] ease-slide-in md:w-[24rem]',
+						]
 					)}
 				>
+					{!isDesktop && (
+						<button
+							className={cnMerge(
+								'invisible absolute right-[1rem] top-[3rem] text-[3rem] text-rose-600 opacity-0',
+								isNavShow &&
+									'visible animate-[bounce_2.5s_ease-in-out_infinite] opacity-100 transition-opacity duration-[250ms] ease-in'
+							)}
+							onClick={toggleNavShow}
+						>
+							<RiCloseFill />
+						</button>
+					)}
+
 					<NavLinksList
 						each={navLinkInfoArray}
 						render={(navLinkInfo) => {
@@ -68,7 +89,7 @@ const NavigationLinks = () => {
 								return (
 									navLinkInfo.shouldShow && (
 										<li key={navLinkInfo.id} className={navLinkInfo.className ?? ''}>
-											{navLinkInfo.Element}
+											{navLinkInfo.childElement}
 										</li>
 									)
 								);

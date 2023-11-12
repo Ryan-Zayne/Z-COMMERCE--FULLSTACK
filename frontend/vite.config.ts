@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react-swc';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import typeChecker from 'vite-plugin-checker';
 
@@ -26,12 +26,4 @@ export default defineConfig({
 			},
 		},
 	},
-
-	//* Enable this to serve html via ejs template (--disabled)
-	// build: {
-	// 	manifest: true,
-	// 	rollupOptions: {
-	// 		input: 'src/main.tsx',
-	// 	},
-	// },
 });

@@ -26,13 +26,13 @@ const useThrottleByTimer = <V, R>(callbackFn: (...values: V[]) => R, delay: numb
 
 const useThrottleBySetTimeout = <V, R>(callbackFn: (...values: V[]) => R, delay: number) => {
 	const savedCallback = useCallbackRef(callbackFn);
-	const throttleTimeoutId = useRef<NodeJS.Timeout | null>(null);
+	const throttleTimeoutId = useRef<number | null>(null);
 
 	// prettier-ignore
 	const throttledCallback = useCallback((...values: V[]) => {
 		if (throttleTimeoutId.current !== null) return;
 
-		throttleTimeoutId.current = setTimeout(() => {
+		throttleTimeoutId.current = window.setTimeout(() => {
 			savedCallback(...values);
 
 			throttleTimeoutId.current = null;
@@ -41,7 +41,7 @@ const useThrottleBySetTimeout = <V, R>(callbackFn: (...values: V[]) => R, delay:
 	}, [delay, savedCallback]);
 
 	useAfterMountEffect(() => {
-		return () => clearTimeout(throttleTimeoutId.current as NodeJS.Timeout);
+		return () => clearTimeout(throttleTimeoutId.current as number);
 	}, []);
 
 	return throttledCallback;
@@ -67,3 +67,4 @@ const useThrottleByFrame = <V, R>(callbackFn: (...values: V[]) => R) => {
 };
 
 export { useThrottleByFrame, useThrottleBySetTimeout, useThrottleByTimer };
+

@@ -1,4 +1,4 @@
-import { LoadingSkeleton } from '@/components';
+import { LoadingSkeleton } from '@/components/ui';
 import { useHomePageProducts } from '@/store/react-query';
 import HotSalesProducts from './HotSalesProducts';
 import RecentProducts from './RecentProducts';

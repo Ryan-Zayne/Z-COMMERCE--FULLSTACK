@@ -1,4 +1,5 @@
-import { DropDown, Logo } from '@/components';
+import { Logo } from '@/components/primitives';
+import { DropDown } from '@/components/ui';
 import { useDisclosure } from '@/hooks/useDisclosure.js';
 import { cnJoin, cnMerge } from '@/lib/utils/cn';
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.js';

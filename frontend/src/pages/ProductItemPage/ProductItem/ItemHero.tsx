@@ -1,13 +1,10 @@
-import { Carousel, ImageComponent } from '@/components';
-import type { CarouselStore } from '@/components/Carousel/carousel.types';
-import { useCarouselStore } from '@/components/Carousel/carouselStoreContext';
+import { ImageComponent } from '@/components/primitives';
+import { Carousel, type CarouselStore } from '@/components/ui';
+import { useCarouselStore } from '@/components/ui/Carousel/hooks';
 import { useElementList } from '@/hooks';
-import { cnJoin } from '@/lib/utils/cn';
-import { useThemeStore } from '@/store/zustand/themeStore';
 import { BsChevronRight } from 'react-icons/bs';
 
 function ItemHero() {
-	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const slideImages = useCarouselStore(
 		(state) => state.slideImages as Extract<CarouselStore['slideImages'], string[]>
 	);
@@ -19,11 +16,8 @@ function ItemHero() {
 		<article className="h-[35rem] w-[min(100%,50rem)] max-md:mx-auto md:h-full">
 			<Carousel
 				as="div"
-				innerClassName={cnJoin(
-					'rounded-[0.7rem]',
-					isDarkMode && 'max-lg:[box-shadow:0_0_3px_0.1px_var(--carousel-dot)]'
-				)}
 				arrowIcon={<BsChevronRight />}
+				innerClassName={'rounded-[0.7rem] max-lg:dark:[box-shadow:0_0_3px_0.1px_var(--carousel-dot)]'}
 				leftBtnClasses={'p-[0.7rem_0.4rem] text-[1.7rem] md:text-[2rem] '}
 				rightBtnClasses={'p-[0.7rem_0.4rem] text-[1.7rem] md:text-[2rem]'}
 			>

@@ -1,4 +1,4 @@
-import { For as ErrorMessageList } from '@/components';
+import { For as ErrorMessageList } from '@/components/primitives';
 import { cnJoin, cnMerge } from '@/lib/utils/cn';
 
 type ErrorTextProps = {

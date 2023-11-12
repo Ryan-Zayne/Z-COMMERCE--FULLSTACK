@@ -1,4 +1,4 @@
-import { ProductCard } from '@/components';
+import { ProductCard } from '@/components/ui';
 import { useElementList } from '@/hooks';
 import { assertDefined } from '@/lib/global-type-helpers';
 import type { DataArrayProp } from './home-product.types';

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useCallbackRef } from './useCallbackRef';
 
 /**
- * A thin wrapper around “useEffect” which will fire when the deps changes, not on mount.
+ * A thin wrapper around “useEffect” which will fire when the deps changes or when the component unmounts, but not on mount.
  * */
 
 const useAfterMountEffect = (callback: React.EffectCallback, deps: React.DependencyList = []) => {

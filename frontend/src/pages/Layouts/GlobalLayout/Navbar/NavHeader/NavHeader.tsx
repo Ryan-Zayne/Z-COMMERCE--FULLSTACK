@@ -1,4 +1,5 @@
-import { DropDown, Logo, SearchForm, ThemeSwitchButton } from '@/components';
+import { Logo } from '@/components/primitives';
+import { DropDown, SearchForm } from '@/components/ui';
 import { useDisclosure } from '@/hooks';
 import { cnJoin, cnMerge } from '@/lib/utils/cn';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
@@ -8,6 +9,7 @@ import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import CartDrawer from './Cart/CartDrawer';
 import HamBurgerButton from './HamBurgerButton';
+import ThemeSwitchButton from './ThemeSwitchButton';
 
 const NavHeader = () => {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);

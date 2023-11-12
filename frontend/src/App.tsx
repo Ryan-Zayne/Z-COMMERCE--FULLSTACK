@@ -3,7 +3,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Suspense } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { DismissableToaster, Loader } from './components';
+import { Loader } from './components/primitives';
+import { DismissableToaster } from './components/ui';
 import { routes } from './routes';
 
 AOS.init();

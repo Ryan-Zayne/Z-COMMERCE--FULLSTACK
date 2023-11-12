@@ -1,6 +1,6 @@
-import { Button, Carousel, ImageComponent } from '@/components';
-import type { CarouselStore } from '@/components/Carousel/carousel.types';
-import { useCarouselStore } from '@/components/Carousel/carouselStoreContext';
+import { Button, ImageComponent } from '@/components/primitives';
+import { Carousel, type CarouselStore } from '@/components/ui';
+import { useCarouselStore } from '@/components/ui/Carousel/hooks';
 import { useAnimateCarouselRefs, useElementList } from '@/hooks';
 import { RxPaperPlane } from 'react-icons/rx';
 

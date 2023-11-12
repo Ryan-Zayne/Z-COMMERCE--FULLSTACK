@@ -1,5 +1,6 @@
-import { Button, Drawer, Logo } from '@/components';
-import type { DrawerContentProps, DrawerStore } from '@/components/Drawer/drawer.types';
+import { Button, Logo } from '@/components/primitives';
+import { Drawer } from '@/components/ui';
+import type { DrawerContentProps, DrawerStore } from '@/components/ui/Drawer/drawer.types';
 import { useElementList } from '@/hooks';
 import { useShopStore } from '@/store/zustand/shopStore';
 import { useThemeStore } from '@/store/zustand/themeStore';
@@ -26,9 +27,7 @@ function CartDrawer(props: CartDrawerProps) {
 				className={'w-[min(100%,28rem)] pb-[1.6rem] lg:min-w-[40rem]'}
 			>
 				<Drawer.CloseButton
-					className={
-						'right-[2rem] top-[2rem] rounded-[4px] bg-heading p-[0.2rem] text-[2.6rem] text-primary lg:scale-[1.2]'
-					}
+					className={'rounded-[4px] bg-heading p-[0.2rem] text-[2.6rem] text-primary lg:scale-[1.2]'}
 				/>
 
 				<Drawer.Header

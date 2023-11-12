@@ -1,4 +1,4 @@
-import { LoadingSkeleton, ProductCard } from '@/components';
+import { LoadingSkeleton, ProductCard } from '@/components/ui';
 import { assertDefined } from '@/lib/global-type-helpers';
 import { useGetAllProducts } from '@/store/react-query';
 import { TiArrowBack } from 'react-icons/ti';

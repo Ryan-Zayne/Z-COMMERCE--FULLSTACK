@@ -1,4 +1,4 @@
-import { Button } from '@/components';
+import { Button } from '@/components/primitives';
 import { useElementList } from '@/hooks';
 import { cnJoin } from '@/lib/utils/cn';
 import { useThemeStore } from '@/store/zustand/themeStore';

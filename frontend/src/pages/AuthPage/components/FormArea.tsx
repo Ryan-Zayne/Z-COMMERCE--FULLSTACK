@@ -1,7 +1,5 @@
-import { Button } from '@/components';
-import Loader from '@/components/Loader';
+import { Button, Loader } from '@/components/primitives';
 import { useToggle } from '@/hooks';
-import { isObject } from '@/lib/global-type-helpers';
 import { LoginSchema, SignUpSchema } from '@/lib/schemas/formSchema';
 import { cnMerge } from '@/lib/utils/cn';
 import { BASE_AUTH_URL } from '@/lib/utils/constants';
@@ -11,9 +9,9 @@ import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import type { FormSchemaType } from '../form.types';
 import ErrorParagraph from './ErrorParagraph';
 import InputGroup from './InputGroup';
+import type { FormResponseDataType, FormSchemaType } from './form.types';
 
 type FormAreaProps = {
 	formType: 'Login' | 'Sign Up';
@@ -50,10 +48,10 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 				},
 			});
 
-			const responseData = await response.json();
+			const responseData = (await response.json()) as FormResponseDataType;
 
-			if (isObject(responseData) && 'errors' in responseData) {
-				const zodErrors = responseData.errors as Array<[keyof FormSchemaType, string | string[]]>;
+			if ('errors' in responseData) {
+				const zodErrors = responseData.errors;
 
 				zodErrors.forEach(([field, errorMessage]) => {
 					setError(field, {
@@ -65,7 +63,7 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 				return;
 			}
 
-			if (response.status >= 400) {
+			if (response.status >= 400 && 'message' in responseData) {
 				setError('root.serverError', {
 					type: response.statusText,
 					message: responseData.message,
@@ -74,7 +72,7 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 				return;
 			}
 
-			if (!response.ok) {
+			if (!response.ok && 'message' in responseData) {
 				throw new Error(responseData.message);
 			}
 

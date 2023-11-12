@@ -23,4 +23,4 @@ export const assertDefined = <T>(value: T) => {
 export const assertRef = <T>(value: T) => value as NonNullable<T>;
 
 // prettier-ignore
-export const isObject = <T = unknown>(obj: T) => typeof obj === 'object' && obj !== null && !Array.isArray(obj);
+export const isObject = <T extends Record<string, unknown>>(obj: T): obj is T => typeof obj === 'object' && obj !== null && !Array.isArray(obj);

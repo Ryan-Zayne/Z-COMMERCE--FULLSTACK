@@ -1,0 +1,18 @@
+{
+	"extends": "../tsconfig.json",
+
+	"compilerOptions": {
+		"composite": true
+	},
+
+	"include": [
+		"../env.d.ts",
+		"../.prettierrc.js",
+		"../postcss.config.js",
+		"../src",
+		"../tailwind.config.ts",
+		"../vite-types.d.ts",
+		"../reset.d.ts",
+		"../vite.config.ts"
+	]
+}
