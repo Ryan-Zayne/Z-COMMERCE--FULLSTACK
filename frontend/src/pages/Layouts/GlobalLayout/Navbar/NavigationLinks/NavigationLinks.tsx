@@ -74,7 +74,7 @@ const NavigationLinks = () => {
 							className={cnMerge(
 								'invisible absolute right-[1rem] top-[3rem] text-[3rem] text-rose-600 opacity-0',
 								isNavShow &&
-									'visible animate-[bounce_2.5s_ease-in-out_infinite] opacity-100 transition-opacity duration-[250ms] ease-in'
+									'visible opacity-100 transition-opacity duration-[250ms] ease-in'
 							)}
 							onClick={toggleNavShow}
 						>
