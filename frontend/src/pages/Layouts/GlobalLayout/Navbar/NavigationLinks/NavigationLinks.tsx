@@ -59,13 +59,13 @@ const NavigationLinks = () => {
 						'relative flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
 						[
 							!isDesktop &&
-								'fixed inset-[0_0_0_auto] z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[300ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)]  md:text-[1.6rem]',
+								'fixed inset-[0_0_0_auto] z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[500ms] ease-slide-in [backdrop-filter:blur(2rem)_saturate(5)]  md:text-[1.6rem]',
 						],
 
 						[
 							!isDesktop &&
 								isNavShow &&
-								'w-[min(22rem,_80%)] duration-[500ms] ease-slide-in md:w-[24rem]',
+								'w-[min(22rem,_80%)] md:w-[24rem]',
 						]
 					)}
 				>
