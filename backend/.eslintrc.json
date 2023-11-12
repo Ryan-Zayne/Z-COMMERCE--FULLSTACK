@@ -44,13 +44,14 @@
 		"import/prefer-default-export": "off",
 		"n/no-unpublished-import": "off",
 
+		// Unicorn rules
 		"unicorn/prevent-abbreviations": "off",
 		"unicorn/no-negated-condition": "off",
 		"unicorn/switch-case-braces": ["error", "avoid"],
 		"unicorn/filename-case": "off",
 		"unicorn/no-null": "off",
 
-		//SonarJs Rules
+		//SonarJs rules
 		"sonarjs/prefer-immediate-return": "off"
 	}
 }
