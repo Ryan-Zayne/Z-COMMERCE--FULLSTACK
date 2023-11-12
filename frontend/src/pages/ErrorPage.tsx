@@ -1,5 +1,5 @@
 import BellSvg from '@/assets/BellSvg';
-import { Link, useRouteError } from 'react-router-dom';
+import { useRouteError } from 'react-router-dom';
 
 function ErrorPage() {
 	const error = useRouteError() as Error;
@@ -9,14 +9,7 @@ function ErrorPage() {
 			<BellSvg />
 
 			<h1 className="mt-[2rem] text-[3rem]">{error.name}</h1>
-			<p className="mt-[0.5rem]">{error.message}</p>
-
-			<Link
-				to={'/'}
-				className="navlink-transition relative mt-6 inline-flex items-center border-b border-dotted border-dark font-medium text-heading hover:border-black/0"
-			>
-				Back to Home
-			</Link>
+			<p className="mt-[1rem] italic">{error.message}</p>
 		</section>
 	);
 }

@@ -1,3 +1,4 @@
+import { cnJoin } from '@/lib/utils/cn';
 import { useThemeActions, useThemeStore } from '@/store/zustand/themeStore';
 import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { FaSun } from 'react-icons/fa';
@@ -16,10 +17,10 @@ function ThemeSwitchButton({ display = '' }: { display?: string }) {
 				<BsFillMoonStarsFill color="pink" fontSize={'1rem'} />
 
 				<span
-					className={`
-						absolute bottom-[0.37rem] aspect-square w-[1.5rem] rounded-[50%] bg-dark-ball transition-transform duration-[300ms]
-						${theme === 'dark' ? 'translate-x-[1.75rem]' : ''}
-					`}
+					className={cnJoin(
+						'fixed bottom-[0.37rem] aspect-square w-[1.5rem] rounded-[50%] bg-dark-ball transition-transform duration-[300ms] ease-linear',
+						theme === 'dark' && 'translate-x-[1.75rem]'
+					)}
 				/>
 			</div>
 		</button>

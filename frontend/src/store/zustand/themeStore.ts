@@ -1,12 +1,18 @@
+import { getInitialThemeOnLoad } from '@/lib/utils/getInitialThemeOnLoad';
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { prefersDarkMode } from '../../lib/utils/constants';
 import type { ThemeStore } from './zustand-store.types';
+
+const initialTheme = getInitialThemeOnLoad();
+
+if (document.documentElement.dataset.theme === '') {
+	document.documentElement.dataset.theme = initialTheme;
+}
 
 // Store Object Initializtion
 const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
-	theme: prefersDarkMode ? 'dark' : 'light',
-	isDarkMode: document.documentElement.dataset.theme === 'dark',
+	theme: initialTheme,
+	isDarkMode: initialTheme === 'dark',
 
 	themeActions: {
 		toggleTheme: () => {

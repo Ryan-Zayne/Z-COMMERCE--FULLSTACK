@@ -1,10 +1,11 @@
-import { preventThemeFlashOnLoad } from './lib/utils/preventThemeFlashOnLoad';
+import { getInitialThemeOnLoad } from './lib/utils/getInitialThemeOnLoad';
 
-// NOTE - Prevents flicker of wrong theme onLoad
-preventThemeFlashOnLoad();
+// NOTE - This prevents flicker of wrong theme onLoad
+const initialTheme = getInitialThemeOnLoad();
+document.documentElement.dataset.theme = initialTheme;
 
-// NOTE - Remove default loader and let react suspence take over
-const handleLoaderRemoval = () => {
+// NOTE - This removes default loader and lets react suspense take over. It prevents flash of white screen on load
+window.addEventListener('DOMContentLoaded', () => {
 	const loaderElement = document.querySelector<HTMLElement>('.loader-container');
 
 	window.setTimeout(() => {
@@ -12,9 +13,7 @@ const handleLoaderRemoval = () => {
 
 		loaderElement.remove();
 	}, 700);
-};
-
-window.addEventListener('DOMContentLoaded', handleLoaderRemoval);
+});
 
 // NOTE - Scroll restoration for moxilla browser
 window.history.scrollRestoration = 'auto';
