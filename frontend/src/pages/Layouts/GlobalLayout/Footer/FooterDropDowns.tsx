@@ -24,6 +24,10 @@ function FooterDropDowns() {
 		});
 	};
 
+	const semanticClasses = {
+		panelList: `flex flex-col gap-[1rem] pl-[1.5rem] text-[1.4rem] font-[300] lg:gap-[1.6rem] lg:pl-0 lg:font-[400]`,
+	};
+
 	return (
 		<section
 			id="DropDown Section"
@@ -55,9 +59,7 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						isOpen={!isDesktop ? dropOne.isOpen : true}
-						panelListClasses={
-							'flex flex-col gap-[1rem] pl-[1.5rem] text-[1.4rem] font-[300] lg:font-[400] [&_li]:flex [&_li]:items-center [&_li]:gap-[1rem]'
-						}
+						panelListClasses={semanticClasses.panelList}
 					>
 						<li className="mt-[1rem] w-[27rem]">
 							<MdLocationOn />
@@ -118,6 +120,7 @@ function FooterDropDowns() {
 			</article>
 
 			<article>
+				{/* eslint-disable-next-line sonarjs/no-duplicate-string */}
 				<DropDown className={'min-w-[20rem]'}>
 					<DropDown.Header
 						className={cnMerge(
@@ -140,9 +143,7 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						isOpen={isDesktop ? true : dropThree.isOpen}
-						panelListClasses={
-							'flex flex-col gap-[1rem] pl-[1.5rem] text-[1.4rem] font-[300] lg:gap-[1.6rem] lg:pl-0 lg:font-[400]'
-						}
+						panelListClasses={semanticClasses.panelList}
 					>
 						<li className="mt-[1.2rem] lg:mt-[3rem]">About Us</li>
 						<li>Contact Us</li>
@@ -176,9 +177,7 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						isOpen={isDesktop ? true : dropFour.isOpen}
-						panelListClasses={
-							'flex flex-col gap-[1rem] pl-[1.5rem] text-[1.4rem] font-[300] lg:gap-[1.6rem] lg:pl-0 lg:font-[400]'
-						}
+						panelListClasses={semanticClasses.panelList}
 					>
 						<li className="mt-[1.2rem] lg:mt-[3rem]">Your Account</li>
 						<li>Return Center</li>
@@ -212,9 +211,7 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						isOpen={isDesktop ? true : dropFive.isOpen}
-						panelListClasses={
-							'flex flex-col gap-[1rem] pl-[1.5rem] text-[1.4rem] font-[300] lg:gap-[1.6rem] lg:pl-0 lg:font-[400]'
-						}
+						panelListClasses={semanticClasses.panelList}
 					>
 						<li className="mt-[1.2rem] lg:mt-[3rem]">Order History</li>
 						<li>Wishlist</li>

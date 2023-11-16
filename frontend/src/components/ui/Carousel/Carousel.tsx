@@ -26,7 +26,7 @@ function CarouselRoot(props: CarouselRootProps) {
 
 	return (
 		<Element
-			id="Carousel"
+			data-id="Carousel"
 			className={cnMerge(`relative flex h-full touch-none select-none ${outerClassName}`)}
 			onMouseEnter={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(true)}
 			onMouseLeave={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(false)}
@@ -48,9 +48,9 @@ function CarouselRoot(props: CarouselRootProps) {
 			</button>
 
 			<div
-				id="Carousel Inner"
+				data-id="Carousel Inner"
 				className={cnMerge(
-					`flex h-full touch-none overflow-x-scroll scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${innerClassName}`
+					`flex h-full w-full touch-none overflow-x-scroll scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${innerClassName}`
 				)}
 			>
 				{children}
@@ -85,7 +85,7 @@ function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
 
 	return (
 		<ul
-			id="Carousel Image Wrapper"
+			data-id="Carousel Image Wrapper"
 			className={cnMerge(
 				'flex w-full shrink-0 transition-transform duration-[1000ms] ease-in-out',
 				[!hasTransition && 'transition-none'],
@@ -100,7 +100,7 @@ function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
 
 function CarouselCaption({ children, className = '' }: OtherCarouselProps) {
 	return (
-		<div id="Carousel Caption" className={cnMerge(`absolute text-light ${className}`)}>
+		<div data-id="Carousel Caption" className={cnMerge(`absolute text-light ${className}`)}>
 			{children}
 		</div>
 	);
@@ -129,7 +129,7 @@ function CarouselIndicator({
 function CarouselIndicatorWrapper({ children, className = '' }: OtherCarouselProps) {
 	return (
 		<span
-			id="Carousel Indicators"
+			data-id="Carousel Indicators"
 			className={cnMerge(
 				`absolute bottom-[2.5rem] z-[2] inline-flex w-full items-center justify-center gap-[1.5rem] ${className}`
 			)}

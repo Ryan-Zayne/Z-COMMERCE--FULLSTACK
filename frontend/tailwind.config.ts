@@ -1,7 +1,7 @@
 import plugin from 'tailwindcss/plugin';
 import type { Config } from 'tailwindcss/types/config';
 
-const config = {
+const tailwindConfig = {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 	darkMode: ['class', '[data-theme="dark"]'],
 
@@ -14,9 +14,12 @@ const config = {
 		},
 
 		backgroundImage: {
-			'footer-image': "url('/src/assets/footerImages/newsletter-bg.webp')",
-			'glitter-image': "url('/src/assets/registerPageImages/glitter.webp')",
-			'yellow-cart': "url('/src/assets/registerPageImages/yellow-cart-bg.webp')",
+			'footer-image':
+				"url('https://res.cloudinary.com/djvestif4/image/upload/v1700101462/newsletter-bg_yqqx6n.webp')",
+			'glitter-image':
+				"url('https://res.cloudinary.com/djvestif4/image/upload/v1700101265/glitter.webp')",
+			'yellow-cart':
+				"url('https://res.cloudinary.com/djvestif4/image/upload/v1700101265/yellow-cart-bg.webp')",
 		},
 
 		extend: {
@@ -61,7 +64,7 @@ const config = {
 				'fade-in-down': 'fade-in-down 1.3s',
 				'fade-in-up': 'fade-in-up 1.7s ease-out',
 				'fade-in-up-2': 'fade-in-up-2 1.3s ease-out',
-				zoom: 'zoom 1.3s infinite linear 0.1s',
+				zoom: 'zoom 3s infinite linear',
 				flicker: 'flicker 3s linear infinite',
 				shake: 'shake 0.2s ease-in-out 0s 3',
 			},
@@ -187,4 +190,4 @@ const config = {
 	],
 } satisfies Config;
 
-export default config;
+export default tailwindConfig;

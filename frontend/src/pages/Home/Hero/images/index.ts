@@ -1,4 +1,4 @@
-const images = [
+const slideImages = [
 	{
 		src: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436585/laptop1_dviwpy_qe5w8q.webp',
 		blurSrc:
@@ -31,4 +31,4 @@ const images = [
 	},
 ];
 
-export default images;
+export { slideImages };

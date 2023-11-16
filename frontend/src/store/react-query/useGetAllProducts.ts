@@ -15,8 +15,8 @@ const useGetAllProducts = () => {
 
 	const allProducts = useFetchMultiple(
 		productQueries.map(({ key, url }) => ({
-			queryKey: key,
-			queryFn: () => fetcher(url),
+			queryKey: [...key, { url }],
+			queryFn: ({ signal }) => fetcher(url, { signal }),
 			select: transformData,
 		}))
 	);

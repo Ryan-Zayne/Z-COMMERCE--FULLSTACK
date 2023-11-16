@@ -1,3 +1,7 @@
-export { default as getOnApple } from '@/assets/footerImages/get-on-apple.png';
-export { default as getOnGoogle } from '@/assets/footerImages/get-on-google.png';
-export { default as newsLetterIcon } from '@/assets/footerImages/newsletter-icon.svg';
+export { default as NewsLetterIcon } from '@/assets/footerImages/NewsLetterIcon';
+
+export const getOnGoogle =
+	'https://res.cloudinary.com/djvestif4/image/upload/v1700101461/get-on-google_z7zojk.png';
+
+export const getOnApple =
+	'https://res.cloudinary.com/djvestif4/image/upload/v1700101461/get-on-apple_li3hqy.png';

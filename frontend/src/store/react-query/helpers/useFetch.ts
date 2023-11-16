@@ -4,7 +4,7 @@ import type { ResponseData } from '../react-query-store.types';
 import { transformData } from './transFormData';
 
 type FetchOptions = {
-	key: string[];
+	key: (string | Record<string, string>)[];
 	url: string;
 	staleTime?: number;
 };

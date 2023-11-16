@@ -1,7 +1,7 @@
 import { SearchForm } from '@/components/ui';
 import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from 'react-icons/bs';
 import { TfiYoutube } from 'react-icons/tfi';
-import { getOnApple, getOnGoogle, newsLetterIcon } from './images';
+import { NewsLetterIcon, getOnApple, getOnGoogle } from './images';
 
 function FooterHeaderSection() {
 	return (
@@ -16,12 +16,7 @@ function FooterHeaderSection() {
 						Sign Up For NewsLetter
 					</h4>
 
-					<img
-						className="mr-[0.3rem] aspect-square w-[3rem] lg:w-[4rem]"
-						src={newsLetterIcon}
-						loading="lazy"
-						alt=""
-					/>
+					<NewsLetterIcon className="mr-[0.3rem] aspect-square w-[3rem] text-heading lg:w-[4rem]" />
 				</header>
 
 				<p className="text-[1.4rem] lg:text-[1.8rem]">$20 discount for your first order</p>

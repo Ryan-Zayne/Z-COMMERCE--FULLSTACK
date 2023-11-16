@@ -22,7 +22,6 @@ export default defineConfig({
 				getFrontendfilePath('src/store/react-query'),
 			],
 			extensions: ['ts', 'tsx'],
-			debug: true,
 		}),
 	],
 

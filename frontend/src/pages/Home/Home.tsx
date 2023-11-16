@@ -1,13 +1,13 @@
 import { CarouselContextProvider } from '@/components/ui/Carousel/carouselStoreContext';
 import Categories from './Categories/Categories';
 import Hero from './Hero/Hero';
-import slidesImages from './Hero/images';
+import { slideImages } from './Hero/images';
 import HomeProductSection from './HomeProductSection/HomeProductSection';
 
 function HomePage() {
 	return (
 		<>
-			<CarouselContextProvider slideImages={slidesImages}>
+			<CarouselContextProvider slideImages={slideImages}>
 				<Hero />
 			</CarouselContextProvider>
 			<Categories />

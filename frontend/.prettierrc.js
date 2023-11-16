@@ -1,6 +1,6 @@
 /** @type {import("prettier").Config} */
 
-const config = {
+const prettierConfig = {
 	plugins: ['prettier-plugin-tailwindcss'],
 	tailwindFunctions: ['cnMerge', 'cnJoin'],
 	arrowParens: 'always',
@@ -21,4 +21,4 @@ const config = {
 	useTabs: true,
 };
 
-export default config;
+export default prettierConfig;
