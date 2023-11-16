@@ -1,11 +1,11 @@
 import { Button, Card, ImageComponent, StarRating } from '@/components/primitives';
 import { useToggle } from '@/hooks';
-import { cnMerge } from '@/lib/utils/cn';
 import type { ResponseDataItem } from '@/store/react-query/react-query-store.types';
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
 import { useThemeStore } from '@/store/zustand/themeStore';
 import type { ResponseDataItemInCart } from '@/store/zustand/zustand-store.types';
+import { cnMerge } from '@/utils/cn';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 import { Button, type ButtonProps } from '@/components/primitives';
-import { cnMerge } from '@/lib/utils/cn';
+import { cnMerge } from '@/utils/cn';
 import type { IconType } from 'react-icons';
 import { BiSearchAlt2 } from 'react-icons/bi';
 

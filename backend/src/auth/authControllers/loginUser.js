@@ -1,4 +1,4 @@
-import { asyncHandler } from '../../common/lib/utils/asyncHandler.utils.js';
+import { asyncHandler } from '../../common/utils/asyncHandler.utils.js';
 import UserModel from '../../users/user.model.js';
 import {
 	clearExistingCookie,

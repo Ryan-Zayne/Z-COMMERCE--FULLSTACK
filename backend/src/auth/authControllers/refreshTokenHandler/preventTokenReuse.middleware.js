@@ -1,4 +1,4 @@
-import { asyncHandler } from '../../../common/lib/utils/asyncHandler.utils.js';
+import { asyncHandler } from '../../../common/utils/asyncHandler.utils.js';
 import UserModel from '../../../users/user.model.js';
 import { clearExistingCookie, decodeJwtToken } from '../../auth.services.js';
 
@@ -40,6 +40,7 @@ export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 		}
 	}
 
+	// Else, refresh token reuse is not detected, proceed to next middleware
 	req.user = { userWithToken };
 	next();
 });

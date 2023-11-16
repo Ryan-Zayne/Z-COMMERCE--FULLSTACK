@@ -1,12 +1,7 @@
 import { fetcher } from '@/api/fetcher';
-import { transformData } from '@/store/react-query/helpers/transFormData';
-import type { ResponseData } from '@/store/react-query/react-query-store.types';
-import {
-	useQueries,
-	useQuery,
-	type QueryFunction,
-	type QueryFunctionContext,
-} from '@tanstack/react-query';
+import { useQueries, useQuery, type QueryFunction } from '@tanstack/react-query';
+import type { ResponseData } from '../react-query-store.types';
+import { transformData } from './transFormData';
 
 type FetchOptions = {
 	key: string[];
@@ -24,13 +19,11 @@ type QueryListType = Array<{
 export const useFetch = (options: FetchOptions) => {
 	const { key, url, staleTime } = options;
 
-	const getData = ({ signal }: QueryFunctionContext<string[], unknown>) => fetcher(url, { signal });
-
 	return useQuery({
-		queryKey: key,
-		queryFn: getData,
-		staleTime,
+		queryKey: [...key, { url }],
+		queryFn: ({ signal }) => fetcher(url, { signal }),
 		select: transformData,
+		staleTime,
 	});
 };
 

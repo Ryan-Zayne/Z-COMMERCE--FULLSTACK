@@ -3,7 +3,7 @@ import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { Transition } from '@headlessui/react';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation } from 'react-router-dom';
-import FormArea from './components/FormArea';
+import FormArea from './components/FormArea/FormArea';
 import { facebook } from './images';
 
 function SignUpFormPage() {

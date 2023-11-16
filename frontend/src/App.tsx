@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Loader } from './components/primitives';
 import { DismissableToaster } from './components/ui';
-import { routes } from './routes';
+import { routes } from './pages/routes';
 
 AOS.init();
 

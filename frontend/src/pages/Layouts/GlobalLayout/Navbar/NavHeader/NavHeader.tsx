@@ -1,10 +1,10 @@
 import { Logo } from '@/components/primitives';
 import { DropDown, SearchForm } from '@/components/ui';
 import { useDisclosure } from '@/hooks';
-import { cnJoin, cnMerge } from '@/lib/utils/cn';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { useShopStore } from '@/store/zustand/shopStore';
 import { useThemeStore } from '@/store/zustand/themeStore';
+import { cnJoin, cnMerge } from '@/utils/cn';
 import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import CartDrawer from './Cart/CartDrawer';

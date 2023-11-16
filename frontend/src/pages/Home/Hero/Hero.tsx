@@ -1,7 +1,7 @@
 import { Button, ImageComponent } from '@/components/primitives';
 import { Carousel, type CarouselStore } from '@/components/ui';
 import { useCarouselStore } from '@/components/ui/Carousel/hooks';
-import { useAnimateCarouselRefs, useElementList } from '@/hooks';
+import { useAnimateElementRefs, useElementList } from '@/hooks';
 import { RxPaperPlane } from 'react-icons/rx';
 
 function Hero() {
@@ -9,15 +9,15 @@ function Hero() {
 		(state) => state.slideImages as Exclude<CarouselStore['slideImages'], string[]>
 	);
 
-	const { animatedElements, handleElementsAnimation } = useAnimateCarouselRefs();
+	const { animatedElements, handleElementsAnimation } = useAnimateElementRefs();
 	const { For: ItemList } = useElementList();
 	const { For: IndicatorList } = useElementList();
 
 	return (
 		<section id="Hero">
-			<Carousel
+			<Carousel.Root
 				onButtonClick={handleElementsAnimation}
-				outerClassName={'mx-[1rem] h-[38rem] md:h-[41.4rem] lg:h-[48.5rem]'}
+				outerClassName={'mx-[1rem] h-[33rem] md:h-[41.4rem] lg:h-[48.5rem]'}
 				innerClassName={'rounded-[0.7rem] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]'}
 				leftBtnClasses={
 					'md:left-[0.8rem] hover:box-shadow-[0_0_5px_var(--text-dark)] lg:left-[29.5rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]'
@@ -26,7 +26,7 @@ function Hero() {
 					'hover:box-shadow-[0_0_5px_var(--text-dark)] md:right-[0.8rem] lg:right-[2rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]'
 				}
 				arrowIcon={<RxPaperPlane className="lg:text-[1.7rem]" />}
-				autoSlideInterval={12000}
+				autoSlideInterval={10000}
 				hasAutoSlide={true}
 				pauseOnHover={true}
 			>
@@ -49,7 +49,7 @@ function Hero() {
 
 				<Carousel.Caption
 					className={
-						'ml-[4.5rem] mt-[5.5rem] flex flex-col items-start md:ml-[7.5rem] lg:ml-[36rem] lg:mt-[8rem]'
+						'ml-[4.5rem] mt-[3.7rem] flex flex-col items-start md:ml-[7.5rem] lg:ml-[36rem] lg:mt-[8rem]'
 					}
 				>
 					<h1
@@ -61,7 +61,7 @@ function Hero() {
 
 					<p
 						ref={(elem) => (animatedElements.paragraph = elem)}
-						className="z-20 w-[30ch] text-[clamp(1.3rem,_1vw+1rem,_1.7rem)] [margin-block:1.8rem_3.7rem]"
+						className="z-20 w-[30ch] text-[clamp(1.3rem,_1vw+1rem,_1.7rem)] [margin-block:1rem_3rem] md:[margin-block:1.8rem_3.7rem] lg:w-[40ch] lg:text-[clamp(1.5rem,_1vw+1rem,_2rem)]"
 					>
 						Discover the Latest and most Exquisite Tech Products for Your Home, Office, and On-the-go
 						Needs.
@@ -81,7 +81,7 @@ function Hero() {
 						render={(image, index) => <Carousel.Indicator key={image.src} index={index} />}
 					/>
 				</Carousel.IndicatorWrapper>
-			</Carousel>
+			</Carousel.Root>
 		</section>
 	);
 }

@@ -26,7 +26,7 @@ const defaultElementsInfo = [
 	{ targetElement: 'paragraph', animationClass: 'animate-fade-in-up-2' },
 ] satisfies ElementsInfoType;
 
-const useAnimateCarouselRefs = ({ elementsInfo = defaultElementsInfo }: AnimateCarouselOptions = {}) => {
+const useAnimateElementRefs = ({ elementsInfo = defaultElementsInfo }: AnimateCarouselOptions = {}) => {
 	const elementsRef = useRef({} as ElementsRefType);
 
 	const addAnimationClasses = useCallback(() => {
@@ -47,7 +47,7 @@ const useAnimateCarouselRefs = ({ elementsInfo = defaultElementsInfo }: AnimateC
 		}
 	}, [elementsInfo]);
 
-	// Add animation classes to elements and remove them after 2 seconds
+	// Add animation classes to elements and remove them after the animation ends
 	const handleElementsAnimation = useCallback(() => {
 		addAnimationClasses();
 
@@ -57,4 +57,4 @@ const useAnimateCarouselRefs = ({ elementsInfo = defaultElementsInfo }: AnimateC
 	return { animatedElements: elementsRef.current, handleElementsAnimation };
 };
 
-export { useAnimateCarouselRefs };
+export { useAnimateElementRefs };

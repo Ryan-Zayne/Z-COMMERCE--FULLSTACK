@@ -4,12 +4,13 @@ export const SignUpSchema = z
 	.object({
 		username: z
 			.string()
-			.min(1, 'Username is required!')
 			.min(3, 'Username must be at least 3 characters!')
 			.max(30, 'Username must not be more than 30 characters long')
 			.regex(
-				/^(?!.*-[a-z])[A-Z]['a-z-]*(?:-[A-Z]['a-z-]*)*(?:'[A-Z]['a-z-]*)*$/g,
-				'Firstname must be in sentence case, can include hyphen, and apostrophes (e.g., "Ali", "Ade-Bright" or "Smith\'s").'
+				/^(?!.*-[a-z])[A-Z]['a-z-]*(?:-[A-Z]['a-z-]*)*(?:'[A-Z]['a-z-]*)*$/,
+				`Username must be in sentence case, can include hyphen, and apostrophes.
+				A hyphen MUST be followed by an uppercase letter.
+				Examples include: "Ali", "Ade-Bright" or "Smith's".`
 			),
 
 		email: z.string().email('Please enter a valid email!'),

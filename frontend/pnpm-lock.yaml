@@ -82,9 +82,6 @@ devDependencies:
   postcss:
     specifier: ^8.4.31
     version: 8.4.31
-  simple-zustand-devtools:
-    specifier: ^1.1.0
-    version: 1.1.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(zustand@4.4.6)
   tailwindcss:
     specifier: ^3.3.5
     version: 3.3.5
@@ -97,6 +94,9 @@ devDependencies:
   vite-plugin-checker:
     specifier: ^0.6.2
     version: 0.6.2(typescript@5.2.2)(vite@4.5.0)
+  vite-plugin-entry-shaking:
+    specifier: ^0.3.3
+    version: 0.3.3(vite@4.5.0)
 
 packages:
 
@@ -1039,6 +1039,10 @@ packages:
       is-arrayish: 0.2.1
     dev: true
 
+  /es-module-lexer@1.4.1:
+    resolution: {integrity: sha512-cXLGjP0c4T3flZJKQSuziYoq7MlT+rnvfZjfp7h+I7K9BNX54kP9nyWvdbwjQ4u1iWbOL4u96fgeZLToQlZC7w==}
+    dev: true
+
   /esbuild@0.18.20:
     resolution: {integrity: sha512-ceqxoedUrcayh7Y7ZX6NdbbDzGROiyVBgC4PriJThBKSVPWnnFHZAkfI1lJT8QFkOwH4qOS2SJkS4wvpGl8BpA==}
     engines: {node: '>=12'}
@@ -1322,6 +1326,13 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: true
+
+  /magic-string@0.30.5:
+    resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
   /merge2@1.4.1:
@@ -1679,22 +1690,6 @@ packages:
       lru-cache: 6.0.0
     dev: true
 
-  /simple-zustand-devtools@1.1.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(zustand@4.4.6):
-    resolution: {integrity: sha512-Axfcfr9L3YL3kto7aschCQLY2VUlXXMnIVtaTe9Y0qWbNmPsX/y7KsNprmxBZoB0pww5ZGs1u/ohcrvQ3tE6jA==}
-    peerDependencies:
-      '@types/react': '>=18.0.0'
-      '@types/react-dom': '>=18.0.0'
-      react: '>=18.0.0'
-      react-dom: '>=18.0.0'
-      zustand: '>=1.0.2'
-    dependencies:
-      '@types/react': 18.2.37
-      '@types/react-dom': 18.2.15
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      zustand: 4.4.6(@types/react@18.2.37)(react@18.2.0)
-    dev: true
-
   /source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -1934,6 +1929,17 @@ packages:
       vscode-uri: 3.0.8
     dev: true
 
+  /vite-plugin-entry-shaking@0.3.3(vite@4.5.0):
+    resolution: {integrity: sha512-Jlpf24kTClakAxQ5En5xo4a0LqU+LYnYEOiWo1HwXbiLhYuIkYUeJWasBzrFXPgEhzn3EsGoZ00TLlov6NzxaA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      vite: '>=2.0.0'
+    dependencies:
+      es-module-lexer: 1.4.1
+      magic-string: 0.30.5
+      vite: 4.5.0(@types/node@20.9.0)
+    dev: true
+
   /vite@4.5.0(@types/node@20.9.0):
     resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -2050,3 +2056,4 @@ packages:
       '@types/react': 18.2.37
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false

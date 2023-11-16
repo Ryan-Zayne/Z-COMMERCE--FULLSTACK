@@ -6,9 +6,8 @@ import { useCustomDrawerContext } from '../drawerStoreContext';
 const useDrawerStore = <TSlice>(callbackFn: (state: DrawerStore) => TSlice) => {
 	const store = useCustomDrawerContext();
 	const selector = useCallbackRef(callbackFn);
-	const stateSlice = useStore(store, selector);
 
-	return stateSlice;
+	return useStore(store, selector);
 };
 
 export { useDrawerStore };

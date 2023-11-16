@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 
 /**
  * This is a custom hook that returns a memoized version of the callback function.
@@ -15,14 +15,11 @@ import { useCallback, useEffect, useRef } from 'react';
 const useCallbackRef = <TParams, TResult>(callbackFn: (...params: TParams[]) => TResult) => {
 	const callbackRef = useRef(callbackFn);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		callbackRef.current = callbackFn;
 	}, [callbackFn]);
 
-	const savedCallback = useCallback(
-		(...savedParams: TParams[]) => callbackRef.current(...savedParams),
-		[]
-	);
+	const savedCallback = useCallback((...params: TParams[]) => callbackRef.current(...params), []);
 
 	return savedCallback;
 };

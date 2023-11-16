@@ -19,7 +19,7 @@ function CartDrawer(props: CartDrawerProps) {
 	const totalPrice = cart?.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
 	return (
-		<Drawer {...{ isOpen, onClose, onOpen }}>
+		<Drawer.Root {...{ isOpen, onClose, onOpen }}>
 			<Drawer.Overlay />
 
 			<Drawer.Content
@@ -75,7 +75,7 @@ function CartDrawer(props: CartDrawerProps) {
 					</Button>
 				</Drawer.Footer>
 			</Drawer.Content>
-		</Drawer>
+		</Drawer.Root>
 	);
 }
 

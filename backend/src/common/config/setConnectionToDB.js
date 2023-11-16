@@ -1,16 +1,17 @@
 /* eslint-disable unicorn/error-message */
-/* eslint-disable no-console */
 import mongoose from 'mongoose';
 
 const setConnectionToDB = async () => {
 	// prettier-ignore
+	/* eslint-disable no-console */
+
 	try {
 		const connect = await mongoose.connect(process.env.MONGO_URI, { autoIndex: process.env.NODE_ENV !== 'production'});
 
 		console.info(`MongoDB Atlas connected at: ${connect.connection.host}`.cyan.italic.underline);
 
 	} catch(error) {
-		throw new Error(error.message);
+		console.error(error.message);
 	}
 
 	mongoose.connection.on('connected', () => {
@@ -23,3 +24,4 @@ const setConnectionToDB = async () => {
 };
 
 export { setConnectionToDB };
+

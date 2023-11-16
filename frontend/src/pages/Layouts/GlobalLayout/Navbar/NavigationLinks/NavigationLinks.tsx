@@ -1,7 +1,7 @@
 import { Logo } from '@/components/primitives';
 import { useElementList } from '@/hooks';
-import { cnMerge } from '@/lib/utils/cn';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
+import { cnMerge } from '@/utils/cn';
 import { RiCloseFill } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
 import CategoryMenu from './CategoryMenu';
@@ -27,7 +27,11 @@ const NavigationLinks = () => {
 	const { For: NavLinksList } = useElementList();
 
 	const navLinkInfoArray: NavItemsType = [
-		{ id: 1, childElement: <Logo className={'mb-[2rem] ml-[4rem]'} />, shouldShow: !isDesktop },
+		{
+			id: 1,
+			childElement: <Logo className={'mb-[2rem] ml-[4rem]'} />,
+			shouldShow: !isDesktop,
+		},
 		{ title: 'Home', path: '/' },
 		{
 			id: 2,
@@ -59,22 +63,24 @@ const NavigationLinks = () => {
 						'relative flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
 						[
 							!isDesktop &&
-								'fixed inset-[0_0_0_auto] z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[300ms] ease-[ease] [backdrop-filter:blur(2rem)_saturate(5)]  md:text-[1.6rem]',
+								'fixed inset-[0_0_0_auto] z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:text-[1.6rem]',
 						],
 
 						[
 							!isDesktop &&
 								isNavShow &&
-								'w-[min(22rem,_80%)] duration-[500ms] md:w-[24rem]',
+								'w-[min(22rem,80%)] duration-[500ms] ease-slide-in md:w-[24rem]',
 						]
 					)}
 				>
 					{!isDesktop && (
 						<button
 							className={cnMerge(
-								'invisible absolute right-[1rem] top-[3rem] text-[3rem] text-rose-600 opacity-0',
-								isNavShow &&
-									'visible opacity-100 transition-opacity duration-[250ms] ease-in'
+								'invisible absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600 opacity-0',
+								[
+									isNavShow &&
+										'visible animate-[bounce_2.5s_ease-in-out_infinite] opacity-100 [transition:opacity_250ms_ease-in]',
+								]
 							)}
 							onClick={toggleNavShow}
 						>

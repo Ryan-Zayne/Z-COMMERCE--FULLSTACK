@@ -1,4 +1,4 @@
-import { getInitialThemeOnLoad } from '@/lib/utils/getInitialThemeOnLoad';
+import { getInitialThemeOnLoad } from '@/utils/get-initial-theme-on-load';
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ThemeStore } from './zustand-store.types';
@@ -34,7 +34,7 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 export const useThemeStore = create<ThemeStore>()(
 	persist(themeStoreObject, {
 		name: 'colorScheme',
-		partialize: ({ themeActions, ...actualState }) => actualState.theme,
+		partialize: ({ themeActions, ...actualState }) => ({ theme: actualState.theme }),
 	})
 );
 

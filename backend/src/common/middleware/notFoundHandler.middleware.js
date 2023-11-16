@@ -4,7 +4,9 @@
  * @param {import('express').NextFunction} next
  */
 const notFoundHandler = (req, res, next) => {
-	const error = new Error(`Cannot ${req.method.toUpperCase()} - ${req.originalUrl}`);
+	const error = new Error(
+		`Cannot find ${req.method.toUpperCase()} request handler for "${req.originalUrl}"`
+	);
 
 	res.status(404);
 	next(error);

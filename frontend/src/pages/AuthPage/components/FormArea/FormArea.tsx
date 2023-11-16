@@ -1,19 +1,18 @@
 import { Button, Loader } from '@/components/primitives';
 import { useToggle } from '@/hooks';
 import { LoginSchema, SignUpSchema } from '@/lib/schemas/formSchema';
-import { cnMerge } from '@/lib/utils/cn';
-import { BASE_AUTH_URL } from '@/lib/utils/constants';
-import { noScrollOnOpen } from '@/lib/utils/no-scroll-on-open';
+import { cnMerge } from '@/utils/cn';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import ErrorParagraph from './ErrorParagraph';
-import InputGroup from './InputGroup';
-import type { FormResponseDataType, FormSchemaType } from './form.types';
+import ErrorParagraph from '../ErrorParagraph';
+import InputGroup from '../InputGroup';
+import type { FormSchemaType } from '../form.types';
+import { submitForm } from './submitForm';
 
-type FormAreaProps = {
+export type FormAreaProps = {
 	formType: 'Login' | 'Sign Up';
 	formClasses?: string;
 };
@@ -34,73 +33,13 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 		resolver: zodResolver(formType === 'Sign Up' ? SignUpSchema : LoginSchema),
 	});
 
-	const submitForm = async (data: FormSchemaType) => {
-		noScrollOnOpen({ isOpen: true });
-
-		try {
-			const AUTH_URL = formType === 'Sign Up' ? `${BASE_AUTH_URL}/sign-up` : `${BASE_AUTH_URL}/login`;
-
-			const response = await fetch(AUTH_URL, {
-				method: 'POST',
-				body: JSON.stringify(data),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
-
-			const responseData = (await response.json()) as FormResponseDataType;
-
-			if ('errors' in responseData) {
-				const zodErrors = responseData.errors;
-
-				zodErrors.forEach(([field, errorMessage]) => {
-					setError(field, {
-						type: 'serverZodErrors',
-						message: Array.isArray(errorMessage) ? errorMessage.join(', ') : errorMessage,
-					});
-				});
-
-				return;
-			}
-
-			if (response.status >= 400 && 'message' in responseData) {
-				setError('root.serverError', {
-					type: response.statusText,
-					message: responseData.message,
-				});
-
-				return;
-			}
-
-			if (!response.ok && 'message' in responseData) {
-				throw new Error(responseData.message);
-			}
-
-			reset();
-			navigate('/', { replace: true });
-
-			// Handle caught server errors
-		} catch (error) {
-			if (error instanceof Error) {
-				setError('root.serverCatch', {
-					type: error.name,
-					message: 'Something went wrong',
-				});
-				// eslint-disable-next-line no-console
-				console.error(error.message);
-			}
-
-			// Renable scrolling after submit or error
-		} finally {
-			noScrollOnOpen({ isOpen: false });
-		}
+	const semanticClasses = {
+		error: 'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
 	};
-
-	const errorClasses = 'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error';
 
 	return (
 		<form
-			onSubmit={handleSubmit(submitForm)}
+			onSubmit={handleSubmit(submitForm({ formType, setError, reset, navigate }))}
 			className={cnMerge(
 				'mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem] [&_label]:text-[1.2rem]',
 				[formClasses]
@@ -119,7 +58,7 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 						id={`username__${uniqueId}`}
 						className={cnMerge(
 							`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-							errors?.username && errorClasses
+							errors?.username && semanticClasses.error
 						)}
 					/>
 					{errors?.username && <ErrorParagraph message={errors.username.message} />}
@@ -132,12 +71,12 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 				</label>
 				<input
 					{...register('email')}
-					name="email"
 					type="email"
+					name="email"
 					id={`email__${uniqueId}`}
 					className={cnMerge(
 						`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-						errors?.email && errorClasses
+						errors?.email && semanticClasses.error
 					)}
 				/>
 				{errors?.email && <ErrorParagraph message={errors.email.message} />}
@@ -149,12 +88,12 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 				</label>
 				<input
 					{...register('password')}
-					name="password"
 					type={isPasswordShow ? 'text' : 'password'}
+					name="password"
 					id={`password__${uniqueId}`}
 					className={cnMerge(
 						'min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot',
-						errors?.password && errorClasses
+						errors?.password && semanticClasses.error
 					)}
 				/>
 				{errors?.password && <ErrorParagraph message={errors.password.message} />}
@@ -175,12 +114,12 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 					</label>
 					<input
 						{...register('confirmPassword')}
-						name="confirmPassword"
 						type={isConfirmPasswordShow ? 'text' : 'password'}
+						name="confirmPassword"
 						id={`confirmPassword__${uniqueId}`}
 						className={cnMerge(
 							'min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot',
-							errors?.confirmPassword && errorClasses
+							errors?.confirmPassword && semanticClasses.error
 						)}
 					/>
 					{errors?.confirmPassword && <ErrorParagraph message={errors.confirmPassword.message} />}
@@ -205,8 +144,8 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 			<InputGroup className={'flex flex-row gap-[1rem] text-[1.3rem] text-input'}>
 				<input
 					{...register(formType === 'Sign Up' ? 'acceptTerms' : 'rememberMe')}
-					name={formType === 'Sign Up' ? 'acceptTerms' : 'rememberMe'}
 					type="checkbox"
+					name={formType === 'Sign Up' ? 'acceptTerms' : 'rememberMe'}
 				/>
 
 				{formType === 'Login' && <p>Remember me</p>}
@@ -228,8 +167,8 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 			</InputGroup>
 
 			<Button
-				text={formType}
 				type={'submit'}
+				text={formType}
 				theme={'secondary'}
 				disabled={isSubmitting}
 				className={cnMerge(

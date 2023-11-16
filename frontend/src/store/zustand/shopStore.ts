@@ -1,7 +1,8 @@
+import { useCallbackRef } from '@/hooks';
 import { toast } from 'react-hot-toast';
-import { mountStoreDevtool } from 'simple-zustand-devtools';
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { useShallow } from 'zustand/react/shallow';
 import type { ShopStore } from './zustand-store.types';
 
 const toastInfo = {
@@ -20,7 +21,7 @@ const toastInfo = {
 };
 
 // Store Object creation
-const shopStateObject: StateCreator<ShopStore> = (set, get) => ({
+const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 	cart: [],
 	wishList: [],
 
@@ -109,15 +110,18 @@ const shopStateObject: StateCreator<ShopStore> = (set, get) => ({
 
 // Store hook Creation
 export const useShopStore = create<ShopStore>()(
-	persist(shopStateObject, {
+	persist(shopStateObjectFn, {
 		name: 'shop',
+		version: 1,
 		partialize: ({ shopActions, ...actualState }) => actualState,
 	})
 );
 
+export const useShopStoreShallow = <TState>(callbackFn: (state: ShopStore) => TState) => {
+	const selector = useCallbackRef(callbackFn);
+
+	return useShopStore(useShallow(selector));
+};
+
 // Actions hook
 export const useShopActions = () => useShopStore((state) => state.shopActions);
-
-if (import.meta.env.DEV) {
-	mountStoreDevtool('Store1', useShopStore);
-}

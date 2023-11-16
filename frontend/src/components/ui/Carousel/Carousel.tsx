@@ -1,33 +1,9 @@
-import { cnMerge } from '@/lib/utils/cn';
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
-import { useCarouselActions, useCarouselStore } from './hooks';
-import { useCarouselOptions } from './hooks/useCarouselOptions';
+import { cnMerge } from '@/utils/cn';
+import type { CarouselIndicatorProps, CarouselRootProps, OtherCarouselProps } from '..';
+import { useCarouselActions, useCarouselOptions, useCarouselStore } from './hooks';
 
-type CarouselProps = {
-	as?: keyof JSX.IntrinsicElements;
-	children: React.ReactNode;
-	arrowIcon: React.ReactNode;
-	onButtonClick?: () => void;
-	outerClassName?: string;
-	innerClassName?: string;
-	leftBtnClasses?: string;
-	rightBtnClasses?: string;
-	hasAutoSlide?: boolean;
-	autoSlideInterval?: number;
-	pauseOnHover?: boolean;
-};
-
-type CarouselIndicatorProps = {
-	className?: string;
-	onActiveClassName?: string;
-	index: number;
-};
-
-type OtherCarouselProps = Pick<CarouselProps, 'children'> & {
-	className?: string;
-};
-
-function Carousel(props: CarouselProps) {
+function CarouselRoot(props: CarouselRootProps) {
 	const {
 		as: Element = 'article',
 		children,
@@ -43,12 +19,10 @@ function Carousel(props: CarouselProps) {
 	} = props;
 
 	const isMobile = useGlobalStore((state) => state.isMobile);
+
 	const { nextSlide, previousSlide } = useCarouselActions();
 
-	const { setIsAutoSlidePaused } = useCarouselOptions({
-		hasAutoSlide,
-		autoSlideInterval,
-	});
+	const { setIsAutoSlidePaused } = useCarouselOptions({ hasAutoSlide, autoSlideInterval });
 
 	return (
 		<Element
@@ -107,12 +81,15 @@ function CarouselItem({ children, className = '' }: OtherCarouselProps) {
 
 function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
+	const hasTransition = useCarouselStore((state) => state.isTransition);
 
 	return (
 		<ul
 			id="Carousel Image Wrapper"
 			className={cnMerge(
-				`flex w-full shrink-0 transition-transform duration-[1000ms] ease-in-out ${className}`
+				'flex w-full shrink-0 transition-transform duration-[1000ms] ease-in-out',
+				[!hasTransition && 'transition-none'],
+				[className]
 			)}
 			style={{ transform: `translate3d(-${currentSlide * 100}%, 0, 0)` }}
 		>
@@ -162,10 +139,13 @@ function CarouselIndicatorWrapper({ children, className = '' }: OtherCarouselPro
 	);
 }
 
-Carousel.Item = CarouselItem;
-Carousel.ItemWrapper = CarouselItemWrapper;
-Carousel.Caption = CarouselCaption;
-Carousel.Indicator = CarouselIndicator;
-Carousel.IndicatorWrapper = CarouselIndicatorWrapper;
+const Carousel = {
+	Root: CarouselRoot,
+	Item: CarouselItem,
+	ItemWrapper: CarouselItemWrapper,
+	Caption: CarouselCaption,
+	Indicator: CarouselIndicator,
+	IndicatorWrapper: CarouselIndicatorWrapper,
+};
 
 export default Carousel;

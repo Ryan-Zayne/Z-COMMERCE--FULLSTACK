@@ -11,7 +11,7 @@ export type DrawerProviderProps = { children: React.ReactNode; storeValues: Draw
 export type DrawerStoreApi = StoreApi<DrawerStore>;
 
 // Drawer component types
-export type DrawerProps = Pick<DrawerProviderProps, 'children'> & DrawerStore;
+export type DrawerRootProps = Pick<DrawerProviderProps, 'children'> & DrawerStore;
 
 export type DrawerContentProps = Pick<DrawerProviderProps, 'children'> & {
 	className?: string;

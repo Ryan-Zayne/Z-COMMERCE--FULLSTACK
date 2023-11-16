@@ -1,7 +1,11 @@
 import react from '@vitejs/plugin-react-swc';
-import { fileURLToPath, URL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import typeChecker from 'vite-plugin-checker';
+import entryshaker from 'vite-plugin-entry-shaking';
+
+// prettier-ignore
+const getFrontendfilePath = (path: 'src' | `src/${string}`) => fileURLToPath(new URL(path, import.meta.url));
 
 export default defineConfig({
 	plugins: [
@@ -9,16 +13,24 @@ export default defineConfig({
 		typeChecker({
 			typescript: true,
 		}),
+		await entryshaker({
+			targets: [
+				getFrontendfilePath('src/components/primitives'),
+				getFrontendfilePath('src/components/ui'),
+				getFrontendfilePath('src/hooks'),
+				getFrontendfilePath('src/store/react-query'),
+			],
+		}),
 	],
 
 	resolve: {
 		alias: {
-			'@': fileURLToPath(new URL('src', import.meta.url)),
+			'@': getFrontendfilePath('src'),
 		},
 	},
 
 	server: {
-		open: ' ',
+		open: '',
 		proxy: {
 			'/api': {
 				target: 'http://localhost:8000',
