@@ -1,17 +1,17 @@
-type ForProps<TArrayItem> =
+type ForProps<TArray extends Array<unknown>> =
 	| {
-			each: TArrayItem[];
+			each: TArray;
 			children?: "Hey, Sorry but you've already used the render prop so the children prop is redundant";
-			render: (item: TArrayItem, index: number) => React.ReactNode;
+			render: (item: TArray[number], index: number) => React.ReactNode;
 	  }
 	| {
-			each: TArrayItem[];
-			children: (item: TArrayItem, index: number) => React.ReactNode;
+			each: TArray;
+			children: (item: TArray[number], index: number) => React.ReactNode;
 			render?: "Hey, Sorry but you've already used the children prop so the render prop is redundant";
 	  };
 
-function For<TProp>({ each, render, children }: ForProps<TProp>) {
-	if (!each || !Array.isArray(each)) {
+function For<TArrayProp extends Array<unknown>>({ each, render, children }: ForProps<TArrayProp>) {
+	if (!Array.isArray(each)) {
 		throw new TypeError('Variable passed to the "each" prop is not an array or is undefined');
 	}
 
