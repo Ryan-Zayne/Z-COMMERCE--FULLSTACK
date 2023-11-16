@@ -31,16 +31,20 @@ function Card(props: CardProps) {
 	);
 }
 
-Card.Header = function CardHeader({ as: Element = 'header', children, className = '' }: OtherCardProps) {
+function CardHeader({ as: Element = 'header', children, className = '' }: OtherCardProps) {
 	return <Element className={className}>{children}</Element>;
-};
+}
 
-Card.Body = function CardBody({ as: Element = 'div', children, className = '' }: OtherCardProps) {
+function CardBody({ as: Element = 'div', children, className = '' }: OtherCardProps) {
 	return <Element className={className}>{children}</Element>;
-};
+}
 
-Card.Footer = function CardFooter({ as: Element = 'footer', children, className = '' }: OtherCardProps) {
+function CardFooter({ as: Element = 'footer', children, className = '' }: OtherCardProps) {
 	return <Element className={className}>{children}</Element>;
-};
+}
+
+Card.Header = CardHeader;
+Card.Body = CardBody;
+Card.Footer = CardFooter;
 
 export default Card;
