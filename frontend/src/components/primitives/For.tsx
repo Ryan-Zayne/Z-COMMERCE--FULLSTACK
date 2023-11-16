@@ -11,10 +11,6 @@ type ForProps<TArray extends Array<unknown>> =
 	  };
 
 function For<TArrayProp extends Array<unknown>>({ each, render, children }: ForProps<TArrayProp>) {
-	if (!Array.isArray(each)) {
-		throw new TypeError('Variable passed to the "each" prop is not an array or is undefined');
-	}
-
 	const mappedElements = each.map((item, index) => {
 		if (typeof children === 'function') {
 			return children(item, index);
