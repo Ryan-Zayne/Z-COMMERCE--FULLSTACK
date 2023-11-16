@@ -1,12 +1,12 @@
-type ForProps<TArray extends Array<infer TArrayItem>> =
+type ForProps<TArray extends Array<unknown>> =
 	| {
 			each: TArray;
 			children?: "Hey, Sorry but you've already used the render prop so the children prop is redundant";
-			render: (item: TArrayItem, index: number) => React.ReactNode;
+			render: (item: TArray[number], index: number) => React.ReactNode;
 	  }
 	| {
 			each: TArray;
-			children: (item: TArrayItem, index: number) => React.ReactNode;
+			children: (item: TArray[number], index: number) => React.ReactNode;
 			render?: "Hey, Sorry but you've already used the children prop so the render prop is redundant";
 	  };
 
