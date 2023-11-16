@@ -1,5 +1,4 @@
 import { LoadingSkeleton } from '@/components/ui';
-import { CarouselContextProvider } from '@/components/ui/Carousel/carouselStoreContext';
 import { assertDefined } from '@/lib/global-type-helpers';
 import { useGetProductItem } from '@/store/react-query';
 import { useParams } from 'react-router-dom';
@@ -22,9 +21,7 @@ function ProductItemPage() {
 			</header>
 
 			<div className="mt-[3rem] md:mt-[4.5rem] md:flex md:h-[47rem] md:justify-around md:gap-[4rem] md:px-[1rem] lg:mt-[6rem] lg:gap-[8rem]">
-				<CarouselContextProvider slideImages={productItem?.images ?? []}>
-					<ItemHero />
-				</CarouselContextProvider>
+				<ItemHero slideImages={productItem?.images ?? []} />
 
 				<ItemDescription productItem={assertDefined(productItem)} />
 			</div>

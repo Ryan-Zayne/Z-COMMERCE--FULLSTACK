@@ -1,7 +1,7 @@
 import loadingSpinner from '@/assets/loadingSpinner.svg';
 import Portal from '@/components/primitives/Portal';
 
-function Loader({ type = 'regular' }: { type?: 'regular' | 'auth' }) {
+function LoadingSpinner({ type = 'regular' }: { type?: 'regular' | 'auth' }) {
 	const LOADER_LOOKUP = {
 		regular: () => (
 			<Portal>
@@ -59,4 +59,5 @@ function Loader({ type = 'regular' }: { type?: 'regular' | 'auth' }) {
 
 	return LOADER_LOOKUP[type]();
 }
-export default Loader;
+
+export default LoadingSpinner;

@@ -26,9 +26,12 @@ export type CarouselProviderProps = WithChildren<Pick<CarouselStore, 'slideImage
 export type CarouselStoreApi = StoreApi<CarouselStore>;
 
 // Carousel component types
-export type CarouselRootProps = {
+export type CarouselRootProps = WithChildren<{
+	slideImages: CarouselStore['slideImages'];
+}>;
+
+export type CarouselContentProps = WithChildren<{
 	as?: keyof JSX.IntrinsicElements;
-	children: React.ReactNode;
 	arrowIcon: React.ReactNode;
 	onButtonClick?: () => void;
 	outerClassName?: string;
@@ -38,7 +41,7 @@ export type CarouselRootProps = {
 	hasAutoSlide?: boolean;
 	autoSlideInterval?: number;
 	pauseOnHover?: boolean;
-};
+}>;
 
 export type CarouselIndicatorProps = {
 	className?: string;
@@ -46,6 +49,6 @@ export type CarouselIndicatorProps = {
 	index: number;
 };
 
-export type OtherCarouselProps = Pick<CarouselRootProps, 'children'> & {
+export type OtherCarouselProps = Pick<CarouselContentProps, 'children'> & {
 	className?: string;
 };

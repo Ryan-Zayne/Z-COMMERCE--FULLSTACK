@@ -63,14 +63,10 @@ const NavigationLinks = () => {
 						'relative flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
 						[
 							!isDesktop &&
-								'fixed inset-[0_0_0_auto] z-[100] w-0 flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-[width] duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:text-[1.6rem]',
+								'fixed inset-[0_0_0_auto] z-[100] w-[min(22rem,80%)] translate-x-[100%] flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]',
 						],
 
-						[
-							!isDesktop &&
-								isNavShow &&
-								'w-[min(22rem,80%)] duration-[500ms] ease-slide-in md:w-[24rem]',
-						]
+						[!isDesktop && isNavShow && 'translate-x-0 duration-[500ms] ease-slide-in']
 					)}
 				>
 					{!isDesktop && (
@@ -92,22 +88,26 @@ const NavigationLinks = () => {
 						each={navLinkInfoArray}
 						render={(navLinkInfo) => {
 							if ('shouldShow' in navLinkInfo) {
+								const { shouldShow, id, childElement, className } = navLinkInfo;
+
 								return (
-									navLinkInfo.shouldShow && (
-										<li key={navLinkInfo.id} className={navLinkInfo.className ?? ''}>
-											{navLinkInfo.childElement}
+									shouldShow && (
+										<li key={id} className={className}>
+											{childElement}
 										</li>
 									)
 								);
 							}
 
+							const { title, path } = navLinkInfo;
+
 							return (
 								<li
-									key={navLinkInfo.title}
+									key={title}
 									className="max-lg:pl-[4rem]"
 									onClick={!isDesktop ? toggleNavShow : undefined}
 								>
-									<NavLink to={navLinkInfo.path}>{navLinkInfo.title}</NavLink>
+									<NavLink to={path}>{title}</NavLink>
 								</li>
 							);
 						}}

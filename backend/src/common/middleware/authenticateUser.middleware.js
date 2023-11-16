@@ -25,6 +25,7 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
 
 		req.user = { authenticatedUser };
 		next();
+
 		// Catch error thrown by jwt.verify when token is not valid
 	} catch {
 		res.status(401);

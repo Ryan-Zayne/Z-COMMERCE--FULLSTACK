@@ -11,10 +11,4 @@ const asyncHandler = (controllerFn) => async (req, res, next) => {
 	}
 };
 
-// const wrapRouteWithAsyncHandler = (controllerFn) => (req, res, next) => {
-// 	const errorResult = asyncHandler(controllerFn)(req, res, next);
-
-// 	return errorResult;
-// };
-
 export { asyncHandler };

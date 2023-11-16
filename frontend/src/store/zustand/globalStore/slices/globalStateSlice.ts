@@ -11,7 +11,7 @@ export const createGlobalStateSlice: StateSlice = (set, get) => ({
 	globalActions: {
 		toggleNavShow: () => {
 			set((state) => ({ isNavShow: !state.isNavShow }));
-			noScrollOnOpen({ isOpen: get().isNavShow, deactivateOnMobile: true });
+			noScrollOnOpen({ isOpen: get().isNavShow });
 		},
 
 		toggleSearchShow: () => set((state) => ({ isSearchShow: !state.isSearchShow })),

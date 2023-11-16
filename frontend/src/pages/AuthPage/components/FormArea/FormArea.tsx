@@ -1,4 +1,4 @@
-import { Button, Loader } from '@/components/primitives';
+import { Button, LoadingSpinner } from '@/components/primitives';
 import { useToggle } from '@/hooks';
 import { LoginSchema, SignUpSchema } from '@/lib/schemas/formSchema';
 import { cnMerge } from '@/utils/cn';
@@ -45,7 +45,7 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 				[formClasses]
 			)}
 		>
-			{isSubmitting && <Loader type={'auth'} />}
+			{isSubmitting && <LoadingSpinner type={'auth'} />}
 			{formType === 'Sign Up' && (
 				<InputGroup>
 					<label htmlFor={`username__${uniqueId}`} className="text-label">

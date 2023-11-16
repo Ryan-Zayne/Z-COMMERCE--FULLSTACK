@@ -1,9 +1,19 @@
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { cnMerge } from '@/utils/cn';
-import type { CarouselIndicatorProps, CarouselRootProps, OtherCarouselProps } from '..';
+import type {
+	CarouselContentProps,
+	CarouselIndicatorProps,
+	CarouselRootProps,
+	OtherCarouselProps,
+} from './carousel.types';
+import { CarouselContextProvider } from './carouselStoreContext';
 import { useCarouselActions, useCarouselOptions, useCarouselStore } from './hooks';
 
-function CarouselRoot(props: CarouselRootProps) {
+function CarouselRoot({ children, slideImages }: CarouselRootProps) {
+	return <CarouselContextProvider slideImages={slideImages}>{children}</CarouselContextProvider>;
+}
+
+function CarouselContent(props: CarouselContentProps) {
 	const {
 		as: Element = 'article',
 		children,
@@ -141,6 +151,7 @@ function CarouselIndicatorWrapper({ children, className = '' }: OtherCarouselPro
 
 const Carousel = {
 	Root: CarouselRoot,
+	Content: CarouselContent,
 	Item: CarouselItem,
 	ItemWrapper: CarouselItemWrapper,
 	Caption: CarouselCaption,
