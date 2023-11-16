@@ -16,24 +16,44 @@ const createCarouselStore = (slideImages: CarouselStore['slideImages']) =>
 		currentSlide: 0,
 		slideImages,
 		maxSlide: slideImages.length - 1,
+		isTransition: true,
 
 		actions: {
 			goToSlide: (value: number) => {
+				const { setIsTranstion } = get().actions;
+
 				set({ currentSlide: value });
+				setIsTranstion(true);
+			},
+
+			setIsTranstion: (newState: boolean) => {
+				set({ isTransition: newState });
 			},
 
 			nextSlide: () => {
 				const { currentSlide, maxSlide } = get();
-				const { goToSlide } = get().actions;
+				const { goToSlide, setIsTranstion } = get().actions;
 
-				currentSlide !== maxSlide ? goToSlide(currentSlide + 1) : goToSlide(0);
+				if (currentSlide === maxSlide) {
+					goToSlide(0);
+					setIsTranstion(false);
+					return;
+				}
+
+				goToSlide(currentSlide + 1);
 			},
 
 			previousSlide: () => {
 				const { currentSlide, maxSlide } = get();
-				const { goToSlide } = get().actions;
+				const { goToSlide, setIsTranstion } = get().actions;
 
-				currentSlide !== 0 ? goToSlide(currentSlide - 1) : goToSlide(maxSlide);
+				if (currentSlide === 0) {
+					goToSlide(maxSlide);
+					setIsTranstion(false);
+					return;
+				}
+
+				goToSlide(currentSlide - 1);
 			},
 		},
 	}));

@@ -1,18 +1,20 @@
 import { Portal } from '@/components/primitives';
-import { cnMerge } from '@/lib/utils/cn';
-import { useId } from 'react';
+import { cnMerge } from '@/utils/cn';
 import { RiCloseFill } from 'react-icons/ri';
-import type { DrawerCloseProps, DrawerContentProps, DrawerProps, OtherDrawerProps } from './drawer.types';
+import type {
+	DrawerCloseProps,
+	DrawerContentProps,
+	DrawerRootProps,
+	OtherDrawerProps,
+} from './drawer.types';
 import { DrawerContextProvider } from './drawerStoreContext';
 import { useDrawerStore } from './hooks';
 
-function Drawer({ children, ...restOfDrawerProps }: DrawerProps) {
-	const uniqueId = useId();
-
+function DrawerRoot({ children, ...restOfDrawerProps }: DrawerRootProps) {
 	return (
 		<Portal>
 			<DrawerContextProvider storeValues={restOfDrawerProps}>
-				<aside id={`CartDrawer Portal__(${uniqueId})`}>{children}</aside>
+				<aside data-id="Drawer Portal">{children}</aside>
 			</DrawerContextProvider>
 		</Portal>
 	);
@@ -92,11 +94,14 @@ function DrawerFooter({ children, className = '' }: OtherDrawerProps) {
 	);
 }
 
-Drawer.Overlay = DrawerOverlay;
-Drawer.Content = DrawerContent;
-Drawer.Header = DrawerHeader;
-Drawer.Body = DrawerBody;
-Drawer.Footer = DrawerFooter;
-Drawer.CloseButton = DrawerCloseButton;
+const Drawer = {
+	Root: DrawerRoot,
+	Overlay: DrawerOverlay,
+	Content: DrawerContent,
+	CloseButton: DrawerCloseButton,
+	Header: DrawerHeader,
+	Body: DrawerBody,
+	Footer: DrawerFooter,
+};
 
 export default Drawer;

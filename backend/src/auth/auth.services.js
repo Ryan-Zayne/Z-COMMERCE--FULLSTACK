@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { isDevMode } from '../common/lib/utils/constants.js';
+import { isDevMode } from '../common/utils/constants.js';
 
 export const generateAccessToken = (userId, { expiresIn = '5m' } = {}) => {
 	const payLoad = { userId };
@@ -34,8 +34,8 @@ export const setCookieAndSendResponse = ({ res, user, accessToken, newRefreshTok
 
 	// eslint-disable-next-line no-unused-expressions
 	!user
-		? res.json({ accessToken })
-		: res.json({ accessToken, username: user.username, email: user.email });
+		? res.json({ status: 'success', accessToken })
+		: res.json({ status: 'success', accessToken, username: user.username, email: user.email });
 };
 
 export const clearExistingCookie = (res) => {

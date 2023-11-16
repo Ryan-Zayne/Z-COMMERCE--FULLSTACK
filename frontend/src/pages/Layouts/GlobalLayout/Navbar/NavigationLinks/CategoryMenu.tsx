@@ -1,8 +1,8 @@
 /* eslint-disable consistent-return */
 import { DropDown } from '@/components/ui';
 import { useDisclosure } from '@/hooks';
-import { cnJoin } from '@/lib/utils/cn';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
+import { cnJoin } from '@/utils/cn';
 import { useEffect } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
 import { BsChevronDoubleRight, BsMenuButtonFill } from 'react-icons/bs';

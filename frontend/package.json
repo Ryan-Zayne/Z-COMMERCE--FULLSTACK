@@ -5,9 +5,11 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
+		"tunnel": "tunnel share -s z-commerce .",
+		"dev:tunnel": "concurrently 'pnpm:dev' 'pnpm:tunnel'",
 		"build": "vite build",
 		"preview": "vite preview",
-		"format": "prettier  . --write",
+		"format": "prettier . --write",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
 	},
 	"dependencies": {
@@ -38,10 +40,10 @@
 		"@vitejs/plugin-react-swc": "^3.4.1",
 		"autoprefixer": "^10.4.16",
 		"postcss": "^8.4.31",
-		"simple-zustand-devtools": "^1.1.0",
 		"tailwindcss": "^3.3.5",
 		"typescript": "^5.2.2",
 		"vite": "^4.5.0",
-		"vite-plugin-checker": "^0.6.2"
+		"vite-plugin-checker": "^0.6.2",
+		"vite-plugin-entry-shaking": "^0.3.3"
 	}
 }

@@ -1,4 +1,4 @@
-import { cnMerge } from '@/lib/utils/cn';
+import { cnMerge } from '@/utils/cn';
 import { useId } from 'react';
 import { Link } from 'react-router-dom';
 import { logo } from '../../assets/brand';

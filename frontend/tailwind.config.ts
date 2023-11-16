@@ -69,6 +69,7 @@ const config = {
 			keyframes: {
 				'fade-in-down': {
 					from: { opacity: '0', transform: 'translateY(-80%)' },
+					// eslint-disable-next-line sonarjs/no-duplicate-string
 					to: { opacity: '1', transform: 'translateY(0)' },
 				},
 				'fade-in-up': {

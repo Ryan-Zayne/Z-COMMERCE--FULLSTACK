@@ -1,4 +1,4 @@
-import { asyncHandler } from '../../common/lib/utils/asyncHandler.utils.js';
+import { asyncHandler } from '../../common/utils/asyncHandler.utils.js';
 import UserModel from '../../users/user.model.js';
 
 // @desc Sign up a User
@@ -16,7 +16,7 @@ const signUpUser = asyncHandler(async (req, res) => {
 
 	const newUser = await UserModel.create({ username, email, password });
 
-	res.status(201).json({ userName: newUser.username, email: newUser.email });
+	res.status(201).json({ status: 'success', userName: newUser.username, email: newUser.email });
 });
 
 export { signUpUser };

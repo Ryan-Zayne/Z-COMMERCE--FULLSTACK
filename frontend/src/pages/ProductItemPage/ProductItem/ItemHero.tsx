@@ -14,7 +14,7 @@ function ItemHero() {
 
 	return (
 		<article className="h-[35rem] w-[min(100%,50rem)] max-md:mx-auto md:h-full">
-			<Carousel
+			<Carousel.Root
 				as="div"
 				arrowIcon={<BsChevronRight />}
 				innerClassName={'rounded-[0.7rem] max-lg:dark:[box-shadow:0_0_3px_0.1px_var(--carousel-dot)]'}
@@ -47,7 +47,7 @@ function ItemHero() {
 						)}
 					/>
 				</Carousel.IndicatorWrapper>
-			</Carousel>
+			</Carousel.Root>
 		</article>
 	);
 }

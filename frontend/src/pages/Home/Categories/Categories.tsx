@@ -1,7 +1,7 @@
 import { Button } from '@/components/primitives';
 import { useElementList } from '@/hooks';
-import { cnJoin } from '@/lib/utils/cn';
 import { useThemeStore } from '@/store/zustand/themeStore';
+import { cnJoin } from '@/utils/cn';
 import { Link } from 'react-router-dom';
 
 const categories = [

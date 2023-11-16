@@ -1,4 +1,4 @@
-import { cnMerge } from '@/lib/utils/cn';
+import { cnMerge } from '@/utils/cn';
 
 type DropDownProps = React.ComponentPropsWithoutRef<'div'>;
 

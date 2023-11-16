@@ -1,4 +1,4 @@
-import { asyncHandler } from '../../common/lib/utils/asyncHandler.utils.js';
+import { asyncHandler } from '../../common/utils/asyncHandler.utils.js';
 import UserModel from '../../users/user.model.js';
 import { clearExistingCookie } from '../auth.services.js';
 
@@ -10,17 +10,20 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 	clearExistingCookie(res);
 
+	// No token, hence no user to log out
 	if (!refreshToken) {
-		res.sendStatus(204); // No content status
+		res.sendStatus(204);
 		return;
 	}
 
-	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken }).select(
-		'+refreshTokenArray'
-	);
+	// prettier-ignore
+	const userWithToken = await UserModel
+		.findOne({ refreshTokenArray: refreshToken })
+		.select('+refreshTokenArray');
 
+	// Token Reuse detected but doesn't matter since logout is happening
 	if (!userWithToken) {
-		res.sendStatus(204); // No content status
+		res.sendStatus(204);
 		return;
 	}
 

@@ -11,8 +11,8 @@ import path from 'node:path';
 import { authRouter } from './auth/auth.routes.js';
 import { corsOptions, helmetOptions, setConnectionToDB } from './common/config/index.js';
 import { globalRateLimitOptions } from './common/config/rateLimitOptions.js';
-import { PORT, isDevMode } from './common/lib/utils/constants.js';
 import { errorHandler, notFoundHandler, serveHtmlRouter } from './common/middleware/index.js';
+import { PORT, isDevMode } from './common/utils/constants.js';
 import { userRouter } from './users/user.routes.js';
 
 const app = express();

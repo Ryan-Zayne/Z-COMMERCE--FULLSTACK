@@ -4,7 +4,8 @@ import path from 'node:path';
 const serveHtmlRouter = express.Router();
 
 serveHtmlRouter.get('/*', (req, res) => {
-	res.sendFile(path.resolve('../', 'frontend', 'dist', 'index.html'));
+	const pathToHtml = path.resolve('../', 'frontend', 'dist', 'index.html');
+	res.sendFile(pathToHtml);
 });
 
 export default serveHtmlRouter;

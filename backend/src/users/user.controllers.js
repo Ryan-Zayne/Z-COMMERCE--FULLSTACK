@@ -1,4 +1,4 @@
-import { asyncHandler } from '../common/lib/utils/asyncHandler.utils.js';
+import { asyncHandler } from '../common/utils/asyncHandler.utils.js';
 import UserModel from './user.model.js';
 
 // @desc Update current User Profile
@@ -21,5 +21,5 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 		{ new: true }
 	);
 
-	res.json({ username: updatedUser.username, email: updatedUser.email });
+	res.json({ status: 'success', username: updatedUser.username, email: updatedUser.email });
 });
