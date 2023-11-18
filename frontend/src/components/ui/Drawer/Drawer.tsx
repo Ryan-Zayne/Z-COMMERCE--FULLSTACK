@@ -1,4 +1,4 @@
-import { Portal } from '@/components/primitives/index.ts';
+import { Overlay, Portal } from '@/components/primitives/index.ts';
 import { cnMerge } from '@/utils/cn.ts';
 import { RiCloseFill } from 'react-icons/ri';
 import type {
@@ -24,16 +24,7 @@ function DrawerOverlay() {
 	const isOpen = useDrawerStore((state) => state.isOpen);
 	const onClose = useDrawerStore((state) => state.onClose);
 
-	return (
-		<div
-			id="Drawer Overlay"
-			onClick={onClose}
-			className={cnMerge(
-				`fixed z-[200] w-0 bg-[hsl(0,0%,0%,0.5)] [inset:0_0_0_auto]`,
-				isOpen && 'w-screen'
-			)}
-		/>
-	);
+	return <Overlay isOpen={isOpen} onClose={onClose} />;
 }
 
 function DrawerContent({ className, children, placement = 'right' }: DrawerContentProps) {
@@ -46,7 +37,7 @@ function DrawerContent({ className, children, placement = 'right' }: DrawerConte
 
 	return (
 		<main
-			id="Drawer Content Container"
+			data-id="Drawer Content Container"
 			className={cnMerge(
 				`custom-scrollbar fixed bottom-0 top-0 z-[500] flex flex-col overflow-y-auto bg-body transition-transform duration-[250ms] ease-slide-out`,
 				placementClasses[placement],
@@ -72,7 +63,7 @@ function DrawerCloseButton(props: DrawerCloseProps) {
 
 function DrawerHeader({ children, className = '' }: OtherDrawerProps) {
 	return (
-		<header id="Drawer Header" className={className}>
+		<header data-id="Drawer Header" className={className}>
 			{children}
 		</header>
 	);
@@ -80,7 +71,7 @@ function DrawerHeader({ children, className = '' }: OtherDrawerProps) {
 
 function DrawerBody({ children, className = '' }: OtherDrawerProps) {
 	return (
-		<div id="Drawer Body" className={className}>
+		<div data-id="Drawer Body" className={className}>
 			{children}
 		</div>
 	);
@@ -88,7 +79,7 @@ function DrawerBody({ children, className = '' }: OtherDrawerProps) {
 
 function DrawerFooter({ children, className = '' }: OtherDrawerProps) {
 	return (
-		<footer id="Drawer Footer" className={className}>
+		<footer data-id="Drawer Footer" className={className}>
 			{children}
 		</footer>
 	);

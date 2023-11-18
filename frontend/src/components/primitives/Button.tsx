@@ -52,7 +52,7 @@ function Button(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) 
 	);
 
 	return (
-		<button className={BTN_CLASSES} ref={ref} {...otherValidBtnProps}>
+		<button ref={ref} className={BTN_CLASSES} {...otherValidBtnProps}>
 			{children ?? text}
 		</button>
 	);

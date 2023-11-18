@@ -1,11 +1,11 @@
-import { Logo } from '@/components/primitives/index.ts';
-import { DropDown } from '@/components/ui/index.ts';
+import Logo from '@/components/primitives/Logo.tsx';
+import DropDown from '@/components/ui/DropDown.tsx';
 import { useDisclosure } from '@/hooks/useDisclosure.ts';
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
 import { cnJoin, cnMerge } from '@/utils/cn.ts';
-import { MdLocationOn, MdMail, MdPhone } from 'react-icons/md';
 import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from 'react-icons/bs';
 import { FaChevronDown } from 'react-icons/fa';
+import { MdLocationOn, MdMail, MdPhone } from 'react-icons/md';
 import { TfiYoutube } from 'react-icons/tfi';
 
 function FooterDropDowns() {

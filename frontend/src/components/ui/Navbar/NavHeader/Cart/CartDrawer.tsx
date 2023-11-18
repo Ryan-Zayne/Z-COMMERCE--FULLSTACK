@@ -1,5 +1,6 @@
-import { Button, Logo } from '@/components/primitives/index.ts';
-import { Drawer } from '@/components/ui/index.ts';
+import Button from '@/components/primitives/Button.tsx';
+import Logo from '@/components/primitives/Logo.tsx';
+import Drawer from '@/components/ui/Drawer/Drawer.tsx';
 import type { DrawerContentProps, DrawerStore } from '@/components/ui/Drawer/drawer.types';
 import { useElementList } from '@/hooks/index.ts';
 import { useShopStore } from '@/store/zustand/shopStore.ts';

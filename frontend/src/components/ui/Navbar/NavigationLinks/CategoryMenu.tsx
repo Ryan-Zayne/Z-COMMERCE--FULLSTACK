@@ -1,4 +1,4 @@
-import { DropDown } from '@/components/ui/index.ts';
+import DropDown from '@/components/ui/DropDown.tsx';
 import { useDisclosure } from '@/hooks/index.ts';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
 import { cnJoin } from '@/utils/cn.ts';

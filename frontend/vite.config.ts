@@ -19,7 +19,6 @@ export default defineConfig({
 				getFrontendfilePath('src/components/primitives'),
 				getFrontendfilePath('src/components/ui'),
 				getFrontendfilePath('src/hooks'),
-				getFrontendfilePath('src/store/react-query'),
 			],
 			extensions: ['ts', 'tsx'],
 		}),

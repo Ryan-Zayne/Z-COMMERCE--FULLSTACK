@@ -16,7 +16,7 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 			document.documentElement.classList.add('theme-transition');
 
 			document.documentElement.addEventListener('transitionend', () => {
-				document.documentElement.classList.remove('theme-transition');
+				document.documentElement.removeAttribute('class');
 			});
 
 			set({ theme: newtheme });

@@ -1,16 +1,16 @@
 import { lazy } from 'react';
 import { createRoutesFromElements, Route } from 'react-router-dom';
 
-const Home = lazy(() => import('@/pages/Home/Home'));
-const AuthLayout = lazy(() => import('@/pages/Layouts/AuthLayout'));
-const GlobalLayout = lazy(() => import('@/pages/Layouts/GlobalLayout/GlobalLayout'));
-const SignUpFormPage = lazy(() => import('@/pages/AuthPage/SignUpFormPage'));
-const LoginFormPage = lazy(() => import('@/pages/AuthPage/LoginFormPage'));
-const AllProductsPage = lazy(() => import('@/pages/AllProductsPage'));
-const ProductCategoryPage = lazy(() => import('@/pages/ProductCategoryPage'));
-const ProductItemPage = lazy(() => import('@/pages/ProductItemPage/ProductItemPage'));
-const ErrorPage = lazy(() => import('@/pages/ErrorPage'));
-const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
+const GlobalLayout = lazy(() => import('@/pages/Layouts/GlobalLayout.tsx'));
+const AuthLayout = lazy(() => import('@/pages/Layouts/AuthLayout.tsx'));
+const Home = lazy(() => import('@/pages/Home/Home.tsx'));
+const AllProductsPage = lazy(() => import('@/pages/AllProductsPage.tsx'));
+const SignUpFormPage = lazy(() => import('@/pages/AuthPage/SignUpFormPage.tsx'));
+const LoginFormPage = lazy(() => import('@/pages/AuthPage/LoginFormPage.tsx'));
+const ProductCategoryPage = lazy(() => import('@/pages/ProductCategoryPage.tsx'));
+const ProductItemPage = lazy(() => import('@/pages/ProductItemPage/ProductItemPage.tsx'));
+const ErrorPage = lazy(() => import('@/pages/ErrorPage.tsx'));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage.tsx'));
 
 const routes = createRoutesFromElements(
 	<Route errorElement={<ErrorPage />}>

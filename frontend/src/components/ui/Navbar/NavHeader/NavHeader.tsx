@@ -1,5 +1,6 @@
-import { Logo } from '@/components/primitives/index.ts';
-import { DropDown, SearchForm } from '@/components/ui/index.ts';
+import Logo from '@/components/primitives/Logo.tsx';
+import DropDown from '@/components/ui/DropDown.tsx';
+import SearchForm from '@/components/ui/SearchForm.tsx';
 import { useDisclosure } from '@/hooks/index.ts';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
 import { useShopStore } from '@/store/zustand/shopStore.ts';
@@ -7,9 +8,9 @@ import { useThemeStore } from '@/store/zustand/themeStore.ts';
 import { cnJoin, cnMerge } from '@/utils/cn.ts';
 import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import CartDrawer from './Cart/CartDrawer.tsx';
 import HamBurgerButton from './HamBurgerButton.tsx';
 import ThemeSwitchButton from './ThemeSwitchButton.tsx';
+import CartDrawer from './Cart/CartDrawer.tsx';
 
 const NavHeader = () => {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);

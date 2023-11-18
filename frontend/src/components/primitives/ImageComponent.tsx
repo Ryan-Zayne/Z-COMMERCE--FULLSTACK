@@ -55,7 +55,7 @@ function ImageComponent(props: ImageComponentProps) {
 		hasSkeleton: () => (
 			<div
 				className={cnMerge(
-					`h-full w-full`,
+					'h-full w-full',
 					[!isImageLoaded && 'relative bg-white/[0.17] invert dark:bg-black/[0.17] dark:invert-0'],
 					[wrapperClassName]
 				)}

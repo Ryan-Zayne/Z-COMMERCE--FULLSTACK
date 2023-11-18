@@ -1,4 +1,5 @@
-import { Logo } from '@/components/primitives/index.ts';
+import Logo from '@/components/primitives/Logo.tsx';
+import Overlay from '@/components/primitives/Overlay.tsx';
 import { useElementList } from '@/hooks/index.ts';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
 import { cnMerge } from '@/utils/cn.ts';
@@ -48,14 +49,7 @@ const NavigationLinks = () => {
 			<nav className="relative flex w-[100%] items-center justify-between font-[500] lg:pr-[2rem]">
 				{isDesktop && <CategoryMenu deviceType={'desktop'} />}
 
-				{/* HAMBURGER OVERLAY */}
-				<div
-					onClick={toggleNavShow}
-					className={cnMerge(
-						`fixed z-[80] w-0 bg-[hsl(0,0%,0%,0.6)] [inset:0_0_0_auto]`,
-						isNavShow && 'w-screen'
-					)}
-				/>
+				<Overlay z-index={'z-[80]'} isOpen={isNavShow} onClose={toggleNavShow} />
 
 				<ul
 					id="Navigation List"
@@ -66,23 +60,21 @@ const NavigationLinks = () => {
 								'fixed inset-[0_0_0_auto] z-[100] w-[min(22rem,80%)] translate-x-[100%] flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]',
 						],
 
-						[!isDesktop && isNavShow && 'translate-x-0 duration-[500ms] ease-slide-in']
+						[!isDesktop && isNavShow && 'translate-x-0 duration-[600ms] ease-slide-in']
 					)}
 				>
-					{!isDesktop && (
-						<button
-							className={cnMerge(
-								'invisible absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600 opacity-0',
-								[
-									isNavShow &&
-										'visible animate-[bounce_2.5s_ease-in-out_infinite] opacity-100 [transition:opacity_250ms_ease-in]',
-								]
-							)}
-							onClick={toggleNavShow}
-						>
-							<RiCloseFill />
-						</button>
-					)}
+					<button
+						className={cnMerge(
+							'invisible absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600 opacity-0',
+							[
+								isNavShow &&
+									'visible animate-[bounce_2.5s_ease-in-out_infinite] opacity-100 [transition:opacity_250ms_ease-in]',
+							]
+						)}
+						onClick={toggleNavShow}
+					>
+						<RiCloseFill />
+					</button>
 
 					<NavLinksList
 						each={navLinkInfoArray}
@@ -99,15 +91,13 @@ const NavigationLinks = () => {
 								);
 							}
 
-							const { title, path } = navLinkInfo;
-
 							return (
 								<li
-									key={title}
+									key={navLinkInfo.title}
 									className="max-lg:pl-[4rem]"
 									onClick={!isDesktop ? toggleNavShow : undefined}
 								>
-									<NavLink to={path}>{title}</NavLink>
+									<NavLink to={navLinkInfo.path}>{navLinkInfo.title}</NavLink>
 								</li>
 							);
 						}}
