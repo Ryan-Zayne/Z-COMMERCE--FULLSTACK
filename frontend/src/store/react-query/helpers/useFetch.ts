@@ -1,7 +1,7 @@
-import { fetcher } from '@/api/fetcher';
+import { fetcher } from '@/api/fetcher.ts';
 import { useQueries, useQuery, type QueryFunction } from '@tanstack/react-query';
 import type { ResponseData } from '../react-query-store.types';
-import { transformData } from './transFormData';
+import { transformData } from './transFormData.ts';
 
 type FetchOptions = {
 	key: (string | Record<string, string>)[];

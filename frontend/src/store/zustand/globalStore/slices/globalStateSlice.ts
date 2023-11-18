@@ -1,4 +1,4 @@
-import { noScrollOnOpen } from '@/utils/no-scroll-on-open';
+import { noScrollOnOpen } from '@/utils/no-scroll-on-open.ts';
 import type { StateCreator } from 'zustand';
 import type { GlobalStateSlice } from '../../zustand-store.types';
 

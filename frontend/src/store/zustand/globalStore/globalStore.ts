@@ -1,9 +1,9 @@
-import { useCallbackRef } from '@/hooks/useCallbackRef';
+import { useCallbackRef } from '@/hooks/useCallbackRef.ts';
 import { create, type StateCreator } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import type { GlobalStore } from '../zustand-store.types';
-import { createGlobalStateSlice } from './slices/globalStateSlice';
-import { createMediaQuerySlice } from './slices/mediaQuerySlice';
+import { createGlobalStateSlice } from './slices/globalStateSlice.ts';
+import { createMediaQuerySlice } from './slices/mediaQuerySlice.ts';
 
 // State Object creation
 const globalStoreObjectFn: StateCreator<GlobalStore> = (...params) => ({

@@ -1,6 +1,6 @@
-import { fetcher } from '@/api/fetcher';
-import { transformData } from '@/store/react-query/helpers/transFormData';
-import { useFetchMultiple } from '@/store/react-query/helpers/useFetch';
+import { fetcher } from '@/api/fetcher.ts';
+import { transformData } from '@/store/react-query/helpers/transFormData.ts';
+import { useFetchMultiple } from '@/store/react-query/helpers/useFetch.ts';
 
 const useGetAllProducts = () => {
 	const productQueries = [

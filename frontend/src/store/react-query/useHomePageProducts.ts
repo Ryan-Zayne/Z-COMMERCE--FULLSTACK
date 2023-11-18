@@ -1,4 +1,4 @@
-import { useGetAllProducts } from './useGetAllProducts';
+import { useGetAllProducts } from './useGetAllProducts.ts';
 
 const useHomePageProducts = () => {
 	const { allProductsArray, isError, isLoading } = useGetAllProducts();

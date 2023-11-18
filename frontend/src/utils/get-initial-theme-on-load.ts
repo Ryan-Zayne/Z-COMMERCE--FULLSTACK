@@ -1,19 +1,21 @@
-import { prefersDarkMode } from './constants';
+import { isBrowser, prefersDarkMode } from './constants.ts';
 
 type ThemeState = {
 	state: { theme: 'dark' | 'light' };
 };
 
+const themeStateInStorage = JSON.parse(
+	isBrowser ? (localStorage.getItem('colorScheme') as string) : 'light'
+) as ThemeState | null;
+
+const systemPreference = {
+	state: { theme: prefersDarkMode ? 'dark' : 'light' },
+};
+
 const getInitialThemeOnLoad = () => {
-	const themeStateInStorage = localStorage.getItem('colorScheme') as string;
+	const resolvedThemeState = themeStateInStorage ?? systemPreference;
 
-	const defaultSystemTheme: ThemeState = {
-		state: { theme: prefersDarkMode ? 'dark' : 'light' },
-	};
-
-	const parsedThemeState = (JSON.parse(themeStateInStorage) as ThemeState | null) ?? defaultSystemTheme;
-
-	return parsedThemeState.state.theme;
+	return resolvedThemeState.state.theme;
 };
 
 export { getInitialThemeOnLoad };

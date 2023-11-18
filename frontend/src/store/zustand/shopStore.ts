@@ -1,4 +1,4 @@
-import { useCallbackRef } from '@/hooks';
+import { useCallbackRef } from '@/hooks/index.ts';
 import { toast } from 'react-hot-toast';
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';

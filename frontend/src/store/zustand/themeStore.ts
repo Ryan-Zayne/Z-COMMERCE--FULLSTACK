@@ -1,18 +1,12 @@
-import { getInitialThemeOnLoad } from '@/utils/get-initial-theme-on-load';
+import { prefersDarkMode } from '@/utils/constants.ts';
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ThemeStore } from './zustand-store.types';
 
-const initialTheme = getInitialThemeOnLoad();
-
-if (document.documentElement.dataset.theme === '') {
-	document.documentElement.dataset.theme = initialTheme;
-}
-
 // Store Object Initializtion
 const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
-	theme: initialTheme,
-	isDarkMode: initialTheme === 'dark',
+	theme: prefersDarkMode ? 'dark' : 'light',
+	isDarkMode: document.documentElement.dataset.theme === 'dark',
 
 	themeActions: {
 		toggleTheme: () => {
@@ -34,6 +28,7 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 export const useThemeStore = create<ThemeStore>()(
 	persist(themeStoreObject, {
 		name: 'colorScheme',
+		version: 1,
 		partialize: ({ themeActions, ...actualState }) => ({ theme: actualState.theme }),
 	})
 );

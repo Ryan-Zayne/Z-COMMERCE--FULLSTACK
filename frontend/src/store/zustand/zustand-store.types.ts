@@ -1,6 +1,6 @@
-// Global State Types
 import type { ResponseDataItem } from '../react-query/react-query-store.types';
 
+// Global State Types
 export type GlobalStateSlice = {
 	isNavShow: boolean;
 	isSearchShow: boolean;

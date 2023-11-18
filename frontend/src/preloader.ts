@@ -1,4 +1,4 @@
-import { getInitialThemeOnLoad } from './utils/get-initial-theme-on-load';
+import { getInitialThemeOnLoad } from './utils/get-initial-theme-on-load.ts';
 
 // NOTE - This prevents flicker of wrong theme onLoad
 const initialTheme = getInitialThemeOnLoad();
