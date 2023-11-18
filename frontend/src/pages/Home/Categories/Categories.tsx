@@ -1,7 +1,7 @@
-import { Button } from '@/components/primitives';
-import { useElementList } from '@/hooks';
-import { useThemeStore } from '@/store/zustand/themeStore';
-import { cnJoin } from '@/utils/cn';
+import Button from '@/components/primitives/Button.tsx';
+import { useElementList } from '@/hooks/useElementList.ts';
+import { useThemeStore } from '@/store/zustand/themeStore.ts';
+import { cnJoin } from '@/utils/cn.ts';
 import { Link } from 'react-router-dom';
 
 const categories = [
@@ -71,14 +71,18 @@ function Categories() {
 						>
 							<div className="flex min-w-[12rem] shrink-0 flex-col justify-center gap-[0.5rem] lg:gap-[1rem]">
 								<h3 className="text-center text-[1.8rem] lg:text-[2rem]">{category.title}</h3>
+
 								<Link to={`${category.path}`}>
 									<Button
 										text={'Shop Now'}
 										variant={'shop'}
-										className="w-full bg-body p-[0.8rem] text-[--text-body] active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]"
+										className={
+											'w-full bg-body p-[0.8rem] text-[--text-body] active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]'
+										}
 									/>
 								</Link>
 							</div>
+
 							<div className="flex w-[12rem] items-center lg:w-[15rem]">
 								<img
 									className={`${category.imageAspectRatio}`}

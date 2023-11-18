@@ -84,6 +84,7 @@
 		"@typescript-eslint/no-useless-constructor": "error",
 
 		//Airbnb-config/React plugin rules
+		"import/extensions": ["error", "always", { "ignorePackages": true }],
 		"import/no-extraneous-dependencies": [
 			"error",
 			{
@@ -95,9 +96,10 @@
 			"error",
 			{
 				"ignoreExternal": true,
-				"maxDepth": 2
+				"maxDepth": 3
 			}
 		],
+
 		"react/self-closing-comp": [
 			"error",
 			{

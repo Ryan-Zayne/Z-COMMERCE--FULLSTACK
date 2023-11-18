@@ -1,8 +1,8 @@
-import { Button, ImageComponent } from '@/components/primitives';
-import { Carousel } from '@/components/ui';
-import { useAnimateElementRefs, useElementList } from '@/hooks';
+import { Button, ImageComponent } from '@/components/primitives/index.ts';
+import { Carousel } from '@/components/ui/index.ts';
+import { useAnimateElementRefs, useElementList } from '@/hooks/index.ts';
 import { RxPaperPlane } from 'react-icons/rx';
-import { slideImages } from './images';
+import { slideImages } from './images/index.ts';
 
 function Hero() {
 	const { animatedElements, handleElementsAnimation } = useAnimateElementRefs();
@@ -30,14 +30,13 @@ function Hero() {
 					<Carousel.ItemWrapper className={'brightness-[0.6]'}>
 						<ItemList
 							each={slideImages}
-							render={(image, index) => (
+							render={(image) => (
 								<Carousel.Item key={image.src}>
 									<ImageComponent
 										className={'h-full w-full'}
 										imageType={'hasFallback'}
 										src={image.src}
 										blurSrc={image.blurSrc}
-										fetchpriority={index === 0 ? 'high' : 'auto'}
 									/>
 								</Carousel.Item>
 							)}

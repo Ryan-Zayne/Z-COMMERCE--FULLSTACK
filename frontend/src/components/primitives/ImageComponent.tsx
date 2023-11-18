@@ -1,4 +1,4 @@
-import { cnMerge } from '@/utils/cn';
+import { cnMerge } from '@/utils/cn.ts';
 import { useEffect, useState } from 'react';
 
 type ImageComponentProps = React.ComponentPropsWithRef<'img'> & {

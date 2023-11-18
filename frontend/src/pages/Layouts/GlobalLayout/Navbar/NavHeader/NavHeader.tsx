@@ -1,15 +1,15 @@
-import { Logo } from '@/components/primitives';
-import { DropDown, SearchForm } from '@/components/ui';
-import { useDisclosure } from '@/hooks';
-import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
-import { useShopStore } from '@/store/zustand/shopStore';
-import { useThemeStore } from '@/store/zustand/themeStore';
-import { cnJoin, cnMerge } from '@/utils/cn';
+import { Logo } from '@/components/primitives/index.ts';
+import { DropDown, SearchForm } from '@/components/ui/index.ts';
+import { useDisclosure } from '@/hooks/index.ts';
+import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
+import { useShopStore } from '@/store/zustand/shopStore.ts';
+import { useThemeStore } from '@/store/zustand/themeStore.ts';
+import { cnJoin, cnMerge } from '@/utils/cn.ts';
 import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import CartDrawer from './Cart/CartDrawer';
-import HamBurgerButton from './HamBurgerButton';
-import ThemeSwitchButton from './ThemeSwitchButton';
+import CartDrawer from './Cart/CartDrawer.tsx';
+import HamBurgerButton from './HamBurgerButton.tsx';
+import ThemeSwitchButton from './ThemeSwitchButton.tsx';
 
 const NavHeader = () => {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);

@@ -1,5 +1,5 @@
-import { Portal } from '@/components/primitives';
-import { cnMerge } from '@/utils/cn';
+import { Portal } from '@/components/primitives/index.ts';
+import { cnMerge } from '@/utils/cn.ts';
 import { RiCloseFill } from 'react-icons/ri';
 import type {
 	DrawerCloseProps,
@@ -7,8 +7,8 @@ import type {
 	DrawerRootProps,
 	OtherDrawerProps,
 } from './drawer.types';
-import { DrawerContextProvider } from './drawerStoreContext';
-import { useDrawerStore } from './hooks';
+import { DrawerContextProvider } from './drawerStoreContext.tsx';
+import { useDrawerStore } from './hooks/index.ts';
 
 function DrawerRoot({ children, ...restOfDrawerProps }: DrawerRootProps) {
 	return (

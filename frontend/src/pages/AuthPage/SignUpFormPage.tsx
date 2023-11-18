@@ -1,10 +1,10 @@
-import { Logo } from '@/components/primitives';
-import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
+import { Logo } from '@/components/primitives/index.ts';
+import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
 import { Transition } from '@headlessui/react';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation } from 'react-router-dom';
-import FormArea from './components/FormArea/FormArea';
-import { facebook } from './images';
+import FormArea from './components/FormArea/FormArea.tsx';
+import { facebook } from './images/index.ts';
 
 function SignUpFormPage() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);

@@ -1,7 +1,7 @@
-import { cnMerge } from '@/utils/cn';
+import { logo } from '@/assets/brand/index.ts';
+import { cnMerge } from '@/utils/cn.ts';
 import { useId } from 'react';
 import { Link } from 'react-router-dom';
-import { logo } from '../../assets/brand';
 
 function Logo({ className = '' }: { className?: string }) {
 	const reactId = useId();

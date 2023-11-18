@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 import type { ThemeStore } from './zustand-store.types';
 
 // Store Object Initializtion
-const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
+const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 	theme: prefersDarkMode ? 'dark' : 'light',
 	isDarkMode: document.documentElement.dataset.theme === 'dark',
 
@@ -26,7 +26,7 @@ const themeStoreObject: StateCreator<ThemeStore> = (set, get) => ({
 
 // Store hook Creation
 export const useThemeStore = create<ThemeStore>()(
-	persist(themeStoreObject, {
+	persist(themeStoreObjectFn, {
 		name: 'colorScheme',
 		version: 1,
 		partialize: ({ themeActions, ...actualState }) => ({ theme: actualState.theme }),

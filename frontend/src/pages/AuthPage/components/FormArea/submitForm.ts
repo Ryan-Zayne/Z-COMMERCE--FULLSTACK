@@ -1,5 +1,5 @@
-import { BASE_AUTH_URL } from '@/utils/constants';
-import { noScrollOnOpen } from '@/utils/no-scroll-on-open';
+import { BASE_AUTH_URL } from '@/utils/constants.ts';
+import { noScrollOnOpen } from '@/utils/no-scroll-on-open.ts';
 import type { UseFormReset, UseFormSetError } from 'react-hook-form';
 import type { NavigateFunction } from 'react-router-dom';
 import type { FormSchemaType } from '../form.types';

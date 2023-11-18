@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { dispatchStorageEvent } from './dispatchStorageEvent';
+import { dispatchStorageEvent } from './dispatchStorageEvent.ts';
 
 type StorageHookOptions<TValue> = {
 	syncData?: boolean;

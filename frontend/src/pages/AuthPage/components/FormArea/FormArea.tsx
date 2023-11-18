@@ -1,16 +1,16 @@
-import { Button, LoadingSpinner } from '@/components/primitives';
-import { useToggle } from '@/hooks';
-import { LoginSchema, SignUpSchema } from '@/lib/schemas/formSchema';
-import { cnMerge } from '@/utils/cn';
+import { Button, LoadingSpinner } from '@/components/primitives/index.ts';
+import { useToggle } from '@/hooks/index.ts';
+import { LoginSchema, SignUpSchema } from '@/lib/schemas/formSchema.ts';
+import { cnMerge } from '@/utils/cn.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import ErrorParagraph from '../ErrorParagraph';
-import InputGroup from '../InputGroup';
+import ErrorParagraph from '../ErrorParagraph.tsx';
+import InputGroup from '../InputGroup.tsx';
 import type { FormSchemaType } from '../form.types';
-import { submitForm } from './submitForm';
+import { submitForm } from './submitForm.ts';
 
 export type FormAreaProps = {
 	formType: 'Login' | 'Sign Up';

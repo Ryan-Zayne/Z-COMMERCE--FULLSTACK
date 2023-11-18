@@ -1,4 +1,4 @@
-import { createCustomContext } from '@/hooks/context-wrapper-hook';
+import { createCustomContext } from '@/hooks/custom-context-hook/index.ts';
 import { useEffect, useState } from 'react';
 import { createStore } from 'zustand';
 import type { DrawerProviderProps, DrawerStore, DrawerStoreApi } from './drawer.types';
@@ -34,4 +34,3 @@ function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 }
 
 export { DrawerContextProvider, useCustomDrawerContext };
-

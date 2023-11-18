@@ -1,2 +1,2 @@
-export { useCarouselOptions } from './useCarouselOptions';
-export * from './useCarouselStore';
+export { useCarouselOptions } from './useCarouselOptions.ts';
+export * from './useCarouselStore.ts';

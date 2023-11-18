@@ -1,7 +1,7 @@
-import { useToggle } from '@/hooks';
-import type { ResponseDataItem } from '@/store/react-query/react-query-store.types';
-import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
-import type { ShopStore } from '@/store/zustand/zustand-store.types';
+import { useToggle } from '@/hooks/index.ts';
+import type { ResponseDataItem } from '@/store/react-query/react-query-store.types.ts';
+import { useShopActions, useShopStore } from '@/store/zustand/shopStore.ts';
+import type { ShopStore } from '@/store/zustand/zustand-store.types.ts';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { TiArrowBack } from 'react-icons/ti';
 import { Link } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { ContextError, getErrorMessage } from './getErrorMessage';
+import { ContextError, getErrorMessage } from './getErrorMessage.ts';
 
 export type CustomContextOptions<TContext> = {
 	name?: string;

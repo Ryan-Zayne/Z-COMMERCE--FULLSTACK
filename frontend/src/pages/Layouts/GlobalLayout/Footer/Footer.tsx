@@ -1,6 +1,5 @@
-/* eslint-disable unicorn/no-array-for-each */
-import FooterDropDowns from './FooterDropDowns';
-import FooterHeaderSection from './FooterHeaderSection';
+import FooterDropDowns from './FooterDropDowns.tsx';
+import FooterHeaderSection from './FooterHeaderSection.tsx';
 
 function Footer() {
 	return (

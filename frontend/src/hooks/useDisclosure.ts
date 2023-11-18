@@ -1,4 +1,4 @@
-import { noScrollOnOpen } from '@/utils/no-scroll-on-open';
+import { noScrollOnOpen } from '@/utils/no-scroll-on-open.ts';
 import { useCallback, useState } from 'react';
 
 type DisclosureOptions = {

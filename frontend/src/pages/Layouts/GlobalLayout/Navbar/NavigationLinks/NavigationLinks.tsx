@@ -1,10 +1,10 @@
-import { Logo } from '@/components/primitives';
-import { useElementList } from '@/hooks';
-import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
-import { cnMerge } from '@/utils/cn';
+import { Logo } from '@/components/primitives/index.ts';
+import { useElementList } from '@/hooks/index.ts';
+import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
+import { cnMerge } from '@/utils/cn.ts';
 import { RiCloseFill } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
-import CategoryMenu from './CategoryMenu';
+import CategoryMenu from './CategoryMenu.tsx';
 
 type NavItemsType = Array<
 	| {

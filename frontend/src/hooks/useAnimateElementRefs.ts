@@ -1,3 +1,4 @@
+import { cnJoin } from '@/utils/cn.ts';
 import { useCallback, useRef } from 'react';
 
 type PossibleElementsType = 'heading' | 'button' | 'paragraph';
@@ -9,8 +10,9 @@ type ElementsInfoType = Array<{
 
 type ElementsRefType = Record<'button' | 'heading' | 'paragraph', HTMLElement | null>;
 
-type AnimateCarouselOptions = {
+type AnimateElementsOptions = {
 	elementsInfo?: ElementsInfoType;
+	stopAnimation?: boolean;
 };
 
 class ELementError extends Error {
@@ -20,13 +22,28 @@ class ELementError extends Error {
 	}
 }
 
-const defaultElementsInfo = [
-	{ targetElement: 'heading', animationClass: 'animate-fade-in-down' },
-	{ targetElement: 'button', animationClass: 'animate-fade-in-up' },
-	{ targetElement: 'paragraph', animationClass: 'animate-fade-in-up-2' },
-] satisfies ElementsInfoType;
+const getdefaultElementsInfo = (stopAnimation: boolean) => {
+	const stopAnimationClass = stopAnimation && 'animation-none';
 
-const useAnimateElementRefs = ({ elementsInfo = defaultElementsInfo }: AnimateCarouselOptions = {}) => {
+	return [
+		{
+			targetElement: 'heading',
+			animationClass: cnJoin('animate-fade-in-down', stopAnimationClass),
+		},
+		{
+			targetElement: 'button',
+			animationClass: cnJoin('animate-fade-in-up', stopAnimationClass),
+		},
+		{
+			targetElement: 'paragraph',
+			animationClass: cnJoin('animate-fade-in-up-2', stopAnimationClass),
+		},
+	] satisfies ElementsInfoType;
+};
+
+const useAnimateElementRefs = (options: AnimateElementsOptions = {}) => {
+	const { stopAnimation = false, elementsInfo = getdefaultElementsInfo(stopAnimation) } = options;
+
 	const elementsRef = useRef({} as ElementsRefType);
 
 	const addAnimationClasses = useCallback(() => {

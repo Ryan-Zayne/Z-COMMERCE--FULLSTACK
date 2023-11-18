@@ -1,4 +1,4 @@
-import { cnMerge } from '@/utils/cn';
+import { cnMerge } from '@/utils/cn.ts';
 import { forwardRef } from 'react';
 
 export type ButtonProps = React.ComponentPropsWithRef<'button'> & {

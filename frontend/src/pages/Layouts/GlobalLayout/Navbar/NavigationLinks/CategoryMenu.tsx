@@ -1,8 +1,7 @@
-/* eslint-disable consistent-return */
-import { DropDown } from '@/components/ui';
-import { useDisclosure } from '@/hooks';
-import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore';
-import { cnJoin } from '@/utils/cn';
+import { DropDown } from '@/components/ui/index.ts';
+import { useDisclosure } from '@/hooks/index.ts';
+import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
+import { cnJoin } from '@/utils/cn.ts';
 import { useEffect } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
 import { BsChevronDoubleRight, BsMenuButtonFill } from 'react-icons/bs';
@@ -25,6 +24,7 @@ function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 	const categoryDisclosure = useDisclosure({ initialState: isDesktop && href === '/' });
 
 	useEffect(
+		/* eslint-disable consistent-return */
 		function defaultDropDownStateEffect() {
 			if (!isDesktop) return;
 

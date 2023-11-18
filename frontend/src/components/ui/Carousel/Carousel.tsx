@@ -1,13 +1,13 @@
-import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
-import { cnMerge } from '@/utils/cn';
+import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
+import { cnMerge } from '@/utils/cn.ts';
 import type {
 	CarouselContentProps,
 	CarouselIndicatorProps,
 	CarouselRootProps,
 	OtherCarouselProps,
 } from './carousel.types';
-import { CarouselContextProvider } from './carouselStoreContext';
-import { useCarouselActions, useCarouselOptions, useCarouselStore } from './hooks';
+import { CarouselContextProvider } from './carouselStoreContext.tsx';
+import { useCarouselActions, useCarouselOptions, useCarouselStore } from './hooks/index.ts';
 
 function CarouselRoot({ children, slideImages }: CarouselRootProps) {
 	return <CarouselContextProvider slideImages={slideImages}>{children}</CarouselContextProvider>;

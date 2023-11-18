@@ -1,6 +1,6 @@
-import Categories from './Categories/Categories';
-import Hero from './Hero/Hero';
-import HomeProductSection from './HomeProductSection/HomeProductSection';
+import Categories from './Categories/Categories.tsx';
+import Hero from './Hero/Hero.tsx';
+import HomeProductSection from './HomeProductSection/HomeProductSection.tsx';
 
 function HomePage() {
 	return (

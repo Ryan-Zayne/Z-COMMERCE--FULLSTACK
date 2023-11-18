@@ -1,5 +1,5 @@
-import { useScrollObserver } from '@/hooks';
-import { cnMerge } from '@/utils/cn';
+import { useScrollObserver } from '@/hooks/index.ts';
+import { cnMerge } from '@/utils/cn.ts';
 import { BsChevronUp } from 'react-icons/bs';
 
 function ScrollToTopButton() {

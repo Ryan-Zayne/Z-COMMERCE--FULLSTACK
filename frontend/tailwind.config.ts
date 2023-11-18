@@ -2,7 +2,7 @@ import plugin from 'tailwindcss/plugin';
 import type { Config } from 'tailwindcss/types/config';
 
 const tailwindConfig = {
-	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+	content: ['./index.html', './src/**/*.{ts,tsx}'],
 	darkMode: ['class', '[data-theme="dark"]'],
 
 	theme: {
@@ -27,25 +27,25 @@ const tailwindConfig = {
 				primary: 'var(--color-primary)',
 				secondary: 'var(--color-secondary)',
 				body: 'var(--color-body)',
-				'carousel-btn': 'var(--carousel-btn)',
-				'carousel-dot': 'var(--carousel-dot)',
 				heading: 'var(--text-header)',
 				dark: 'var(--text-dark)',
 				light: 'var(--text-light)',
 				facebook: 'var(--color-facebook)',
 				placeholder: 'var(--text-placeholder)',
 				navbar: 'var(--color-navbar)',
-				'nav-text': 'var(--text-navbar)',
-				'dark-ball': 'var(--dark-mode-ball)',
-				'brand-inverse': 'var(--brand-inverse)',
 				input: 'var(--text-input)',
 				label: 'var(--text-label)',
 				error: 'var(--color-error)',
+				'carousel-btn': 'var(--carousel-btn)',
+				'carousel-dot': 'var(--carousel-dot)',
+				'nav-text': 'var(--text-navbar)',
+				'dark-ball': 'var(--dark-mode-ball)',
+				'brand-inverse': 'var(--brand-inverse)',
 			},
 
 			fontFamily: {
-				roboto: ["'Roboto Slab'", 'Helvetica'],
-				rubik: ["'Rubik'", 'Trebuchet MS'],
+				roboto: ['Roboto Slab', 'Helvetica'],
+				rubik: ['Rubik', 'Trebuchet MS'],
 			},
 
 			fontWeight: {
@@ -61,32 +61,25 @@ const tailwindConfig = {
 			},
 
 			animation: {
-				'fade-in-down': 'fade-in-down 1.3s',
-				'fade-in-up': 'fade-in-up 1.7s ease-out',
-				'fade-in-up-2': 'fade-in-up-2 1.3s ease-out',
 				zoom: 'zoom 3s infinite linear',
 				flicker: 'flicker 3s linear infinite',
 				shake: 'shake 0.2s ease-in-out 0s 3',
+				'fade-in-down': 'fade-in-down 1.3s',
+				'fade-in-up': 'fade-in-up 1.7s ease-out',
+				'fade-in-up-2': 'fade-in-up-2 1.3s ease-out',
 			},
 
+			/* eslint-disable sonarjs/no-duplicate-string */
 			keyframes: {
-				'fade-in-down': {
-					from: { opacity: '0', transform: 'translateY(-80%)' },
-					// eslint-disable-next-line sonarjs/no-duplicate-string
-					to: { opacity: '1', transform: 'translateY(0)' },
-				},
-				'fade-in-up': {
-					from: { opacity: '0', transform: 'translateY(100%)' },
-					to: { opacity: '1', transform: 'translateY(0)' },
-				},
-				'fade-in-up-2': {
-					from: { opacity: '0', transform: 'translateY(150%)' },
-					to: { opacity: '0.86', transform: 'translateY(0)' },
-				},
-
 				zoom: {
 					from: { transform: 'translateX(-300%)' },
 					to: { transform: 'translateX(100%)' },
+				},
+
+				shake: {
+					'0%, 100%': { transform: 'translateX(0rem)' },
+					'25%': { transform: 'translateX(0.6rem)' },
+					'75%': { transform: 'translateX(-0.6rem)' },
 				},
 
 				flicker: {
@@ -102,10 +95,19 @@ const tailwindConfig = {
 					},
 				},
 
-				shake: {
-					'0%, 100%': { transform: 'translateX(0rem)' },
-					'25%': { transform: 'translateX(0.6rem)' },
-					'75%': { transform: 'translateX(-0.6rem)' },
+				'fade-in-down': {
+					from: { opacity: '0', transform: 'translateY(-80%)' },
+					to: { opacity: '1', transform: 'translateY(0)' },
+				},
+
+				'fade-in-up': {
+					from: { opacity: '0', transform: 'translateY(100%)' },
+					to: { opacity: '1', transform: 'translateY(0)' },
+				},
+
+				'fade-in-up-2': {
+					from: { opacity: '0', transform: 'translateY(150%)' },
+					to: { opacity: '0.86', transform: 'translateY(0)' },
 				},
 			},
 		},
@@ -113,8 +115,6 @@ const tailwindConfig = {
 
 	plugins: [
 		plugin(({ matchVariant, matchUtilities, addComponents }) => {
-			// addVariant('hocus', ['&:hover', '&:focus']);
-
 			addComponents({
 				'.custom-scrollbar': {
 					'&::-webkit-scrollbar': {
@@ -145,11 +145,13 @@ const tailwindConfig = {
 						height: ' 0.5rem',
 						width: '0.5rem',
 						borderRadius: '50%',
-						transition: `opacity 0.4s ease 0s,
-										 bottom 0.3s ease 0.1s,
-										 height 0.5s ease 0.3s,
-										 border-radius 0.2s ease 0.4s,
-										 width 0.5s ease 0.4s`,
+						transition: `
+							opacity 0.4s ease 0s,
+							bottom 0.3s ease 0.1s,
+							height 0.5s ease 0.3s,
+							border-radius 0.2s ease 0.4s,
+							width 0.5s ease 0.4s
+							`,
 					},
 
 					'&:hover::before': {

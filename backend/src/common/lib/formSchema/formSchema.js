@@ -9,9 +9,11 @@ export const SignUpSchema = z
 			.regex(
 				// eslint-disable-next-line security/detect-unsafe-regex
 				/^(?!.*-[a-z])[A-Z]['a-z-]*(?:-[A-Z]['a-z-]*)*(?:'[A-Z]['a-z-]*)*$/,
-				`Username must be in sentence case, can include hyphen, and apostrophes.
+				`
+				Username must be in sentence case, can include hyphen, and apostrophes.
 				A hyphen MUST be followed by an uppercase letter.
-				Examples include: "Ali", "Ade-Bright" or "Smith's".`
+				Examples include: "Ali", "Ade-Bright" or "Smith's".
+				`
 			),
 
 		email: z.string().email('Please enter a valid email!'),
@@ -26,6 +28,6 @@ export const SignUpSchema = z
 
 export const LoginSchema = z.object({
 	email: z.string().email('Please enter a valid email!'),
-	password: z.string().min(8, 'Password must be at least 8 characters!'),
+	password: z.string(),
 	rememberMe: z.boolean().optional(),
 });

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useCallbackRef } from '.';
+import { useCallbackRef } from './useCallbackRef.ts';
 
 /**
  * A custom hook that returns a value from a store and syncs it with a local state.
@@ -51,4 +51,4 @@ const useRehydratedFromStore = <TState, TResult>(
 	return hasHydrated ? zustandState : null;
 };
 
-export { useFromStore };
+export { useFromStore, useRehydratedFromStore };

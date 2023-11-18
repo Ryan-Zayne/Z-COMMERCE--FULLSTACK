@@ -1,12 +1,12 @@
-import { Button, Logo } from '@/components/primitives';
-import { Drawer } from '@/components/ui';
+import { Button, Logo } from '@/components/primitives/index.ts';
+import { Drawer } from '@/components/ui/index.ts';
 import type { DrawerContentProps, DrawerStore } from '@/components/ui/Drawer/drawer.types';
-import { useElementList } from '@/hooks';
-import { useShopStore } from '@/store/zustand/shopStore';
-import { useThemeStore } from '@/store/zustand/themeStore';
+import { useElementList } from '@/hooks/index.ts';
+import { useShopStore } from '@/store/zustand/shopStore.ts';
+import { useThemeStore } from '@/store/zustand/themeStore.ts';
 import { IoMdCart } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import { CartItem, CartItemWrapper } from './CartItem';
+import { CartItem, CartItemWrapper } from './CartItem.tsx';
 
 type CartDrawerProps = DrawerStore & { placement?: DrawerContentProps['placement'] };
 

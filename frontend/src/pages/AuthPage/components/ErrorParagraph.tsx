@@ -1,5 +1,5 @@
-import { For as ErrorMessageList } from '@/components/primitives';
-import { cnJoin, cnMerge } from '@/utils/cn';
+import { useElementList } from '@/hooks/useElementList.ts';
+import { cnMerge } from '@/utils/cn.ts';
 
 type ErrorTextProps = {
 	className?: string;
@@ -7,7 +7,8 @@ type ErrorTextProps = {
 };
 
 function ErrorParagraph({ className, message }: ErrorTextProps) {
-	const paragraphClasses = cnMerge(`animate-shake pt-[0.3rem] text-[1.1rem] text-error ${className}`);
+	const { For: ErrorMessageList } = useElementList();
+	const paragraphClasses = 'animate-shake pt-[0.3rem] text-[1.1rem] text-error';
 	const splitterRegex = /, (?=[A-Z])/;
 
 	if (message && splitterRegex.test(message)) {
@@ -16,13 +17,14 @@ function ErrorParagraph({ className, message }: ErrorTextProps) {
 		return (
 			<ErrorMessageList
 				each={messageArray}
-				render={(msg, index) => (
+				render={(messageItem, index) => (
 					<p
-						className={cnJoin(
+						className={cnMerge(
 							`ml-[1.5rem] list-item ${paragraphClasses}`,
-							index === 0 && 'mt-[0.4rem]'
+							[className],
+							[index === 0 && 'mt-[0.4rem]']
 						)}
-					>{`${msg}.`}</p>
+					>{`${messageItem}.`}</p>
 				)}
 			/>
 		);
