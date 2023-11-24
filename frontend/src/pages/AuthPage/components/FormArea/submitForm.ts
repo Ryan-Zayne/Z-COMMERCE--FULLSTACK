@@ -1,15 +1,9 @@
-import { BASE_AUTH_URL } from '@/lib/utils/constants.ts';
-import { createFetcherInstance } from '@/lib/utils/create-fetcher-instance/create-fetcher-instance.ts';
+import { fetchFormResponse } from '@/api/fetchFormResponse.ts';
 import { noScrollOnOpen } from '@/lib/utils/no-scroll-on-open.ts';
 import type { UseFormReset, UseFormSetError } from 'react-hook-form';
 import type { NavigateFunction } from 'react-router-dom';
 import type { FormAreaProps } from './FormArea';
 import type { FormSchemaType } from './form.types';
-
-type FormResponseDataType =
-	| { status: 'success'; accessToken: string; user: { name: string; email: string } }
-	| { status: 'error'; errors: Array<[keyof FormSchemaType, string | string[]]> }
-	| { status: 'error'; errorTitle: string; message: string; stackTrace: string };
 
 type SubmitFormParams = {
 	formType: FormAreaProps['formType'];
@@ -17,19 +11,6 @@ type SubmitFormParams = {
 	reset: UseFormReset<FormSchemaType>;
 	navigate: NavigateFunction;
 };
-
-const fetchFormResponse = createFetcherInstance<FormResponseDataType>({
-	baseURL: BASE_AUTH_URL,
-	defaultErrorMessage: 'Failed to submit form!',
-
-	method: 'POST',
-
-	headers: {
-		'Content-Type': 'application/json',
-	},
-
-	credentials: 'same-origin',
-});
 
 const submitForm =
 	({ formType, setError, reset, navigate }: SubmitFormParams) =>
