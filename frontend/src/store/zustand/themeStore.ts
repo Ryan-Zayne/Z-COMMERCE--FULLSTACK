@@ -1,4 +1,4 @@
-import { prefersDarkMode } from '@/utils/constants.ts';
+import { prefersDarkMode } from '@/lib/utils/constants.ts';
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ThemeStore } from './zustand-store.types';

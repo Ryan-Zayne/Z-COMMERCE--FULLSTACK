@@ -1,6 +1,6 @@
 import { Button, ImageComponent } from '@/components/primitives/index.ts';
 import { Carousel } from '@/components/ui/index.ts';
-import { useAnimateElementRefs, useElementList } from '@/hooks/index.ts';
+import { useAnimateElementRefs, useElementList } from '@/lib/hooks/index.ts';
 import { RxPaperPlane } from 'react-icons/rx';
 import { slideImages } from './images/index.ts';
 

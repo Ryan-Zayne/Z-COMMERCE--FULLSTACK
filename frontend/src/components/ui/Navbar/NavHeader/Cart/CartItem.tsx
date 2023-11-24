@@ -1,4 +1,4 @@
-import type { WithChildren } from '@/lib/global-type-helpers';
+import type { WithChildren } from '@/lib/types/global-type-helpers';
 import { useShopActions } from '@/store/zustand/shopStore.ts';
 import { useThemeStore } from '@/store/zustand/themeStore.ts';
 import type { ShopStore } from '@/store/zustand/zustand-store.types';

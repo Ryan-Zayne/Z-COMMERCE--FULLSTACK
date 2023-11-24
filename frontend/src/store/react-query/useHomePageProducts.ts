@@ -1,7 +1,7 @@
 import { useGetAllProducts } from './useGetAllProducts.ts';
 
 const useHomePageProducts = () => {
-	const { allProductsArray, isError, isLoading } = useGetAllProducts();
+	const { allProductsArray, isError, isPending } = useGetAllProducts();
 
 	const hotSalesProducts = allProductsArray.filter((item) => item?.category === 'laptops');
 
@@ -13,7 +13,7 @@ const useHomePageProducts = () => {
 	];
 
 	return {
-		isLoading,
+		isPending,
 		isError,
 		hotSalesProducts,
 		recentlyViewedProducts,

@@ -1,6 +1,6 @@
 import ProductCard from '@/components/ui/ProductCard.tsx';
-import { useElementList } from '@/hooks/useElementList.ts';
-import { assertDefined } from '@/lib/global-type-helpers.ts';
+import { useElementList } from '@/lib/hooks/useElementList.ts';
+import { assertDefined } from '@/lib/types/global-type-helpers.ts';
 import type { DataArrayProp } from './home-product.types.ts';
 
 function SimilarProducts({ data }: DataArrayProp) {

@@ -1,4 +1,4 @@
-import { useToggle } from '@/hooks/index.ts';
+import { useToggle } from '@/lib/hooks/index.ts';
 import type { ResponseDataItem } from '@/store/react-query/react-query-store.types.ts';
 import { useShopActions, useShopStore } from '@/store/zustand/shopStore.ts';
 import type { ShopStore } from '@/store/zustand/zustand-store.types.ts';

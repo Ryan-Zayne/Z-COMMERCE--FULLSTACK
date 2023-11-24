@@ -1,4 +1,4 @@
-import { useAnimationInterval } from '@/hooks';
+import { useAnimationInterval } from '@/lib/hooks';
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { useState } from 'react';
 import { useCarouselActions } from './useCarouselStore';

@@ -8,15 +8,14 @@ const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			staleTime: Number.POSITIVE_INFINITY,
-			cacheTime: 10 * (60 * 1000),
+			gcTime: 10 * (60 * 1000),
 		},
 	},
 });
 
-
 createRoot(document.querySelector('#root') as HTMLElement).render(
 	<QueryClientProvider client={queryClient}>
 		<App />
-		<ReactQueryDevtools initialIsOpen={false} />
+		<ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
 	</QueryClientProvider>
 );

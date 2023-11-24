@@ -1,4 +1,4 @@
-import { useCallbackRef } from '@/hooks';
+import { useCallbackRef } from '@/lib/hooks';
 import { useStore } from 'zustand';
 import type { DrawerStore } from '../drawer.types';
 import { useCustomDrawerContext } from '../drawerStoreContext';

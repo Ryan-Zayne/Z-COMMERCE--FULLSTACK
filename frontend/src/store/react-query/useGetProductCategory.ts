@@ -1,12 +1,12 @@
-import { assertDefined } from '@/lib/global-type-helpers.ts';
+import { assertDefined } from '@/lib/types/global-type-helpers.ts';
 import { useGetAllProducts } from './useGetAllProducts.ts';
 
-const possibleCategories = new Set(['smartphones', 'laptops', 'watches', 'vehicles', 'lighting']);
+const possibleCategories = ['smartphones', 'laptops', 'watches', 'vehicles', 'lighting'] as const;
 
 const useGetProductCategory = (productCategory: string | undefined) => {
-	const { allProductsArray, isError, isLoading } = useGetAllProducts();
+	const { allProductsArray, isError, isPending } = useGetAllProducts();
 
-	if (!productCategory || !possibleCategories.has(productCategory)) {
+	if (!productCategory || !possibleCategories.includes(productCategory)) {
 		throw new Error('Category not found!');
 	}
 
@@ -27,7 +27,7 @@ const useGetProductCategory = (productCategory: string | undefined) => {
 	const productsArray = PRODUCTS_LOOKUP[productCategory];
 
 	return {
-		isLoading,
+		isPending,
 		isError,
 		productsArray: assertDefined(productsArray),
 	};

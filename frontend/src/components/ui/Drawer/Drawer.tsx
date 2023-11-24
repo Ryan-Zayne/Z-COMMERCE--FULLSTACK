@@ -1,5 +1,5 @@
 import { Overlay, Portal } from '@/components/primitives/index.ts';
-import { cnMerge } from '@/utils/cn.ts';
+import { cnMerge } from '@/lib/utils/cn.ts';
 import { RiCloseFill } from 'react-icons/ri';
 import type {
 	DrawerCloseProps,

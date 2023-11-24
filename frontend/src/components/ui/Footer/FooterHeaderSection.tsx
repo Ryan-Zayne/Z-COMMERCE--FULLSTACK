@@ -1,7 +1,7 @@
 import SearchForm from '@/components/ui/SearchForm.tsx';
 import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from 'react-icons/bs';
 import { TfiYoutube } from 'react-icons/tfi';
-import { getOnApple, getOnGoogle, newsLetterIcon } from './images/index.ts';
+import { NewsletterIcon, getOnApple, getOnGoogle } from './images/index.ts';
 
 function FooterHeaderSection() {
 	return (
@@ -12,21 +12,17 @@ function FooterHeaderSection() {
 		>
 			<div className="flex flex-col items-center gap-[1rem] lg:gap-[2.5rem]">
 				<header className="flex items-center">
+					<NewsletterIcon />
+
 					<h4 className="text-[1.7rem] font-[500] text-heading lg:text-[2.4rem]">
 						Sign Up For NewsLetter
 					</h4>
-
-					<img
-						className="mr-[0.3rem] aspect-square w-[3rem] text-heading lg:w-[4rem]"
-						src={newsLetterIcon}
-						alt=""
-						loading="lazy"
-					/>
 				</header>
 
 				<p className="text-[1.4rem] lg:text-[1.8rem]">$20 discount for your first order</p>
 
 				<SearchForm
+					type={'subscribe'}
 					className={'w-[min(100%,40rem)] lg:w-[45rem]'}
 					btnClassName={'p-[0.91rem_1.5rem] text-[1.45rem] font-[500] lg:p-[1.2rem_2.6rem]'}
 					inputClassName={'lg:py-[0.9rem]'}

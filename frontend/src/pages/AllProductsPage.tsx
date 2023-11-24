@@ -1,13 +1,13 @@
 import { LoadingSkeleton, ProductCard } from '@/components/ui/index.ts';
-import { assertDefined } from '@/lib/global-type-helpers.ts';
+import { assertDefined } from '@/lib/types/global-type-helpers.ts';
 import { useGetAllProducts } from '@/store/react-query/useGetAllProducts.ts';
 import { TiArrowBack } from 'react-icons/ti';
 import { Link } from 'react-router-dom';
 
 function AllProductsPage() {
-	const { isLoading, allProductsArray } = useGetAllProducts();
+	const { isPending, allProductsArray } = useGetAllProducts();
 
-	if (isLoading) {
+	if (isPending) {
 		return <LoadingSkeleton count={10} />;
 	}
 

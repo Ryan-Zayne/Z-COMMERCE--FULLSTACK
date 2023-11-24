@@ -1,4 +1,4 @@
-import { useCallbackRef } from '@/hooks';
+import { useCallbackRef } from '@/lib/hooks';
 import { useStore } from 'zustand';
 import type { CarouselStore } from '../carousel.types';
 import { useCustomCarouselContext } from '../carouselStoreContext';

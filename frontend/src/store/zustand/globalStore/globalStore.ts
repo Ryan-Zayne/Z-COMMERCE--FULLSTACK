@@ -1,4 +1,4 @@
-import { useCallbackRef } from '@/hooks/useCallbackRef.ts';
+import { useCallbackRef } from '@/lib/hooks/useCallbackRef.ts';
 import { create, type StateCreator } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import type { GlobalStore } from '../zustand-store.types';

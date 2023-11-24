@@ -1,12 +1,13 @@
-import { BASE_AUTH_URL } from '@/utils/constants.ts';
-import { noScrollOnOpen } from '@/utils/no-scroll-on-open.ts';
+import { BASE_AUTH_URL } from '@/lib/utils/constants.ts';
+import { createFetcherInstance } from '@/lib/utils/create-fetcher-instance/create-fetcher-instance.ts';
+import { noScrollOnOpen } from '@/lib/utils/no-scroll-on-open.ts';
 import type { UseFormReset, UseFormSetError } from 'react-hook-form';
 import type { NavigateFunction } from 'react-router-dom';
-import type { FormSchemaType } from '../form.types';
 import type { FormAreaProps } from './FormArea';
+import type { FormSchemaType } from './form.types';
 
 type FormResponseDataType =
-	| { status: 'success'; accessToken: string; userName: string; email: string }
+	| { status: 'success'; accessToken: string; user: { name: string; email: string } }
 	| { status: 'error'; errors: Array<[keyof FormSchemaType, string | string[]]> }
 	| { status: 'error'; errorTitle: string; message: string; stackTrace: string };
 
@@ -17,32 +18,28 @@ type SubmitFormParams = {
 	navigate: NavigateFunction;
 };
 
-const fetchFormResponse = async (AUTH_URL: string, data: FormSchemaType) => {
-	const response = await fetch(AUTH_URL, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		credentials: 'same-origin',
-	});
+const fetchFormResponse = createFetcherInstance<FormResponseDataType>({
+	baseURL: BASE_AUTH_URL,
+	defaultErrorMessage: 'Failed to submit form!',
 
-	if (!response.ok) {
-		throw new Error('Failed to submit form');
-	}
+	method: 'POST',
 
-	return response.json() as Promise<FormResponseDataType>;
-};
+	headers: {
+		'Content-Type': 'application/json',
+	},
+
+	credentials: 'same-origin',
+});
 
 const submitForm =
 	({ formType, setError, reset, navigate }: SubmitFormParams) =>
-	async (data: FormSchemaType) => {
+	async (formData: FormSchemaType) => {
 		try {
 			noScrollOnOpen({ isOpen: true });
 
-			const AUTH_URL = formType === 'Sign Up' ? `${BASE_AUTH_URL}/sign-up` : `${BASE_AUTH_URL}/login`;
+			const AUTH_URL = formType === 'Sign Up' ? `/sign-up` : `/login`;
 
-			const responseData = await fetchFormResponse(AUTH_URL, data);
+			const responseData = await fetchFormResponse(AUTH_URL, { body: JSON.stringify(formData) });
 
 			if (responseData.status === 'error' && 'errors' in responseData) {
 				const zodErrors = responseData.errors;
@@ -72,10 +69,11 @@ const submitForm =
 			// Handle caught server errors
 		} catch (error) {
 			/* eslint-disable no-console */
+
 			if (error instanceof Error) {
-				setError('root.serverCatch', {
+				setError('root.serverCaughtError', {
 					type: error.name,
-					message: 'Something went wrong',
+					message: 'Something went wrong! Please try again later.',
 				});
 
 				console.error(error);

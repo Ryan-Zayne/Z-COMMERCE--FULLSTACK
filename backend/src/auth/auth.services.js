@@ -35,7 +35,7 @@ export const setCookieAndSendResponse = ({ res, user, accessToken, newRefreshTok
 	// eslint-disable-next-line no-unused-expressions
 	!user
 		? res.json({ status: 'success', accessToken })
-		: res.json({ status: 'success', accessToken, username: user.username, email: user.email });
+		: res.json({ status: 'success', accessToken, user: { name: user.username, email: user.email } });
 };
 
 export const clearExistingCookie = (res) => {

@@ -18,7 +18,7 @@ export default defineConfig({
 			targets: [
 				getFrontendfilePath('src/components/primitives'),
 				getFrontendfilePath('src/components/ui'),
-				getFrontendfilePath('src/hooks'),
+				getFrontendfilePath('src/lib/hooks'),
 			],
 			extensions: ['ts', 'tsx'],
 		}),
@@ -31,7 +31,7 @@ export default defineConfig({
 	},
 
 	server: {
-		open: '',
+		open: ' ',
 		proxy: {
 			'/api': {
 				target: 'http://localhost:8000',

@@ -6,12 +6,14 @@ const setConnectionToDB = async () => {
 	/* eslint-disable no-console */
 
 	try {
-		const connect = await mongoose.connect(process.env.MONGO_URI, { autoIndex: process.env.NODE_ENV !== 'production'});
+		const connect = await mongoose.connect(process.env.MONGO_URI, { autoIndex: process.env.NODE_ENV !== 'production' });
 
 		console.info(`MongoDB Atlas connected at: ${connect.connection.host}`.cyan.italic.underline);
 
-	} catch(error) {
+	} catch (error) {
 		console.error(error.message);
+
+		console.error({ error });
 	}
 
 	mongoose.connection.on('connected', () => {
@@ -24,4 +26,3 @@ const setConnectionToDB = async () => {
 };
 
 export { setConnectionToDB };
-

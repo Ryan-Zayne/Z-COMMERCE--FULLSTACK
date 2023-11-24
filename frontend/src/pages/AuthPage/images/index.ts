@@ -1,1 +1,1 @@
-export { default as facebook } from '@/assets/registerPageImages/facebook.png';
+export { default as facebook } from '@/assets/authPageImages/facebook.png';

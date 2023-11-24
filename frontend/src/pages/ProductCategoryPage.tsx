@@ -1,14 +1,14 @@
 import { LoadingSkeleton, ProductCard } from '@/components/ui/index.ts';
-import { assertDefined } from '@/lib/global-type-helpers.ts';
+import { assertDefined } from '@/lib/types/global-type-helpers.ts';
 import { useGetProductCategory } from '@/store/react-query/useGetProductCategory.ts';
 import { TiArrowBack } from 'react-icons/ti';
 import { Link, useParams } from 'react-router-dom';
 
 function ProductCategoryPage() {
 	const { category } = useParams();
-	const { productsArray, isLoading } = useGetProductCategory(category);
+	const { productsArray, isPending } = useGetProductCategory(category);
 
-	if (isLoading) {
+	if (isPending) {
 		return <LoadingSkeleton count={category === 'watches' || category === 'vehicles' ? 10 : 5} />;
 	}
 

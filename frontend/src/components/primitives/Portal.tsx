@@ -1,4 +1,4 @@
-import type { WithChildren } from '@/lib/global-type-helpers.ts';
+import type { WithChildren } from '@/lib/types/global-type-helpers.ts';
 import { createPortal } from 'react-dom';
 
 type PortalProps = WithChildren<{

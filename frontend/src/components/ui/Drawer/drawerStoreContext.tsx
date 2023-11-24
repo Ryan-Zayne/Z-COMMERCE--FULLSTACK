@@ -1,4 +1,4 @@
-import { createCustomContext } from '@/hooks/custom-context-hook/index.ts';
+import { createCustomContext } from '@/lib/hooks/custom-context-hook/index.ts';
 import { useEffect, useState } from 'react';
 import { createStore } from 'zustand';
 import type { DrawerProviderProps, DrawerStore, DrawerStoreApi } from './drawer.types';

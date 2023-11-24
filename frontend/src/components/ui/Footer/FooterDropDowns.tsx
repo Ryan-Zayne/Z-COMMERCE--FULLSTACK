@@ -1,8 +1,8 @@
 import Logo from '@/components/primitives/Logo.tsx';
 import DropDown from '@/components/ui/DropDown.tsx';
-import { useDisclosure } from '@/hooks/useDisclosure.ts';
+import { useDisclosure } from '@/lib/hooks/useDisclosure.ts';
+import { cnJoin, cnMerge } from '@/lib/utils/cn.ts';
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
-import { cnJoin, cnMerge } from '@/utils/cn.ts';
 import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from 'react-icons/bs';
 import { FaChevronDown } from 'react-icons/fa';
 import { MdLocationOn, MdMail, MdPhone } from 'react-icons/md';
@@ -19,9 +19,9 @@ function FooterDropDowns() {
 	const handleDropDowns = (selectedDropdown: ReturnType<typeof useDisclosure>) => () => {
 		const dropdownsArray = [dropOne, dropTwo, dropThree, dropFour, dropFive];
 
-		dropdownsArray.forEach((dropdown) => {
-			dropdown === selectedDropdown ? dropdown.onToggle() : dropdown.onClose();
-		});
+		for (const dropdown of dropdownsArray) {
+			dropdown !== selectedDropdown ? dropdown.onClose() : dropdown.onToggle();
+		}
 	};
 
 	const semanticClasses = {

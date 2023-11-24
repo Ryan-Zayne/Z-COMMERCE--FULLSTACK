@@ -1,7 +1,7 @@
 import { Button, LoadingSpinner } from '@/components/primitives/index.ts';
-import { useToggle } from '@/hooks/index.ts';
+import { useToggle } from '@/lib/hooks/index.ts';
 import { LoginSchema, SignUpSchema } from '@/lib/schemas/formSchema.ts';
-import { cnMerge } from '@/utils/cn.ts';
+import { cnMerge } from '@/lib/utils/cn.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useId } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,7 +9,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 import ErrorParagraph from '../ErrorParagraph.tsx';
 import InputGroup from '../InputGroup.tsx';
-import type { FormSchemaType } from '../form.types';
+import type { FormSchemaType } from './form.types.ts';
 import { submitForm } from './submitForm.ts';
 
 export type FormAreaProps = {
@@ -46,13 +46,16 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 			)}
 		>
 			{isSubmitting && <LoadingSpinner type={'auth'} />}
+
 			{formType === 'Sign Up' && (
 				<InputGroup>
 					<label htmlFor={`username__${uniqueId}`} className="text-label">
 						Username
 					</label>
+
 					<input
 						{...register('username')}
+						autoComplete="username"
 						type="text"
 						name="username"
 						id={`username__${uniqueId}`}
@@ -69,8 +72,10 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 				<label htmlFor={`email__${uniqueId}`} className="text-label">
 					Email address
 				</label>
+
 				<input
 					{...register('email')}
+					autoComplete="email"
 					type="email"
 					name="email"
 					id={`email__${uniqueId}`}
@@ -86,6 +91,7 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 				<label htmlFor={`password__${uniqueId}`} className="text-label">
 					Password
 				</label>
+
 				<input
 					{...register('password')}
 					type={isPasswordShow ? 'text' : 'password'}
@@ -112,6 +118,7 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 					<label htmlFor={`confirmPassword__${uniqueId}`} className="text-label">
 						Confirm Password
 					</label>
+
 					<input
 						{...register('confirmPassword')}
 						type={isConfirmPasswordShow ? 'text' : 'password'}
@@ -138,6 +145,12 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 				<ErrorParagraph
 					className={'mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]'}
 					message={errors.root.serverError.message}
+				/>
+			)}
+			{errors.root?.serverCaughtError && (
+				<ErrorParagraph
+					className={'mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]'}
+					message={errors.root.serverCaughtError.message}
 				/>
 			)}
 

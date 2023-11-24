@@ -2,7 +2,7 @@ import Button from '@/components/primitives/Button.tsx';
 import Logo from '@/components/primitives/Logo.tsx';
 import Drawer from '@/components/ui/Drawer/Drawer.tsx';
 import type { DrawerContentProps, DrawerStore } from '@/components/ui/Drawer/drawer.types';
-import { useElementList } from '@/hooks/index.ts';
+import { useElementList } from '@/lib/hooks/index.ts';
 import { useShopStore } from '@/store/zustand/shopStore.ts';
 import { useThemeStore } from '@/store/zustand/themeStore.ts';
 import { IoMdCart } from 'react-icons/io';

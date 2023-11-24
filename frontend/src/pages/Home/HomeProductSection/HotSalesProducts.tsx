@@ -1,5 +1,5 @@
 import { ProductCard } from '@/components/ui/index.ts';
-import { assertDefined } from '@/lib/global-type-helpers.ts';
+import { assertDefined } from '@/lib/types/global-type-helpers.ts';
 import type { DataArrayProp } from './home-product.types';
 
 function HotSalesProducts({ data }: DataArrayProp) {

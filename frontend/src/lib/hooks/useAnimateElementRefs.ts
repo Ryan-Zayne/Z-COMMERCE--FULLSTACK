@@ -1,4 +1,4 @@
-import { cnJoin } from '@/utils/cn.ts';
+import { cnJoin } from '@/lib/utils/cn.ts';
 import { useCallback, useRef } from 'react';
 
 type PossibleElementsType = 'heading' | 'button' | 'paragraph';

@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@/hooks/index.ts';
+import { useMediaQuery } from '@/lib/hooks/index.ts';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Suspense, useLayoutEffect } from 'react';

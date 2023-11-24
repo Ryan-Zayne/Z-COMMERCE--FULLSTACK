@@ -1,5 +1,5 @@
+import { cnMerge } from '@/lib/utils/cn.ts';
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
-import { cnMerge } from '@/utils/cn.ts';
 import type {
 	CarouselContentProps,
 	CarouselIndicatorProps,

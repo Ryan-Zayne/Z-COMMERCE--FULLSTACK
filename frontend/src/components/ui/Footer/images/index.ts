@@ -1,4 +1,4 @@
-export { default as newsLetterIcon } from '@/assets/footerImages/newsLetterIcon.svg';
+export { default as NewsletterIcon } from '@/assets/footerImages/NewsletterIcon.tsx';
 
 export const getOnGoogle =
 	'https://res.cloudinary.com/djvestif4/image/upload/v1700101461/get-on-google_z7zojk.png';

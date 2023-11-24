@@ -6,7 +6,7 @@ export type WithChildrenOptional<TProps> = TProps & {
 	children?: React.ReactNode;
 };
 
-export type Setter<TSetter = undefined> = React.Dispatch<React.SetStateAction<TSetter>>;
+export type StateSetter<TSetter = undefined> = React.Dispatch<React.SetStateAction<TSetter>>;
 
 export type Prettify<T> = {
 	[k in keyof T]: T[k];
@@ -22,5 +22,6 @@ export const assertDefined = <T>(value: T) => {
 
 export const assertRef = <T>(value: T) => value as NonNullable<T>;
 
-// prettier-ignore
-export const isObject = <T extends Record<string, unknown>>(obj: T): obj is T => typeof obj === 'object' && obj !== null && !Array.isArray(obj);
+export const isObject = <TObject extends Record<string, unknown>>(obj: TObject): obj is TObject => {
+	return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
+};

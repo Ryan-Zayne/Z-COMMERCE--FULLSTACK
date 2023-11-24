@@ -10,7 +10,7 @@ export const SignUpSchema = z
 				// eslint-disable-next-line security/detect-unsafe-regex
 				/^(?!.*-[a-z])[A-Z]['a-z-]*(?:-[A-Z]['a-z-]*)*(?:'[A-Z]['a-z-]*)*$/,
 				`
-				Username must be in sentence case, can include hyphen, and apostrophes.
+				Username must be in sentence case, and can include hyphen, and apostrophes.
 				A hyphen MUST be followed by an uppercase letter.
 				Examples include: "Ali", "Ade-Bright" or "Smith's".
 				`

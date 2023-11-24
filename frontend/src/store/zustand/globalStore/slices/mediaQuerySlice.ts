@@ -1,4 +1,4 @@
-import { desktopQuery, mobileQuery, tabletQuery } from '@/utils/constants.ts';
+import { desktopQuery, mobileQuery, tabletQuery } from '@/lib/utils/constants.ts';
 import type { StateCreator } from 'zustand';
 import type { MediaQuerySlice } from '../../zustand-store.types';
 

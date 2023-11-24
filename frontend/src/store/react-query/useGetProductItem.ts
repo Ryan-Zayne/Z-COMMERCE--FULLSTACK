@@ -6,7 +6,7 @@ const possibleProductIDs = new Set([
 ]);
 
 const useGetProductItem = (productId: number | string | undefined) => {
-	const { isError, isLoading, allProductsArray } = useGetAllProducts();
+	const { isError, isPending, allProductsArray } = useGetAllProducts();
 
 	if (!possibleProductIDs.has(Number(productId))) {
 		throw new Error('Product not found!');
@@ -14,7 +14,7 @@ const useGetProductItem = (productId: number | string | undefined) => {
 
 	const productItem = allProductsArray.find((item) => item?.id === Number(productId));
 
-	return { isError, isLoading, productItem };
+	return { isError, isPending, productItem };
 };
 
 export { useGetProductItem };

@@ -5,9 +5,9 @@ import RecentProducts from './RecentProducts.tsx';
 import SimilarProducts from './SimilarProducts.tsx';
 
 function HomeProductSection() {
-	const { hotSalesProducts, recentlyViewedProducts, similarProducts, isLoading } = useHomePageProducts();
+	const { hotSalesProducts, recentlyViewedProducts, similarProducts, isPending } = useHomePageProducts();
 
-	if (isLoading) {
+	if (isPending) {
 		return <LoadingSkeleton count={10} />;
 	}
 

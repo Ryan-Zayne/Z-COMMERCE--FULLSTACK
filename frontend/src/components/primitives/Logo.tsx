@@ -1,5 +1,5 @@
 import { logo } from '@/assets/brand/index.ts';
-import { cnMerge } from '@/utils/cn.ts';
+import { cnMerge } from '@/lib/utils/cn.ts';
 import { useId } from 'react';
 import { Link } from 'react-router-dom';
 

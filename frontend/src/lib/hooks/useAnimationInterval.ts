@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import { assertDefined } from '@/lib/global-type-helpers.ts';
+import { assertDefined } from '@/lib/types/global-type-helpers.ts';
 import { useCallback, useEffect, useRef } from 'react';
 import { useCallbackRef } from './useCallbackRef.ts';
 

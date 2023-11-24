@@ -1,16 +1,16 @@
 import Logo from '@/components/primitives/Logo.tsx';
 import DropDown from '@/components/ui/DropDown.tsx';
 import SearchForm from '@/components/ui/SearchForm.tsx';
-import { useDisclosure } from '@/hooks/index.ts';
+import { useDisclosure } from '@/lib/hooks/index.ts';
+import { cnJoin, cnMerge } from '@/lib/utils/cn.ts';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
 import { useShopStore } from '@/store/zustand/shopStore.ts';
 import { useThemeStore } from '@/store/zustand/themeStore.ts';
-import { cnJoin, cnMerge } from '@/utils/cn.ts';
 import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import CartDrawer from './Cart/CartDrawer.tsx';
 import HamBurgerButton from './HamBurgerButton.tsx';
 import ThemeSwitchButton from './ThemeSwitchButton.tsx';
-import CartDrawer from './Cart/CartDrawer.tsx';
 
 const NavHeader = () => {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
@@ -34,7 +34,7 @@ const NavHeader = () => {
 				className={cnMerge(
 					[
 						isMobile
-							? 'absolute inset-x-0 top-[6.2rem] z-[10] flex h-0 w-[100%] items-center justify-center overflow-y-hidden rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out'
+							? 'absolute inset-x-0 top-[6.2rem] flex h-0 w-[100%] items-center justify-center overflow-y-hidden rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out'
 							: 'w-[min(100%,_54vw)]',
 					],
 					[isSearchShow && 'h-[8.1rem] duration-[600ms] ease-[ease]']

@@ -1,34 +1,37 @@
 import { fetcher } from '@/api/fetcher.ts';
 import { transformData } from '@/store/react-query/helpers/transFormData.ts';
-import { useFetchMultiple } from '@/store/react-query/helpers/useFetch.ts';
+import { useQueries } from '@tanstack/react-query';
 
 const useGetAllProducts = () => {
 	const productQueries = [
-		{ key: ['smartphones'], url: 'products/category/smartphones' },
-		{ key: ['laptops'], url: 'products/category/laptops' },
-		{ key: ['mens-watches'], url: 'products/category/mens-watches' },
-		{ key: ['womens-watches'], url: 'products/category/womens-watches' },
-		{ key: ['automotive'], url: 'products/category/automotive' },
-		{ key: ['motorcycle'], url: 'products/category/motorcycle' },
-		{ key: ['lighting'], url: 'products/category/lighting' },
-	];
+		{ key: ['smartphones'], url: '/products/category/smartphones' },
+		{ key: ['laptops'], url: '/products/category/laptops' },
+		{ key: ['mens-watches'], url: '/products/category/mens-watches' },
+		{ key: ['womens-watches'], url: '/products/category/womens-watches' },
+		{ key: ['automotive'], url: '/products/category/automotive' },
+		{ key: ['motorcycle'], url: '/products/category/motorcycle' },
+		{ key: ['lighting'], url: '/products/category/lighting' },
+	] as const;
 
-	const allProducts = useFetchMultiple(
-		productQueries.map(({ key, url }) => ({
+	const {
+		data: allProductsArray,
+		isPending,
+		isError,
+	} = useQueries({
+		queries: productQueries.map(({ key, url }) => ({
 			queryKey: [...key, { url }],
-			queryFn: ({ signal }) => fetcher(url, { signal }),
+			queryFn: () => fetcher(url),
 			select: transformData,
-		}))
-	);
+		})),
 
-	const isLoading = allProducts.some((item) => item.isLoading === true);
-	const isError = allProducts.some((item) => item.isError === true);
+		combine: (resultsArray) => ({
+			data: resultsArray.flatMap((item) => item.data).filter((product) => product?.id !== 3), // Filtered out 3rd product cuz it's faulty,
+			isPending: resultsArray.some((item) => item.isPending),
+			isError: resultsArray.some((item) => item.isError),
+		}),
+	});
 
-	const allProductsArray = allProducts
-		.flatMap((item) => item.data)
-		.filter((product) => product?.id !== 3); // Filtered out 3rd product cuz it's faulty
-
-	return { isLoading, isError, allProductsArray };
+	return { allProductsArray, isPending, isError };
 };
 
 export { useGetAllProducts };
