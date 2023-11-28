@@ -23,7 +23,7 @@ const createFetcherInstance = <TBaseResponseData>(baseConfig: BaseFetchConfig) =
 		const timeoutId = window.setTimeout(() => controller.abort(), timeout);
 
 		try {
-			const modifiedFetchConfig = (await requestInterceptor(restOfFetchConfig)) ?? restOfFetchConfig;
+			const modifiedFetchConfig = await requestInterceptor(restOfFetchConfig);
 
 			const originalResponse = await fetch(`${baseURL}${url}`, {
 				signal: controller.signal,
@@ -33,7 +33,7 @@ const createFetcherInstance = <TBaseResponseData>(baseConfig: BaseFetchConfig) =
 
 			window.clearTimeout(timeoutId);
 
-			const modifiedResponse = (await responseInterceptor(originalResponse)) ?? originalResponse;
+			const modifiedResponse = await responseInterceptor(originalResponse);
 
 			if (!modifiedResponse.ok) {
 				throw new Error(
@@ -49,11 +49,11 @@ const createFetcherInstance = <TBaseResponseData>(baseConfig: BaseFetchConfig) =
 				throw new Error(`Request to ${url} timed out after ${timeout}ms`);
 			}
 
-			if (error instanceof SyntaxError) {
+			if (error instanceof Error) {
 				throw error;
 			}
 
-			throw error as Error; // REVIEW - may need better error handling
+			throw error;
 		}
 	};
 

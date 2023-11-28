@@ -9,5 +9,5 @@ export type FetchConfig = RequestInit & {
 
 	requestInterceptor?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
 
-	responseInterceptor?: (response: Response) => Promise<Response | void> | Response | void;
+	responseInterceptor?: (response: Response) => Promise<Response> | Response;
 };

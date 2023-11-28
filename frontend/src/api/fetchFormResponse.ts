@@ -10,7 +10,8 @@ type FormResponseDataType =
 
 const fetchFormResponse = createFetcherInstance<FormResponseDataType>({
 	baseURL: BASE_AUTH_URL,
-	defaultErrorMessage: 'Failed to submit form!',
+
+	defaultErrorMessage: 'Failed to submit form',
 
 	method: 'POST',
 

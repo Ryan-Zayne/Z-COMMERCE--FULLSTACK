@@ -12,8 +12,8 @@ type SubmitFormParams = {
 	navigate: NavigateFunction;
 };
 
-const submitForm =
-	({ formType, setError, reset, navigate }: SubmitFormParams) =>
+// prettier-ignore
+const submitForm = ({ formType, setError, reset, navigate }: SubmitFormParams) =>
 	async (formData: FormSchemaType) => {
 		try {
 			noScrollOnOpen({ isOpen: true });
@@ -23,16 +23,12 @@ const submitForm =
 			const responseData = await fetchFormResponse(AUTH_URL, { body: JSON.stringify(formData) });
 
 			if (responseData.status === 'error' && 'errors' in responseData) {
-				const zodErrors = responseData.errors;
-
-				zodErrors.forEach(([field, errorMessage]) => {
+				responseData.errors.forEach(([field, errorMessage]) => {
 					setError(field, {
 						type: 'serverZodErrors',
 						message: Array.isArray(errorMessage) ? errorMessage.join(', ') : errorMessage,
 					});
 				});
-
-				return;
 			}
 
 			if (responseData.status === 'error' && 'message' in responseData) {
@@ -40,17 +36,16 @@ const submitForm =
 					type: responseData.errorTitle,
 					message: responseData.message,
 				});
-
-				return;
 			}
 
-			reset();
-			navigate('/', { replace: true });
+			if (responseData.status === 'success') {
+				reset();
+				navigate('/', { replace: true });
+			}
 
 			// Handle caught server errors
 		} catch (error) {
 			/* eslint-disable no-console */
-
 			if (error instanceof Error) {
 				setError('root.serverCaughtError', {
 					type: error.name,
