@@ -25,7 +25,7 @@
 		"strict": true,
 		"noFallthroughCasesInSwitch": true,
 		"allowSyntheticDefaultImports": true,
-		"checkJs": false,
+		"checkJs": true,
 		"forceConsistentCasingInFileNames": true,
 		"noErrorTruncation": true,
 		"noUncheckedIndexedAccess": true

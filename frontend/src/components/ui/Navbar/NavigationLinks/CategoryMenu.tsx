@@ -127,7 +127,7 @@ function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 		},
 	};
 
-	return DEVICE_TYPE_LOOKUP[deviceType]?.() ?? DEVICE_TYPE_LOOKUP.default();
+	return (DEVICE_TYPE_LOOKUP[deviceType] ?? DEVICE_TYPE_LOOKUP.default)();
 }
 
 export default CategoryMenu;

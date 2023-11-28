@@ -5,7 +5,7 @@ const possibleProductIDs = new Set([
 	95, 96, 97, 98, 99, 100,
 ]);
 
-const useGetProductItem = (productId: number | string | undefined) => {
+const useGetProductItem = (productId: string | undefined) => {
 	const { isError, isPending, allProductsArray } = useGetAllProducts();
 
 	if (!possibleProductIDs.has(Number(productId))) {

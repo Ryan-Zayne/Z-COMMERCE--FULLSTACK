@@ -11,8 +11,8 @@ import path from 'node:path';
 import { authRouter } from './auth/auth.routes.js';
 import { corsOptions, helmetOptions, setConnectionToDB } from './common/config/index.js';
 import { globalRateLimitOptions } from './common/config/rateLimitOptions.js';
+import { PORT, isDevMode } from './common/lib/utils/constants.js';
 import { errorHandler, notFoundHandler, serveHtmlRouter } from './common/middleware/index.js';
-import { PORT, isDevMode } from './common/utils/constants.js';
 import { userRouter } from './users/user.routes.js';
 
 const app = express();
@@ -50,16 +50,19 @@ app.use(errorHandler);
 process.on('uncaughtException', (error) => {
 	console.error('UNCAUGHT EXCEPTION! 💥 Server Shutting down...');
 
-	console.error({
+	const errorInfo = {
 		title: `Uncaught Exception: ${error.name}`,
 		message: error.message,
 		stackTrace: error.stack,
+
 		date: new Date().toLocaleString('en-Nigeria', {
 			timeZone: 'Africa/Lagos',
 			dateStyle: 'full',
 			timeStyle: 'medium',
 		}),
-	});
+	};
+
+	console.error(errorInfo);
 
 	// eslint-disable-next-line n/no-process-exit
 	process.exit(1);

@@ -96,12 +96,8 @@
 	}
 
 	body {
-		/* These will be set dynamically by javascript to prevent layout shift on navbar open */
-		--overflow-y: auto;
-		--scrollbar-padding: 0;
-
-		overflow-y: var(--overflow-y);
-		padding-right: var(--scrollbar-padding);
+		overflow-y: var(--overflow-y, auto);
+		padding-right: var(--scrollbar-padding, 0);
 
 		position: relative;
 		font-size: 1.6rem;

@@ -3,7 +3,9 @@ import path from 'node:path';
 import { isDevMode } from './constants.js';
 
 const parseManifest = async () => {
-	if (isDevMode) return {};
+	if (isDevMode) {
+		return {};
+	}
 
 	const manifestPath = path.resolve('../', 'frontend', 'dist', 'manifest.json');
 	const manifestFile = await fs.readFile(manifestPath);

@@ -79,7 +79,7 @@ function ImageComponent(props: ImageComponentProps) {
 		},
 	};
 
-	return IMAGE_TYPE_LOOKUP[imageType]?.() ?? IMAGE_TYPE_LOOKUP.default();
+	return (IMAGE_TYPE_LOOKUP[imageType] ?? IMAGE_TYPE_LOOKUP.default)();
 }
 
 export default ImageComponent;

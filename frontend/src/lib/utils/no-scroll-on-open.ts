@@ -9,8 +9,8 @@ const noScrollOnOpen = (options: NoScrollOnOpenOptions) => {
 	const { isMobileOrTablet } = checkDeviceIsMobileOrTablet();
 
 	if (!isOpen) {
-		document.body.style.setProperty('--overflow-y', '');
-		!isMobileOrTablet && document.body.style.setProperty('--scrollbar-padding', '');
+		document.body.style.setProperty('--overflow-y', null);
+		!isMobileOrTablet && document.body.style.setProperty('--scrollbar-padding', null);
 		return;
 	}
 

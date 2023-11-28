@@ -162,6 +162,10 @@ const tailwindConfig = {
 						opacity: '1',
 					},
 				},
+
+				'.no-scroll': {
+
+				},
 			});
 
 			matchUtilities(

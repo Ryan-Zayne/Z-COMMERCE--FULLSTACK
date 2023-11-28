@@ -1,6 +1,6 @@
-import { useElementList } from '@/lib/hooks';
-import { cnJoin, cnMerge } from '@/lib/utils/cn';
-import { useThemeStore } from '@/store/zustand/themeStore';
+import { useElementList } from '@/lib/hooks/index.ts';
+import { cnJoin, cnMerge } from '@/lib/utils/cn.ts';
+import { useThemeStore } from '@/store/zustand/themeStore.ts';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 type SkeletonProps = {
@@ -86,7 +86,7 @@ function LoadingSkeleton({ count = 5, type = 'genericPage' }: SkeletonProps) {
 		},
 	};
 
-	return SKELETON_LOOKUP[type]?.() ?? SKELETON_LOOKUP.default();
+	return (SKELETON_LOOKUP[type] ?? SKELETON_LOOKUP.default)();
 }
 
 export default LoadingSkeleton;

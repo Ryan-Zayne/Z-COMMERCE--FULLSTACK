@@ -49,7 +49,7 @@ const NavigationLinks = () => {
 			<nav className="relative flex w-[100%] items-center justify-between font-[500] lg:pr-[2rem]">
 				{isDesktop && <CategoryMenu deviceType={'desktop'} />}
 
-				<Overlay isOpen={isNavShow} onClose={toggleNavShow} z-index={'z-[80]'} />
+				<Overlay isOpen={isNavShow} onClose={toggleNavShow} z-index={'z-[100]'} />
 
 				<ul
 					id="Navigation List"
@@ -57,7 +57,7 @@ const NavigationLinks = () => {
 						'relative flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
 						[
 							!isDesktop &&
-								'fixed inset-[0_0_0_auto] z-[100] w-[min(22rem,80%)] translate-x-full flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]',
+								'fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] translate-x-full flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]',
 						],
 
 						[!isDesktop && isNavShow && 'translate-x-0 duration-[600ms] ease-slide-in']

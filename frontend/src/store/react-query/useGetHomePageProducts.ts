@@ -1,6 +1,6 @@
 import { useGetAllProducts } from './useGetAllProducts.ts';
 
-const useHomePageProducts = () => {
+const useGetHomePageProducts = () => {
 	const { allProductsArray, isError, isPending } = useGetAllProducts();
 
 	const hotSalesProducts = allProductsArray.filter((item) => item?.category === 'laptops');
@@ -21,4 +21,4 @@ const useHomePageProducts = () => {
 	};
 };
 
-export { useHomePageProducts };
+export { useGetHomePageProducts };

@@ -24,7 +24,7 @@ function randomIntOverload(
 	callback: (err: Error | null, value: number) => void
 ): void;
 
-function randomIntOverload(...args: (number | CallBackFnType)[]): number | void {
+function randomIntOverload(...args: unknown[]): unknown {
 	const HANDLER_LOOKUP = {
 		1: ([max]: [number]) => {
 			const randomInt = crypto.randomInt(max);
@@ -39,6 +39,7 @@ function randomIntOverload(...args: (number | CallBackFnType)[]): number | void 
 				const randomInt = crypto.randomInt(max);
 
 				callbackFn(null, randomInt);
+
 				return;
 			}
 
