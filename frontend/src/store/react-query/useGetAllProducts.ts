@@ -1,4 +1,4 @@
-import { fetcher } from '@/api/fetcher.ts';
+import { callDummyApi } from '@/api/callDummyApi.ts';
 import { transformData } from '@/store/react-query/helpers/transFormData.ts';
 import { useQueries } from '@tanstack/react-query';
 
@@ -20,7 +20,15 @@ const useGetAllProducts = () => {
 	} = useQueries({
 		queries: productQueries.map(({ key, url }) => ({
 			queryKey: [...key, { url }],
-			queryFn: () => fetcher(url),
+			queryFn: async () => {
+				const { dataInfo, errorInfo } = await callDummyApi(url);
+
+				if (errorInfo) {
+					throw new Error(errorInfo.message);
+				}
+
+				return dataInfo;
+			},
 			select: transformData,
 		})),
 
@@ -35,3 +43,4 @@ const useGetAllProducts = () => {
 };
 
 export { useGetAllProducts };
+

@@ -63,12 +63,14 @@ const NavigationLinks = () => {
 						[!isDesktop && isNavShow && 'translate-x-0 duration-[600ms] ease-slide-in']
 					)}
 				>
-					<button
-						className={cnMerge('absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600')}
-						onClick={toggleNavShow}
-					>
-						<RiCloseFill />
-					</button>
+					{!isDesktop && (
+						<button
+							className={cnMerge('absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600')}
+							onClick={toggleNavShow}
+						>
+							<RiCloseFill />
+						</button>
+					)}
 
 					<NavLinksList
 						each={navLinkInfoArray}

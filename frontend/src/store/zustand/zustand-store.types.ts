@@ -1,4 +1,4 @@
-import type { ResponseDataItem } from '../react-query/react-query-store.types';
+import type { DummyResponseDataItem } from '../react-query/react-query-store.types';
 
 // Global State Types
 export type GlobalStateSlice = {
@@ -36,21 +36,21 @@ export type ThemeStore = {
 };
 
 // ShopState Types
-export type ResponseDataItemInCart = ResponseDataItem & { quantity: number };
+export type ResponseDataItemInCart = DummyResponseDataItem & { quantity: number };
 
 export type ShopStore = {
 	cart: Array<ResponseDataItemInCart>;
-	wishList: Array<ResponseDataItem>;
+	wishList: Array<DummyResponseDataItem>;
 
 	shopActions: {
-		addToCart: (productItem: ResponseDataItem) => void;
+		addToCart: (productItem: DummyResponseDataItem) => void;
 		updateProductQuantity: (
-			productId: ResponseDataItem['id'],
+			productId: DummyResponseDataItem['id'],
 			{ updatedQuantity }: { updatedQuantity: number }
 		) => void;
-		removeProductFromCart: (productId: ResponseDataItem['id']) => void;
-		decrementProductQuantity: (productId: ResponseDataItem['id']) => void;
-		incrementProductQuantity: (productId: ResponseDataItem['id']) => void;
-		toggleAddToWishList: (productItem: ResponseDataItem) => void;
+		removeProductFromCart: (productId: DummyResponseDataItem['id']) => void;
+		decrementProductQuantity: (productId: DummyResponseDataItem['id']) => void;
+		incrementProductQuantity: (productId: DummyResponseDataItem['id']) => void;
+		toggleAddToWishList: (productItem: DummyResponseDataItem) => void;
 	};
 };

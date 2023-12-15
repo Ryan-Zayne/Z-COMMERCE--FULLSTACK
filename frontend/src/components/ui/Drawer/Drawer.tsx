@@ -1,4 +1,4 @@
-import { Overlay, Portal } from '@/components/primitives/index.ts';
+import { Overlay, Teleport } from '@/components/primitives/index.ts';
 import { cnMerge } from '@/lib/utils/cn.ts';
 import { RiCloseFill } from 'react-icons/ri';
 import type {
@@ -12,11 +12,11 @@ import { useDrawerStore } from './hooks/index.ts';
 
 function DrawerRoot({ children, ...restOfDrawerProps }: DrawerRootProps) {
 	return (
-		<Portal>
+		<Teleport>
 			<DrawerContextProvider storeValues={restOfDrawerProps}>
 				<aside data-id="Drawer Portal">{children}</aside>
 			</DrawerContextProvider>
-		</Portal>
+		</Teleport>
 	);
 }
 

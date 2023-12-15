@@ -1,10 +1,10 @@
 import loadingSpinner from '@/assets/loadingSpinner.svg';
-import Portal from '@/components/primitives/Portal.tsx';
+import Teleport from '@/components/primitives/Teleport';
 
 function LoadingSpinner({ type = 'regular' }: { type?: 'regular' | 'auth' }) {
 	const LOADER_LOOKUP = {
 		regular: () => (
-			<Portal>
+			<Teleport>
 				<aside className="loader-container">
 					<div className="dank-ass-loader">
 						<div className="row">
@@ -41,11 +41,11 @@ function LoadingSpinner({ type = 'regular' }: { type?: 'regular' | 'auth' }) {
 						</div>
 					</div>
 				</aside>
-			</Portal>
+			</Teleport>
 		),
 
 		auth: () => (
-			<Portal>
+			<Teleport>
 				<aside className="fixed inset-0 z-[600] flex select-none items-center justify-center bg-black/60 backdrop-blur-[1.5px]">
 					<img
 						className="aspect-square w-[30rem] max-md:translate-y-[-4rem] lg:w-[30%]"
@@ -53,7 +53,7 @@ function LoadingSpinner({ type = 'regular' }: { type?: 'regular' | 'auth' }) {
 						alt=""
 					/>
 				</aside>
-			</Portal>
+			</Teleport>
 		),
 	};
 

@@ -1,4 +1,4 @@
-export type ResponseData = {
+export type DummyResponseData = {
 	products: Array<{
 		id: number;
 		title: string;
@@ -13,4 +13,4 @@ export type ResponseData = {
 	}>;
 };
 
-export type ResponseDataItem = ResponseData['products'][number];
+export type DummyResponseDataItem = DummyResponseData['products'][number];

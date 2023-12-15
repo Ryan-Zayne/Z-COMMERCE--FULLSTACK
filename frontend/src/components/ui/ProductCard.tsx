@@ -1,7 +1,7 @@
 import { Button, Card, ImageComponent, StarRating } from '@/components/primitives';
 import { useToggle } from '@/lib/hooks';
 import { cnMerge } from '@/lib/utils/cn';
-import type { ResponseDataItem } from '@/store/react-query/react-query-store.types';
+import type { DummyResponseDataItem } from '@/store/react-query/react-query-store.types';
 import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
 import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
 import { useThemeStore } from '@/store/zustand/themeStore';
@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 type ProductCardProps = {
 	to: string;
 	image: string;
-	productItem: ResponseDataItem | ResponseDataItemInCart;
+	productItem: DummyResponseDataItem | ResponseDataItemInCart;
 	aosAnimation?: string;
 	aosDuration?: string;
 	aosEasing?: string;

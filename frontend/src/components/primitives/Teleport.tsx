@@ -2,7 +2,7 @@ import type { WithChildren } from '@/lib/types/global-type-helpers.ts';
 import { createPortal } from 'react-dom';
 
 type PortalProps = WithChildren<{
-	destination?:
+	to?:
 		| keyof HTMLElementTagNameMap
 		| `#${string}`
 		| `.${string}`
@@ -10,8 +10,8 @@ type PortalProps = WithChildren<{
 		| `[${string}="${string}"]`;
 }>;
 
-function Portal({ children, destination = '#root' }: PortalProps) {
-	return createPortal(children, document.querySelector(destination) as HTMLElement);
+function Teleport({ children, to = '#root' }: PortalProps) {
+	return createPortal(children, document.querySelector(to) as HTMLElement);
 }
 
-export default Portal;
+export default Teleport;

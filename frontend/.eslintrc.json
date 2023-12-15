@@ -5,17 +5,17 @@
 	},
 	"extends": [
 		"eslint:recommended",
+		"plugin:@typescript-eslint/strict-type-checked",
+		"plugin:@typescript-eslint/stylistic-type-checked",
 		"airbnb",
 		"airbnb/hooks",
 		"plugin:react/recommended",
 		"plugin:react/jsx-runtime",
 		"airbnb-typescript",
-		"plugin:unicorn/recommended",
 		"plugin:tailwindcss/recommended",
 		"plugin:sonarjs/recommended",
+		"plugin:unicorn/recommended",
 		"plugin:@tanstack/eslint-plugin-query/recommended",
-		"plugin:@typescript-eslint/recommended",
-		// "plugin:@typescript-eslint/recommended-requiring-type-checking",
 		"prettier"
 	],
 
@@ -33,7 +33,8 @@
 		"import/resolver": {
 			"typescript": {
 				"alwaysTryTypes": true,
-				"project": "./tsconfig.json"
+				"project": "./tsconfig.json",
+				"tsconfigRootDir": "./"
 			}
 		}
 	},
@@ -41,12 +42,13 @@
 	"root": true,
 
 	"rules": {
-		//Base Eslint/Typescript Eslint Rules
+		// Base Eslint Rules
 		"max-len": "off",
 		"indent": "off",
 		"no-tabs": "off",
 		"eol-last": "off",
 		"no-return-assign": ["error", "except-parens"],
+		"max-classes-per-file": ["error", 2],
 		"no-implicit-coercion": "error",
 		"require-await": "error",
 		"no-use-before-define": [
@@ -71,6 +73,9 @@
 		"arrow-body-style": "off",
 		"no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
 		"no-unused-expressions": "off",
+		"no-return-await": "off",
+
+		// Typescript Eslint Rules
 		"@typescript-eslint/no-unused-expressions": [
 			"error",
 			{
@@ -78,12 +83,13 @@
 				"allowTernary": true
 			}
 		],
-		"no-return-await": "off",
+		"@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
+		"@typescript-eslint/consistent-type-definitions": ["error", "type"],
 		"@typescript-eslint/return-await": "error",
-		"no-useless-constructor": "off",
 		"@typescript-eslint/no-useless-constructor": "error",
+		"@typescript-eslint/member-ordering": "error",
 
-		//Airbnb-config/React plugin rules
+		// Airbnb-config/React plugin rules
 		"import/extensions": ["error", "always", { "ignorePackages": true }],
 		"import/no-extraneous-dependencies": [
 			"error",
@@ -146,7 +152,7 @@
 			}
 		],
 
-		//Unicorn rules
+		// Unicorn rules
 		"unicorn/no-null": "off",
 		"unicorn/filename-case": [
 			"warn",
@@ -164,15 +170,15 @@
 		"unicorn/numeric-separators-style": "off",
 		"unicorn/no-array-reduce": "off",
 		"unicorn/no-array-for-each": "off",
-		// "unicorn/no-useless-undefined": ["error", { "checkArguments": true }],
+		"unicorn/no-useless-undefined": ["error", { "checkArguments": true }],
 
-		//SonarJs Rules
+		// SonarJs Rules
 		"sonarjs/prefer-immediate-return": "off",
 
-		//Eslint plugin write good comments
+		// Eslint plugin write good comments
 		"write-good-comments/write-good-comments": "warn",
 
-		//Tailwind rules
+		// Tailwind rules
 		"tailwindcss/no-custom-classname": "off",
 		"tailwindcss/no-contradicting-classname": "off",
 		"tailwindcss/classnames-order": [
