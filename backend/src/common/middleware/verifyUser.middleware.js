@@ -2,7 +2,7 @@ import { decodeJwtToken } from '../../auth/auth.services.js';
 import UserModel from '../../users/user.model.js';
 import { asyncHandler } from '../lib/utils/asyncHandler.utils.js';
 
-const authenticateUser = asyncHandler(async (req, res, next) => {
+const verifyUser = asyncHandler(async (req, res, next) => {
 	const authHeader = req.headers.authorization ?? req.headers.Authorization;
 	const isValidAuthHeader = Boolean(authHeader?.startsWith('Bearer'));
 
@@ -26,11 +26,11 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
 		req.user = { authenticatedUser };
 		next();
 
-		// Catch error thrown by jwt.verify when token is not valid
+		// Catch error thrown by decodeJwtToken when token is not valid
 	} catch {
 		res.status(401);
 		throw new Error('Your token has expired!');
 	}
 });
 
-export { authenticateUser };
+export { verifyUser };

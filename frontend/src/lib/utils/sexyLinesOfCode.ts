@@ -12,9 +12,10 @@ const getFormData = (event: SubmitEvent) => {
 	return Object.fromEntries(data.entries());
 };
 
-// == This is a function that tries to mimick the overloaded crypto.randomInt function
+// == This is a function that tries to mimic the overloaded crypto.randomInt function
 type CallBackFnType = (err: Error | null, value: number) => void;
 const crypto = await import('node:crypto');
+
 function randomIntOverload(max: number): number;
 function randomIntOverload(min: number, max: number): number;
 function randomIntOverload(max: number, callback: (err: Error | null, value: number) => void): void;
@@ -56,15 +57,11 @@ function randomIntOverload(...args: unknown[]): unknown {
 
 			callback(null, randomInt);
 		},
-
-		default: () => {
-			throw new Error('Invalid number of arguments');
-		},
 	};
 
 	const selectedHandler = HANDLER_LOOKUP[args.length as keyof typeof HANDLER_LOOKUP];
 
-	return selectedHandler?.(args as never) ?? HANDLER_LOOKUP.default();
+	return selectedHandler(args as never);
 }
 
 // == Comparison alternative to avoid timing attacks

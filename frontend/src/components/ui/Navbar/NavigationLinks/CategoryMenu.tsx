@@ -121,13 +121,9 @@ function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 				</DropDown.Panel>
 			</DropDown>
 		),
-
-		default: () => {
-			throw new Error(`Case ${deviceType} is unhandled`);
-		},
 	};
 
-	return (DEVICE_TYPE_LOOKUP[deviceType] ?? DEVICE_TYPE_LOOKUP.default)();
+	return DEVICE_TYPE_LOOKUP[deviceType]();
 }
 
 export default CategoryMenu;

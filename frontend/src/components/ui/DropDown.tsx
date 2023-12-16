@@ -1,4 +1,4 @@
-import { cnMerge } from '@/lib/utils/cn';
+import { cnMerge } from '@/lib/utils/cn.ts';
 
 type DropDownProps = React.ComponentPropsWithoutRef<'div'>;
 
@@ -9,8 +9,6 @@ type DropDownPanelProps = Pick<DropDownProps, 'id' | 'children'> & {
 	panelParentClasses?: string;
 	panelListClasses?: string;
 };
-
-/* eslint-disable react/jsx-props-no-spreading */
 
 function DropDown({ children, ...otherDivElementProps }: DropDownProps) {
 	return <div {...otherDivElementProps}>{children}</div>;

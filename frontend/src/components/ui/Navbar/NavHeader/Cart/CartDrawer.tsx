@@ -17,7 +17,7 @@ function CartDrawer(props: CartDrawerProps) {
 	const cart = useShopStore((state) => state.cart);
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const { For: CartItemsList } = useElementList();
-	const totalPrice = cart?.reduce((acc, item) => acc + item.price * item.quantity, 0);
+	const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
 	return (
 		<Drawer.Root {...{ isOpen, onClose, onOpen }}>
@@ -45,7 +45,7 @@ function CartDrawer(props: CartDrawerProps) {
 
 				<Drawer.Body className={'px-[1.3rem] pt-[4rem] lg:px-[2rem]'}>
 					<ul className="flex min-h-[14rem] flex-col gap-[1rem]">
-						<CartItemWrapper showCartItems={cart?.length !== 0}>
+						<CartItemWrapper showCartItems={cart.length > 0}>
 							<CartItemsList
 								each={cart}
 								render={(item) => <CartItem key={item.title} product={item} />}

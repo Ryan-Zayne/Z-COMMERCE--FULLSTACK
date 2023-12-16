@@ -38,7 +38,6 @@ function ImageComponent(props: ImageComponentProps) {
 
 			return () => img.removeEventListener('load', handleImageLoad);
 		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[src]
 	);
 
@@ -65,7 +64,7 @@ function ImageComponent(props: ImageComponentProps) {
 					<span className="absolute inset-0 z-[1] animate-zoom [background-image:linear-gradient(100deg,_transparent_20%,_hsla(0,0%,100%,0.3)_50%,_transparent_80%)]" />
 				) : (
 					<img
-						className={cnMerge('object-cover', [isImageLoaded && 'h-full'], [className])}
+						className={cnMerge('object-cover', 'h-full', [className])}
 						src={src}
 						alt=""
 						{...restOfProps}
@@ -73,13 +72,9 @@ function ImageComponent(props: ImageComponentProps) {
 				)}
 			</div>
 		),
-
-		default: () => {
-			throw new Error(`Case ${imageType} is unhandled`);
-		},
 	};
 
-	return (IMAGE_TYPE_LOOKUP[imageType] ?? IMAGE_TYPE_LOOKUP.default)();
+	return IMAGE_TYPE_LOOKUP[imageType]();
 }
 
 export default ImageComponent;

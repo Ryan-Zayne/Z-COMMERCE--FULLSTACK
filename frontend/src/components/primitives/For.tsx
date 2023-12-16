@@ -1,4 +1,4 @@
-type ForProps<TArray extends Array<unknown>> =
+type ForProps<TArray extends unknown[]> =
 	| {
 			each: TArray;
 			children?: "Hey, Sorry but you've already used the render prop, so the children prop is redundant";
@@ -10,8 +10,8 @@ type ForProps<TArray extends Array<unknown>> =
 			render?: "Hey, Sorry but you've already used the children prop, so the render prop is redundant";
 	  };
 
-function For<TArrayProp extends Array<unknown>>({ each, render, children }: ForProps<TArrayProp>) {
-	const ElementList = each.map((item, index) => {
+function For<TArrayProp extends unknown[]>({ each: listOfItems, render, children }: ForProps<TArrayProp>) {
+	const JSXElementList = listOfItems.map((item, index) => {
 		if (typeof children === 'function') {
 			return children(item, index);
 		}
@@ -19,7 +19,7 @@ function For<TArrayProp extends Array<unknown>>({ each, render, children }: ForP
 		return render(item, index);
 	});
 
-	return ElementList;
+	return JSXElementList;
 }
 
 export default For;

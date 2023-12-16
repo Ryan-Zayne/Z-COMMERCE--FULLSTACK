@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useCallbackRef } from './useCallbackRef.ts';
 
 type DebounceOptions = {
@@ -34,18 +34,17 @@ export const useDebouncedFn = <TParams>(
 
 export const useDebouncedValue = <TValue>(value: TValue, options: DebounceOptions) => {
 	const { delay } = options;
-	const timeoutRef = useRef<number | null>(null);
-
 	const [debouncedValue, setDebouncedValue] = useState(value);
 
-	if (debouncedValue !== value) {
-		timeoutRef.current !== null && clearTimeout(timeoutRef.current);
-
-		timeoutRef.current = window.setTimeout(() => {
+	useEffect(() => {
+		const timeoutId = window.setTimeout(() => {
 			setDebouncedValue(value);
-			timeoutRef.current = null;
 		}, delay);
-	}
+
+		return () => {
+			clearTimeout(timeoutId);
+		};
+	}, [value, delay]);
 
 	return debouncedValue;
 };

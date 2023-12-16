@@ -51,6 +51,7 @@
 		"max-classes-per-file": ["error", 2],
 		"no-implicit-coercion": "error",
 		"require-await": "error",
+		"no-void": "off",
 		"no-use-before-define": [
 			"error",
 			{
@@ -89,6 +90,9 @@
 		"@typescript-eslint/return-await": "error",
 		"@typescript-eslint/no-useless-constructor": "error",
 		"@typescript-eslint/member-ordering": "error",
+		"@typescript-eslint/no-confusing-void-expression": "off",
+		"@typescript-eslint/non-nullable-type-assertion-style": "off",
+		"@typescript-eslint/unified-signatures": ["error", { "ignoreDifferentlyNamedParameters": true }],
 
 		// Airbnb-config/React plugin rules
 		"import/extensions": ["error", "always", { "ignorePackages": true }],
@@ -106,7 +110,6 @@
 				"maxDepth": 3
 			}
 		],
-
 		"react/self-closing-comp": [
 			"error",
 			{
@@ -143,6 +146,7 @@
 		// Jsx-A11y rules
 		"jsx-a11y/click-events-have-key-events": "off",
 		"jsx-a11y/no-static-element-interactions": "off",
+		"jsx-a11y/control-has-associated-label": "off",
 		"jsx-a11y/label-has-associated-control": [
 			"error",
 			{

@@ -1,4 +1,3 @@
-import { useCallbackRef } from '@/lib/hooks/useCallbackRef.ts';
 import { create, type StateCreator } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import type { GlobalStore } from '../zustand-store.types';
@@ -14,11 +13,8 @@ const globalStoreObjectFn: StateCreator<GlobalStore> = (...params) => ({
 // Store hook creation
 export const useGlobalStore = create<GlobalStore>()(globalStoreObjectFn);
 
-export const useGlobalStoreShallow = <TState>(callbackFn: (state: GlobalStore) => TState) => {
-	const selector = useCallbackRef(callbackFn);
-
-	return useGlobalStore(useShallow(selector));
-};
+export const useGlobalStoreShallow = <TState>(selector: (state: GlobalStore) => TState) =>
+	useGlobalStore(useShallow(selector));
 
 // Actions hooks
 export const useGlobalActions = () => useGlobalStore((state) => state.globalActions);

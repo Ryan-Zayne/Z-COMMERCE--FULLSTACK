@@ -1,4 +1,3 @@
-import { useCallbackRef } from '@/lib/hooks/index.ts';
 import { toast } from 'react-hot-toast';
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -117,11 +116,8 @@ export const useShopStore = create<ShopStore>()(
 	})
 );
 
-export const useShopStoreShallow = <TState>(callbackFn: (state: ShopStore) => TState) => {
-	const selector = useCallbackRef(callbackFn);
-
-	return useShopStore(useShallow(selector));
-};
+export const useShopStoreShallow = <TState>(selector: (state: ShopStore) => TState) =>
+	useShopStore(useShallow(selector));
 
 // Actions hook
 export const useShopActions = () => useShopStore((state) => state.shopActions);

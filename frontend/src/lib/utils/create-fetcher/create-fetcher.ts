@@ -1,9 +1,12 @@
-import type { ApiResponseData, BaseFetchConfig, FetchConfig } from './create-fetcher.types.ts';
+import type {
+	ApiResponseData,
+	BaseFetchConfig,
+	DefaultErrorType,
+	FetchConfig,
+} from './create-fetcher.types.ts';
 import { HTTPError, getResponseData } from './create-fetcher.utils.ts';
 
-const createFetcher = <TBaseData, TBaseError = { status: 'error'; message: string }>(
-	baseConfig: BaseFetchConfig
-) => {
+const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: BaseFetchConfig) => {
 	const {
 		baseURL,
 		method: baseMethod = 'GET',
@@ -34,12 +37,11 @@ const createFetcher = <TBaseData, TBaseError = { status: 'error'; message: strin
 
 		const controller = new AbortController();
 		abortControllerStore.set(url, controller);
-
 		const timeoutId = window.setTimeout(() => controller.abort(), timeout);
 
-		const { requestInterceptor, responseInterceptor, errorInterceptor } = interceptors;
-
 		try {
+			const { requestInterceptor, responseInterceptor } = interceptors;
+
 			const modifiedFetchConfig = (await requestInterceptor?.(restOfFetchConfig)) ?? restOfFetchConfig;
 
 			const response = await fetch(`${baseURL}${url}`, {
@@ -70,25 +72,23 @@ const createFetcher = <TBaseData, TBaseError = { status: 'error'; message: strin
 		} catch (error) {
 			if (error instanceof DOMException && error.name === 'AbortError') {
 				// eslint-disable-next-line no-console
-				console.error('AbortError', `Request to ${url} timed out after ${timeout}ms`);
+				console.error(`AbortError: Request to ${url} timed out after ${timeout}ms`);
 
 				return {
 					dataInfo: null,
 					errorInfo: {
 						status: 'error',
-						message: `Request to ${url} timed out after ${timeout}ms`,
+						message: `Request timed out after ${timeout}ms`,
 					} as TError,
 				};
 			}
-
-			await errorInterceptor?.(error);
 
 			if (error instanceof TypeError || error instanceof SyntaxError || error instanceof Error) {
 				return {
 					dataInfo: null,
 					errorInfo: {
 						status: 'error',
-						message: error.message ?? defaultErrorMessage,
+						message: error.message,
 					} as TError,
 				};
 			}
@@ -112,4 +112,3 @@ const createFetcher = <TBaseData, TBaseError = { status: 'error'; message: strin
 };
 
 export { createFetcher };
-

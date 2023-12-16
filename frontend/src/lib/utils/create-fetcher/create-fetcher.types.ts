@@ -11,8 +11,6 @@ export type BaseFetchConfig = Omit<RequestInit, 'method'> & {
 		requestInterceptor?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
 
 		responseInterceptor?: (response: Response) => Promise<void> | void;
-
-		errorInterceptor?: (error: unknown) => Promise<void> | void;
 	};
 };
 
@@ -27,3 +25,8 @@ export type ApiResponseData<TData, TError = { status: 'error'; message: string }
 			dataInfo: null;
 			errorInfo: TError;
 	  };
+
+export type DefaultErrorType = {
+	status: 'error';
+	message: string;
+};

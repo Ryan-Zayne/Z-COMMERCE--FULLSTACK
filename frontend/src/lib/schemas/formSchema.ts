@@ -14,7 +14,7 @@ export const SignUpSchema = z
 		email: z.string().email('Please enter a valid email!'),
 		password: z.string().min(8, 'Password must be at least 8 characters!'),
 		confirmPassword: z.string().min(1, 'Password confirmation is required!'),
-		acceptTerms: z.boolean().refine((val) => val === true, 'Please check this box!'),
+		acceptTerms: z.boolean().refine((val) => val, 'Please check this box!'),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
 		message: 'Passwords do not match!',

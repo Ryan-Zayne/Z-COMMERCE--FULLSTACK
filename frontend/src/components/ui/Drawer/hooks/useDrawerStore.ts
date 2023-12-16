@@ -1,7 +1,7 @@
-import { useCallbackRef } from '@/lib/hooks';
+import { useCallbackRef } from '@/lib/hooks/index.ts';
 import { useStore } from 'zustand';
 import type { DrawerStore } from '../drawer.types';
-import { useCustomDrawerContext } from '../drawerStoreContext';
+import { useCustomDrawerContext } from '../drawerStoreContext.tsx';
 
 const useDrawerStore = <TSlice>(callbackFn: (state: DrawerStore) => TSlice) => {
 	const store = useCustomDrawerContext();

@@ -39,14 +39,14 @@ export type ThemeStore = {
 export type ResponseDataItemInCart = DummyResponseDataItem & { quantity: number };
 
 export type ShopStore = {
-	cart: Array<ResponseDataItemInCart>;
-	wishList: Array<DummyResponseDataItem>;
+	cart: ResponseDataItemInCart[];
+	wishList: DummyResponseDataItem[];
 
 	shopActions: {
 		addToCart: (productItem: DummyResponseDataItem) => void;
 		updateProductQuantity: (
 			productId: DummyResponseDataItem['id'],
-			{ updatedQuantity }: { updatedQuantity: number }
+			newData: { updatedQuantity: number }
 		) => void;
 		removeProductFromCart: (productId: DummyResponseDataItem['id']) => void;
 		decrementProductQuantity: (productId: DummyResponseDataItem['id']) => void;

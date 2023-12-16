@@ -1,11 +1,6 @@
-type RestOfObjectProps<
-	TObject extends Record<string, unknown>,
-	TOmitArray extends ReadonlyArray<keyof TObject>,
-> = Omit<TObject, TOmitArray[number]>;
-
 export const omitKeys = <
-	TObject extends Record<string, unknown>,
-	TOmitArray extends ReadonlyArray<keyof TObject>,
+	const TObject extends Record<string, unknown>,
+	const TOmitArray extends Array<keyof TObject>,
 >(
 	initialObject: TObject,
 	keysToOmit: TOmitArray
@@ -14,52 +9,54 @@ export const omitKeys = <
 		([key]) => !keysToOmit.includes(key)
 	);
 
-	const updatedObject = Object.fromEntries(filteredObjEntriesArray) as RestOfObjectProps<
-		TObject,
-		TOmitArray
-	>;
+	const updatedObject = Object.fromEntries(filteredObjEntriesArray);
 
-	return updatedObject;
+	return updatedObject as {
+		[K in Exclude<keyof TObject, TOmitArray[number]>]: TObject[K];
+	};
 };
 
 export const omitKeysWithReduce = <
-	TObject extends Record<string, unknown>,
-	TOmitArray extends ReadonlyArray<keyof TObject>,
+	const TObject extends Record<string, unknown>,
+	const TOmitArray extends Array<keyof TObject>,
 >(
 	initialObject: TObject,
 	keysToOmit: TOmitArray
 ) => {
 	const objectEntriesArray = Object.entries(initialObject);
 
-	const updatedObject = objectEntriesArray.reduce(
-		(accumulator, [objKey, objValue]) => {
-			if (!keysToOmit.includes(objKey)) {
-				accumulator[objKey] = objValue;
+	const updatedObject = objectEntriesArray.reduce<Record<string, unknown>>(
+		(accumulator, [key, value]) => {
+			if (!keysToOmit.includes(key)) {
+				accumulator[key] = value;
 			}
 
 			return accumulator;
 		},
-		{} as Record<string, unknown>
+		{}
 	);
 
-	return updatedObject as RestOfObjectProps<TObject, TOmitArray>;
+	return updatedObject as {
+		[K in Exclude<keyof TObject, TOmitArray[number]>]: TObject[K];
+	};
 };
 
 export const omitKeysWithLoop = <
-	TObject extends Record<string, unknown>,
-	TOmitArray extends ReadonlyArray<keyof TObject>,
+	const TObject extends Record<string, unknown>,
+	const TOmitArray extends Array<keyof TObject>,
 >(
 	initialObject: TObject,
 	keysToOmit: TOmitArray
 ) => {
 	const updatedObject: Record<string, unknown> = {};
 
-	/* eslint-disable no-continue */
 	for (const [key, value] of Object.entries(initialObject)) {
-		if (keysToOmit.includes(key)) continue;
-
-		updatedObject[key] = value;
+		if (!keysToOmit.includes(key)) {
+			updatedObject[key] = value;
+		}
 	}
 
-	return updatedObject as RestOfObjectProps<TObject, TOmitArray>;
+	return updatedObject as {
+		[K in Exclude<keyof TObject, TOmitArray[number]>]: TObject[K];
+	};
 };

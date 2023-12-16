@@ -40,7 +40,9 @@ const useAnimationInterval = (options: AnimationOptions) => {
 	);
 
 	const onAnimationStop = useCallback(() => {
-		cancelAnimationFrame(animationFrameId.current as number);
+		if (animationFrameId.current) {
+			cancelAnimationFrame(animationFrameId.current);
+		}
 		startTimeStampRef.current = null;
 		animationFrameId.current = null;
 	}, []);

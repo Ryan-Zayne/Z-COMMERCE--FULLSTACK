@@ -39,7 +39,8 @@ const useRehydratedFromStore = <TState, TResult>(
 
 	useEffect(
 		function rehydrateStoreOnLoadEffect() {
-			// @ts-ignore
+			// @ts-expect-error - FIX
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 			useZustandStore.persist.rehydrate();
 			setHasHydrated(true);
 		},

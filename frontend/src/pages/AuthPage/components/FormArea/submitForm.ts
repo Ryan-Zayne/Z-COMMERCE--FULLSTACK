@@ -1,5 +1,5 @@
 import { fetchFormResponse } from '@/api/fetchFormResponse.ts';
-import { noScrollOnOpen, } from '@/lib/utils/no-scroll-on-open.ts';
+import { noScrollOnOpen } from '@/lib/utils/no-scroll-on-open.ts';
 import type { UseFormReset, UseFormSetError } from 'react-hook-form';
 import type { NavigateFunction } from 'react-router-dom';
 import type { FormAreaProps } from './FormArea';
@@ -22,6 +22,8 @@ const submitForm =
 		const { dataInfo, errorInfo } = await fetchFormResponse(AUTH_URL, {
 			body: JSON.stringify(formData),
 		});
+
+		noScrollOnOpen({ isOpen: false });
 
 		if (errorInfo?.response && 'errors' in errorInfo.response) {
 			const { errors: zodErrors } = errorInfo.response;
@@ -58,8 +60,6 @@ const submitForm =
 
 		reset();
 		navigate('/', { replace: true });
-		noScrollOnOpen({ isOpen: false });
 	};
 
 export { submitForm };
-

@@ -9,12 +9,10 @@ type DisclosureOptions = {
 const useDisclosure = (options: DisclosureOptions = {}) => {
 	const { hasScrollControl = false, initialState = false } = options;
 
-	const [isOpen, setIsOpen] = useState(
-		typeof initialState === 'boolean' ? initialState : () => initialState()
-	);
+	const [isOpen, setIsOpen] = useState(initialState);
 
-	// prettier-ignore
-	const handleScrollControl = useCallback((state: boolean) => {
+	const handleScrollControl = useCallback(
+		(state: boolean) => {
 			if (!hasScrollControl) return;
 
 			noScrollOnOpen({ isOpen: state });
@@ -24,17 +22,13 @@ const useDisclosure = (options: DisclosureOptions = {}) => {
 	);
 
 	const onOpen = useCallback(() => {
-		const newState = true;
-		setIsOpen(newState);
-
-		handleScrollControl(newState);
+		setIsOpen(true);
+		handleScrollControl(true);
 	}, [handleScrollControl]);
 
 	const onClose = useCallback(() => {
-		const newState = false;
-		setIsOpen(newState);
-
-		handleScrollControl(newState);
+		setIsOpen(false);
+		handleScrollControl(false);
 	}, [handleScrollControl]);
 
 	const onToggle = useCallback(() => {

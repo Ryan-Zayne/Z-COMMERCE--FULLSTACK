@@ -39,7 +39,7 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 
 	return (
 		<form
-			onSubmit={handleSubmit(submitForm({ formType, setError, reset, navigate }))}
+			onSubmit={void handleSubmit(submitForm({ formType, setError, reset, navigate }))}
 			className={cnMerge(
 				'mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem] [&_label]:text-[1.2rem]',
 				[formClasses]
@@ -61,10 +61,10 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 						id={`username__${uniqueId}`}
 						className={cnMerge(
 							`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-							errors?.username && semanticClasses.error
+							errors.username && semanticClasses.error
 						)}
 					/>
-					{errors?.username && <ErrorParagraph message={errors.username.message} />}
+					{errors.username && <ErrorParagraph message={errors.username.message} />}
 				</InputGroup>
 			)}
 
@@ -81,10 +81,10 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 					id={`email__${uniqueId}`}
 					className={cnMerge(
 						`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-						errors?.email && semanticClasses.error
+						errors.email && semanticClasses.error
 					)}
 				/>
-				{errors?.email && <ErrorParagraph message={errors.email.message} />}
+				{errors.email && <ErrorParagraph message={errors.email.message} />}
 			</InputGroup>
 
 			<InputGroup className={'relative'}>
@@ -99,10 +99,10 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 					id={`password__${uniqueId}`}
 					className={cnMerge(
 						'min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot',
-						errors?.password && semanticClasses.error
+						errors.password && semanticClasses.error
 					)}
 				/>
-				{errors?.password && <ErrorParagraph message={errors.password.message} />}
+				{errors.password && <ErrorParagraph message={errors.password.message} />}
 
 				<button
 					className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
@@ -126,10 +126,10 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 						id={`confirmPassword__${uniqueId}`}
 						className={cnMerge(
 							'min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot',
-							errors?.confirmPassword && semanticClasses.error
+							errors.confirmPassword && semanticClasses.error
 						)}
 					/>
-					{errors?.confirmPassword && <ErrorParagraph message={errors.confirmPassword.message} />}
+					{errors.confirmPassword && <ErrorParagraph message={errors.confirmPassword.message} />}
 
 					<button
 						className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
@@ -147,6 +147,7 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 					message={errors.root.serverError.message}
 				/>
 			)}
+
 			{errors.root?.serverCaughtError && (
 				<ErrorParagraph
 					className={'mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]'}
@@ -174,7 +175,7 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 								Terms & Conditions
 							</Link>
 						</p>
-						{errors?.acceptTerms && <ErrorParagraph message={errors.acceptTerms.message} />}
+						{errors.acceptTerms && <ErrorParagraph message={errors.acceptTerms.message} />}
 					</>
 				)}
 			</InputGroup>

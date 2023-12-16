@@ -1,24 +1,23 @@
-type CheckDeviceReturnType = {
-	isMobileOrTablet: boolean;
-};
+type DeviceCheckReturnType = { isMobileOrTablet: boolean };
 
-const checkDeviceIsMobileOrTablet = (): CheckDeviceReturnType => {
+const checkDeviceIsMobileOrTablet = (): DeviceCheckReturnType => {
 	const deviceHasMouse = window.matchMedia('(pointer:fine)').matches;
-
-	if (deviceHasMouse) {
-		return { isMobileOrTablet: false };
-	}
+	const deviceHasNoMouse = window.matchMedia('(pointer:coarse)').matches;
 
 	switch (true) {
+		case deviceHasMouse: {
+			return { isMobileOrTablet: false };
+		}
+
+		case deviceHasNoMouse: {
+			return { isMobileOrTablet: true };
+		}
+
 		case 'ontouchstart' in window && 'maxTouchPoints' in navigator: {
 			return { isMobileOrTablet: navigator.maxTouchPoints > 0 };
 		}
 
 		case 'userAgentData' in navigator && (navigator.userAgentData as { mobile: boolean }).mobile: {
-			return { isMobileOrTablet: true };
-		}
-
-		case window.matchMedia('(pointer:coarse)').matches: {
 			return { isMobileOrTablet: true };
 		}
 

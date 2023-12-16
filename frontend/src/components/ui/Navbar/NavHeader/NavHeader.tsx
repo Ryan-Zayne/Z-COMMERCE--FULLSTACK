@@ -90,9 +90,9 @@ const NavHeader = () => {
 						onClick={cartDisclosure.onOpen}
 					>
 						<BiCartAlt className="hover:text-heading" />
-						{cart?.length > 0 && (
+						{cart.length > 0 && (
 							<span className="absolute right-[-1rem] top-[-0.6rem] inline-flex h-[1.7rem] w-[1.7rem] items-center justify-center rounded-[50%] bg-secondary text-[1.2rem] font-[500]">
-								{cart?.length}
+								{cart.length}
 							</span>
 						)}
 					</button>

@@ -1,7 +1,7 @@
-import { useCallbackRef } from '@/lib/hooks';
+import { useCallbackRef } from '@/lib/hooks/index.ts';
 import { useStore } from 'zustand';
 import type { CarouselStore } from '../carousel.types';
-import { useCustomCarouselContext } from '../carouselStoreContext';
+import { useCustomCarouselContext } from '../carouselStoreContext.tsx';
 
 export const useCarouselStore = <TState>(callbackFn: (store: CarouselStore) => TState) => {
 	const store = useCustomCarouselContext();

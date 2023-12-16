@@ -1,5 +1,5 @@
 import loadingSpinner from '@/assets/loadingSpinner.svg';
-import Teleport from '@/components/primitives/Teleport';
+import Teleport from '@/components/primitives/Teleport.tsx';
 
 function LoadingSpinner({ type = 'regular' }: { type?: 'regular' | 'auth' }) {
 	const LOADER_LOOKUP = {

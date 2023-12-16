@@ -1,13 +1,11 @@
 import express from 'express';
-import { authenticateUser } from '../common/middleware/index.js';
+import { verifyUser } from '../common/middleware/index.js';
 import { updateUserProfile } from './user.controllers.js';
 
-const userRouter = express.Router();
+const router = express.Router();
 
-// Applying token verification to all routes
-userRouter.use(authenticateUser);
+router.use(verifyUser);
 
-// Routes
-userRouter.patch('/update-profile', updateUserProfile);
+router.patch('/update-profile', updateUserProfile);
 
-export { userRouter };
+export { router as userRouter };
