@@ -8,7 +8,7 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'node:path';
-import { router } from './auth/auth.routes.js';
+import { authRouter } from './auth/auth.routes.js';
 import { corsOptions, helmetOptions, setConnectionToDB } from './common/config/index.js';
 import { globalRateLimitOptions } from './common/config/rateLimitOptions.js';
 import { PORT, isDevMode } from './common/lib/utils/constants.js';
@@ -30,7 +30,7 @@ app.use(rateLimit(globalRateLimitOptions));
 app.use(morgan('dev'));
 
 // Routes
-app.use('/api/v1/auth', router);
+app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 
 // Serve Frontend if needed in production
