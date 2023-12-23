@@ -8,4 +8,3 @@ const callDummyApi = createFetcher<DummyResponseData, HTTPError>({
 });
 
 export { callDummyApi };
-

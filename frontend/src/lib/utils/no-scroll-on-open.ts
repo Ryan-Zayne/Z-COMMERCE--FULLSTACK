@@ -1,14 +1,14 @@
 import { checkDeviceIsMobileOrTablet } from './check-device-is-mobile-or-tablet.ts';
 
 type NoScrollOnOpenOptions = {
-	isOpen: boolean;
+	isActive: boolean;
 };
 
 const noScrollOnOpen = (options: NoScrollOnOpenOptions) => {
-	const { isOpen } = options;
+	const { isActive } = options;
 	const { isMobileOrTablet } = checkDeviceIsMobileOrTablet();
 
-	if (!isOpen) {
+	if (!isActive) {
 		document.body.style.setProperty('--overflow-y', null);
 		!isMobileOrTablet && document.body.style.setProperty('--scrollbar-padding', null);
 		return;

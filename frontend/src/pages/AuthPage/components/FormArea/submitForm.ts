@@ -17,13 +17,13 @@ const submitForm =
 	async (formData: FormSchemaType) => {
 		const AUTH_URL = formType === 'Sign Up' ? `/sign-up` : `/login`;
 
-		noScrollOnOpen({ isOpen: true });
+		noScrollOnOpen({ isActive: true });
 
 		const { dataInfo, errorInfo } = await fetchFormResponse(AUTH_URL, {
 			body: JSON.stringify(formData),
 		});
 
-		noScrollOnOpen({ isOpen: false });
+		noScrollOnOpen({ isActive: false });
 
 		if (errorInfo?.response && 'errors' in errorInfo.response) {
 			const { errors: zodErrors } = errorInfo.response;

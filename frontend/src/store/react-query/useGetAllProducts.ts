@@ -43,4 +43,3 @@ const useGetAllProducts = () => {
 };
 
 export { useGetAllProducts };
-

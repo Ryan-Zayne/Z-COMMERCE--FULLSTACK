@@ -11,19 +11,19 @@ type PortalProps = WithChildren<{
 		| `[${string}="${string}"]`;
 }>;
 
-function Teleport({ children, to = '#portal-container' }: PortalProps) {
-	const teleportDestination = document.querySelector<HTMLElement>(to);
+function Teleport({ children, to = '#portal-holder' }: PortalProps) {
 	const [hasMounted, setHasMounted] = useState(false);
+	const teleportDestination = document.querySelector<HTMLElement>(to);
 
 	if (!hasMounted) {
 		setHasMounted(true);
 	}
 
-	if (!hasMounted || !teleportDestination) {
+	if (!hasMounted) {
 		return null;
 	}
 
-	return createPortal(children, teleportDestination);
+	return createPortal(children, teleportDestination ?? document.body);
 }
 
 export default Teleport;

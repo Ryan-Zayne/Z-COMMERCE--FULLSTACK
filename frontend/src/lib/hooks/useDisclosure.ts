@@ -15,7 +15,7 @@ const useDisclosure = (options: DisclosureOptions = {}) => {
 		(state: boolean) => {
 			if (!hasScrollControl) return;
 
-			noScrollOnOpen({ isOpen: state });
+			noScrollOnOpen({ isActive: state });
 		},
 
 		[hasScrollControl]

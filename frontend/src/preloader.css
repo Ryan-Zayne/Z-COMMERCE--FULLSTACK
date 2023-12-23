@@ -1,12 +1,10 @@
 .loader-container {
 	position: fixed;
 	inset: 0;
-	isolation: isolate;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	background-color: hsla(0, 0%, 0%);
-	transition: opacity 1000ms ease-in-out;
 }
 
 .dank-ass-loader {
@@ -130,7 +128,6 @@
 .arrow.inner-6 {
 	animation-delay: -1s;
 }
-
 
 @keyframes blink {
 	0% {

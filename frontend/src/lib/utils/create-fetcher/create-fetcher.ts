@@ -9,8 +9,7 @@ import { HTTPError, getResponseData } from './create-fetcher.utils.ts';
 const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: BaseFetchConfig) => {
 	const {
 		baseURL,
-		method: baseMethod = 'GET',
-		timeout: baseTimeout = 6000,
+		timeout: baseTimeout = 10000,
 		interceptors: baseInterceptors = {},
 		defaultErrorMessage = 'Failed to fetch data from server!',
 		...restOfBaseConfig
@@ -23,7 +22,6 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 		config?: FetchConfig
 	): Promise<ApiResponseData<TData, TError>> {
 		const {
-			method = baseMethod,
 			timeout = baseTimeout,
 			interceptors = baseInterceptors,
 			...restOfFetchConfig
@@ -46,7 +44,7 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 
 			const response = await fetch(`${baseURL}${url}`, {
 				signal: controller.signal,
-				method,
+				method: 'GET',
 				...restOfBaseConfig,
 				...modifiedFetchConfig,
 			});
@@ -71,9 +69,6 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 			// Exhaustive Error handling
 		} catch (error) {
 			if (error instanceof DOMException && error.name === 'AbortError') {
-				// eslint-disable-next-line no-console
-				console.error(`AbortError: Request to ${url} timed out after ${timeout}ms`);
-
 				return {
 					dataInfo: null,
 					errorInfo: {

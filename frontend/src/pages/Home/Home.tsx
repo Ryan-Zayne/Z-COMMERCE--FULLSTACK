@@ -2,7 +2,7 @@ import Categories from './Categories/Categories.tsx';
 import Hero from './Hero/Hero.tsx';
 import HomeProductSection from './HomeProductSection/HomeProductSection.tsx';
 
-function HomePage() {
+function Home() {
 	return (
 		<>
 			<Hero />
@@ -12,4 +12,4 @@ function HomePage() {
 	);
 }
 
-export default HomePage;
+export default Home;

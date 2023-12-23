@@ -17,6 +17,10 @@ export type FormAreaProps = {
 	formClasses?: string;
 };
 
+const semanticClasses = {
+	error: 'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
+};
+
 function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 	const navigate = useNavigate();
 	const uniqueId = useId();
@@ -33,13 +37,9 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 		resolver: zodResolver(formType === 'Sign Up' ? SignUpSchema : LoginSchema),
 	});
 
-	const semanticClasses = {
-		error: 'border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error',
-	};
-
 	return (
 		<form
-			onSubmit={void handleSubmit(submitForm({ formType, setError, reset, navigate }))}
+			onSubmit={handleSubmit(submitForm({ formType, setError, reset, navigate }))}
 			className={cnMerge(
 				'mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem] [&_label]:text-[1.2rem]',
 				[formClasses]

@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
 	:root {
 		--text-header: hsl(43, 100%, 55%);
@@ -44,18 +43,17 @@
 
 	@font-face {
 		font-family: 'Rubik';
-		src: local('Rubik'), url('/fonts/Rubik.woff2') format('woff2');
+		src:
+			url('/fonts/Rubik.woff2') format('woff2');
 		font-style: normal;
-		font-display: swap;
 	}
 
 	@font-face {
 		font-family: 'Roboto Slab';
-		src: local('Roboto Slab'), url('/fonts/Roboto-slab.woff2') format('woff2');
+		src:
+			url('/fonts/Roboto-slab.woff2') format('woff2');
 		font-style: normal;
-		font-display: swap;
 	}
-
 
 	/* ------------------*/
 	/* General CSS Reset */
@@ -65,7 +63,6 @@
 		padding: 0;
 		box-sizing: border-box;
 	}
-
 
 	/* -------------------------- */
 	/* Making basic style resets */

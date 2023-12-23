@@ -1,27 +1,18 @@
-import { isBrowser, prefersDarkMode } from './constants.ts';
+import { prefersDarkMode } from './constants.ts';
+import { parseJSON } from './parseJSON.ts';
 
 type ThemeState = {
 	state: { theme: 'dark' | 'light' };
 };
 
-const parseJSON = <TResult>(value: ReturnType<typeof localStorage.getItem>) => {
-	if (!isBrowser || value == null) {
-		return null;
-	}
-
-	return JSON.parse(value) as TResult;
+const defaultSystemPreference: ThemeState = {
+	state: { theme: prefersDarkMode ? 'dark' : 'light' },
 };
 
-const defaultSystemPreference = {
-	state: { theme: prefersDarkMode ? 'dark' : 'light' },
-} satisfies ThemeState;
-
-const themeStateInStorage = parseJSON<ThemeState>(localStorage.getItem('colorScheme'));
-
 const getInitialThemeOnLoad = () => {
-	const resolvedThemeState = themeStateInStorage ?? defaultSystemPreference;
+	const themeStateInStorage = parseJSON<ThemeState>(localStorage.getItem('colorScheme'));
 
-	return resolvedThemeState.state.theme;
+	return (themeStateInStorage ?? defaultSystemPreference).state.theme;
 };
 
 export { getInitialThemeOnLoad };

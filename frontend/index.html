@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="">
 
 <head>
@@ -10,16 +10,15 @@
 	<link rel="preload" href="/fonts/Rubik.woff2" as="font" type="font/woff2" crossorigin />
 
 	<script type="module" src="/src/preloader.ts"></script>
-	<link rel="stylesheet" href="/src/preloader.css">
+	<link rel="stylesheet" href="/src/preloader.css" />
 	<script type="module" src="/src/main.tsx"></script>
 	<title>DigitalGenie</title>
 </head>
 
-
 <body class="custom-scrollbar">
-	<main class="isolate" id="root"></main>
+	<main id="root"></main>
 
-	<aside class="loader-container" data-loader>
+	<aside id="preloader" class="loader-container [transition:opacity_1000ms_ease-in-out]">
 		<div class="dank-ass-loader">
 			<div class="row">
 				<div class="arrow up outer outer-18"></div>

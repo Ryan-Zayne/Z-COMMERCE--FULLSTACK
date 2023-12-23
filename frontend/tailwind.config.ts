@@ -163,9 +163,7 @@ const tailwindConfig = {
 					},
 				},
 
-				'.no-scroll': {
-
-				},
+				'.no-scroll': {},
 			});
 
 			matchUtilities(
