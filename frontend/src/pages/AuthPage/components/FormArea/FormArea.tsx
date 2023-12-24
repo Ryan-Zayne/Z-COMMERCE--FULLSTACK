@@ -39,7 +39,9 @@ function FormArea({ formType, formClasses = '' }: FormAreaProps) {
 
 	return (
 		<form
-			onSubmit={handleSubmit(submitForm({ formType, setError, reset, navigate }))}
+			onSubmit={(event) => {
+				void handleSubmit(submitForm({ formType, setError, reset, navigate }))(event);
+			}}
 			className={cnMerge(
 				'mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem] [&_label]:text-[1.2rem]',
 				[formClasses]

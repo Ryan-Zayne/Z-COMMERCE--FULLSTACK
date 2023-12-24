@@ -4,32 +4,30 @@ import type { StoreApi } from 'zustand';
 // Carousel store types
 export type CarouselStore = {
 	currentSlide: number;
+	maxSlide: number;
+	hasTransition: boolean;
+
+	actions: {
+		goToSlide: (newValue: number) => void;
+		nextSlide: () => void;
+		previousSlide: () => void;
+		setHasTransition: (newValue: boolean) => void;
+	};
+};
+
+export type CarouselProviderProps = WithChildren<{
 	slideImages:
 		| Array<{
 				src: string;
 				blurSrc?: string;
 		  }>
 		| string[];
-	maxSlide: number;
-	isTransition: boolean;
-
-	actions: {
-		goToSlide: (resetValue: number) => void;
-		setIsTranstion: (newState: boolean) => void;
-		nextSlide: () => void;
-		previousSlide: () => void;
-	};
-};
-
-export type CarouselProviderProps = WithChildren<Pick<CarouselStore, 'slideImages'>>;
+	slideButtonSideEffect?: () => void;
+}>;
 
 export type CarouselStoreApi = StoreApi<CarouselStore>;
 
 // Carousel component types
-export type CarouselRootProps = WithChildren<{
-	slideImages: CarouselStore['slideImages'];
-}>;
-
 export type CarouselContentProps = WithChildren<{
 	as?: keyof JSX.IntrinsicElements;
 	arrowIcon: React.ReactNode;

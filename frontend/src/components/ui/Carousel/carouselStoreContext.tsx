@@ -11,32 +11,35 @@ const [Provider, useCustomCarouselContext] = createCustomContext<CarouselStoreAp
 });
 
 // CarouselStore Creation
-const createCarouselStore = (slideImages: CarouselStore['slideImages']) =>
+const createCarouselStore = ({
+	slideImages,
+	slideButtonSideEffect,
+}: Omit<CarouselProviderProps, 'children'>) =>
 	createStore<CarouselStore>((set, get) => ({
 		currentSlide: 0,
-		slideImages,
 		maxSlide: slideImages.length - 1,
-		isTransition: true,
+		hasTransition: true,
 
 		actions: {
-			goToSlide: (value: number) => {
-				const { setIsTranstion } = get().actions;
+			goToSlide: (newValue) => {
+				const { setHasTransition } = get().actions;
 
-				set({ currentSlide: value });
-				setIsTranstion(true);
+				set({ currentSlide: newValue });
+				setHasTransition(true);
+				slideButtonSideEffect?.();
 			},
 
-			setIsTranstion: (newState: boolean) => {
-				set({ isTransition: newState });
+			setHasTransition: (newValue) => {
+				set({ hasTransition: newValue });
 			},
 
 			nextSlide: () => {
 				const { currentSlide, maxSlide } = get();
-				const { goToSlide, setIsTranstion } = get().actions;
+				const { goToSlide, setHasTransition } = get().actions;
 
 				if (currentSlide === maxSlide) {
 					goToSlide(0);
-					setIsTranstion(false);
+					setHasTransition(false);
 					return;
 				}
 
@@ -45,24 +48,24 @@ const createCarouselStore = (slideImages: CarouselStore['slideImages']) =>
 
 			previousSlide: () => {
 				const { currentSlide, maxSlide } = get();
-				const { goToSlide, setIsTranstion } = get().actions;
+				const { goToSlide, setHasTransition } = get().actions;
 
 				if (currentSlide === 0) {
 					goToSlide(maxSlide);
-					setIsTranstion(false);
+					setHasTransition(false);
 					return;
 				}
 
+				setHasTransition(true);
 				goToSlide(currentSlide - 1);
 			},
 		},
 	}));
 
 // Provider Component
-function CarouselContextProvider({ children, slideImages }: CarouselProviderProps) {
-	const [carouselStore] = useState(() => createCarouselStore(slideImages));
+function CarouselContextProvider({ children, slideImages, slideButtonSideEffect }: CarouselProviderProps) {
+	const [carouselStore] = useState(() => createCarouselStore({ slideImages, slideButtonSideEffect }));
 
 	return <Provider value={carouselStore}>{children}</Provider>;
 }
-
 export { CarouselContextProvider, useCustomCarouselContext };

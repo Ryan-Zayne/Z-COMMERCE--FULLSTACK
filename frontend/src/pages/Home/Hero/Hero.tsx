@@ -11,9 +11,8 @@ function Hero() {
 
 	return (
 		<section id="Hero">
-			<Carousel.Root slideImages={slideImages}>
+			<Carousel.Root slideImages={slideImages} slideButtonSideEffect={handleElementsAnimation}>
 				<Carousel.Content
-					onButtonClick={handleElementsAnimation}
 					outerClassName={'mx-[1rem] h-[33rem] md:h-[41.4rem] lg:h-[48.5rem]'}
 					innerClassName={'rounded-[0.7rem] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]'}
 					leftBtnClasses={

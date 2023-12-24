@@ -3,14 +3,18 @@ import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
 import type {
 	CarouselContentProps,
 	CarouselIndicatorProps,
-	CarouselRootProps,
+	CarouselProviderProps,
 	OtherCarouselProps,
 } from './carousel.types';
 import { CarouselContextProvider } from './carouselStoreContext.tsx';
 import { useCarouselActions, useCarouselOptions, useCarouselStore } from './hooks/index.ts';
 
-function CarouselRoot({ children, slideImages }: CarouselRootProps) {
-	return <CarouselContextProvider slideImages={slideImages}>{children}</CarouselContextProvider>;
+function CarouselRoot({ children, slideImages, slideButtonSideEffect }: CarouselProviderProps) {
+	return (
+		<CarouselContextProvider slideImages={slideImages} slideButtonSideEffect={slideButtonSideEffect}>
+			{children}
+		</CarouselContextProvider>
+	);
 }
 
 function CarouselContent(props: CarouselContentProps) {
@@ -18,7 +22,6 @@ function CarouselContent(props: CarouselContentProps) {
 		as: Element = 'article',
 		children,
 		arrowIcon,
-		onButtonClick,
 		outerClassName = '',
 		innerClassName = '',
 		leftBtnClasses = '',
@@ -41,13 +44,7 @@ function CarouselContent(props: CarouselContentProps) {
 			onMouseEnter={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(true)}
 			onMouseLeave={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(false)}
 		>
-			<button
-				className="absolute left-0 z-40 h-full w-[9rem]"
-				onClick={() => {
-					previousSlide();
-					onButtonClick?.();
-				}}
-			>
+			<button className="absolute left-0 z-40 h-full w-[9rem]" onClick={previousSlide}>
 				<span
 					className={cnMerge(
 						`absolute left-[0.7rem] top-[45%] rotate-180 rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${leftBtnClasses}`
@@ -66,13 +63,7 @@ function CarouselContent(props: CarouselContentProps) {
 				{children}
 			</div>
 
-			<button
-				className="absolute right-0 z-40 h-full w-[9rem]"
-				onClick={() => {
-					nextSlide();
-					onButtonClick?.();
-				}}
-			>
+			<button className="absolute right-0 z-40 h-full w-[9rem]" onClick={nextSlide}>
 				<span
 					className={cnMerge(
 						`absolute right-[0.7rem] top-[45%] rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${rightBtnClasses}`
@@ -91,7 +82,7 @@ function CarouselItem({ children, className = '' }: OtherCarouselProps) {
 
 function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
-	const hasTransition = useCarouselStore((state) => state.isTransition);
+	const hasTransition = useCarouselStore((state) => state.hasTransition);
 
 	return (
 		<ul

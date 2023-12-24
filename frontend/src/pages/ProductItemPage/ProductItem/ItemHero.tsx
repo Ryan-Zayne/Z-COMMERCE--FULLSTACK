@@ -1,10 +1,10 @@
 import { ImageComponent } from '@/components/primitives/index.ts';
-import { Carousel, type CarouselStore } from '@/components/ui/index.ts';
+import { Carousel, type CarouselProviderProps } from '@/components/ui/index.ts';
 import { useElementList } from '@/lib/hooks/index.ts';
 import { BsChevronRight } from 'react-icons/bs';
 
 type ItemHeroProps = {
-	slideImages: Extract<CarouselStore['slideImages'], string[]>;
+	slideImages: Extract<CarouselProviderProps['slideImages'], string[]>;
 };
 
 function ItemHero({ slideImages }: ItemHeroProps) {
