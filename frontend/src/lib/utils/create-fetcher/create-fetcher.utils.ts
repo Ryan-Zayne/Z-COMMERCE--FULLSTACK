@@ -1,5 +1,7 @@
 export const getResponseData = async <TResponse>(response: Response) => {
-	return (await response.json()) as TResponse;
+	const isJson = response.headers.get('content-type')?.includes('application/json');
+
+	return isJson ? (response.json() as TResponse) : ({ message: await response.text() } as TResponse);
 };
 
 export class HTTPError<ErrorResponseType = Record<string, unknown>> extends Error {
@@ -8,7 +10,7 @@ export class HTTPError<ErrorResponseType = Record<string, unknown>> extends Erro
 	constructor(errorDetails: { defaultErrorMessage: string; responseData: ErrorResponseType }) {
 		const { defaultErrorMessage, responseData } = errorDetails;
 
-		super((responseData as Error).message ?? defaultErrorMessage);
+		super((responseData as { message?: string }).message ?? defaultErrorMessage);
 
 		this.name = 'HTTPError';
 
