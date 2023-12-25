@@ -37,7 +37,7 @@ function CarouselContent<TAsProp extends React.ElementType = 'article'>(
 				<span
 					className={cnMerge(
 						'absolute left-[0.7rem] top-[45%] rotate-180 rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11]',
-						classNames.rightBtn
+						classNames.leftBtn
 					)}
 				>
 					{arrowIcon}
@@ -58,7 +58,7 @@ function CarouselContent<TAsProp extends React.ElementType = 'article'>(
 				<span
 					className={cnMerge(
 						'absolute right-[0.7rem] top-[45%] rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11]',
-						classNames.leftBtn
+						classNames.rightBtn
 					)}
 				>
 					{arrowIcon}

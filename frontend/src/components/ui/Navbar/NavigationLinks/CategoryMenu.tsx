@@ -26,7 +26,7 @@ function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 	useEffect(
 		/* eslint-disable consistent-return */
 		function defaultDropDownStateEffect() {
-			if (!isDesktop) return;
+			if (deviceType === 'mobile') return;
 
 			if (href === '/') {
 				categoryDisclosure.onOpen();
@@ -37,8 +37,7 @@ function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 			};
 		},
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[href, isDesktop]
+		[deviceType, href]
 	);
 
 	const CategoryList = categories.map((category) => (

@@ -1,0 +1,21 @@
+{
+	"name": "z-commerce",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev:client": "cd frontend && pnpm dev",
+		"dev:tunnel": "cd frontend && pnpm dev:tunnel",
+		"dev:server": "cd backend && pnpm dev",
+		"dev": "concurrently 'pnpm:dev:client' 'pnpm:dev:server'",
+		"lint:client": "cd frontend && pnpm lint",
+		"lint:server": "cd backend && pnpm lint",
+		"lint": "concurrently 'pnpm:lint:client' 'pnpm:lint:server'",
+		"format": "concurrently 'cd frontend && pnpm format' 'cd backend && pnpm format'",
+		"format:client": "cd frontend && pnpm format",
+		"format:server": "cd backend && pnpm format",
+		"build": "cd frontend && pnpm build",
+		"preview": "cd frontend && pnpm preview",
+		"start": "cd backend && pnpm start"
+	}
+}

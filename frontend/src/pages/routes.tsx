@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { createRoutesFromElements, Route } from 'react-router-dom';
+import ErrorPage from './ErrorPage.tsx';
 import Home from './Home/Home.tsx';
 import GlobalLayout from './Layouts/GlobalLayout.tsx';
 
@@ -9,7 +10,6 @@ const SignUpFormPage = lazy(() => import('@/pages/AuthPage/SignUpFormPage.tsx'))
 const LoginFormPage = lazy(() => import('@/pages/AuthPage/LoginFormPage.tsx'));
 const ProductCategoryPage = lazy(() => import('@/pages/ProductCategoryPage.tsx'));
 const ProductItemPage = lazy(() => import('@/pages/ProductItemPage/ProductItemPage.tsx'));
-const ErrorPage = lazy(() => import('@/pages/ErrorPage.tsx'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage.tsx'));
 
 const routes = createRoutesFromElements(
