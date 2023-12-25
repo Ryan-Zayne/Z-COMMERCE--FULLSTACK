@@ -17,11 +17,13 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 				<Carousel.Content
 					as="div"
 					arrowIcon={<BsChevronRight />}
-					innerClassName={
-						'rounded-[0.7rem] max-lg:dark:[box-shadow:0_0_3px_0.1px_var(--carousel-dot)]'
-					}
-					leftBtnClasses={'p-[0.7rem_0.4rem] text-[1.7rem] md:text-[2rem] '}
-					rightBtnClasses={'p-[0.7rem_0.4rem] text-[1.7rem] md:text-[2rem]'}
+					classNames={{
+						innerContainer: 'rounded-[0.7rem] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]',
+						leftBtn:
+							'md:left-[0.8rem] hover:box-shadow-[0_0_5px_var(--text-dark)] lg:left-[29.5rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]',
+						rightBtn:
+							'hover:box-shadow-[0_0_5px_var(--text-dark)] md:right-[0.8rem] lg:right-[2rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]',
+					}}
 				>
 					<Carousel.ItemWrapper className={'brightness-[0.65]'}>
 						<ItemList
@@ -44,7 +46,9 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 									className={
 										'bg-[hsl(198,14%,14%)] hover:bg-[hsl(220,62%,31%)] hover:box-shadow-[0_0_5px_hsl(220,62%,31%)]'
 									}
-									onActiveClassName={'p-[0.4rem] w-[0.6rem] bg-[hsl(220,62%,31%)]'}
+									classNames={{
+										onActive: 'p-[0.4rem] w-[0.6rem] bg-[hsl(220,62%,31%)]',
+									}}
 								/>
 							)}
 						/>

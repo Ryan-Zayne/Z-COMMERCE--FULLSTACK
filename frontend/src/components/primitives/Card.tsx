@@ -6,7 +6,7 @@ type CardProps = {
 	aosEasing?: string;
 };
 
-function Card<TAsProp extends React.ElementType>(props: PolymorphicProps<TAsProp, CardProps>) {
+function Card<TAsProp extends React.ElementType = 'article'>(props: PolymorphicProps<TAsProp, CardProps>) {
 	const {
 		as: Element = 'article',
 		children,
@@ -28,19 +28,19 @@ function Card<TAsProp extends React.ElementType>(props: PolymorphicProps<TAsProp
 	);
 }
 
-function CardHeader<TAsProp extends React.ElementType>(props: PolymorphicProps<TAsProp>) {
+function CardHeader<TAsProp extends React.ElementType = 'header'>(props: PolymorphicProps<TAsProp>) {
 	const { as: Element = 'header', children, className } = props;
 
 	return <Element className={className}>{children}</Element>;
 }
 
-function CardBody<TAsProp extends React.ElementType>(props: PolymorphicProps<TAsProp>) {
+function CardBody<TAsProp extends React.ElementType = 'div'>(props: PolymorphicProps<TAsProp>) {
 	const { as: Element = 'div', children, className = '' } = props;
 
 	return <Element className={className}>{children}</Element>;
 }
 
-function CardFooter<TAsProp extends React.ElementType>(props: PolymorphicProps<TAsProp>) {
+function CardFooter<TAsProp extends React.ElementType = 'footer'>(props: PolymorphicProps<TAsProp>) {
 	const { as: Element = 'footer', children, className = '' } = props;
 
 	return <Element className={className}>{children}</Element>;

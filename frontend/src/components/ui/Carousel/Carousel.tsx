@@ -4,17 +4,19 @@ import type { CarouselContentProps, CarouselIndicatorProps, OtherCarouselProps }
 import { CarouselContextProvider } from './carouselStoreContext.tsx';
 import { useCarouselActions, useCarouselOptions, useCarouselStore } from './hooks/index.ts';
 
-function CarouselContent<TAsProp extends React.ElementType>(
+function CarouselContent<TAsProp extends React.ElementType = 'article'>(
 	props: PolymorphicProps<TAsProp, CarouselContentProps>
 ) {
 	const {
-		as: Element = 'article',
+		as: HtmlElement = 'article',
 		children,
 		arrowIcon,
-		outerClassName = '',
-		innerClassName = '',
-		leftBtnClasses = '',
-		rightBtnClasses = '',
+		className = '',
+		classNames = {
+			innerContainer: '',
+			leftBtn: '',
+			rightBtn: '',
+		},
 		hasAutoSlide,
 		autoSlideInterval,
 		pauseOnHover = false,
@@ -25,16 +27,17 @@ function CarouselContent<TAsProp extends React.ElementType>(
 	const { setIsPauseAutoSlide } = useCarouselOptions({ hasAutoSlide, autoSlideInterval });
 
 	return (
-		<Element
+		<HtmlElement
 			data-id="Carousel"
-			className={cnMerge(`relative flex h-full touch-none select-none ${outerClassName}`)}
+			className={cnMerge(`relative flex h-full touch-none select-none ${className}`)}
 			onMouseEnter={() => pauseOnHover && setIsPauseAutoSlide(true)}
 			onMouseLeave={() => pauseOnHover && setIsPauseAutoSlide(false)}
 		>
 			<button className="absolute left-0 z-40 h-full w-[9rem]" onClick={previousSlide}>
 				<span
 					className={cnMerge(
-						`absolute left-[0.7rem] top-[45%] rotate-180 rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${leftBtnClasses}`
+						'absolute left-[0.7rem] top-[45%] rotate-180 rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11]',
+						classNames.rightBtn
 					)}
 				>
 					{arrowIcon}
@@ -44,7 +47,8 @@ function CarouselContent<TAsProp extends React.ElementType>(
 			<div
 				data-id="Carousel Inner"
 				className={cnMerge(
-					`flex h-full w-full touch-none overflow-x-scroll scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${innerClassName}`
+					'flex h-full w-full touch-none overflow-x-scroll scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+					classNames.innerContainer
 				)}
 			>
 				{children}
@@ -53,13 +57,14 @@ function CarouselContent<TAsProp extends React.ElementType>(
 			<button className="absolute right-0 z-40 h-full w-[9rem]" onClick={nextSlide}>
 				<span
 					className={cnMerge(
-						`absolute right-[0.7rem] top-[45%] rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] ${rightBtnClasses}`
+						'absolute right-[0.7rem] top-[45%] rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11]',
+						classNames.leftBtn
 					)}
 				>
 					{arrowIcon}
 				</span>
 			</button>
-		</Element>
+		</HtmlElement>
 	);
 }
 
@@ -93,7 +98,7 @@ function CarouselCaption({ children, className = '' }: OtherCarouselProps) {
 
 function CarouselIndicator({
 	className = '',
-	onActiveClassName = 'w-[3.5rem] rounded-[0.5rem] bg-carousel-dot',
+	classNames = { onActive: 'w-[3.5rem] rounded-[0.5rem] bg-carousel-dot' },
 	index,
 }: CarouselIndicatorProps) {
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
@@ -105,7 +110,7 @@ function CarouselIndicator({
 			className={cnMerge(
 				'h-[0.6rem] w-[0.6rem] shrink-0 cursor-pointer rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot hover:[box-shadow:0_0_5px_var(--carousel-dot)]',
 				className,
-				index === currentSlide && onActiveClassName
+				index === currentSlide && classNames.onActive
 			)}
 		/>
 	);

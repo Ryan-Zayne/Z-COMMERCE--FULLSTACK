@@ -28,10 +28,12 @@ export type CarouselStoreApi = StoreApi<CarouselStore>;
 // Carousel component types
 export type CarouselContentProps = WithChildren<{
 	arrowIcon: React.ReactNode;
-	outerClassName?: string;
-	innerClassName?: string;
-	leftBtnClasses?: string;
-	rightBtnClasses?: string;
+	className?: string;
+	classNames?: {
+		innerContainer?: string;
+		leftBtn?: string;
+		rightBtn?: string;
+	};
 	hasAutoSlide?: boolean;
 	autoSlideInterval?: number;
 	pauseOnHover?: boolean;
@@ -39,7 +41,9 @@ export type CarouselContentProps = WithChildren<{
 
 export type CarouselIndicatorProps = {
 	className?: string;
-	onActiveClassName?: string;
+	classNames?: {
+		onActive?: string;
+	};
 	index: number;
 };
 
