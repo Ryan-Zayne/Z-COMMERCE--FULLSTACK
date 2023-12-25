@@ -1,7 +1,7 @@
 import Logo from '@/components/primitives/Logo.tsx';
 import Overlay from '@/components/primitives/Overlay.tsx';
 import { useElementList } from '@/lib/hooks/index.ts';
-import { cnMerge } from '@/lib/utils/cn.ts';
+import { cnJoin } from '@/lib/utils/cn.ts';
 import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
 import { RiCloseFill } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
@@ -49,23 +49,29 @@ const NavigationLinks = () => {
 			<nav className="relative flex w-[100%] items-center justify-between font-[500] lg:pr-[2rem]">
 				{isDesktop && <CategoryMenu deviceType={'desktop'} />}
 
-				<Overlay isOpen={isNavShow} onClose={toggleNavShow} z-index={'z-[100]'} />
+				<Overlay isOpen={!isDesktop && isNavShow} onClose={toggleNavShow} z-index={'z-[100]'} />
 
 				<ul
 					id="Navigation List"
-					className={cnMerge(
-						'relative flex gap-[12rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
-						[
-							!isDesktop &&
-								'fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] translate-x-full flex-col gap-[3.2rem] bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]',
+					className={cnJoin(
+						'flex gap-[3.2rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative',
+
+						isDesktop && 'relative gap-[12rem]',
+
+						!isDesktop && [
+							'fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] flex-col bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]',
+
+							isNavShow
+								? 'translate-x-0 duration-[600ms] ease-slide-out'
+								: ' translate-x-full ease-slide-in',
 						],
 
-						[!isDesktop && isNavShow && 'translate-x-0 duration-[600ms] ease-slide-in']
+
 					)}
 				>
 					{!isDesktop && (
 						<button
-							className={cnMerge('absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600')}
+							className={'absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600'}
 							onClick={toggleNavShow}
 						>
 							<RiCloseFill />

@@ -18,26 +18,32 @@ const categories = [
 
 function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 	const href = useLocation().pathname;
-	const isDesktop = useGlobalStore((state) => state.isDesktop);
-	const { toggleNavShow } = useGlobalActions();
 
-	const categoryDisclosure = useDisclosure({ initialState: isDesktop && href === '/' });
+	const isNavShow = useGlobalStore((state) => state.isNavShow);
+	const { toggleNavShow } = useGlobalActions();
+	const isDesktop = deviceType === 'desktop';
+	const { isOpen, onToggle, onClose, onOpen } = useDisclosure({
+		initialState: isDesktop && href === '/',
+	});
 
 	useEffect(
-		/* eslint-disable consistent-return */
-		function defaultDropDownStateEffect() {
-			if (deviceType === 'mobile') return;
+		function defaultDropDownStateOnDesktop() {
+			if (!isDesktop) return;
 
-			if (href === '/') {
-				categoryDisclosure.onOpen();
-			}
-
-			return () => {
-				categoryDisclosure.onClose();
-			};
+			href === '/' ? onOpen() : onClose();
 		},
 
-		[deviceType, href]
+		[href, isDesktop, onClose, onOpen]
+	);
+
+	useEffect(
+		function closeDropDownOnNavbarClose() {
+			if (isDesktop) return;
+
+			!isNavShow && onClose();
+		},
+
+		[isDesktop, isNavShow, onClose]
 	);
 
 	const CategoryList = categories.map((category) => (
@@ -65,14 +71,14 @@ function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 			<DropDown id={'Mobile-Categories dropdown'}>
 				<DropDown.Header
 					className={'relative flex cursor-pointer items-center gap-[0.5rem]'}
-					onClick={categoryDisclosure.onToggle}
+					onClick={onToggle}
 				>
 					<h4>Categories</h4>
 
 					<button
 						className={cnJoin(
 							`text-[1.2rem] [transition:transform_350ms_ease]`,
-							categoryDisclosure.isOpen && 'rotate-180'
+							isOpen && 'rotate-180'
 						)}
 					>
 						<AiOutlineCaretDown />
@@ -80,10 +86,10 @@ function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 				</DropDown.Header>
 
 				<DropDown.Panel
-					isOpen={categoryDisclosure.isOpen}
+					isOpen={isOpen}
 					panelParentClasses={`absolute inset-x-0 z-[50] m-[0.5rem_2rem_0] rounded-[5px] bg-[hsl(215,19%,35%,0.9)] [backdrop-filter:blur(4rem)]`}
 					panelListClasses={cnJoin(`flex flex-col gap-[1.5rem] pl-[3rem] text-[1.4rem]`, [
-						categoryDisclosure.isOpen && 'py-[2rem]',
+						isOpen && 'py-[2rem]',
 					])}
 				>
 					{CategoryList}
@@ -97,7 +103,7 @@ function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 					className={
 						'flex w-[28rem] cursor-pointer flex-row-reverse justify-end gap-[1rem] rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-[--color-primary]'
 					}
-					onClick={categoryDisclosure.onToggle}
+					onClick={onToggle}
 				>
 					<h3 className="font-[500]">Shop By Category</h3>
 
@@ -107,13 +113,13 @@ function CategoryMenu({ deviceType }: { deviceType: 'mobile' | 'desktop' }) {
 				</DropDown.Header>
 
 				<DropDown.Panel
-					isOpen={categoryDisclosure.isOpen}
+					isOpen={isOpen}
 					id="Category List"
 					panelParentClasses={'absolute h-[48.5rem] w-full'}
 					panelListClasses={cnJoin(
 						'bg-body px-[2rem] font-[400] box-shadow-[0_1px_3px_0.3px_var(--color-primary)] dark:box-shadow-[0_1px_3px_0.3px_var(--carousel-dot)]',
-						[!categoryDisclosure.isOpen && 'box-shadow-[none]'],
-						[categoryDisclosure.isOpen && 'pt-[5rem]']
+						[!isOpen && 'box-shadow-[none]'],
+						[isOpen && 'pt-[5rem]']
 					)}
 				>
 					{CategoryList}
