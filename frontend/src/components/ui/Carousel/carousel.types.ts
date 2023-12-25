@@ -5,13 +5,11 @@ import type { StoreApi } from 'zustand';
 export type CarouselStore = {
 	currentSlide: number;
 	maxSlide: number;
-	hasTransition: boolean;
 
 	actions: {
 		goToSlide: (newValue: number) => void;
 		nextSlide: () => void;
 		previousSlide: () => void;
-		setHasTransition: (newValue: boolean) => void;
 	};
 };
 

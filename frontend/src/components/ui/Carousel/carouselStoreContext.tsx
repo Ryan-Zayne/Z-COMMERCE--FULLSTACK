@@ -18,28 +18,20 @@ const createCarouselStore = ({
 	createStore<CarouselStore>((set, get) => ({
 		currentSlide: 0,
 		maxSlide: slideImages.length - 1,
-		hasTransition: true,
 
 		actions: {
 			goToSlide: (newValue) => {
-				const { setHasTransition } = get().actions;
+				slideButtonSideEffect?.();
 
 				set({ currentSlide: newValue });
-				setHasTransition(true);
-				slideButtonSideEffect?.();
-			},
-
-			setHasTransition: (newValue) => {
-				set({ hasTransition: newValue });
 			},
 
 			nextSlide: () => {
 				const { currentSlide, maxSlide } = get();
-				const { goToSlide, setHasTransition } = get().actions;
+				const { goToSlide } = get().actions;
 
 				if (currentSlide === maxSlide) {
 					goToSlide(0);
-					setHasTransition(false);
 					return;
 				}
 
@@ -48,15 +40,13 @@ const createCarouselStore = ({
 
 			previousSlide: () => {
 				const { currentSlide, maxSlide } = get();
-				const { goToSlide, setHasTransition } = get().actions;
+				const { goToSlide } = get().actions;
 
 				if (currentSlide === 0) {
 					goToSlide(maxSlide);
-					setHasTransition(false);
 					return;
 				}
 
-				setHasTransition(true);
 				goToSlide(currentSlide - 1);
 			},
 		},

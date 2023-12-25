@@ -69,16 +69,13 @@ function CarouselItem({ children, className = '' }: OtherCarouselProps) {
 
 function CarouselItemWrapper({ children, className = '' }: OtherCarouselProps) {
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
-	const hasTransition = useCarouselStore((state) => state.hasTransition);
 
 	return (
 		<ul
 			data-id="Carousel Image Wrapper"
-			className={cnMerge(
-				'flex w-full shrink-0 transition-transform duration-[1000ms] ease-in-out',
-				[!hasTransition && 'transition-none'],
-				[className]
-			)}
+			className={cnMerge('flex w-full shrink-0 transition-transform duration-[1000ms] ease-in-out', [
+				className,
+			])}
 			style={{ transform: `translate3d(-${currentSlide * 100}%, 0, 0)` }}
 		>
 			{children}
