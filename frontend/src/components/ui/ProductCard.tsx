@@ -1,16 +1,16 @@
-import { Button, Card, ImageComponent, StarRating } from '@/components/primitives';
-import { useToggle } from '@/lib/hooks';
-import { cnMerge } from '@/lib/utils/cn';
+import { Button, Card, ImageComponent, StarRating } from '@/components/primitives/index.ts';
+import { useToggle } from '@/lib/hooks/index.ts';
+import { cnJoin, cnMerge } from '@/lib/utils/cn.ts';
 import type { DummyResponseDataItem } from '@/store/react-query/react-query-store.types';
-import { useGlobalStore } from '@/store/zustand/globalStore/globalStore';
-import { useShopActions, useShopStore } from '@/store/zustand/shopStore';
-import { useThemeStore } from '@/store/zustand/themeStore';
+import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
+import { useShopActions, useShopStore } from '@/store/zustand/shopStore.ts';
+import { useThemeStore } from '@/store/zustand/themeStore.ts';
 import type { ResponseDataItemInCart } from '@/store/zustand/zustand-store.types';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 type ProductCardProps = {
-	to: string;
+	link: string;
 	image: string;
 	productItem: DummyResponseDataItem | ResponseDataItemInCart;
 	aosAnimation?: string;
@@ -20,7 +20,7 @@ type ProductCardProps = {
 
 function ProductCard(props: ProductCardProps) {
 	const {
-		to = '',
+		link = '',
 		image,
 		productItem,
 		aosAnimation = 'zoom-in',
@@ -30,18 +30,21 @@ function ProductCard(props: ProductCardProps) {
 
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const isMobile = useGlobalStore((state) => state.isMobile);
-	const wishList = useShopStore((state) => state.wishList);
 	const { addToCart, toggleAddToWishList } = useShopActions();
-	const isProductInWishList = wishList.some((item) => item.id === productItem.id);
+	const isProductInWishList = useShopStore((state) => state.wishList).some(
+		(item) => item.id === productItem.id
+	);
 	const [isHearted, toggleHearted] = useToggle(isProductInWishList);
 
 	const handleAddToCart: React.MouseEventHandler = (event) => {
 		event.preventDefault();
+
 		addToCart(productItem);
 	};
 
 	const handleAddToWishList: React.MouseEventHandler = (event) => {
 		event.preventDefault();
+
 		toggleHearted();
 		toggleAddToWishList(productItem);
 	};
@@ -63,13 +66,14 @@ function ProductCard(props: ProductCardProps) {
 			aosDuration={aosDuration}
 			aosEasing={aosEasing}
 		>
-			<Link className="flex h-full w-full flex-col justify-between" to={to}>
+			<Link to={link} className="flex h-full w-full flex-col justify-between">
 				<Card.Header
 					as="div"
 					className="relative h-[18rem] w-full overflow-hidden rounded-[0.8rem_0.8rem_0_0]"
 				>
 					<button
-						className={cnMerge(
+						onClick={handleAddToWishList}
+						className={cnJoin(
 							`group/btn absolute bottom-[1.1rem] right-[1.3rem] z-[100] rounded-[50%] bg-primary p-[0.7rem]`,
 							[
 								isHearted
@@ -77,7 +81,6 @@ function ProductCard(props: ProductCardProps) {
 									: 'translate-y-[5rem] opacity-0 transition-[opacity,transform] duration-[1s] group-hover/card:translate-y-[0] group-hover/card:opacity-100',
 							]
 						)}
-						onClick={handleAddToWishList}
 					>
 						{isHearted ? (
 							<AiFillHeart className="scale-[1.16] text-[1.9rem] text-heading group-active/btn:scale-[1.23]" />
@@ -87,9 +90,9 @@ function ProductCard(props: ProductCardProps) {
 					</button>
 
 					<ImageComponent
-						className={cnMerge(
+						className={cnJoin(
 							`rounded-[0.8rem_0.8rem_0_0] brightness-[0.9] transition-[transform] duration-[800ms] ease-in-out group-hover/card:scale-[1.17]`,
-							[isHearted && 'scale-[1.17]']
+							isHearted && 'scale-[1.17]'
 						)}
 						src={image}
 						loading="lazy"
@@ -117,9 +120,10 @@ function ProductCard(props: ProductCardProps) {
 
 				<Card.Footer className="p-[1.3rem_1rem_1rem]">
 					<hr
-						className={cnMerge(`h-[1.8px] bg-carousel-dot opacity-0 group-hover/card:opacity-100`, [
-							isHearted && 'opacity-100',
-						])}
+						className={cnJoin(
+							'h-[1.8px] bg-carousel-dot group-hover/card:opacity-100',
+							isHearted ? 'opacity-0' : 'opacity-100'
+						)}
 					/>
 
 					<Button

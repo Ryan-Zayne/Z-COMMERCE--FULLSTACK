@@ -18,7 +18,7 @@ function SimilarProducts({ data }: DataArrayProp) {
 					render={(product) => (
 						<ProductCard
 							key={product?.id}
-							to={`/products/${product?.category}/${product?.id}`}
+							link={`/products/${product?.category}/${product?.id}`}
 							image={product?.images[1] ?? ''}
 							productItem={assertDefined(product)}
 						/>

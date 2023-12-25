@@ -1,23 +1,12 @@
+import type { PolymorphicProps } from '@/lib/types/polymorpic-props-helper.ts';
 import { cnMerge } from '@/lib/utils/cn.ts';
-import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
-import type {
-	CarouselContentProps,
-	CarouselIndicatorProps,
-	CarouselProviderProps,
-	OtherCarouselProps,
-} from './carousel.types';
+import type { CarouselContentProps, CarouselIndicatorProps, OtherCarouselProps } from './carousel.types';
 import { CarouselContextProvider } from './carouselStoreContext.tsx';
 import { useCarouselActions, useCarouselOptions, useCarouselStore } from './hooks/index.ts';
 
-function CarouselRoot({ children, slideImages, slideButtonSideEffect }: CarouselProviderProps) {
-	return (
-		<CarouselContextProvider slideImages={slideImages} slideButtonSideEffect={slideButtonSideEffect}>
-			{children}
-		</CarouselContextProvider>
-	);
-}
-
-function CarouselContent(props: CarouselContentProps) {
+function CarouselContent<TAsProp extends React.ElementType>(
+	props: PolymorphicProps<TAsProp, CarouselContentProps>
+) {
 	const {
 		as: Element = 'article',
 		children,
@@ -31,18 +20,16 @@ function CarouselContent(props: CarouselContentProps) {
 		pauseOnHover = false,
 	} = props;
 
-	const isMobile = useGlobalStore((state) => state.isMobile);
-
 	const { nextSlide, previousSlide } = useCarouselActions();
 
-	const { setIsAutoSlidePaused } = useCarouselOptions({ hasAutoSlide, autoSlideInterval });
+	const { setIsPauseAutoSlide } = useCarouselOptions({ hasAutoSlide, autoSlideInterval });
 
 	return (
 		<Element
 			data-id="Carousel"
 			className={cnMerge(`relative flex h-full touch-none select-none ${outerClassName}`)}
-			onMouseEnter={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(true)}
-			onMouseLeave={() => !isMobile && pauseOnHover && setIsAutoSlidePaused(false)}
+			onMouseEnter={() => pauseOnHover && setIsPauseAutoSlide(true)}
+			onMouseLeave={() => pauseOnHover && setIsPauseAutoSlide(false)}
 		>
 			<button className="absolute left-0 z-40 h-full w-[9rem]" onClick={previousSlide}>
 				<span
@@ -116,13 +103,13 @@ function CarouselIndicator({
 	const { goToSlide } = useCarouselActions();
 
 	return (
-		<span
+		<button
 			onClick={() => goToSlide(index)}
-			className={cnMerge(`
-				inline-block h-[0.6rem] w-[0.6rem] shrink-0 cursor-pointer rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot hover:[box-shadow:0_0_5px_var(--carousel-dot)]
-				${className}
-				${index === currentSlide ? `${onActiveClassName}` : ''}
-			`)}
+			className={cnMerge(
+				'w-[0.6rem] shrink-0 cursor-pointer rounded-[50%] bg-carousel-btn ease-in-out marker:h-[0.6rem] hover:bg-carousel-dot hover:[box-shadow:0_0_5px_var(--carousel-dot)]',
+				className,
+				index === currentSlide && onActiveClassName
+			)}
 		/>
 	);
 }
@@ -132,7 +119,8 @@ function CarouselIndicatorWrapper({ children, className = '' }: OtherCarouselPro
 		<span
 			data-id="Carousel Indicators"
 			className={cnMerge(
-				`absolute bottom-[2.5rem] z-[2] inline-flex w-full items-center justify-center gap-[1.5rem] ${className}`
+				'absolute bottom-[2.5rem] z-[2] inline-flex w-full items-center justify-center gap-[1.5rem]',
+				className
 			)}
 		>
 			{children}
@@ -141,7 +129,7 @@ function CarouselIndicatorWrapper({ children, className = '' }: OtherCarouselPro
 }
 
 const Carousel = {
-	Root: CarouselRoot,
+	Root: CarouselContextProvider,
 	Content: CarouselContent,
 	Item: CarouselItem,
 	ItemWrapper: CarouselItemWrapper,

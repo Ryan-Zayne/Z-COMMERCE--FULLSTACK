@@ -6,7 +6,7 @@ function HotSalesProducts({ data }: DataArrayProp) {
 	const ProductCards = data.map((product) => (
 		<ProductCard
 			key={product?.id}
-			to={`/products/${product?.category}/${product?.id}`}
+			link={`/products/${product?.category}/${product?.id}`}
 			image={product?.images[0] ?? ''}
 			productItem={assertDefined(product)}
 		/>

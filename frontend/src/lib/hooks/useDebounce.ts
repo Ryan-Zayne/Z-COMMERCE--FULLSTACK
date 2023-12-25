@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useCallbackRef } from './useCallbackRef.ts';
+import { useCallback, useRef, useState } from 'react';
 
 type DebounceOptions = {
 	delay: number;
@@ -13,38 +12,33 @@ export const useDebouncedFn = <TParams>(
 
 	const timeoutRef = useRef<number | null>(null);
 
-	const stableCallbackFn = useCallbackRef(callBackFn);
+	const debouncedFn = (...params: TParams[]) => {
+		timeoutRef.current && clearTimeout(timeoutRef.current);
 
-	// prettier-ignore
-	const debouncedFn = useCallback((...params: TParams[]) => {
-			if (timeoutRef.current !== null) {
-				clearTimeout(timeoutRef.current);
-			}
+		timeoutRef.current = window.setTimeout(() => {
+			callBackFn(...params);
+			timeoutRef.current = null;
+		}, delay);
+	};
 
-			timeoutRef.current = window.setTimeout(() => {
-				stableCallbackFn(...params);
-				timeoutRef.current = null;
-			}, delay);
-		},
-		[delay, stableCallbackFn]
-	);
-
-	return debouncedFn;
+	return useCallback(debouncedFn, [callBackFn, delay]);
 };
 
 export const useDebouncedValue = <TValue>(value: TValue, options: DebounceOptions) => {
 	const { delay } = options;
 	const [debouncedValue, setDebouncedValue] = useState(value);
+	const timeoutRef = useRef<number | null>(null);
 
-	useEffect(() => {
-		const timeoutId = window.setTimeout(() => {
-			setDebouncedValue(value);
-		}, delay);
+	if (debouncedValue === value) {
+		return value;
+	}
 
-		return () => {
-			clearTimeout(timeoutId);
-		};
-	}, [value, delay]);
+	timeoutRef.current && clearTimeout(timeoutRef.current);
+
+	timeoutRef.current = window.setTimeout(() => {
+		setDebouncedValue(value);
+		timeoutRef.current = null;
+	}, delay);
 
 	return debouncedValue;
 };

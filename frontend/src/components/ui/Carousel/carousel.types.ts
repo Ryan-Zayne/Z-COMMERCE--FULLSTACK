@@ -29,9 +29,7 @@ export type CarouselStoreApi = StoreApi<CarouselStore>;
 
 // Carousel component types
 export type CarouselContentProps = WithChildren<{
-	as?: keyof JSX.IntrinsicElements;
 	arrowIcon: React.ReactNode;
-	onButtonClick?: () => void;
 	outerClassName?: string;
 	innerClassName?: string;
 	leftBtnClasses?: string;
@@ -47,6 +45,4 @@ export type CarouselIndicatorProps = {
 	index: number;
 };
 
-export type OtherCarouselProps = Pick<CarouselContentProps, 'children'> & {
-	className?: string;
-};
+export type OtherCarouselProps = WithChildren<{ className?: string }>;

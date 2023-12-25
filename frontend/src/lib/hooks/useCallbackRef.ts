@@ -1,9 +1,9 @@
-import { useCallback, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const useCallbackRef = <TParams, TResult>(callbackFn: (...params: TParams[]) => TResult) => {
 	const callbackRef = useRef(callbackFn);
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		callbackRef.current = callbackFn;
 	}, [callbackFn]);
 
