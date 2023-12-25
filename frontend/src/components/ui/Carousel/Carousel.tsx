@@ -106,7 +106,7 @@ function CarouselIndicator({
 		<button
 			onClick={() => goToSlide(index)}
 			className={cnMerge(
-				'w-[0.6rem] shrink-0 cursor-pointer rounded-[50%] bg-carousel-btn ease-in-out marker:h-[0.6rem] hover:bg-carousel-dot hover:[box-shadow:0_0_5px_var(--carousel-dot)]',
+				'h-[0.6rem] w-[0.6rem] shrink-0 cursor-pointer rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot hover:[box-shadow:0_0_5px_var(--carousel-dot)]',
 				className,
 				index === currentSlide && onActiveClassName
 			)}
