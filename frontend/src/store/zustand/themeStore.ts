@@ -10,16 +10,16 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 
 	themeActions: {
 		toggleTheme: () => {
-			const newtheme = get().theme === 'light' ? 'dark' : 'light';
+			const newTheme = get().theme === 'light' ? 'dark' : 'light';
 
-			document.documentElement.dataset.theme = newtheme;
+			document.documentElement.dataset.theme = newTheme;
+
 			document.documentElement.classList.add('theme-transition');
-
 			document.documentElement.addEventListener('transitionend', () => {
 				document.documentElement.removeAttribute('class');
 			});
 
-			set({ theme: newtheme });
+			set({ theme: newTheme, isDarkMode: newTheme === 'dark' });
 		},
 	},
 });

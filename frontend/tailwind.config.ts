@@ -114,7 +114,10 @@ const tailwindConfig = {
 	},
 
 	plugins: [
-		plugin(({ matchVariant, matchUtilities, addComponents }) => {
+		plugin((pluginApi) => {
+			// eslint-disable-next-line @typescript-eslint/unbound-method
+			const { matchVariant, matchUtilities, addComponents } = pluginApi;
+
 			addComponents({
 				'.custom-scrollbar': {
 					'&::-webkit-scrollbar': {
