@@ -17,7 +17,7 @@ const createCustomContext = <TDefaultContext>(options: CustomContextOptions<TDef
 		providerName = 'Unnamed Provider',
 		errorMessage,
 		defaultValue,
-	} = options ?? {};
+	} = options;
 
 	const Context = createContext<TDefaultContext | null | undefined>(defaultValue);
 
@@ -37,3 +37,4 @@ const createCustomContext = <TDefaultContext>(options: CustomContextOptions<TDef
 };
 
 export { createCustomContext };
+

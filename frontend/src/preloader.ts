@@ -1,7 +1,7 @@
-import { getInitialThemeOnLoad } from './lib/utils/get-initial-theme-on-load.ts';
+import { getThemeOnLoad } from './lib/utils/get-theme-on-load.ts';
 
 // NOTE - This prevents flicker of wrong theme onLoad
-document.documentElement.dataset.theme = getInitialThemeOnLoad();
+document.documentElement.dataset.theme = getThemeOnLoad();
 
 // NOTE - Preloader Removal
 window.addEventListener('DOMContentLoaded', function removePreloader() {

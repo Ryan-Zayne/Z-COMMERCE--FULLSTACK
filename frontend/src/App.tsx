@@ -1,5 +1,4 @@
 import { useMediaQuery } from '@/lib/hooks/index.ts';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Suspense } from 'react';
@@ -20,8 +19,6 @@ function App() {
 			</Suspense>
 
 			<DismissableToaster />
-
-			<SpeedInsights />
 		</>
 	);
 }

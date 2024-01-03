@@ -86,7 +86,7 @@ function LoadingSkeleton({ count = 5, type = 'genericPage' }: SkeletonProps) {
 		},
 	};
 
-	return (SKELETON_LOOKUP[type] ?? SKELETON_LOOKUP.default)();
+	return SKELETON_LOOKUP[type]();
 }
 
 export default LoadingSkeleton;

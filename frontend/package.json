@@ -10,13 +10,12 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"format": "prettier . --write",
-		"lint": "concurrently 'eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0' 'tsc -w"
+		"lint": "eslint src/**/*.{ts,tsx} --report-unused-disable-directives --max-warnings 0"
 	},
 	"dependencies": {
 		"@headlessui/react": "^1.7.17",
 		"@hookform/resolvers": "^3.3.2",
 		"@tanstack/react-query": "^5.13.4",
-		"@vercel/speed-insights": "^1.0.2",
 		"aos": "^2.3.4",
 		"clsx": "^2.0.0",
 		"react": "^18.2.0",

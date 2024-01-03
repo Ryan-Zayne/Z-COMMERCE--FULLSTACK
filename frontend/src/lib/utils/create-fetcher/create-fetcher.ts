@@ -9,7 +9,7 @@ import { HTTPError, getResponseData } from './create-fetcher.utils.ts';
 const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: BaseFetchConfig) => {
 	const {
 		baseURL,
-		timeout: baseTimeout = 10000,
+		timeout: baseTimeout,
 		interceptors: baseInterceptors = {},
 		defaultErrorMessage = 'Failed to fetch data from server!',
 		...restOfBaseConfig
@@ -35,18 +35,18 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 
 		const controller = new AbortController();
 		abortControllerStore.set(url, controller);
-		const timeoutId = window.setTimeout(() => controller.abort(), timeout);
+		const timeoutId = timeout && window.setTimeout(() => controller.abort(), timeout);
 
 		try {
 			const { requestInterceptor, responseInterceptor } = interceptors;
 
-			const modifiedFetchConfig = (await requestInterceptor?.(restOfFetchConfig)) ?? restOfFetchConfig;
+			await requestInterceptor?.(restOfFetchConfig);
 
 			const response = await fetch(`${baseURL}${url}`, {
 				signal: controller.signal,
 				method: 'GET',
 				...restOfBaseConfig,
-				...modifiedFetchConfig,
+				...restOfFetchConfig,
 			});
 
 			await responseInterceptor?.(response);
@@ -99,7 +99,7 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 			// Clean up the timeout and remove the now unneeded AbortController from store
 		} finally {
 			abortControllerStore.delete(url);
-			window.clearTimeout(timeoutId);
+			timeoutId && window.clearTimeout(timeoutId);
 		}
 	}
 

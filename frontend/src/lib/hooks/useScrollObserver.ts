@@ -17,7 +17,7 @@ const useScrollObserver = <T extends HTMLElement = HTMLDivElement>(
 		function scrollObservationEffect() {
 			const elementNode = elementRef.current;
 			const scrollWatcher = document.createElement('span');
-			scrollWatcher.dataset.scrollWatcher = '';
+			scrollWatcher.dataset.scrollTracker = '';
 
 			if (elementNode) {
 				elementNode.before(scrollWatcher);
@@ -37,3 +37,4 @@ const useScrollObserver = <T extends HTMLElement = HTMLDivElement>(
 };
 
 export { useScrollObserver };
+

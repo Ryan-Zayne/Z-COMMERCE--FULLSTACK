@@ -64,17 +64,25 @@
 		box-sizing: border-box;
 	}
 
+
+
 	/* -------------------------- */
 	/* Making basic style resets */
 	/* ------------------------- */
+
+
+	html {
+		height: 100%;
+	}
+
+	body {
+		min-height: 100%;
+	}
+
 	html {
 		font-size: 62.5%;
 		scroll-behavior: smooth;
 		/* -webkit-tap-highlight-color: transparent; */
-	}
-
-	:where(html.theme-transition *) {
-		transition: background-color 500ms ease-in-out;
 	}
 
 	input:focus-visible {
@@ -90,6 +98,11 @@
 
 	button {
 		outline: transparent;
+	}
+
+	/* Enabling theme transition */
+	:where(html.theme-transition *) {
+		transition: background-color 500ms ease-in-out;
 	}
 
 	body {

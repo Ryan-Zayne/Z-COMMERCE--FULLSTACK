@@ -1,7 +1,7 @@
 import { isBrowser } from './constants.ts';
 
 const parseJSON = <TResult>(value: ReturnType<typeof localStorage.getItem>) => {
-	if (!isBrowser || value == null) {
+	if (!isBrowser || value === null) {
 		return null;
 	}
 

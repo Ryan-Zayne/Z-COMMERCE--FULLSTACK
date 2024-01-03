@@ -7,9 +7,8 @@
 
 	"include": [
 		"../env.d.ts",
-		"../.prettierrc.js",
-		"../postcss.config.js",
-		"../src",
+		"../src/**/*.ts",
+		"../src/**/*.tsx",
 		"../tailwind.config.ts",
 		"../vite-types.d.ts",
 		"../reset.d.ts",
