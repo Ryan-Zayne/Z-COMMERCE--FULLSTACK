@@ -1,0 +1,10 @@
+{
+	"plugins": ["prettier-plugin-tailwindcss"],
+	"tailwindFunctions": ["cnMerge", "cnJoin"],
+	"jsxSingleQuote": false,
+	"printWidth": 107,
+	"singleQuote": true,
+	"tabWidth": 3,
+	"trailingComma": "es5",
+	"useTabs": true
+}
