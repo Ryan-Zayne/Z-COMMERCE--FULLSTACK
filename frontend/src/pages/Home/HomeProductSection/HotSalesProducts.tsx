@@ -1,13 +1,13 @@
-import { ProductCard } from '@/components/ui/index.ts';
-import { assertDefined } from '@/lib/types/global-type-helpers.ts';
-import type { DataArrayProp } from './home-product.types';
+import { ProductCard } from "@/components/ui/index.ts";
+import { assertDefined } from "@/lib/types/global-type-helpers.ts";
+import type { DataArrayProp } from "./home-product.types";
 
 function HotSalesProducts({ data }: DataArrayProp) {
 	const ProductCards = data.map((product) => (
 		<ProductCard
 			key={product?.id}
 			link={`/products/${product?.category}/${product?.id}`}
-			image={product?.images[0] ?? ''}
+			image={product?.images[0] ?? ""}
 			productItem={assertDefined(product)}
 		/>
 	));

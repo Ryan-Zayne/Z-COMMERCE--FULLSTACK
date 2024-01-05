@@ -1,22 +1,27 @@
-export type BaseFetchConfig = Omit<RequestInit, 'method'> & {
+export type BaseFetchConfig = {
 	baseURL: string;
 
-	method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+	method?: "GET" | "POST" | "PATCH" | "DELETE";
 
 	timeout?: number;
 
 	defaultErrorMessage?: string;
 
 	interceptors?: {
-		requestInterceptor?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
+		onRequest?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
 
-		responseInterceptor?: (response: Response) => Promise<void> | void;
+		onRequestError?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
+
+		onResponse?: (response: Response) => Promise<void> | void;
+
+		onResponseError?: (response: Response) => Promise<void> | void;
 	};
-};
+} & Omit<RequestInit, "method" | "body">;
 
-export type FetchConfig = Omit<BaseFetchConfig, 'baseURL' | 'defaultErrorMessage'>;
+export type FetchConfig = Omit<BaseFetchConfig, "baseURL" | "defaultErrorMessage"> &
+	Pick<RequestInit, "body">;
 
-export type ApiResponseData<TData, TError = { status: 'error'; message: string }> =
+export type ApiResponseData<TData, TError = { status: "error"; message: string }> =
 	| {
 			dataInfo: TData;
 			errorInfo: null;
@@ -27,6 +32,6 @@ export type ApiResponseData<TData, TError = { status: 'error'; message: string }
 	  };
 
 export type DefaultErrorType = {
-	status: 'error';
+	status: "error";
 	message: string;
 };

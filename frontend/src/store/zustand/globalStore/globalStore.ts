@@ -1,8 +1,8 @@
-import { create, type StateCreator } from 'zustand';
-import { useShallow } from 'zustand/react/shallow';
-import type { GlobalStore } from '../zustand-store.types';
-import { createGlobalStateSlice } from './slices/globalStateSlice.ts';
-import { createMediaQuerySlice } from './slices/mediaQuerySlice.ts';
+import { create, type StateCreator } from "zustand";
+import { useShallow } from "zustand/react/shallow";
+import type { GlobalStore } from "../zustand-store.types";
+import { createGlobalStateSlice } from "./slices/globalStateSlice.ts";
+import { createMediaQuerySlice } from "./slices/mediaQuerySlice.ts";
 
 // State Object creation
 const globalStoreObjectFn: StateCreator<GlobalStore> = (...params) => ({

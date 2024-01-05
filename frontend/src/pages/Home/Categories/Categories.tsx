@@ -1,49 +1,49 @@
-import Button from '@/components/primitives/Button.tsx';
-import { useElementList } from '@/lib/hooks/useElementList.ts';
-import { cnJoin } from '@/lib/utils/cn.ts';
-import { useThemeStore } from '@/store/zustand/themeStore.ts';
-import { Link } from 'react-router-dom';
+import Button from "@/components/primitives/Button.tsx";
+import { useElementList } from "@/lib/hooks/useElementList.ts";
+import { cnJoin } from "@/lib/utils/cn.ts";
+import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import { Link } from "react-router-dom";
 
 const categories = [
 	{
-		title: 'SmartPhones',
-		path: 'products/smartphones',
-		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436586/smartphone-transformed_jbfngh_t4v6hj.webp',
-		imageAspectRatio: 'aspect-[0.83]',
-		bg_light: 'bg-orange-400',
-		bg_dark: 'bg-[hsl(27,96%,33%)]',
+		title: "SmartPhones",
+		path: "products/smartphones",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436586/smartphone-transformed_jbfngh_t4v6hj.webp",
+		imageAspectRatio: "aspect-[0.83]",
+		bg_light: "bg-orange-400",
+		bg_dark: "bg-[hsl(27,96%,33%)]",
 	},
 	{
-		title: 'Laptops',
-		path: 'products/laptops',
-		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436585/laptop-transformed_dhamlu_dmts1f.webp',
-		imageAspectRatio: 'aspect-[1.33]',
-		bg_light: 'bg-gray-400',
-		bg_dark: 'bg-[hsl(200,6%,31%)]',
+		title: "Laptops",
+		path: "products/laptops",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436585/laptop-transformed_dhamlu_dmts1f.webp",
+		imageAspectRatio: "aspect-[1.33]",
+		bg_light: "bg-gray-400",
+		bg_dark: "bg-[hsl(200,6%,31%)]",
 	},
 	{
-		title: 'Vehicles',
-		path: 'products/vehicles',
-		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436585/car-transformed_wegeou.webp',
-		imageAspectRatio: 'aspect-[2.02]',
-		bg_light: 'bg-purple-400',
-		bg_dark: 'bg-[hsl(270,95%,25%)]',
+		title: "Vehicles",
+		path: "products/vehicles",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436585/car-transformed_wegeou.webp",
+		imageAspectRatio: "aspect-[2.02]",
+		bg_light: "bg-purple-400",
+		bg_dark: "bg-[hsl(270,95%,25%)]",
 	},
 	{
-		title: 'Watches',
-		path: 'products/watches',
-		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436588/watches-transformed_tgsflz.webp',
-		imageAspectRatio: 'aspect-[1.21]',
-		bg_light: 'bg-cyan-400',
-		bg_dark: 'bg-[hsl(188,86%,38%)]',
+		title: "Watches",
+		path: "products/watches",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436588/watches-transformed_tgsflz.webp",
+		imageAspectRatio: "aspect-[1.21]",
+		bg_light: "bg-cyan-400",
+		bg_dark: "bg-[hsl(188,86%,38%)]",
 	},
 	{
-		title: 'Digital Lighting',
-		path: 'products/lighting',
-		image: 'https://res.cloudinary.com/djvestif4/image/upload/v1685436587/lighting-transformed_bzmi3h.webp',
-		imageAspectRatio: 'aspect-[1.03]',
-		bg_light: 'bg-green-300',
-		bg_dark: 'bg-[hsl(151,76%,26%)]',
+		title: "Digital Lighting",
+		path: "products/lighting",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436587/lighting-transformed_bzmi3h.webp",
+		imageAspectRatio: "aspect-[1.03]",
+		bg_light: "bg-green-300",
+		bg_dark: "bg-[hsl(151,76%,26%)]",
 	},
 ];
 
@@ -74,10 +74,10 @@ function Categories() {
 
 								<Link to={`${category.path}`}>
 									<Button
-										text={'Shop Now'}
-										variant={'shop'}
+										text={"Shop Now"}
+										variant={"shop"}
 										className={
-											'w-full bg-body p-[0.8rem] text-[--text-body] active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]'
+											"w-full bg-body p-[0.8rem] text-[--text-body] active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]"
 										}
 									/>
 								</Link>

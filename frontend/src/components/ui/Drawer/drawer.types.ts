@@ -1,4 +1,4 @@
-import type { StoreApi } from 'zustand';
+import type { StoreApi } from "zustand";
 
 // Drawer store types
 export type DrawerStore = {
@@ -11,12 +11,12 @@ export type DrawerProviderProps = { children: React.ReactNode; storeValues: Draw
 export type DrawerStoreApi = StoreApi<DrawerStore>;
 
 // Drawer component types
-export type DrawerRootProps = Pick<DrawerProviderProps, 'children'> & DrawerStore;
+export type DrawerRootProps = Pick<DrawerProviderProps, "children"> & DrawerStore;
 
-export type DrawerContentProps = Pick<DrawerProviderProps, 'children'> & {
+export type DrawerContentProps = Pick<DrawerProviderProps, "children"> & {
 	className?: string;
-	placement?: 'left' | 'right';
+	placement?: "left" | "right";
 };
 
-export type DrawerCloseProps = Pick<DrawerContentProps, 'className'> & { icon?: React.ReactNode };
-export type OtherDrawerProps = Omit<DrawerContentProps, 'placement'>;
+export type DrawerCloseProps = Pick<DrawerContentProps, "className"> & { icon?: React.ReactNode };
+export type OtherDrawerProps = Omit<DrawerContentProps, "placement">;

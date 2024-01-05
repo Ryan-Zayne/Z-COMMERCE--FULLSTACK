@@ -1,31 +1,31 @@
-import { assertDefined } from '@/lib/types/global-type-helpers.ts';
-import { useGetAllProducts } from './useGetAllProducts.ts';
+import { assertDefined } from "@/lib/types/global-type-helpers.ts";
+import { useGetAllProducts } from "./useGetAllProducts.ts";
 
-const possibleCategories = new Set(['smartphones', 'laptops', 'watches', 'vehicles', 'lighting']);
+const possibleCategories = new Set(["smartphones", "laptops", "watches", "vehicles", "lighting"]);
 
 const useGetProductCategory = (productCategory: string | undefined) => {
 	const { allProductsArray, isError, isPending } = useGetAllProducts();
 
 	if (!productCategory || !possibleCategories.has(productCategory)) {
-		throw new Error('Category not found!');
+		throw new Error("Category not found!");
 	}
 
 	const PRODUCTS_LOOKUP = new Map([
 		[productCategory, allProductsArray.filter((item) => item?.category === productCategory)],
 
 		[
-			'vehicles',
+			"vehicles",
 			[
-				...allProductsArray.filter((item) => item?.category === 'motorcycle'),
-				...allProductsArray.filter((item) => item?.category === 'automotive'),
+				...allProductsArray.filter((item) => item?.category === "motorcycle"),
+				...allProductsArray.filter((item) => item?.category === "automotive"),
 			],
 		],
 
 		[
-			'watches',
+			"watches",
 			[
-				...allProductsArray.filter((item) => item?.category === 'mens-watches'),
-				...allProductsArray.filter((item) => item?.category === 'womens-watches'),
+				...allProductsArray.filter((item) => item?.category === "mens-watches"),
+				...allProductsArray.filter((item) => item?.category === "womens-watches"),
 			],
 		],
 	]);

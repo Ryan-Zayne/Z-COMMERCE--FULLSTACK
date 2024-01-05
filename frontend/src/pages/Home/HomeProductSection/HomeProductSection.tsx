@@ -1,8 +1,8 @@
-import { LoadingSkeleton } from '@/components/ui/index.ts';
-import { useGetHomePageProducts } from '@/store/react-query/useGetHomePageProducts.ts';
-import HotSalesProducts from './HotSalesProducts.tsx';
-import RecentProducts from './RecentProducts.tsx';
-import SimilarProducts from './SimilarProducts.tsx';
+import { LoadingSkeleton } from "@/components/ui/index.ts";
+import { useGetHomePageProducts } from "@/store/react-query/useGetHomePageProducts.ts";
+import HotSalesProducts from "./HotSalesProducts.tsx";
+import RecentProducts from "./RecentProducts.tsx";
+import SimilarProducts from "./SimilarProducts.tsx";
 
 function HomeProductSection() {
 	// prettier-ignore

@@ -1,13 +1,13 @@
-import { cnMerge } from '@/lib/utils/cn.ts';
-import { useEffect, useState } from 'react';
+import { cnMerge } from "@/lib/utils/cn.ts";
+import { useEffect, useState } from "react";
 
-type ImageComponentProps = React.ComponentPropsWithRef<'img'> & {
+type ImageComponentProps = React.ComponentPropsWithRef<"img"> & {
 	src: string;
-	imageType: 'hasFallback' | 'hasSkeleton';
+	imageType: "hasFallback" | "hasSkeleton";
 	blurSrc?: string;
 	className?: string;
 	wrapperClassName?: string;
-	fetchpriority?: 'auto' | 'low' | 'high';
+	fetchpriority?: "auto" | "low" | "high";
 };
 
 const img = new Image();
@@ -16,9 +16,9 @@ function ImageComponent(props: ImageComponentProps) {
 	const {
 		src,
 		imageType,
-		blurSrc = '',
-		className = '',
-		wrapperClassName = '',
+		blurSrc = "",
+		className = "",
+		wrapperClassName = "",
 		onClick,
 		...restOfProps
 	} = props;
@@ -33,10 +33,10 @@ function ImageComponent(props: ImageComponentProps) {
 			if (img.complete) {
 				handleImageLoad();
 			} else {
-				img.addEventListener('load', handleImageLoad);
+				img.addEventListener("load", handleImageLoad);
 			}
 
-			return () => img.removeEventListener('load', handleImageLoad);
+			return () => img.removeEventListener("load", handleImageLoad);
 		},
 		[src]
 	);
@@ -45,7 +45,7 @@ function ImageComponent(props: ImageComponentProps) {
 		hasFallback: () => (
 			<img
 				src={isImageLoaded ? src : blurSrc}
-				className={cnMerge('object-cover', className)}
+				className={cnMerge("object-cover", className)}
 				alt=""
 				{...restOfProps}
 			/>
@@ -54,8 +54,8 @@ function ImageComponent(props: ImageComponentProps) {
 		hasSkeleton: () => (
 			<div
 				className={cnMerge(
-					'h-full w-full',
-					[!isImageLoaded && 'relative bg-white/[0.17] invert dark:bg-black/[0.17] dark:invert-0'],
+					"h-full w-full",
+					[!isImageLoaded && "relative bg-white/[0.17] invert dark:bg-black/[0.17] dark:invert-0"],
 					[wrapperClassName]
 				)}
 				onClick={onClick}
@@ -64,7 +64,7 @@ function ImageComponent(props: ImageComponentProps) {
 					<span className="absolute inset-0 z-[1] animate-zoom [background-image:linear-gradient(100deg,_transparent_20%,_hsla(0,0%,100%,0.3)_50%,_transparent_80%)]" />
 				) : (
 					<img
-						className={cnMerge('object-cover', 'h-full', [className])}
+						className={cnMerge("object-cover", "h-full", [className])}
 						src={src}
 						alt=""
 						{...restOfProps}

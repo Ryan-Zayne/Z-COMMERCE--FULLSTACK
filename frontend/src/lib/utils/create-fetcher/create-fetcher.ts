@@ -3,26 +3,27 @@ import type {
 	BaseFetchConfig,
 	DefaultErrorType,
 	FetchConfig,
-} from './create-fetcher.types.ts';
-import { HTTPError, getResponseData } from './create-fetcher.utils.ts';
+} from "./create-fetcher.types.ts";
+import { HTTPError, getResponseData } from "./create-fetcher.utils.ts";
 
 const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: BaseFetchConfig) => {
 	const {
 		baseURL,
 		timeout: baseTimeout,
 		interceptors: baseInterceptors = {},
-		defaultErrorMessage = 'Failed to fetch data from server!',
+		defaultErrorMessage = "Failed to fetch data from server!",
 		...restOfBaseConfig
 	} = baseConfig;
 
 	const abortControllerStore = new Map<`/${string}`, AbortController>();
 
-	async function fetchApiInstance<TData = TBaseData, TError = TBaseError>(
+	async function fetchWrapper<TData = TBaseData, TError = TBaseError>(
 		url: `/${string}`,
 		config?: FetchConfig
 	): Promise<ApiResponseData<TData, TError>> {
 		const {
 			timeout = baseTimeout,
+			body,
 			interceptors = baseInterceptors,
 			...restOfFetchConfig
 		} = config ?? {};
@@ -35,31 +36,41 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 
 		const controller = new AbortController();
 		abortControllerStore.set(url, controller);
+
 		const timeoutId = timeout && window.setTimeout(() => controller.abort(), timeout);
 
 		try {
-			const { requestInterceptor, responseInterceptor } = interceptors;
+			const { onRequest, onResponse, onResponseError } = interceptors;
 
-			await requestInterceptor?.(restOfFetchConfig);
+			await onRequest?.(restOfFetchConfig);
 
 			const response = await fetch(`${baseURL}${url}`, {
 				signal: controller.signal,
-				method: 'GET',
+				method: "GET", // Setting default method as GET
+				body: body ? JSON.stringify(body) : undefined,
+				headers: body
+					? {
+							"content-type": "application/json",
+							accept: "application/json",
+						}
+					: undefined,
 				...restOfBaseConfig,
 				...restOfFetchConfig,
 			});
 
-			await responseInterceptor?.(response);
-
 			if (!response.ok) {
+				await onResponseError?.(response);
+
 				return {
 					dataInfo: null,
 					errorInfo: new HTTPError({
-						defaultErrorMessage,
 						responseData: await getResponseData<TError>(response),
+						defaultErrorMessage,
 					}) as TError,
 				};
 			}
+
+			await onResponse?.(response);
 
 			return {
 				dataInfo: await getResponseData<TData>(response),
@@ -68,21 +79,25 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 
 			// Exhaustive Error handling
 		} catch (error) {
-			if (error instanceof DOMException && error.name === 'AbortError') {
+			if (error instanceof DOMException && error.name === "AbortError") {
 				return {
 					dataInfo: null,
 					errorInfo: {
-						status: 'error',
+						status: "error",
 						message: `Request timed out after ${timeout}ms`,
 					} as TError,
 				};
 			}
 
+			const { onRequestError } = interceptors;
+
+			await onRequestError?.(restOfFetchConfig);
+
 			if (error instanceof TypeError || error instanceof SyntaxError || error instanceof Error) {
 				return {
 					dataInfo: null,
 					errorInfo: {
-						status: 'error',
+						status: "error",
 						message: error.message,
 					} as TError,
 				};
@@ -91,7 +106,7 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 			return {
 				dataInfo: null,
 				errorInfo: {
-					status: 'error',
+					status: "error",
 					message: defaultErrorMessage,
 				} as TError,
 			};
@@ -103,7 +118,7 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 		}
 	}
 
-	return fetchApiInstance;
+	return fetchWrapper;
 };
 
 export { createFetcher };

@@ -1,5 +1,5 @@
-import { isArray, isObject } from '@/lib/types/typeof.ts';
-import { pickKeys } from './pickKeys.ts';
+import { isArray, isObject } from "@/lib/types/typeof.ts";
+import { pickKeys } from "./pickKeys.ts";
 
 type SyncStorageParams =
 	| [key: string, state: string]
@@ -44,6 +44,6 @@ function syncStateWithStorage(...params: SyncStorageParams): void {
 	}
 }
 
-syncStateWithStorage('sdsdd', { state: 'hello', age: 11 }, ['age']);
+syncStateWithStorage("sdsdd", { state: "hello", age: 11 }, ["age"]);
 
 export { syncStateWithStorage };

@@ -1,5 +1,5 @@
-import { useElementList } from '@/lib/hooks/useElementList.ts';
-import { cnMerge } from '@/lib/utils/cn.ts';
+import { useElementList } from "@/lib/hooks/useElementList.ts";
+import { cnMerge } from "@/lib/utils/cn.ts";
 
 type ErrorTextProps = {
 	className?: string;
@@ -8,7 +8,7 @@ type ErrorTextProps = {
 
 function ErrorParagraph({ className, message }: ErrorTextProps) {
 	const { For: ErrorMessageList } = useElementList();
-	const paragraphClasses = 'animate-shake pt-[0.3rem] text-[1.1rem] text-error';
+	const paragraphClasses = "animate-shake pt-[0.3rem] text-[1.1rem] text-error";
 	const splitterRegex = /, (?=[A-Z])/;
 
 	if (message && splitterRegex.test(message)) {
@@ -21,7 +21,7 @@ function ErrorParagraph({ className, message }: ErrorTextProps) {
 						className={cnMerge(
 							`ml-[1.5rem] list-item ${paragraphClasses}`,
 							[className],
-							[index === 0 && 'mt-[0.4rem]']
+							[index === 0 && "mt-[0.4rem]"]
 						)}
 					>{`${messageItem}.`}</p>
 				)}

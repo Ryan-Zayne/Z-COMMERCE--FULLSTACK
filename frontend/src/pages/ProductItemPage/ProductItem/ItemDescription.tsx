@@ -1,9 +1,9 @@
-import { Button } from '@/components/primitives/index.ts';
-import StarRating from '@/components/primitives/StarRating.tsx';
-import type { DummyResponseDataItem } from '@/store/react-query/react-query-store.types.ts';
-import { useShopActions, useShopStore } from '@/store/zustand/shopStore.ts';
-import { AiFillMinusCircle, AiFillPlusCircle, AiOutlineShoppingCart } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Button } from "@/components/primitives/index.ts";
+import StarRating from "@/components/primitives/StarRating.tsx";
+import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types.ts";
+import { useShopActions, useShopStore } from "@/store/zustand/shopStore.ts";
+import { AiFillMinusCircle, AiFillPlusCircle, AiOutlineShoppingCart } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 type ItemDescriptionProps = {
 	productItem: DummyResponseDataItem;
@@ -45,7 +45,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 					<StarRating
 						className="mt-[0.4rem] text-[1.6rem]"
 						rating={productItem.rating}
-						text={'reviews'}
+						text={"reviews"}
 					/>
 				</div>
 				<p className="text-[2.3rem] font-[500] lg:text-[3rem]">
@@ -97,20 +97,20 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 
 			<div className="mt-[4rem] flex gap-[3rem] font-[500] md:mt-auto md:justify-between">
 				<Button
-					theme={'secondary'}
-					variant={'shop'}
+					theme={"secondary"}
+					variant={"shop"}
 					className={
-						'w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out  [box-shadow:0_0_0_1.3px_var(--color-secondary)] hover:scale-[1.1] hover:bg-heading hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)] active:scale-[1.1] lg:w-[20rem]'
+						"w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out  [box-shadow:0_0_0_1.3px_var(--color-secondary)] hover:scale-[1.1] hover:bg-heading hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)] active:scale-[1.1] lg:w-[20rem]"
 					}
 				>
-					<Link to={'/checkout'}>Buy Now</Link>
+					<Link to={"/checkout"}>Buy Now</Link>
 				</Button>
 
 				<Button
-					theme={'ghost'}
-					variant={'shop'}
+					theme={"ghost"}
+					variant={"shop"}
 					className={
-						'w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out [box-shadow:0_0_0_1.3px_var(--color-primary)] hover:scale-[1.1] hover:bg-heading hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)] active:scale-[1.17] lg:w-[20rem]'
+						"w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out [box-shadow:0_0_0_1.3px_var(--color-primary)] hover:scale-[1.1] hover:bg-heading hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)] active:scale-[1.17] lg:w-[20rem]"
 					}
 					onClick={handlePlus}
 				>

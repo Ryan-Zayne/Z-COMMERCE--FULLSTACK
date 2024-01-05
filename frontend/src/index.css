@@ -24,7 +24,7 @@
 		--text-label: hsl(0, 0%, 45%);
 	}
 
-	:root[data-theme='dark'] {
+	:root[data-theme="dark"] {
 		--text-header: hsl(43, 67%, 50%);
 		--text-light: hsl(34, 5%, 71%);
 		--text-body: whitesmoke;
@@ -42,16 +42,14 @@
 	}
 
 	@font-face {
-		font-family: 'Rubik';
-		src:
-			url('/fonts/Rubik.woff2') format('woff2');
+		font-family: "Rubik";
+		src: url("/fonts/Rubik.woff2") format("woff2");
 		font-style: normal;
 	}
 
 	@font-face {
-		font-family: 'Roboto Slab';
-		src:
-			url('/fonts/Roboto-slab.woff2') format('woff2');
+		font-family: "Roboto Slab";
+		src: url("/fonts/Roboto-slab.woff2") format("woff2");
 		font-style: normal;
 	}
 
@@ -64,12 +62,9 @@
 		box-sizing: border-box;
 	}
 
-
-
 	/* -------------------------- */
 	/* Making basic style resets */
 	/* ------------------------- */
-
 
 	html {
 		height: 100%;
@@ -111,7 +106,7 @@
 
 		position: relative;
 		font-size: 1.6rem;
-		font-family: theme('fontFamily.rubik');
+		font-family: theme("fontFamily.rubik");
 		background-color: var(--color-body);
 		color: var(--text-body);
 	}
@@ -139,7 +134,7 @@
 	}
 
 	.react-loading-skeleton::after {
-		content: ' ';
+		content: " ";
 		display: var(--pseudo-element-display);
 		position: absolute;
 		top: 0;
@@ -147,10 +142,12 @@
 		right: 0;
 		height: 100%;
 		background-repeat: no-repeat;
-		background-image: linear-gradient(90deg,
-				var(--base-color),
-				var(--highlight-color),
-				var(--base-color));
+		background-image: linear-gradient(
+			90deg,
+			var(--base-color),
+			var(--highlight-color),
+			var(--base-color)
+		);
 		transform: translateX(-100%);
 
 		animation-name: react-loading-skeleton;

@@ -1,30 +1,26 @@
-import { BASE_AUTH_URL } from '@/lib/utils/constants.ts';
-import type { HTTPError } from '@/lib/utils/create-fetcher/create-fetcher.utils.ts';
-import { createFetcher } from '@/lib/utils/create-fetcher/index.ts';
-import type { FormSchemaType } from '@/pages/AuthPage/components/FormArea/form.types.ts';
+import { BASE_AUTH_URL } from "@/lib/utils/constants.ts";
+import type { HTTPError } from "@/lib/utils/create-fetcher/create-fetcher.utils.ts";
+import { createFetcher } from "@/lib/utils/create-fetcher/index.ts";
+import type { FormSchemaType } from "@/pages/AuthPage/components/FormArea/form.types.ts";
 
 type FormResponseDataType = {
-	status: 'success';
+	status: "success";
 	accessToken: string;
 	user: { name: string; email: string };
 };
 
 export type FormErrorResponseType =
-	| { status: 'error'; errors: Array<[keyof FormSchemaType, string | string[]]> }
-	| { status: 'error'; errorTitle: string; message: string; stackTrace: string };
+	| { status: "error"; errors: Array<[keyof FormSchemaType, string | string[]]> }
+	| { status: "error"; errorTitle: string; message: string; stackTrace: string };
 
 const fetchFormResponse = createFetcher<FormResponseDataType, HTTPError<FormErrorResponseType>>({
 	baseURL: BASE_AUTH_URL,
 
-	defaultErrorMessage: 'Failed to submit form',
+	defaultErrorMessage: "Failed to submit form",
 
-	method: 'POST',
+	method: "POST",
 
-	headers: {
-		'Content-Type': 'application/json',
-	},
-
-	credentials: 'same-origin',
+	credentials: "same-origin",
 });
 
 export { fetchFormResponse };

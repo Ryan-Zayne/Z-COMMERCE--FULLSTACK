@@ -1,20 +1,19 @@
-import { createCustomContext } from '@/lib/hooks/custom-context-hook/index.ts';
-import { useState } from 'react';
-import { createStore } from 'zustand';
-import type { CarouselProviderProps, CarouselStore, CarouselStoreApi } from './carousel.types';
+import { createCustomContext } from "@/lib/hooks/custom-context-hook/index.ts";
+import { useState } from "react";
+import { createStore } from "zustand";
+import type { CarouselProviderProps, CarouselStore, CarouselStoreApi } from "./carousel.types";
 
 const [Provider, useCustomCarouselContext] = createCustomContext<CarouselStoreApi>({
-	name: 'CarouselStoreContext',
-	hookName: 'useCarouselStore',
-	providerName: 'CarouselContextProvider',
-	defaultValue: null,
+	name: "CarouselStoreContext",
+	hookName: "useCarouselStore",
+	providerName: "CarouselContextProvider",
 });
 
 // CarouselStore Creation
 const createCarouselStore = ({
 	slideImages,
 	slideButtonSideEffect,
-}: Omit<CarouselProviderProps, 'children'>) =>
+}: Omit<CarouselProviderProps, "children">) =>
 	createStore<CarouselStore>((set, get) => ({
 		currentSlide: 0,
 		maxSlide: slideImages.length - 1,

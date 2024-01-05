@@ -1,5 +1,5 @@
-import { Footer, Navbar, ScrollToTopButton } from '@/components/ui/index.ts';
-import { Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
+import { Footer, Navbar, ScrollToTopButton } from "@/components/ui/index.ts";
+import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 
 const productItemPathPattern = /^\/products\/[a-z]+\/\d+$/;
 

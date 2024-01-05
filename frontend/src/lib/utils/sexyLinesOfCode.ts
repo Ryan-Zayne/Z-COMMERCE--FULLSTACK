@@ -2,7 +2,7 @@
 /* eslint-disable write-good-comments/write-good-comments */
 
 // == This, is beauty...
-(({ age, ...rest }) => rest)({ name: 'a', age: 1, id: 1 });
+(({ age, ...rest }) => rest)({ name: "a", age: 1, id: 1 });
 
 // == This gets input data from a form and returns it in the form of an object instead of a Map. Sexy stuff IMO...
 const getFormData = (event: SubmitEvent) => {
@@ -14,7 +14,7 @@ const getFormData = (event: SubmitEvent) => {
 
 // == This is a function that tries to mimic the overloaded crypto.randomInt function
 type CallBackFnType = (err: Error | null, value: number) => void;
-const crypto = await import('node:crypto');
+const crypto = await import("node:crypto");
 
 function randomIntOverload(max: number): number;
 function randomIntOverload(min: number, max: number): number;
@@ -34,7 +34,7 @@ function randomIntOverload(...args: unknown[]): unknown {
 		},
 
 		2: ([arg1, arg2]: [number, number | CallBackFnType]) => {
-			if (typeof arg2 === 'function') {
+			if (typeof arg2 === "function") {
 				const max = arg1;
 				const callbackFn = arg2;
 				const randomInt = crypto.randomInt(max);
@@ -65,4 +65,4 @@ function randomIntOverload(...args: unknown[]): unknown {
 }
 
 // == Comparison alternative to avoid timing attacks
-const isTargetToken = crypto.timingSafeEqual(Buffer.from('token'), Buffer.from('refreshToken')); // To avoid timing attacks
+const isTargetToken = crypto.timingSafeEqual(Buffer.from("token"), Buffer.from("refreshToken")); // To avoid timing attacks

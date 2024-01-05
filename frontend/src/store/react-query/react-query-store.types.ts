@@ -13,4 +13,4 @@ export type DummyResponseData = {
 	}>;
 };
 
-export type DummyResponseDataItem = DummyResponseData['products'][number];
+export type DummyResponseDataItem = DummyResponseData["products"][number];

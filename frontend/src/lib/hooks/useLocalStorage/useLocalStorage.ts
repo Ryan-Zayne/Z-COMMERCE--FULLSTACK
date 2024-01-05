@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { dispatchStorageEvent } from './dispatchStorageEvent.ts';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { dispatchStorageEvent } from "./dispatchStorageEvent.ts";
 
 type StorageHookOptions<TValue> = {
 	syncData?: boolean;
@@ -56,7 +56,7 @@ const useLocalStorage = <TValue>(
 
 	useEffect(
 		function handleStorageUpdateEffect() {
-			if (typeof window === 'undefined') return;
+			if (typeof window === "undefined") return;
 
 			if (storageValue === null) {
 				// Dispatching the storage event to sync across tabs
@@ -107,11 +107,11 @@ const useLocalStorage = <TValue>(
 				}
 			};
 
-			window.addEventListener('storage', handleStorageSyncAcrossTabs);
+			window.addEventListener("storage", handleStorageSyncAcrossTabs);
 
 			// eslint-disable-next-line consistent-return
 			return () => {
-				window.removeEventListener('storage', handleStorageSyncAcrossTabs);
+				window.removeEventListener("storage", handleStorageSyncAcrossTabs);
 			};
 		},
 

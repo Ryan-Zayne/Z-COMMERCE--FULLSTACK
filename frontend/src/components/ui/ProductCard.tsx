@@ -1,13 +1,13 @@
-import { Button, Card, ImageComponent, StarRating } from '@/components/primitives/index.ts';
-import { useToggle } from '@/lib/hooks/index.ts';
-import { cnJoin, cnMerge } from '@/lib/utils/cn.ts';
-import type { DummyResponseDataItem } from '@/store/react-query/react-query-store.types';
-import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
-import { useShopActions, useShopStore } from '@/store/zustand/shopStore.ts';
-import { useThemeStore } from '@/store/zustand/themeStore.ts';
-import type { ResponseDataItemInCart } from '@/store/zustand/zustand-store.types';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Button, Card, ImageComponent, StarRating } from "@/components/primitives/index.ts";
+import { useToggle } from "@/lib/hooks/index.ts";
+import { cnJoin, cnMerge } from "@/lib/utils/cn.ts";
+import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
+import { useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
+import { useShopActions, useShopStore } from "@/store/zustand/shopStore.ts";
+import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import type { ResponseDataItemInCart } from "@/store/zustand/zustand-store.types";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 type ProductCardProps = {
 	link: string;
@@ -20,12 +20,12 @@ type ProductCardProps = {
 
 function ProductCard(props: ProductCardProps) {
 	const {
-		link = '',
+		link = "",
 		image,
 		productItem,
-		aosAnimation = 'zoom-in',
-		aosDuration = '500',
-		aosEasing = 'ease-in-out',
+		aosAnimation = "zoom-in",
+		aosDuration = "500",
+		aosEasing = "ease-in-out",
 	} = props;
 
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
@@ -51,15 +51,15 @@ function ProductCard(props: ProductCardProps) {
 
 	return (
 		<Card
-			as={'li'}
+			as={"li"}
 			className={cnMerge(
 				`group/card w-[min(100%,26rem)] rounded-[1.2rem] transition-[transform,box-shadow,background-color] duration-[1000ms] ease-in-out hover:scale-[1.03] hover:box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]`,
-				[isHearted && 'scale-[1.03] box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]'],
-				[isDarkMode && 'hover:bg-primary hover:box-shadow-[0_0_6px_0px_var(--carousel-dot)]'],
+				[isHearted && "scale-[1.03] box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]"],
+				[isDarkMode && "hover:bg-primary hover:box-shadow-[0_0_6px_0px_var(--carousel-dot)]"],
 				[
 					isHearted &&
 						isDarkMode &&
-						'scale-[1.03] bg-primary [box-shadow:0_0_6px_0px_var(--carousel-dot)]',
+						"scale-[1.03] bg-primary [box-shadow:0_0_6px_0px_var(--carousel-dot)]",
 				]
 			)}
 			aosAnimation={aosAnimation}
@@ -77,8 +77,8 @@ function ProductCard(props: ProductCardProps) {
 							`group/btn absolute bottom-[1.1rem] right-[1.3rem] z-[100] rounded-[50%] bg-primary p-[0.7rem]`,
 							[
 								isHearted
-									? 'translate-y-0 opacity-100'
-									: 'translate-y-[5rem] opacity-0 transition-[opacity,transform] duration-[1s] group-hover/card:translate-y-[0] group-hover/card:opacity-100',
+									? "translate-y-0 opacity-100"
+									: "translate-y-[5rem] opacity-0 transition-[opacity,transform] duration-[1s] group-hover/card:translate-y-[0] group-hover/card:opacity-100",
 							]
 						)}
 					>
@@ -92,11 +92,11 @@ function ProductCard(props: ProductCardProps) {
 					<ImageComponent
 						className={cnJoin(
 							`rounded-[0.8rem_0.8rem_0_0] brightness-[0.9] transition-[transform] duration-[800ms] ease-in-out group-hover/card:scale-[1.17]`,
-							isHearted && 'scale-[1.17]'
+							isHearted && "scale-[1.17]"
 						)}
 						src={image}
 						loading="lazy"
-						imageType={'hasSkeleton'}
+						imageType={"hasSkeleton"}
 						onClick={(e) => isMobile && e.preventDefault()}
 					/>
 				</Card.Header>
@@ -121,17 +121,17 @@ function ProductCard(props: ProductCardProps) {
 				<Card.Footer className="p-[1.3rem_1rem_1rem]">
 					<hr
 						className={cnJoin(
-							'h-[1.8px] bg-carousel-dot group-hover/card:opacity-100',
-							isHearted ? 'opacity-0' : 'opacity-100'
+							"h-[1.8px] bg-carousel-dot group-hover/card:opacity-100",
+							isHearted ? "opacity-0" : "opacity-100"
 						)}
 					/>
 
 					<Button
-						variant={'cart'}
-						theme={'secondary'}
-						text={'Add to Cart'}
+						variant={"cart"}
+						theme={"secondary"}
+						text={"Add to Cart"}
 						className={
-							'mt-[1rem] p-[0.8rem_1.3rem] text-[1.3rem] font-[500] active:translate-y-[0.15rem]'
+							"mt-[1rem] p-[0.8rem_1.3rem] text-[1.3rem] font-[500] active:translate-y-[0.15rem]"
 						}
 						onClick={handleAddToCart}
 					/>

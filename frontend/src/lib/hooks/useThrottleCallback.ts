@@ -1,6 +1,6 @@
-import { useCallback, useRef } from 'react';
-import { useAfterMountEffect } from './useAfterMountEffect.ts';
-import { useCallbackRef } from './useCallbackRef.ts';
+import { useCallback, useRef } from "react";
+import { useAfterMountEffect } from "./useAfterMountEffect.ts";
+import { useCallbackRef } from "./useCallbackRef.ts";
 
 const useThrottleByTimer = <V, R>(callbackFn: (...values: V[]) => R, delay: number) => {
 	const savedCallback = useCallbackRef(callbackFn);

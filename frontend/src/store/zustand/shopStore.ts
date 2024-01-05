@@ -1,21 +1,21 @@
-import { toast } from 'react-hot-toast';
-import { create, type StateCreator } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { useShallow } from 'zustand/react/shallow';
-import type { ShopStore } from './zustand-store.types';
+import { toast } from "react-hot-toast";
+import { create, type StateCreator } from "zustand";
+import { persist } from "zustand/middleware";
+import { useShallow } from "zustand/react/shallow";
+import type { ShopStore } from "./zustand-store.types";
 
 const toastInfo = {
 	added: {
-		message: 'Product added successfully',
-		id: 'toastId-added',
+		message: "Product added successfully",
+		id: "toastId-added",
 	},
 	updated: {
-		message: 'Item quantity has been updated',
-		id: 'toastId-updated',
+		message: "Item quantity has been updated",
+		id: "toastId-updated",
 	},
 	removed: {
-		message: 'Product was removed from cart',
-		id: 'toastId-removed',
+		message: "Product was removed from cart",
+		id: "toastId-removed",
 	},
 };
 
@@ -110,7 +110,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 // Store hook Creation
 export const useShopStore = create<ShopStore>()(
 	persist(shopStateObjectFn, {
-		name: 'shop',
+		name: "shop",
 		version: 1,
 		partialize: ({ shopActions, ...actualState }) => actualState,
 	})

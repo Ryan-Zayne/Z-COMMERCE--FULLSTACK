@@ -1,10 +1,10 @@
-import { cnMerge } from '@/lib/utils/cn.ts';
+import { cnMerge } from "@/lib/utils/cn.ts";
 
-type DropDownProps = React.ComponentPropsWithoutRef<'div'>;
+type DropDownProps = React.ComponentPropsWithoutRef<"div">;
 
-type DropDownHeaderProps = React.ComponentPropsWithoutRef<'header'>;
+type DropDownHeaderProps = React.ComponentPropsWithoutRef<"header">;
 
-type DropDownPanelProps = Pick<DropDownProps, 'id' | 'children'> & {
+type DropDownPanelProps = Pick<DropDownProps, "id" | "children"> & {
 	isOpen: boolean;
 	panelParentClasses?: string;
 	panelListClasses?: string;
@@ -19,18 +19,18 @@ DropDown.Header = function DropDownHeader({ children, ...otherHeaderElementProps
 };
 
 DropDown.Panel = function DropDownPanel(props: DropDownPanelProps) {
-	const { id = '', isOpen = false, children, panelListClasses = '', panelParentClasses = '' } = props;
+	const { id = "", isOpen = false, children, panelListClasses = "", panelParentClasses = "" } = props;
 
 	return (
 		<div
 			id={id}
 			className={cnMerge(
 				`invisible grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-[500ms]`,
-				{ 'visible grid-rows-[1fr]': isOpen },
+				{ "visible grid-rows-[1fr]": isOpen },
 				[panelParentClasses]
 			)}
 		>
-			<ul className={cnMerge('overflow-y-hidden [transition:padding_500ms]', panelListClasses)}>
+			<ul className={cnMerge("overflow-y-hidden [transition:padding_500ms]", panelListClasses)}>
 				{children}
 			</ul>
 		</div>

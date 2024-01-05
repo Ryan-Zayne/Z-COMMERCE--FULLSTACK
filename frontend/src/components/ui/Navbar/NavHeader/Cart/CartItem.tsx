@@ -1,15 +1,15 @@
-import type { WithChildren } from '@/lib/types/global-type-helpers';
-import { useShopActions } from '@/store/zustand/shopStore.ts';
-import { useThemeStore } from '@/store/zustand/themeStore.ts';
-import type { ShopStore } from '@/store/zustand/zustand-store.types';
-import { TbTrashXFilled } from 'react-icons/tb';
+import type { WithChildren } from "@/lib/types/global-type-helpers";
+import { useShopActions } from "@/store/zustand/shopStore.ts";
+import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import type { ShopStore } from "@/store/zustand/zustand-store.types";
+import { TbTrashXFilled } from "react-icons/tb";
 
 type CartItemWrapperProps = WithChildren<{
 	showCartItems: boolean;
 }>;
 
 type CartItemProps = {
-	product: ShopStore['cart'][number];
+	product: ShopStore["cart"][number];
 };
 
 function CartItemWrapper({ children, showCartItems }: CartItemWrapperProps) {
@@ -37,8 +37,8 @@ function CartItem({ product }: CartItemProps) {
 		<li
 			className={`flex items-center rounded-[5px] p-[1rem] lg:p-[1.6rem] ${
 				isDarkMode
-					? 'box-shadow-[0_1px_10px_hsl(0,0%,0%,0.6)]'
-					: 'box-shadow-[0_2px_6px_hsl(0,0%,0%,0.3)]'
+					? "box-shadow-[0_1px_10px_hsl(0,0%,0%,0.6)]"
+					: "box-shadow-[0_2px_6px_hsl(0,0%,0%,0.3)]"
 			}`}
 		>
 			<img

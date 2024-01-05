@@ -1,28 +1,32 @@
-import { createCustomContext } from '@/lib/hooks/custom-context-hook/index.ts';
-import { useEffect, useState } from 'react';
-import { createStore } from 'zustand';
-import type { DrawerProviderProps, DrawerStore, DrawerStoreApi } from './drawer.types';
+import { createCustomContext } from "@/lib/hooks/custom-context-hook/index.ts";
+import { useEffect, useState } from "react";
+import { createStore } from "zustand";
+import type { DrawerProviderProps, DrawerStore, DrawerStoreApi } from "./drawer.types";
 
 const [Provider, useCustomDrawerContext] = createCustomContext<DrawerStoreApi>({
-	name: 'DrawerStoreContext',
-	hookName: 'useDrawerStore',
-	providerName: 'DrawerContextProvider',
-	defaultValue: null,
+	name: "DrawerStoreContext",
+	hookName: "useDrawerStore",
+	providerName: "DrawerContextProvider",
 });
 
-const createDrawerStore = () =>
-	createStore<DrawerStore>(() => ({
-		isOpen: false,
-		onOpen: () => {},
-		onClose: () => {},
-		onToggle: () => {},
-	}));
+const defaultStoreValues: DrawerStore = {
+	isOpen: false,
+	onOpen: () => {},
+	onClose: () => {},
+	onToggle: () => {},
+};
+
+const createDrawerStore = () => {
+	const drawerStore = createStore<DrawerStore>(() => defaultStoreValues);
+
+	return drawerStore;
+};
 
 function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 	const [drawerStore] = useState(() => createDrawerStore());
 
 	useEffect(
-		function initializeStoreEffect() {
+		function updateStoreEffect() {
 			drawerStore.setState(storeValues);
 		},
 
@@ -30,8 +34,8 @@ function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 		[storeValues]
 	);
 
+	// == DrawerStore is stable between renders, so no need for memoization before passing to the provider
 	return <Provider value={drawerStore}>{children}</Provider>;
 }
 
 export { DrawerContextProvider, useCustomDrawerContext };
-

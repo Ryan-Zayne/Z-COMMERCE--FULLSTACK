@@ -1,13 +1,13 @@
-import { useToggle } from '@/lib/hooks/index.ts';
-import type { DummyResponseDataItem } from '@/store/react-query/react-query-store.types.ts';
-import { useShopActions, useShopStore } from '@/store/zustand/shopStore.ts';
-import type { ShopStore } from '@/store/zustand/zustand-store.types.ts';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { TiArrowBack } from 'react-icons/ti';
-import { Link } from 'react-router-dom';
+import { useToggle } from "@/lib/hooks/index.ts";
+import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types.ts";
+import { useShopActions, useShopStore } from "@/store/zustand/shopStore.ts";
+import type { ShopStore } from "@/store/zustand/zustand-store.types.ts";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { TiArrowBack } from "react-icons/ti";
+import { Link } from "react-router-dom";
 
 type ItemHeaderProps = {
-	productItem: DummyResponseDataItem | ShopStore['cart'][number];
+	productItem: DummyResponseDataItem | ShopStore["cart"][number];
 };
 
 function ItemHeader({ productItem }: ItemHeaderProps) {
@@ -23,8 +23,8 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 
 	return (
 		<>
-			<button className={'text-[3rem]'}>
-				<Link to={'/'}>
+			<button className={"text-[3rem]"}>
+				<Link to={"/"}>
 					<TiArrowBack />
 				</Link>
 			</button>

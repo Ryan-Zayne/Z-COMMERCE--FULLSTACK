@@ -1,16 +1,16 @@
-import Logo from '@/components/primitives/Logo.tsx';
-import DropDown from '@/components/ui/DropDown.tsx';
-import SearchForm from '@/components/ui/SearchForm.tsx';
-import { useDisclosure } from '@/lib/hooks/index.ts';
-import { cnJoin, cnMerge } from '@/lib/utils/cn.ts';
-import { useGlobalActions, useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
-import { useShopStore } from '@/store/zustand/shopStore.ts';
-import { useThemeStore } from '@/store/zustand/themeStore.ts';
-import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
-import CartDrawer from './Cart/CartDrawer.tsx';
-import HamBurgerButton from './HamBurgerButton.tsx';
-import ThemeSwitchButton from './ThemeSwitchButton.tsx';
+import Logo from "@/components/primitives/Logo.tsx";
+import DropDown from "@/components/ui/DropDown.tsx";
+import SearchForm from "@/components/ui/SearchForm.tsx";
+import { useDisclosure } from "@/lib/hooks/index.ts";
+import { cnJoin, cnMerge } from "@/lib/utils/cn.ts";
+import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
+import { useShopStore } from "@/store/zustand/shopStore.ts";
+import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import CartDrawer from "./Cart/CartDrawer.tsx";
+import HamBurgerButton from "./HamBurgerButton.tsx";
+import ThemeSwitchButton from "./ThemeSwitchButton.tsx";
 
 const NavHeader = () => {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
@@ -28,16 +28,16 @@ const NavHeader = () => {
 			id="Nav Icons and Logo"
 			className="flex w-full select-none justify-between gap-[1rem] px-[1rem] lg:pr-[4rem] "
 		>
-			<Logo className={cnJoin(isDarkMode && 'contrast-[1.8]) brightness-[0.8]')} />
+			<Logo className={cnJoin(isDarkMode && "contrast-[1.8]) brightness-[0.8]")} />
 
 			<SearchForm
 				className={cnMerge(
 					[
 						isMobile
-							? 'absolute inset-x-0 top-[6.2rem] flex h-0 w-[100%] items-center justify-center overflow-y-hidden rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out'
-							: 'w-[min(100%,_54vw)]',
+							? "absolute inset-x-0 top-[6.2rem] flex h-0 w-[100%] items-center justify-center overflow-y-hidden rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out"
+							: "w-[min(100%,_54vw)]",
 					],
-					[isSearchShow && 'h-[8.1rem] duration-[600ms] ease-[ease]']
+					[isSearchShow && "h-[8.1rem] duration-[600ms] ease-[ease]"]
 				)}
 			/>
 
@@ -54,14 +54,14 @@ const NavHeader = () => {
 
 				<div className="flex items-center">
 					<button className="hover:text-heading hover:[transform:rotateY(360deg)] hover:[transition:transform_1000ms_ease-in-out] active:scale-[1.2] lg:text-[2.3rem]">
-						<Link to={'wishlist'}>
+						<Link to={"wishlist"}>
 							<BiHeart />
 						</Link>
 					</button>
 				</div>
 
-				<DropDown className={'relative flex items-center justify-center'}>
-					<DropDown.Header className={'flex'}>
+				<DropDown className={"relative flex items-center justify-center"}>
+					<DropDown.Header className={"flex"}>
 						<button
 							className="hover:text-heading hover:[transform:rotateY(360deg)] hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
 							onClick={dropDownDisclosure.onToggle}
@@ -72,15 +72,15 @@ const NavHeader = () => {
 
 					<DropDown.Panel
 						isOpen={dropDownDisclosure.isOpen}
-						panelParentClasses={'absolute top-[5.1rem] z-[100] w-[15rem]'}
+						panelParentClasses={"absolute top-[5.1rem] z-[100] w-[15rem]"}
 						panelListClasses={cnJoin(
 							`flex flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem] text-[1.3rem] [&_>_a:hover]:navlink-transition [&_>_a]:relative`,
-							[dropDownDisclosure.isOpen && 'py-[1.5rem]']
+							[dropDownDisclosure.isOpen && "py-[1.5rem]"]
 						)}
 					>
-						<Link to={'/auth/login'}>My Account</Link>
-						<Link to={'/'}>Checkout</Link>
-						<Link to={'/auth/login'}>User Login</Link>
+						<Link to={"/auth/login"}>My Account</Link>
+						<Link to={"/"}>Checkout</Link>
+						<Link to={"/auth/login"}>User Login</Link>
 					</DropDown.Panel>
 				</DropDown>
 

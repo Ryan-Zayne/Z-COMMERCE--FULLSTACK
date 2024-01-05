@@ -1,32 +1,24 @@
-import { createContext, useContext } from 'react';
-import { ContextError, getErrorMessage } from './getErrorMessage.ts';
+import { createContext, useContext } from "react";
+import { ContextError, getErrorMessage } from "./custom-context.utils.ts";
+import type { CustomContextOptions } from "./customContext.types";
 
-export type CustomContextOptions<TContext> = {
-	name?: string;
-	strict?: boolean;
-	hookName?: string;
-	providerName?: string;
-	errorMessage?: string;
-	defaultValue?: TContext | null;
-};
-
-const createCustomContext = <TDefaultContext>(options: CustomContextOptions<TDefaultContext>) => {
+const createCustomContext = <TContextValue>(options: CustomContextOptions<TContextValue>) => {
 	const {
-		name = 'Unnamed Context',
-		hookName = 'Unnamed Context hook',
-		providerName = 'Unnamed Provider',
+		name = "Unnamed Context",
+		hookName = "Unnamed Context hook",
+		providerName = "Unnamed Provider",
 		errorMessage,
-		defaultValue,
+		defaultValue = null,
 	} = options;
 
-	const Context = createContext<TDefaultContext | null | undefined>(defaultValue);
+	const Context = createContext<TContextValue | null>(defaultValue);
 
 	Context.displayName = name;
 
 	const useCustomContext = () => {
 		const contextValue = useContext(Context);
 
-		if (contextValue == null) {
+		if (contextValue === null) {
 			throw new ContextError(errorMessage ?? getErrorMessage(hookName, providerName));
 		}
 
@@ -37,4 +29,3 @@ const createCustomContext = <TDefaultContext>(options: CustomContextOptions<TDef
 };
 
 export { createCustomContext };
-

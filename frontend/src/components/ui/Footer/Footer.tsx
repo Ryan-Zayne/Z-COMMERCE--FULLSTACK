@@ -1,5 +1,5 @@
-import FooterDropDowns from './FooterDropDowns.tsx';
-import FooterHeaderSection from './FooterHeaderSection.tsx';
+import FooterDropDowns from "./FooterDropDowns.tsx";
+import FooterHeaderSection from "./FooterHeaderSection.tsx";
 
 function Footer() {
 	return (

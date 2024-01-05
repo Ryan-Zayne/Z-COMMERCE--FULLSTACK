@@ -3,7 +3,7 @@
 	"tailwindFunctions": ["cnMerge", "cnJoin"],
 	"jsxSingleQuote": false,
 	"printWidth": 107,
-	"singleQuote": true,
+	"singleQuote": false,
 	"tabWidth": 3,
 	"trailingComma": "es5",
 	"useTabs": true

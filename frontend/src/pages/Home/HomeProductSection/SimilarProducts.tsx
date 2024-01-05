@@ -1,7 +1,7 @@
-import ProductCard from '@/components/ui/ProductCard.tsx';
-import { useElementList } from '@/lib/hooks/useElementList.ts';
-import { assertDefined } from '@/lib/types/global-type-helpers.ts';
-import type { DataArrayProp } from './home-product.types.ts';
+import ProductCard from "@/components/ui/ProductCard.tsx";
+import { useElementList } from "@/lib/hooks/useElementList.ts";
+import { assertDefined } from "@/lib/types/global-type-helpers.ts";
+import type { DataArrayProp } from "./home-product.types.ts";
 
 function SimilarProducts({ data }: DataArrayProp) {
 	const { For: ProductCardsList } = useElementList();
@@ -19,7 +19,7 @@ function SimilarProducts({ data }: DataArrayProp) {
 						<ProductCard
 							key={product?.id}
 							link={`/products/${product?.category}/${product?.id}`}
-							image={product?.images[1] ?? ''}
+							image={product?.images[1] ?? ""}
 							productItem={assertDefined(product)}
 						/>
 					)}

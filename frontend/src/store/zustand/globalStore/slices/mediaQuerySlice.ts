@@ -1,6 +1,6 @@
-import { desktopQuery, mobileQuery, tabletQuery } from '@/lib/utils/constants.ts';
-import type { StateCreator } from 'zustand';
-import type { MediaQuerySlice } from '../../zustand-store.types';
+import { desktopQuery, mobileQuery, tabletQuery } from "@/lib/utils/constants.ts";
+import type { StateCreator } from "zustand";
+import type { MediaQuerySlice } from "../../zustand-store.types";
 
 type StateSlice = StateCreator<MediaQuerySlice, [], [], MediaQuerySlice>;
 

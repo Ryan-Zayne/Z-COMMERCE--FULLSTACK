@@ -1,5 +1,5 @@
 export const getResponseData = async <TResponse>(response: Response) => {
-	const isJson = response.headers.get('content-type')?.includes('application/json');
+	const isJson = response.headers.get("content-type")?.includes("application/json");
 
 	return isJson ? (response.json() as TResponse) : ({ message: await response.text() } as TResponse);
 };
@@ -12,7 +12,7 @@ export class HTTPError<ErrorResponseType = Record<string, unknown>> extends Erro
 
 		super((responseData as { message?: string }).message ?? defaultErrorMessage);
 
-		this.name = 'HTTPError';
+		this.name = "HTTPError";
 
 		this.response = responseData;
 	}

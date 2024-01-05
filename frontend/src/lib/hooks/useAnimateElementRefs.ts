@@ -1,14 +1,14 @@
-import { cnJoin } from '@/lib/utils/cn.ts';
-import { useCallback, useRef } from 'react';
+import { cnJoin } from "@/lib/utils/cn.ts";
+import { useCallback, useRef } from "react";
 
-type PossibleElementsType = 'heading' | 'button' | 'paragraph';
+type PossibleElementsType = "heading" | "button" | "paragraph";
 
 type ElementsInfoType = Array<{
 	targetElement: PossibleElementsType;
 	animationClass: string;
 }>;
 
-type ElementsRefType = Record<'button' | 'heading' | 'paragraph', HTMLElement | null>;
+type ElementsRefType = Record<"button" | "heading" | "paragraph", HTMLElement | null>;
 
 type AnimateElementsOptions = {
 	elementsInfo?: ElementsInfoType;
@@ -18,25 +18,25 @@ type AnimateElementsOptions = {
 class ELementError extends Error {
 	constructor(message: string) {
 		super(message);
-		this.name = 'ELementError';
+		this.name = "ELementError";
 	}
 }
 
 const getdefaultElementsInfo = (stopAnimation: boolean) => {
-	const stopAnimationClass = stopAnimation && 'animation-none';
+	const stopAnimationClass = stopAnimation && "animation-none";
 
 	return [
 		{
-			targetElement: 'heading',
-			animationClass: cnJoin('animate-fade-in-down', stopAnimationClass),
+			targetElement: "heading",
+			animationClass: cnJoin("animate-fade-in-down", stopAnimationClass),
 		},
 		{
-			targetElement: 'button',
-			animationClass: cnJoin('animate-fade-in-up', stopAnimationClass),
+			targetElement: "button",
+			animationClass: cnJoin("animate-fade-in-up", stopAnimationClass),
 		},
 		{
-			targetElement: 'paragraph',
-			animationClass: cnJoin('animate-fade-in-up-2', stopAnimationClass),
+			targetElement: "paragraph",
+			animationClass: cnJoin("animate-fade-in-up-2", stopAnimationClass),
 		},
 	] satisfies ElementsInfoType;
 };
@@ -58,7 +58,7 @@ const useAnimateElementRefs = (options: AnimateElementsOptions = {}) => {
 
 	const removeAnimationClasses = useCallback(() => {
 		for (const { targetElement, animationClass } of elementsInfo) {
-			elementsRef.current[targetElement]?.addEventListener('animationend', () => {
+			elementsRef.current[targetElement]?.addEventListener("animationend", () => {
 				elementsRef.current[targetElement]?.classList.remove(animationClass);
 			});
 		}

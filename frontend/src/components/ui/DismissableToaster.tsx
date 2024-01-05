@@ -1,5 +1,5 @@
-import { ToastBar, Toaster, toast } from 'react-hot-toast';
-import { HiX } from 'react-icons/hi';
+import { ToastBar, Toaster, toast } from "react-hot-toast";
+import { HiX } from "react-icons/hi";
 
 function DismissableToaster() {
 	return (
@@ -7,10 +7,10 @@ function DismissableToaster() {
 			toastOptions={{
 				success: {
 					style: {
-						backgroundColor: 'hsl(153, 81%, 12%)',
-						color: 'hsl(140, 100%, 71%)',
-						border: '2px solid hsl(145, 91%, 23%)',
-						paddingBlock: '1.3rem',
+						backgroundColor: "hsl(153, 81%, 12%)",
+						color: "hsl(140, 100%, 71%)",
+						border: "2px solid hsl(145, 91%, 23%)",
+						paddingBlock: "1.3rem",
 					},
 				},
 			}}
@@ -22,7 +22,7 @@ function DismissableToaster() {
 							{icon}
 							{message}
 
-							{toastInstance.type !== 'loading' && (
+							{toastInstance.type !== "loading" && (
 								<button
 									className="ring-primary-400 rounded-full p-[0.25rem] transition hover:bg-gray-900 focus:outline-none focus-visible:ring"
 									onClick={() => toast.dismiss(toastInstance.id)}

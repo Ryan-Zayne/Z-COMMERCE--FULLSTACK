@@ -1,5 +1,5 @@
-import BellSvg from '@/assets/BellSvg';
-import { useRouteError } from 'react-router-dom';
+import BellSvg from "@/assets/BellSvg";
+import { useRouteError } from "react-router-dom";
 
 function ErrorPage() {
 	const error = useRouteError() as Error;

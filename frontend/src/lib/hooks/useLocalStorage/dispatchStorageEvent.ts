@@ -6,7 +6,7 @@ const dispatchStorageEvent = (dispatchOptions: DispatchOptionsType) => {
 	eventFn();
 
 	window.dispatchEvent(
-		new StorageEvent('storage', {
+		new StorageEvent("storage", {
 			key: storedValueKey,
 			...restOfOptions,
 		})

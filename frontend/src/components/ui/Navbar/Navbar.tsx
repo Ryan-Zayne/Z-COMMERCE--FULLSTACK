@@ -1,5 +1,5 @@
-import NavHeader from './NavHeader/NavHeader.tsx';
-import NavigationLinks from './NavigationLinks/NavigationLinks.tsx';
+import NavHeader from "./NavHeader/NavHeader.tsx";
+import NavigationLinks from "./NavigationLinks/NavigationLinks.tsx";
 
 function Navbar() {
 	return (

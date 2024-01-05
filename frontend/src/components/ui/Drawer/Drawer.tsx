@@ -1,20 +1,20 @@
-import { Overlay, Teleport } from '@/components/primitives/index.ts';
-import { cnMerge } from '@/lib/utils/cn.ts';
-import { RiCloseFill } from 'react-icons/ri';
+import { Overlay, Teleport } from "@/components/primitives/index.ts";
+import { cnMerge } from "@/lib/utils/cn.ts";
+import { RiCloseFill } from "react-icons/ri";
 import type {
 	DrawerCloseProps,
 	DrawerContentProps,
 	DrawerRootProps,
 	OtherDrawerProps,
-} from './drawer.types';
-import { DrawerContextProvider } from './drawerStoreContext.tsx';
-import { useDrawerStore } from './hooks/index.ts';
+} from "./drawer.types";
+import { DrawerContextProvider } from "./drawerStoreContext.tsx";
+import { useDrawerStore } from "./hooks/index.ts";
 
 function DrawerRoot({ children, ...restOfDrawerProps }: DrawerRootProps) {
 	return (
 		<Teleport>
 			<DrawerContextProvider storeValues={restOfDrawerProps}>
-				<aside data-id="Drawer Portal">{children}</aside>
+				<aside data-id="Drawer-Portal">{children}</aside>
 			</DrawerContextProvider>
 		</Teleport>
 	);
@@ -27,12 +27,12 @@ function DrawerOverlay() {
 	return <Overlay isOpen={isOpen} onClose={onClose} />;
 }
 
-function DrawerContent({ className, children, placement = 'right' }: DrawerContentProps) {
+function DrawerContent({ className, children, placement = "right" }: DrawerContentProps) {
 	const isOpen = useDrawerStore((state) => state.isOpen);
 
 	const placementClasses = {
-		right: 'right-0 translate-x-full',
-		left: 'left-0 translate-x-[-100%]',
+		right: "right-0 translate-x-full",
+		left: "left-0 translate-x-[-100%]",
 	};
 
 	return (
@@ -41,7 +41,7 @@ function DrawerContent({ className, children, placement = 'right' }: DrawerConte
 			className={cnMerge(
 				`custom-scrollbar fixed bottom-0 top-0 z-[500] flex flex-col overflow-y-auto bg-body transition-transform duration-[250ms] `,
 				placementClasses[placement],
-				isOpen ? 'translate-x-0 duration-[600ms] ease-slide-out' : 'ease-slide-in',
+				isOpen ? "translate-x-0 duration-[600ms] ease-slide-out" : "ease-slide-in",
 				[className]
 			)}
 		>
@@ -51,7 +51,7 @@ function DrawerContent({ className, children, placement = 'right' }: DrawerConte
 }
 
 function DrawerCloseButton(props: DrawerCloseProps) {
-	const { className = '', icon = <RiCloseFill /> } = props;
+	const { className = "", icon = <RiCloseFill /> } = props;
 	const onClose = useDrawerStore((state) => state.onClose);
 
 	return (
@@ -61,7 +61,7 @@ function DrawerCloseButton(props: DrawerCloseProps) {
 	);
 }
 
-function DrawerHeader({ children, className = '' }: OtherDrawerProps) {
+function DrawerHeader({ children, className = "" }: OtherDrawerProps) {
 	return (
 		<header data-id="Drawer Header" className={className}>
 			{children}
@@ -69,7 +69,7 @@ function DrawerHeader({ children, className = '' }: OtherDrawerProps) {
 	);
 }
 
-function DrawerBody({ children, className = '' }: OtherDrawerProps) {
+function DrawerBody({ children, className = "" }: OtherDrawerProps) {
 	return (
 		<div data-id="Drawer Body" className={className}>
 			{children}
@@ -77,7 +77,7 @@ function DrawerBody({ children, className = '' }: OtherDrawerProps) {
 	);
 }
 
-function DrawerFooter({ children, className = '' }: OtherDrawerProps) {
+function DrawerFooter({ children, className = "" }: OtherDrawerProps) {
 	return (
 		<footer data-id="Drawer Footer" className={className}>
 			{children}

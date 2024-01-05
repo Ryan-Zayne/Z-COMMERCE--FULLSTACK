@@ -1,4 +1,4 @@
-import type { DummyResponseDataItem } from '../react-query/react-query-store.types';
+import type { DummyResponseDataItem } from "../react-query/react-query-store.types";
 
 // Global State Types
 export type GlobalStateSlice = {
@@ -45,12 +45,12 @@ export type ShopStore = {
 	shopActions: {
 		addToCart: (productItem: DummyResponseDataItem) => void;
 		updateProductQuantity: (
-			productId: DummyResponseDataItem['id'],
+			productId: DummyResponseDataItem["id"],
 			newData: { updatedQuantity: number }
 		) => void;
-		removeProductFromCart: (productId: DummyResponseDataItem['id']) => void;
-		decrementProductQuantity: (productId: DummyResponseDataItem['id']) => void;
-		incrementProductQuantity: (productId: DummyResponseDataItem['id']) => void;
+		removeProductFromCart: (productId: DummyResponseDataItem["id"]) => void;
+		decrementProductQuantity: (productId: DummyResponseDataItem["id"]) => void;
+		incrementProductQuantity: (productId: DummyResponseDataItem["id"]) => void;
 		toggleAddToWishList: (productItem: DummyResponseDataItem) => void;
 	};
 };

@@ -1,22 +1,22 @@
-import { LoadingSkeleton, ProductCard } from '@/components/ui/index.ts';
-import { assertDefined } from '@/lib/types/global-type-helpers.ts';
-import { useGetProductCategory } from '@/store/react-query/useGetProductCategory.ts';
-import { TiArrowBack } from 'react-icons/ti';
-import { Link, useParams } from 'react-router-dom';
+import { LoadingSkeleton, ProductCard } from "@/components/ui/index.ts";
+import { assertDefined } from "@/lib/types/global-type-helpers.ts";
+import { useGetProductCategory } from "@/store/react-query/useGetProductCategory.ts";
+import { TiArrowBack } from "react-icons/ti";
+import { Link, useParams } from "react-router-dom";
 
 function ProductCategoryPage() {
 	const { category } = useParams();
 	const { productsArray, isPending } = useGetProductCategory(category);
 
 	if (isPending) {
-		return <LoadingSkeleton count={category === 'watches' || category === 'vehicles' ? 10 : 5} />;
+		return <LoadingSkeleton count={category === "watches" || category === "vehicles" ? 10 : 5} />;
 	}
 
 	const ProductCategoryCards = productsArray.map((product) => (
 		<ProductCard
 			key={product?.id}
 			link={`/products/${product?.category}/${product?.id}`}
-			image={product?.images[1] ?? ''}
+			image={product?.images[1] ?? ""}
 			productItem={assertDefined(product)}
 		/>
 	));
@@ -25,13 +25,13 @@ function ProductCategoryPage() {
 		<section className="mt-[3rem] lg:mt-[5rem]">
 			<header className="flex items-center justify-center">
 				<button className="ml-[3rem] text-[3rem]">
-					<Link to={'/'}>
+					<Link to={"/"}>
 						<TiArrowBack />
 					</Link>
 				</button>
 
 				<h1 className="mx-auto text-center text-[3rem] font-[700] capitalize lg:text-[4rem]">
-					{category === 'lighting' ? 'Digital Lighting' : category}
+					{category === "lighting" ? "Digital Lighting" : category}
 				</h1>
 			</header>
 

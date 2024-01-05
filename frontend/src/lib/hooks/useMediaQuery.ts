@@ -1,6 +1,6 @@
-import { desktopQuery, mobileQuery, tabletQuery } from '@/lib/utils/constants.ts';
-import { useMediaQueryActions } from '@/store/zustand/globalStore/globalStore.ts';
-import { useLayoutEffect } from 'react';
+import { desktopQuery, mobileQuery, tabletQuery } from "@/lib/utils/constants.ts";
+import { useMediaQueryActions } from "@/store/zustand/globalStore/globalStore.ts";
+import { useLayoutEffect } from "react";
 
 const useMediaQuery = () => {
 	const { setIsMobile, setIsTablet, setIsDesktop } = useMediaQueryActions();

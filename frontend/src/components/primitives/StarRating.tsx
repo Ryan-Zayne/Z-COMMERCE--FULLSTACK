@@ -1,5 +1,5 @@
-import type { IconType } from 'react-icons';
-import { AiFillStar } from 'react-icons/ai';
+import type { IconType } from "react-icons";
+import { AiFillStar } from "react-icons/ai";
 
 type StarRatingProps = {
 	rating: number;
@@ -9,7 +9,7 @@ type StarRatingProps = {
 };
 
 function StarRating(props: StarRatingProps) {
-	const { rating, text = '', className = '', icon: RatingIcon = AiFillStar as IconType } = props;
+	const { rating, text = "", className = "", icon: RatingIcon = AiFillStar as IconType } = props;
 
 	const star5 = [...Array(5).keys()].map((id) => <RatingIcon key={id} color="var(--text-header)" />);
 

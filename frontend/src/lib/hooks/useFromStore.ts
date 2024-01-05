@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useCallbackRef } from './useCallbackRef.ts';
+import { useEffect, useState } from "react";
+import { useCallbackRef } from "./useCallbackRef.ts";
 
 /**
  * A custom hook that returns a value from a store and syncs it with a local state.

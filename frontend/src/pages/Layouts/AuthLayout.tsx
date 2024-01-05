@@ -1,6 +1,6 @@
-import { Logo } from '@/components/primitives/index.ts';
-import { useGlobalStore } from '@/store/zustand/globalStore/globalStore.ts';
-import { Outlet } from 'react-router-dom';
+import { Logo } from "@/components/primitives/index.ts";
+import { useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
+import { Outlet } from "react-router-dom";
 
 function AuthLayout() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -12,7 +12,7 @@ function AuthLayout() {
 			{isDesktop && (
 				<Logo
 					className={
-						'relative bottom-[1rem] z-10 ml-[-0.8rem] w-[20rem] brightness-[0.8] contrast-[1.7] lg:left-[4rem]'
+						"relative bottom-[1rem] z-10 ml-[-0.8rem] w-[20rem] brightness-[0.8] contrast-[1.7] lg:left-[4rem]"
 					}
 				/>
 			)}

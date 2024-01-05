@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef } from 'react';
-import { useCallbackRef } from './useCallbackRef.ts';
+import { useEffect, useRef } from "react";
+import { useCallbackRef } from "./useCallbackRef.ts";
 
 /**
  * A thin wrapper around “useEffect” which will fire when the deps changes or when the component unmounts, but not on mount.

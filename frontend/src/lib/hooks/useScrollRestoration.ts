@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-const useScrollRestoration = (behavior: ScrollBehavior = 'auto') => {
+const useScrollRestoration = (behavior: ScrollBehavior = "auto") => {
 	const href = useLocation().pathname;
 
 	useEffect(

@@ -9,7 +9,7 @@
 		"dev:tunnel": "concurrently 'pnpm:dev' 'pnpm:tunnel'",
 		"build": "vite build",
 		"preview": "vite preview",
-		"format": "prettier . --write",
+		"format": "prettier --write .",
 		"lint": "eslint src/**/*.{ts,tsx} --report-unused-disable-directives --max-warnings 0"
 	},
 	"dependencies": {

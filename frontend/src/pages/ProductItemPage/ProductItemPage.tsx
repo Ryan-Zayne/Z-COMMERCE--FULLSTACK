@@ -1,17 +1,17 @@
-import { LoadingSkeleton } from '@/components/ui/index.ts';
-import { assertDefined } from '@/lib/types/global-type-helpers.ts';
-import { useGetProductItem } from '@/store/react-query/useGetProductItem.ts';
-import { useParams } from 'react-router-dom';
-import ItemDescription from './ProductItem/ItemDescription.tsx';
-import ItemHeader from './ProductItem/ItemHeader.tsx';
-import ItemHero from './ProductItem/ItemHero.tsx';
+import { LoadingSkeleton } from "@/components/ui/index.ts";
+import { assertDefined } from "@/lib/types/global-type-helpers.ts";
+import { useGetProductItem } from "@/store/react-query/useGetProductItem.ts";
+import { useParams } from "react-router-dom";
+import ItemDescription from "./ProductItem/ItemDescription.tsx";
+import ItemHeader from "./ProductItem/ItemHeader.tsx";
+import ItemHero from "./ProductItem/ItemHero.tsx";
 
 function ProductItemPage() {
 	const { productId } = useParams();
 	const { isPending, productItem } = useGetProductItem(productId);
 
 	if (isPending) {
-		return <LoadingSkeleton type={'productItemPage'} />;
+		return <LoadingSkeleton type={"productItemPage"} />;
 	}
 
 	return (

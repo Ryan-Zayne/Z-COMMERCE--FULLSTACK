@@ -1,4 +1,4 @@
-import type { WithChildren } from './global-type-helpers.ts';
+import type { WithChildren } from "./global-type-helpers.ts";
 
 type AsProp<TElement extends React.ElementType> = { as?: TElement };
 
@@ -17,4 +17,4 @@ export type PolymorphicProps<
 export type PolymorphicPropsWithRef<
 	TElement extends React.ElementType,
 	TProps extends Record<string, unknown> = AsProp<TElement>,
-> = PolymorphicProps<TElement, TProps> & { ref?: React.ComponentPropsWithRef<TElement>['ref'] };
+> = PolymorphicProps<TElement, TProps> & { ref?: React.ComponentPropsWithRef<TElement>["ref"] };

@@ -1,14 +1,14 @@
-import { useElementList } from '@/lib/hooks/index.ts';
-import { cnJoin, cnMerge } from '@/lib/utils/cn.ts';
-import { useThemeStore } from '@/store/zustand/themeStore.ts';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { useElementList } from "@/lib/hooks/index.ts";
+import { cnJoin, cnMerge } from "@/lib/utils/cn.ts";
+import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 type SkeletonProps = {
 	count?: number;
-	type?: 'genericPage' | 'productItemPage';
+	type?: "genericPage" | "productItemPage";
 };
 
-function LoadingSkeleton({ count = 5, type = 'genericPage' }: SkeletonProps) {
+function LoadingSkeleton({ count = 5, type = "genericPage" }: SkeletonProps) {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const { For: SkeletonCardList } = useElementList();
 
@@ -17,8 +17,8 @@ function LoadingSkeleton({ count = 5, type = 'genericPage' }: SkeletonProps) {
 			<section className="p-[1rem_2rem_3rem] lg:pt-[3rem]">
 				<div className="mt-[3rem] flex flex-col items-center gap-[4rem] overflow-hidden md:mt-[4.5rem] md:h-[47rem] md:flex-row md:items-start md:justify-around md:px-[1rem] lg:mt-[6rem] lg:flex-row lg:gap-[8rem]">
 					<SkeletonTheme
-						highlightColor={cnJoin(isDarkMode && '#1e2021')}
-						baseColor={cnJoin(isDarkMode && '#232628')}
+						highlightColor={cnJoin(isDarkMode && "#1e2021")}
+						baseColor={cnJoin(isDarkMode && "#232628")}
 					>
 						<Skeleton className="h-[35rem] w-[40rem] md:h-[47rem] lg:w-full" />
 						<Skeleton className="h-[47rem] w-[46rem] max-md:mx-auto" />
@@ -38,13 +38,13 @@ function LoadingSkeleton({ count = 5, type = 'genericPage' }: SkeletonProps) {
 									key={id}
 									className={cnMerge(
 										`w-[min(100%,25rem)] rounded-[1.2rem] bg-white/[0.17] box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)] ${
-											isDarkMode && 'bg-[hsl(200,5.88%,10%,0.17)]'
+											isDarkMode && "bg-[hsl(200,5.88%,10%,0.17)]"
 										}`
 									)}
 								>
 									<SkeletonTheme
-										highlightColor={cnJoin(isDarkMode && '#1e2021')}
-										baseColor={cnJoin(isDarkMode && '#232628')}
+										highlightColor={cnJoin(isDarkMode && "#1e2021")}
+										baseColor={cnJoin(isDarkMode && "#232628")}
 									>
 										<div>
 											<Skeleton
@@ -60,7 +60,7 @@ function LoadingSkeleton({ count = 5, type = 'genericPage' }: SkeletonProps) {
 												</span>
 											</header>
 											<p className="mt-[2rem]">
-												<Skeleton className="gap-[3rem]" count={3} width={'93%'} height={6} />
+												<Skeleton className="gap-[3rem]" count={3} width={"93%"} height={6} />
 											</p>
 											<div className={`mt-[1rem] flex items-center gap-[1.3rem]`}>
 												<Skeleton width={75} height={19} />

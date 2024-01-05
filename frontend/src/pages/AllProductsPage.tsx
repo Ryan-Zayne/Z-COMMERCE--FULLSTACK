@@ -1,8 +1,8 @@
-import { LoadingSkeleton, ProductCard } from '@/components/ui/index.ts';
-import { assertDefined } from '@/lib/types/global-type-helpers.ts';
-import { useGetAllProducts } from '@/store/react-query/useGetAllProducts.ts';
-import { TiArrowBack } from 'react-icons/ti';
-import { Link } from 'react-router-dom';
+import { LoadingSkeleton, ProductCard } from "@/components/ui/index.ts";
+import { assertDefined } from "@/lib/types/global-type-helpers.ts";
+import { useGetAllProducts } from "@/store/react-query/useGetAllProducts.ts";
+import { TiArrowBack } from "react-icons/ti";
+import { Link } from "react-router-dom";
 
 function AllProductsPage() {
 	const { isPending, allProductsArray } = useGetAllProducts();
@@ -15,7 +15,7 @@ function AllProductsPage() {
 		<ProductCard
 			key={product?.id}
 			link={`${product?.category}/${product?.id}`}
-			image={product?.images[1] ?? ''}
+			image={product?.images[1] ?? ""}
 			productItem={assertDefined(product)}
 		/>
 	));
@@ -25,7 +25,7 @@ function AllProductsPage() {
 			<header className="flex flex-row-reverse items-center justify-center px-[3rem]">
 				<h1 className="mx-auto text-[3rem] font-[700] lg:text-[4rem]">All Products</h1>
 				<button className="text-[3rem]">
-					<Link to={'/'}>
+					<Link to={"/"}>
 						<TiArrowBack />
 					</Link>
 				</button>
