@@ -13,7 +13,7 @@ export type FormErrorResponseType =
 	| { status: "error"; errors: Array<[keyof FormSchemaType, string | string[]]> }
 	| { status: "error"; errorTitle: string; message: string; stackTrace: string };
 
-const fetchFormResponse = createFetcher<FormResponseDataType, HTTPError<FormErrorResponseType>>({
+const callBackendApi = createFetcher<FormResponseDataType, HTTPError<FormErrorResponseType>>({
 	baseURL: BASE_AUTH_URL,
 
 	defaultErrorMessage: "Failed to submit form",
@@ -23,4 +23,4 @@ const fetchFormResponse = createFetcher<FormResponseDataType, HTTPError<FormErro
 	credentials: "same-origin",
 });
 
-export { fetchFormResponse };
+export { callBackendApi };

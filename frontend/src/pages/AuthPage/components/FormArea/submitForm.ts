@@ -1,4 +1,4 @@
-import { fetchFormResponse } from "@/api/fetchFormResponse.ts";
+import { callBackendApi } from "@/api/callBackendApi.ts";
 import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open.ts";
 import type { UseFormReset, UseFormSetError } from "react-hook-form";
 import type { NavigateFunction } from "react-router-dom";
@@ -14,13 +14,13 @@ type SubmitFormParams = {
 
 const submitForm =
 	({ formType, setError, reset, navigate }: SubmitFormParams) =>
-	async (formData: FormSchemaType) => {
+	async (formDataObj: FormSchemaType) => {
 		const AUTH_URL = formType === "Sign Up" ? `/sign-up` : `/login`;
 
 		noScrollOnOpen({ isActive: true });
 
-		const { dataInfo, errorInfo } = await fetchFormResponse(AUTH_URL, {
-			body: JSON.stringify(formData),
+		const { dataInfo, errorInfo } = await callBackendApi(AUTH_URL, {
+			body: formDataObj,
 		});
 
 		noScrollOnOpen({ isActive: false });

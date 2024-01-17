@@ -1,3 +1,4 @@
+import { isObject } from "@/lib/types/typeof.ts";
 import type {
 	ApiResponseData,
 	BaseFetchConfig,
@@ -11,6 +12,7 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 		baseURL,
 		timeout: baseTimeout,
 		interceptors: baseInterceptors = {},
+		body: baseBody,
 		defaultErrorMessage = "Failed to fetch data from server!",
 		...restOfBaseConfig
 	} = baseConfig;
@@ -23,7 +25,7 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 	): Promise<ApiResponseData<TData, TError>> {
 		const {
 			timeout = baseTimeout,
-			body,
+			body = baseBody,
 			interceptors = baseInterceptors,
 			...restOfFetchConfig
 		} = config ?? {};
@@ -46,15 +48,18 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 
 			const response = await fetch(`${baseURL}${url}`, {
 				signal: controller.signal,
+
 				method: "GET", // Setting default method as GET
-				body: body ? JSON.stringify(body) : undefined,
-				headers:
-					body && !(body instanceof FormData)
-						? {
-								"Content-Type": "application/json",
-								Accept: "application/json",
-							}
-						: undefined,
+
+				body: isObject(body) ? JSON.stringify(body) : body,
+
+				headers: isObject(body)
+					? {
+							"Content-Type": "application/json",
+							Accept: "application/json",
+						}
+					: undefined,
+
 				...restOfBaseConfig,
 				...restOfFetchConfig,
 			});

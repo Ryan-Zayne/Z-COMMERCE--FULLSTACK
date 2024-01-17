@@ -7,6 +7,8 @@ export type BaseFetchConfig = {
 
 	defaultErrorMessage?: string;
 
+	body?: string | FormData | Record<string, unknown>;
+
 	interceptors?: {
 		onRequest?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
 
@@ -18,8 +20,7 @@ export type BaseFetchConfig = {
 	};
 } & Omit<RequestInit, "method" | "body">;
 
-export type FetchConfig = Omit<BaseFetchConfig, "baseURL" | "defaultErrorMessage"> &
-	Pick<RequestInit, "body">;
+export type FetchConfig = Omit<BaseFetchConfig, "baseURL" | "defaultErrorMessage">;
 
 export type ApiResponseData<TData, TError = { status: "error"; message: string }> =
 	| {
