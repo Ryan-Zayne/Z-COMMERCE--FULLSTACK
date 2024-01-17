@@ -9,4 +9,3 @@ from = "/api/v1/*"
 to = "https://zayne-commerce-server.onrender.com/api/v1/:splat"
 status = 200
 force = true
-headers = { X-From = "Netlify" }
