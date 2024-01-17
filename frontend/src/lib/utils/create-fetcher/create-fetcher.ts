@@ -48,12 +48,13 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 				signal: controller.signal,
 				method: "GET", // Setting default method as GET
 				body: body ? JSON.stringify(body) : undefined,
-				headers: body
-					? {
-							"content-type": "application/json",
-							accept: "application/json",
-						}
-					: undefined,
+				headers:
+					body && !(body instanceof FormData)
+						? {
+								"Content-Type": "application/json",
+								Accept: "application/json",
+							}
+						: undefined,
 				...restOfBaseConfig,
 				...restOfFetchConfig,
 			});
