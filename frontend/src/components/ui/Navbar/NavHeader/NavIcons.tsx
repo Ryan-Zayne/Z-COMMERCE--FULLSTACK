@@ -82,7 +82,7 @@ const NavIcons = () => {
 						<Link to={"/"}>Checkout</Link>
 						<Link to={"/auth/login"}>User Login</Link>
 					</DropDown.Panel>
-				</DropDown>
+				</DropDown.Root>
 
 				<div className="flex items-center">
 					<button

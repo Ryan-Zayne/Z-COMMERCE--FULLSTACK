@@ -94,7 +94,7 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 				>
 					{CategoryList}
 				</DropDown.Panel>
-			</DropDown>
+			</DropDown.Root>
 		),
 
 		desktop: () => (
@@ -124,7 +124,7 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 				>
 					{CategoryList}
 				</DropDown.Panel>
-			</DropDown>
+			</DropDown.Root>
 		),
 	};
 
