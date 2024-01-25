@@ -1,7 +1,7 @@
-import { useAnimationInterval } from "@/lib/hooks/index.ts";
-import { useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
+import { useAnimationInterval } from "@/lib/hooks";
+import { useGlobalStore } from "@/store/zustand/globalStore/globalStore";
 import { useState } from "react";
-import { useCarouselActions } from "./useCarouselStore.ts";
+import { useCarouselActions } from "./useCarouselStore";
 
 type CarouselOptions = {
 	hasAutoSlide?: boolean;

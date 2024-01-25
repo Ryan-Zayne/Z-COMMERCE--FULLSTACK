@@ -1,4 +1,4 @@
-import { createCustomContext } from "@/lib/hooks/custom-context-hook/index.ts";
+import { createCustomContext } from "@/lib/hooks/custom-context-hook";
 import { useState } from "react";
 import { createStore } from "zustand";
 import type { CarouselProviderProps, CarouselStore, CarouselStoreApi } from "./carousel.types";

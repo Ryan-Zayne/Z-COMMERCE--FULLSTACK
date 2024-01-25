@@ -1,7 +1,7 @@
-import Button from "@/components/primitives/Button.tsx";
-import { useElementList } from "@/lib/hooks/useElementList.ts";
-import { cnJoin } from "@/lib/utils/cn.ts";
-import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import Button from "@/components/primitives/Button";
+import { useElementList } from "@/lib/hooks/useElementList";
+import { cnJoin } from "@/lib/utils/cn";
+import { useThemeStore } from "@/store/zustand/themeStore";
 import { Link } from "react-router-dom";
 
 const categories = [

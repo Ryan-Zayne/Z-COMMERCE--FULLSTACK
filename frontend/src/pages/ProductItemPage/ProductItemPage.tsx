@@ -1,10 +1,10 @@
-import { LoadingSkeleton } from "@/components/ui/index.ts";
-import { assertDefined } from "@/lib/types/global-type-helpers.ts";
-import { useGetProductItem } from "@/store/react-query/useGetProductItem.ts";
+import { LoadingSkeleton } from "@/components/ui";
+import { assertDefined } from "@/lib/type-helpers/global-type-helpers";
+import { useGetProductItem } from "@/store/react-query/useGetProductItem";
 import { useParams } from "react-router-dom";
-import ItemDescription from "./ProductItem/ItemDescription.tsx";
-import ItemHeader from "./ProductItem/ItemHeader.tsx";
-import ItemHero from "./ProductItem/ItemHero.tsx";
+import ItemDescription from "./ProductItem/ItemDescription";
+import ItemHeader from "./ProductItem/ItemHeader";
+import ItemHero from "./ProductItem/ItemHero";
 
 function ProductItemPage() {
 	const { productId } = useParams();

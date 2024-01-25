@@ -1,11 +1,11 @@
-import Logo from "@/components/primitives/Logo.tsx";
-import Overlay from "@/components/primitives/Overlay.tsx";
-import { useElementList } from "@/lib/hooks/index.ts";
-import { cnJoin } from "@/lib/utils/cn.ts";
-import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
+import Logo from "@/components/primitives/Logo";
+import Overlay from "@/components/primitives/Overlay";
+import { useElementList } from "@/lib/hooks";
+import { cnJoin } from "@/lib/utils/cn";
+import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore";
 import { RiCloseFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
-import CategoryMenu from "./CategoryMenu.tsx";
+import CategoryMenu from "./CategoryMenu";
 
 type NavItemsType = Array<
 	| {
@@ -45,72 +45,70 @@ const NavigationLinks = () => {
 	];
 
 	return (
-		<div id="Navigation Links" className="w-full">
-			<nav className="relative flex w-[100%] items-center justify-between font-[500] lg:pr-[2rem]">
-				{isDesktop && <CategoryMenu deviceType={"desktop"} />}
+		<nav className="relative flex w-full items-center justify-between font-[500] lg:pr-[2rem]">
+			{isDesktop && <CategoryMenu deviceType={"desktop"} />}
 
-				<Overlay isOpen={!isDesktop && isNavShow} onClose={toggleNavShow} z-index={"z-[100]"} />
+			<Overlay isOpen={!isDesktop && isNavShow} onClose={toggleNavShow} z-index={"z-[100]"} />
 
-				<ul
-					id="Navigation List"
-					className={cnJoin(
-						"flex gap-[3.2rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative",
+			<ul
+				id="Navigation List"
+				className={cnJoin(
+					"flex gap-[3.2rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative",
 
-						isDesktop && "relative gap-[12rem]",
+					isDesktop && "relative gap-[12rem]",
 
-						!isDesktop && [
-							"fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] flex-col bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]",
+					!isDesktop && [
+						"fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] flex-col bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]",
 
-							isNavShow
-								? "translate-x-0 duration-[600ms] ease-slide-out"
-								: " translate-x-full ease-slide-in",
-						]
-					)}
-				>
-					{!isDesktop && (
-						<button
-							className={"absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600"}
-							onClick={toggleNavShow}
-						>
-							<RiCloseFill />
-						</button>
-					)}
+						isNavShow
+							? "translate-x-0 duration-[600ms] ease-slide-out"
+							: " translate-x-full ease-slide-in",
+					]
+				)}
+			>
+				{!isDesktop && (
+					<button
+						className={"absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600"}
+						onClick={toggleNavShow}
+					>
+						<RiCloseFill />
+					</button>
+				)}
 
-					<NavLinksList
-						each={navLinkInfoArray}
-						render={(navLinkInfo) => {
-							if ("shouldShow" in navLinkInfo) {
-								const { shouldShow, id, childElement, className } = navLinkInfo;
-
-								return (
-									shouldShow && (
-										<li key={id} className={className}>
-											{childElement}
-										</li>
-									)
-								);
-							}
+				<NavLinksList
+					each={navLinkInfoArray}
+					render={(navLinkInfo) => {
+						if ("shouldShow" in navLinkInfo) {
+							const { shouldShow, id, childElement, className } = navLinkInfo;
 
 							return (
-								<li
-									key={navLinkInfo.title}
-									className="max-lg:pl-[4rem]"
-									onClick={!isDesktop ? toggleNavShow : undefined}
-								>
-									<NavLink to={navLinkInfo.path}>{navLinkInfo.title}</NavLink>
-								</li>
+								shouldShow && (
+									<li key={id} className={className}>
+										{childElement}
+									</li>
+								)
 							);
-						}}
-					/>
-				</ul>
+						}
 
-				{isDesktop && (
-					<p>
-						Free shipping on <span>Orders $50</span>
-					</p>
-				)}
-			</nav>
-		</div>
+						return (
+							<li
+								key={navLinkInfo.title}
+								className="max-lg:pl-[4rem]"
+								onClick={!isDesktop ? toggleNavShow : undefined}
+							>
+								<NavLink to={navLinkInfo.path}>{navLinkInfo.title}</NavLink>
+							</li>
+						);
+					}}
+				/>
+			</ul>
+
+			{isDesktop && (
+				<p>
+					Free shipping on <span>Orders $50</span>
+				</p>
+			)}
+		</nav>
 	);
 };
 

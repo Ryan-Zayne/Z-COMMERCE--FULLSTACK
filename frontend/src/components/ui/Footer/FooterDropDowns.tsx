@@ -1,8 +1,8 @@
-import Logo from "@/components/primitives/Logo.tsx";
-import DropDown from "@/components/ui/DropDown.tsx";
-import { useDisclosure } from "@/lib/hooks/useDisclosure.ts";
-import { cnJoin, cnMerge } from "@/lib/utils/cn.ts";
-import { useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
+import Logo from "@/components/primitives/Logo";
+import DropDown from "@/components/ui/DropDown";
+import { useDisclosure } from "@/lib/hooks/useDisclosure";
+import { cnJoin, cnMerge } from "@/lib/utils/cn";
+import { useGlobalStore } from "@/store/zustand/globalStore/globalStore";
 import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from "react-icons/bs";
 import { FaChevronDown } from "react-icons/fa";
 import { MdLocationOn, MdMail, MdPhone } from "react-icons/md";
@@ -39,7 +39,7 @@ function FooterDropDowns() {
 			<article>
 				<Logo className={"dark:brightness-[0.8] dark:contrast-[1.8]"} />
 
-				<DropDown className="mt-[0.7rem]">
+				<DropDown.Root className="mt-[0.7rem]">
 					{!isDesktop && (
 						<DropDown.Header
 							className={"flex cursor-pointer items-center justify-between"}
@@ -74,9 +74,9 @@ function FooterDropDowns() {
 							digitalgenie@company.com
 						</li>
 					</DropDown.Panel>
-				</DropDown>
+				</DropDown.Root>
 
-				<DropDown className="mt-[2rem]">
+				<DropDown.Root className="mt-[2rem]">
 					{!isDesktop && (
 						<DropDown.Header
 							className={"flex cursor-pointer items-center justify-between"}
@@ -116,12 +116,12 @@ function FooterDropDowns() {
 							<BsPinterest />
 						</li>
 					</DropDown.Panel>
-				</DropDown>
+				</DropDown.Root>
 			</article>
 
 			<article>
 				{/* eslint-disable-next-line sonarjs/no-duplicate-string */}
-				<DropDown className={"min-w-[20rem]"}>
+				<DropDown.Root className={"min-w-[20rem]"}>
 					<DropDown.Header
 						className={cnMerge(
 							"flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary lg:dark:text-heading"
@@ -151,11 +151,11 @@ function FooterDropDowns() {
 						<li>Returns & Exchanges</li>
 						<li>Shipping & Delivery</li>
 					</DropDown.Panel>
-				</DropDown>
+				</DropDown.Root>
 			</article>
 
 			<article>
-				<DropDown className={"min-w-[20rem]"}>
+				<DropDown.Root className={"min-w-[20rem]"}>
 					<DropDown.Header
 						className={cnMerge(
 							"flex cursor-pointer items-center justify-between text-[1.5rem]  lg:text-primary lg:dark:text-heading"
@@ -185,11 +185,11 @@ function FooterDropDowns() {
 						<li>Download</li>
 						<li>Latest News</li>
 					</DropDown.Panel>
-				</DropDown>
+				</DropDown.Root>
 			</article>
 
 			<article>
-				<DropDown className={"min-w-[20rem]"}>
+				<DropDown.Root className={"min-w-[20rem]"}>
 					<DropDown.Header
 						className={cnMerge(
 							"flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary lg:dark:text-heading"
@@ -219,7 +219,7 @@ function FooterDropDowns() {
 						<li>About Us</li>
 						<li>Our Work</li>
 					</DropDown.Panel>
-				</DropDown>
+				</DropDown.Root>
 			</article>
 		</section>
 	);

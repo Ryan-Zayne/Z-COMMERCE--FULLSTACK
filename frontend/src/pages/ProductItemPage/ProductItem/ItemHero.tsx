@@ -1,6 +1,6 @@
-import { ImageComponent } from "@/components/primitives/index.ts";
-import { Carousel, type CarouselProviderProps } from "@/components/ui/index.ts";
-import { useElementList } from "@/lib/hooks/index.ts";
+import { ImageComponent } from "@/components/primitives";
+import { Carousel, type CarouselProviderProps } from "@/components/ui";
+import { useElementList } from "@/lib/hooks";
 import { BsChevronRight } from "react-icons/bs";
 
 type ItemHeroProps = {

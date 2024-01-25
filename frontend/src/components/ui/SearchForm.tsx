@@ -1,8 +1,8 @@
-import { callDummyApi } from "@/api/callDummyApi.ts";
-import { Button, type ButtonProps } from "@/components/primitives/index.ts";
-import { useDebouncedValue } from "@/lib/hooks/useDebounce.ts";
-import { cnMerge } from "@/lib/utils/cn.ts";
-import type { DummyResponseData } from "@/store/react-query/react-query-store.types.ts";
+import { callDummyApi } from "@/api/callDummyApi";
+import { Button, type ButtonProps } from "@/components/primitives";
+import { useDebouncedValue } from "@/lib/hooks/useDebounce";
+import { cnMerge } from "@/lib/utils/cn";
+import type { DummyResponseData } from "@/store/react-query/react-query-store.types";
 import { useState } from "react";
 import type { IconType } from "react-icons";
 import { BiSearchAlt2 } from "react-icons/bi";

@@ -1,8 +1,8 @@
-import { Button, ImageComponent } from "@/components/primitives/index.ts";
-import { Carousel } from "@/components/ui/index.ts";
-import { useAnimateElementRefs, useElementList } from "@/lib/hooks/index.ts";
+import { Button, ImageComponent } from "@/components/primitives";
+import { Carousel } from "@/components/ui";
+import { useAnimateElementRefs, useElementList } from "@/lib/hooks";
 import { RxPaperPlane } from "react-icons/rx";
-import { slideImages } from "./images/index.ts";
+import { slideImages } from "./images";
 
 function Hero() {
 	const { animatedElements, handleElementsAnimation } = useAnimateElementRefs();

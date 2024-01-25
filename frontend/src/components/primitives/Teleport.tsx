@@ -1,4 +1,4 @@
-import type { WithChildren } from "@/lib/types/global-type-helpers.ts";
+import type { WithChildren } from "@/lib/type-helpers/global-type-helpers";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 

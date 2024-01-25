@@ -1,7 +1,7 @@
-import SearchForm from "@/components/ui/SearchForm.tsx";
+import SearchForm from "@/components/ui/SearchForm";
 import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from "react-icons/bs";
 import { TfiYoutube } from "react-icons/tfi";
-import { NewsletterIcon, getOnApple, getOnGoogle } from "./images/index.ts";
+import { NewsletterIcon, getOnApple, getOnGoogle } from "./images";
 
 function FooterHeaderSection() {
 	return (

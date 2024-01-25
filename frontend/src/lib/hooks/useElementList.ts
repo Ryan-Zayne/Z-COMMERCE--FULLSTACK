@@ -1,4 +1,4 @@
-import For from "@/components/primitives/For.tsx";
+import For from "@/components/primitives/For";
 
 const useElementList = () => ({ For });
 

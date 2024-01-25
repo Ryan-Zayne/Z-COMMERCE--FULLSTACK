@@ -1,6 +1,6 @@
-import { useElementList } from "@/lib/hooks/index.ts";
-import { cnJoin, cnMerge } from "@/lib/utils/cn.ts";
-import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import { useElementList } from "@/lib/hooks";
+import { cnJoin, cnMerge } from "@/lib/utils/cn";
+import { useThemeStore } from "@/store/zustand/themeStore";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 type SkeletonProps = {

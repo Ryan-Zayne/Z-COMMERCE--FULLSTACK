@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
-import { assertDefined } from "@/lib/types/global-type-helpers.ts";
+import { assertDefined } from "@/lib/type-helpers/global-type-helpers";
 import { useCallback, useEffect, useRef } from "react";
-import { useCallbackRef } from "./useCallbackRef.ts";
+import { useCallbackRef } from "./useCallbackRef";
 
 type AnimationOptions = {
 	callbackFn: () => void;

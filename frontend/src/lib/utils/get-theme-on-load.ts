@@ -1,5 +1,5 @@
-import { prefersDarkMode } from "./constants.ts";
-import { parseJSON } from "./parseJson.ts";
+import { prefersDarkMode } from "./constants";
+import { parseJSON } from "./parseJSON";
 
 type ThemeStateViaZustand = {
 	state: { theme: "dark" | "light" };

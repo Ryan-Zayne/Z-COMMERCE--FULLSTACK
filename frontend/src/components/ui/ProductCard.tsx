@@ -1,10 +1,10 @@
-import { Button, Card, ImageComponent, StarRating } from "@/components/primitives/index.ts";
-import { useToggle } from "@/lib/hooks/index.ts";
-import { cnJoin, cnMerge } from "@/lib/utils/cn.ts";
+import { Button, Card, ImageComponent, StarRating } from "@/components/primitives";
+import { useToggle } from "@/lib/hooks";
+import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
-import { useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
-import { useShopActions, useShopStore } from "@/store/zustand/shopStore.ts";
-import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import { useGlobalStore } from "@/store/zustand/globalStore/globalStore";
+import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
+import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/zustand-store.types";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";

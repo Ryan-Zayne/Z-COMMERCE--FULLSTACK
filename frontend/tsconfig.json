@@ -33,7 +33,7 @@
 	},
 
 	"exclude": ["dist", "node_modules"],
-	"include": ["src", "env.d.ts", "reset.d.ts", "tailwind.config.ts", "vite.config.ts"],
+	"include": ["src/**/*", "./*.ts"],
 
 	"references": [
 		{

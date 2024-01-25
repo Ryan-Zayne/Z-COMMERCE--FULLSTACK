@@ -1,4 +1,4 @@
-import { getThemeOnLoad } from "./lib/utils/get-theme-on-load.ts";
+import { getThemeOnLoad } from "./lib/utils/get-theme-on-load";
 
 // NOTE - This prevents flicker of wrong theme onLoad
 document.documentElement.dataset.theme = getThemeOnLoad();

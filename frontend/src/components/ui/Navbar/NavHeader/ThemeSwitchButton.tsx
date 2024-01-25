@@ -1,5 +1,5 @@
-import { cnJoin } from "@/lib/utils/cn.ts";
-import { useThemeActions, useThemeStore } from "@/store/zustand/themeStore.ts";
+import { cnJoin } from "@/lib/utils/cn";
+import { useThemeActions, useThemeStore } from "@/store/zustand/themeStore";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { FaSun } from "react-icons/fa";
 

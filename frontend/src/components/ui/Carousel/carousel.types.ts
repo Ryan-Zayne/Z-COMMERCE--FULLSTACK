@@ -1,4 +1,4 @@
-import type { WithChildren } from "@/lib/types/global-type-helpers";
+import type { WithChildren } from "@/lib/type-helpers/global-type-helpers";
 import type { StoreApi } from "zustand";
 
 // Carousel store types

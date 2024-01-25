@@ -97,7 +97,7 @@
 		"@typescript-eslint/unified-signatures": ["error", { "ignoreDifferentlyNamedParameters": true }],
 
 		// Airbnb-config/React plugin rules
-		"import/extensions": ["error", "always", { "ignorePackages": true }],
+		"import/extensions": ["error", "never"],
 		"import/no-extraneous-dependencies": [
 			"error",
 			{
@@ -182,6 +182,7 @@
 		// SonarJs Rules
 		"sonarjs/prefer-immediate-return": "off",
 		"sonarjs/cognitive-complexity": ["error", 20],
+
 		// Eslint plugin write good comments
 		"write-good-comments/write-good-comments": "warn",
 

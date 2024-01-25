@@ -1,5 +1,5 @@
-import type { WithChildren } from "@/lib/types/global-type-helpers";
-import { cnMerge } from "@/lib/utils/cn.ts";
+import type { WithChildren } from "@/lib/type-helpers/global-type-helpers";
+import { cnMerge } from "@/lib/utils/cn";
 
 type InputGroupProps = WithChildren<{
 	className?: string;

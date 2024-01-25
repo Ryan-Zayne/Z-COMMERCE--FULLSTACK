@@ -1,7 +1,7 @@
-import { isBrowser } from "./constants.ts";
+import { isBrowser } from "./constants";
 
-const parseJSON = <TResult>(value: ReturnType<typeof localStorage.getItem>) => {
-	if (!isBrowser || value === null) {
+const parseJSON = <TResult>(value: string | undefined | null) => {
+	if (!isBrowser || value == null) {
 		return null;
 	}
 
@@ -9,3 +9,12 @@ const parseJSON = <TResult>(value: ReturnType<typeof localStorage.getItem>) => {
 };
 
 export { parseJSON };
+
+// type Route = { path: string; children?: Routes };
+// type Routes = Record<string, Route>;
+
+// const routes = {
+//   AUTH: {
+//     path: "/auth",
+//   },
+// } as const satisfies Routes;

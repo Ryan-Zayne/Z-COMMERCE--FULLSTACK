@@ -1,10 +1,10 @@
-import { Button, Logo } from "@/components/primitives/index.ts";
-import { useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
+import { Button, Logo } from "@/components/primitives";
+import { useGlobalStore } from "@/store/zustand/globalStore/globalStore";
 import { Transition } from "@headlessui/react";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation } from "react-router-dom";
-import FormArea from "./components/FormArea/FormArea.tsx";
+import FormArea from "./components/FormArea/FormArea";
 
 function LoginFormPage() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);

@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { ContextError, getErrorMessage } from "./custom-context.utils.ts";
+import { ContextError, getErrorMessage } from "./custom-context.utils";
 import type { CustomContextOptions } from "./customContext.types";
 
 const createCustomContext = <TContextValue>(options: CustomContextOptions<TContextValue>) => {

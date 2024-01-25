@@ -1,18 +1,18 @@
-import Logo from "@/components/primitives/Logo.tsx";
-import DropDown from "@/components/ui/DropDown.tsx";
-import SearchForm from "@/components/ui/SearchForm.tsx";
-import { useDisclosure } from "@/lib/hooks/index.ts";
-import { cnJoin, cnMerge } from "@/lib/utils/cn.ts";
-import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
-import { useShopStore } from "@/store/zustand/shopStore.ts";
-import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import Logo from "@/components/primitives/Logo";
+import DropDown from "@/components/ui/DropDown";
+import SearchForm from "@/components/ui/SearchForm";
+import { useDisclosure } from "@/lib/hooks";
+import { cnJoin, cnMerge } from "@/lib/utils/cn";
+import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore";
+import { useShopStore } from "@/store/zustand/shopStore";
+import { useThemeStore } from "@/store/zustand/themeStore";
 import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import CartDrawer from "./Cart/CartDrawer.tsx";
-import HamBurgerButton from "./HamBurgerButton.tsx";
-import ThemeSwitchButton from "./ThemeSwitchButton.tsx";
+import CartDrawer from "./Cart/CartDrawer";
+import HamBurgerButton from "./HamBurgerButton";
+import ThemeSwitchButton from "./ThemeSwitchButton";
 
-const NavHeader = () => {
+const NavIcons = () => {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const isMobile = useGlobalStore((state) => state.isMobile);
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -60,7 +60,7 @@ const NavHeader = () => {
 					</button>
 				</div>
 
-				<DropDown className={"relative flex items-center justify-center"}>
+				<DropDown.Root className={"relative flex items-center justify-center"}>
 					<DropDown.Header className={"flex"}>
 						<button
 							className="hover:text-heading hover:[transform:rotateY(360deg)] hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
@@ -112,4 +112,4 @@ const NavHeader = () => {
 	);
 };
 
-export default NavHeader;
+export default NavIcons;

@@ -1,8 +1,4 @@
 {
 	"typescript.tsdk": "frontend\\node_modules\\typescript\\lib",
-	"eslint.workingDirectories": [
-		"frontend",
-		"backend"
-	],
-	"typescript.preferences.importModuleSpecifierEnding": "js"
+	"eslint.workingDirectories": ["frontend", "backend"]
 }

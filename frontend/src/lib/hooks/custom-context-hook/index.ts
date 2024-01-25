@@ -1,1 +1,1 @@
-export { createCustomContext } from "./createCustomContext.ts";
+export { createCustomContext } from "./createCustomContext";

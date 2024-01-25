@@ -1,5 +1,5 @@
-import { Overlay, Teleport } from "@/components/primitives/index.ts";
-import { cnMerge } from "@/lib/utils/cn.ts";
+import { Overlay, Teleport } from "@/components/primitives";
+import { cnMerge } from "@/lib/utils/cn";
 import { RiCloseFill } from "react-icons/ri";
 import type {
 	DrawerCloseProps,
@@ -7,8 +7,8 @@ import type {
 	DrawerRootProps,
 	OtherDrawerProps,
 } from "./drawer.types";
-import { DrawerContextProvider } from "./drawerStoreContext.tsx";
-import { useDrawerStore } from "./hooks/index.ts";
+import { DrawerContextProvider } from "./drawerStoreContext";
+import { useDrawerStore } from "./hooks";
 
 function DrawerRoot({ children, ...restOfDrawerProps }: DrawerRootProps) {
 	return (

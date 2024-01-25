@@ -1,11 +1,11 @@
-import type { PolymorphicProps } from "@/lib/types/polymorpic-props-helper.ts";
-import { cnMerge } from "@/lib/utils/cn.ts";
+import type { PolymorphicProps } from "@/lib/type-helpers/polymorpic-props-helper";
+import { cnMerge } from "@/lib/utils/cn";
 import type { CarouselContentProps, CarouselIndicatorProps, OtherCarouselProps } from "./carousel.types";
-import { CarouselContextProvider } from "./carouselStoreContext.tsx";
-import { useCarouselActions, useCarouselOptions, useCarouselStore } from "./hooks/index.ts";
+import { CarouselContextProvider } from "./carouselStoreContext";
+import { useCarouselActions, useCarouselOptions, useCarouselStore } from "./hooks";
 
-function CarouselContent<TAsProp extends React.ElementType = "article">(
-	props: PolymorphicProps<TAsProp, CarouselContentProps>
+function CarouselContent<TElement extends React.ElementType = "article">(
+	props: PolymorphicProps<TElement, CarouselContentProps>
 ) {
 	const {
 		as: HtmlElement = "article",

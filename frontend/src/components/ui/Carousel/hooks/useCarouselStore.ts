@@ -1,6 +1,6 @@
 import { useStore } from "zustand";
 import type { CarouselStore } from "../carousel.types";
-import { useCustomCarouselContext } from "../carouselStoreContext.tsx";
+import { useCustomCarouselContext } from "../carouselStoreContext";
 
 export const useCarouselStore = <TState>(selector: (store: CarouselStore) => TState) => {
 	const store = useCustomCarouselContext();

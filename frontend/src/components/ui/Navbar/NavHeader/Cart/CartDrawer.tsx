@@ -1,13 +1,13 @@
-import Button from "@/components/primitives/Button.tsx";
-import Logo from "@/components/primitives/Logo.tsx";
-import Drawer from "@/components/ui/Drawer/Drawer.tsx";
+import Button from "@/components/primitives/Button";
+import Logo from "@/components/primitives/Logo";
+import Drawer from "@/components/ui/Drawer/Drawer";
 import type { DrawerContentProps, DrawerStore } from "@/components/ui/Drawer/drawer.types";
-import { useElementList } from "@/lib/hooks/index.ts";
-import { useShopStore } from "@/store/zustand/shopStore.ts";
-import { useThemeStore } from "@/store/zustand/themeStore.ts";
+import { useElementList } from "@/lib/hooks";
+import { useShopStore } from "@/store/zustand/shopStore";
+import { useThemeStore } from "@/store/zustand/themeStore";
 import { IoMdCart } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { CartItem, CartItemWrapper } from "./CartItem.tsx";
+import { CartItem, CartItemWrapper } from "./CartItem";
 
 type CartDrawerProps = DrawerStore & { placement?: DrawerContentProps["placement"] };
 

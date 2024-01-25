@@ -1,4 +1,4 @@
-import { useGlobalActions } from "@/store/zustand/globalStore/globalStore.ts";
+import { useGlobalActions } from "@/store/zustand/globalStore/globalStore";
 import { RiMenu3Fill } from "react-icons/ri";
 
 function HamBurgerButton() {

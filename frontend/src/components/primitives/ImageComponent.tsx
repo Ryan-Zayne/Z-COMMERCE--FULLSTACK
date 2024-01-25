@@ -1,5 +1,5 @@
-import { cnMerge } from "@/lib/utils/cn.ts";
-import { useEffect, useState } from "react";
+import { cnMerge } from "@/lib/utils/cn";
+import { useState } from "react";
 
 type ImageComponentProps = React.ComponentPropsWithRef<"img"> & {
 	src: string;
@@ -10,48 +10,34 @@ type ImageComponentProps = React.ComponentPropsWithRef<"img"> & {
 	fetchpriority?: "auto" | "low" | "high";
 };
 
-const img = new Image();
+/* eslint-disable react-hooks/rules-of-hooks */
+const IMAGE_TYPE_LOOKUP = {
+	hasFallback: (props: Omit<ImageComponentProps, "imageType">) => {
+		const { src, blurSrc, className, ...restOfProps } = props;
 
-function ImageComponent(props: ImageComponentProps) {
-	const {
-		src,
-		imageType,
-		blurSrc = "",
-		className = "",
-		wrapperClassName = "",
-		onClick,
-		...restOfProps
-	} = props;
-	const [isImageLoaded, setIsImageLoaded] = useState(false);
+		const [isImageLoaded, setIsImageLoaded] = useState(false);
 
-	useEffect(
-		function imageLoadEffect() {
-			img.src = src;
+		const handleImageLoad = () => setIsImageLoaded(true);
 
-			const handleImageLoad = () => setIsImageLoaded(true);
-
-			if (img.complete) {
-				handleImageLoad();
-			} else {
-				img.addEventListener("load", handleImageLoad);
-			}
-
-			return () => img.removeEventListener("load", handleImageLoad);
-		},
-		[src]
-	);
-
-	const IMAGE_TYPE_LOOKUP = {
-		hasFallback: () => (
+		return (
 			<img
 				src={isImageLoaded ? src : blurSrc}
+				onLoad={handleImageLoad}
 				className={cnMerge("object-cover", className)}
 				alt=""
 				{...restOfProps}
 			/>
-		),
+		);
+	},
 
-		hasSkeleton: () => (
+	hasSkeleton: (props: Omit<ImageComponentProps, "imageType">) => {
+		const { src, className, wrapperClassName, onClick, ...restOfProps } = props;
+
+		const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+		const handleImageLoad = () => setIsImageLoaded(true);
+
+		return (
 			<div
 				className={cnMerge(
 					"h-full w-full",
@@ -60,21 +46,24 @@ function ImageComponent(props: ImageComponentProps) {
 				)}
 				onClick={onClick}
 			>
-				{!isImageLoaded ? (
-					<span className="absolute inset-0 z-[1] animate-zoom [background-image:linear-gradient(100deg,_transparent_20%,_hsla(0,0%,100%,0.3)_50%,_transparent_80%)]" />
-				) : (
-					<img
-						className={cnMerge("object-cover", "h-full", [className])}
-						src={src}
-						alt=""
-						{...restOfProps}
-					/>
-				)}
-			</div>
-		),
-	};
+				<span className="absolute inset-0 z-[1] hidden animate-zoom [background-image:linear-gradient(100deg,_transparent_20%,_hsla(0,0%,100%,0.3)_50%,_transparent_80%)] only:inline-block" />
 
-	return IMAGE_TYPE_LOOKUP[imageType]();
+				<img
+					className={cnMerge("h-full object-cover", [className])}
+					onLoad={handleImageLoad}
+					src={src}
+					alt=""
+					{...restOfProps}
+				/>
+			</div>
+		);
+	},
+};
+
+function ImageComponent(props: ImageComponentProps) {
+	const { imageType, ...restOfProps } = props;
+
+	return IMAGE_TYPE_LOOKUP[imageType](restOfProps);
 }
 
 export default ImageComponent;

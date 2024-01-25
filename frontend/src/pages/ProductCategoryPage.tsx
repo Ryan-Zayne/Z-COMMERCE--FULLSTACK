@@ -1,6 +1,6 @@
-import { LoadingSkeleton, ProductCard } from "@/components/ui/index.ts";
-import { assertDefined } from "@/lib/types/global-type-helpers.ts";
-import { useGetProductCategory } from "@/store/react-query/useGetProductCategory.ts";
+import { LoadingSkeleton, ProductCard } from "@/components/ui";
+import { assertDefined } from "@/lib/type-helpers/global-type-helpers";
+import { useGetProductCategory } from "@/store/react-query/useGetProductCategory";
 import { TiArrowBack } from "react-icons/ti";
 import { Link, useParams } from "react-router-dom";
 

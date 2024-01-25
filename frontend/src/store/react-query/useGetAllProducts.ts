@@ -1,5 +1,5 @@
-import { callDummyApi } from "@/api/callDummyApi.ts";
-import { transformData } from "@/store/react-query/helpers/transFormData.ts";
+import { callDummyApi } from "@/api/callDummyApi";
+import { transformData } from "@/store/react-query/helpers/transFormData";
 import { useQueries } from "@tanstack/react-query";
 
 const useGetAllProducts = () => {

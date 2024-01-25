@@ -1,4 +1,4 @@
-import { cnJoin } from "@/lib/utils/cn.ts";
+import { cnJoin } from "@/lib/utils/cn";
 
 type OverlayProps = {
 	isOpen: boolean;

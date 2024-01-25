@@ -1,6 +1,6 @@
 import { useStore } from "zustand";
 import type { DrawerStore } from "../drawer.types";
-import { useCustomDrawerContext } from "../drawerStoreContext.tsx";
+import { useCustomDrawerContext } from "../drawerStoreContext";
 
 const useDrawerStore = <TSlice>(selector: (state: DrawerStore) => TSlice) => {
 	const store = useCustomDrawerContext();

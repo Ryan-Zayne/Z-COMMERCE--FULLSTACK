@@ -1,5 +1,5 @@
-import { desktopQuery, mobileQuery, tabletQuery } from "@/lib/utils/constants.ts";
-import { useMediaQueryActions } from "@/store/zustand/globalStore/globalStore.ts";
+import { desktopQuery, mobileQuery, tabletQuery } from "@/lib/utils/constants";
+import { useMediaQueryActions } from "@/store/zustand/globalStore/globalStore";
 import { useLayoutEffect } from "react";
 
 const useMediaQuery = () => {

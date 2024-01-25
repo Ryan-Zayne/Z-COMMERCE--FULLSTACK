@@ -1,5 +1,5 @@
-import { assertDefined } from "@/lib/types/global-type-helpers.ts";
-import { useGetAllProducts } from "./useGetAllProducts.ts";
+import { assertDefined } from "@/lib/type-helpers/global-type-helpers";
+import { useGetAllProducts } from "./useGetAllProducts";
 
 const possibleCategories = new Set(["smartphones", "laptops", "watches", "vehicles", "lighting"]);
 

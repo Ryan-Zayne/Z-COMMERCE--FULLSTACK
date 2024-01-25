@@ -1,5 +1,5 @@
-import { useElementList } from "@/lib/hooks/useElementList.ts";
-import { cnMerge } from "@/lib/utils/cn.ts";
+import { useElementList } from "@/lib/hooks/useElementList";
+import { cnMerge } from "@/lib/utils/cn";
 
 type ErrorTextProps = {
 	className?: string;

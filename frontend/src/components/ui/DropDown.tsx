@@ -1,4 +1,4 @@
-import { cnMerge } from "@/lib/utils/cn.ts";
+import { cnMerge } from "@/lib/utils/cn";
 
 type DropDownProps = React.ComponentPropsWithoutRef<"div">;
 
@@ -10,15 +10,15 @@ type DropDownPanelProps = Pick<DropDownProps, "id" | "children"> & {
 	panelListClasses?: string;
 };
 
-function DropDown({ children, ...otherDivElementProps }: DropDownProps) {
-	return <div {...otherDivElementProps}>{children}</div>;
+function DropDownRoot({ children, ...otherDivProps }: DropDownProps) {
+	return <div {...otherDivProps}>{children}</div>;
 }
 
-DropDown.Header = function DropDownHeader({ children, ...otherHeaderElementProps }: DropDownHeaderProps) {
-	return <header {...otherHeaderElementProps}>{children}</header>;
-};
+function DropDownHeader({ children, ...otherHeaderProps }: DropDownHeaderProps) {
+	return <header {...otherHeaderProps}>{children}</header>;
+}
 
-DropDown.Panel = function DropDownPanel(props: DropDownPanelProps) {
+function DropDownPanel(props: DropDownPanelProps) {
 	const { id = "", isOpen = false, children, panelListClasses = "", panelParentClasses = "" } = props;
 
 	return (
@@ -35,6 +35,12 @@ DropDown.Panel = function DropDownPanel(props: DropDownPanelProps) {
 			</ul>
 		</div>
 	);
+}
+
+const DropDown = {
+	Root: DropDownRoot,
+	Header: DropDownHeader,
+	Panel: DropDownPanel,
 };
 
 export default DropDown;

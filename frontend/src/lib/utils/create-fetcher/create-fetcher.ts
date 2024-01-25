@@ -1,31 +1,30 @@
-import { isObject } from "@/lib/types/typeof.ts";
+import { isObject } from "@/lib/type-helpers/typeof";
 import type {
 	ApiResponseData,
 	BaseFetchConfig,
 	DefaultErrorType,
 	FetchConfig,
-} from "./create-fetcher.types.ts";
-import { HTTPError, getResponseData } from "./create-fetcher.utils.ts";
+} from "./create-fetcher.types";
+import { HTTPError, getResponseData } from "./create-fetcher.utils";
 
 const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: BaseFetchConfig) => {
 	const {
 		baseURL,
 		timeout: baseTimeout,
 		interceptors: baseInterceptors = {},
-		body: baseBody,
 		defaultErrorMessage = "Failed to fetch data from server!",
 		...restOfBaseConfig
 	} = baseConfig;
 
 	const abortControllerStore = new Map<`/${string}`, AbortController>();
 
-	async function fetchWrapper<TData = TBaseData, TError = TBaseError>(
+	const fetchWrapper = async <TData = TBaseData, TError = TBaseError>(
 		url: `/${string}`,
 		config?: FetchConfig
-	): Promise<ApiResponseData<TData, TError>> {
+	): Promise<ApiResponseData<TData, TError>> => {
 		const {
 			timeout = baseTimeout,
-			body = baseBody,
+			body,
 			interceptors = baseInterceptors,
 			...restOfFetchConfig
 		} = config ?? {};
@@ -70,7 +69,7 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 				return {
 					dataInfo: null,
 					errorInfo: new HTTPError({
-						responseData: await getResponseData<TError>(response),
+						response: await getResponseData<TError>(response),
 						defaultErrorMessage,
 					}) as TError,
 				};
@@ -122,7 +121,7 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 			abortControllerStore.delete(url);
 			timeoutId && window.clearTimeout(timeoutId);
 		}
-	}
+	};
 
 	return fetchWrapper;
 };

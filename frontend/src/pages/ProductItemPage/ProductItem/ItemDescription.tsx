@@ -1,7 +1,7 @@
-import { Button } from "@/components/primitives/index.ts";
-import StarRating from "@/components/primitives/StarRating.tsx";
-import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types.ts";
-import { useShopActions, useShopStore } from "@/store/zustand/shopStore.ts";
+import { Button } from "@/components/primitives";
+import StarRating from "@/components/primitives/StarRating";
+import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
+import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
 import { AiFillMinusCircle, AiFillPlusCircle, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 

@@ -1,11 +1,11 @@
-import { useMediaQuery } from "@/lib/hooks/index.ts";
+import { useMediaQuery } from "@/lib/hooks";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Suspense } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { LoadingSpinner } from "./components/primitives/index.ts";
-import { DismissableToaster } from "./components/ui/index.ts";
-import { routes } from "./pages/routes.tsx";
+import { LoadingSpinner } from "./components/primitives";
+import { DismissableToaster } from "./components/ui";
+import { routes } from "./pages/routes";
 
 AOS.init();
 

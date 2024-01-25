@@ -1,5 +1,5 @@
-import { callBackendApi } from "@/api/callBackendApi.ts";
-import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open.ts";
+import { callMainApi } from "@/api/callMainApi";
+import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open";
 import type { UseFormReset, UseFormSetError } from "react-hook-form";
 import type { NavigateFunction } from "react-router-dom";
 import type { FormAreaProps } from "./FormArea";
@@ -19,7 +19,7 @@ const submitForm =
 
 		noScrollOnOpen({ isActive: true });
 
-		const { dataInfo, errorInfo } = await callBackendApi(AUTH_URL, {
+		const { dataInfo, errorInfo } = await callMainApi(AUTH_URL, {
 			body: formDataObj,
 		});
 
@@ -39,11 +39,11 @@ const submitForm =
 		}
 
 		if (errorInfo?.response && "errorTitle" in errorInfo.response) {
-			const { errorTitle, message } = errorInfo.response;
+			const errorResponse = errorInfo.response;
 
 			setError("root.serverError", {
-				type: errorTitle,
-				message,
+				type: errorResponse.errorTitle,
+				message: errorResponse.message,
 			});
 
 			return;
@@ -51,7 +51,7 @@ const submitForm =
 
 		if (!dataInfo) {
 			setError("root.serverCaughtError", {
-				type: errorInfo.name,
+				type: "serverCaughtError",
 				message: errorInfo.message,
 			});
 

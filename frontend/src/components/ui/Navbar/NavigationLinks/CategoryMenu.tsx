@@ -1,7 +1,7 @@
-import DropDown from "@/components/ui/DropDown.tsx";
-import { useDisclosure } from "@/lib/hooks/index.ts";
-import { cnJoin } from "@/lib/utils/cn.ts";
-import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore.ts";
+import DropDown from "@/components/ui/DropDown";
+import { useDisclosure } from "@/lib/hooks";
+import { cnJoin } from "@/lib/utils/cn";
+import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore";
 import { useEffect } from "react";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import { BsChevronDoubleRight, BsMenuButtonFill } from "react-icons/bs";
@@ -68,7 +68,7 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 
 	const DEVICE_TYPE_LOOKUP = {
 		mobile: () => (
-			<DropDown id={"Mobile-Categories dropdown"}>
+			<DropDown.Root id={"Mobile-Categories dropdown"}>
 				<DropDown.Header
 					className={"relative flex cursor-pointer items-center gap-[0.5rem]"}
 					onClick={onToggle}
@@ -98,7 +98,7 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 		),
 
 		desktop: () => (
-			<DropDown id={"Shop-By-Categories DropDown"} className={"relative z-50 ml-[1rem]"}>
+			<DropDown.Root id={"Shop-By-Categories DropDown"} className={"relative z-50 ml-[1rem]"}>
 				<DropDown.Header
 					className={
 						"flex w-[28rem] cursor-pointer flex-row-reverse justify-end gap-[1rem] rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-[--color-primary]"
