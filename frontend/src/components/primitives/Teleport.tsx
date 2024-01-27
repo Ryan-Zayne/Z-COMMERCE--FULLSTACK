@@ -1,27 +1,21 @@
 import type { WithChildren } from "@/lib/type-helpers/global-type-helpers";
-import { useState } from "react";
 import { createPortal } from "react-dom";
+
+type ValidHtmlTags = keyof HTMLElementTagNameMap;
+type ValidSelectorAttributes = keyof React.AllHTMLAttributes<HTMLElement> | `data-${string}`;
 
 type PortalProps = WithChildren<{
 	to?:
-		| keyof HTMLElementTagNameMap
+		| ValidHtmlTags
 		| `#${string}`
 		| `.${string}`
-		| `[${string}]`
-		| `[${string}="${string}"]`;
+		| `[data-${string}]`
+		| `[${ValidSelectorAttributes}='${string}']`
+		| `${ValidHtmlTags}[${ValidSelectorAttributes}='${string}']`;
 }>;
 
-function Teleport({ children, to = "#portal-holder" }: PortalProps) {
-	const [hasMounted, setHasMounted] = useState(false);
+function Teleport({ to = "#portal-holder", children }: PortalProps) {
 	const teleportDestination = document.querySelector<HTMLElement>(to);
-
-	if (!hasMounted) {
-		setHasMounted(true);
-	}
-
-	if (!hasMounted) {
-		return null;
-	}
 
 	return createPortal(children, teleportDestination ?? document.body);
 }

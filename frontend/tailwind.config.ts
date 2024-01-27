@@ -135,7 +135,9 @@ const tailwindConfig = {
 						borderRadius: "1rem",
 					},
 				},
+			});
 
+			addComponents({
 				".navlink-transition": {
 					"&::before": {
 						content: '""',
@@ -167,17 +169,11 @@ const tailwindConfig = {
 				},
 			});
 
-			matchUtilities(
-				{
-					"box-shadow": (value) => ({
-						boxShadow: value,
-					}),
-				},
-
-				{
-					values: {},
-				}
-			);
+			matchUtilities({
+				"box-shadow": (value) => ({
+					boxShadow: value,
+				}),
+			});
 
 			matchVariant(
 				"nth",

@@ -1,14 +1,10 @@
-import type { WithChildren } from "./global-type-helpers";
-
 type AsPropObject<TElement extends React.ElementType> = { as?: TElement };
 
 type RefPropObject<TElement extends React.ElementType> = {
 	ref?: React.ComponentPropsWithRef<TElement>["ref"];
 };
 
-type MergePropsWithAs<TElement extends React.ElementType, TProps> = WithChildren<
-	AsPropObject<TElement> & TProps
->;
+type MergePropsWithAs<TElement extends React.ElementType, TProps> = AsPropObject<TElement> & TProps;
 
 type ExtractRestProps<TElement extends React.ElementType, TProps> = Omit<
 	React.ComponentPropsWithoutRef<TElement>,

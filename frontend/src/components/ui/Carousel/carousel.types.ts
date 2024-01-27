@@ -20,6 +20,7 @@ export type CarouselProviderProps = WithChildren<{
 				blurSrc?: string;
 		  }>
 		| string[];
+
 	slideButtonSideEffect?: () => void;
 }>;
 
