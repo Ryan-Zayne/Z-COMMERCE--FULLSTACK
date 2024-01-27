@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/filename-case */
 import { isBrowser } from "./constants";
 
 const parseJSON = <TResult>(value: string | undefined | null) => {
@@ -9,12 +10,3 @@ const parseJSON = <TResult>(value: string | undefined | null) => {
 };
 
 export { parseJSON };
-
-// type Route = { path: string; children?: Routes };
-// type Routes = Record<string, Route>;
-
-// const routes = {
-//   AUTH: {
-//     path: "/auth",
-//   },
-// } as const satisfies Routes;
