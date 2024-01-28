@@ -2,7 +2,9 @@ import { prefersDarkMode } from "./constants";
 import { parseJSON } from "./parseJson";
 
 type ThemeStateViaZustand = {
-	state: { theme: "dark" | "light" };
+	state: {
+		theme: "dark" | "light";
+	};
 };
 
 const defaultSystemTheme = prefersDarkMode ? "dark" : "light";
