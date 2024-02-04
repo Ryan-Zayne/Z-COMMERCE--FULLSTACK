@@ -2,7 +2,7 @@ import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown";
 import { useDisclosure } from "@/lib/hooks/useDisclosure";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
-import { useGlobalStore } from "@/store/zustand/globalStore/globalStore";
+import { useGlobalStore } from "@/store/zustand/globalStore";
 import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from "react-icons/bs";
 import { FaChevronDown } from "react-icons/fa";
 import { MdLocationOn, MdMail, MdPhone } from "react-icons/md";

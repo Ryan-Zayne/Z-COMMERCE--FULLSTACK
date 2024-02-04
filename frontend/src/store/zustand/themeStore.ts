@@ -1,5 +1,6 @@
+import { isObject } from "@/lib/type-helpers/typeof";
 import { prefersDarkMode } from "@/lib/utils/constants";
-import { create, type StateCreator } from "zustand";
+import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ThemeStore } from "./zustand-store.types";
 
@@ -24,12 +25,25 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 	},
 });
 
+const assertState = <TState>(state: unknown) => {
+	if (!isObject(state)) {
+		throw new TypeError("Invalid app state");
+	}
+
+	return state as TState;
+};
+
 // Store hook Creation
 export const useThemeStore = create<ThemeStore>()(
 	persist(themeStoreObjectFn, {
 		name: "colorScheme",
 		version: 1,
-		partialize: ({ themeActions, ...actualState }) => ({ theme: actualState.theme }),
+		partialize: ({ theme }) => ({ theme }),
+		migrate(persistedState, version) {
+			const validPersistedState = assertState<ThemeStore>(persistedState);
+
+			return validPersistedState;
+		},
 	})
 );
 

@@ -2,7 +2,7 @@ import Logo from "@/components/primitives/Logo";
 import Overlay from "@/components/primitives/Overlay";
 import { useElementList } from "@/lib/hooks";
 import { cnJoin } from "@/lib/utils/cn";
-import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore";
+import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";
 import { RiCloseFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import CategoryMenu from "./CategoryMenu";

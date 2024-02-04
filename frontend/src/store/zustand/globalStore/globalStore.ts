@@ -1,4 +1,4 @@
-import { create, type StateCreator } from "zustand";
+import { type StateCreator, create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import type { GlobalStore } from "../zustand-store.types";
 import { createGlobalStateSlice } from "./slices/globalStateSlice";
@@ -18,4 +18,3 @@ export const useGlobalStoreShallow = <TState>(selector: (state: GlobalStore) => 
 
 // Actions hooks
 export const useGlobalActions = () => useGlobalStore((state) => state.globalActions);
-export const useMediaQueryActions = () => useGlobalStore((state) => state.mediaQueryActions);

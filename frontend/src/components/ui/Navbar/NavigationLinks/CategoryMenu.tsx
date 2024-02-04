@@ -1,7 +1,7 @@
 import DropDown from "@/components/ui/DropDown";
 import { useDisclosure } from "@/lib/hooks";
 import { cnJoin } from "@/lib/utils/cn";
-import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore";
+import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";
 import { useEffect } from "react";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import { BsChevronDoubleRight, BsMenuButtonFill } from "react-icons/bs";

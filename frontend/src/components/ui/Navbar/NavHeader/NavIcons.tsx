@@ -3,7 +3,7 @@ import DropDown from "@/components/ui/DropDown";
 import SearchForm from "@/components/ui/SearchForm";
 import { useDisclosure } from "@/lib/hooks";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
-import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore/globalStore";
+import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from "react-icons/bi";

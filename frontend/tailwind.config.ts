@@ -60,15 +60,6 @@ const tailwindConfig = {
 				"slide-out": "cubic-bezier(0.33, 0.85, 0.56, 1.02)",
 			},
 
-			animation: {
-				zoom: "zoom 3s infinite linear",
-				flicker: "flicker 3s linear infinite",
-				shake: "shake 0.2s ease-in-out 0s 3",
-				"fade-in-down": "fade-in-down 1.3s",
-				"fade-in-up": "fade-in-up 1.7s ease-out",
-				"fade-in-up-2": "fade-in-up-2 1.3s ease-out",
-			},
-
 			/* eslint-disable sonarjs/no-duplicate-string */
 			keyframes: {
 				zoom: {
@@ -110,13 +101,22 @@ const tailwindConfig = {
 					to: { opacity: "0.86", transform: "translateY(0)" },
 				},
 			},
+
+			animation: {
+				zoom: "zoom 3s infinite linear",
+				flicker: "flicker 3s linear infinite",
+				shake: "shake 0.2s ease-in-out 0s 3",
+				"fade-in-down": "fade-in-down 1.3s",
+				"fade-in-up": "fade-in-up 1.7s ease-out",
+				"fade-in-up-2": "fade-in-up-2 1.3s ease-out",
+			},
 		},
 	},
 
 	plugins: [
-		plugin((pluginApi) => {
+		plugin((pluginObj) => {
 			// eslint-disable-next-line @typescript-eslint/unbound-method
-			const { matchVariant, matchUtilities, addComponents } = pluginApi;
+			const { matchVariant, matchUtilities, addComponents } = pluginObj;
 
 			addComponents({
 				".custom-scrollbar": {

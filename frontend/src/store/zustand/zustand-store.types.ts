@@ -1,4 +1,5 @@
 import type { DummyResponseDataItem } from "../react-query/react-query-store.types";
+import type { MEDIA_QUERY_LOOKUP } from "./globalStore/slices/mediaQuerySlice";
 
 // Global State Types
 export type GlobalStateSlice = {
@@ -17,9 +18,8 @@ export type MediaQuerySlice = {
 	isDesktop: boolean;
 
 	mediaQueryActions: {
-		setIsMobile: () => void;
-		setIsTablet: () => void;
-		setIsDesktop: () => void;
+		setQuery: (query: keyof typeof MEDIA_QUERY_LOOKUP) => () => void;
+		handleQueryListeners: (action: "add" | "remove") => void;
 	};
 };
 
@@ -44,13 +44,18 @@ export type ShopStore = {
 
 	shopActions: {
 		addToCart: (productItem: DummyResponseDataItem) => void;
+
 		updateProductQuantity: (
 			productId: DummyResponseDataItem["id"],
 			newData: { updatedQuantity: number }
 		) => void;
+
 		removeProductFromCart: (productId: DummyResponseDataItem["id"]) => void;
+
 		decrementProductQuantity: (productId: DummyResponseDataItem["id"]) => void;
+
 		incrementProductQuantity: (productId: DummyResponseDataItem["id"]) => void;
+
 		toggleAddToWishList: (productItem: DummyResponseDataItem) => void;
 	};
 };

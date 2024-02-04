@@ -16,22 +16,22 @@ const defaultStoreValues: DrawerStore = {
 	onToggle: () => {},
 };
 
-const createDrawerStore = () => {
-	const drawerStore = createStore<DrawerStore>(() => defaultStoreValues);
+const createDrawerStore = (storeValues?: DrawerStore) => {
+	const drawerStore = createStore<DrawerStore>(() => storeValues ?? defaultStoreValues);
 
 	return drawerStore;
 };
 
 function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
-	const [drawerStore] = useState(() => createDrawerStore());
+	const [drawerStore] = useState(() => createDrawerStore(storeValues));
 
 	useEffect(
 		function updateStoreEffect() {
-			drawerStore.setState(storeValues);
+			drawerStore.setState({ isOpen: storeValues.isOpen });
 		},
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[storeValues]
+		[storeValues.isOpen]
 	);
 
 	// == DrawerStore is stable between renders, so no need for memoization before passing to the provider

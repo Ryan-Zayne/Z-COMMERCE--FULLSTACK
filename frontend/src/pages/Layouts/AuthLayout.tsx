@@ -1,5 +1,5 @@
 import { Logo } from "@/components/primitives";
-import { useGlobalStore } from "@/store/zustand/globalStore/globalStore";
+import { useGlobalStore } from "@/store/zustand/globalStore";
 import { Outlet } from "react-router-dom";
 
 function AuthLayout() {

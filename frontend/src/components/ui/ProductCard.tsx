@@ -2,7 +2,7 @@ import { Button, Card, ImageComponent, StarRating } from "@/components/primitive
 import { useToggle } from "@/lib/hooks";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
-import { useGlobalStore } from "@/store/zustand/globalStore/globalStore";
+import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/zustand-store.types";
