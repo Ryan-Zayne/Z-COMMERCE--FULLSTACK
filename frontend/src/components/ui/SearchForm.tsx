@@ -1,6 +1,6 @@
 import { callDummyApi } from "@/api/callDummyApi";
 import { Button, type ButtonProps } from "@/components/primitives";
-import { useDebouncedValue } from "@/lib/hooks/useDebounce";
+import { useDebouncedState } from "@/lib/hooks/useDebounce";
 import { cnMerge } from "@/lib/utils/cn";
 import type { DummyResponseData } from "@/store/react-query/react-query-store.types";
 import { useState } from "react";
@@ -45,7 +45,7 @@ function SearchForm(props: SearchFormProps) {
 
 	const [searchTerm, setSearchTerm] = useState("");
 
-	const debouncedSearchProducts = useDebouncedValue(searchTerm, { delay: 500 });
+	const debouncedSearchProducts = useDebouncedState(searchTerm, { delay: 500 });
 
 	// useEffect(() => {
 	// 	fetchSearchProducts();

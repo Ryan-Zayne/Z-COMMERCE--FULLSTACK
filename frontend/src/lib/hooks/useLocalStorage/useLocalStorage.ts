@@ -1,58 +1,66 @@
+import { isBrowser } from "@/lib/utils/constants";
+import { parseJSON } from "@/lib/utils/parseJSON";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { dispatchStorageEvent } from "./dispatchStorageEvent";
 
-type StorageHookOptions<TValue> = {
+type StorageHookOptions<TStorageValue> = {
 	syncData?: boolean;
 	logger?: (error: unknown) => void;
-	parser?: (value: string) => TValue | undefined;
-	stringifier?: (object: TValue | undefined) => string;
+	parser?: <TValue extends TStorageValue = TStorageValue>(value: string) => TValue | null;
+	stringifier?: <TValue extends TStorageValue = TStorageValue>(object: TValue | null) => string;
 };
 
-const useLocalStorage = <TValue>(
+const useLocalStorage = <TStorageValue>(
 	key: string,
-	defaultValue: TValue | null = null,
-	options: StorageHookOptions<TValue> = {}
+	defaultValue: TStorageValue | null = null,
+	options: StorageHookOptions<TStorageValue> = {}
 ) => {
 	const {
 		syncData = true,
 		stringifier = JSON.stringify,
-		parser = JSON.parse,
+		parser = parseJSON,
 		// eslint-disable-next-line no-console
 		logger = console.log,
 	} = options;
 
 	const rawStorageValueRef = useRef<string | null>(null);
 
-	const [storageValue, setStorageValue] = useState<TValue | null>(
+	const [storageValue, setStorageValue] = useState<TStorageValue | null>(
 		// prettier-ignore
 		function readStorageOnMount() {
-		if (typeof window === 'undefined') {
-			return defaultValue;
+			if (!isBrowser) {
+				return defaultValue;
+			}
+
+			try {
+				rawStorageValueRef.current = window.localStorage.getItem(key);
+
+				if (rawStorageValueRef.current === null) {
+					return defaultValue;
+				}
+
+				const initialStorageValue = parseJSON<TStorageValue>(rawStorageValueRef.current);
+
+				return initialStorageValue;
+			} catch (error) {
+				logger(error);
+				return defaultValue;
+			}
 		}
-
-		try {
-			rawStorageValueRef.current = window.localStorage.getItem(key);
-
-			const initialStorageValue = rawStorageValueRef.current
-				? (parser(rawStorageValueRef.current) as TValue)
-				: defaultValue;
-
-			return initialStorageValue;
-		} catch (error) {
-			logger(error);
-			return defaultValue;
-		}
-	}
 	);
 
-	const removeValue = useCallback((storedValueKey: typeof key) => {
-		try {
-			localStorage.removeItem(storedValueKey);
-			setStorageValue(null);
-		} catch {
-			// If user is in private mode or has storage restriction localStorage can throw the error.
-		}
-	}, []);
+	const removeValue = useCallback(
+		(storedValueKey: typeof key) => {
+			try {
+				localStorage.removeItem(storedValueKey);
+				setStorageValue(null);
+			} catch (error) {
+				// If user is in private mode or has storage restriction localStorage can throw the error.
+				logger(error);
+			}
+		},
+		[logger]
+	);
 
 	useEffect(
 		function handleStorageUpdateEffect() {
@@ -61,10 +69,8 @@ const useLocalStorage = <TValue>(
 			if (storageValue === null) {
 				// Dispatching the storage event to sync across tabs
 				dispatchStorageEvent({
-					eventFn: () => localStorage.removeItem(key),
+					eventCallback: () => localStorage.removeItem(key),
 					key,
-					storageArea: window.localStorage,
-					url: window.location.href,
 				});
 
 				return;
@@ -76,12 +82,10 @@ const useLocalStorage = <TValue>(
 			rawStorageValueRef.current = newValue;
 
 			dispatchStorageEvent({
-				eventFn: () => localStorage.setItem(key, newValue),
+				eventCallback: () => localStorage.setItem(key, newValue),
 				key,
 				newValue,
 				oldValue,
-				storageArea: window.localStorage,
-				url: window.location.href,
 			});
 		},
 
@@ -99,7 +103,7 @@ const useLocalStorage = <TValue>(
 
 				try {
 					rawStorageValueRef.current = event.newValue;
-					const newValue = event.newValue ? (parser(event.newValue) as TValue) : null;
+					const newValue = event.newValue ? (parser(event.newValue) as TStorageValue) : null;
 
 					setStorageValue(newValue);
 				} catch (error) {

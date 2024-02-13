@@ -1,67 +1,70 @@
 import { useCallback, useRef } from "react";
-import { useAfterMountEffect } from "./useAfterMountEffect";
+import type { CallbackFn } from "../type-helpers/global-type-helpers";
+import { useUnmountEffect } from "./effect-wrappers/useUnmountEffect";
 import { useCallbackRef } from "./useCallbackRef";
 
-const useThrottleByTimer = <V, R>(callbackFn: (...values: V[]) => R, delay: number) => {
-	const savedCallback = useCallbackRef(callbackFn);
+const useThrottleByTimer = <TParams, TResult>(callbackFn: CallbackFn<TParams, TResult>, delay: number) => {
 	const startTimeRef = useRef<number | null>(null);
+	const savedCallback = useCallbackRef(callbackFn);
 
-	// prettier-ignore
-	const throttledCallback = useCallback((...values: V[]) => {
-		if (startTimeRef.current === null) {
-			startTimeRef.current = Date.now();
-		}
+	const throttledCallback = useCallback(
+		(...values: TParams[]) => {
+			if (startTimeRef.current === null) {
+				startTimeRef.current = Date.now();
+			}
 
-		const elapsedTime = Date.now() - startTimeRef.current;
+			const elapsedTime = Date.now() - startTimeRef.current;
 
-		if (elapsedTime < delay) return;
-
-		savedCallback(...values);
-		startTimeRef.current = null;
-
-	}, [delay, savedCallback]);
+			if (elapsedTime >= delay) {
+				savedCallback(...values);
+				startTimeRef.current = null;
+			}
+		},
+		[delay, savedCallback]
+	);
 
 	return throttledCallback;
 };
 
-const useThrottleBySetTimeout = <V, R>(callbackFn: (...values: V[]) => R, delay: number) => {
+const useThrottleBySetTimeout = <TParams, TResult>(
+	callbackFn: CallbackFn<TParams, TResult>,
+	delay: number
+) => {
+	const timeoutId = useRef<number | null>(null);
 	const savedCallback = useCallbackRef(callbackFn);
-	const throttleTimeoutId = useRef<number | null>(null);
 
-	// prettier-ignore
-	const throttledCallback = useCallback((...values: V[]) => {
-		if (throttleTimeoutId.current !== null) return;
+	const throttledCallback = useCallback(
+		(...values: TParams[]) => {
+			if (timeoutId.current !== null) return;
 
-		throttleTimeoutId.current = window.setTimeout(() => {
-			savedCallback(...values);
+			timeoutId.current = window.setTimeout(() => {
+				savedCallback(...values);
+				timeoutId.current = null;
+			}, delay);
+		},
+		[delay, savedCallback]
+	);
 
-			throttleTimeoutId.current = null;
-		}, delay);
-
-	}, [delay, savedCallback]);
-
-	useAfterMountEffect(() => {
-		return () => clearTimeout(throttleTimeoutId.current as number);
-	}, []);
+	useUnmountEffect(() => timeoutId.current && clearTimeout(timeoutId.current));
 
 	return throttledCallback;
 };
 
-const useThrottleByFrame = <V, R>(callbackFn: (...values: V[]) => R) => {
+const useThrottleByFrame = <TParams, TResult>(callbackFn: CallbackFn<TParams, TResult>) => {
+	const animationFrameId = useRef<number | null>(null);
 	const savedCallback = useCallbackRef(callbackFn);
 
-	const throttleFrameId = useRef<number | null>(null);
+	const throttledCallback = useCallback(
+		(...values: TParams[]) => {
+			if (animationFrameId.current !== null) return;
 
-	// prettier-ignore
-	const throttledCallback = useCallback((...values: V[]) => {
-		if (throttleFrameId.current !== null) return;
-
-		throttleFrameId.current = requestAnimationFrame(() => {
-			savedCallback(...values);
-			throttleFrameId.current = null;
-		});
-
-	}, [savedCallback]);
+			animationFrameId.current = requestAnimationFrame(() => {
+				savedCallback(...values);
+				animationFrameId.current = null;
+			});
+		},
+		[savedCallback]
+	);
 
 	return throttledCallback;
 };

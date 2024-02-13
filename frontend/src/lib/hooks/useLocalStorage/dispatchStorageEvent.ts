@@ -1,13 +1,21 @@
-type DispatchOptionsType = StorageEventInit & { eventFn: () => void };
+type DispatchOptionsType = StorageEventInit & { eventCallback: () => void };
 
 const dispatchStorageEvent = (dispatchOptions: DispatchOptionsType) => {
-	const { eventFn, key: storedValueKey, ...restOfOptions } = dispatchOptions;
+	const {
+		eventCallback,
+		key: storedValueKey,
+		storageArea = window.localStorage,
+		url = window.location.href,
+		...restOfOptions
+	} = dispatchOptions;
 
-	eventFn();
+	eventCallback();
 
 	window.dispatchEvent(
 		new StorageEvent("storage", {
 			key: storedValueKey,
+			storageArea,
+			url,
 			...restOfOptions,
 		})
 	);

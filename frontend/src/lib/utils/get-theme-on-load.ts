@@ -1,5 +1,5 @@
 import { prefersDarkMode } from "./constants";
-import { parseJSON } from "./parseJson";
+import { parseJSON } from "./parseJSON";
 
 type ThemeStateViaZustand = {
 	state: {

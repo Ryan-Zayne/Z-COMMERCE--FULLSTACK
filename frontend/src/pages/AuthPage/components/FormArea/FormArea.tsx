@@ -150,10 +150,10 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 				/>
 			)}
 
-			{errors.root?.serverCaughtError && (
+			{errors.root?.caughtError && (
 				<ErrorParagraph
 					className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
-					message={errors.root.serverCaughtError.message}
+					message={errors.root.caughtError.message}
 				/>
 			)}
 

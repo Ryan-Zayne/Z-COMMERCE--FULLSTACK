@@ -8,6 +8,8 @@ export type StateSetter<TSetter = unknown> = React.Dispatch<React.SetStateAction
 
 export type Prettify<T> = { [k in keyof T]: T[k] };
 
+export type CallbackFn<TParams, TResult = void> = (...params: TParams[]) => TResult;
+
 export type MyCustomCss = React.CSSProperties & Record<`--${string}`, string>; // Allows Ts support for inline css variables
 
 export const assertDefined = <T>(value: T) => {

@@ -52,6 +52,7 @@ function DrawerContent({ className, children, placement = "right" }: DrawerConte
 
 function DrawerCloseButton(props: DrawerCloseProps) {
 	const { className = "", icon = <RiCloseFill /> } = props;
+
 	const onClose = useDrawerStore((state) => state.onClose);
 
 	return (

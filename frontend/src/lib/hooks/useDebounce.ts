@@ -1,44 +1,48 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallbackRef } from ".";
+import type { CallbackFn } from "../type-helpers/global-type-helpers";
+import { debounce } from "../utils/debounce";
 
 type DebounceOptions = {
 	delay: number;
 };
 
-export const useDebouncedFn = <TParams>(
-	callBackFn: (...params: TParams[]) => void,
-	options: DebounceOptions
-) => {
+export const useDebouncedFn = <TParams>(callBackFn: CallbackFn<TParams>, options: DebounceOptions) => {
 	const { delay } = options;
 
-	const timeoutRef = useRef<number | null>(null);
+	const savedCallback = useCallbackRef(callBackFn);
 
-	const debouncedFn = (...params: TParams[]) => {
-		timeoutRef.current && clearTimeout(timeoutRef.current);
+	const debouncedFn = useMemo(() => debounce(savedCallback, delay), [delay, savedCallback]);
 
-		timeoutRef.current = window.setTimeout(() => {
-			callBackFn(...params);
-			timeoutRef.current = null;
-		}, delay);
-	};
+	return debouncedFn;
+};
 
-	return useCallback(debouncedFn, [callBackFn, delay]);
+export const useDebouncedState = <TValue>(defualtValue: TValue, options: DebounceOptions) => {
+	const { delay } = options;
+	const [value, setValue] = useState(defualtValue);
+
+	const setDebouncedValue = useMemo(
+		() => debounce((newValue: React.SetStateAction<TValue>) => setValue(newValue), delay),
+		[delay]
+	);
+
+	return [value, setDebouncedValue] as const;
 };
 
 export const useDebouncedValue = <TValue>(value: TValue, options: DebounceOptions) => {
 	const { delay } = options;
+	const timeoutRef = useRef<number>();
 	const [debouncedValue, setDebouncedValue] = useState(value);
-	const timeoutRef = useRef<number | null>(null);
 
-	if (debouncedValue === value) {
-		return value;
-	}
+	const cancelTimeout = useCallback(() => window.clearTimeout(timeoutRef.current), []);
 
-	timeoutRef.current && clearTimeout(timeoutRef.current);
+	useEffect(() => {
+		timeoutRef.current = window.setTimeout(() => {
+			setDebouncedValue(value);
+		}, delay);
 
-	timeoutRef.current = window.setTimeout(() => {
-		setDebouncedValue(value);
-		timeoutRef.current = null;
-	}, delay);
+		return cancelTimeout;
+	}, [value, delay, cancelTimeout]);
 
-	return debouncedValue;
+	return [debouncedValue, cancelTimeout] as const;
 };

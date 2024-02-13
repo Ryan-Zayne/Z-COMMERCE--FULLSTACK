@@ -18,21 +18,31 @@ export type BaseFetchConfig = {
 	};
 } & Omit<RequestInit, "method" | "body">;
 
-export type FetchConfig = {
-	body?: string | Record<string, unknown> | FormData;
-} & Omit<BaseFetchConfig, "baseURL" | "defaultErrorMessage">;
-
-export type DefaultErrorType = {
-	status: "error";
-	message: string;
+export type FetchConfig = Omit<BaseFetchConfig, "baseURL" | "defaultErrorMessage"> & {
+	body?: Record<string, unknown> | FormData | string;
 };
 
-export type ApiResponseData<TData, TError = DefaultErrorType> =
+export type ApiResponseData<TData, TError> =
 	| {
 			dataInfo: TData;
 			errorInfo: null;
 	  }
 	| {
 			dataInfo: null;
-			errorInfo: TError;
+			errorInfo:
+				| {
+						errorName: "HTTPError";
+						response: TError;
+						message: string;
+				  }
+				| {
+						// eslint-disable-next-line no-use-before-define
+						errorName: Exclude<PossibleErrorType["name"], undefined>;
+						message: string;
+				  };
 	  };
+
+export type PossibleErrorType = {
+	name?: "AbortError" | "SyntaxError" | "TypeError" | "Error" | "UnknownError";
+	message?: string;
+};

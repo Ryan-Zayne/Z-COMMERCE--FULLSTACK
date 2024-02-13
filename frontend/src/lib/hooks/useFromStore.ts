@@ -1,5 +1,6 @@
+import type { SelectorFn } from "@/store/zustand/zustand-store.types";
 import { useEffect, useState } from "react";
-import { useCallbackRef } from "./useCallbackRef";
+import type { StoreApi, UseBoundStore } from "zustand";
 
 /**
  * A custom hook that returns a value from a store and syncs it with a local state.
@@ -7,11 +8,10 @@ import { useCallbackRef } from "./useCallbackRef";
  * This solves NextJs mount hydration issue.
  * */
 
-const useFromStore = <TState, TResult>(
-	useZustandStore: (callbackFn: (state: TState) => TResult) => TResult,
-	callbackFn: (state: TState) => TResult
+const useFromStore = <TStore, TResult>(
+	useZustandStore: UseBoundStore<StoreApi<TStore>>,
+	selector: SelectorFn<TStore, TResult>
 ) => {
-	const selector = useCallbackRef(callbackFn);
 	const zustandState = useZustandStore(selector);
 
 	const [state, setState] = useState<TResult>(zustandState);
@@ -27,29 +27,4 @@ const useFromStore = <TState, TResult>(
 	return state;
 };
 
-const useRehydratedFromStore = <TState, TResult>(
-	useZustandStore: (callbackFn: (state: TState) => TResult) => TResult,
-	callbackFn: (state: TState) => TResult
-) => {
-	// First add skipHyrdation: true to persist function in zustand store
-	const [hasHydrated, setHasHydrated] = useState(false);
-
-	const selector = useCallbackRef(callbackFn);
-	const zustandState = useZustandStore(selector);
-
-	useEffect(
-		function rehydrateStoreOnLoadEffect() {
-			// @ts-expect-error - FIX
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-			useZustandStore.persist.rehydrate();
-			setHasHydrated(true);
-		},
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[]
-	);
-
-	return hasHydrated ? zustandState : null;
-};
-
-export { useFromStore, useRehydratedFromStore };
+export { useFromStore };

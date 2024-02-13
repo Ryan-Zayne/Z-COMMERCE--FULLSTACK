@@ -1,8 +1,8 @@
 import { toast } from "react-hot-toast";
-import { create, type StateCreator } from "zustand";
+import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/react/shallow";
-import type { ShopStore } from "./zustand-store.types";
+import type { SelectorFn, ShopStore } from "./zustand-store.types";
 
 const toastInfo = {
 	added: {
@@ -116,7 +116,7 @@ export const useShopStore = create<ShopStore>()(
 	})
 );
 
-export const useShopStoreShallow = <TState>(selector: (state: ShopStore) => TState) =>
+export const useShopStoreShallow = <TResult>(selector: SelectorFn<ShopStore, TResult>) =>
 	useShopStore(useShallow(selector));
 
 // Actions hook

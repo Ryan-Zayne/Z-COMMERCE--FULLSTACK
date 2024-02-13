@@ -40,18 +40,9 @@
 		--text-label: hsl(34, 10%, 58%);
 		--text-input: hsl(36, 9%, 68%);
 	}
+}
 
-	@font-face {
-		font-family: "Rubik";
-		src: url("/fonts/Rubik.woff2") format("woff2");
-		font-style: normal;
-	}
-
-	@font-face {
-		font-family: "Roboto Slab";
-		src: url("/fonts/Roboto-slab.woff2") format("woff2");
-		font-style: normal;
-	}
+@layer base {
 
 	/* ------------------*/
 	/* General CSS Reset */
@@ -109,6 +100,7 @@
 		font-family: theme("fontFamily.rubik");
 		background-color: var(--color-body);
 		color: var(--text-body);
+		scrollbar-gutter: stable;
 	}
 }
 
@@ -142,12 +134,10 @@
 		right: 0;
 		height: 100%;
 		background-repeat: no-repeat;
-		background-image: linear-gradient(
-			90deg,
-			var(--base-color),
-			var(--highlight-color),
-			var(--base-color)
-		);
+		background-image: linear-gradient(90deg,
+				var(--base-color),
+				var(--highlight-color),
+				var(--base-color));
 		transform: translateX(-100%);
 
 		animation-name: react-loading-skeleton;

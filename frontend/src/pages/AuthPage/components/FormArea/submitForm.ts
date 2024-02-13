@@ -1,4 +1,5 @@
 import { callMainApi } from "@/api/callMainApi";
+import { isHTTPError } from "@/lib/utils/create-fetcher/create-fetcher.utils";
 import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open";
 import type { UseFormReset, UseFormSetError } from "react-hook-form";
 import type { NavigateFunction } from "react-router-dom";
@@ -19,13 +20,13 @@ const submitForm =
 
 		noScrollOnOpen({ isActive: true });
 
-		const { dataInfo, errorInfo } = await callMainApi(AUTH_URL, {
+		const { errorInfo } = await callMainApi(AUTH_URL, {
 			body: formDataObj,
 		});
 
 		noScrollOnOpen({ isActive: false });
 
-		if (errorInfo?.response && "errors" in errorInfo.response) {
+		if (isHTTPError(errorInfo?.errorName) && "errors" in errorInfo.response) {
 			const { errors: zodErrors } = errorInfo.response;
 
 			zodErrors.forEach(([field, errorMessage]) => {
@@ -38,7 +39,7 @@ const submitForm =
 			return;
 		}
 
-		if (errorInfo?.response && "errorTitle" in errorInfo.response) {
+		if (isHTTPError(errorInfo?.errorName) && "errorTitle" in errorInfo.response) {
 			const errorResponse = errorInfo.response;
 
 			setError("root.serverError", {
@@ -49,9 +50,9 @@ const submitForm =
 			return;
 		}
 
-		if (!dataInfo) {
-			setError("root.serverCaughtError", {
-				type: "serverCaughtError",
+		if (errorInfo !== null) {
+			setError("root.caughtError", {
+				type: "caughtError",
 				message: errorInfo.message,
 			});
 

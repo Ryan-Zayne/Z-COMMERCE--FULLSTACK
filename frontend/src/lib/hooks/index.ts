@@ -1,4 +1,3 @@
-export { useAfterMountEffect } from "./useAfterMountEffect";
 export { useAnimateElementRefs } from "./useAnimateElementRefs";
 export { useAnimationInterval } from "./useAnimationInterval";
 export { useCallbackRef } from "./useCallbackRef";

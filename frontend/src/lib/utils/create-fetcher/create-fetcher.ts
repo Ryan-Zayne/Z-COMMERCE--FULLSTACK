@@ -2,12 +2,12 @@ import { isObject } from "@/lib/type-helpers/typeof";
 import type {
 	ApiResponseData,
 	BaseFetchConfig,
-	DefaultErrorType,
 	FetchConfig,
+	PossibleErrorType,
 } from "./create-fetcher.types";
-import { HTTPError, getResponseData } from "./create-fetcher.utils";
+import { getResponseData } from "./create-fetcher.utils";
 
-const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: BaseFetchConfig) => {
+const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(baseConfig: BaseFetchConfig) => {
 	const {
 		baseURL,
 		timeout: baseTimeout,
@@ -41,14 +41,12 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 		const timeoutId = timeout && window.setTimeout(() => controller.abort(), timeout);
 
 		try {
-			const { onRequest, onResponse, onResponseError } = interceptors;
-
-			await onRequest?.(restOfFetchConfig);
+			await interceptors.onRequest?.(restOfFetchConfig);
 
 			const response = await fetch(`${baseURL}${url}`, {
 				signal: controller.signal,
 
-				method: "GET", // Setting default method as GET
+				method: "GET",
 
 				body: isObject(body) ? JSON.stringify(body) : body,
 
@@ -64,18 +62,21 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 			});
 
 			if (!response.ok) {
-				await onResponseError?.(response);
+				await interceptors.onResponseError?.(response);
+
+				const errorResponse = await getResponseData<TError>(response);
 
 				return {
 					dataInfo: null,
-					errorInfo: new HTTPError({
-						response: await getResponseData<TError>(response),
-						defaultErrorMessage,
-					}) as TError,
+					errorInfo: {
+						errorName: "HTTPError",
+						response: errorResponse,
+						message: (errorResponse as PossibleErrorType).message ?? defaultErrorMessage,
+					},
 				};
 			}
 
-			await onResponse?.(response);
+			await interceptors.onResponse?.(response);
 
 			return {
 				dataInfo: await getResponseData<TData>(response),
@@ -88,32 +89,20 @@ const createFetcher = <TBaseData, TBaseError = DefaultErrorType>(baseConfig: Bas
 				return {
 					dataInfo: null,
 					errorInfo: {
-						status: "error",
+						errorName: "AbortError",
 						message: `Request timed out after ${timeout}ms`,
-					} as TError,
+					},
 				};
 			}
 
-			const { onRequestError } = interceptors;
-
-			await onRequestError?.(restOfFetchConfig);
-
-			if (error instanceof TypeError || error instanceof SyntaxError || error instanceof Error) {
-				return {
-					dataInfo: null,
-					errorInfo: {
-						status: "error",
-						message: error.message,
-					} as TError,
-				};
-			}
+			await interceptors.onRequestError?.(restOfFetchConfig);
 
 			return {
 				dataInfo: null,
 				errorInfo: {
-					status: "error",
-					message: defaultErrorMessage,
-				} as TError,
+					errorName: (error as PossibleErrorType).name ?? "UnknownError",
+					message: (error as PossibleErrorType).message ?? defaultErrorMessage,
+				},
 			};
 
 			// Clean up the timeout and remove the now unneeded AbortController from store

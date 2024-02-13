@@ -4,21 +4,8 @@ export const getResponseData = async <TResponse>(response: Response) => {
 	return isJson ? (response.json() as TResponse) : ({ message: await response.text() } as TResponse);
 };
 
-type ErrorDetails<ErrorResponseType> = {
-	response: ErrorResponseType;
-	defaultErrorMessage: string;
-};
+export const isHTTPError = (errorName: unknown): errorName is "HTTPError" => errorName === "HTTPError";
 
-export class HTTPError<ErrorResponseType = Record<string, unknown>> extends Error {
-	response: ErrorResponseType;
-
-	constructor(errorDetails: ErrorDetails<ErrorResponseType>) {
-		const { defaultErrorMessage, response } = errorDetails;
-
-		super((response as { message?: string }).message ?? defaultErrorMessage);
-
-		this.name = "HTTPError";
-
-		this.response = response;
-	}
-}
+// class HTTPError<ErrorResponseType = Record<string, unknown>> {
+// 	constructor(errorDetails) {}
+// }
