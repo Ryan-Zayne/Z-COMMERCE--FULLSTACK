@@ -23,9 +23,12 @@
 		/* Linting */
 		"strict": true,
 		"allowJs": false,
+		"noImplicitOverride": true,
 		"noImplicitReturns": true,
 		"noImplicitThis": true,
 		"noFallthroughCasesInSwitch": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"allowUnreachableCode": false,
 		"allowSyntheticDefaultImports": true,
 		"forceConsistentCasingInFileNames": true,
 		"noErrorTruncation": true,
