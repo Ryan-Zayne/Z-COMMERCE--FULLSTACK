@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
-import { isDevMode } from '../common/lib/utils/constants.js';
+import jwt from "jsonwebtoken";
+import { isDevMode } from "../common/lib/utils/constants.js";
 
-export const generateAccessToken = (userId, { expiresIn = '5m' } = {}) => {
+export const generateAccessToken = (userId, { expiresIn = "5m" } = {}) => {
 	const payLoad = { userId };
 
 	const accessToken = jwt.sign(payLoad, process.env.ACCESS_SECRET, { expiresIn });
@@ -9,7 +9,7 @@ export const generateAccessToken = (userId, { expiresIn = '5m' } = {}) => {
 	return accessToken;
 };
 
-export const generateRefreshToken = (userId, { expiresIn = '1d' } = {}) => {
+export const generateRefreshToken = (userId, { expiresIn = "1d" } = {}) => {
 	const payLoad = { userId };
 
 	const refreshToken = jwt.sign(payLoad, process.env.REFRESH_SECRET, { expiresIn });
@@ -24,8 +24,8 @@ export const decodeJwtToken = (token, secretKey) => {
 };
 
 export const setCookieAndSendResponse = ({ res, user, accessToken, newRefreshToken }) => {
-	res.cookie('refreshToken', newRefreshToken, {
-		sameSite: 'strict',
+	res.cookie("refreshToken", newRefreshToken, {
+		sameSite: "strict",
 		secure: !isDevMode,
 		httpOnly: true,
 		signed: true,
@@ -34,13 +34,13 @@ export const setCookieAndSendResponse = ({ res, user, accessToken, newRefreshTok
 
 	// eslint-disable-next-line no-unused-expressions
 	!user
-		? res.json({ status: 'success', accessToken })
-		: res.json({ status: 'success', accessToken, user: { name: user.username, email: user.email } });
+		? res.json({ status: "success", accessToken })
+		: res.json({ status: "success", accessToken, user: { name: user.username, email: user.email } });
 };
 
 export const clearExistingCookie = (res) => {
-	res.clearCookie('refreshToken', {
-		sameSite: 'strict',
+	res.clearCookie("refreshToken", {
+		sameSite: "strict",
 		secure: !isDevMode,
 		httpOnly: true,
 		signed: true,

@@ -1,12 +1,12 @@
-import { asyncHandler } from '../../../common/lib/utils/asyncHandler.utils.js';
-import UserModel from '../../../users/user.model.js';
+import { asyncHandler } from "../../../common/lib/utils/asyncHandler.utils.js";
+import UserModel from "../../../users/user.model.js";
 import {
 	clearExistingCookie,
 	decodeJwtToken,
 	generateAccessToken,
 	generateRefreshToken,
 	setCookieAndSendResponse,
-} from '../../auth.services.js';
+} from "../../auth.services.js";
 
 // @desc Refresh the access token
 // @route GET /api/auth/refresh
@@ -22,11 +22,11 @@ const refreshTokenHandler = asyncHandler(async (req, res) => {
 
 		if (userWithToken.id !== decodedPayload.userId) {
 			res.status(403);
-			throw new Error('Access is forbidden!');
+			throw new Error("Access is forbidden!");
 		}
 
 		const newAccessToken = generateAccessToken(decodedPayload.userId);
-		const newRefreshToken = generateRefreshToken(decodedPayload.userId, { expiresIn: '15m' });
+		const newRefreshToken = generateRefreshToken(decodedPayload.userId, { expiresIn: "15m" });
 
 		const updatedTokenArray = userWithToken.refreshTokenArray.map((token) => {
 			const isTargetToken = crypto.timingSafeEqual(Buffer.from(token), Buffer.from(refreshToken));

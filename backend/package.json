@@ -5,8 +5,9 @@
 	"main": "src/server.js",
 	"type": "module",
 	"scripts": {
-		"start": "cross-env NODE_ENV=production node src/server.js",
-		"dev": "nodemon src/server.js",
+		"start": "node src/server.js",
+		"start:prod": "cross-env NODE_ENV=production node src/server.js",
+		"dev": "nodemon",
 		"format": "prettier --write .",
 		"lint": "eslint src/**/*.{js,ts}"
 	},

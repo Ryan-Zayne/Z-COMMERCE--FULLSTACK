@@ -2,7 +2,8 @@ import type { PolymorphicProps } from "@/lib/type-helpers/polymorpic-props-helpe
 import { cnMerge } from "@/lib/utils/cn";
 import type { CarouselContentProps, CarouselIndicatorProps, OtherCarouselProps } from "./carousel.types";
 import { CarouselContextProvider } from "./carouselStoreContext";
-import { useCarouselActions, useCarouselOptions, useCarouselStore } from "./hooks";
+import { useCarouselOptions } from "./useCarouselOptions";
+import { useCarouselActions, useCarouselStore } from "./useCarouselStore";
 
 function CarouselContent<TElement extends React.ElementType = "article">(
 	props: PolymorphicProps<TElement, CarouselContentProps>
@@ -29,7 +30,7 @@ function CarouselContent<TElement extends React.ElementType = "article">(
 	return (
 		<HtmlElement
 			data-id="Carousel"
-			className={cnMerge(`relative flex h-full touch-none select-none ${className}`)}
+			className={cnMerge("relative flex h-full touch-none select-none", className)}
 			onMouseEnter={() => pauseOnHover && setIsPauseAutoSlide(true)}
 			onMouseLeave={() => pauseOnHover && setIsPauseAutoSlide(false)}
 		>

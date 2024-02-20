@@ -9,7 +9,7 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 	theme: prefersDarkMode ? "dark" : "light",
 	isDarkMode: document.documentElement.dataset.theme === "dark",
 
-	themeActions: {
+	actions: {
 		toggleTheme: () => {
 			const newTheme = get().theme === "light" ? "dark" : "light";
 
@@ -21,6 +21,12 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 			});
 
 			set({ theme: newTheme, isDarkMode: newTheme === "dark" });
+		},
+
+		initThemeOnLoad: () => {
+			const { theme: persistedTheme } = get();
+
+			document.documentElement.dataset.theme = persistedTheme;
 		},
 	},
 });
@@ -48,4 +54,4 @@ export const useThemeStore = create<ThemeStore>()(
 );
 
 // Actions hook
-export const useThemeActions = () => useThemeStore((state) => state.themeActions);
+export const useThemeActions = () => useThemeStore((state) => state.actions);

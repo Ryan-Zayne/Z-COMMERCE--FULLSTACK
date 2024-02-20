@@ -1,5 +1,5 @@
 // NOTE - This feature is no longer in use.
-import express from 'express';
+import express from "express";
 
 const assetsPathRouter = express.Router();
 

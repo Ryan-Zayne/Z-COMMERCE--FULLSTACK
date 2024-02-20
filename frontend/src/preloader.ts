@@ -1,7 +1,7 @@
-import { getThemeOnLoad } from "./lib/utils/get-theme-on-load";
+import { useThemeStore } from "./store/zustand/themeStore";
 
 // NOTE - This prevents flicker of wrong theme onLoad
-document.documentElement.dataset.theme = getThemeOnLoad();
+useThemeStore.getState().actions.initThemeOnLoad();
 
 // NOTE - Preloader Removal
 window.addEventListener("DOMContentLoaded", function removePreloader() {

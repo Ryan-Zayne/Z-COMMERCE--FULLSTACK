@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/error-message */
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const setConnectionToDB = async () => {
 	// prettier-ignore
@@ -16,12 +16,12 @@ const setConnectionToDB = async () => {
 		console.error({ error });
 	}
 
-	mongoose.connection.on('connected', () => {
-		console.info('MongoDB Atlas connected!'.bold);
+	mongoose.connection.on("connected", () => {
+		console.info("MongoDB Atlas connected!".bold);
 	});
 
-	mongoose.connection.on('disconnected', () => {
-		console.error('MongoDB Atlas disconnected!'.bold);
+	mongoose.connection.on("disconnected", () => {
+		console.error("MongoDB Atlas disconnected!".bold);
 	});
 };
 

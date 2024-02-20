@@ -1,6 +1,8 @@
-export const isBrowser = typeof window !== "undefined";
+export const isServer = typeof window === "undefined" || typeof document === "undefined";
 
-export const prefersDarkMode = isBrowser && window.matchMedia("(prefers-color-scheme: dark)").matches;
+export const isBrowser = !isServer;
+
+export const prefersDarkMode = isServer && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 export const mobileQuery = window.matchMedia("(max-width: 767px)");
 

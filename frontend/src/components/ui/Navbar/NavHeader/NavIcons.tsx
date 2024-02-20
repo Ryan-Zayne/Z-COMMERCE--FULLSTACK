@@ -32,12 +32,13 @@ const NavIcons = () => {
 
 			<SearchForm
 				className={cnMerge(
-					[
-						isMobile
-							? "absolute inset-x-0 top-[6.2rem] flex h-0 w-[100%] items-center justify-center overflow-y-hidden rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out"
-							: "w-[min(100%,_54vw)]",
-					],
-					[isSearchShow && "h-[8.1rem] duration-[600ms] ease-[ease]"]
+					isMobile
+						? [
+								"absolute inset-x-0 top-[6.2rem] flex h-0 w-[100%] items-center justify-center overflow-y-hidden rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out",
+							]
+						: "w-[min(100%,_54vw)]",
+
+					isSearchShow && "h-[8.1rem] duration-[600ms] ease-[ease]"
 				)}
 			/>
 
@@ -72,11 +73,14 @@ const NavIcons = () => {
 
 					<DropDown.Panel
 						isOpen={dropDownDisclosure.isOpen}
-						panelParentClasses={"absolute top-[5.1rem] z-[100] w-[15rem]"}
-						panelListClasses={cnJoin(
-							`flex flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem] text-[1.3rem] [&_>_a:hover]:navlink-transition [&_>_a]:relative`,
-							[dropDownDisclosure.isOpen && "py-[1.5rem]"]
-						)}
+						classNames={{
+							panelParent: "absolute top-[5.1rem] z-[100] w-[15rem]",
+							panelList: cnJoin(
+								"flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem] text-[1.3rem] [&_>_a:hover]:navlink-transition first-line:flex [&_>_a]:relative",
+
+								dropDownDisclosure.isOpen && "py-[1.5rem]"
+							),
+						}}
 					>
 						<Link to={"/auth/login"}>My Account</Link>
 						<Link to={"/"}>Checkout</Link>

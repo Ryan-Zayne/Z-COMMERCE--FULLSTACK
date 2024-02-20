@@ -1,16 +1,16 @@
-import bcrypt from 'bcrypt';
-import { Schema, model } from 'mongoose';
+import bcrypt from "bcrypt";
+import { Schema, model } from "mongoose";
 
 const UserSchema = new Schema(
 	{
 		username: {
 			type: String,
-			required: [true, 'Please add the user name'],
+			required: [true, "Please add the user name"],
 		},
 
 		email: {
 			type: String,
-			required: [true, 'Please add the user email address'],
+			required: [true, "Please add the user email address"],
 			unique: true,
 			lowercase: true,
 			trim: true,
@@ -18,13 +18,13 @@ const UserSchema = new Schema(
 
 		password: {
 			type: String,
-			required: [true, 'Please add the user password'],
+			required: [true, "Please add the user password"],
 			select: false,
 		},
 
 		roles: {
 			type: [String],
-			default: ['user'],
+			default: ["user"],
 		},
 
 		refreshTokenArray: {
@@ -37,8 +37,8 @@ const UserSchema = new Schema(
 	{ timestamps: true }
 );
 
-UserSchema.pre('save', async function hashPassword(next) {
-	if (!this.isModified('password')) {
+UserSchema.pre("save", async function hashPassword(next) {
+	if (!this.isModified("password")) {
 		next();
 	}
 
@@ -46,12 +46,12 @@ UserSchema.pre('save', async function hashPassword(next) {
 	this.password = await bcrypt.hash(this.password, saltRounds);
 });
 
-UserSchema.method('comparePassword', async function comparePassword(plainPassword) {
+UserSchema.method("comparePassword", async function comparePassword(plainPassword) {
 	const isValidPassword = await bcrypt.compare(plainPassword, this.password);
 
 	return isValidPassword;
 });
 
-const UserModel = model('User', UserSchema);
+const UserModel = model("User", UserSchema);
 
 export default UserModel;

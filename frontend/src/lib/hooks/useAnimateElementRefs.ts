@@ -1,17 +1,17 @@
 import { cnJoin } from "@/lib/utils/cn";
 import { useCallback, useRef } from "react";
+import { useCallbackRef } from "./useCallbackRef";
 
 type PossibleElementsType = "heading" | "button" | "paragraph";
-
-type ElementsInfoType = Array<{
-	targetElement: PossibleElementsType;
-	animationClass: string;
-}>;
 
 type ElementsRefType = Record<"button" | "heading" | "paragraph", HTMLElement | null>;
 
 type AnimateElementsOptions = {
-	elementsInfo?: ElementsInfoType;
+	elementsInfo?: Array<{
+		targetElement: PossibleElementsType;
+		animationClass: string;
+	}>;
+
 	stopAnimation?: boolean;
 };
 
@@ -38,7 +38,7 @@ const getdefaultElementsInfo = (stopAnimation: boolean) => {
 			targetElement: "paragraph",
 			animationClass: cnJoin("animate-fade-in-up-2", stopAnimationClass),
 		},
-	] satisfies ElementsInfoType;
+	] satisfies AnimateElementsOptions["elementsInfo"];
 };
 
 const useAnimateElementRefs = (options: AnimateElementsOptions = {}) => {
@@ -46,7 +46,7 @@ const useAnimateElementRefs = (options: AnimateElementsOptions = {}) => {
 
 	const elementsRef = useRef({} as ElementsRefType);
 
-	const addAnimationClasses = useCallback(() => {
+	const addAnimationClasses = useCallbackRef(() => {
 		for (const { targetElement, animationClass } of elementsInfo) {
 			if (!elementsRef.current[targetElement]) {
 				throw new ELementError(`"${targetElement}" element does not exist`);
@@ -54,15 +54,15 @@ const useAnimateElementRefs = (options: AnimateElementsOptions = {}) => {
 
 			elementsRef.current[targetElement]?.classList.add(animationClass);
 		}
-	}, [elementsInfo]);
+	});
 
-	const removeAnimationClasses = useCallback(() => {
+	const removeAnimationClasses = useCallbackRef(() => {
 		for (const { targetElement, animationClass } of elementsInfo) {
 			elementsRef.current[targetElement]?.addEventListener("animationend", () => {
 				elementsRef.current[targetElement]?.classList.remove(animationClass);
 			});
 		}
-	}, [elementsInfo]);
+	});
 
 	// Add animation classes to elements and remove them after the animation ends
 	const handleElementsAnimation = useCallback(() => {

@@ -1,6 +1,6 @@
-import crypto from 'node:crypto';
+import crypto from "node:crypto";
 
-export const generateRandomString = ({ length = 30, stringType = 'hex' } = {}) => {
+export const generateRandomString = ({ length = 30, stringType = "hex" } = {}) => {
 	// Calculate the number of bytes needed to generate a random string of the specified length
 	const byteLength = Math.ceil(length / 2);
 

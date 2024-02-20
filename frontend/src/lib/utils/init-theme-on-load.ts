@@ -9,10 +9,11 @@ type ThemeStateViaZustand = {
 
 const defaultSystemTheme = prefersDarkMode ? "dark" : "light";
 
-const getThemeOnLoad = (storageKey = "colorScheme") => {
+const initThemeOnLoad = (storageKey = "colorScheme") => {
 	const themeStateInStorage = parseJSON<ThemeStateViaZustand>(localStorage.getItem(storageKey));
+	const perisistedTheme = themeStateInStorage?.state.theme;
 
-	return themeStateInStorage?.state.theme ?? defaultSystemTheme;
+	document.documentElement.dataset.theme = perisistedTheme ?? defaultSystemTheme;
 };
 
-export { getThemeOnLoad };
+export { initThemeOnLoad };

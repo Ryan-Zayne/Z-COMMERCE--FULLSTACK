@@ -32,8 +32,9 @@ export type ThemeStore = {
 	theme: string;
 	isDarkMode: boolean;
 
-	themeActions: {
+	actions: {
 		toggleTheme: () => void;
+		initThemeOnLoad: () => void;
 	};
 };
 

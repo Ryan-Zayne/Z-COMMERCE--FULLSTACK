@@ -1,11 +1,11 @@
-import { asyncHandler } from '../../common/lib/utils/asyncHandler.utils.js';
-import UserModel from '../../users/user.model.js';
+import { asyncHandler } from "../../common/lib/utils/asyncHandler.utils.js";
+import UserModel from "../../users/user.model.js";
 import {
 	clearExistingCookie,
 	generateAccessToken,
 	generateRefreshToken,
 	setCookieAndSendResponse,
-} from '../auth.services.js';
+} from "../auth.services.js";
 
 // @desc Login User
 // @route POST /api/auth/login
@@ -14,16 +14,16 @@ const loginUser = asyncHandler(async (req, res) => {
 	const { refreshToken } = req.signedCookies;
 	const { email, password } = req.validatedBody;
 
-	const user = await UserModel.findOne({ email }).select(['+password', '+refreshTokenArray']);
+	const user = await UserModel.findOne({ email }).select(["+password", "+refreshTokenArray"]);
 	const isValidPassword = Boolean(await user?.comparePassword(password));
 
 	if (!isValidPassword) {
 		res.status(401);
-		throw new Error('Invalid email or password!');
+		throw new Error("Invalid email or password!");
 	}
 
 	const accessToken = generateAccessToken(user.id);
-	const newRefreshToken = generateRefreshToken(user.id, { expiresIn: '15m' });
+	const newRefreshToken = generateRefreshToken(user.id, { expiresIn: "15m" });
 
 	if (!refreshToken) {
 		await UserModel.findByIdAndUpdate(user.id, {

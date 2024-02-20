@@ -1,11 +1,11 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const SignUpSchema = z
 	.object({
 		username: z
 			.string()
-			.min(3, 'Username must be at least 3 characters!')
-			.max(30, 'Username must not be more than 30 characters long')
+			.min(3, "Username must be at least 3 characters!")
+			.max(30, "Username must not be more than 30 characters long")
 			.regex(
 				// eslint-disable-next-line security/detect-unsafe-regex
 				/^(?!.*-[a-z])[A-Z]['a-z-]*(?:-[A-Z]['a-z-]*)*(?:'[A-Z]['a-z-]*)*$/,
@@ -16,18 +16,18 @@ export const SignUpSchema = z
 				`
 			),
 
-		email: z.string().email('Please enter a valid email!'),
-		password: z.string().min(8, 'Password must be at least 8 characters!'),
-		confirmPassword: z.string().min(1, 'Password confirmation is required!'),
-		acceptTerms: z.boolean().refine((val) => val === true, 'Please check this box!'),
+		email: z.string().email("Please enter a valid email!"),
+		password: z.string().min(8, "Password must be at least 8 characters!"),
+		confirmPassword: z.string().min(1, "Password confirmation is required!"),
+		acceptTerms: z.boolean().refine((val) => val === true, "Please check this box!"),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
-		message: 'Passwords do not match!',
-		path: ['confirmPassword'],
+		message: "Passwords do not match!",
+		path: ["confirmPassword"],
 	});
 
 export const LoginSchema = z.object({
-	email: z.string().email('Please enter a valid email!'),
+	email: z.string().email("Please enter a valid email!"),
 	password: z.string(),
 	rememberMe: z.boolean().optional(),
 });

@@ -1,21 +1,21 @@
-import { decodeJwtToken } from '../../auth/auth.services.js';
-import UserModel from '../../users/user.model.js';
-import { asyncHandler } from '../lib/utils/asyncHandler.utils.js';
+import { decodeJwtToken } from "../../auth/auth.services.js";
+import UserModel from "../../users/user.model.js";
+import { asyncHandler } from "../lib/utils/asyncHandler.utils.js";
 
 const verifyUser = asyncHandler(async (req, res, next) => {
 	const authHeader = req.headers.authorization ?? req.headers.Authorization;
-	const isValidAuthHeader = Boolean(authHeader?.startsWith('Bearer'));
+	const isValidAuthHeader = Boolean(authHeader?.startsWith("Bearer"));
 
 	if (!isValidAuthHeader) {
 		res.status(401);
-		throw new Error('Please ensure to set the authorization header!');
+		throw new Error("Please ensure to set the authorization header!");
 	}
 
-	const { 1: accessToken } = authHeader.split(' ');
+	const { 1: accessToken } = authHeader.split(" ");
 
 	if (!accessToken) {
 		res.status(401);
-		throw new Error('User is not authorized or token is missing!');
+		throw new Error("User is not authorized or token is missing!");
 	}
 
 	try {
@@ -29,7 +29,7 @@ const verifyUser = asyncHandler(async (req, res, next) => {
 		// Catch error thrown by decodeJwtToken when token is not valid
 	} catch {
 		res.status(401);
-		throw new Error('Your token has expired!');
+		throw new Error("Your token has expired!");
 	}
 });
 

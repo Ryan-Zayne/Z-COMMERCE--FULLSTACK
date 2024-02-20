@@ -8,7 +8,7 @@ import type {
 	OtherDrawerProps,
 } from "./drawer.types";
 import { DrawerContextProvider } from "./drawerStoreContext";
-import { useDrawerStore } from "./hooks";
+import { useDrawerStore } from "./useDrawerStore";
 
 function DrawerRoot({ children, ...restOfDrawerProps }: DrawerRootProps) {
 	return (

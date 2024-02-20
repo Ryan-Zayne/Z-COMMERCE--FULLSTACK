@@ -1,6 +1,6 @@
-import { asyncHandler } from '../../common/lib/utils/asyncHandler.utils.js';
-import UserModel from '../../users/user.model.js';
-import { clearExistingCookie } from '../auth.services.js';
+import { asyncHandler } from "../../common/lib/utils/asyncHandler.utils.js";
+import UserModel from "../../users/user.model.js";
+import { clearExistingCookie } from "../auth.services.js";
 
 // @desc Logout User
 // @route GET /api/auth/logout

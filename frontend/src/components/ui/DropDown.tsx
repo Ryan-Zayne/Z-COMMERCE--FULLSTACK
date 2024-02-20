@@ -6,8 +6,10 @@ type DropDownHeaderProps = React.ComponentPropsWithoutRef<"header">;
 
 type DropDownPanelProps = Pick<DropDownProps, "id" | "children"> & {
 	isOpen: boolean;
-	panelParentClasses?: string;
-	panelListClasses?: string;
+	classNames?: {
+		panelParent?: string;
+		panelList?: string;
+	};
 };
 
 function DropDownRoot({ children, ...otherDivProps }: DropDownProps) {
@@ -19,18 +21,26 @@ function DropDownHeader({ children, ...otherHeaderProps }: DropDownHeaderProps) 
 }
 
 function DropDownPanel(props: DropDownPanelProps) {
-	const { id = "", isOpen = false, children, panelListClasses = "", panelParentClasses = "" } = props;
+	const {
+		id = "",
+		isOpen = false,
+		children,
+		classNames = {
+			panelParent: "",
+			panelList: "",
+		},
+	} = props;
 
 	return (
 		<div
 			id={id}
 			className={cnMerge(
-				`invisible grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-[500ms]`,
-				{ "visible grid-rows-[1fr]": isOpen },
-				[panelParentClasses]
+				"invisible grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-[500ms]",
+				isOpen && "visible grid-rows-[1fr]",
+				classNames.panelParent
 			)}
 		>
-			<ul className={cnMerge("overflow-y-hidden [transition:padding_500ms]", panelListClasses)}>
+			<ul className={cnMerge("overflow-y-hidden [transition:padding_500ms]", classNames.panelList)}>
 				{children}
 			</ul>
 		</div>

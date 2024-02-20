@@ -1,4 +1,4 @@
-import { isBrowser } from "@/lib/utils/constants";
+import { isServer } from "@/lib/utils/constants";
 import { parseJSON } from "@/lib/utils/parseJSON";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { dispatchStorageEvent } from "./dispatchStorageEvent";
@@ -28,7 +28,7 @@ const useLocalStorage = <TStorageValue>(
 	const [storageValue, setStorageValue] = useState<TStorageValue | null>(
 		// prettier-ignore
 		function readStorageOnMount() {
-			if (!isBrowser) {
+			if (!isServer) {
 				return defaultValue;
 			}
 

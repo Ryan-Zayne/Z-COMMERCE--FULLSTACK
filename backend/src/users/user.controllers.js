@@ -1,16 +1,16 @@
-import { asyncHandler } from '../common/lib/utils/asyncHandler.utils.js';
-import UserModel from './user.model.js';
+import { asyncHandler } from "../common/lib/utils/asyncHandler.utils.js";
+import UserModel from "./user.model.js";
 
 // @desc Update current User Profile
 // @route PATCH /api/users/update-profile
 // @access private
 export const updateUserProfile = asyncHandler(async (req, res) => {
 	const userId = req.user.id;
-	const user = await UserModel.findById(userId).select('+password');
+	const user = await UserModel.findById(userId).select("+password");
 
 	if (!user) {
 		res.status(404);
-		throw new Error('User not found');
+		throw new Error("User not found");
 	}
 
 	const { username = user.username, email = user.email, password = user.password } = req.body;
@@ -21,5 +21,5 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 		{ new: true }
 	);
 
-	res.json({ status: 'success', username: updatedUser.username, email: updatedUser.email });
+	res.json({ status: "success", username: updatedUser.username, email: updatedUser.email });
 });

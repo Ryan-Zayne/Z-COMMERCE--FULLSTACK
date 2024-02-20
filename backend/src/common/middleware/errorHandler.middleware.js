@@ -1,16 +1,16 @@
-import { errorConstants, isDevMode } from '../lib/utils/constants.js';
+import { errorConstants, isDevMode } from "../lib/utils/constants.js";
 
 /* eslint-disable consistent-return */
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
 	const errorInfo = {
-		status: 'error',
+		status: "error",
 		statusCode: res.statusCode ?? 500,
-		message: err.message ?? 'Something went wrong',
-		stackTrace: isDevMode ? err.stack : 'Just dey play',
+		message: err.message ?? "Something went wrong",
+		stackTrace: isDevMode ? err.stack : "Just dey play",
 	};
 
-	if (err.name === 'CastError' && err.kind === 'ObjectId') {
+	if (err.name === "CastError" && err.kind === "ObjectId") {
 		const { status, stackTrace } = errorInfo;
 
 		// prettier-ignore
@@ -36,7 +36,7 @@ const errorHandler = (err, req, res, next) => {
 		['default', () => res.status(500).json({ errorTitle: 'You don break something bah?', ...errorInfo })],
 	]);
 
-	return (ERROR_LOOKUP.get(errorInfo.statusCode) ?? ERROR_LOOKUP.get('default'))();
+	return (ERROR_LOOKUP.get(errorInfo.statusCode) ?? ERROR_LOOKUP.get("default"))();
 };
 
 export { errorHandler };

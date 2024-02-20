@@ -1,7 +1,5 @@
-import Button from "@/components/primitives/Button";
-import Logo from "@/components/primitives/Logo";
-import Drawer from "@/components/ui/Drawer/Drawer";
-import type { DrawerContentProps, DrawerStore } from "@/components/ui/Drawer/drawer.types";
+import { Button, Logo } from "@/components/primitives";
+import { Drawer, type DrawerContentProps, type DrawerStore } from "@/components/ui/Drawer";
 import { useElementList } from "@/lib/hooks";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
@@ -15,9 +13,9 @@ function CartDrawer(props: CartDrawerProps) {
 	const { isOpen, onClose, onOpen, placement = "right" } = props;
 
 	const cart = useShopStore((state) => state.cart);
+	const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const { For: CartItemsList } = useElementList();
-	const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
 	return (
 		<Drawer.Root {...{ isOpen, onClose, onOpen }}>

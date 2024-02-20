@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
-		"target": "ES2022"
+		"target": "ES2022",
 	},
 
-	"exclude": ["node_modules", "public"]
+	"exclude": ["node_modules", "public"],
 }

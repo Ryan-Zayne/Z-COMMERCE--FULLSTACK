@@ -18,50 +18,51 @@ const categories = [
 
 function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 	const href = useLocation().pathname;
+	const isDesktopDevice = deviceType === "desktop";
 
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
 	const { toggleNavShow } = useGlobalActions();
-	const isDesktop = deviceType === "desktop";
+
 	const { isOpen, onToggle, onClose, onOpen } = useDisclosure({
-		initialState: isDesktop && href === "/",
+		initialState: isDesktopDevice && href === "/",
 	});
 
 	useEffect(
 		function defaultDropDownStateOnDesktop() {
-			if (!isDesktop) return;
+			if (!isDesktopDevice) return;
 
 			href === "/" ? onOpen() : onClose();
 		},
 
-		[href, isDesktop, onClose, onOpen]
+		[href, isDesktopDevice, onClose, onOpen]
 	);
 
 	useEffect(
 		function closeDropDownOnNavbarClose() {
-			if (isDesktop) return;
+			if (isDesktopDevice) return;
 
 			!isNavShow && onClose();
 		},
 
-		[isDesktop, isNavShow, onClose]
+		[isDesktopDevice, isNavShow, onClose]
 	);
 
 	const CategoryList = categories.map((category) => (
 		<li
 			key={category.title}
 			className={`max-lg:hover:text-heading`}
-			onClick={!isDesktop ? toggleNavShow : undefined} // To close NavBar on link visit while on mobile
+			onClick={!isDesktopDevice ? toggleNavShow : undefined} // To close NavBar on link visit while on mobile
 		>
 			<Link
 				to={category.path}
 				className={cnJoin(
-					isDesktop &&
+					isDesktopDevice &&
 						"flex items-center justify-between py-[1rem] [border-bottom:1px_solid_var(--color-primary)]"
 				)}
 			>
 				<p>{category.title}</p>
 
-				{isDesktop && <BsChevronDoubleRight />}
+				{isDesktopDevice && <BsChevronDoubleRight />}
 			</Link>
 		</li>
 	));
@@ -87,10 +88,14 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 
 				<DropDown.Panel
 					isOpen={isOpen}
-					panelParentClasses={`absolute inset-x-0 z-[50] m-[0.5rem_2rem_0] rounded-[5px] bg-[hsl(215,19%,35%,0.9)] [backdrop-filter:blur(4rem)]`}
-					panelListClasses={cnJoin(`flex flex-col gap-[1.5rem] pl-[3rem] text-[1.4rem]`, [
-						isOpen && "py-[2rem]",
-					])}
+					classNames={{
+						panelParent:
+							"absolute inset-x-0 z-[50] m-[0.5rem_2rem_0] rounded-[5px] bg-[hsl(215,19%,35%,0.9)] [backdrop-filter:blur(4rem)]",
+
+						panelList: cnJoin(`flex flex-col gap-[1.5rem] pl-[3rem] text-[1.4rem]`, [
+							isOpen && "py-[2rem]",
+						]),
+					}}
 				>
 					{CategoryList}
 				</DropDown.Panel>
@@ -115,12 +120,14 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 				<DropDown.Panel
 					isOpen={isOpen}
 					id="Category List"
-					panelParentClasses={"absolute h-[48.5rem] w-full"}
-					panelListClasses={cnJoin(
-						"bg-body px-[2rem] font-[400] box-shadow-[0_1px_3px_0.3px_var(--color-primary)] dark:box-shadow-[0_1px_3px_0.3px_var(--carousel-dot)]",
-						[!isOpen && "box-shadow-[none]"],
-						[isOpen && "pt-[5rem]"]
-					)}
+					classNames={{
+						panelParent: "absolute h-[48.5rem] w-full",
+						panelList: cnJoin(
+							"bg-body px-[2rem] font-[400] box-shadow-[0_1px_3px_0.3px_var(--color-primary)] dark:box-shadow-[0_1px_3px_0.3px_var(--carousel-dot)]",
+
+							isOpen ? "pt-[5rem]" : "box-shadow-[none]"
+						),
+					}}
 				>
 					{CategoryList}
 				</DropDown.Panel>

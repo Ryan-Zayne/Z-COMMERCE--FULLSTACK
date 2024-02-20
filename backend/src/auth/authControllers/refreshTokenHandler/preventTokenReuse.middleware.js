@@ -1,17 +1,17 @@
-import { asyncHandler } from '../../../common/lib/utils/asyncHandler.utils.js';
-import UserModel from '../../../users/user.model.js';
-import { clearExistingCookie, decodeJwtToken } from '../../auth.services.js';
+import { asyncHandler } from "../../../common/lib/utils/asyncHandler.utils.js";
+import UserModel from "../../../users/user.model.js";
+import { clearExistingCookie, decodeJwtToken } from "../../auth.services.js";
 
 export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 	const { refreshToken } = req.signedCookies;
 
 	if (!refreshToken) {
 		res.status(401);
-		throw new Error('Cookie is missing!');
+		throw new Error("Cookie is missing!");
 	}
 
 	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken }).select(
-		'+refreshTokenArray'
+		"+refreshTokenArray"
 	);
 
 	if (!userWithToken) {
@@ -22,13 +22,13 @@ export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 			await UserModel.findByIdAndUpdate(decodedPayload.userId, { refreshTokenArray: [] });
 
 			res.status(403);
-			throw new Error('Access is forbidden!');
+			throw new Error("Access is forbidden!");
 
 			// Simply throw an error since token is already expired at this point
 		} catch (error) {
 			res.status(403);
 
-			if (error.name === 'TokenExpiredError') {
+			if (error.name === "TokenExpiredError") {
 				throw new Error(`Forbidden Access and ${error.message}`);
 			}
 

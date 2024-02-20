@@ -59,7 +59,7 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						isOpen={!isDesktop ? dropOne.isOpen : true}
-						panelListClasses={semanticClasses.panelList}
+						classNames={{ panelList: semanticClasses.panelList }}
 					>
 						<li className="mt-[1rem] w-[27rem]">
 							<MdLocationOn />
@@ -95,9 +95,10 @@ function FooterDropDowns() {
 					)}
 
 					<DropDown.Panel
-						panelListClasses={
-							"flex items-center gap-[2rem] [&_li]:pt-[1.5rem] lg:[&_li]:pb-[1.5rem] pl-[2.5rem] text-[1.7rem]"
-						}
+						classNames={{
+							panelList:
+								"flex items-center gap-[2rem] [&_li]:pt-[1.5rem] lg:[&_li]:pb-[1.5rem] pl-[2.5rem] text-[1.7rem]",
+						}}
 						isOpen={isDesktop ? true : dropTwo.isOpen}
 					>
 						<li>
@@ -143,7 +144,7 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						isOpen={isDesktop ? true : dropThree.isOpen}
-						panelListClasses={semanticClasses.panelList}
+						classNames={{ panelList: semanticClasses.panelList }}
 					>
 						<li className="mt-[1.2rem] lg:mt-[3rem]">About Us</li>
 						<li>Contact Us</li>
@@ -177,7 +178,7 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						isOpen={isDesktop ? true : dropFour.isOpen}
-						panelListClasses={semanticClasses.panelList}
+						classNames={{ panelList: semanticClasses.panelList }}
 					>
 						<li className="mt-[1.2rem] lg:mt-[3rem]">Your Account</li>
 						<li>Return Center</li>
@@ -211,7 +212,7 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						isOpen={isDesktop ? true : dropFive.isOpen}
-						panelListClasses={semanticClasses.panelList}
+						classNames={{ panelList: semanticClasses.panelList }}
 					>
 						<li className="mt-[1.2rem] lg:mt-[3rem]">Order History</li>
 						<li>Wishlist</li>

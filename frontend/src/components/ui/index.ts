@@ -1,8 +1,6 @@
-export { default as Carousel } from "./Carousel/Carousel";
-export type * from "./Carousel/carousel.types";
+export * from "./Carousel";
 export { default as DismissableToaster } from "./DismissableToaster";
-export { default as Drawer } from "./Drawer/Drawer";
-export type * from "./Drawer/drawer.types";
+export * from "./Drawer";
 export { default as DropDown } from "./DropDown";
 export { default as Footer } from "./Footer/Footer";
 export { default as LoadingSkeleton } from "./LoadingSkeleton";
