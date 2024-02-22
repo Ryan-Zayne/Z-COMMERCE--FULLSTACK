@@ -4,7 +4,7 @@ import { useThemeStore } from "./store/zustand/themeStore";
 useThemeStore.getState().actions.initThemeOnLoad();
 
 // NOTE - Preloader Removal
-window.addEventListener("DOMContentLoaded", function removePreloader() {
+const removePreloader = () => {
 	const preloaderElement = document.querySelector<HTMLElement>("#preloader");
 
 	if (!preloaderElement) return;
@@ -14,7 +14,11 @@ window.addEventListener("DOMContentLoaded", function removePreloader() {
 	preloaderElement.addEventListener("transitionend", () => {
 		preloaderElement.remove();
 	});
-});
+
+	window.removeEventListener("DOMContentLoaded", removePreloader);
+};
+
+window.addEventListener("DOMContentLoaded", removePreloader);
 
 // NOTE - Scroll restoration for moxilla browser
 window.history.scrollRestoration = "auto";

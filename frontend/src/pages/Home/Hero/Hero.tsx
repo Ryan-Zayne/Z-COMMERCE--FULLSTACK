@@ -22,7 +22,7 @@ function Hero() {
 							"hover:box-shadow-[0_0_5px_var(--text-dark)] md:right-[0.8rem] lg:right-[2rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]",
 					}}
 					arrowIcon={<RxPaperPlane className="lg:text-[1.7rem]" />}
-					autoSlideInterval={10000}
+					autoSlideInterval={8000}
 					hasAutoSlide={true}
 					pauseOnHover={true}
 				>
@@ -32,7 +32,7 @@ function Hero() {
 							render={(image) => (
 								<Carousel.Item key={image.src}>
 									<ImageComponent
-										className={"h-full w-full"}
+										className={"size-full"}
 										imageType={"hasFallback"}
 										src={image.src}
 										blurSrc={image.blurSrc}

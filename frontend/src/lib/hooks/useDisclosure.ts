@@ -31,13 +31,7 @@ const useDisclosure = (options: DisclosureOptions = {}) => {
 		handleScrollControl(false);
 	}, [handleScrollControl]);
 
-	const onToggle = useCallback(() => {
-		if (isOpen) {
-			onClose();
-		} else {
-			onOpen();
-		}
-	}, [isOpen, onClose, onOpen]);
+	const onToggle = useCallback(() => (isOpen ? onClose() : onOpen()), [isOpen, onClose, onOpen]);
 
 	return { isOpen, onOpen, onClose, onToggle };
 };

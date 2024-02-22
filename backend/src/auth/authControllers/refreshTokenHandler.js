@@ -1,12 +1,12 @@
-import { asyncHandler } from "../../../common/lib/utils/asyncHandler.utils.js";
-import UserModel from "../../../users/user.model.js";
+import { asyncHandler } from "../../common/lib/utils/asyncHandler.utils.js";
+import UserModel from "../../users/user.model.js";
 import {
 	clearExistingCookie,
 	decodeJwtToken,
 	generateAccessToken,
 	generateRefreshToken,
 	setCookieAndSendResponse,
-} from "../../auth.services.js";
+} from "../auth.services.js";
 
 // @desc Refresh the access token
 // @route GET /api/auth/refresh

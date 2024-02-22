@@ -3,7 +3,7 @@ export const PORT = process.env.PORT ?? 8001;
 export const isDevMode = process.env.NODE_ENV === "development";
 export const isProduction = process.env.NODE_ENV === "production";
 
-export const errorConstants = /** @type {const} */ ({
+export const errorCodes = /** @type {const} */ ({
 	BAD_REQUEST: 400,
 	UNAUTHORIZED: 401,
 	FORBIDDEN: 403,

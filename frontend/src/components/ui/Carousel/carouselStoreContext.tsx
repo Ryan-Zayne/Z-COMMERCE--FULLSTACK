@@ -17,6 +17,7 @@ const createCarouselStore = ({
 	createStore<CarouselStore>((set, get) => ({
 		currentSlide: 0,
 		maxSlide: slideImages.length - 1,
+		images: slideImages,
 
 		actions: {
 			goToSlide: (newValue) => {
@@ -57,4 +58,5 @@ function CarouselContextProvider({ children, slideImages, slideButtonSideEffect 
 
 	return <Provider value={carouselStore}>{children}</Provider>;
 }
+
 export { CarouselContextProvider, useCustomCarouselContext };

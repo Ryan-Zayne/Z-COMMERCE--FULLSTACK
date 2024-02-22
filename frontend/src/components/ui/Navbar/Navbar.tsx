@@ -1,4 +1,4 @@
-import NavIcons from "./NavHeader/NavIcons";
+import NavIcons from "./NavIcons/NavIcons";
 import NavigationLinks from "./NavigationLinks/NavigationLinks";
 
 function Navbar() {

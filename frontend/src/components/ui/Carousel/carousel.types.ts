@@ -5,6 +5,12 @@ import type { StoreApi } from "zustand";
 export type CarouselStore = {
 	currentSlide: number;
 	maxSlide: number;
+	images:
+		| Array<{
+				src: string;
+				blurSrc?: string;
+		  }>
+		| string[];
 
 	actions: {
 		goToSlide: (newValue: number) => void;
@@ -14,12 +20,7 @@ export type CarouselStore = {
 };
 
 export type CarouselProviderProps = WithChildren<{
-	slideImages:
-		| Array<{
-				src: string;
-				blurSrc?: string;
-		  }>
-		| string[];
+	slideImages: CarouselStore["images"];
 
 	slideButtonSideEffect?: () => void;
 }>;

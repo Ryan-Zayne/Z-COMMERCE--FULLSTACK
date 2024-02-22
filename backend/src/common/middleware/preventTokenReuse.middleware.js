@@ -1,6 +1,6 @@
-import { asyncHandler } from "../../../common/lib/utils/asyncHandler.utils.js";
-import UserModel from "../../../users/user.model.js";
-import { clearExistingCookie, decodeJwtToken } from "../../auth.services.js";
+import { clearExistingCookie, decodeJwtToken } from "../../auth/auth.services.js";
+import UserModel from "../../users/user.model.js";
+import { asyncHandler } from "../lib/utils/asyncHandler.utils.js";
 
 export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 	const { refreshToken } = req.signedCookies;

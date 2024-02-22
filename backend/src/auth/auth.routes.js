@@ -1,15 +1,17 @@
 import express from "express";
-import { validateDataWithZod } from "../common/lib/schemas/validateDataWithZod.middleware.js";
+import { preventTokenReuse } from "../common/middleware/preventTokenReuse.middleware.js";
+import { validateDataWithZod } from "../common/middleware/validateDataWithZod.middleware.js";
 import { verifyUser } from "../common/middleware/verifyUser.middleware.js";
 import { loginUser, logoutUser, refreshTokenHandler, signUpUser } from "./authControllers/index.js";
-import { preventTokenReuse } from "./authControllers/refreshTokenHandler/preventTokenReuse.middleware.js";
 
 const router = express.Router();
 
-router.post("/sign-up", validateDataWithZod, signUpUser);
-router.post("/login", validateDataWithZod, loginUser);
-
 router.get("/refresh", preventTokenReuse, refreshTokenHandler);
 router.get("/logout", verifyUser, logoutUser);
+
+router.use(validateDataWithZod);
+
+router.post("/sign-up", signUpUser);
+router.post("/login", loginUser);
 
 export { router as authRouter };

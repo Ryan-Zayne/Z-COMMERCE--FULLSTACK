@@ -46,7 +46,6 @@ const NavIcons = () => {
 				id="NavIcons Wrapper"
 				className="flex w-[clamp(19rem,_42vw,_22rem)] items-center justify-between text-[2rem]"
 			>
-				{/* Mobile search button */}
 				{isMobile && (
 					<button className="hover:text-heading active:scale-[1.25]" onClick={toggleSearchShow}>
 						<BiSearchAlt2 />
@@ -55,7 +54,7 @@ const NavIcons = () => {
 
 				<div className="flex items-center">
 					<button className="hover:text-heading hover:[transform:rotateY(360deg)] hover:[transition:transform_1000ms_ease-in-out] active:scale-[1.2] lg:text-[2.3rem]">
-						<Link to={"wishlist"}>
+						<Link to={"/wishlist"}>
 							<BiHeart />
 						</Link>
 					</button>
@@ -76,14 +75,14 @@ const NavIcons = () => {
 						classNames={{
 							panelParent: "absolute top-[5.1rem] z-[100] w-[15rem]",
 							panelList: cnJoin(
-								"flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem] text-[1.3rem] [&_>_a:hover]:navlink-transition first-line:flex [&_>_a]:relative",
+								"flex flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem] text-[1.3rem] [&_>_a:hover]:navlink-transition [&_>_a]:relative",
 
 								dropDownDisclosure.isOpen && "py-[1.5rem]"
 							),
 						}}
 					>
 						<Link to={"/auth/login"}>My Account</Link>
-						<Link to={"/"}>Checkout</Link>
+						<Link to={"/checkout"}>Checkout</Link>
 						<Link to={"/auth/login"}>User Login</Link>
 					</DropDown.Panel>
 				</DropDown.Root>
@@ -94,8 +93,9 @@ const NavIcons = () => {
 						onClick={cartDisclosure.onOpen}
 					>
 						<BiCartAlt className="hover:text-heading" />
+
 						{cart.length > 0 && (
-							<span className="absolute right-[-1rem] top-[-0.6rem] inline-flex h-[1.7rem] w-[1.7rem] items-center justify-center rounded-[50%] bg-secondary text-[1.2rem] font-[500]">
+							<span className="absolute right-[-1rem] top-[-0.6rem] inline-flex size-[1.7rem] items-center justify-center rounded-[50%] bg-secondary text-[1.2rem] font-[500]">
 								{cart.length}
 							</span>
 						)}

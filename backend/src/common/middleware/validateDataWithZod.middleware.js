@@ -1,17 +1,12 @@
-import { asyncHandler } from "../utils/asyncHandler.utils.js";
-import { LoginSchema, SignUpSchema } from "./formSchema.js";
+import { LoginSchema, SignUpSchema } from "../lib/schemas/formSchema.js";
+import { asyncHandler } from "../lib/utils/asyncHandler.utils.js";
 
-const SCHEMA_LOOKUP = new Map([
-	["/sign-up", SignUpSchema],
-	["/login", LoginSchema],
-
-	[
-		"default",
-		() => {
-			throw new Error("No schema found for this path!");
-		},
-	],
-]);
+const SCHEMA_LOOKUP = new Map()
+	.set("/sign-up", SignUpSchema)
+	.set("/login", LoginSchema)
+	.set("default", () => {
+		throw new Error("No schema found for this path!");
+	});
 
 const validateDataWithZod = asyncHandler((req, res, next) => {
 	if (!(req.method === "POST")) {

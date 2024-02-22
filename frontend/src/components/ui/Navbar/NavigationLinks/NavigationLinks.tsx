@@ -58,11 +58,9 @@ const NavigationLinks = () => {
 					isDesktop && "relative gap-[12rem]",
 
 					!isDesktop && [
-						"fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] flex-col bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform duration-[250ms] [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]",
+						"fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] flex-col bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]",
 
-						isNavShow
-							? "translate-x-0 duration-[600ms] ease-slide-out"
-							: " translate-x-full ease-slide-in",
+						isNavShow ? "translate-x-0 duration-[600ms]" : "translate-x-full duration-[250ms]",
 					]
 				)}
 			>
