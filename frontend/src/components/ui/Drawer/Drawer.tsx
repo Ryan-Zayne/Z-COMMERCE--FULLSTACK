@@ -44,6 +44,7 @@ function DrawerContent({ className, children, placement = "right" }: DrawerConte
 				placementClasses[placement],
 
 				isOpen ? "translate-x-0 duration-[600ms]" : "duration-[250ms] ease-slide-out",
+
 				className
 			)}
 		>

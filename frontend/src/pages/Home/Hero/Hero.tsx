@@ -26,11 +26,11 @@ function Hero() {
 					hasAutoSlide={true}
 					pauseOnHover={true}
 				>
-					<Carousel.ItemWrapper className={"brightness-[0.6]"}>
+					<Carousel.ItemWrapper>
 						<ItemList
 							each={slideImages}
 							render={(image) => (
-								<Carousel.Item key={image.src}>
+								<Carousel.Item key={image.src} className="brightness-[0.6]">
 									<ImageComponent
 										className={"size-full"}
 										imageType={"hasFallback"}

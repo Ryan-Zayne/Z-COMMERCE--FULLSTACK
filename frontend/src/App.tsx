@@ -9,9 +9,7 @@ import { useGlobalStore } from "./store/zustand/globalStore";
 
 AOS.init();
 
-const { handleQueryListeners } = useGlobalStore.getState().mediaQueryActions;
-
-handleQueryListeners("add");
+useGlobalStore.getState().mediaQueryActions.handleQueryListeners("add");
 
 function App() {
 	return (

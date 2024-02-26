@@ -1,10 +1,10 @@
+import GlobalLayout from "@/layouts/GlobalLayout";
 import { lazy } from "react";
-import { createRoutesFromElements, Route } from "react-router-dom";
+import { Route, createRoutesFromElements } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import Home from "./Home/Home";
-import GlobalLayout from "./Layouts/GlobalLayout";
 
-const AuthLayout = lazy(() => import("@/pages/Layouts/AuthLayout"));
+const AuthLayout = lazy(() => import("@/layouts/AuthLayout"));
 const AllProductsPage = lazy(() => import("@/pages/AllProductsPage"));
 const SignUpFormPage = lazy(() => import("@/pages/AuthPage/SignUpFormPage"));
 const LoginFormPage = lazy(() => import("@/pages/AuthPage/LoginFormPage"));
@@ -17,7 +17,6 @@ const routes = createRoutesFromElements(
 		{/* Global Layout */}
 		<Route path="/" element={<GlobalLayout />}>
 			<Route index={true} element={<Home />} />
-
 			<Route path="products">
 				<Route index={true} element={<AllProductsPage />} />
 				<Route path=":category" element={<ProductCategoryPage />} />
@@ -31,6 +30,7 @@ const routes = createRoutesFromElements(
 			<Route path="login" element={<LoginFormPage />} />
 		</Route>
 
+		{/* 404 Page */}
 		<Route path="*" element={<NotFoundPage />} />
 	</Route>
 );

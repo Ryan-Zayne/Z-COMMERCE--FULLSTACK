@@ -65,7 +65,10 @@ const IMAGE_TYPE_LOOKUP = {
 function ImageComponent(props: ImageComponentProps) {
 	const { imageType, ...restOfProps } = props;
 
-	return IMAGE_TYPE_LOOKUP[imageType](restOfProps);
+	const { [imageType]: Image } = IMAGE_TYPE_LOOKUP;
+
+	// eslint-disable-next-line react/jsx-props-no-spreading
+	return <Image {...restOfProps} />;
 }
 
 export default ImageComponent;

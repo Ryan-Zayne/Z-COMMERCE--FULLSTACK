@@ -23,7 +23,7 @@ function CartDrawer(props: CartDrawerProps) {
 
 			<Drawer.Content
 				placement={placement}
-				className={"w-[min(100%,28rem)] pb-[1.6rem] lg:min-w-[40rem]"}
+				className={"w-[min(100%,30rem)] pb-[1.6rem] lg:min-w-[40rem]"}
 			>
 				<Drawer.CloseButton
 					className={"rounded-[4px] bg-heading p-[0.2rem] text-[2.6rem] text-primary lg:scale-[1.2]"}
