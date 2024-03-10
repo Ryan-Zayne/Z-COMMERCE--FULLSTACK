@@ -1,3 +1,4 @@
+import { useCallbackRef } from "@/lib/hooks";
 import { cnMerge } from "@/lib/utils/cn";
 import { useState } from "react";
 
@@ -65,7 +66,7 @@ const IMAGE_TYPE_LOOKUP = {
 function ImageComponent(props: ImageComponentProps) {
 	const { imageType, ...restOfProps } = props;
 
-	const { [imageType]: Image } = IMAGE_TYPE_LOOKUP;
+	const Image = useCallbackRef(IMAGE_TYPE_LOOKUP[imageType]);
 
 	// eslint-disable-next-line react/jsx-props-no-spreading
 	return <Image {...restOfProps} />;
