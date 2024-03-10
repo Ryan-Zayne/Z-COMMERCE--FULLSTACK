@@ -1,5 +1,5 @@
 import { cnMerge } from "@/lib/utils/cn";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 type ImageComponentProps = React.ComponentPropsWithRef<"img"> & {
 	src: string;
@@ -10,14 +10,15 @@ type ImageComponentProps = React.ComponentPropsWithRef<"img"> & {
 	fetchpriority?: "auto" | "low" | "high";
 };
 
+type ImageTypeProps = Omit<ImageComponentProps, "imageType"> & {
+	isImageLoaded: boolean;
+	handleImageLoad: () => void;
+};
+
 /* eslint-disable react-hooks/rules-of-hooks */
 const IMAGE_TYPE_LOOKUP = {
-	hasFallback: (props: Omit<ImageComponentProps, "imageType">) => {
-		const { src, blurSrc, className, ...restOfProps } = props;
-
-		const [isImageLoaded, setIsImageLoaded] = useState(false);
-
-		const handleImageLoad = () => setIsImageLoaded(true);
+	hasFallback: (props: ImageTypeProps) => {
+		const { src, blurSrc, className, isImageLoaded, handleImageLoad, ...restOfProps } = props;
 
 		return (
 			<img
@@ -30,12 +31,9 @@ const IMAGE_TYPE_LOOKUP = {
 		);
 	},
 
-	hasSkeleton: (props: Omit<ImageComponentProps, "imageType">) => {
-		const { src, className, wrapperClassName, onClick, ...restOfProps } = props;
-
-		const [isImageLoaded, setIsImageLoaded] = useState(false);
-
-		const handleImageLoad = () => setIsImageLoaded(true);
+	hasSkeleton: (props: ImageTypeProps) => {
+		const { src, className, wrapperClassName, isImageLoaded, handleImageLoad, onClick, ...restOfProps } =
+			props;
 
 		return (
 			<div
@@ -64,11 +62,18 @@ const IMAGE_TYPE_LOOKUP = {
 
 function ImageComponent(props: ImageComponentProps) {
 	const { imageType, ...restOfProps } = props;
+	const [isImageLoaded, setIsImageLoaded] = useState(false);
 
-	const { [imageType]: Image } = IMAGE_TYPE_LOOKUP;
+	const { [imageType]: ImageType } = IMAGE_TYPE_LOOKUP;
 
-	// eslint-disable-next-line react/jsx-props-no-spreading
-	return <Image {...restOfProps} />;
+	return (
+		<ImageType
+			isImageLoaded={isImageLoaded}
+			handleImageLoad={() => setIsImageLoaded(true)}
+			// eslint-disable-next-line react/jsx-props-no-spreading
+			{...restOfProps}
+		/>
+	);
 }
 
 export default ImageComponent;
