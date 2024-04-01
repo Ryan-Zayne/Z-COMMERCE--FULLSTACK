@@ -1,23 +1,28 @@
 import { cnMerge } from "@/lib/utils/cn";
+import { Slot } from "../primitives";
 
 type DropDownProps = React.ComponentPropsWithoutRef<"div">;
 
-type DropDownHeaderProps = React.ComponentPropsWithoutRef<"header">;
+type DropDownHeaderProps = React.ComponentPropsWithoutRef<"header"> & {
+	asChild?: boolean;
+};
 
 type DropDownPanelProps = Pick<DropDownProps, "id" | "children"> & {
 	isOpen: boolean;
 	classNames?: {
-		panelParent?: string;
+		panelContainer?: string;
 		panelList?: string;
 	};
 };
 
-function DropDownRoot({ children, ...otherDivProps }: DropDownProps) {
-	return <div {...otherDivProps}>{children}</div>;
+function DropDownRoot({ children, ...restOfProps }: DropDownProps) {
+	return <div {...restOfProps}>{children}</div>;
 }
 
-function DropDownHeader({ children, ...otherHeaderProps }: DropDownHeaderProps) {
-	return <header {...otherHeaderProps}>{children}</header>;
+function DropDownTrigger({ asChild, children, ...restOfProps }: DropDownHeaderProps) {
+	const Component = asChild ? Slot : "header";
+
+	return <Component {...restOfProps}>{children}</Component>;
 }
 
 function DropDownPanel(props: DropDownPanelProps) {
@@ -26,7 +31,7 @@ function DropDownPanel(props: DropDownPanelProps) {
 		isOpen = false,
 		children,
 		classNames = {
-			panelParent: "",
+			panelContainer: "",
 			panelList: "",
 		},
 	} = props;
@@ -37,7 +42,7 @@ function DropDownPanel(props: DropDownPanelProps) {
 			className={cnMerge(
 				"invisible grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-[500ms]",
 				isOpen && "visible grid-rows-[1fr]",
-				classNames.panelParent
+				classNames.panelContainer
 			)}
 		>
 			<ul className={cnMerge("overflow-y-hidden [transition:padding_500ms]", classNames.panelList)}>
@@ -49,7 +54,7 @@ function DropDownPanel(props: DropDownPanelProps) {
 
 const DropDown = {
 	Root: DropDownRoot,
-	Header: DropDownHeader,
+	Trigger: DropDownTrigger,
 	Panel: DropDownPanel,
 };
 

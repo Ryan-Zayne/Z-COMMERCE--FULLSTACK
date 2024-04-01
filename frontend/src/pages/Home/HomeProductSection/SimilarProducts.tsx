@@ -1,10 +1,10 @@
 import ProductCard from "@/components/ui/ProductCard";
 import { useElementList } from "@/lib/hooks/useElementList";
-import { assertDefined } from "@/lib/type-helpers/global-type-helpers";
+import { assertDefined } from "@/lib/type-helpers/assert";
 import type { DataArrayProp } from "./home-product.types";
 
 function SimilarProducts({ data }: DataArrayProp) {
-	const { For: ProductCardsList } = useElementList();
+	const [ProductCardsList] = useElementList();
 
 	return (
 		<article id="Similar Products You Might Like" className="flex flex-col gap-[3rem] px-[3rem]">
@@ -12,19 +12,18 @@ function SimilarProducts({ data }: DataArrayProp) {
 				Similar Products You Might Like
 			</h2>
 
-			<ul className="grid grid-cols-[repeat(auto-fit,_minmax(min(100%,23.6rem),_1fr))] justify-items-center gap-[3rem_1.5rem]">
-				<ProductCardsList
-					each={data}
-					render={(product) => (
-						<ProductCard
-							key={product?.id}
-							link={`/products/${product?.category}/${product?.id}`}
-							image={product?.images[1] ?? ""}
-							productItem={assertDefined(product)}
-						/>
-					)}
-				/>
-			</ul>
+			<ProductCardsList
+				className="grid grid-cols-[repeat(auto-fit,_minmax(min(100%,23.6rem),_1fr))] justify-items-center gap-[3rem_1.5rem]"
+				each={data}
+				render={(product) => (
+					<ProductCard
+						key={product?.id}
+						link={`/products/${product?.category}/${product?.id}`}
+						image={product?.images[1] ?? ""}
+						productItem={assertDefined(product)}
+					/>
+				)}
+			/>
 		</article>
 	);
 }

@@ -23,7 +23,7 @@
 		"prettier"
 	],
 
-	"plugins": ["react", "tailwindcss", "unicorn", "@typescript-eslint", "write-good-comments"],
+	"plugins": ["react", "tailwindcss", "unicorn", "@typescript-eslint"],
 
 	"parser": "@typescript-eslint/parser",
 
@@ -54,6 +54,7 @@
 		"no-implicit-coercion": "error",
 		"require-await": "error",
 		"no-void": "off",
+		"no-continue": "off",
 		"no-use-before-define": [
 			"error",
 			{
@@ -77,6 +78,8 @@
 		"no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
 		"no-unused-expressions": "off",
 		"no-return-await": "off",
+		"no-console": ["error", { "allow": ["warn", "error", "info"] }],
+		"consistent-return": "off",
 
 		// Typescript Eslint Rules
 		"@typescript-eslint/no-unused-expressions": [
@@ -144,7 +147,8 @@
 				"extensions": [".tsx", ".jsx"]
 			}
 		],
-		"react/jsx-props-no-spreading": ["error", { "html": "ignore", "explicitSpread": "ignore" }],
+		// "react/jsx-props-no-spreading": ["error", { "html": "ignore", "explicitSpread": "ignore" }],
+		"react/jsx-props-no-spreading": "off",
 		"react/require-default-props": "off",
 
 		// Jsx-A11y rules
@@ -184,9 +188,6 @@
 		// SonarJs Rules
 		"sonarjs/prefer-immediate-return": "off",
 		"sonarjs/cognitive-complexity": ["error", 20],
-
-		// Eslint plugin write good comments
-		"write-good-comments/write-good-comments": "warn",
 
 		// Tailwind rules
 		"tailwindcss/no-custom-classname": "off",

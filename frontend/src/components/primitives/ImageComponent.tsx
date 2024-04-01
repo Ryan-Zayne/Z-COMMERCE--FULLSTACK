@@ -70,7 +70,6 @@ function ImageComponent(props: ImageComponentProps) {
 		<ImageType
 			isImageLoaded={isImageLoaded}
 			handleImageLoad={() => setIsImageLoaded(true)}
-			// eslint-disable-next-line react/jsx-props-no-spreading
 			{...restOfProps}
 		/>
 	);

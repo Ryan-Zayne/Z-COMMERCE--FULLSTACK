@@ -1,13 +1,19 @@
-const debounce = <TParams>(callBackFn: (...params: TParams[]) => void, delay: number) => {
-	let timer: number | null = null;
+import type { CallbackFn } from "../type-helpers/global-type-helpers";
+
+const debounce = <TParams>(callBackFn: CallbackFn<TParams>, delay: number | undefined) => {
+	let timeoutId: number | null = null;
 
 	const debouncedFn = (...params: TParams[]) => {
-		timer && window.clearTimeout(timer);
+		timeoutId && window.clearTimeout(timeoutId);
 
-		timer = window.setTimeout(() => {
+		timeoutId = window.setTimeout(() => {
 			callBackFn(...params);
-			timer = null;
+			timeoutId = null;
 		}, delay);
+	};
+
+	debouncedFn.cancelTimeout = () => {
+		timeoutId && window.clearTimeout(timeoutId);
 	};
 
 	return debouncedFn;

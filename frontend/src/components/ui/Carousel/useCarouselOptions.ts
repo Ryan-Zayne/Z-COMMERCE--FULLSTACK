@@ -1,28 +1,36 @@
-import { useAnimationInterval } from "@/lib/hooks";
+import { useAnimationInterval } from "@/lib/hooks/useAnimationInterval";
+import { useCallbackRef } from "@/lib/hooks/useCallbackRef";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useState } from "react";
-import { useCarouselActions } from "./useCarouselStore";
+import { useCarouselStore } from "./carouselStoreContext";
 
 type CarouselOptions = {
 	hasAutoSlide?: boolean;
 	autoSlideInterval?: number;
+	shouldPauseOnHover?: boolean;
 };
 
 const useCarouselOptions = (options: CarouselOptions = {}) => {
-	const { hasAutoSlide = false, autoSlideInterval = 5000 } = options;
-	const { nextSlide } = useCarouselActions();
-	const isMobile = useGlobalStore((state) => state.isMobile);
-	const isNavShow = useGlobalStore((state) => state.isNavShow);
-	const [isPauseAutoSlide, setIsPauseAutoSlide] = useState(false);
+	const { hasAutoSlide = false, autoSlideInterval = 5000, shouldPauseOnHover = false } = options;
 
-	const shouldHaveAutoSlide = hasAutoSlide && !isPauseAutoSlide && !isNavShow && !isMobile;
+	const isMobile = useGlobalStore((state) => state.isMobile);
+
+	const { nextSlide } = useCarouselStore((state) => state.actions);
+
+	const [isPaused, setIsPaused] = useState(false);
+
+	const shouldAutoSlide = hasAutoSlide && !isPaused && !isMobile;
 
 	useAnimationInterval({
 		callbackFn: nextSlide,
-		intervalDuration: shouldHaveAutoSlide ? autoSlideInterval : null,
+		intervalDuration: shouldAutoSlide ? autoSlideInterval : null,
 	});
 
-	return { setIsPauseAutoSlide };
+	const pauseAutoSlide = useCallbackRef(() => shouldPauseOnHover && setIsPaused(true));
+
+	const resumeAutoSlide = useCallbackRef(() => shouldPauseOnHover && setIsPaused(false));
+
+	return { pauseAutoSlide, resumeAutoSlide };
 };
 
 export { useCarouselOptions };

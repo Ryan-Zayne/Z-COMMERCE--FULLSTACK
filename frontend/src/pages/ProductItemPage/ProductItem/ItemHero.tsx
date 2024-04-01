@@ -1,58 +1,54 @@
 import { ImageComponent } from "@/components/primitives";
 import { Carousel, type CarouselProviderProps } from "@/components/ui";
-import { useElementList } from "@/lib/hooks";
 import { BsChevronRight } from "react-icons/bs";
 
 type ItemHeroProps = {
-	slideImages: Extract<CarouselProviderProps["slideImages"], string[]>;
+	slideImages: Extract<CarouselProviderProps["images"], string[]>;
 };
 
 function ItemHero({ slideImages }: ItemHeroProps) {
-	const { For: ItemList } = useElementList();
-	const { For: IndicatorList } = useElementList();
-
 	return (
 		<article className="h-[35rem] w-[min(100%,50rem)] max-md:mx-auto md:h-full">
-			<Carousel.Root slideImages={slideImages}>
+			<Carousel.Root images={slideImages}>
 				<Carousel.Content
 					as="div"
-					arrowIcon={<BsChevronRight />}
 					classNames={{
-						innerContainer: "rounded-[0.7rem] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]",
-						leftBtn:
-							"md:left-[0.8rem] hover:box-shadow-[0_0_5px_var(--text-dark)] lg:left-[29.5rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]",
-						rightBtn:
-							"hover:box-shadow-[0_0_5px_var(--text-dark)] md:right-[0.8rem] lg:right-[2rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]",
+						scrollContainer: "rounded-[0.7rem] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]",
 					}}
 				>
-					<Carousel.ItemWrapper className={"brightness-[0.65]"}>
-						<ItemList
-							each={slideImages}
-							render={(image) => (
-								<Carousel.Item key={image}>
-									<ImageComponent imageType={"hasSkeleton"} src={image} />
-								</Carousel.Item>
-							)}
-						/>
-					</Carousel.ItemWrapper>
+					<Carousel.Controls
+						classNames={{
+							base: "md:px-[0.8rem] lg:px-[2rem]",
+							iconContainer:
+								"hover:box-shadow-[0_0_5px_var(--text-dark)] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]",
+						}}
+						icon={{
+							prev: <BsChevronRight className="rotate-180" />,
+							next: <BsChevronRight />,
+						}}
+					/>
 
-					<Carousel.IndicatorWrapper>
-						<IndicatorList
-							each={slideImages}
-							render={(image, index) => (
-								<Carousel.Indicator
-									key={image}
-									index={index}
-									className={
-										"bg-[hsl(198,14%,14%)] hover:bg-[hsl(220,62%,31%)] hover:box-shadow-[0_0_5px_hsl(220,62%,31%)]"
-									}
-									classNames={{
-										onActive: "p-[0.4rem] w-[0.6rem] bg-[hsl(220,62%,31%)]",
-									}}
-								/>
-							)}
-						/>
-					</Carousel.IndicatorWrapper>
+					<Carousel.ItemWrapper<(typeof slideImages)[number]>
+						className={"brightness-[0.65]"}
+						render={(image) => (
+							<Carousel.Item key={image}>
+								<ImageComponent imageType={"hasSkeleton"} src={image} />
+							</Carousel.Item>
+						)}
+					/>
+
+					<Carousel.IndicatorWrapper<(typeof slideImages)[number]>
+						render={(image, index) => (
+							<Carousel.Indicator
+								key={image}
+								currentIndex={index}
+								classNames={{
+									base: "bg-[hsl(198,14%,14%)] hover:bg-[hsl(220,62%,31%)] hover:box-shadow-[0_0_5px_hsl(220,62%,31%)]",
+									onActive: "p-[0.4rem] w-[0.6rem] bg-[hsl(220,62%,31%)]",
+								}}
+							/>
+						)}
+					/>
 				</Carousel.Content>
 			</Carousel.Root>
 		</article>

@@ -7,7 +7,7 @@ type ErrorTextProps = {
 };
 
 function ErrorParagraph({ className, message }: ErrorTextProps) {
-	const { For: ErrorMessageList } = useElementList();
+	const [ ErrorMessageList ] = useElementList();
 	const paragraphClasses = "animate-shake pt-[0.3rem] text-[1.1rem] text-error";
 	const splitterRegex = /, (?=[A-Z])/;
 

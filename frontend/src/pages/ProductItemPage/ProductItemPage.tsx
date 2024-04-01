@@ -1,5 +1,5 @@
 import { LoadingSkeleton } from "@/components/ui";
-import { assertDefined } from "@/lib/type-helpers/global-type-helpers";
+import { assertDefined } from "@/lib/type-helpers/assert";
 import { useGetProductItem } from "@/store/react-query/useGetProductItem";
 import { useParams } from "react-router-dom";
 import ItemDescription from "./ProductItem/ItemDescription";

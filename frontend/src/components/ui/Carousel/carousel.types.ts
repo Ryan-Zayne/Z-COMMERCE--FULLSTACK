@@ -1,16 +1,14 @@
-import type { WithChildren } from "@/lib/type-helpers/global-type-helpers";
+import type { EachProp, ForRenderProps } from "@/components/primitives/For";
+import type { Prettify } from "@/lib/type-helpers/global-type-helpers";
 import type { StoreApi } from "zustand";
 
 // Carousel store types
-export type CarouselStore = {
+export type ImagesType = Array<Record<string, string>> | string[];
+
+export type CarouselStore<TImages extends ImagesType = ImagesType> = {
 	currentSlide: number;
 	maxSlide: number;
-	images:
-		| Array<{
-				src: string;
-				blurSrc?: string;
-		  }>
-		| string[];
+	images: TImages;
 
 	actions: {
 		goToSlide: (newValue: number) => void;
@@ -19,34 +17,76 @@ export type CarouselStore = {
 	};
 };
 
-export type CarouselProviderProps = WithChildren<{
-	slideImages: CarouselStore["images"];
+export type CarouselStoreApi<TImages extends ImagesType = ImagesType> = StoreApi<CarouselStore<TImages>>;
 
-	slideButtonSideEffect?: () => void;
-}>;
-
-export type CarouselStoreApi = StoreApi<CarouselStore>;
-
-// Carousel component types
-export type CarouselContentProps = WithChildren<{
-	arrowIcon: React.ReactNode;
-	className?: string;
-	classNames?: {
-		innerContainer?: string;
-		leftBtn?: string;
-		rightBtn?: string;
-	};
-	hasAutoSlide?: boolean;
-	autoSlideInterval?: number;
-	pauseOnHover?: boolean;
-}>;
-
-export type CarouselIndicatorProps = {
-	className?: string;
-	classNames?: {
-		onActive?: string;
-	};
-	index: number;
+export type CarouselProviderProps<TImages extends ImagesType = ImagesType> = {
+	children: React.ReactNode;
+	images: CarouselStore<TImages>["images"];
+	onSlideBtnClick?: () => void;
 };
 
-export type OtherCarouselProps = WithChildren<{ className?: string }>;
+// Carousel component types
+export type CarouselContentProps = {
+	children: React.ReactNode;
+
+	classNames?: {
+		base?: string;
+		scrollContainer?: string;
+	};
+
+	hasAutoSlide?: boolean;
+	autoSlideInterval?: number;
+	shouldPauseOnHover?: boolean;
+};
+
+export type CarouselButtonsProps = {
+	type: "prev" | "next";
+
+	classNames?: {
+		base?: string;
+		iconContainer?: string;
+		defaultIcon?: string;
+	};
+
+	icon?: React.ReactNode;
+};
+
+export type CarouselControlProps = {
+	classNames?: {
+		base?: string;
+		defaultIcon?: string;
+		iconContainer?: string;
+	};
+
+	icon?: {
+		prev?: React.ReactNode;
+		next?: React.ReactNode;
+	};
+};
+
+export type CarouselIndicatorProps = {
+	classNames?: {
+		base?: string;
+		onActive?: string;
+	};
+	currentIndex: number;
+};
+
+type BaseWrapperProps<TArrayItem> = Prettify<ForRenderProps<TArrayItem> & Partial<EachProp<TArrayItem>>>;
+
+export type CarouselItemWrapperProps<TArrayItem> = BaseWrapperProps<TArrayItem> & {
+	className?: string;
+};
+
+export type CarouselIndicatorWrapperProps<TArrayItem> = BaseWrapperProps<TArrayItem> & {
+	classNames?: {
+		base?: string;
+		indicatorContainer?: string;
+	};
+};
+
+export type OtherCarouselProps = {
+	children?: React.ReactNode;
+	className?: string;
+	style?: React.CSSProperties;
+};

@@ -41,7 +41,7 @@ function FooterDropDowns() {
 
 				<DropDown.Root className="mt-[0.7rem]">
 					{!isDesktop && (
-						<DropDown.Header
+						<DropDown.Trigger
 							className={"flex cursor-pointer items-center justify-between"}
 							onClick={handleDropDowns(dropOne)}
 						>
@@ -54,7 +54,7 @@ function FooterDropDowns() {
 							>
 								<FaChevronDown />
 							</button>
-						</DropDown.Header>
+						</DropDown.Trigger>
 					)}
 
 					<DropDown.Panel
@@ -78,7 +78,7 @@ function FooterDropDowns() {
 
 				<DropDown.Root className="mt-[2rem]">
 					{!isDesktop && (
-						<DropDown.Header
+						<DropDown.Trigger
 							className={"flex cursor-pointer items-center justify-between"}
 							onClick={handleDropDowns(dropTwo)}
 						>
@@ -91,7 +91,7 @@ function FooterDropDowns() {
 							>
 								<FaChevronDown />
 							</button>
-						</DropDown.Header>
+						</DropDown.Trigger>
 					)}
 
 					<DropDown.Panel
@@ -123,7 +123,7 @@ function FooterDropDowns() {
 			<article>
 				{/* eslint-disable-next-line sonarjs/no-duplicate-string */}
 				<DropDown.Root className={"min-w-[20rem]"}>
-					<DropDown.Header
+					<DropDown.Trigger
 						className={cnMerge(
 							"flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary lg:dark:text-heading"
 						)}
@@ -140,7 +140,7 @@ function FooterDropDowns() {
 								<FaChevronDown />
 							</button>
 						)}
-					</DropDown.Header>
+					</DropDown.Trigger>
 
 					<DropDown.Panel
 						isOpen={isDesktop ? true : dropThree.isOpen}
@@ -157,7 +157,7 @@ function FooterDropDowns() {
 
 			<article>
 				<DropDown.Root className={"min-w-[20rem]"}>
-					<DropDown.Header
+					<DropDown.Trigger
 						className={cnMerge(
 							"flex cursor-pointer items-center justify-between text-[1.5rem]  lg:text-primary lg:dark:text-heading"
 						)}
@@ -174,7 +174,7 @@ function FooterDropDowns() {
 								<FaChevronDown />
 							</button>
 						)}
-					</DropDown.Header>
+					</DropDown.Trigger>
 
 					<DropDown.Panel
 						isOpen={isDesktop ? true : dropFour.isOpen}
@@ -191,7 +191,7 @@ function FooterDropDowns() {
 
 			<article>
 				<DropDown.Root className={"min-w-[20rem]"}>
-					<DropDown.Header
+					<DropDown.Trigger
 						className={cnMerge(
 							"flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary lg:dark:text-heading"
 						)}
@@ -208,7 +208,7 @@ function FooterDropDowns() {
 								<FaChevronDown />
 							</button>
 						)}
-					</DropDown.Header>
+					</DropDown.Trigger>
 
 					<DropDown.Panel
 						isOpen={isDesktop ? true : dropFive.isOpen}

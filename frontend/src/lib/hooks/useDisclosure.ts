@@ -1,5 +1,6 @@
 import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open";
-import { useCallback, useState } from "react";
+import { useCallbackRef } from "./useCallbackRef";
+import { useToggle } from "./useToggle";
 
 type DisclosureOptions = {
 	hasScrollControl?: boolean;
@@ -8,30 +9,23 @@ type DisclosureOptions = {
 
 const useDisclosure = (options: DisclosureOptions = {}) => {
 	const { hasScrollControl = false, initialState = false } = options;
+	const [isOpen, toggleIsOpen] = useToggle(initialState);
 
-	const [isOpen, setIsOpen] = useState(initialState);
-
-	const handleScrollControl = useCallback(
-		(state: boolean) => {
-			if (!hasScrollControl) return;
-
-			noScrollOnOpen({ isActive: state });
-		},
-
-		[hasScrollControl]
+	const handleScrollControl = useCallbackRef(
+		(state: boolean) => hasScrollControl && noScrollOnOpen({ isActive: state })
 	);
 
-	const onOpen = useCallback(() => {
-		setIsOpen(true);
+	const onOpen = useCallbackRef(() => {
+		toggleIsOpen(true);
 		handleScrollControl(true);
-	}, [handleScrollControl]);
+	});
 
-	const onClose = useCallback(() => {
-		setIsOpen(false);
+	const onClose = useCallbackRef(() => {
+		toggleIsOpen(false);
 		handleScrollControl(false);
-	}, [handleScrollControl]);
+	});
 
-	const onToggle = useCallback(() => (isOpen ? onClose() : onOpen()), [isOpen, onClose, onOpen]);
+	const onToggle = useCallbackRef(isOpen ? onClose : onOpen);
 
 	return { isOpen, onOpen, onClose, onToggle };
 };

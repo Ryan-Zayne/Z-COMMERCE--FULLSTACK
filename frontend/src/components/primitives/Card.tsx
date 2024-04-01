@@ -1,9 +1,16 @@
-import type { PolymorphicProps } from "@/lib/type-helpers/polymorpic-props-helper";
+import type { PolymorphicProps } from "@/lib/type-helpers/polymorpism-helper";
 
 type CardProps = {
+	className?: string;
+	children?: React.ReactNode;
 	aosAnimation?: string;
 	aosDuration?: string;
 	aosEasing?: string;
+};
+
+type OtherCardProps = {
+	className?: string;
+	children?: React.ReactNode;
 };
 
 function Card<TElement extends React.ElementType = "article">(
@@ -30,19 +37,25 @@ function Card<TElement extends React.ElementType = "article">(
 	);
 }
 
-function CardHeader<TElement extends React.ElementType = "header">(props: PolymorphicProps<TElement>) {
+function CardHeader<TElement extends React.ElementType = "header">(
+	props: PolymorphicProps<TElement, OtherCardProps>
+) {
 	const { as: Element = "header", children, className } = props;
 
 	return <Element className={className}>{children}</Element>;
 }
 
-function CardBody<TElement extends React.ElementType = "div">(props: PolymorphicProps<TElement>) {
+function CardBody<TElement extends React.ElementType = "div">(
+	props: PolymorphicProps<TElement, OtherCardProps>
+) {
 	const { as: Element = "div", children, className = "" } = props;
 
 	return <Element className={className}>{children}</Element>;
 }
 
-function CardFooter<TElement extends React.ElementType = "footer">(props: PolymorphicProps<TElement>) {
+function CardFooter<TElement extends React.ElementType = "footer">(
+	props: PolymorphicProps<TElement, OtherCardProps>
+) {
 	const { as: Element = "footer", children, className = "" } = props;
 
 	return <Element className={className}>{children}</Element>;

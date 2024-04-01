@@ -66,7 +66,7 @@ function ProductCard(props: ProductCardProps) {
 			aosDuration={aosDuration}
 			aosEasing={aosEasing}
 		>
-			<Link to={link} className="flex h-full w-full flex-col justify-between">
+			<Link to={link} className="flex size-full flex-col justify-between">
 				<Card.Header
 					as="div"
 					className="relative h-[18rem] w-full overflow-hidden rounded-[0.8rem_0.8rem_0_0]"

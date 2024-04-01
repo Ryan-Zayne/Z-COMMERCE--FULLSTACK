@@ -6,11 +6,9 @@ export type SelectorFn<TStore, TResult> = (state: TStore) => TResult;
 // Global State Types
 export type GlobalStateSlice = {
 	isNavShow: boolean;
-	isSearchShow: boolean;
 
 	globalActions: {
 		toggleNavShow: () => void;
-		toggleSearchShow: () => void;
 	};
 };
 

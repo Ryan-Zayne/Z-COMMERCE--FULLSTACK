@@ -1,3 +1,10 @@
+import type { Prettify, Writeable } from "../type-helpers/global-type-helpers";
+
+type PrettifyOmitResult<
+	TObject extends Record<string, unknown>,
+	TOmitArray extends Array<keyof TObject>,
+> = Prettify<Writeable<Omit<TObject, TOmitArray[number]>>>;
+
 export const omitKeys = <
 	const TObject extends Record<string, unknown>,
 	const TOmitArray extends Array<keyof TObject>,
@@ -11,9 +18,7 @@ export const omitKeys = <
 
 	const updatedObject = Object.fromEntries(arrayFromFilteredObject);
 
-	return updatedObject as {
-		[Key in Exclude<keyof TObject, TOmitArray[number]>]: TObject[Key];
-	};
+	return updatedObject as PrettifyOmitResult<TObject, TOmitArray>;
 };
 
 export const omitKeysWithReduce = <
@@ -33,9 +38,7 @@ export const omitKeysWithReduce = <
 		return accumulator;
 	}, {});
 
-	return updatedObject as {
-		[Key in Exclude<keyof TObject, TOmitArray[number]>]: TObject[Key];
-	};
+	return updatedObject as PrettifyOmitResult<TObject, TOmitArray>;
 };
 
 export const omitKeysWithLoop = <
@@ -51,7 +54,5 @@ export const omitKeysWithLoop = <
 		!keysToOmit.includes(key) && (updatedObject[key] = value);
 	}
 
-	return updatedObject as {
-		[Key in Exclude<keyof TObject, TOmitArray[number]>]: TObject[Key];
-	};
+	return updatedObject as PrettifyOmitResult<TObject, TOmitArray>;
 };

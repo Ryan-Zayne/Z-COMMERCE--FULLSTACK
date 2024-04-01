@@ -10,7 +10,7 @@ type SkeletonProps = {
 
 function LoadingSkeleton({ count = 5, type = "genericPage" }: SkeletonProps) {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
-	const { For: SkeletonCardList } = useElementList();
+	const [SkeletonCardList] = useElementList();
 
 	const SKELETON_LOOKUP = {
 		productItemPage: () => (
@@ -30,53 +30,50 @@ function LoadingSkeleton({ count = 5, type = "genericPage" }: SkeletonProps) {
 		genericPage: () => (
 			<section className="mt-[8rem] flex flex-col gap-[6rem] pt-[6rem]">
 				<article className="flex flex-col gap-[3rem] px-[3rem]">
-					<ul className="grid grid-cols-[repeat(auto-fit,_minmax(23rem,1fr))] justify-items-center gap-[3rem_1.5rem]">
-						<SkeletonCardList
-							each={[...Array(count).keys()]}
-							render={(id) => (
-								<li
-									key={id}
-									className={cnMerge(
-										`w-[min(100%,25rem)] rounded-[1.2rem] bg-white/[0.17] box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)] ${
-											isDarkMode && "bg-[hsl(200,5.88%,10%,0.17)]"
-										}`
-									)}
+					<SkeletonCardList
+						className="grid grid-cols-[repeat(auto-fit,_minmax(23rem,1fr))] justify-items-center gap-[3rem_1.5rem]"
+						each={[...Array(count).keys()]}
+						render={(id) => (
+							<li
+								key={id}
+								className={cnMerge(
+									`w-[min(100%,25rem)] rounded-[1.2rem] bg-white/[0.17] box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)] ${
+										isDarkMode && "bg-[hsl(200,5.88%,10%,0.17)]"
+									}`
+								)}
+							>
+								<SkeletonTheme
+									highlightColor={cnJoin(isDarkMode && "#1e2021")}
+									baseColor={cnJoin(isDarkMode && "#232628")}
 								>
-									<SkeletonTheme
-										highlightColor={cnJoin(isDarkMode && "#1e2021")}
-										baseColor={cnJoin(isDarkMode && "#232628")}
-									>
-										<div>
-											<Skeleton
-												className={`block h-[18rem] w-full rounded-[0.8rem_0.8rem_0_0]`}
-											/>
-										</div>
+									<div>
+										<Skeleton className={`block h-[18rem] w-full rounded-[0.8rem_0.8rem_0_0]`} />
+									</div>
 
-										<div className="px-[1.4rem] pb-[1rem]">
-											<header className="flex items-center justify-between gap-[1rem]">
-												<Skeleton count={2} width={148} height={6} />
-												<span>
-													<Skeleton width={58} height={23} />
-												</span>
-											</header>
-											<p className="mt-[2rem]">
-												<Skeleton className="gap-[3rem]" count={3} width={"93%"} height={6} />
-											</p>
-											<div className={`mt-[1rem] flex items-center gap-[1.3rem]`}>
-												<Skeleton width={75} height={19} />
-												<Skeleton width={34} height={18} />
-											</div>
-											<Skeleton
-												className="mt-[2rem] rounded-[8px] p-[1rem_1.2rem]"
-												width={97}
-												height={35}
-											/>
+									<div className="px-[1.4rem] pb-[1rem]">
+										<header className="flex items-center justify-between gap-[1rem]">
+											<Skeleton count={2} width={148} height={6} />
+											<span>
+												<Skeleton width={58} height={23} />
+											</span>
+										</header>
+										<p className="mt-[2rem]">
+											<Skeleton className="gap-[3rem]" count={3} width={"93%"} height={6} />
+										</p>
+										<div className={`mt-[1rem] flex items-center gap-[1.3rem]`}>
+											<Skeleton width={75} height={19} />
+											<Skeleton width={34} height={18} />
 										</div>
-									</SkeletonTheme>
-								</li>
-							)}
-						/>
-					</ul>
+										<Skeleton
+											className="mt-[2rem] rounded-[8px] p-[1rem_1.2rem]"
+											width={97}
+											height={35}
+										/>
+									</div>
+								</SkeletonTheme>
+							</li>
+						)}
+					/>
 				</article>
 			</section>
 		),

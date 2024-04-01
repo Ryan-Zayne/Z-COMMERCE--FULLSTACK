@@ -1,53 +1,50 @@
 import { Button, ImageComponent } from "@/components/primitives";
 import { Carousel } from "@/components/ui";
-import { useAnimateElementRefs, useElementList } from "@/lib/hooks";
+import { useAnimateElementRefs } from "@/lib/hooks";
 import { RxPaperPlane } from "react-icons/rx";
 import { slideImages } from "./images";
 
 function Hero() {
 	const { animatedElements, handleElementsAnimation } = useAnimateElementRefs();
-	const { For: ItemList } = useElementList();
-	const { For: IndicatorList } = useElementList();
 
 	return (
 		<section id="Hero">
-			<Carousel.Root slideImages={slideImages} slideButtonSideEffect={handleElementsAnimation}>
+			<Carousel.Root images={slideImages} onSlideBtnClick={handleElementsAnimation}>
 				<Carousel.Content
-					className={"mx-[1rem] h-[33rem] md:h-[41.4rem] lg:h-[48.5rem]"}
 					classNames={{
-						innerContainer: "rounded-[0.7rem] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]",
-						leftBtn:
-							"md:left-[0.8rem] hover:box-shadow-[0_0_5px_var(--text-dark)] lg:left-[29.5rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]",
-						rightBtn:
-							"hover:box-shadow-[0_0_5px_var(--text-dark)] md:right-[0.8rem] lg:right-[2rem] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]",
+						base: "mx-[1rem] h-[33rem] md:h-[41.4rem] lg:h-[48.5rem]",
+						scrollContainer: "rounded-[0.7rem] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]",
 					}}
-					arrowIcon={<RxPaperPlane className="lg:text-[1.7rem]" />}
 					autoSlideInterval={8000}
 					hasAutoSlide={true}
-					pauseOnHover={true}
+					shouldPauseOnHover={true}
 				>
-					<Carousel.ItemWrapper>
-						<ItemList
-							each={slideImages}
-							render={(image) => (
-								<Carousel.Item key={image.src} className="brightness-[0.6]">
-									<ImageComponent
-										className={"size-full"}
-										imageType={"hasFallback"}
-										src={image.src}
-										blurSrc={image.blurSrc}
-										fetchpriority={"high"}
-									/>
-								</Carousel.Item>
-							)}
-						/>
-					</Carousel.ItemWrapper>
+					<Carousel.Controls
+						classNames={{
+							base: "px-[0.7rem] md:px-[0.8rem] lg:pl-[30rem] lg:pr-[2rem]",
+							iconContainer:
+								"hover:box-shadow-[0_0_5px_var(--text-dark)] rounded-[5px] bg-carousel-btn p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]",
+						}}
+						icon={{
+							prev: <RxPaperPlane className="rotate-180 lg:text-[1.7rem]" />,
+							next: <RxPaperPlane className="lg:text-[1.7rem]" />,
+						}}
+					/>
+					<Carousel.ItemWrapper<(typeof slideImages)[number]>
+						render={(image) => (
+							<Carousel.Item key={image.src} className="brightness-[0.6]">
+								<ImageComponent
+									className={"size-full"}
+									imageType={"hasFallback"}
+									src={image.src}
+									blurSrc={image.blurSrc}
+									fetchpriority={"high"}
+								/>
+							</Carousel.Item>
+						)}
+					/>
 
-					<Carousel.Caption
-						className={
-							"ml-[4.5rem] mt-[3.7rem] flex flex-col items-start md:ml-[7.5rem] lg:ml-[36rem] lg:mt-[8rem]"
-						}
-					>
+					<Carousel.Caption className="ml-[4.5rem] mt-[3.7rem] flex flex-col items-start text-light md:ml-[7.5rem] lg:ml-[36rem] lg:mt-[8rem]">
 						<h1
 							ref={(elem) => (animatedElements.heading = elem)}
 							className="w-[17ch] font-roboto text-[clamp(2rem,_4vw+1rem,_3rem)] font-600 text-heading"
@@ -71,12 +68,9 @@ function Hero() {
 						/>
 					</Carousel.Caption>
 
-					<Carousel.IndicatorWrapper>
-						<IndicatorList
-							each={slideImages}
-							render={(image, index) => <Carousel.Indicator key={image.src} index={index} />}
-						/>
-					</Carousel.IndicatorWrapper>
+					<Carousel.IndicatorWrapper<(typeof slideImages)[number]>
+						render={(image, index) => <Carousel.Indicator key={image.src} currentIndex={index} />}
+					/>
 				</Carousel.Content>
 			</Carousel.Root>
 		</section>

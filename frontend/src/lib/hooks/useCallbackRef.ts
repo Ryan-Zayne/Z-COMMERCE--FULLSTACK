@@ -1,6 +1,5 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useLayoutEffect, useRef } from "react";
 import type { CallbackFn } from "../type-helpers/global-type-helpers";
-import { useIsoMorpicEffect } from "./useIsoMorphicEffect";
 
 function useCallbackRef<TParams, TResult>(
 	callbackFn: CallbackFn<TParams, TResult>
@@ -13,7 +12,7 @@ function useCallbackRef<TParams, TResult>(
 function useCallbackRef<TParams, TResult>(callbackFn: CallbackFn<TParams, TResult> | undefined) {
 	const callbackRef = useRef(callbackFn);
 
-	useIsoMorpicEffect(() => {
+	useLayoutEffect(() => {
 		callbackRef.current = callbackFn; // == Doing this instead updating it during render cuz according to Dan Abramov, render should be pure
 	}, [callbackFn]);
 

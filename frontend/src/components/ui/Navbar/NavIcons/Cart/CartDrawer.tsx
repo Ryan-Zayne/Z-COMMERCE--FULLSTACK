@@ -15,7 +15,7 @@ function CartDrawer(props: CartDrawerProps) {
 	const cart = useShopStore((state) => state.cart);
 	const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
-	const { For: CartItemsList } = useElementList();
+	const [CartItemsList] = useElementList();
 
 	return (
 		<Drawer.Root {...{ isOpen, onClose, onOpen }}>
@@ -42,14 +42,13 @@ function CartDrawer(props: CartDrawerProps) {
 				</Drawer.Header>
 
 				<Drawer.Body className={"px-[1.3rem] pt-[4rem] lg:px-[2rem]"}>
-					<ul className="flex min-h-[14rem] flex-col gap-[1rem]">
-						<CartItemWrapper showCartItems={cart.length > 0}>
-							<CartItemsList
-								each={cart}
-								render={(item) => <CartItem key={item.title} product={item} />}
-							/>
-						</CartItemWrapper>
-					</ul>
+					<CartItemWrapper showCartItems={cart.length > 0}>
+						<CartItemsList
+							className="flex min-h-[14rem] flex-col gap-[1rem]"
+							each={cart}
+							render={(item) => <CartItem key={item.title} product={item} />}
+						/>
+					</CartItemWrapper>
 
 					<div className="mt-[4rem] px-[1rem] lg:px-[2.6rem]">
 						<p className="flex justify-between text-[1.8rem] font-[600]">

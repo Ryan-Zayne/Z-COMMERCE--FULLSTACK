@@ -1,27 +1,31 @@
-import { createCustomContext } from "@/lib/hooks/custom-context-hook";
-import { useState } from "react";
-import { createStore } from "zustand";
-import type { CarouselProviderProps, CarouselStore, CarouselStoreApi } from "./carousel.types";
+import { createCustomContext } from "@/lib/hooks";
+import type { PrettyOmit } from "@/lib/type-helpers/global-type-helpers";
+import type { SelectorFn } from "@/store/zustand/zustand-store.types";
+import { useEffect, useState } from "react";
+import { createStore, useStore } from "zustand";
+import { useShallow } from "zustand/react/shallow";
+import type { CarouselProviderProps, CarouselStore, CarouselStoreApi, ImagesType } from "./carousel.types";
 
-const [Provider, useCustomCarouselContext] = createCustomContext<CarouselStoreApi>({
+const [Provider, useCarouselContext] = createCustomContext<CarouselStoreApi>({
 	name: "CarouselStoreContext",
 	hookName: "useCarouselStore",
 	providerName: "CarouselContextProvider",
 });
 
 // CarouselStore Creation
-const createCarouselStore = ({
-	slideImages,
-	slideButtonSideEffect,
-}: Omit<CarouselProviderProps, "children">) =>
-	createStore<CarouselStore>((set, get) => ({
+const createCarouselStore = <TImages extends ImagesType>(
+	storeValues: PrettyOmit<CarouselProviderProps<TImages>, "children">
+) => {
+	const { images, onSlideBtnClick } = storeValues;
+
+	const carouselStore = createStore<CarouselStore<TImages>>((set, get) => ({
+		images,
 		currentSlide: 0,
-		maxSlide: slideImages.length - 1,
-		images: slideImages,
+		maxSlide: images.length - 1,
 
 		actions: {
 			goToSlide: (newValue) => {
-				slideButtonSideEffect?.();
+				onSlideBtnClick?.();
 
 				set({ currentSlide: newValue });
 			},
@@ -52,11 +56,30 @@ const createCarouselStore = ({
 		},
 	}));
 
-// Provider Component
-function CarouselContextProvider({ children, slideImages, slideButtonSideEffect }: CarouselProviderProps) {
-	const [carouselStore] = useState(() => createCarouselStore({ slideImages, slideButtonSideEffect }));
+	return carouselStore;
+};
+
+// == Provider Component
+export function CarouselContextProvider<TImages extends ImagesType>(
+	props: CarouselProviderProps<TImages>
+) {
+	const { children, images, onSlideBtnClick } = props;
+
+	const [carouselStore] = useState(() => createCarouselStore({ images, onSlideBtnClick }));
+
+	// == To set images again when a page is mounted, preventing stale images from previous page
+	useEffect(() => {
+		carouselStore.setState({ images });
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [images]);
 
 	return <Provider value={carouselStore}>{children}</Provider>;
 }
 
-export { CarouselContextProvider, useCustomCarouselContext };
+// Store Hook
+export const useCarouselStore = <TResult,>(selector: SelectorFn<CarouselStore, TResult>) => {
+	const store = useCarouselContext();
+
+	return useStore(store, useShallow(selector));
+};

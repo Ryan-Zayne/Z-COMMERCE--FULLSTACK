@@ -70,7 +70,7 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 	const DEVICE_TYPE_LOOKUP = {
 		mobile: () => (
 			<DropDown.Root id={"Mobile-Categories dropdown"}>
-				<DropDown.Header
+				<DropDown.Trigger
 					className={"relative flex cursor-pointer items-center gap-[0.5rem]"}
 					onClick={onToggle}
 				>
@@ -84,12 +84,12 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 					>
 						<AiOutlineCaretDown />
 					</button>
-				</DropDown.Header>
+				</DropDown.Trigger>
 
 				<DropDown.Panel
 					isOpen={isOpen}
 					classNames={{
-						panelParent:
+						panelContainer:
 							"absolute inset-x-0 z-[50] m-[0.5rem_2rem_0] rounded-[5px] bg-[hsl(215,19%,35%,0.9)] [backdrop-filter:blur(4rem)]",
 
 						panelList: cnJoin(`flex flex-col gap-[1.5rem] pl-[3rem] text-[1.4rem]`, [
@@ -104,7 +104,7 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 
 		desktop: () => (
 			<DropDown.Root id={"Shop-By-Categories DropDown"} className={"relative z-50 ml-[1rem]"}>
-				<DropDown.Header
+				<DropDown.Trigger
 					className={
 						"flex w-[28rem] cursor-pointer flex-row-reverse justify-end gap-[1rem] rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-[--color-primary]"
 					}
@@ -115,13 +115,13 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 					<button className="text-[2rem]">
 						<BsMenuButtonFill />
 					</button>
-				</DropDown.Header>
+				</DropDown.Trigger>
 
 				<DropDown.Panel
 					isOpen={isOpen}
 					id="Category List"
 					classNames={{
-						panelParent: "absolute h-[48.5rem] w-full",
+						panelContainer: "absolute h-[48.5rem] w-full",
 						panelList: cnJoin(
 							"bg-body px-[2rem] font-[400] box-shadow-[0_1px_3px_0.3px_var(--color-primary)] dark:box-shadow-[0_1px_3px_0.3px_var(--carousel-dot)]",
 

@@ -4,6 +4,6 @@ export const isArray = (value: unknown): value is unknown[] => Array.isArray(val
 
 export const isFormData = (value: unknown): value is FormData => value instanceof FormData;
 
-export const isObject = (value: unknown): value is Record<string, unknown> => {
+export const isObject = <TObject extends Record<string, unknown>>(value: unknown): value is TObject => {
 	return typeof value === "object" && value !== null && !isFormData(value) && !isArray(value);
 };

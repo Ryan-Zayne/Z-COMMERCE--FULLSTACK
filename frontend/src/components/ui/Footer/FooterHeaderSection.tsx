@@ -23,9 +23,11 @@ function FooterHeaderSection() {
 
 				<SearchForm
 					type={"subscribe"}
-					className={"w-[min(100%,40rem)] lg:w-[45rem]"}
-					btnClassName={"p-[0.91rem_1.5rem] text-[1.45rem] font-[500] lg:p-[1.2rem_2.6rem]"}
-					inputClassName={"lg:py-[0.9rem]"}
+					classNames={{
+						baseContainer: "w-[min(100%,40rem)] lg:w-[45rem]",
+						btn: "p-[0.91rem_1.5rem] text-[1.45rem] font-[500] lg:p-[1.2rem_2.6rem]",
+						input: "lg:py-[0.9rem]"
+					}}
 					placeholder={"Enter Your Email address..."}
 					text={"Subscribe"}
 				/>

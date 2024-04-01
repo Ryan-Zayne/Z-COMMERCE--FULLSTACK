@@ -26,9 +26,9 @@ const semanticClasses = {
 	},
 
 	sizes: {
-		sm: "p-[1.11rem_1.3rem]",
-		md: "p-[1.1rem_3.5rem]",
-		lg: "p-[1.1rem_4.5rem]",
+		sm: "py-[1.1rem] px-[1.3rem]",
+		md: "py-[1.1rem] px-[3.5rem]",
+		lg: "py-[1.1rem] px-[4.5rem]",
 	},
 };
 

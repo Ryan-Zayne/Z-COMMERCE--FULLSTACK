@@ -1,5 +1,5 @@
 import ProductCard from "@/components/ui/ProductCard";
-import { assertDefined } from "@/lib/type-helpers/global-type-helpers";
+import { assertDefined } from "@/lib/type-helpers/assert";
 import type { DataArrayProp } from "./home-product.types";
 
 function RecentProducts({ data }: DataArrayProp) {

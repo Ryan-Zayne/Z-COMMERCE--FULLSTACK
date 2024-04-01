@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable write-good-comments/write-good-comments */
 
 // == This, is beauty...
 (({ age, ...rest }) => rest)({ name: "a", age: 1, id: 1 });

@@ -58,7 +58,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 		},
 
 		decrementProductQuantity: (productId) => {
-			const { updateProductQuantity } = get().shopActions;
+			const { updateProductQuantity, removeProductFromCart } = get().shopActions;
 
 			const productItemInCart = get().cart.find((item) => item.id === productId);
 
