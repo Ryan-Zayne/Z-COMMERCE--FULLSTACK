@@ -8,8 +8,7 @@ import type {
 	CarouselContentProps,
 	CarouselControlProps,
 	CarouselIndicatorProps,
-	CarouselIndicatorWrapperProps,
-	CarouselItemWrapperProps,
+	CarouselWrapperProps,
 	OtherCarouselProps,
 } from "./carousel.types";
 import { CarouselContextProvider, useCarouselStore } from "./carouselStoreContext";
@@ -86,28 +85,56 @@ function CarouselControls(props: CarouselControlProps) {
 
 	return (
 		<div className={cnMerge("absolute inset-0 flex justify-between", classNames?.base)}>
-			<CarouselButton
-				type="prev"
-				classNames={{
-					defaultIcon: classNames?.defaultIcon,
-					iconContainer: classNames?.iconContainer,
-				}}
-				icon={icon?.prev}
-			/>
-
-			<CarouselButton
-				type="next"
-				classNames={{
-					defaultIcon: classNames?.defaultIcon,
-					iconContainer: classNames?.iconContainer,
-				}}
-				icon={icon?.next}
-			/>
+			{!icon?.iconType ? (
+				<>
+					<CarouselButton
+						type="prev"
+						classNames={{
+							defaultIcon: classNames?.defaultIcon,
+							iconContainer: classNames?.iconContainer,
+						}}
+						icon={icon?.prev}
+					/>
+					<CarouselButton
+						type="next"
+						classNames={{
+							defaultIcon: classNames?.defaultIcon,
+							iconContainer: classNames?.iconContainer,
+						}}
+						icon={icon?.next}
+					/>
+				</>
+			) : (
+				<>
+					<CarouselButton
+						type="prev"
+						classNames={{
+							defaultIcon: classNames?.defaultIcon,
+							iconContainer: cnMerge(
+								icon.iconType === "rightIcon" && "rotate-180",
+								classNames?.iconContainer
+							),
+						}}
+						icon={icon.icon}
+					/>
+					<CarouselButton
+						type="next"
+						classNames={{
+							defaultIcon: classNames?.defaultIcon,
+							iconContainer: cnMerge(
+								icon.iconType === "leftIcon" && "rotate-180",
+								classNames?.iconContainer
+							),
+						}}
+						icon={icon.icon}
+					/>
+				</>
+			)}
 		</div>
 	);
 }
 
-function CarouselItemWrapper<TArrayItem>(props: CarouselItemWrapperProps<TArrayItem>) {
+function CarouselItemWrapper<TArrayItem>(props: CarouselWrapperProps<TArrayItem>) {
 	const { each, children, render, className } = props;
 
 	const [ItemList] = useBaseElementList();
@@ -159,28 +186,26 @@ function CarouselCaption<TElement extends React.ElementType = "div">(
 	);
 }
 
-function CarouselIndicatorWrapper<TArrayItem>(props: CarouselIndicatorWrapperProps<TArrayItem>) {
-	const { each, children, render, classNames = {} } = props;
+function CarouselIndicatorWrapper<TArrayItem>(props: CarouselWrapperProps<TArrayItem>) {
+	const { each, children, render, className } = props;
 
 	const images = useCarouselStore((state) => each ?? (state.images as TArrayItem[]));
 	const [IndicatorList] = useBaseElementList();
 
 	return (
-		<div
+		<ul
 			data-id="Carousel Indicators"
 			className={cnMerge(
 				"absolute bottom-[2.5rem] z-[2] flex w-full items-center justify-center gap-[1.5rem]",
-				classNames.base
+				className
 			)}
 		>
-			<ul className={cnMerge("flex items-center justify-center gap-4", classNames.indicatorContainer)}>
-				{typeof render === "function" ? (
-					<IndicatorList each={images} render={render} />
-				) : (
-					<IndicatorList each={images}>{children}</IndicatorList>
-				)}
-			</ul>
-		</div>
+			{typeof render === "function" ? (
+				<IndicatorList each={images} render={render} />
+			) : (
+				<IndicatorList each={images}>{children}</IndicatorList>
+			)}
+		</ul>
 	);
 }
 
@@ -193,11 +218,11 @@ function CarouselIndicator(props: CarouselIndicatorProps) {
 	} = useCarouselStore((state) => state);
 
 	return (
-		<li>
+		<li className="inline-flex">
 			<button
 				onClick={() => goToSlide(currentIndex)}
 				className={cnMerge(
-					"size-[6px] shrink-0 rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot hover:[box-shadow:0_0_5px_var(--carousel-dot)]",
+					"size-[6px] rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot hover:[box-shadow:0_0_5px_var(--carousel-dot)]",
 					classNames.base,
 					currentIndex === currentSlide && [
 						"w-[3.5rem] rounded-[0.5rem] bg-carousel-dot",

@@ -63,8 +63,7 @@ const IMAGE_TYPE_LOOKUP = {
 function ImageComponent(props: ImageComponentProps) {
 	const { imageType, ...restOfProps } = props;
 	const [isImageLoaded, setIsImageLoaded] = useState(false);
-
-	const { [imageType]: ImageType } = IMAGE_TYPE_LOOKUP;
+	const { [imageType]: ImageType } = useState(() => IMAGE_TYPE_LOOKUP)[0];
 
 	return (
 		<ImageType

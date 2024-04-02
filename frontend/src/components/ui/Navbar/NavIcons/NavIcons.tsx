@@ -26,16 +26,17 @@ const NavIcons = () => {
 	return (
 		<div
 			id="Nav Icons and Logo"
-			className="flex w-full select-none items-center justify-between gap-[1rem] px-[1rem] lg:pr-[4rem]"
+			className="relative flex w-full select-none items-center justify-between gap-[1rem] px-[1rem] lg:pr-[4rem]"
 		>
 			<Logo className={cnJoin(isDarkMode && "contrast-[1.8]) brightness-[0.8]")} />
 
 			<SearchForm
+				isSearchShow={isSearchShow}
 				classNames={{
-					baseContainer: cnJoin(!isMobile && "w-[min(100%,_54vw)]"),
-					form: cnMerge(
-						isMobile &&
-							"absolute inset-x-0 top-[6.2rem] flex h-0 w-[100%] items-center justify-center overflow-y-hidden rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out",
+					base: cnMerge(
+						isMobile
+							? "absolute inset-x-0 top-[6.1rem] flex h-0 justify-center overflow-y-hidden rounded-[0_0_5px_5px]  bg-body px-[2rem] transition-[height] duration-[400ms] ease-out"
+							: "w-[min(100%,_54vw)]",
 
 						isSearchShow && "h-[8.1rem] duration-[600ms] ease-[ease]"
 					),

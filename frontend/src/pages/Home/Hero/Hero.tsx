@@ -26,10 +26,11 @@ function Hero() {
 								"hover:box-shadow-[0_0_5px_var(--text-dark)] rounded-[5px] bg-carousel-btn p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]",
 						}}
 						icon={{
-							prev: <RxPaperPlane className="rotate-180 lg:text-[1.7rem]" />,
-							next: <RxPaperPlane className="lg:text-[1.7rem]" />,
+							iconType: "rightIcon",
+							icon: <RxPaperPlane className="lg:text-[1.7rem]" />,
 						}}
 					/>
+
 					<Carousel.ItemWrapper<(typeof slideImages)[number]>
 						render={(image) => (
 							<Carousel.Item key={image.src} className="brightness-[0.6]">

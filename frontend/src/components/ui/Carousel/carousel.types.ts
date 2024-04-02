@@ -58,10 +58,16 @@ export type CarouselControlProps = {
 		iconContainer?: string;
 	};
 
-	icon?: {
-		prev?: React.ReactNode;
-		next?: React.ReactNode;
-	};
+	icon?:
+		| {
+				iconType?: undefined;
+				prev?: React.ReactNode;
+				next?: React.ReactNode;
+		  }
+		| {
+				iconType: "leftIcon" | "rightIcon";
+				icon?: React.ReactNode;
+		  };
 };
 
 export type CarouselIndicatorProps = {
@@ -74,15 +80,8 @@ export type CarouselIndicatorProps = {
 
 type BaseWrapperProps<TArrayItem> = Prettify<ForRenderProps<TArrayItem> & Partial<EachProp<TArrayItem>>>;
 
-export type CarouselItemWrapperProps<TArrayItem> = BaseWrapperProps<TArrayItem> & {
+export type CarouselWrapperProps<TArrayItem> = BaseWrapperProps<TArrayItem> & {
 	className?: string;
-};
-
-export type CarouselIndicatorWrapperProps<TArrayItem> = BaseWrapperProps<TArrayItem> & {
-	classNames?: {
-		base?: string;
-		indicatorContainer?: string;
-	};
 };
 
 export type OtherCarouselProps = {

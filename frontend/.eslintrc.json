@@ -188,6 +188,7 @@
 		// SonarJs Rules
 		"sonarjs/prefer-immediate-return": "off",
 		"sonarjs/cognitive-complexity": ["error", 20],
+		"sonarjs/no-duplicate-string": "off",
 
 		// Tailwind rules
 		"tailwindcss/no-custom-classname": "off",

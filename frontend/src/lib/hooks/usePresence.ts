@@ -14,7 +14,7 @@ type UsePresenceOptions = {
  * @param options - The options for the usePresence hook.
  * @param options.defaultValue - The default value for the presence state. Defaults to `true`.
  * @param options.duration - The duration in milliseconds for the debounce effect. Defaults to `150`.
- * @param options.callbackFn - The callback function to be called when the animation is over (when the presence state changes to `false`).
+ * @param options.callbackFn - An callback function to be called when the animation is over (when the presence state changes to `false`).
  *
  * @returns A tuple containing the boolean that should be used to show and hide the element state and a function to toggle the presence state.
  */
