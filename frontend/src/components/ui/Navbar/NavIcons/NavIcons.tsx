@@ -6,6 +6,7 @@ import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
+import { useEffect } from "react";
 import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import CartDrawer from "./Cart/CartDrawer";
@@ -23,6 +24,13 @@ const NavIcons = () => {
 	const cartDisclosure = useDisclosure({ hasScrollControl: true });
 	const dropDownDisclosure = useDisclosure();
 
+	useEffect(() => {
+		if (!isMobile && isSearchShow) {
+			toggleSearchShow(false);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isMobile, isSearchShow]);
+
 	return (
 		<div
 			id="Nav Icons and Logo"
@@ -33,18 +41,17 @@ const NavIcons = () => {
 			<SearchForm
 				isSearchShow={isSearchShow}
 				classNames={{
+					container: cnJoin(!isMobile && "w-[min(100%,_54vw)]"),
 					base: cnMerge(
-						isMobile
-							? "absolute inset-x-0 top-[6.1rem] flex h-0 justify-center overflow-y-hidden rounded-[0_0_5px_5px]  bg-body px-[2rem] transition-[height] duration-[400ms] ease-out"
-							: "w-[min(100%,_54vw)]",
-
+						isMobile &&
+							"absolute inset-x-0 top-[6.1rem] flex h-0 justify-center overflow-y-hidden rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out",
 						isSearchShow && "h-[8.1rem] duration-[600ms] ease-[ease]"
 					),
 				}}
 			/>
 
 			<div
-				id="NavIcons Wrapper"
+				id="NavIcons"
 				className="flex w-[clamp(19rem,_42vw,_22rem)] items-center justify-between text-[2rem]"
 			>
 				{isMobile && (

@@ -1,8 +1,6 @@
 import type { DummyResponseDataItem } from "../react-query/react-query-store.types";
 import type { MEDIA_QUERY_LOOKUP } from "./globalStore/slices/mediaQuerySlice";
 
-export type SelectorFn<TStore, TResult> = (state: TStore) => TResult;
-
 // Global State Types
 export type GlobalStateSlice = {
 	isNavShow: boolean;

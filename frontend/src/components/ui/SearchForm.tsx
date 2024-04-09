@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 
 type SearchFormProps = Pick<ButtonProps, "theme" | "variant" | "size" | "text"> & {
 	classNames?: {
+		container?: string;
 		base?: string;
 		input?: string;
 		btn?: string;
@@ -35,23 +36,24 @@ function SearchForm(props: SearchFormProps) {
 		text,
 	} = props;
 
+	const { allProductsArray } = useGetAllProducts();
+
+	const isMobile = useGlobalStore((state) => state.isMobile);
+
+	const { query, setQuery, data, loading } = useSearch(allProductsArray, 500);
+
 	useEffect(() => {
 		if (!isSearchShow) {
 			setQuery("");
 		}
-	}, [isSearchShow]);
-
-	const { allProductsArray } = useGetAllProducts();
-	const isMobile = useGlobalStore((state) => state.isMobile);
-
-	const { query, setQuery, filtered } = useSearch(allProductsArray, 500);
+	}, [isSearchShow, setQuery]);
 
 	const [SearchItemsList] = useElementList();
 
 	const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value);
 
 	return (
-		<div className="flex w-full justify-center">
+		<div className={cnMerge("flex justify-center", classNames?.container)}>
 			<form
 				className={cnMerge(
 					"flex w-full items-center",
@@ -83,14 +85,14 @@ function SearchForm(props: SearchFormProps) {
 				</Button>
 			</form>
 
-			{type === "search" && filtered.length > 0 && query !== "" && (
+			{type === "search" && data.length > 0 && query !== "" && (
 				<SearchItemsList
 					className={cnMerge(
 						"custom-scrollbar absolute top-[14rem] z-[100] flex max-h-[50rem] w-[min(100%,_40rem)] flex-col gap-[1rem] overflow-y-auto rounded-[1rem] bg-body p-[2rem] text-[1.2rem]",
 						isMobile && "inset-x-0 mx-auto",
 						!isMobile && "top-[8.1rem]"
 					)}
-					each={filtered}
+					each={data}
 					render={(item, index) => (
 						<li key={item?.id ?? index}>
 							<Link

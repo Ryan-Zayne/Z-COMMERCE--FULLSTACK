@@ -13,29 +13,14 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 	const productItemInCart = useShopStore((state) => state.cart).find(
 		(item) => item.id === productItem.id
 	);
-	const { addToCart, incrementProductQuantity, decrementProductQuantity, removeProductFromCart } =
-		useShopActions();
+	const { addToCart, decrementProductQuantity } = useShopActions();
 
 	const productQuantityChosen = productItemInCart?.quantity ?? 0;
 	const quantityLeftInStock = productItem.stock - productQuantityChosen;
 
-	const handlePlus = () => {
-		if (productQuantityChosen === 0) {
-			addToCart(productItem);
-			return;
-		}
+	const handlePlus = () => addToCart(productItem);
 
-		incrementProductQuantity(productItem.id);
-	};
-
-	const handleMinus = () => {
-		if (productQuantityChosen === 1) {
-			removeProductFromCart(productItem.id);
-			return;
-		}
-
-		decrementProductQuantity(productItem.id);
-	};
+	const handleMinus = () => decrementProductQuantity(productItem.id);
 
 	return (
 		<article className="mt-[2.5rem] flex max-w-[46rem] flex-col max-md:mx-auto md:mt-0 lg:gap-[2rem] lg:pb-[0.5rem]">

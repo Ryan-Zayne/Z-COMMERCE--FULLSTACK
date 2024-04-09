@@ -7,3 +7,11 @@ export const isFormData = (value: unknown): value is FormData => value instanceo
 export const isObject = <TObject extends Record<string, unknown>>(value: unknown): value is TObject => {
 	return typeof value === "object" && value !== null && !isFormData(value) && !isArray(value);
 };
+
+// == `Any` is required here so that one can pass custom function type without type errors
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isFunction = <TFunction extends (...args: any) => any>(
+	value: unknown
+): value is TFunction => {
+	return typeof value === "function";
+};

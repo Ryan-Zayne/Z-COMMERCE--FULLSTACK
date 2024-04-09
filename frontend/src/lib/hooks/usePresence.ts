@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useCallbackRef } from "./useCallbackRef";
 import { useDebouncedState } from "./useDebounce";
 
@@ -18,17 +18,41 @@ type UsePresenceOptions = {
  *
  * @returns A tuple containing the boolean that should be used to show and hide the element state and a function to toggle the presence state.
  */
-const usePresence = ({ defaultValue = true, duration = 150, callbackFn }: UsePresenceOptions) => {
-	const [present, togglePresent] = useDebouncedState(defaultValue, duration);
+const usePresence = (options: UsePresenceOptions) => {
+	const { defaultValue = true, duration = 150, callbackFn } = options;
+
+	const [present, setPresent] = useDebouncedState(defaultValue, duration);
+
+	const animatedElementRef = useRef<HTMLElement>(null);
 
 	const savedCallback = useCallbackRef(callbackFn);
+
+	useLayoutEffect(() => {
+		if (!animatedElementRef.current) return;
+
+		const element = animatedElementRef.current;
+
+		const handlePresence = () => {
+			setPresent.cancelTimeout();
+			setPresent(true);
+		};
+
+		element.addEventListener("transitionend", handlePresence);
+		element.addEventListener("animationend", handlePresence);
+
+		return () => {
+			element.removeEventListener("transitionend", handlePresence);
+			element.removeEventListener("animationend", handlePresence);
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useLayoutEffect(() => {
 		!present && savedCallback();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [present]);
 
-	return [present, togglePresent] as const;
+	return { present, setPresent, animatedElementRef };
 };
 
 export { usePresence };

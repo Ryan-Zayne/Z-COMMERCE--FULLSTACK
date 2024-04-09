@@ -1,5 +1,6 @@
+import { useInitialize } from "@/lib/hooks";
 import { createCustomContext } from "@/lib/hooks/custom-context-hook";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { createStore } from "zustand";
 import type { DrawerProviderProps, DrawerStore, DrawerStoreApi } from "./drawer.types";
 
@@ -23,7 +24,7 @@ const createDrawerStore = (storeValues = defaultStoreValues) => {
 };
 
 function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
-	const [drawerStore] = useState(() => createDrawerStore(storeValues));
+	const drawerStore = useInitialize(() => createDrawerStore(storeValues));
 
 	useEffect(() => {
 		drawerStore.setState({ isOpen: storeValues.isOpen });

@@ -18,7 +18,7 @@ const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(baseConfig: Ba
 
 	const abortControllerStore = new Map<`/${string}`, AbortController>();
 
-	const fetchWrapper = async <TData = TBaseData, TError = TBaseError>(
+	const callApi = async <TData = TBaseData, TError = TBaseError>(
 		url: `/${string}`,
 		config?: FetchConfig
 	): Promise<ApiResponseData<TData, TError>> => {
@@ -112,7 +112,7 @@ const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(baseConfig: Ba
 		}
 	};
 
-	return fetchWrapper;
+	return callApi;
 };
 
 export { createFetcher };

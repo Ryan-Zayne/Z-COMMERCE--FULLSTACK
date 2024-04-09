@@ -1,4 +1,4 @@
-import type { SelectorFn } from "@/store/zustand/zustand-store.types";
+import type { SelectorFn } from "@/lib/type-helpers/global-type-helpers";
 import { useStore } from "zustand";
 import type { DrawerStore } from "./drawer.types";
 import { useCustomDrawerContext } from "./drawerStoreContext";

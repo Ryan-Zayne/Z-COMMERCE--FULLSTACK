@@ -18,6 +18,8 @@ export type PrettyOmit<TObject, K extends keyof TObject> = Prettify<Omit<TObject
 
 export type CallbackFn<TParams, TResult = void> = (...params: TParams[]) => TResult;
 
+export type SelectorFn<TStore, TResult> = (state: TStore) => TResult;
+
 export type Writeable<TObject> = { -readonly [Key in keyof TObject]: TObject[Key] };
 
 export type MyCustomCss = React.CSSProperties & Record<`--${string}`, string>; // Allows Ts support for inline css variables

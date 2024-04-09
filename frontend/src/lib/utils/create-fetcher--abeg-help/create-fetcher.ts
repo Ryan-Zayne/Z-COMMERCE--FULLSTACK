@@ -3,7 +3,6 @@ import type {
 	AbegErrorResponse,
 	AbegSuccessResponse,
 	BaseRequestConfig,
-	CallApiParams,
 	CallApiResult,
 } from "./create-fetcher.types";
 import { getResponseData } from "./create-fetcher.utils";
@@ -20,35 +19,20 @@ const createFetcher = <TBaseData, TBaseError>(baseConfig: BaseRequestConfig) => 
 
 	const abortControllerStore = new Map<`/${string}`, AbortController>();
 
-	// == Overload 1
-	async function callApi<TData = TBaseData, TError = TBaseError>(
-		url: `/${string}`
-	): CallApiResult<TData, TError>;
+	let controller: AbortController;
 
-	// == Overload 2
-	async function callApi<TData = TBaseData, TError = TBaseError>(
+	const callApi = async <TData = TBaseData, TError = TBaseError>(
 		url: `/${string}`,
-		bodyData: Record<string, unknown> | FormData
-	): CallApiResult<TData, TError>;
-
-	// == Overload 3
-	async function callApi<TData = TBaseData, TError = TBaseError>(
-		url: `/${string}`,
-		bodyData: Record<string, unknown> | FormData,
-		signal: AbortSignal
-	): CallApiResult<TData, TError>;
-
-	// == Implementation
-	async function callApi<TData = TBaseData, TError = TBaseError>(...params: CallApiParams) {
-		const [url, bodyData, signal] = params;
-
+		bodyData?: Record<string, unknown> | FormData,
+		signal?: AbortSignal
+	): CallApiResult<TData, TError> => {
 		const prevController = abortControllerStore.get(url);
 
 		if (prevController) {
 			prevController.abort();
 		}
 
-		const controller = new AbortController();
+		controller = new AbortController();
 		abortControllerStore.set(url, controller);
 
 		const timeoutId =
@@ -128,7 +112,11 @@ const createFetcher = <TBaseData, TBaseError>(baseConfig: BaseRequestConfig) => 
 			abortControllerStore.delete(url);
 			timeoutId !== null && clearTimeout(timeoutId);
 		}
-	}
+	};
+
+	callApi.abort = () => {
+		controller.abort();
+	};
 
 	return callApi;
 };

@@ -1,20 +1,24 @@
-import { useState, useSyncExternalStore } from "react";
+import type { SelectorFn } from "@/lib/type-helpers/global-type-helpers";
+import { useSyncExternalStore } from "react";
+import { useInitialize } from "../useInitialize";
 import { type StorageOptions, createExternalStorageStore } from "./createExternalStorageStore";
 
-const useStorageState = <TStorageValue>(
+const useStorageState = <TValue, TSlice>(
 	key: string,
-	defaultValue: TStorageValue,
-	options?: StorageOptions<TStorageValue>
+	defaultValue: TValue,
+	options?: StorageOptions<TValue> & { select: SelectorFn<TValue, TSlice> }
 ) => {
-	const [externalStorageStore] = useState(() => createExternalStorageStore(key, defaultValue, options));
+	const { select = (store: TValue) => store as unknown as TSlice, ...restOfOptions } = options ?? {};
+
+	const externalStore = useInitialize(() => createExternalStorageStore(key, defaultValue, restOfOptions));
 
 	const stateInStorage = useSyncExternalStore(
-		externalStorageStore.subscribe,
-		externalStorageStore.getSnapshot,
-		externalStorageStore.getServerSnapshot
+		externalStore.subscribe,
+		() => select(externalStore.getSnapshot()),
+		() => select(externalStore.getServerSnapshot())
 	);
 
-	return [stateInStorage, externalStorageStore.setState, externalStorageStore.removeState] as const;
+	return [stateInStorage, externalStore.setState, externalStore.removeState] as const;
 };
 
 export { useStorageState };

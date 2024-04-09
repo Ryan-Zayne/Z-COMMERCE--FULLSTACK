@@ -34,6 +34,7 @@ function ProductCard(props: ProductCardProps) {
 	const isProductInWishList = useShopStore((state) => state.wishList).some(
 		(item) => item.id === productItem.id
 	);
+
 	const [isHearted, toggleHearted] = useToggle(isProductInWishList);
 
 	const handleAddToCart: React.MouseEventHandler = (event) => {

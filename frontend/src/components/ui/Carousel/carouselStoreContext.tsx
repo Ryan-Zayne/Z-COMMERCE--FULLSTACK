@@ -1,7 +1,6 @@
-import { createCustomContext } from "@/lib/hooks";
-import type { PrettyOmit } from "@/lib/type-helpers/global-type-helpers";
-import type { SelectorFn } from "@/store/zustand/zustand-store.types";
-import { useEffect, useState } from "react";
+import { createCustomContext, useInitialize } from "@/lib/hooks";
+import type { PrettyOmit, SelectorFn } from "@/lib/type-helpers/global-type-helpers";
+import { useEffect } from "react";
 import { createStore, useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import type { CarouselProviderProps, CarouselStore, CarouselStoreApi, ImagesType } from "./carousel.types";
@@ -65,7 +64,7 @@ export function CarouselContextProvider<TImages extends ImagesType>(
 ) {
 	const { children, images, onSlideBtnClick } = props;
 
-	const [carouselStore] = useState(() => createCarouselStore({ images, onSlideBtnClick }));
+	const carouselStore = useInitialize(() => createCarouselStore({ images, onSlideBtnClick }));
 
 	// == To set images again when a page is mounted, preventing stale images from previous page
 	useEffect(() => {

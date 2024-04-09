@@ -1,8 +1,9 @@
+import type { SelectorFn } from "@/lib/type-helpers/global-type-helpers";
 import { toast } from "react-hot-toast";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/react/shallow";
-import type { SelectorFn, ShopStore } from "./zustand-store.types";
+import type { ShopStore } from "./zustand-store.types";
 
 const toastInfo = {
 	added: {
@@ -63,6 +64,11 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 			const productItemInCart = get().cart.find((item) => item.id === productId);
 
 			if (!productItemInCart) return;
+
+			if (productItemInCart.quantity === 1) {
+				removeProductFromCart(productId);
+				return;
+			}
 
 			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity - 1 });
 

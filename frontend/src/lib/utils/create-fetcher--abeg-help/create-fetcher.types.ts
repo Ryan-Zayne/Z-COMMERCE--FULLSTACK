@@ -54,15 +54,6 @@ export type BaseRequestConfig = Pick<RequestInit, "headers" | "credentials"> & {
 	) => Promise<void> | void;
 };
 
-export type CallApiParams =
-	| [url: `/${string}`]
-	| [url: `/${string}`, bodyData: Record<string, unknown> | FormData]
-	| [
-			url: `/${string}`,
-			bodyData: Record<string, unknown> | FormData,
-			signal: AbortSignal,
-	  ];
-
 // CallApi function return type (Response details Object wrapped in a promise)
 export type CallApiResult<TData, TError = Record<string, string[]>> = Promise<
 	AbegResponseDetails<TData, TError>

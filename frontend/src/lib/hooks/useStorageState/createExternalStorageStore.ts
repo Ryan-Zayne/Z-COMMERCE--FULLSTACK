@@ -1,15 +1,13 @@
+import { isFunction } from "@/lib/type-helpers/typeof";
 import { parseJSON } from "@/lib/utils/parseJSON";
 
 export type StorageOptions<TStorageValue> = {
-	shouldSyncData?: boolean;
 	storageArea?: "localStorage" | "sessionStorage";
+	shouldSyncData?: boolean;
 	logger?: (error: unknown) => void;
 	parser?: (value: unknown) => TStorageValue;
 	stringifier?: (object: TStorageValue | null) => string;
 };
-
-type SetStateFunction<TValue = unknown> = (value: TValue) => TValue;
-type SetStateAction<TValue> = TValue | SetStateFunction<TValue> | null;
 
 const handleCurrentTabId = (shouldSyncData: boolean) => {
 	if (shouldSyncData) return;
@@ -81,25 +79,26 @@ const createExternalStorageStore = <TStorageValue>(
 		);
 	};
 
-	const externalStorageStore = {
+	type SetStateAction<TValue> = TValue | ((value: TValue) => TValue) | null;
+
+	const externalStore = {
 		getServerSnapshot: () => defaultValue,
 
 		getSnapshot: () => parser(selectedStorage.getItem(key)) ?? getInitialStorageValue(),
 
-		setState: (newStorageValue: SetStateAction<TStorageValue>) => {
-			const { removeState, getSnapshot } = externalStorageStore;
+		setState: (newState: SetStateAction<TStorageValue>) => {
+			const { removeState, getSnapshot } = externalStore;
 
-			if (newStorageValue === null) {
+			if (newState === null) {
 				removeState();
 				return;
 			}
 
 			const oldValue = rawStorageValue;
 
-			const newValue =
-				typeof newStorageValue === "function"
-					? stringifier((newStorageValue as SetStateFunction)(getSnapshot()))
-					: stringifier(newStorageValue);
+			const newValue = isFunction(newState)
+				? stringifier(newState(getSnapshot()))
+				: stringifier(newState);
 
 			rawStorageValue = newValue;
 
@@ -133,7 +132,7 @@ const createExternalStorageStore = <TStorageValue>(
 		},
 	};
 
-	return externalStorageStore;
+	return externalStore;
 };
 
 export { createExternalStorageStore };
