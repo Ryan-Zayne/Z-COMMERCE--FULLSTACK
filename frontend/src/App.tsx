@@ -15,7 +15,7 @@ function App() {
 	return (
 		<>
 			<Suspense fallback={<LoadingSpinner />}>
-				<RouterProvider router={createBrowserRouter(routes)} />
+				<RouterProvider router={createBrowserRouter(routes)} future={{ v7_startTransition: true }} />
 			</Suspense>
 
 			<DismissableToaster />

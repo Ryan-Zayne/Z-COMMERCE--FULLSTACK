@@ -5,7 +5,6 @@ const productItemPathPattern = /^\/products\/[a-z]+\/\d+$/;
 
 function GlobalLayout() {
 	const href = useLocation().pathname;
-
 	const isProductItemPage = productItemPathPattern.test(href);
 
 	return (

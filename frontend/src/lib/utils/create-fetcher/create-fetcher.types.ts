@@ -1,4 +1,4 @@
-export type BaseFetchConfig = {
+export type BaseFetchConfig<TData, TError> = {
 	baseURL: string;
 
 	method?: "GET" | "POST" | "PATCH" | "DELETE";
@@ -12,13 +12,18 @@ export type BaseFetchConfig = {
 
 		onRequestError?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
 
-		onResponse?: (response: Response) => Promise<void> | void;
+		onResponse?: (successResponse: Response & { response: TData }) => Promise<void> | void;
 
-		onResponseError?: (response: Response) => Promise<void> | void;
+		onResponseError?: (errorResponse: Response & { response: TError }) => Promise<void> | void;
 	};
+
+	retries?: number;
 } & Omit<RequestInit, "method" | "body">;
 
-export type FetchConfig = Omit<BaseFetchConfig, "baseURL" | "defaultErrorMessage"> & {
+export type FetchConfig<TData, TError> = Omit<
+	BaseFetchConfig<TData, TError>,
+	"baseURL" | "defaultErrorMessage"
+> & {
 	body?: Record<string, unknown> | FormData | string;
 };
 

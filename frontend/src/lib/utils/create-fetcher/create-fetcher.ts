@@ -7,25 +7,32 @@ import type {
 } from "./create-fetcher.types";
 import { getResponseData } from "./create-fetcher.utils";
 
-const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(baseConfig: BaseFetchConfig) => {
+const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(
+	baseConfig: BaseFetchConfig<TBaseData, TBaseError>
+) => {
 	const {
 		baseURL,
 		timeout: baseTimeout,
 		interceptors: baseInterceptors = {},
+		signal: baseSignal,
+		retries: baseRetries = 0,
 		defaultErrorMessage = "Failed to fetch data from server!",
 		...restOfBaseConfig
 	} = baseConfig;
 
 	const abortControllerStore = new Map<`/${string}`, AbortController>();
+	let latestController: AbortController;
 
 	const callApi = async <TData = TBaseData, TError = TBaseError>(
 		url: `/${string}`,
-		config?: FetchConfig
+		config?: FetchConfig<TData, TError>
 	): Promise<ApiResponseData<TData, TError>> => {
 		const {
 			timeout = baseTimeout,
 			body,
-			interceptors = baseInterceptors,
+			signal = baseSignal,
+			interceptors = baseInterceptors as FetchConfig<TData, TError>["interceptors"],
+			retries = baseRetries,
 			...restOfFetchConfig
 		} = config ?? {};
 
@@ -35,16 +42,16 @@ const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(baseConfig: Ba
 			previousController.abort();
 		}
 
-		const controller = new AbortController();
-		abortControllerStore.set(url, controller);
+		latestController = new AbortController();
+		abortControllerStore.set(url, latestController);
 
-		const timeoutId = timeout && window.setTimeout(() => controller.abort(), timeout);
+		const timeoutId = timeout && window.setTimeout(() => latestController.abort(), timeout);
 
 		try {
-			await interceptors.onRequest?.(restOfFetchConfig);
+			await interceptors?.onRequest?.(restOfFetchConfig);
 
 			const response = await fetch(`${baseURL}${url}`, {
-				signal: controller.signal,
+				signal: signal ?? latestController.signal,
 
 				method: "GET",
 
@@ -61,10 +68,14 @@ const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(baseConfig: Ba
 				...restOfFetchConfig,
 			});
 
-			if (!response.ok) {
-				await interceptors.onResponseError?.(response);
+			if (!response.ok && retries > 0) {
+				return await callApi(url, { ...config, retries: retries - 1 });
+			}
 
+			if (!response.ok) {
 				const errorResponse = await getResponseData<TError>(response);
+
+				await interceptors?.onResponseError?.({ ...response, response: errorResponse as TError });
 
 				return {
 					dataInfo: null,
@@ -76,10 +87,12 @@ const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(baseConfig: Ba
 				};
 			}
 
-			await interceptors.onResponse?.(response);
+			const successResponse = await getResponseData<TData>(response);
+
+			await interceptors?.onResponse?.({ ...response, response: successResponse });
 
 			return {
-				dataInfo: await getResponseData<TData>(response),
+				dataInfo: successResponse,
 				errorInfo: null,
 			};
 
@@ -95,7 +108,7 @@ const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(baseConfig: Ba
 				};
 			}
 
-			await interceptors.onRequestError?.(restOfFetchConfig);
+			await interceptors?.onRequestError?.(restOfFetchConfig);
 
 			return {
 				dataInfo: null,
@@ -111,6 +124,8 @@ const createFetcher = <TBaseData, TBaseError = PossibleErrorType>(baseConfig: Ba
 			timeoutId && window.clearTimeout(timeoutId);
 		}
 	};
+
+	callApi.abort = () => latestController.abort();
 
 	return callApi;
 };

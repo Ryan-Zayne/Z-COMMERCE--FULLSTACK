@@ -1,4 +1,5 @@
 import { checkDeviceIsMobileOrTablet } from "./check-device-is-mobile-or-tablet";
+import { getScrollBarWidth } from "./constants";
 
 type NoScrollOnOpenOptions = {
 	isActive: boolean;
@@ -14,10 +15,9 @@ const noScrollOnOpen = ({ isActive }: NoScrollOnOpenOptions) => {
 		return;
 	}
 
-	const scrollbarWidth = (window.innerWidth - document.documentElement.clientWidth) / 10;
-
 	document.body.style.setProperty("--overflow-y", "hidden");
-	isDesktop && document.body.style.setProperty("--scrollbar-padding", `${scrollbarWidth}rem`);
+
+	isDesktop && document.body.style.setProperty("--scrollbar-padding", `${getScrollBarWidth()}rem`);
 };
 
 export { noScrollOnOpen };
