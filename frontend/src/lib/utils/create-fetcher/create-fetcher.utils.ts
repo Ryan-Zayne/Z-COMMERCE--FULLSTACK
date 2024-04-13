@@ -61,16 +61,18 @@ type ErrorDetails<TErrorResponse> = {
 export class HTTPError<TErrorResponse = Record<string, unknown>> extends Error {
 	response: ErrorDetails<TErrorResponse>["response"];
 
+	override name = "HTTPError";
+
+	isHTTPError = true;
+
 	constructor(errorDetails: ErrorDetails<TErrorResponse>) {
 		const { defaultErrorMessage, response } = errorDetails;
 
 		super((response as { message?: string }).message ?? defaultErrorMessage);
-
-		this.name = "HTTPError";
 
 		this.response = response;
 	}
 }
 
 export const isHTTPErrorObject = <TErrorResponse>(error: unknown): error is HTTPError<TErrorResponse> =>
-	isObject(error) && error.name === "HTTPError";
+	isObject(error) && error.name === "HTTPError" && error.isHTTPError === true;
