@@ -1,5 +1,4 @@
 import type { AnyNumber, AnyString, Prettify } from "@/lib/type-helpers/global-type-helpers";
-import type { isHTTPError, isHTTPErrorObject } from "./create-fetcher.utils";
 
 export type BaseConfig<
 	TBaseData = unknown,
