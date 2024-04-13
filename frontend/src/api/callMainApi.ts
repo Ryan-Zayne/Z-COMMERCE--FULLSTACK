@@ -15,11 +15,11 @@ export type FormErrorResponseType =
 const callMainApi = createFetcher<FormResponseDataType, FormErrorResponseType>({
 	baseURL: BASE_AUTH_URL,
 
-	defaultErrorMessage: "Failed to submit form",
-
 	method: "POST",
 
 	credentials: "same-origin",
+
+	defaultErrorMessage: "Failed to submit form",
 });
 
 export { callMainApi };

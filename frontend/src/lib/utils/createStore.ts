@@ -17,7 +17,7 @@ export type StateCreator<TState = ""> = (
 	api: StoreApi<TState>
 ) => TState;
 
-const createStore = <TState>(stateCreatorFn: StateCreator<TState>) => {
+const createStore = <TState>(initializer: StateCreator<TState>) => {
 	let state: TState;
 
 	const listeners = new Set<Listener<TState>>();
@@ -34,23 +34,23 @@ const createStore = <TState>(stateCreatorFn: StateCreator<TState>) => {
 				? { ...state, ...nextState }
 				: (nextState as TState);
 
-		listeners.size > 0 && listeners.forEach((listener) => listener(state, previousState));
+		listeners.size > 0 && listeners.forEach((onStoreChange) => onStoreChange(state, previousState));
 	};
 
-	const getState: StoreApi<TState>["getState"] = () => state;
+	const getState = () => state;
 
-	// eslint-disable-next-line @typescript-eslint/no-use-before-define
-	const getInitialState: StoreApi<TState>["getInitialState"] = () => initialState;
+	const getInitialState = () => initialState;
 
-	const subscribe: StoreApi<TState>["subscribe"] = (listener) => {
-		listeners.add(listener);
+	const subscribe: StoreApi<TState>["subscribe"] = (onStoreChange) => {
+		listeners.add(onStoreChange);
 
-		return () => listeners.delete(listener);
+		return () => listeners.delete(onStoreChange);
 	};
 
 	const api: StoreApi<TState> = { getState, getInitialState, setState, subscribe };
 
-	const initialState = stateCreatorFn(getState, setState, api);
+	// eslint-disable-next-line no-multi-assign
+	const initialState = (state = initializer(getState, setState, api));
 
 	return api;
 };

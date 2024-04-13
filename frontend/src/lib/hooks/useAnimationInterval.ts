@@ -1,7 +1,7 @@
 import { useCallbackRef } from "@/lib/hooks/useCallbackRef";
 import { useEffect } from "react";
 import { setAnimationInterval } from "../utils/setAnimationInterval";
-import { useInitialize } from "./useInitialize";
+import { useConstant } from "./useConstant";
 
 type AnimationOptions = {
 	callbackFn: () => void;
@@ -13,7 +13,7 @@ const useAnimationInterval = (options: AnimationOptions) => {
 
 	const latestCallback = useCallbackRef(callbackFn);
 
-	const { onAnimationStart, onAnimationStop } = useInitialize(() =>
+	const { onAnimationStart, onAnimationStop } = useConstant(() =>
 		setAnimationInterval(latestCallback, intervalDuration)
 	);
 

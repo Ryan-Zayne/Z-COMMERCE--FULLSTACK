@@ -20,15 +20,8 @@ const useGetAllProducts = () => {
 	} = useQueries({
 		queries: productQueries.map(({ key, url }) => ({
 			queryKey: [...key, { url }],
-			queryFn: async () => {
-				const { dataInfo, errorInfo } = await callDummyApi(url);
+			queryFn: () => callDummyApi(url),
 
-				if (errorInfo) {
-					throw new Error(errorInfo.message);
-				}
-
-				return dataInfo;
-			},
 			select: transformData,
 		})),
 

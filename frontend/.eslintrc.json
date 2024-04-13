@@ -55,12 +55,7 @@
 		"require-await": "error",
 		"no-void": "off",
 		"no-continue": "off",
-		"no-use-before-define": [
-			"error",
-			{
-				"functions": false
-			}
-		],
+		"no-use-before-define": "off",
 		"no-multiple-empty-lines": [
 			"warn",
 			{
@@ -80,7 +75,6 @@
 		"no-return-await": "off",
 		"no-console": ["error", { "allow": ["warn", "error", "info"] }],
 		"consistent-return": "off",
-		"no-use-before-define": "off",
 
 		// Typescript Eslint Rules
 		"@typescript-eslint/no-unused-expressions": [
@@ -99,6 +93,7 @@
 		"@typescript-eslint/member-ordering": "error",
 		"@typescript-eslint/no-confusing-void-expression": "off",
 		"@typescript-eslint/non-nullable-type-assertion-style": "off",
+		"@typescript-eslint/no-use-before-define": "off",
 		// "@typescript-eslint/unified-signatures": ["error", { "ignoreDifferentlyNamedParameters": true }],
 
 		// Airbnb-config/React plugin rules
@@ -187,7 +182,7 @@
 
 		// SonarJs Rules
 		"sonarjs/prefer-immediate-return": "off",
-		"sonarjs/cognitive-complexity": ["error", 20],
+		"sonarjs/cognitive-complexity": ["error", 25],
 		"sonarjs/no-duplicate-string": "off",
 
 		// Tailwind rules

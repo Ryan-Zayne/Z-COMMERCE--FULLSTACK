@@ -3,7 +3,7 @@ import type {
 	AbegErrorResponse,
 	AbegSuccessResponse,
 	BaseRequestConfig,
-	CallApiResult,
+	CallAbegApiResult,
 } from "./create-fetcher.types";
 import { getResponseData } from "./create-fetcher.utils";
 
@@ -25,7 +25,7 @@ const createFetcher = <TBaseData, TBaseError>(baseConfig: BaseRequestConfig) => 
 		url: `/${string}`,
 		bodyData?: Record<string, unknown> | FormData,
 		signal?: AbortSignal
-	): CallApiResult<TData, TError> => {
+	): CallAbegApiResult<TData, TError> => {
 		const prevController = abortControllerStore.get(url);
 
 		if (prevController) {

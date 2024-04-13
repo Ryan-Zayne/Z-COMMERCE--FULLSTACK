@@ -5,7 +5,7 @@ type NewStateFn<TObject> = (prevState: TObject) => Partial<TObject>;
 type ObjectApi<TObject> = {
 	getObject: () => TObject;
 	getInitialObject: () => TObject;
-	setObject: (updatedObject: Partial<TObject> | NewStateFn<TObject>, shouldReplace?: boolean) => void;
+	setObject: (newObject: Partial<TObject> | NewStateFn<TObject>, shouldReplace?: boolean) => void;
 };
 
 export type ObjectCreator<TObject> = (
@@ -14,27 +14,27 @@ export type ObjectCreator<TObject> = (
 	api: ObjectApi<TObject>
 ) => TObject;
 
-const createObject = <TObject>(objectCreator: ObjectCreator<TObject>) => {
+const createObject = <TObject>(initializer: ObjectCreator<TObject>) => {
 	let stateObject = {} as TObject;
 
-	const setObject: ObjectApi<TObject>["setObject"] = (updatedObject, shouldReplace) => {
-		const resolvedObject = isFunction<NewStateFn<TObject>>(updatedObject)
-			? updatedObject(stateObject)
-			: updatedObject;
+	const setObject: ObjectApi<TObject>["setObject"] = (newObject, shouldReplace) => {
+		const updatedObject = isFunction<NewStateFn<TObject>>(newObject)
+			? newObject(stateObject)
+			: newObject;
 
-		if (Object.is(resolvedObject, stateObject)) return;
+		if (Object.is(updatedObject, stateObject)) return;
 
-		stateObject = shouldReplace ? (resolvedObject as TObject) : { ...stateObject, ...resolvedObject };
+		stateObject = shouldReplace ? (updatedObject as TObject) : { ...stateObject, ...updatedObject };
 	};
 
 	const getObject = () => stateObject;
 
-	// eslint-disable-next-line @typescript-eslint/no-use-before-define
-	const getInitialObject: ObjectApi<TObject>["getInitialObject"] = () => initialObject;
+	const getInitialObject = () => initialObject;
 
 	const api: ObjectApi<TObject> = { getObject, getInitialObject, setObject };
 
-	const initialObject = objectCreator(getObject, setObject, api);
+	// eslint-disable-next-line no-multi-assign
+	const initialObject = (stateObject = initializer(getObject, setObject, api));
 
 	return stateObject;
 };

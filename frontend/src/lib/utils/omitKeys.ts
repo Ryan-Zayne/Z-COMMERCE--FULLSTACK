@@ -12,8 +12,10 @@ export const omitKeys = <
 	initialObject: TObject,
 	keysToOmit: TOmitArray
 ) => {
+	const keysToOmitSet = new Set(keysToOmit);
+
 	const arrayFromFilteredObject = Object.entries(initialObject).filter(
-		([key]) => !keysToOmit.includes(key)
+		([key]) => !keysToOmitSet.has(key)
 	);
 
 	const updatedObject = Object.fromEntries(arrayFromFilteredObject);
@@ -28,10 +30,12 @@ export const omitKeysWithReduce = <
 	initialObject: TObject,
 	keysToOmit: TOmitArray
 ) => {
+	const keysToOmitSet = new Set(keysToOmit);
+
 	const arrayFromObject = Object.entries(initialObject);
 
 	const updatedObject = arrayFromObject.reduce<Record<string, unknown>>((accumulator, [key, value]) => {
-		if (!keysToOmit.includes(key)) {
+		if (!keysToOmitSet.has(key)) {
 			accumulator[key] = value;
 		}
 
@@ -48,10 +52,12 @@ export const omitKeysWithLoop = <
 	initialObject: TObject,
 	keysToOmit: TOmitArray
 ) => {
+	const keysToOmitSet = new Set(keysToOmit);
+
 	const updatedObject: Record<string, unknown> = {};
 
 	for (const [key, value] of Object.entries(initialObject)) {
-		!keysToOmit.includes(key) && (updatedObject[key] = value);
+		!keysToOmitSet.has(key) && (updatedObject[key] = value);
 	}
 
 	return updatedObject as PrettifyOmitResult<TObject, TOmitArray>;

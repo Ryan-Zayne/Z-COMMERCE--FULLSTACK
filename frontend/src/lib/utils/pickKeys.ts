@@ -16,9 +16,11 @@ const pickKeys = <TObject extends Record<string, unknown>, const TPickArray exte
 	initialObject: TObject,
 	keysToPick: TPickArray
 ) => {
+	const keysToPickSet = new Set(keysToPick);
+
 	const arrayFromInitObject = Object.entries(initialObject);
 
-	const filteredArray = arrayFromInitObject.filter(([objectKey]) => keysToPick.includes(objectKey));
+	const filteredArray = arrayFromInitObject.filter(([objectKey]) => keysToPickSet.has(objectKey));
 
 	const updatedObject = Object.fromEntries(filteredArray);
 

@@ -125,5 +125,7 @@ export const useShopStore = create<ShopStore>()(
 export const useShopStoreShallow = <TResult>(selector: SelectorFn<ShopStore, TResult>) =>
 	useShopStore(useShallow(selector));
 
+Object.assign(useShopStoreShallow, useShopStore);
+
 // Actions hook
 export const useShopActions = () => useShopStore((state) => state.shopActions);

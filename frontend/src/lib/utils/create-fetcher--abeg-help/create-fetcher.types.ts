@@ -55,6 +55,6 @@ export type BaseRequestConfig = Pick<RequestInit, "headers" | "credentials"> & {
 };
 
 // CallApi function return type (Response details Object wrapped in a promise)
-export type CallApiResult<TData, TError = Record<string, string[]>> = Promise<
+export type CallAbegApiResult<TData, TError = Record<string, string[]>> = Promise<
 	AbegResponseDetails<TData, TError>
 >;

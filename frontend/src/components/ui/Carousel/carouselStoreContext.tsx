@@ -1,4 +1,4 @@
-import { createCustomContext, useInitialize } from "@/lib/hooks";
+import { createCustomContext, useConstant } from "@/lib/hooks";
 import type { PrettyOmit, SelectorFn } from "@/lib/type-helpers/global-type-helpers";
 import { useEffect } from "react";
 import { createStore, useStore } from "zustand";
@@ -64,7 +64,7 @@ export function CarouselContextProvider<TImages extends ImagesType>(
 ) {
 	const { children, images, onSlideBtnClick } = props;
 
-	const carouselStore = useInitialize(() => createCarouselStore({ images, onSlideBtnClick }));
+	const carouselStore = useConstant(() => createCarouselStore({ images, onSlideBtnClick }));
 
 	// == To set images again when a page is mounted, preventing stale images from previous page
 	useEffect(() => {

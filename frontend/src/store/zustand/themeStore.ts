@@ -45,7 +45,7 @@ export const useThemeStore = create<ThemeStore>()(
 		name: "colorScheme",
 		version: 1,
 		partialize: ({ theme }) => ({ theme }),
-		migrate(persistedState, version) {
+		migrate(persistedState) {
 			const validPersistedState = assertState<ThemeStore>(persistedState);
 
 			return validPersistedState;

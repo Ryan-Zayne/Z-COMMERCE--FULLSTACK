@@ -23,3 +23,6 @@ export type SelectorFn<TStore, TResult> = (state: TStore) => TResult;
 export type Writeable<TObject> = { -readonly [Key in keyof TObject]: TObject[Key] };
 
 export type MyCustomCss = React.CSSProperties & Record<`--${string}`, string>; // Allows Ts support for inline css variables
+
+export type AnyString = string & { placeholder?: never };
+export type AnyNumber = number & { placeholder?: never };
