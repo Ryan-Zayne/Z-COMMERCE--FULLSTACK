@@ -1,5 +1,5 @@
 import type { CallbackFn } from "../type-helpers/global-type-helpers";
-import { throttleByFrame, throttleBySetTimeout, throttleByTimer } from "../utils/throttle";
+import { throttleByFrame, throttleBySetTimeout, throttleByTimer } from "../core/throttle";
 import { useUnmountEffect } from "./effect-wrappers/useUnmountEffect";
 import { useCallbackRef } from "./useCallbackRef";
 import { useConstant } from "./useConstant";

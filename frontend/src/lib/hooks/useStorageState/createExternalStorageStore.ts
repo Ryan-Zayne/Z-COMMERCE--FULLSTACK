@@ -30,17 +30,22 @@ const handleCurrentTabId = (shouldSyncData: boolean) => {
 const createExternalStorageStore = <TStorageValue>(
 	key: string,
 	defaultValue: TStorageValue,
-	options?: StorageOptions<TStorageValue>
+	options: StorageOptions<TStorageValue> = {}
 ) => {
+	type SetStateAction<TValue> = TValue | ((value: TValue) => TValue) | null;
+
+	type Listener<TValue> = (prevState: TValue | null, newState: TValue | null) => void;
+
 	const {
 		shouldSyncData = true,
 		storageArea = "localStorage",
 		stringifier = JSON.stringify,
 		parser = parseJSON<TStorageValue>,
 		logger = console.info,
-	} = options ?? {};
+	} = options;
 
 	const selectedStorage = window[storageArea];
+
 	let rawStorageValue: ReturnType<typeof selectedStorage.getItem> = selectedStorage.getItem(key);
 
 	const tabIdActions = handleCurrentTabId(shouldSyncData);
@@ -64,7 +69,6 @@ const createExternalStorageStore = <TStorageValue>(
 		const { eventFn, url = window.location.href, ...restOfOptions } = dispatchOptions;
 
 		eventFn();
-
 		tabIdActions?.set();
 
 		// == This manual event dispatch is necessary to ensure the storage event is triggered on the current window/tab, not just on other windows
@@ -77,8 +81,6 @@ const createExternalStorageStore = <TStorageValue>(
 			})
 		);
 	};
-
-	type SetStateAction<TValue> = TValue | ((value: TValue) => TValue) | null;
 
 	const externalStore = {
 		getServerSnapshot: () => defaultValue,
@@ -109,7 +111,7 @@ const createExternalStorageStore = <TStorageValue>(
 			});
 		},
 
-		subscribe: (onStoreChange: () => void) => {
+		subscribe: (onStoreChange: Listener<TStorageValue>) => {
 			const handleStorageStoreChange = (event: StorageEvent) => {
 				// == This would prevent state syncing across tabs if `shouldSyncData` is set to `false`
 				if (!shouldSyncData && window.name !== tabIdActions?.get()) return;
@@ -118,7 +120,7 @@ const createExternalStorageStore = <TStorageValue>(
 
 				if (Object.is(event.oldValue, event.newValue)) return;
 
-				onStoreChange();
+				onStoreChange(parser(event.oldValue), parser(event.newValue));
 			};
 
 			window.addEventListener("storage", handleStorageStoreChange);

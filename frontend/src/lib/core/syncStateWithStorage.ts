@@ -1,5 +1,5 @@
 import { isArray, isObject } from "@/lib/type-helpers/typeof";
-import { pickKeys } from "./pickKeys";
+import { pickKeys } from "../utils/pickKeys";
 
 type SyncStorageParams =
 	| [key: string, state: string]

@@ -1,7 +1,7 @@
 import { isObject } from "@/lib/type-helpers/typeof";
-import { omitKeys } from "../omitKeys";
-import { pickKeys } from "../pickKeys";
-import { wait } from "../wait";
+import { omitKeys } from "../../utils/omitKeys";
+import { pickKeys } from "../../utils/pickKeys";
+import { wait } from "../../utils/wait";
 import type {
 	AbortSignalWithAny,
 	BaseConfig,

@@ -1,6 +1,6 @@
 import { useCallbackRef } from "@/lib/hooks/useCallbackRef";
 import { useEffect } from "react";
-import { setAnimationInterval } from "../utils/setAnimationInterval";
+import { setAnimationInterval } from "../core/setAnimationInterval";
 import { useConstant } from "./useConstant";
 
 type AnimationOptions = {

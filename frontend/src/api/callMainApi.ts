@@ -1,5 +1,5 @@
+import { createFetcher } from "@/lib/core/create-fetcher";
 import { BASE_AUTH_URL } from "@/lib/utils/constants";
-import { createFetcher } from "@/lib/utils/create-fetcher";
 import type { FormSchemaType } from "@/pages/AuthPage/components/FormArea/form.types";
 
 type FormResponseDataType = {
