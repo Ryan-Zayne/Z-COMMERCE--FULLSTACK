@@ -7,7 +7,6 @@ export const getResponseData = <TResponse>(response: Response) => {
 	return isJson ? (response.json() as Promise<TResponse>) : (response.text() as Promise<TResponse>);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const retryCodesLookup = {
 	408: "Request Timeout",
 	409: "Conflict",
@@ -19,7 +18,8 @@ const retryCodesLookup = {
 	504: "Gateway Timeout",
 };
 
-export const defaultRetryCodes: Required<BaseConfig>["retryCodes"] = [409, 425, 429, 500, 502, 503, 504];
+export const defaultRetryCodes: Required<BaseConfig>["retryCodes"] =
+	Object.keys(retryCodesLookup).map(Number);
 
 export const defaultRetryMethods: Required<BaseConfig>["retryMethods"] = ["GET"];
 

@@ -5,6 +5,5 @@ export { useDisclosure } from "./useDisclosure";
 export { useConstant } from "./useConstant";
 export * from "./useElementList";
 export { useScrollObserver } from "./useScrollObserver";
-export { useScrollRestoration } from "./useScrollRestoration";
 export { useToggle } from "./useToggle";
 export { createCustomContext } from "./custom-context-hook";

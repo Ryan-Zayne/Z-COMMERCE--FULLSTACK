@@ -4,13 +4,13 @@ import { useQueries } from "@tanstack/react-query";
 
 const useGetAllProducts = () => {
 	const productQueries = [
-		{ key: ["smartphones"], url: "/products/category/smartphones" },
-		{ key: ["laptops"], url: "/products/category/laptops" },
-		{ key: ["mens-watches"], url: "/products/category/mens-watches" },
-		{ key: ["womens-watches"], url: "/products/category/womens-watches" },
-		{ key: ["automotive"], url: "/products/category/automotive" },
-		{ key: ["motorcycle"], url: "/products/category/motorcycle" },
-		{ key: ["lighting"], url: "/products/category/lighting" },
+		{ key: "smartphones", url: "/products/category/smartphones" },
+		{ key: "laptops", url: "/products/category/laptops" },
+		{ key: "mens-watches", url: "/products/category/mens-watches" },
+		{ key: "womens-watches", url: "/products/category/womens-watches" },
+		{ key: "automotive", url: "/products/category/automotive" },
+		{ key: "motorcycle", url: "/products/category/motorcycle" },
+		{ key: "lighting", url: "/products/category/lighting" },
 	] as const;
 
 	const {
@@ -19,7 +19,7 @@ const useGetAllProducts = () => {
 		isError,
 	} = useQueries({
 		queries: productQueries.map(({ key, url }) => ({
-			queryKey: [...key, { url }],
+			queryKey: [key, { url }],
 			queryFn: () => callDummyApi(url),
 
 			select: transformData,

@@ -41,7 +41,6 @@ const createExternalStorageStore = <TStorageValue>(
 	} = options ?? {};
 
 	const selectedStorage = window[storageArea];
-
 	let rawStorageValue: ReturnType<typeof selectedStorage.getItem> = selectedStorage.getItem(key);
 
 	const tabIdActions = handleCurrentTabId(shouldSyncData);

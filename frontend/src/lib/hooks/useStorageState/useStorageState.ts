@@ -3,7 +3,7 @@ import { useSyncExternalStore } from "react";
 import { useConstant } from "../useConstant";
 import { type StorageOptions, createExternalStorageStore } from "./createExternalStorageStore";
 
-const useStorageState = <TValue, TSlice>(
+const useStorageState = <TValue, TSlice = TValue>(
 	key: string,
 	defaultValue: TValue,
 	options?: StorageOptions<TValue> & { select: SelectorFn<TValue, TSlice> }

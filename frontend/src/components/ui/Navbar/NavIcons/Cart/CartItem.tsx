@@ -1,12 +1,13 @@
-import type { WithChildren } from "@/lib/type-helpers/global-type-helpers";
 import { useShopActions } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ShopStore } from "@/store/zustand/zustand-store.types";
+import type React from "react";
 import { TbTrashXFilled } from "react-icons/tb";
 
-type CartItemWrapperProps = WithChildren<{
+type CartItemWrapperProps = {
+	children: React.ReactNode;
 	showCartItems: boolean;
-}>;
+};
 
 type CartItemProps = {
 	product: ShopStore["cart"][number];

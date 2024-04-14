@@ -6,23 +6,19 @@ type SyncStorageParams =
 	| [key: string, state: Record<string, unknown> | unknown[]]
 	| [key: string, state: Record<string, unknown>, keysToSelect: string[]];
 
-function syncStateWithStorage<TKey extends string, TStringState extends string>(
-	...params: [key: TKey, state: TStringState]
-): void;
+type SyncStateWithStorage = {
+	<TKey extends string, TStringState extends string>(...params: [key: TKey, state: TStringState]): void;
 
-function syncStateWithStorage<
-	TKey extends string,
-	TCompositeState extends Record<string, unknown> | unknown[],
->(...params: [key: TKey, state: TCompositeState]): void;
+	<TKey extends string, TCompositeState extends Record<string, unknown> | unknown[]>(
+		...params: [key: TKey, state: TCompositeState]
+	): void;
 
-function syncStateWithStorage<
-	TKey extends string,
-	TObject extends Record<string, unknown>,
-	const TPickArray extends Array<keyof TObject>,
->(...params: [key: TKey, state: TObject, keysToSelect: TPickArray]): void;
+	<TKey extends string, TObject extends Record<string, unknown>, TPickArray extends Array<keyof TObject>>(
+		...params: [key: TKey, state: TObject, keysToSelect: TPickArray]
+	): void;
+};
 
-// Overload Implementation
-function syncStateWithStorage(...params: SyncStorageParams): void {
+const syncStateWithStorage: SyncStateWithStorage = (...params: SyncStorageParams): void => {
 	const [storageKey, state, keysToOmit] = params;
 
 	switch (true) {
@@ -42,7 +38,7 @@ function syncStateWithStorage(...params: SyncStorageParams): void {
 			localStorage.setItem(storageKey, state);
 		}
 	}
-}
+};
 
 syncStateWithStorage("sdsdd", { state: "hello", age: 11 }, ["age"]);
 
