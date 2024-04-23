@@ -1,3 +1,5 @@
+import path from "node:path";
+
 /* eslint-disable no-console */
 import "@colors/colors";
 import cookieParser from "cookie-parser";
@@ -7,7 +9,6 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import morgan from "morgan";
-import path from "node:path";
 import { authRouter } from "./auth/auth.routes.js";
 import { corsOptions, helmetOptions, setConnectionToDB } from "./common/config/index.js";
 import { globalRateLimitOptions } from "./common/config/rateLimitOptions.js";

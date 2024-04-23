@@ -1,4 +1,5 @@
 import type { AnyNumber, AnyString, Prettify } from "@/lib/type-helpers/global-type-helpers";
+import type { createResponseLookup } from "./create-fetcher.utils";
 
 export type BaseConfig<
 	TBaseData = unknown,
@@ -21,6 +22,8 @@ export type BaseConfig<
 		defaultErrorMessage?: string;
 
 		shouldThrowErrors?: TBaseShouldThrow;
+
+		responseType?: keyof ReturnType<typeof createResponseLookup>;
 
 		interceptors?: {
 			onRequest?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
@@ -49,50 +52,61 @@ export type FetchConfig<TData, TError, TShouldThrow extends boolean> = BaseConfi
 	TShouldThrow
 >;
 
-export type ApiResult<TData, TError> =
+export type AbortSignalWithAny = typeof AbortSignal & { any: (signals: AbortSignal[]) => AbortSignal };
+
+type ApiSuccessVariant<TData> = {
+	dataInfo: TData;
+	errorInfo: null;
+};
+
+export type ApiErrorVariant<TError> = {
+	dataInfo: null;
+	errorInfo:
+		| {
+				errorName: "HTTPError";
+				message: string;
+				response: TError;
+		  }
+		| {
+				errorName: Required<PossibleErrorType>["name"];
+				message: string;
+		  };
+};
+
+export type GetCallApiResult<TData, TError, TShouldThrow extends boolean> = TShouldThrow extends false
+	? ApiSuccessVariant<TData> | ApiErrorVariant<TError>
+	: TData;
+
+type RawSuccessVariant<TData> = {
+	dataInfo: TData;
+	errorInfo: null;
+	response: Response;
+};
+
+type RawErrorVariant<TError> =
 	| {
-			dataInfo: TData;
-			errorInfo: null;
+			response: Response;
+			dataInfo: null;
+			errorInfo: {
+				errorName: "HTTPError";
+				message: string;
+				response: TError;
+			};
 	  }
 	| {
+			response: null;
 			dataInfo: null;
-			errorInfo:
-				| {
-						errorName: "HTTPError";
-						response: TError;
-						message: string;
-				  }
-				| {
-						// eslint-disable-next-line no-use-before-define
-						errorName: Required<PossibleErrorType>["name"];
-						message: string;
-				  };
+			errorInfo: {
+				errorName: Required<PossibleErrorType>["name"];
+				message: string;
+			};
 	  };
 
-// == Old implementation with overloads (wasn't flexible enough to infer return type based on parent)
-// export type CallApi<TBaseData, TBaseError> = {
-// 	<TData = TBaseData, TError = TBaseError>(
-// 		url: `/${string}`,
-// 		config?: FetchConfig<TData, TError, false>
-// 	): Promise<ApiResult<TData, TError>>;
-
-// 	<TData = TBaseData, TError = TBaseError>(
-// 		url: `/${string}`,
-// 		config?: FetchConfig<TData, TError, true>
-// 	): Promise<TData>;
-
-// 	abort: (url: `/${string}`) => void;
-// 	isHTTPError: typeof isHTTPError;
-// 	isHTTPErrorObject: typeof isHTTPErrorObject;
-// };
-
-export type CallApiResult<TData, TError, TShouldThrow extends boolean> = TShouldThrow extends false
-	? ApiResult<TData, TError>
-	: TData;
+export type GetRawCallApiResult<TData, TError, TShouldThrow extends boolean> = TShouldThrow extends false
+	? RawSuccessVariant<TData> | RawErrorVariant<TError>
+	: Response;
 
 export type PossibleErrorType = {
 	name?: "AbortError" | "TimeoutError" | "SyntaxError" | "TypeError" | "Error" | "UnknownError";
 	message?: string;
 };
-
-export type AbortSignalWithAny = typeof AbortSignal & { any(signals: AbortSignal[]): AbortSignal };

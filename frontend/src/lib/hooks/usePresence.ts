@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from "react";
+import { on } from "../utils/on";
 import { useCallbackRef } from "./useCallbackRef";
 import { useDebouncedState } from "./useDebounce";
 
@@ -37,12 +38,12 @@ const usePresence = (options: UsePresenceOptions) => {
 			setPresent(true);
 		};
 
-		element.addEventListener("transitionend", handlePresence);
-		element.addEventListener("animationend", handlePresence);
+		const cleanupTransitionEvent = on("transitionend", element, handlePresence);
+		const cleanupAnimationEvent = on("animationend", element, handlePresence);
 
 		return () => {
-			element.removeEventListener("transitionend", handlePresence);
-			element.removeEventListener("animationend", handlePresence);
+			cleanupTransitionEvent();
+			cleanupAnimationEvent();
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

@@ -1,28 +1,25 @@
 import { isObject } from "@/lib/type-helpers/typeof";
-import { omitKeys } from "../../utils/omitKeys";
-import { pickKeys } from "../../utils/pickKeys";
-import { wait } from "../../utils/wait";
+import { omitKeys } from "@/lib/utils/omitKeys";
+import { pickKeys } from "@/lib/utils/pickKeys";
+import { wait } from "@/lib/utils/wait";
 import type {
 	AbortSignalWithAny,
 	BaseConfig,
-	CallApiResult,
 	FetchConfig,
+	GetCallApiResult,
 	PossibleErrorType,
 } from "./create-fetcher.types";
 import {
 	HTTPError,
 	defaultOptions,
 	fetchSpecficKeys,
+	getRawCallApi,
 	getResponseData,
 	isHTTPError,
-	isHTTPErrorObject,
+	isInstanceOfHTTPError,
 } from "./create-fetcher.utils";
 
-const createFetcher = <
-	TBaseData,
-	TBaseError = PossibleErrorType,
-	TBaseShouldThrow extends boolean = false,
->(
+const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean = false>(
 	baseConfig: BaseConfig<TBaseData, TBaseError, TBaseShouldThrow> = {}
 ) => {
 	const {
@@ -34,7 +31,6 @@ const createFetcher = <
 	} = pickKeys(baseConfig, fetchSpecficKeys);
 
 	const baseExtraOptions = omitKeys(baseConfig, fetchSpecficKeys);
-
 	const abortControllerStore = new Map<`/${string}`, AbortController>();
 
 	const callApi = async <
@@ -44,8 +40,8 @@ const createFetcher = <
 	>(
 		url: `/${string}`,
 		config: FetchConfig<TData, TError, TShouldThrow> = {}
-	): Promise<CallApiResult<TData, TError, TShouldThrow>> => {
-		type $CallApiResult = CallApiResult<TData, TError, TShouldThrow>;
+	): Promise<GetCallApiResult<TData, TError, TShouldThrow>> => {
+		type CallApiResult = GetCallApiResult<TData, TError, TShouldThrow>;
 
 		const {
 			method = baseMethod,
@@ -122,7 +118,9 @@ const createFetcher = <
 			}
 
 			if (!response.ok && options.shouldThrowErrors) {
-				const errorResponse = await getResponseData<TError>(response);
+				const errorResponse = await getResponseData<TError>(response, options.responseType);
+
+				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
 
 				throw new HTTPError({
 					response: { ...response, data: errorResponse },
@@ -131,7 +129,7 @@ const createFetcher = <
 			}
 
 			if (!response.ok) {
-				const errorResponse = await getResponseData<TError>(response);
+				const errorResponse = await getResponseData<TError>(response, options.responseType);
 
 				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
 
@@ -142,15 +140,12 @@ const createFetcher = <
 						response: errorResponse,
 						message: (errorResponse as PossibleErrorType).message ?? options.defaultErrorMessage,
 					},
-				} as $CallApiResult;
+				} as CallApiResult;
 			}
 
-			const successResponse = await getResponseData<TData>(response);
+			const successResponse = await getResponseData<TData>(response, options.responseType);
 
-			await options.interceptors.onResponse?.({
-				...response,
-				response: successResponse as TBaseData & TData,
-			});
+			await options.interceptors.onResponse?.({ ...response, response: successResponse });
 
 			return (
 				options.shouldThrowErrors
@@ -158,8 +153,9 @@ const createFetcher = <
 					: {
 							dataInfo: successResponse,
 							errorInfo: null,
+							rawResponse: response,
 						}
-			) as $CallApiResult;
+			) as CallApiResult;
 
 			// Exhaustive Error handling
 		} catch (error) {
@@ -168,30 +164,40 @@ const createFetcher = <
 
 				console.info(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
+				if (options.shouldThrowErrors) {
+					throw error;
+				}
+
 				return {
 					dataInfo: null,
 					errorInfo: {
 						errorName: "TimeoutError",
 						message,
 					},
-				} as $CallApiResult;
+				} as CallApiResult;
 			}
 
 			if (error instanceof DOMException && error.name === "AbortError") {
+				const message = `Request was cancelled`;
+
+				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
+
+				if (options.shouldThrowErrors) {
+					throw error;
+				}
+
 				return {
 					dataInfo: null,
 					errorInfo: {
 						errorName: "AbortError",
-						message: error.message,
+						message,
 					},
-				} as $CallApiResult;
+				} as CallApiResult;
 			}
 
-			if (options.shouldThrowErrors) {
-				throw error;
+			if (!isInstanceOfHTTPError(error)) {
+				await options.interceptors.onRequestError?.(restOfFetchConfig);
 			}
-
-			await options.interceptors.onRequestError?.(restOfFetchConfig);
 
 			return {
 				dataInfo: null,
@@ -199,7 +205,7 @@ const createFetcher = <
 					errorName: (error as PossibleErrorType).name ?? "UnknownError",
 					message: (error as PossibleErrorType).message ?? options.defaultErrorMessage,
 				},
-			} as $CallApiResult;
+			} as CallApiResult;
 
 			// Clean up and remove the now unneeded AbortController from store
 		} finally {
@@ -214,7 +220,17 @@ const createFetcher = <
 	};
 
 	callApi.isHTTPError = isHTTPError;
-	callApi.isHTTPErrorObject = isHTTPErrorObject;
+	callApi.isHTTPErrorObject = isInstanceOfHTTPError;
+	callApi.native = fetch;
+	callApi.raw = getRawCallApi<TBaseData, TBaseError, TBaseShouldThrow>({
+		baseBody,
+		baseExtraOptions,
+		baseHeaders,
+		baseMethod,
+		baseSignal,
+		restOfBaseFetchConfig,
+		abortControllerStore,
+	});
 
 	return callApi;
 };

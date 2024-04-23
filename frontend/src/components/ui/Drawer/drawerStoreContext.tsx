@@ -1,10 +1,11 @@
 import { useConstant } from "@/lib/hooks";
 import { createCustomContext } from "@/lib/hooks/custom-context-hook";
+import type { SelectorFn } from "@/lib/type-helpers/global-type-helpers";
 import { useEffect } from "react";
-import { createStore } from "zustand";
-import type { DrawerProviderProps, DrawerStore, DrawerStoreApi } from "./drawer.types";
+import { create } from "zustand";
+import type { DrawerProviderProps, DrawerStore } from "./drawer.types";
 
-const [Provider, useCustomDrawerContext] = createCustomContext<DrawerStoreApi>({
+const [Provider, useCustomDrawerContext] = createCustomContext<ReturnType<typeof createDrawerStore>>({
 	name: "DrawerStoreContext",
 	hookName: "useDrawerStore",
 	providerName: "DrawerContextProvider",
@@ -17,23 +18,26 @@ const defaultStoreValues: DrawerStore = {
 	onToggle: () => {},
 };
 
-const createDrawerStore = (storeValues = defaultStoreValues) => {
-	const drawerStore = createStore<DrawerStore>(() => storeValues);
-
-	return drawerStore;
-};
+const createDrawerStore = (storeValues = defaultStoreValues) => create<DrawerStore>()(() => storeValues);
 
 function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
-	const drawerStore = useConstant(() => createDrawerStore(storeValues));
+	const useInitDrawerStore = useConstant(() => createDrawerStore(storeValues));
 
 	useEffect(() => {
-		drawerStore.setState({ isOpen: storeValues.isOpen });
+		useInitDrawerStore.setState({ isOpen: storeValues.isOpen });
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [storeValues.isOpen]);
 
 	// == DrawerStore is stable between renders, so no need for memoization before passing to the provider
-	return <Provider value={drawerStore}>{children}</Provider>;
+	return <Provider value={useInitDrawerStore}>{children}</Provider>;
 }
 
-export { DrawerContextProvider, useCustomDrawerContext };
+// Store Hook
+const useDrawerStore = <TResult,>(selector: SelectorFn<DrawerStore, TResult>) => {
+	const useInitDrawerStore = useCustomDrawerContext();
+
+	return useInitDrawerStore(selector);
+};
+
+export { DrawerContextProvider, useDrawerStore };

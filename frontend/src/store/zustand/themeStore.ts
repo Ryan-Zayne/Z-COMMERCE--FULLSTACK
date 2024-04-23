@@ -1,5 +1,6 @@
 import { isObject } from "@/lib/type-helpers/typeof";
 import { prefersDarkMode } from "@/lib/utils/constants";
+import { on } from "@/lib/utils/on";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ThemeStore } from "./zustand-store.types";
@@ -16,7 +17,8 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 			document.documentElement.dataset.theme = newTheme;
 
 			document.documentElement.classList.add("theme-transition");
-			document.documentElement.addEventListener("transitionend", () => {
+
+			on("transitionend", document.documentElement, () => {
 				document.documentElement.removeAttribute("class");
 			});
 

@@ -1,5 +1,3 @@
-import type { StoreApi } from "zustand";
-
 // Drawer store types
 export type DrawerStore = {
 	isOpen: boolean;
@@ -8,7 +6,6 @@ export type DrawerStore = {
 	onToggle?: () => void;
 };
 export type DrawerProviderProps = { children: React.ReactNode; storeValues: DrawerStore };
-export type DrawerStoreApi = StoreApi<DrawerStore>;
 
 // Drawer component types
 export type DrawerRootProps = Pick<DrawerProviderProps, "children"> & DrawerStore;

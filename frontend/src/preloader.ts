@@ -1,4 +1,5 @@
 import { noScrollOnOpen } from "./lib/utils/no-scroll-on-open";
+import { on } from "./lib/utils/on";
 import { useThemeStore } from "./store/zustand/themeStore";
 
 // NOTE - This prevents flicker of wrong theme onLoad
@@ -14,7 +15,7 @@ const removePreloader = () => {
 
 	preloaderElement.style.opacity = "0";
 
-	preloaderElement.addEventListener("transitionend", () => {
+	on("transitionend", preloaderElement, () => {
 		preloaderElement.remove();
 		noScrollOnOpen({ isActive: false });
 	});

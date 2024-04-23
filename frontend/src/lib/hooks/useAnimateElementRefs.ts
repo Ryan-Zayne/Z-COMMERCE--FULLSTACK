@@ -1,5 +1,6 @@
 import { cnJoin } from "@/lib/utils/cn";
 import { useCallback, useRef } from "react";
+import { on } from "../utils/on";
 import { useCallbackRef } from "./useCallbackRef";
 
 type PossibleElementsType = "heading" | "button" | "paragraph";
@@ -58,7 +59,7 @@ const useAnimateElementRefs = (options: AnimateElementsOptions = {}) => {
 
 	const removeAnimationClasses = useCallbackRef(() => {
 		for (const { targetElement, animationClass } of elementsInfo) {
-			elementsRef.current[targetElement]?.addEventListener("animationend", () => {
+			on("transitionend", elementsRef.current[targetElement], () => {
 				elementsRef.current[targetElement]?.classList.remove(animationClass);
 			});
 		}
