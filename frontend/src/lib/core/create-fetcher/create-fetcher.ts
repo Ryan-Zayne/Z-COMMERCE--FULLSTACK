@@ -1,6 +1,4 @@
 import { isObject } from "@/lib/type-helpers/typeof";
-import { omitKeys } from "@/lib/utils/omitKeys";
-import { pickKeys } from "@/lib/utils/pickKeys";
 import { wait } from "@/lib/utils/wait";
 import type {
 	AbortSignalWithAny,
@@ -13,25 +11,28 @@ import {
 	HTTPError,
 	createRawCallApi,
 	defaultOptions,
-	fetchSpecficKeys,
 	getResponseData,
+	getUrlWithParams,
 	isHTTPError,
 	isHTTPErrorInstance,
+	omitFetchConfig,
+	pickFetchConfig,
 } from "./create-fetcher.utils";
 
 const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean = false>(
 	baseConfig: BaseConfig<TBaseData, TBaseError, TBaseShouldThrow> = {}
 ) => {
+	const abortControllerStore = new Map<`/${string}`, AbortController>();
+
 	const {
 		method: baseMethod = "GET",
 		body: baseBody,
 		headers: baseHeaders,
 		signal: baseSignal,
 		...restOfBaseFetchConfig
-	} = pickKeys(baseConfig, fetchSpecficKeys);
+	} = pickFetchConfig(baseConfig);
 
-	const baseExtraOptions = omitKeys(baseConfig, fetchSpecficKeys);
-	const abortControllerStore = new Map<`/${string}`, AbortController>();
+	const baseExtraOptions = omitFetchConfig(baseConfig);
 
 	const callApi = async <
 		TData = TBaseData,
@@ -49,9 +50,9 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 			headers,
 			signal = baseSignal,
 			...restOfFetchConfig
-		} = pickKeys(config, fetchSpecficKeys);
+		} = pickFetchConfig(config);
 
-		const extraOptions = omitKeys(config, fetchSpecficKeys);
+		const extraOptions = omitFetchConfig(config);
 
 		const options = {
 			...defaultOptions,
@@ -67,6 +68,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 		}
 
 		const fetchController = new AbortController();
+
 		abortControllerStore.set(url, fetchController);
 
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
@@ -80,12 +82,14 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 		try {
 			await options.interceptors.onRequest?.(restOfFetchConfig);
 
-			const response = await fetch(`${options.baseURL}${url}`, {
+			const resolvedUrl = !options.params ? url : getUrlWithParams(url, options.params);
+
+			const response = await fetch(`${options.baseURL}${resolvedUrl}`, {
 				signal: combinedSignal,
 
 				method,
 
-				body: isObject(body) ? JSON.stringify(body) : body,
+				body: isObject(body) ? options.stringifier(body) : body,
 
 				headers: {
 					...(isObject(body) && { "Content-Type": "application/json", Accept: "application/json" }),
@@ -119,7 +123,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 			}
 
 			if (!response.ok) {
-				const errorResponse = await getResponseData<TError>(response, options.responseType);
+				const errorResponse = await getResponseData<TError>(
+					response,
+					options.responseType,
+					options.parser
+				);
 
 				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
 
@@ -129,7 +137,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				});
 			}
 
-			const successResponse = await getResponseData<TData>(response, options.responseType);
+			const successResponse = await getResponseData<TData>(
+				response,
+				options.responseType,
+				options.parser
+			);
 
 			await options.interceptors.onResponse?.({ ...response, response: successResponse });
 

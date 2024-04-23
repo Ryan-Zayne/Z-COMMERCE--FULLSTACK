@@ -1,6 +1,7 @@
 import type { PrettyOmit } from "@/lib/type-helpers/global-type-helpers";
 import { isObject } from "@/lib/type-helpers/typeof";
 import { omitKeys } from "@/lib/utils/omitKeys";
+import { parseJSON } from "@/lib/utils/parseJSON";
 import { pickKeys } from "@/lib/utils/pickKeys";
 import { wait } from "@/lib/utils/wait";
 import type {
@@ -11,19 +12,32 @@ import type {
 	PossibleErrorType,
 } from "./create-fetcher.types";
 
-export const createResponseLookup = <TResponse>(response: Response) => ({
+export const getUrlWithParams = (url: string, params: Record<string, string>) =>
+	url.includes("?")
+		? `${url}&${new URLSearchParams(params).toString()}`
+		: `${url}?${new URLSearchParams(params).toString()}`;
+
+export const createResponseLookup = <TResponse>(
+	response: Response,
+	parser: Required<BaseConfig>["parser"]
+) => ({
+	json: async () => {
+		const data = parser<TResponse | null>(await response.text());
+
+		return data ?? (response.json() as Promise<TResponse>);
+	},
 	arrayBuffer: () => response.arrayBuffer() as Promise<TResponse>,
 	blob: () => response.blob() as Promise<TResponse>,
 	formData: () => response.formData() as Promise<TResponse>,
-	json: () => response.json() as Promise<TResponse>,
 	text: () => response.text() as Promise<TResponse>,
 });
 
 export const getResponseData = <TResponse>(
 	response: Response,
-	responseType: keyof ReturnType<typeof createResponseLookup>
+	responseType: keyof ReturnType<typeof createResponseLookup>,
+	parser: Required<BaseConfig>["parser"]
 ) => {
-	const RESPONSE_LOOKUP = createResponseLookup<TResponse>(response);
+	const RESPONSE_LOOKUP = createResponseLookup<TResponse>(response, parser);
 
 	if (!Object.hasOwn(RESPONSE_LOOKUP, responseType)) {
 		throw new Error(`Invalid response type: ${responseType}`);
@@ -48,7 +62,7 @@ export const defaultRetryCodes: Required<BaseConfig>["retryCodes"] =
 
 export const defaultRetryMethods: Required<BaseConfig>["retryMethods"] = ["GET"];
 
-export const fetchSpecficKeys = [
+const fetchSpecficKeys = [
 	"body",
 	"integrity",
 	"method",
@@ -65,8 +79,15 @@ export const fetchSpecficKeys = [
 	"referrerPolicy",
 ] satisfies Array<keyof BaseConfig>;
 
+export const pickFetchConfig = <TObject extends Record<string, unknown>>(config: TObject) =>
+	pickKeys(config, fetchSpecficKeys);
+export const omitFetchConfig = <TObject extends Record<string, unknown>>(config: TObject) =>
+	omitKeys(config, fetchSpecficKeys);
+
 export const defaultOptions = {
 	interceptors: {} as Required<BaseConfig>["interceptors"],
+	stringifier: JSON.stringify,
+	parser: parseJSON,
 	responseType: "json",
 	baseURL: "",
 	retries: 0,
@@ -154,9 +175,9 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 			headers,
 			signal = baseSignal,
 			...restOfFetchConfig
-		} = pickKeys(config, fetchSpecficKeys);
+		} = pickFetchConfig(config);
 
-		const extraOptions = omitKeys(config, fetchSpecficKeys);
+		const extraOptions = omitFetchConfig(config);
 
 		const options = {
 			...defaultOptions,
@@ -190,7 +211,7 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 
 				method,
 
-				body: isObject(body) ? JSON.stringify(body) : body,
+				body: isObject(body) ? options.stringifier(body) : body,
 
 				headers: {
 					...(isObject(body) && { "Content-Type": "application/json", Accept: "application/json" }),
@@ -223,7 +244,11 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 			}
 
 			if (!response.ok) {
-				const errorResponse = await getResponseData<TError>(response, options.responseType);
+				const errorResponse = await getResponseData<TError>(
+					response,
+					options.responseType,
+					options.parser
+				);
 
 				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
 
@@ -233,7 +258,11 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 				});
 			}
 
-			const successResponse = await getResponseData<TData>(response, options.responseType);
+			const successResponse = await getResponseData<TData>(
+				response,
+				options.responseType,
+				options.parser
+			);
 
 			await options.interceptors.onResponse?.({ ...response, response: successResponse });
 

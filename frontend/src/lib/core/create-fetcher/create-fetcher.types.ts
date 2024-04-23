@@ -11,6 +11,12 @@ export type BaseConfig<
 
 		method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | AnyString;
 
+		params?: Record<string, string>;
+
+		stringifier?: <TData>(bodyData: TData) => string;
+
+		parser?: <TData>(responseData: string) => TData;
+
 		headers?: Record<string, string>;
 
 		signal?: AbortSignal;
