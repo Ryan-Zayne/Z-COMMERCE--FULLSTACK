@@ -28,7 +28,7 @@ export type AddWindowEvents<TEvent extends keyof WindowEventMap = keyof WindowEv
 
 export type AddEventParams = AddHtmlEvents | AddWindowEvents;
 
-export type OnFn = {
+export type ON = {
 	<TEvent extends keyof WindowEventMap>(...params: AddWindowEvents<TEvent>): () => void;
 	<TEvent extends keyof HTMLElementEventMap>(...params: AddHtmlEvents<TEvent>): () => void;
 };

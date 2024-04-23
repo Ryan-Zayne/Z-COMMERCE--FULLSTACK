@@ -17,6 +17,8 @@ const callMainApi = createFetcher<FormResponseDataType, FormErrorResponseType>({
 
 	method: "POST",
 
+	retries: 3,
+
 	credentials: "same-origin",
 
 	defaultErrorMessage: "Failed to submit form",

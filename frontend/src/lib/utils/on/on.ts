@@ -4,7 +4,7 @@ import type {
 	ElementOrSelectorArray,
 	ElementOrSelectorSingle,
 	ElementOrSelectorSingleOrArray,
-	OnFn,
+	ON,
 	RegisterConfig,
 } from "./on.types";
 
@@ -71,7 +71,7 @@ const register = (element: ElementOrSelectorSingleOrArray<null> | Window, config
 	registerSingle(element, config);
 };
 
-const on: OnFn = (...params: AddEventParams) => {
+const on: ON = (...params: AddEventParams) => {
 	const [event, element, listener, options] = params;
 
 	const attach = () => {
@@ -86,7 +86,7 @@ const on: OnFn = (...params: AddEventParams) => {
 		return attach;
 	};
 
-	return attach;
+	return attach();
 };
 
 export { on };

@@ -1,7 +1,6 @@
-import react from "@vitejs/plugin-react-swc";
 import { fileURLToPath } from "node:url";
+import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
-import { checker as typeChecker } from "vite-plugin-checker";
 import { createEntryShakingPlugin as entryTreeShaker } from "vite-plugin-entry-shaking";
 
 // prettier-ignore
@@ -10,9 +9,6 @@ const getFrontendfilePath = (path: 'src' | `src/${string}`) => fileURLToPath(new
 export default defineConfig({
 	plugins: [
 		react(),
-		typeChecker({
-			typescript: true,
-		}),
 
 		await entryTreeShaker({
 			targets: [

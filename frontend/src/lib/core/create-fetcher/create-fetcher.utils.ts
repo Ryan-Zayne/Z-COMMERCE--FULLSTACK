@@ -8,7 +8,7 @@ import type {
 	BaseConfig,
 	FetchConfig,
 	GetRawCallApiResult,
-	PossibleErrorType
+	PossibleErrorType,
 } from "./create-fetcher.types";
 
 export const createResponseLookup = <TResponse>(response: Response) => ({
@@ -100,7 +100,7 @@ export class HTTPError<TErrorResponse = Record<string, unknown>> extends Error {
 	}
 }
 
-export const isInstanceOfHTTPError = <TErrorResponse>(
+export const isHTTPErrorInstance = <TErrorResponse>(
 	error: unknown
 ): error is HTTPError<TErrorResponse> => {
 	return (
@@ -125,7 +125,7 @@ type BaseStuff<TBaseData, TBaseError, TBaseShouldThrow extends boolean> = {
 	abortControllerStore: Map<`/${string}`, AbortController>;
 };
 
-export const getRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends boolean>(
+export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends boolean>(
 	baseStuff: BaseStuff<TBaseData, TBaseError, TBaseShouldThrow>
 ) => {
 	const {
@@ -222,7 +222,7 @@ export const getRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends bo
 				return await rawCallApi(url, updatedConfig);
 			}
 
-			if (!response.ok && options.shouldThrowErrors) {
+			if (!response.ok) {
 				const errorResponse = await getResponseData<TError>(response, options.responseType);
 
 				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
@@ -231,22 +231,6 @@ export const getRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends bo
 					response: { ...response, data: errorResponse },
 					defaultErrorMessage: options.defaultErrorMessage,
 				});
-			}
-
-			if (!response.ok) {
-				const errorResponse = await getResponseData<TError>(response, options.responseType);
-
-				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
-
-				return {
-					response,
-					dataInfo: null,
-					errorInfo: {
-						errorName: "HTTPError",
-						response: errorResponse,
-						message: (errorResponse as PossibleErrorType).message ?? options.defaultErrorMessage,
-					},
-				} as RawCallApiResult;
 			}
 
 			const successResponse = await getResponseData<TData>(response, options.responseType);
@@ -265,14 +249,18 @@ export const getRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends bo
 
 			// Exhaustive Error handling
 		} catch (error) {
+			const handleErrorRethrow = () => {
+				if (!options.shouldThrowErrors) return;
+
+				throw error;
+			};
+
 			if (error instanceof DOMException && error.name === "TimeoutError") {
 				const message = `Request timed out after ${options.timeout}ms`;
 
 				console.error(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				if (options.shouldThrowErrors) {
-					throw error;
-				}
+				handleErrorRethrow();
 
 				return {
 					response: null,
@@ -289,9 +277,7 @@ export const getRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends bo
 
 				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				if (options.shouldThrowErrors) {
-					throw error;
-				}
+				handleErrorRethrow();
 
 				return {
 					response: null,
@@ -303,13 +289,25 @@ export const getRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends bo
 				} as RawCallApiResult;
 			}
 
-			if (!isInstanceOfHTTPError(error)) {
-				await options.interceptors.onRequestError?.(restOfFetchConfig);
+			if (isHTTPErrorInstance<TError>(error)) {
+				const { data: errorResponse, ...actualResponse } = error.response;
+
+				handleErrorRethrow();
+
+				return {
+					response: actualResponse,
+					dataInfo: null,
+					errorInfo: {
+						errorName: "HTTPError",
+						response: errorResponse,
+						message: (errorResponse as PossibleErrorType).message ?? options.defaultErrorMessage,
+					},
+				} as RawCallApiResult;
 			}
 
-			if (options.shouldThrowErrors) {
-				throw error;
-			}
+			await options.interceptors.onRequestError?.(restOfFetchConfig);
+
+			handleErrorRethrow();
 
 			return {
 				response: null,

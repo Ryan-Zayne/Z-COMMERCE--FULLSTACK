@@ -11,12 +11,12 @@ import type {
 } from "./create-fetcher.types";
 import {
 	HTTPError,
+	createRawCallApi,
 	defaultOptions,
 	fetchSpecficKeys,
-	getRawCallApi,
 	getResponseData,
 	isHTTPError,
-	isInstanceOfHTTPError,
+	isHTTPErrorInstance,
 } from "./create-fetcher.utils";
 
 const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean = false>(
@@ -103,10 +103,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 			const shouldRetry =
 				!combinedSignal.aborted &&
 				options.retries > 0 &&
+				!response.ok &&
 				retryCodes.has(response.status) &&
 				retryMethods.has(method);
 
-			if (!response.ok && shouldRetry) {
+			if (shouldRetry) {
 				await wait(options.retryDelay);
 
 				const updatedConfig = {
@@ -117,7 +118,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				return await callApi(url, updatedConfig);
 			}
 
-			if (!response.ok && options.shouldThrowErrors) {
+			if (!response.ok) {
 				const errorResponse = await getResponseData<TError>(response, options.responseType);
 
 				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
@@ -126,21 +127,6 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 					response: { ...response, data: errorResponse },
 					defaultErrorMessage: options.defaultErrorMessage,
 				});
-			}
-
-			if (!response.ok) {
-				const errorResponse = await getResponseData<TError>(response, options.responseType);
-
-				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
-
-				return {
-					dataInfo: null,
-					errorInfo: {
-						errorName: "HTTPError",
-						response: errorResponse,
-						message: (errorResponse as PossibleErrorType).message ?? options.defaultErrorMessage,
-					},
-				} as CallApiResult;
 			}
 
 			const successResponse = await getResponseData<TData>(response, options.responseType);
@@ -159,14 +145,18 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 
 			// Exhaustive Error handling
 		} catch (error) {
+			const handleErrorRethrow = () => {
+				if (!options.shouldThrowErrors) return;
+
+				throw error;
+			};
+
 			if (error instanceof DOMException && error.name === "TimeoutError") {
 				const message = `Request timed out after ${options.timeout}ms`;
 
 				console.info(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				if (options.shouldThrowErrors) {
-					throw error;
-				}
+				handleErrorRethrow();
 
 				return {
 					dataInfo: null,
@@ -182,9 +172,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 
 				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				if (options.shouldThrowErrors) {
-					throw error;
-				}
+				handleErrorRethrow();
 
 				return {
 					dataInfo: null,
@@ -195,9 +183,24 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				} as CallApiResult;
 			}
 
-			if (!isInstanceOfHTTPError(error)) {
-				await options.interceptors.onRequestError?.(restOfFetchConfig);
+			if (isHTTPErrorInstance<TError>(error)) {
+				const { data: errorResponse } = error.response;
+
+				handleErrorRethrow();
+
+				return {
+					dataInfo: null,
+					errorInfo: {
+						errorName: "HTTPError",
+						response: errorResponse,
+						message: (errorResponse as PossibleErrorType).message ?? options.defaultErrorMessage,
+					},
+				} as CallApiResult;
 			}
+
+			await options.interceptors.onRequestError?.(restOfFetchConfig);
+
+			handleErrorRethrow();
 
 			return {
 				dataInfo: null,
@@ -220,9 +223,9 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 	};
 
 	callApi.isHTTPError = isHTTPError;
-	callApi.isHTTPErrorObject = isInstanceOfHTTPError;
+	callApi.isHTTPErrorObject = isHTTPErrorInstance;
 	callApi.native = fetch;
-	callApi.raw = getRawCallApi<TBaseData, TBaseError, TBaseShouldThrow>({
+	callApi.raw = createRawCallApi<TBaseData, TBaseError, TBaseShouldThrow>({
 		baseBody,
 		baseExtraOptions,
 		baseHeaders,
