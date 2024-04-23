@@ -1,4 +1,4 @@
-import { callDummyApi } from "@/api/callDummyApi";
+import { callDummyApi } from "@/lib/api/callDummyApi";
 import { transformData } from "@/store/react-query/helpers/transFormData";
 import { useQueries } from "@tanstack/react-query";
 

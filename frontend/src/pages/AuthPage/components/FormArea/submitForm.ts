@@ -1,4 +1,4 @@
-import { callMainApi } from "@/api/callMainApi";
+import { callMainApi } from "@/lib/api/callMainApi";
 import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open";
 import type { UseFormReset, UseFormSetError } from "react-hook-form";
 import type { NavigateFunction } from "react-router-dom";
