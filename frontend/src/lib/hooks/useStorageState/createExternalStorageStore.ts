@@ -1,4 +1,5 @@
 import { isFunction } from "@/lib/type-helpers/typeof";
+import { on } from "@/lib/utils/on";
 import { parseJSON } from "@/lib/utils/parseJSON";
 
 export type StorageOptions<TStorageValue> = {
@@ -123,9 +124,9 @@ const createExternalStorageStore = <TStorageValue>(
 				onStoreChange(parser(event.oldValue), parser(event.newValue));
 			};
 
-			window.addEventListener("storage", handleStorageStoreChange);
+			const removeStorageEvent = on("storage", window, handleStorageStoreChange);
 
-			return () => window.removeEventListener("storage", handleStorageStoreChange);
+			return removeStorageEvent;
 		},
 
 		removeState: () => {

@@ -22,7 +22,7 @@ type UsePresenceOptions = {
 const usePresence = (options: UsePresenceOptions) => {
 	const { defaultValue = true, duration = 150, callbackFn } = options;
 
-	const [present, setPresent] = useDebouncedState(defaultValue, duration);
+	const [isPresent, setIsPresent] = useDebouncedState(defaultValue, duration);
 
 	const animatedElementRef = useRef<HTMLElement>(null);
 
@@ -34,26 +34,26 @@ const usePresence = (options: UsePresenceOptions) => {
 		const element = animatedElementRef.current;
 
 		const handlePresence = () => {
-			setPresent.cancelTimeout();
-			setPresent(true);
+			setIsPresent.cancelTimeout();
+			setIsPresent(false);
 		};
 
-		const cleanupTransitionEvent = on("transitionend", element, handlePresence);
-		const cleanupAnimationEvent = on("animationend", element, handlePresence);
+		const removeTransitionEvent = on("transitionend", element, handlePresence);
+		const removeAnimationEvent = on("animationend", element, handlePresence);
 
 		return () => {
-			cleanupTransitionEvent();
-			cleanupAnimationEvent();
+			removeTransitionEvent();
+			removeAnimationEvent();
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useLayoutEffect(() => {
-		!present && savedCallback();
+		!isPresent && savedCallback();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [present]);
+	}, [isPresent]);
 
-	return { present, setPresent, animatedElementRef };
+	return { isPresent, setIsPresent, animatedElementRef };
 };
 
 export { usePresence };

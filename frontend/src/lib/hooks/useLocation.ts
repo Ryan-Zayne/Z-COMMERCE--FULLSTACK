@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react";
 import type { Prettify, SelectorFn } from "../type-helpers/global-type-helpers";
 import { isBrowser } from "../utils/constants";
+import { on } from "../utils/on";
 import { useConstant } from "./useConstant";
 
 type LocationState = {
@@ -31,9 +32,9 @@ const createLocationStore = <THistoryState>() => {
 		},
 
 		subscribe: (onLocationChange: () => void) => {
-			window.addEventListener("popstate", onLocationChange);
+			const removePopStateEvent = on("popstate", window, onLocationChange);
 
-			return () => window.removeEventListener("popstate", onLocationChange);
+			return removePopStateEvent;
 		},
 	};
 

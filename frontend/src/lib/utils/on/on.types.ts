@@ -11,10 +11,10 @@ export type ElementOrSelectorSingleOrArray<TOptional = never> =
 
 export type AddHtmlEvents<TEvent extends keyof HTMLElementEventMap = keyof HTMLElementEventMap> = [
 	event: TEvent,
-	element: HTMLElement | null,
+	element: ElementOrSelectorSingleOrArray<null>,
 	listener: (
 		this: HTMLElement, // == Ts somehow doesn't consider "this" as part of the available params
-		event: TEvent
+		event: HTMLElementEventMap[TEvent]
 	) => void,
 	options?: boolean | AddEventListenerOptions,
 ];
@@ -22,7 +22,7 @@ export type AddHtmlEvents<TEvent extends keyof HTMLElementEventMap = keyof HTMLE
 export type AddWindowEvents<TEvent extends keyof WindowEventMap = keyof WindowEventMap> = [
 	event: TEvent,
 	element: Window,
-	listener: (this: Window, event: TEvent) => void,
+	listener: (this: Window, event: WindowEventMap[TEvent]) => void,
 	options?: boolean | AddEventListenerOptions,
 ];
 

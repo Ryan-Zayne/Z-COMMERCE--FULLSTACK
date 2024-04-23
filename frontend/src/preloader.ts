@@ -19,11 +19,9 @@ const removePreloader = () => {
 		preloaderElement.remove();
 		noScrollOnOpen({ isActive: false });
 	});
-
-	window.removeEventListener("DOMContentLoaded", removePreloader);
 };
 
-window.addEventListener("DOMContentLoaded", removePreloader);
+on("DOMContentLoaded", window, removePreloader);
 
 // NOTE - Scroll restoration for moxilla browser
 window.history.scrollRestoration = "auto";
