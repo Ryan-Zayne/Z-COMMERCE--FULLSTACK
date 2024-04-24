@@ -44,13 +44,15 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 	): Promise<GetCallApiResult<TData, TError, TShouldThrow>> => {
 		type CallApiResult = GetCallApiResult<TData, TError, TShouldThrow>;
 
+		const actualFetchConfig = pickFetchConfig(config);
+
 		const {
 			method = baseMethod,
 			body = baseBody,
 			headers,
 			signal = baseSignal,
 			...restOfFetchConfig
-		} = pickFetchConfig(config);
+		} = actualFetchConfig;
 
 		const extraOptions = omitFetchConfig(config);
 
@@ -80,11 +82,9 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 		]);
 
 		try {
-			await options.interceptors.onRequest?.(restOfFetchConfig);
+			await options.interceptors.onRequest?.(actualFetchConfig as RequestInit);
 
-			const resolvedUrl = !options.params ? url : getUrlWithParams(url, options.params);
-
-			const response = await fetch(`${options.baseURL}${resolvedUrl}`, {
+			const response = await fetch(`${options.baseURL}${getUrlWithParams(url, options.params)}`, {
 				signal: combinedSignal,
 
 				method,
@@ -151,13 +151,12 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 					: {
 							dataInfo: successResponse,
 							errorInfo: null,
-							rawResponse: response,
 						}
 			) as CallApiResult;
 
 			// Exhaustive Error handling
 		} catch (error) {
-			const handleErrorRethrow = () => {
+			const handleShouldRethrowError = () => {
 				if (!options.shouldThrowErrors) return;
 
 				throw error;
@@ -168,7 +167,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 
 				console.info(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				handleErrorRethrow();
+				handleShouldRethrowError();
 
 				return {
 					dataInfo: null,
@@ -184,7 +183,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 
 				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				handleErrorRethrow();
+				handleShouldRethrowError();
 
 				return {
 					dataInfo: null,
@@ -198,7 +197,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 			if (isHTTPErrorInstance<TError>(error)) {
 				const { data: errorResponse } = error.response;
 
-				handleErrorRethrow();
+				handleShouldRethrowError();
 
 				return {
 					dataInfo: null,
@@ -210,9 +209,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				} as CallApiResult;
 			}
 
+			// == At this point only request errors exist
+
 			await options.interceptors.onRequestError?.(restOfFetchConfig);
 
-			handleErrorRethrow();
+			handleShouldRethrowError();
 
 			return {
 				dataInfo: null,
@@ -222,7 +223,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				},
 			} as CallApiResult;
 
-			// Clean up and remove the now unneeded AbortController from store
+			// Remove the now unneeded AbortController from store
 		} finally {
 			abortControllerStore.delete(url);
 		}

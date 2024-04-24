@@ -12,10 +12,23 @@ import type {
 	PossibleErrorType,
 } from "./create-fetcher.types";
 
-export const getUrlWithParams = (url: string, params: Record<string, string>) =>
-	url.includes("?")
-		? `${url}&${new URLSearchParams(params).toString()}`
-		: `${url}?${new URLSearchParams(params).toString()}`;
+export const getUrlWithParams = (url: string, params: Record<string, string> | undefined) => {
+	if (!params) {
+		return url;
+	}
+
+	const paramsString = new URLSearchParams(params).toString();
+
+	if (!url.includes("?")) {
+		return `${url}?${paramsString}`;
+	}
+
+	if (url.at(-1) === "?") {
+		return `${url}${paramsString}`;
+	}
+
+	return `${url}&${paramsString}`;
+};
 
 export const createResponseLookup = <TResponse>(
 	response: Response,
@@ -24,6 +37,7 @@ export const createResponseLookup = <TResponse>(
 	json: async () => {
 		const data = parser<TResponse | null>(await response.text());
 
+		// == try native response.json() as last resort of parser fails
 		return data ?? (response.json() as Promise<TResponse>);
 	},
 	arrayBuffer: () => response.arrayBuffer() as Promise<TResponse>,
@@ -169,13 +183,15 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 	): Promise<GetRawCallApiResult<TData, TError, TShouldThrow>> => {
 		type RawCallApiResult = GetRawCallApiResult<TData, TError, TShouldThrow>;
 
+		const actualFetchConfig = pickFetchConfig(config);
+
 		const {
 			method = baseMethod,
 			body = baseBody,
 			headers,
 			signal = baseSignal,
 			...restOfFetchConfig
-		} = pickFetchConfig(config);
+		} = actualFetchConfig;
 
 		const extraOptions = omitFetchConfig(config);
 
@@ -193,6 +209,7 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 		}
 
 		const fetchController = new AbortController();
+
 		abortControllerStore.set(url, fetchController);
 
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
@@ -204,9 +221,9 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 		]);
 
 		try {
-			await options.interceptors.onRequest?.(restOfFetchConfig);
+			await options.interceptors.onRequest?.(actualFetchConfig as RequestInit);
 
-			const response = await fetch(`${options.baseURL}${url}`, {
+			const response = await fetch(`${options.baseURL}${getUrlWithParams(url, options.params)}`, {
 				signal: combinedSignal,
 
 				method,
