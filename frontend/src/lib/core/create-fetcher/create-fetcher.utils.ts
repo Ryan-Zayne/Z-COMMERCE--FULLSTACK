@@ -105,9 +105,9 @@ export const defaultOptions = {
 	responseType: "json",
 	baseURL: "",
 	retries: 0,
+	retryDelay: 0,
 	retryCodes: defaultRetryCodes,
 	retryMethods: defaultRetryMethods,
-	retryDelay: 0,
 	defaultErrorMessage: "Failed to fetch data from server!",
 	shouldThrowErrors: false,
 } satisfies BaseConfig;
@@ -183,15 +183,13 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 	): Promise<GetRawCallApiResult<TData, TError, TShouldThrow>> => {
 		type RawCallApiResult = GetRawCallApiResult<TData, TError, TShouldThrow>;
 
-		const actualFetchConfig = pickFetchConfig(config);
-
 		const {
 			method = baseMethod,
 			body = baseBody,
 			headers,
 			signal = baseSignal,
 			...restOfFetchConfig
-		} = actualFetchConfig;
+		} = pickFetchConfig(config);
 
 		const extraOptions = omitFetchConfig(config);
 
@@ -220,25 +218,27 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 			signal ?? fetchController.signal,
 		]);
 
+		const request = {
+			signal: combinedSignal,
+
+			method,
+
+			body: isObject(body) ? options.stringifier(body) : body,
+
+			headers: {
+				...(isObject(body) && { "Content-Type": "application/json", Accept: "application/json" }),
+				...baseHeaders,
+				...headers,
+			},
+
+			...restOfBaseFetchConfig,
+			...restOfFetchConfig,
+		};
+
 		try {
-			await options.interceptors.onRequest?.(actualFetchConfig as RequestInit);
+			await options.interceptors.onRequest?.({ request, options });
 
-			const response = await fetch(`${options.baseURL}${getUrlWithParams(url, options.params)}`, {
-				signal: combinedSignal,
-
-				method,
-
-				body: isObject(body) ? options.stringifier(body) : body,
-
-				headers: {
-					...(isObject(body) && { "Content-Type": "application/json", Accept: "application/json" }),
-					...baseHeaders,
-					...headers,
-				},
-
-				...restOfBaseFetchConfig,
-				...restOfFetchConfig,
-			});
+			const response = await fetch(`${options.baseURL}${getUrlWithParams(url, options.query)}`);
 
 			const retryCodes = new Set(options.retryCodes);
 			const retryMethods = new Set(options.retryMethods);
@@ -246,11 +246,12 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 			const shouldRetry =
 				!combinedSignal.aborted &&
 				options.retries > 0 &&
+				!response.ok &&
 				retryCodes.has(response.status) &&
 				retryMethods.has(method);
 
-			if (!response.ok && shouldRetry) {
-				await wait(options.retryDelay);
+			if (shouldRetry) {
+				options.retryDelay > 0 && (await wait(options.retryDelay));
 
 				const updatedConfig = {
 					...config,
@@ -267,7 +268,11 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 					options.parser
 				);
 
-				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
+				await options.interceptors.onResponseError?.({
+					response: { ...response, error: errorResponse },
+					request,
+					options,
+				});
 
 				throw new HTTPError({
 					response: { ...response, data: errorResponse },
@@ -281,7 +286,11 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 				options.parser
 			);
 
-			await options.interceptors.onResponse?.({ ...response, response: successResponse });
+			await options.interceptors.onResponse?.({
+				response: { ...response, data: successResponse },
+				request,
+				options,
+			});
 
 			return (
 				options.shouldThrowErrors
@@ -295,7 +304,7 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 
 			// Exhaustive Error handling
 		} catch (error) {
-			const handleErrorRethrow = () => {
+			const handleShouldRethrowError = () => {
 				if (!options.shouldThrowErrors) return;
 
 				throw error;
@@ -306,7 +315,7 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 
 				console.error(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				handleErrorRethrow();
+				handleShouldRethrowError();
 
 				return {
 					response: null,
@@ -323,7 +332,7 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 
 				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				handleErrorRethrow();
+				handleShouldRethrowError();
 
 				return {
 					response: null,
@@ -338,7 +347,7 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 			if (isHTTPErrorInstance<TError>(error)) {
 				const { data: errorResponse, ...actualResponse } = error.response;
 
-				handleErrorRethrow();
+				handleShouldRethrowError();
 
 				return {
 					response: actualResponse,
@@ -351,9 +360,9 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 				} as RawCallApiResult;
 			}
 
-			await options.interceptors.onRequestError?.(restOfFetchConfig);
+			await options.interceptors.onRequestError?.({ request, options, error: error as Error });
 
-			handleErrorRethrow();
+			handleShouldRethrowError();
 
 			return {
 				response: null,

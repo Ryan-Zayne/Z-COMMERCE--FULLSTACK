@@ -44,15 +44,13 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 	): Promise<GetCallApiResult<TData, TError, TShouldThrow>> => {
 		type CallApiResult = GetCallApiResult<TData, TError, TShouldThrow>;
 
-		const actualFetchConfig = pickFetchConfig(config);
-
 		const {
 			method = baseMethod,
 			body = baseBody,
 			headers,
 			signal = baseSignal,
 			...restOfFetchConfig
-		} = actualFetchConfig;
+		} = pickFetchConfig(config);
 
 		const extraOptions = omitFetchConfig(config);
 
@@ -81,25 +79,27 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 			signal ?? fetchController.signal,
 		]);
 
+		const request = {
+			signal: combinedSignal,
+
+			method,
+
+			body: isObject(body) ? options.stringifier(body) : body,
+
+			headers: {
+				...(isObject(body) && { "Content-Type": "application/json", Accept: "application/json" }),
+				...baseHeaders,
+				...headers,
+			},
+
+			...restOfBaseFetchConfig,
+			...restOfFetchConfig,
+		};
+
 		try {
-			await options.interceptors.onRequest?.(actualFetchConfig as RequestInit);
+			await options.interceptors.onRequest?.({ request, options });
 
-			const response = await fetch(`${options.baseURL}${getUrlWithParams(url, options.params)}`, {
-				signal: combinedSignal,
-
-				method,
-
-				body: isObject(body) ? options.stringifier(body) : body,
-
-				headers: {
-					...(isObject(body) && { "Content-Type": "application/json", Accept: "application/json" }),
-					...baseHeaders,
-					...headers,
-				},
-
-				...restOfBaseFetchConfig,
-				...restOfFetchConfig,
-			});
+			const response = await fetch(`${options.baseURL}${getUrlWithParams(url, options.query)}`);
 
 			const retryCodes = new Set(options.retryCodes);
 			const retryMethods = new Set(options.retryMethods);
@@ -112,7 +112,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				retryMethods.has(method);
 
 			if (shouldRetry) {
-				await wait(options.retryDelay);
+				options.retryDelay > 0 && (await wait(options.retryDelay));
 
 				const updatedConfig = {
 					...config,
@@ -129,7 +129,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 					options.parser
 				);
 
-				await options.interceptors.onResponseError?.({ ...response, response: errorResponse });
+				await options.interceptors.onResponseError?.({
+					response: { ...response, error: errorResponse },
+					request,
+					options,
+				});
 
 				throw new HTTPError({
 					response: { ...response, data: errorResponse },
@@ -143,7 +147,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				options.parser
 			);
 
-			await options.interceptors.onResponse?.({ ...response, response: successResponse });
+			await options.interceptors.onResponse?.({
+				response: { ...response, data: successResponse },
+				request,
+				options,
+			});
 
 			return (
 				options.shouldThrowErrors
@@ -211,7 +219,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 
 			// == At this point only request errors exist
 
-			await options.interceptors.onRequestError?.(restOfFetchConfig);
+			await options.interceptors.onRequestError?.({ request, options, error: error as Error });
 
 			handleShouldRethrowError();
 

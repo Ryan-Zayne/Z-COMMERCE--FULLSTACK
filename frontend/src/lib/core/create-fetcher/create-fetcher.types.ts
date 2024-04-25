@@ -1,17 +1,17 @@
 import type { AnyNumber, AnyString, Prettify } from "@/lib/type-helpers/global-type-helpers";
-import type { createResponseLookup } from "./create-fetcher.utils";
+import type { createResponseLookup, omitFetchConfig, pickFetchConfig } from "./create-fetcher.utils";
 
 export type BaseConfig<
 	TBaseData = unknown,
 	TBaseError = unknown,
-	TBaseShouldThrow extends boolean = false,
+	TBaseShouldThrow extends boolean = boolean,
 > = Prettify<
 	Omit<RequestInit, "method" | "body" | "signal" | "headers"> & {
-		body?: Record<string, unknown> | FormData | string;
+		body?: Record<string, unknown> | BodyInit;
 
 		method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | AnyString;
 
-		params?: Record<string, string>;
+		query?: Record<string, string>;
 
 		stringifier?: <TData>(bodyData: TData) => string;
 
@@ -32,17 +32,28 @@ export type BaseConfig<
 		responseType?: keyof ReturnType<typeof createResponseLookup>;
 
 		interceptors?: {
-			onRequest?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
+			onRequest?: (requestContext: {
+				request: ReturnType<typeof pickFetchConfig<BaseConfig>>;
+				options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
+			}) => void | Promise<void>;
 
-			onRequestError?: (requestConfig: RequestInit) => Promise<RequestInit> | RequestInit;
+			onRequestError?: (requestContext: {
+				request: ReturnType<typeof pickFetchConfig<BaseConfig>>;
+				options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
+				error: Error;
+			}) => void | Promise<void>;
 
-			onResponse?: <TData = TBaseData>(
-				successResponse: Response & { response: TData }
-			) => Promise<void> | void;
+			onResponse?: <TData = TBaseData>(successContext: {
+				response: Response & { data: TData };
+				request: ReturnType<typeof pickFetchConfig<BaseConfig>>;
+				options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
+			}) => void | Promise<void>;
 
-			onResponseError?: <TError = TBaseError>(
-				errorResponse: Response & { response: TError }
-			) => Promise<void> | void;
+			onResponseError?: <TError = TBaseError>(errorContext: {
+				response: Response & { error: TError };
+				request: ReturnType<typeof pickFetchConfig<BaseConfig>>;
+				options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
+			}) => void | Promise<void>;
 		};
 
 		retries?: number;
