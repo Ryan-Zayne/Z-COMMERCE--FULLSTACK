@@ -73,6 +73,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
 
+		// ts-expect-error - TS hasn't updated its dom library for AbortSignal to include the any method
 		const combinedSignal = (AbortSignal as AbortSignalWithAny).any([
 			fetchController.signal,
 			timeoutSignal ?? fetchController.signal,
@@ -203,22 +204,20 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 			}
 
 			if (isHTTPErrorInstance<TError>(error)) {
-				const { data: errorResponse } = error.response;
-
 				handleShouldRethrowError();
 
 				return {
 					dataInfo: null,
 					errorInfo: {
 						errorName: "HTTPError",
-						response: errorResponse,
-						message: (errorResponse as PossibleErrorType).message ?? options.defaultErrorMessage,
+						response: error.response,
+						message:
+							(error.response.data as PossibleErrorType).message ?? options.defaultErrorMessage,
 					},
 				} as CallApiResult;
 			}
 
 			// == At this point only request errors exist
-
 			await options.interceptors.onRequestError?.({ request, options, error: error as Error });
 
 			handleShouldRethrowError();
@@ -244,7 +243,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 	};
 
 	callApi.isHTTPError = isHTTPError;
-	callApi.isHTTPErrorObject = isHTTPErrorInstance;
+	callApi.isHTTPErrorInstance = isHTTPErrorInstance;
 	callApi.native = fetch;
 	callApi.raw = createRawCallApi<TBaseData, TBaseError, TBaseShouldThrow>({
 		baseBody,

@@ -126,10 +126,10 @@ export class HTTPError<TErrorResponse = Record<string, unknown>> extends Error {
 
 	isHTTPError = true;
 
-	constructor(errorDetails: ErrorDetails<TErrorResponse>) {
+	constructor(errorDetails: ErrorDetails<TErrorResponse>, errorOptions?: ErrorOptions) {
 		const { defaultErrorMessage, response } = errorDetails;
 
-		super((response as { message?: string }).message ?? defaultErrorMessage);
+		super((response as { message?: string }).message ?? defaultErrorMessage, errorOptions);
 
 		this.response = response;
 	}
@@ -212,6 +212,7 @@ export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends
 
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
 
+		// ts-expect-error - TS hasn't updated its dom library for AbortSignal to include the any method
 		const combinedSignal = (AbortSignal as AbortSignalWithAny).any([
 			fetchController.signal,
 			timeoutSignal ?? fetchController.signal,
