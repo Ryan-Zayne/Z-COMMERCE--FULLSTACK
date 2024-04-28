@@ -15,6 +15,8 @@ export type FormErrorResponseType =
 const callMainApi = createFetcher<FormResponseDataType, FormErrorResponseType>({
 	baseURL: BASE_AUTH_URL,
 
+	body: {},
+
 	method: "POST",
 
 	retries: 3,

@@ -1,9 +1,10 @@
-import { isObject } from "@/lib/type-helpers/typeof";
+import { isArray, isFunction, isObject } from "@/lib/type-helpers/typeof";
 import { parseJSON } from "@/lib/utils/parseJSON";
 import { wait } from "@/lib/utils/wait";
 import type {
 	AbortSignalWithAny,
 	BaseConfig,
+	ExtraOptions,
 	FetchConfig,
 	GetCallApiResult,
 	PossibleErrorType,
@@ -44,6 +45,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 		url: `/${string}`,
 		config: FetchConfig<TData, TError, TResultStyle> = {}
 	): Promise<GetCallApiResult<TData, TError, TResultStyle>> => {
+		// == This type is used to cast all return statements due to a design limitation in ts. Casting as intersection of all props in the resultmap could work too, or it resultant "never" could work too!. See https://www.zhenghao.io/posts/type-functions for more info
 		type CallApiResult = GetCallApiResult<TData, TError, TResultStyle>;
 
 		const {
@@ -56,22 +58,6 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 
 		const extraOptions = omitFetchConfig(config);
 
-		const options = {
-			interceptors: {} as Required<BaseConfig>["interceptors"],
-			bodySerializer: JSON.stringify,
-			responseParser: parseJSON,
-			responseType: "json",
-			baseURL: "",
-			throwOnError: false,
-			retries: 0,
-			retryDelay: 0,
-			retryCodes: defaultRetryCodes,
-			retryMethods: defaultRetryMethods,
-			defaultErrorMessage: "Failed to fetch data from server!",
-			...baseExtraOptions,
-			...extraOptions,
-		} satisfies BaseConfig<TBaseData, TBaseError>;
-
 		const prevFetchController = abortControllerStore.get(url);
 
 		if (prevFetchController) {
@@ -82,6 +68,21 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 		const fetchController = new AbortController();
 
 		abortControllerStore.set(url, fetchController);
+
+		const options = {
+			interceptors: {},
+			bodySerializer: JSON.stringify,
+			responseParser: parseJSON,
+			responseType: "json",
+			baseURL: "",
+			retries: 0,
+			retryDelay: 0,
+			retryCodes: defaultRetryCodes,
+			retryMethods: defaultRetryMethods,
+			defaultErrorMessage: "Failed to fetch data from server!",
+			...baseExtraOptions,
+			...extraOptions,
+		} satisfies ExtraOptions;
 
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
 
@@ -99,11 +100,19 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 
 			body: isObject(body) ? options.bodySerializer(body) : body,
 
-			headers: {
-				...(isObject(body) && { "Content-Type": "application/json", Accept: "application/json" }),
-				...baseHeaders,
-				...headers,
-			},
+			headers:
+				isObject(baseHeaders) && isObject(headers)
+					? {
+							...(isObject(body) && {
+								"Content-Type": "application/json",
+								Accept: "application/json",
+							}),
+							...baseHeaders,
+							...headers,
+						}
+					: isArray(baseHeaders) && isArray(headers)
+						? [...baseHeaders, ...headers]
+						: undefined,
 
 			...restOfBaseFetchConfig,
 			...restOfFetchConfig,
@@ -112,7 +121,10 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 		try {
 			await options.interceptors.onRequest?.({ request, options });
 
-			const response = await fetch(`${options.baseURL}${getUrlWithParams(url, options.query)}`);
+			const response = await fetch(
+				`${options.baseURL}${getUrlWithParams(url, options.query)}`,
+				request
+			);
 
 			const retryCodes = new Set(options.retryCodes);
 			const retryMethods = new Set(options.retryMethods);
@@ -205,8 +217,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 			};
 
 			const handleShouldRethrowError = () => {
-				if (!options.throwOnError) return;
+				const shouldThrowOnError = isFunction(options.throwOnError)
+					? isHTTPErrorInstance<TError & TBaseError>(error) && options.throwOnError(error)
+					: options.throwOnError;
 
+				if (!shouldThrowOnError) return;
 				throw error;
 			};
 

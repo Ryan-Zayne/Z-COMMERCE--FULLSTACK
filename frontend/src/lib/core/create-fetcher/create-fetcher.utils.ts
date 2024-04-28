@@ -1,7 +1,7 @@
 import { isObject } from "@/lib/type-helpers/typeof";
 import { omitKeys } from "@/lib/utils/omitKeys";
 import { pickKeys } from "@/lib/utils/pickKeys";
-import type { BaseConfig } from "./create-fetcher.types";
+import type { BaseConfig, ExtraOptions } from "./create-fetcher.types";
 
 export const getUrlWithParams = (url: string, params: Record<string, string> | undefined) => {
 	if (!params) {
@@ -84,9 +84,9 @@ const fetchSpecficKeys = [
 	"referrerPolicy",
 ] satisfies Array<keyof BaseConfig>;
 
-export const pickFetchConfig = <TObject extends Record<string, unknown>>(config: TObject) =>
-	pickKeys(config, fetchSpecficKeys);
-export const omitFetchConfig = <TObject extends Record<string, unknown>>(config: TObject) =>
+export const pickFetchConfig = <TObject extends Record<string, unknown>>(config: TObject): RequestInit =>
+	pickKeys(config, fetchSpecficKeys) as RequestInit;
+export const omitFetchConfig = <TObject extends Record<string, unknown>>(config: TObject): ExtraOptions =>
 	omitKeys(config, fetchSpecficKeys);
 
 export const isHTTPError = (errorName: unknown): errorName is "HTTPError" => errorName === "HTTPError";

@@ -1,12 +1,17 @@
 import type { AnyNumber, AnyString } from "@/lib/type-helpers/global-type-helpers";
-import type { createResponseLookup, omitFetchConfig, pickFetchConfig } from "./create-fetcher.utils";
+import type {
+	HTTPError,
+	createResponseLookup,
+	omitFetchConfig,
+	pickFetchConfig,
+} from "./create-fetcher.utils";
 
-export type BaseConfig<
+export type ExtraOptions<
 	TBaseData = unknown,
 	TBaseError = unknown,
-	TBaseResultStyle extends ResultStyleUnion = ResultStyleUnion,
-> = Omit<RequestInit, "method" | "body" | "signal" | "headers"> & {
-	body?: Record<string, unknown> | BodyInit;
+	TBaseResultStyle extends ResultStyleUnion = undefined,
+> = {
+	body?: Record<string, unknown> | RequestInit["body"];
 
 	method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | AnyString;
 
@@ -18,17 +23,13 @@ export type BaseConfig<
 
 	responseParser?: <TData>(responseData: string) => TData;
 
-	headers?: Record<string, string>;
-
-	signal?: AbortSignal;
-
 	baseURL?: string;
 
 	timeout?: number;
 
 	defaultErrorMessage?: string;
 
-	throwOnError?: boolean;
+	throwOnError?: boolean | ((error?: HTTPError<TBaseError>) => boolean);
 
 	responseType?: keyof ReturnType<typeof createResponseLookup>;
 
@@ -62,6 +63,12 @@ export type BaseConfig<
 	retryDelay?: number;
 	retryMethods?: Array<"GET" | "POST" | "PATCH" | "DELETE" | AnyString>;
 };
+
+export type BaseConfig<
+	TBaseData = unknown,
+	TBaseError = unknown,
+	TBaseResultStyle extends ResultStyleUnion = undefined,
+> = Omit<RequestInit, "method" | "body"> & ExtraOptions<TBaseData, TBaseError, TBaseResultStyle>;
 
 export type FetchConfig<TData, TError, TResultStyle extends ResultStyleUnion> = BaseConfig<
 	TData,
