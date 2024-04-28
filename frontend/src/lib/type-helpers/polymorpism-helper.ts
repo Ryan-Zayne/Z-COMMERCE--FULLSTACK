@@ -1,5 +1,6 @@
 type AsProp<TElement extends React.ElementType> = { as?: TElement };
 
+// == Return the prop object if it already contains the "as" prop, else merge it with the "as" prop
 type PropsWithOptionalAs<TElement extends React.ElementType, TProps> = "as" extends keyof TProps
 	? TProps
 	: TProps & AsProp<TElement>;

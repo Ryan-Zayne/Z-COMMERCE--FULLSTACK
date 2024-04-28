@@ -74,14 +74,16 @@ const register = (element: ElementOrSelectorSingleOrArray<null> | Window, config
 const on: ON = (...params: AddEventParams) => {
 	const [event, element, listener, options] = params;
 
+	const boundListener = () => listener.call(element, event, cleanup);
+
 	const attach = () => {
-		register(element as HTMLElement, { type: "add", event, listener, options });
+		register(element, { type: "add", event, listener: boundListener, options });
 
 		return cleanup;
 	};
 
 	const cleanup = () => {
-		register(element, { type: "remove", event, listener, options });
+		register(element, { type: "remove", event, listener: boundListener, options });
 
 		return attach;
 	};

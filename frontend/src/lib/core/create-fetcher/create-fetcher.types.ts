@@ -4,17 +4,19 @@ import type { createResponseLookup, omitFetchConfig, pickFetchConfig } from "./c
 export type BaseConfig<
 	TBaseData = unknown,
 	TBaseError = unknown,
-	TBaseShouldThrow extends boolean = boolean,
+	TBaseResultStyle extends ResultStyleUnion = ResultStyleUnion,
 > = Omit<RequestInit, "method" | "body" | "signal" | "headers"> & {
 	body?: Record<string, unknown> | BodyInit;
 
 	method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | AnyString;
 
+	resultStyle?: TBaseResultStyle;
+
 	query?: Record<string, string>;
 
-	stringifier?: <TData>(bodyData: TData) => string;
+	bodySerializer?: <TData>(bodyData: TData) => string;
 
-	parser?: <TData>(responseData: string) => TData;
+	responseParser?: <TData>(responseData: string) => TData;
 
 	headers?: Record<string, string>;
 
@@ -26,7 +28,7 @@ export type BaseConfig<
 
 	defaultErrorMessage?: string;
 
-	shouldThrowErrors?: TBaseShouldThrow;
+	throwOnError?: boolean;
 
 	responseType?: keyof ReturnType<typeof createResponseLookup>;
 
@@ -61,65 +63,55 @@ export type BaseConfig<
 	retryMethods?: Array<"GET" | "POST" | "PATCH" | "DELETE" | AnyString>;
 };
 
-export type FetchConfig<TData, TError, TShouldThrow extends boolean> = BaseConfig<
+export type FetchConfig<TData, TError, TResultStyle extends ResultStyleUnion> = BaseConfig<
 	TData,
 	TError,
-	TShouldThrow
+	TResultStyle
 >;
 
-type ApiSuccessVariant<TData> = {
-	dataInfo: TData;
-	errorInfo: null;
-};
-
-export type ApiErrorVariant<TError> = {
-	dataInfo: null;
-	errorInfo:
-		| {
-				errorName: "HTTPError";
-				message: string;
-				response: Response & { error: TError };
-		  }
-		| {
-				errorName: Required<PossibleErrorType>["name"];
-				message: string;
-		  };
-};
-
-export type GetCallApiResult<TData, TError, TShouldThrow extends boolean> = TShouldThrow extends false
-	? ApiSuccessVariant<TData> | ApiErrorVariant<TError>
-	: TData;
-
-type RawSuccessVariant<TData> = {
+type ApiSuccessShape<TData> = {
 	dataInfo: TData;
 	errorInfo: null;
 	response: Response;
 };
 
-type RawErrorVariant<TError> =
+export type ApiErrorShape<TError> =
 	| {
-			response: Response;
 			dataInfo: null;
 			errorInfo: {
 				errorName: "HTTPError";
 				message: string;
 				response: TError;
 			};
+			response: Response;
 	  }
 	| {
-			response: null;
 			dataInfo: null;
 			errorInfo: {
 				errorName: Required<PossibleErrorType>["name"];
 				message: string;
 			};
+			response: null;
 	  };
 
-export type AbortSignalWithAny = typeof AbortSignal & { any: (signalArray: AbortSignal[]) => AbortSignal };
+type ResultStyleMap<TData = unknown, TError = unknown> = {
+	all: ApiSuccessShape<TData> | ApiErrorShape<TError>;
+	onlySuccess: TData;
+	onlyError: TError;
+	onlyResponse: Response;
+};
 
-export type GetRawCallApiResult<TData, TError, TShouldThrow extends boolean> = TShouldThrow extends false
-	? RawSuccessVariant<TData> | RawErrorVariant<TError>
-	: Response;
+// == Using this double Immediately Indexed Mapped type to get a union of the keys of the object while still showing the full type signature on hover
+export type ResultStyleUnion = {
+	_: { [Key in keyof ResultStyleMap]: Key }[keyof ResultStyleMap] | undefined;
+}["_"];
+
+export type GetCallApiResult<TData, TError, TResultStyle> =
+	TResultStyle extends NonNullable<ResultStyleUnion>
+		? ResultStyleMap<TData, TError>[TResultStyle]
+		: ResultStyleMap<TData, TError>["all"];
+
+export type AbortSignalWithAny = typeof AbortSignal & { any: (signalArray: AbortSignal[]) => AbortSignal };
 
 export type PossibleErrorType = {
 	name?: "AbortError" | "TimeoutError" | "SyntaxError" | "TypeError" | "Error" | "UnknownError";

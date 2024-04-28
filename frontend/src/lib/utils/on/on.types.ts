@@ -9,24 +9,33 @@ export type ElementOrSelectorSingleOrArray<TOptional = never> =
 	| ElementOrSelectorSingle<TOptional>
 	| ElementOrSelectorArray<TOptional>;
 
+type Listener<TEvent extends keyof TNodeEventMap, TNode, TNodeEventMap> = (
+	this: TNode,
+	event: TNodeEventMap[TEvent],
+	cleanup: () => () => void
+) => void;
+
 export type AddHtmlEvents<TEvent extends keyof HTMLElementEventMap = keyof HTMLElementEventMap> = [
 	event: TEvent,
 	element: ElementOrSelectorSingleOrArray<null>,
-	listener: (
-		this: HTMLElement, // == Ts somehow doesn't consider "this" as part of the available params
-		event: HTMLElementEventMap[TEvent]
-	) => void,
+	listener: Listener<TEvent, HTMLElement, HTMLElementEventMap>,
 	options?: boolean | AddEventListenerOptions,
 ];
 
 export type AddWindowEvents<TEvent extends keyof WindowEventMap = keyof WindowEventMap> = [
 	event: TEvent,
 	element: Window,
-	listener: (this: Window, event: WindowEventMap[TEvent]) => void,
+	listener: Listener<TEvent, Window, WindowEventMap>,
 	options?: boolean | AddEventListenerOptions,
 ];
 
-export type AddEventParams = AddHtmlEvents | AddWindowEvents;
+export type AddEventParams = [
+	event: string,
+	element: ElementOrSelectorSingleOrArray<null> | Window,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	listener: (...args: any[]) => void,
+	options?: boolean | AddEventListenerOptions,
+];
 
 export type ON = {
 	<TEvent extends keyof WindowEventMap>(...params: AddWindowEvents<TEvent>): () => void;

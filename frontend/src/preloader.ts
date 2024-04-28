@@ -6,7 +6,7 @@ import { useThemeStore } from "./store/zustand/themeStore";
 useThemeStore.getState().actions.initThemeOnLoad();
 
 // NOTE - Preloader Removal
-const removePreloader = () => {
+const removePreloader = (...[, cleanup]: Parameters<Parameters<typeof on>[2]>) => {
 	const preloaderElement = document.querySelector<HTMLElement>("#preloader");
 
 	if (!preloaderElement) return;
@@ -19,6 +19,8 @@ const removePreloader = () => {
 		preloaderElement.remove();
 		noScrollOnOpen({ isActive: false });
 	});
+
+	cleanup();
 };
 
 on("DOMContentLoaded", window, removePreloader);

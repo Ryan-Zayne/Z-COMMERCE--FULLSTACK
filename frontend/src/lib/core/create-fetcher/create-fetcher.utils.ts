@@ -1,16 +1,7 @@
-import type { PrettyOmit } from "@/lib/type-helpers/global-type-helpers";
 import { isObject } from "@/lib/type-helpers/typeof";
 import { omitKeys } from "@/lib/utils/omitKeys";
-import { parseJSON } from "@/lib/utils/parseJSON";
 import { pickKeys } from "@/lib/utils/pickKeys";
-import { wait } from "@/lib/utils/wait";
-import type {
-	AbortSignalWithAny,
-	BaseConfig,
-	FetchConfig,
-	GetRawCallApiResult,
-	PossibleErrorType,
-} from "./create-fetcher.types";
+import type { BaseConfig } from "./create-fetcher.types";
 
 export const getUrlWithParams = (url: string, params: Record<string, string> | undefined) => {
 	if (!params) {
@@ -32,13 +23,13 @@ export const getUrlWithParams = (url: string, params: Record<string, string> | u
 
 export const createResponseLookup = <TResponse>(
 	response: Response,
-	parser: Required<BaseConfig>["parser"]
+	parser?: Required<BaseConfig>["responseParser"]
 ) => ({
 	json: async () => {
-		const data = parser<TResponse | null>(await response.text());
+		const data = parser<TResponse | null>?.(await response.text());
 
-		// == try native response.json() as last resort of parser fails
-		return data ?? (response.json() as Promise<TResponse>);
+		// == use native response.json() as last resort of parser fails or is specified as null or undefined
+		return (data ?? response.json()) as Promise<TResponse>;
 	},
 	arrayBuffer: () => response.arrayBuffer() as Promise<TResponse>,
 	blob: () => response.blob() as Promise<TResponse>,
@@ -49,7 +40,7 @@ export const createResponseLookup = <TResponse>(
 export const getResponseData = <TResponse>(
 	response: Response,
 	responseType: keyof ReturnType<typeof createResponseLookup>,
-	parser: Required<BaseConfig>["parser"]
+	parser: Required<BaseConfig>["responseParser"]
 ) => {
 	const RESPONSE_LOOKUP = createResponseLookup<TResponse>(response, parser);
 
@@ -98,20 +89,6 @@ export const pickFetchConfig = <TObject extends Record<string, unknown>>(config:
 export const omitFetchConfig = <TObject extends Record<string, unknown>>(config: TObject) =>
 	omitKeys(config, fetchSpecficKeys);
 
-export const defaultOptions = {
-	interceptors: {} as Required<BaseConfig>["interceptors"],
-	stringifier: JSON.stringify,
-	parser: parseJSON,
-	responseType: "json",
-	baseURL: "",
-	retries: 0,
-	retryDelay: 0,
-	retryCodes: defaultRetryCodes,
-	retryMethods: defaultRetryMethods,
-	defaultErrorMessage: "Failed to fetch data from server!",
-	shouldThrowErrors: false,
-} satisfies BaseConfig;
-
 export const isHTTPError = (errorName: unknown): errorName is "HTTPError" => errorName === "HTTPError";
 
 type ErrorDetails<TErrorResponse> = {
@@ -122,7 +99,7 @@ type ErrorDetails<TErrorResponse> = {
 export class HTTPError<TErrorResponse = Record<string, unknown>> extends Error {
 	response: ErrorDetails<TErrorResponse>["response"];
 
-	override name = "HTTPError";
+	override name = "HTTPError" as const;
 
 	isHTTPError = true;
 
@@ -142,243 +119,4 @@ export const isHTTPErrorInstance = <TErrorResponse>(
 		(isObject(error) && error.name === "HTTPError" && error.isHTTPError === true) ||
 		error instanceof HTTPError
 	);
-};
-
-type BaseStuff<TBaseData, TBaseError, TBaseShouldThrow extends boolean> = {
-	baseMethod: Required<BaseConfig>["method"];
-	baseHeaders: BaseConfig["headers"];
-	baseBody: BaseConfig["body"];
-	baseSignal: BaseConfig["signal"];
-	baseExtraOptions: PrettyOmit<
-		BaseConfig<TBaseData, TBaseError, TBaseShouldThrow>,
-		(typeof fetchSpecficKeys)[number]
-	>;
-	restOfBaseFetchConfig: PrettyOmit<
-		Pick<BaseConfig, (typeof fetchSpecficKeys)[number]>,
-		"body" | "signal" | "method" | "headers"
-	>;
-	abortControllerStore: Map<`/${string}`, AbortController>;
-};
-
-export const createRawCallApi = <TBaseData, TBaseError, TBaseShouldThrow extends boolean>(
-	baseStuff: BaseStuff<TBaseData, TBaseError, TBaseShouldThrow>
-) => {
-	const {
-		baseMethod,
-		baseBody,
-		baseSignal,
-		baseHeaders,
-		restOfBaseFetchConfig,
-		baseExtraOptions,
-		abortControllerStore,
-	} = baseStuff;
-
-	const rawCallApi = async <
-		TData = TBaseData,
-		TError = TBaseError,
-		TShouldThrow extends boolean = TBaseShouldThrow,
-	>(
-		url: `/${string}`,
-		config: FetchConfig<TData, TError, TShouldThrow> = {}
-	): Promise<GetRawCallApiResult<TData, TError, TShouldThrow>> => {
-		type RawCallApiResult = GetRawCallApiResult<TData, TError, TShouldThrow>;
-
-		const {
-			method = baseMethod,
-			body = baseBody,
-			headers,
-			signal = baseSignal,
-			...restOfFetchConfig
-		} = pickFetchConfig(config);
-
-		const extraOptions = omitFetchConfig(config);
-
-		const options = {
-			...defaultOptions,
-			...baseExtraOptions,
-			...extraOptions,
-		};
-
-		const prevFetchController = abortControllerStore.get(url);
-
-		if (prevFetchController) {
-			const reason = new DOMException("Cancelled the previous unfinished request", "AbortError");
-			prevFetchController.abort(reason);
-		}
-
-		const fetchController = new AbortController();
-
-		abortControllerStore.set(url, fetchController);
-
-		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
-
-		// ts-expect-error - TS hasn't updated its dom library for AbortSignal to include the any method
-		const combinedSignal = (AbortSignal as AbortSignalWithAny).any([
-			fetchController.signal,
-			timeoutSignal ?? fetchController.signal,
-			signal ?? fetchController.signal,
-		]);
-
-		const request = {
-			signal: combinedSignal,
-
-			method,
-
-			body: isObject(body) ? options.stringifier(body) : body,
-
-			headers: {
-				...(isObject(body) && { "Content-Type": "application/json", Accept: "application/json" }),
-				...baseHeaders,
-				...headers,
-			},
-
-			...restOfBaseFetchConfig,
-			...restOfFetchConfig,
-		};
-
-		try {
-			await options.interceptors.onRequest?.({ request, options });
-
-			const response = await fetch(`${options.baseURL}${getUrlWithParams(url, options.query)}`);
-
-			const retryCodes = new Set(options.retryCodes);
-			const retryMethods = new Set(options.retryMethods);
-
-			const shouldRetry =
-				!combinedSignal.aborted &&
-				options.retries > 0 &&
-				!response.ok &&
-				retryCodes.has(response.status) &&
-				retryMethods.has(method);
-
-			if (shouldRetry) {
-				options.retryDelay > 0 && (await wait(options.retryDelay));
-
-				const updatedConfig = {
-					...config,
-					retries: options.retries - 1,
-				};
-
-				return await rawCallApi(url, updatedConfig);
-			}
-
-			if (!response.ok) {
-				const errorResponse = await getResponseData<TError>(
-					response,
-					options.responseType,
-					options.parser
-				);
-
-				await options.interceptors.onResponseError?.({
-					response: { ...response, error: errorResponse },
-					request,
-					options,
-				});
-
-				throw new HTTPError({
-					response: { ...response, data: errorResponse },
-					defaultErrorMessage: options.defaultErrorMessage,
-				});
-			}
-
-			const successResponse = await getResponseData<TData>(
-				response,
-				options.responseType,
-				options.parser
-			);
-
-			await options.interceptors.onResponse?.({
-				response: { ...response, data: successResponse },
-				request,
-				options,
-			});
-
-			return (
-				options.shouldThrowErrors
-					? response
-					: {
-							response,
-							dataInfo: successResponse,
-							errorInfo: null,
-						}
-			) as RawCallApiResult;
-
-			// Exhaustive Error handling
-		} catch (error) {
-			const handleShouldRethrowError = () => {
-				if (!options.shouldThrowErrors) return;
-
-				throw error;
-			};
-
-			if (error instanceof DOMException && error.name === "TimeoutError") {
-				const message = `Request timed out after ${options.timeout}ms`;
-
-				console.error(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
-
-				handleShouldRethrowError();
-
-				return {
-					response: null,
-					dataInfo: null,
-					errorInfo: {
-						errorName: "TimeoutError",
-						message,
-					},
-				} as RawCallApiResult;
-			}
-
-			if (error instanceof DOMException && error.name === "AbortError") {
-				const message = `Request was cancelled`;
-
-				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
-
-				handleShouldRethrowError();
-
-				return {
-					response: null,
-					dataInfo: null,
-					errorInfo: {
-						errorName: "AbortError",
-						message,
-					},
-				} as RawCallApiResult;
-			}
-
-			if (isHTTPErrorInstance<TError>(error)) {
-				const { data: errorResponse, ...actualResponse } = error.response;
-
-				handleShouldRethrowError();
-
-				return {
-					response: actualResponse,
-					dataInfo: null,
-					errorInfo: {
-						errorName: "HTTPError",
-						response: errorResponse,
-						message: (errorResponse as PossibleErrorType).message ?? options.defaultErrorMessage,
-					},
-				} as RawCallApiResult;
-			}
-
-			await options.interceptors.onRequestError?.({ request, options, error: error as Error });
-
-			handleShouldRethrowError();
-
-			return {
-				response: null,
-				dataInfo: null,
-				errorInfo: {
-					errorName: (error as PossibleErrorType).name ?? "UnknownError",
-					message: (error as PossibleErrorType).message ?? options.defaultErrorMessage,
-				},
-			} as RawCallApiResult;
-
-			// Clean up and remove the now unneeded AbortController from store
-		} finally {
-			abortControllerStore.delete(url);
-		}
-	};
-
-	return rawCallApi;
 };

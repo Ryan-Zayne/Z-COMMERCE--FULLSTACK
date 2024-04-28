@@ -21,7 +21,6 @@ const useGetAllProducts = () => {
 		queries: productQueries.map(({ key, url }) => ({
 			queryKey: [key, { url }],
 			queryFn: () => callDummyApi(url),
-
 			select: transformData,
 		})),
 

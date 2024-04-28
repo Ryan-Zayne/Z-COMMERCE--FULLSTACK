@@ -1,6 +1,7 @@
-import { isFunction } from "@/lib/type-helpers/typeof";
+import { isFunction, isObject } from "@/lib/type-helpers/typeof";
 import { on } from "@/lib/utils/on";
 import { parseJSON } from "@/lib/utils/parseJSON";
+import type { NewStateFn, StoreApi } from "./createStore";
 
 export type StorageOptions<TStorageValue> = {
 	storageArea?: "localStorage" | "sessionStorage";
@@ -33,10 +34,6 @@ const createExternalStorageStore = <TStorageValue>(
 	defaultValue: TStorageValue,
 	options: StorageOptions<TStorageValue> = {}
 ) => {
-	type SetStateAction<TValue> = TValue | ((value: TValue) => TValue) | null;
-
-	type Listener<TValue> = (prevState: TValue | null, newState: TValue | null) => void;
-
 	const {
 		shouldSyncData = true,
 		storageArea = "localStorage",
@@ -83,58 +80,67 @@ const createExternalStorageStore = <TStorageValue>(
 		);
 	};
 
-	const externalStore = {
-		getServerSnapshot: () => defaultValue,
+	const getState = () => parser(selectedStorage.getItem(key)) ?? getInitialStorageValue();
 
-		getSnapshot: () => parser(selectedStorage.getItem(key)) ?? getInitialStorageValue(),
+	const getInitialState = () => defaultValue;
 
-		setState: (newState: SetStateAction<TStorageValue>) => {
-			const { removeState, getSnapshot } = externalStore;
+	const setState: StoreApi<TStorageValue | null>["setState"] = (newState, shouldReplace) => {
+		const previousState = getState();
 
-			if (newState === null) {
-				removeState();
-				return;
-			}
+		const nextState = isFunction<NewStateFn<TStorageValue | null>>(newState)
+			? newState(previousState)
+			: newState;
 
-			const oldValue = rawStorageValue;
+		if (nextState === null) {
+			removeState();
+			return;
+		}
 
-			const newValue = isFunction(newState)
-				? stringifier(newState(getSnapshot()))
-				: stringifier(newState);
+		const oldValue = rawStorageValue;
 
-			rawStorageValue = newValue;
+		const newValue =
+			!shouldReplace && isObject(previousState) && isObject(nextState)
+				? stringifier({ ...previousState, ...nextState })
+				: stringifier(nextState);
 
-			setAndDispatchStorageEvent({
-				eventFn: () => selectedStorage.setItem(key, newValue),
-				key,
-				oldValue,
-				newValue,
-			});
-		},
+		rawStorageValue = newValue;
 
-		subscribe: (onStoreChange: Listener<TStorageValue>) => {
-			const handleStorageStoreChange = (event: StorageEvent) => {
-				// == This would prevent state syncing across tabs if `shouldSyncData` is set to `false`
-				if (!shouldSyncData && window.name !== tabIdActions?.get()) return;
-
-				if (event.key !== key || event.storageArea !== selectedStorage) return;
-
-				if (Object.is(event.oldValue, event.newValue)) return;
-
-				onStoreChange(parser(event.oldValue), parser(event.newValue));
-			};
-
-			const removeStorageEvent = on("storage", window, handleStorageStoreChange);
-
-			return removeStorageEvent;
-		},
-
-		removeState: () => {
-			setAndDispatchStorageEvent({ eventFn: () => selectedStorage.removeItem(key), key });
-		},
+		setAndDispatchStorageEvent({
+			eventFn: () => selectedStorage.setItem(key, newValue),
+			key,
+			oldValue,
+			newValue,
+		});
 	};
 
-	return externalStore;
+	const subscribe: StoreApi<TStorageValue>["subscribe"] = (onStoreChange) => {
+		const handleStorageStoreChange = (event: StorageEvent) => {
+			// == This would prevent state syncing across tabs if `shouldSyncData` is set to `false`
+			if (!shouldSyncData && window.name !== tabIdActions?.get()) return;
+
+			if (event.key !== key || event.storageArea !== selectedStorage) return;
+
+			if (Object.is(event.oldValue, event.newValue)) return;
+
+			onStoreChange(parser(event.oldValue as string), parser(event.newValue as string));
+		};
+
+		const removeStorageEvent = on("storage", window, handleStorageStoreChange);
+
+		return removeStorageEvent;
+	};
+
+	const removeState = () => {
+		setAndDispatchStorageEvent({ eventFn: () => selectedStorage.removeItem(key), key });
+	};
+
+	return {
+		getState,
+		getInitialState,
+		setState,
+		subscribe,
+		removeState,
+	};
 };
 
 export { createExternalStorageStore };

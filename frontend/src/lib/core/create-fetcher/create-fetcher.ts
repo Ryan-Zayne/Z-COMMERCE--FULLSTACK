@@ -1,4 +1,5 @@
 import { isObject } from "@/lib/type-helpers/typeof";
+import { parseJSON } from "@/lib/utils/parseJSON";
 import { wait } from "@/lib/utils/wait";
 import type {
 	AbortSignalWithAny,
@@ -6,11 +7,12 @@ import type {
 	FetchConfig,
 	GetCallApiResult,
 	PossibleErrorType,
+	ResultStyleUnion,
 } from "./create-fetcher.types";
 import {
 	HTTPError,
-	createRawCallApi,
-	defaultOptions,
+	defaultRetryCodes,
+	defaultRetryMethods,
 	getResponseData,
 	getUrlWithParams,
 	isHTTPError,
@@ -19,8 +21,8 @@ import {
 	pickFetchConfig,
 } from "./create-fetcher.utils";
 
-const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean = false>(
-	baseConfig: BaseConfig<TBaseData, TBaseError, TBaseShouldThrow> = {}
+const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultStyleUnion = undefined>(
+	baseConfig: BaseConfig<TBaseData, TBaseError, TBaseResultStyle> = {}
 ) => {
 	const abortControllerStore = new Map<`/${string}`, AbortController>();
 
@@ -37,12 +39,12 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 	const callApi = async <
 		TData = TBaseData,
 		TError = TBaseError,
-		TShouldThrow extends boolean = TBaseShouldThrow,
+		TResultStyle extends ResultStyleUnion = TBaseResultStyle,
 	>(
 		url: `/${string}`,
-		config: FetchConfig<TData, TError, TShouldThrow> = {}
-	): Promise<GetCallApiResult<TData, TError, TShouldThrow>> => {
-		type CallApiResult = GetCallApiResult<TData, TError, TShouldThrow>;
+		config: FetchConfig<TData, TError, TResultStyle> = {}
+	): Promise<GetCallApiResult<TData, TError, TResultStyle>> => {
+		type CallApiResult = GetCallApiResult<TData, TError, TResultStyle>;
 
 		const {
 			method = baseMethod,
@@ -55,10 +57,20 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 		const extraOptions = omitFetchConfig(config);
 
 		const options = {
-			...defaultOptions,
+			interceptors: {} as Required<BaseConfig>["interceptors"],
+			bodySerializer: JSON.stringify,
+			responseParser: parseJSON,
+			responseType: "json",
+			baseURL: "",
+			throwOnError: false,
+			retries: 0,
+			retryDelay: 0,
+			retryCodes: defaultRetryCodes,
+			retryMethods: defaultRetryMethods,
+			defaultErrorMessage: "Failed to fetch data from server!",
 			...baseExtraOptions,
 			...extraOptions,
-		};
+		} satisfies BaseConfig<TBaseData, TBaseError>;
 
 		const prevFetchController = abortControllerStore.get(url);
 
@@ -85,7 +97,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 
 			method,
 
-			body: isObject(body) ? options.stringifier(body) : body,
+			body: isObject(body) ? options.bodySerializer(body) : body,
 
 			headers: {
 				...(isObject(body) && { "Content-Type": "application/json", Accept: "application/json" }),
@@ -127,7 +139,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				const errorResponse = await getResponseData<TError>(
 					response,
 					options.responseType,
-					options.parser
+					options.responseParser
 				);
 
 				await options.interceptors.onResponseError?.({
@@ -145,7 +157,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 			const successResponse = await getResponseData<TData>(
 				response,
 				options.responseType,
-				options.parser
+				options.responseParser
 			);
 
 			await options.interceptors.onResponse?.({
@@ -154,19 +166,46 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				options,
 			});
 
-			return (
-				options.shouldThrowErrors
-					? successResponse
-					: {
-							dataInfo: successResponse,
-							errorInfo: null,
-						}
-			) as CallApiResult;
+			const RESULT_STYLE_LOOKUP = (resultStyle: ResultStyleUnion) => {
+				const apiDetails = {
+					dataInfo: successResponse,
+					errorInfo: null,
+					response: { ...response, data: successResponse },
+				};
+
+				return (
+					!resultStyle
+						? apiDetails
+						: {
+								all: apiDetails,
+								onlySuccess: apiDetails.dataInfo,
+								onlyError: apiDetails.errorInfo,
+								onlyResponse: apiDetails.response,
+							}[resultStyle]
+				) as CallApiResult;
+			};
+
+			return RESULT_STYLE_LOOKUP(options.resultStyle);
 
 			// Exhaustive Error handling
 		} catch (error) {
+			const RESULT_STYLE_LOOKUP = (info: { message?: string; response?: Response }) => {
+				const { message = options.defaultErrorMessage, response } = info;
+
+				const apiDetails = {
+					dataInfo: null,
+					errorInfo: {
+						errorName: (error as PossibleErrorType).name ?? "UnknownError",
+						message,
+					},
+					response: response ?? null,
+				};
+
+				return apiDetails;
+			};
+
 			const handleShouldRethrowError = () => {
-				if (!options.shouldThrowErrors) return;
+				if (!options.throwOnError) return;
 
 				throw error;
 			};
@@ -181,10 +220,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 				return {
 					dataInfo: null,
 					errorInfo: {
-						errorName: "TimeoutError",
+						errorName: error.name,
 						message,
 					},
-				} as CallApiResult;
+					response: null,
+				} as never;
 			}
 
 			if (error instanceof DOMException && error.name === "AbortError") {
@@ -194,27 +234,18 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 
 				handleShouldRethrowError();
 
-				return {
-					dataInfo: null,
-					errorInfo: {
-						errorName: "AbortError",
-						message,
-					},
-				} as CallApiResult;
+				return RESULT_STYLE_LOOKUP({ message }) as CallApiResult;
 			}
 
 			if (isHTTPErrorInstance<TError>(error)) {
+				const { data: errorResponse, ...responseObj } = error.response;
+
 				handleShouldRethrowError();
 
-				return {
-					dataInfo: null,
-					errorInfo: {
-						errorName: "HTTPError",
-						response: error.response,
-						message:
-							(error.response.data as PossibleErrorType).message ?? options.defaultErrorMessage,
-					},
-				} as CallApiResult;
+				return RESULT_STYLE_LOOKUP({
+					message: (errorResponse as PossibleErrorType).message,
+					response: responseObj,
+				}) as CallApiResult;
 			}
 
 			// == At this point only request errors exist
@@ -222,38 +253,17 @@ const createFetcher = <TBaseData, TBaseError, TBaseShouldThrow extends boolean =
 
 			handleShouldRethrowError();
 
-			return {
-				dataInfo: null,
-				errorInfo: {
-					errorName: (error as PossibleErrorType).name ?? "UnknownError",
-					message: (error as PossibleErrorType).message ?? options.defaultErrorMessage,
-				},
-			} as CallApiResult;
-
+			return RESULT_STYLE_LOOKUP({ message: (error as PossibleErrorType).message }) as CallApiResult;
 			// Remove the now unneeded AbortController from store
 		} finally {
 			abortControllerStore.delete(url);
 		}
 	};
 
-	callApi.abort = (url: `/${string}`) => {
-		const controller = abortControllerStore.get(url);
-
-		controller && controller.abort();
-	};
-
+	callApi.abort = (url: `/${string}`) => abortControllerStore.get(url)?.abort();
 	callApi.isHTTPError = isHTTPError;
 	callApi.isHTTPErrorInstance = isHTTPErrorInstance;
 	callApi.native = fetch;
-	callApi.raw = createRawCallApi<TBaseData, TBaseError, TBaseShouldThrow>({
-		baseBody,
-		baseExtraOptions,
-		baseHeaders,
-		baseMethod,
-		baseSignal,
-		restOfBaseFetchConfig,
-		abortControllerStore,
-	});
 
 	return callApi;
 };
