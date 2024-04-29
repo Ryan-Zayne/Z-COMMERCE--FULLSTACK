@@ -7,10 +7,9 @@ import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import ErrorParagraph from "../ErrorParagraph";
+import FormErrorMessage from "../FormErrorMessage";
 import InputGroup from "../InputGroup";
-import type { FormSchemaType } from "./form.types";
-import { submitForm } from "./submitForm";
+import { type FormSchemaType, submitForm } from "./submitForm";
 
 export type FormAreaProps = {
 	formType: "Login" | "Sign Up";
@@ -27,13 +26,7 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 	const [isPasswordShow, togglePasswordShow] = useToggle(false);
 	const [isConfirmPasswordShow, toggleConfirmPasswordShow] = useToggle(false);
 
-	const {
-		reset,
-		setError,
-		register,
-		handleSubmit,
-		formState: { errors, isSubmitting },
-	} = useForm<FormSchemaType>({
+	const { reset, setError, register, handleSubmit, formState } = useForm<FormSchemaType>({
 		resolver: zodResolver(formType === "Sign Up" ? SignUpSchema : LoginSchema),
 	});
 
@@ -47,7 +40,7 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 				[formClasses]
 			)}
 		>
-			{isSubmitting && <LoadingSpinner type={"auth"} />}
+			{formState.isSubmitting && <LoadingSpinner type={"auth"} />}
 
 			{formType === "Sign Up" && (
 				<InputGroup>
@@ -63,10 +56,10 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 						id={`username__${uniqueId}`}
 						className={cnMerge(
 							`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-							errors.username && semanticClasses.error
+							formState.errors.username && semanticClasses.error
 						)}
 					/>
-					{errors.username && <ErrorParagraph message={errors.username.message} />}
+					<FormErrorMessage formState={formState} type="regular" errorField="username" />
 				</InputGroup>
 			)}
 
@@ -83,10 +76,11 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 					id={`email__${uniqueId}`}
 					className={cnMerge(
 						`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-						errors.email && semanticClasses.error
+						formState.errors.email && semanticClasses.error
 					)}
 				/>
-				{errors.email && <ErrorParagraph message={errors.email.message} />}
+
+				<FormErrorMessage formState={formState} type="regular" errorField="email" />
 			</InputGroup>
 
 			<InputGroup className={"relative"}>
@@ -101,10 +95,11 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 					id={`password__${uniqueId}`}
 					className={cnMerge(
 						"min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot",
-						errors.password && semanticClasses.error
+						formState.errors.password && semanticClasses.error
 					)}
 				/>
-				{errors.password && <ErrorParagraph message={errors.password.message} />}
+
+				<FormErrorMessage formState={formState} type="regular" errorField="password" />
 
 				<button
 					className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
@@ -128,10 +123,11 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 						id={`confirmPassword__${uniqueId}`}
 						className={cnMerge(
 							"min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot",
-							errors.confirmPassword && semanticClasses.error
+							formState.errors.confirmPassword && semanticClasses.error
 						)}
 					/>
-					{errors.confirmPassword && <ErrorParagraph message={errors.confirmPassword.message} />}
+
+					<FormErrorMessage formState={formState} type="regular" errorField="confirmPassword" />
 
 					<button
 						className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
@@ -143,19 +139,19 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 				</InputGroup>
 			)}
 
-			{errors.root?.serverError && (
-				<ErrorParagraph
-					className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
-					message={errors.root.serverError.message}
-				/>
-			)}
+			<FormErrorMessage
+				className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
+				formState={formState}
+				type="root"
+				errorField="serverError"
+			/>
 
-			{errors.root?.caughtError && (
-				<ErrorParagraph
-					className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
-					message={errors.root.caughtError.message}
-				/>
-			)}
+			<FormErrorMessage
+				className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
+				formState={formState}
+				type="root"
+				errorField="caughtError"
+			/>
 
 			<InputGroup className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}>
 				<input
@@ -177,7 +173,8 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 								Terms & Conditions
 							</Link>
 						</p>
-						{errors.acceptTerms && <ErrorParagraph message={errors.acceptTerms.message} />}
+
+						<FormErrorMessage formState={formState} type="regular" errorField="acceptTerms" />
 					</>
 				)}
 			</InputGroup>
@@ -186,10 +183,10 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 				type={"submit"}
 				text={formType}
 				theme={"secondary"}
-				disabled={isSubmitting}
+				disabled={formState.isSubmitting}
 				className={cnMerge(
 					"mt-[1.5rem] rounded-[1rem] text-[1.7rem] font-[600]",
-					isSubmitting && "cursor-not-allowed brightness-[0.5]"
+					formState.isSubmitting && "cursor-not-allowed brightness-[0.5]"
 				)}
 			/>
 		</form>

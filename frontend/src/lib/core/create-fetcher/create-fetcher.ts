@@ -7,7 +7,7 @@ import type {
 	ExtraOptions,
 	FetchConfig,
 	GetCallApiResult,
-	PossibleErrorType,
+	PossibleError,
 	ResultStyleUnion,
 } from "./create-fetcher.types";
 import {
@@ -15,16 +15,16 @@ import {
 	defaultRetryCodes,
 	defaultRetryMethods,
 	getResponseData,
-	getUrlWithParams,
 	isHTTPError,
 	isHTTPErrorInstance,
+	mergeUrlWithParams,
 	objectifyHeaders,
 	omitFetchConfig,
 	pickFetchConfig,
 } from "./create-fetcher.utils";
 
-const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultStyleUnion = undefined>(
-	baseConfig: BaseConfig<TBaseData, TBaseError, TBaseResultStyle> = {}
+const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends ResultStyleUnion = undefined>(
+	baseConfig: BaseConfig<TBaseData, TBaseErrorData, TBaseResultStyle> = {}
 ) => {
 	const abortControllerStore = new Map<`/${string}`, AbortController>();
 
@@ -40,14 +40,14 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 
 	const callApi = async <
 		TData = TBaseData,
-		TError = TBaseError,
+		TErrorData = TBaseErrorData,
 		TResultStyle extends ResultStyleUnion = TBaseResultStyle,
 	>(
 		url: `/${string}`,
-		config: FetchConfig<TData, TError, TResultStyle> = {}
-	): Promise<GetCallApiResult<TData, TError, TResultStyle>> => {
-		// == This type is used to cast all return statements due to a design limitation in ts. Casting as intersection of all props in the resultmap could work too, or it resultant "never" could work too!. See https://www.zhenghao.io/posts/type-functions for more info
-		type CallApiResult = GetCallApiResult<TData, TError, TResultStyle>;
+		config: FetchConfig<TData, TErrorData, TResultStyle> = {}
+	): Promise<GetCallApiResult<TData, TErrorData, TResultStyle>> => {
+		// == This type is used to cast all return statements due to a design limitation in ts. Casting as intersection of all props in the resultmap could work too, or it resultant "never" could work too!. //LINK - See https://www.zhenghao.io/posts/type-functions for more info
+		type CallApiResult = GetCallApiResult<TData, TErrorData, TResultStyle>;
 
 		const {
 			method = baseMethod,
@@ -87,22 +87,24 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
 
-		// ts-expect-error - TS hasn't updated its dom library for AbortSignal to include the any method
+		// FIXME -  Remove this type cast once TS updates its libdom types for AbortSignal to include the any() method
 		const combinedSignal = (AbortSignal as AbortSignalWithAny).any([
 			fetchController.signal,
 			timeoutSignal ?? fetchController.signal,
 			signal ?? fetchController.signal,
 		]);
 
-		const request = {
+		const requestInit = {
 			signal: combinedSignal,
 
 			method,
 
 			body: isObject(body) ? options.bodySerializer(body) : body,
 
+			// == Return undefined if there are no headers or if the body is not an object
 			headers:
-				baseHeaders ?? headers
+				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+				baseHeaders || headers || isObject(body)
 					? {
 							...(isObject(body) && {
 								"Content-Type": "application/json",
@@ -118,11 +120,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 		};
 
 		try {
-			await options.interceptors.onRequest?.({ request, options });
+			await options.interceptors.onRequest?.({ request: requestInit, options });
 
 			const response = await fetch(
-				`${options.baseURL}${getUrlWithParams(url, options.query)}`,
-				request
+				`${options.baseURL}${mergeUrlWithParams(url, options.query)}`,
+				requestInit
 			);
 
 			const retryCodes = new Set(options.retryCodes);
@@ -138,30 +140,25 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 			if (shouldRetry) {
 				options.retryDelay > 0 && (await wait(options.retryDelay));
 
-				const updatedConfig = {
-					...config,
-					retries: options.retries - 1,
-				};
-
-				return await callApi(url, updatedConfig);
+				return await callApi(url, { ...config, retries: options.retries - 1 });
 			}
 
 			if (!response.ok) {
-				const errorResponse = await getResponseData<TError>(
+				const errorData = await getResponseData<TErrorData>(
 					response,
 					options.responseType,
 					options.responseParser
 				);
 
 				await options.interceptors.onResponseError?.({
-					response: { ...response, error: errorResponse },
-					request,
+					response: { ...response, errorData },
+					request: requestInit,
 					options,
 				});
 
 				// == Pushing all error handling responsbility to catch
 				throw new HTTPError({
-					response: { ...response, data: errorResponse },
+					response: { ...response, errorData },
 					defaultErrorMessage: options.defaultErrorMessage,
 				});
 			}
@@ -174,56 +171,61 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 
 			await options.interceptors.onResponse?.({
 				response: { ...response, data: successResponse },
-				request,
+				request: requestInit,
 				options,
 			});
 
-			const RESULT_STYLE_LOOKUP = (resultStyle: ResultStyleUnion) => {
+			const resolveSuccessResult = (): CallApiResult => {
 				const apiDetails = {
 					dataInfo: successResponse,
 					errorInfo: null,
 					response: { ...response, data: successResponse },
 				};
 
-				return (
-					!resultStyle
-						? apiDetails
-						: {
-								all: apiDetails,
-								onlySuccess: apiDetails.dataInfo,
-								onlyError: apiDetails.errorInfo,
-								onlyResponse: apiDetails.response,
-							}[resultStyle]
-				) as CallApiResult;
+				if (!options.resultStyle) {
+					return apiDetails as CallApiResult;
+				}
+
+				return {
+					all: apiDetails,
+					onlySuccess: apiDetails.dataInfo,
+					onlyError: apiDetails.errorInfo,
+					onlyResponse: apiDetails.response,
+				}[options.resultStyle] as CallApiResult;
 			};
 
-			return RESULT_STYLE_LOOKUP(options.resultStyle);
+			return resolveSuccessResult();
 
 			// == Exhaustive Error handling
 		} catch (error) {
-			const RESULT_STYLE_LOOKUP = (info: { message?: string; response?: Response }) => {
-				const { message = options.defaultErrorMessage, response } = info;
-
-				const apiDetails = {
-					dataInfo: null,
-					errorInfo: {
-						errorName: (error as PossibleErrorType).name ?? "UnknownError",
-						message,
-					},
-					response: response ?? null,
-				};
-
-				return apiDetails;
+			type Info = {
+				message?: string;
+				errorData?: unknown;
+				response?: Response;
 			};
 
-			const handleShouldRethrowError = () => {
+			const resolveErrorResult = (info: Info = {}): CallApiResult => {
 				const shouldThrowOnError = isFunction(options.throwOnError)
 					? options.throwOnError(error as Error)
 					: options.throwOnError;
 
-				if (!shouldThrowOnError) return;
+				if (shouldThrowOnError) {
+					throw error;
+				}
 
-				throw error;
+				const { message, response, errorData } = info;
+
+				const apiDetails = {
+					dataInfo: null,
+					errorInfo: {
+						errorName: (error as PossibleError).name ?? "UnknownError",
+						...(Boolean(errorData) && { errorData }),
+						message: message ?? (error as PossibleError).message ?? options.defaultErrorMessage,
+					},
+					response: response ?? null,
+				};
+
+				return apiDetails as CallApiResult;
 			};
 
 			if (error instanceof DOMException && error.name === "TimeoutError") {
@@ -231,16 +233,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 
 				console.info(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				handleShouldRethrowError();
-
-				return {
-					dataInfo: null,
-					errorInfo: {
-						errorName: error.name,
-						message,
-					},
-					response: null,
-				} as never;
+				return resolveErrorResult({ message });
 			}
 
 			if (error instanceof DOMException && error.name === "AbortError") {
@@ -248,28 +241,27 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 
 				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-				handleShouldRethrowError();
-
-				return RESULT_STYLE_LOOKUP({ message }) as CallApiResult;
+				return resolveErrorResult({ message });
 			}
 
-			if (isHTTPErrorInstance<TError>(error)) {
-				const { data: errorResponse, ...responseObj } = error.response;
+			if (isHTTPErrorInstance<TErrorData>(error)) {
+				const { errorData, ...responseObj } = error.response;
 
-				handleShouldRethrowError();
-
-				return RESULT_STYLE_LOOKUP({
-					message: (errorResponse as PossibleErrorType).message,
+				return resolveErrorResult({
+					errorData,
+					message: (errorData as PossibleError | null)?.message,
 					response: responseObj,
-				}) as CallApiResult;
+				});
 			}
 
-			// == At this point only request errors exist
-			await options.interceptors.onRequestError?.({ request, options, error: error as Error });
+			await options.interceptors.onRequestError?.({
+				request: requestInit,
+				error: error as Error,
+				options,
+			});
 
-			handleShouldRethrowError();
+			return resolveErrorResult();
 
-			return RESULT_STYLE_LOOKUP({ message: (error as PossibleErrorType).message }) as CallApiResult;
 			// Remove the now unneeded AbortController from store
 		} finally {
 			abortControllerStore.delete(url);

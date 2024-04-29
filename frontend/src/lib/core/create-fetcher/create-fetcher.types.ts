@@ -8,14 +8,12 @@ import type {
 
 export type ExtraOptions<
 	TBaseData = unknown,
-	TBaseError = unknown,
-	TBaseResultStyle extends ResultStyleUnion = undefined,
+	TBaseErrorData = unknown,
+	TBaseResultStyle extends ResultStyleUnion = ResultStyleUnion,
 > = {
 	body?: Record<string, unknown> | RequestInit["body"];
 
 	method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | AnyString;
-
-	resultStyle?: TBaseResultStyle;
 
 	query?: Record<string, string>;
 
@@ -23,13 +21,15 @@ export type ExtraOptions<
 
 	responseParser?: <TData>(responseData: string) => TData;
 
+	resultStyle?: TBaseResultStyle;
+
 	baseURL?: string;
 
 	timeout?: number;
 
 	defaultErrorMessage?: string;
 
-	throwOnError?: boolean | ((error?: Error | HTTPError<TBaseError>) => boolean);
+	throwOnError?: boolean | ((error?: Error | HTTPError<TBaseErrorData>) => boolean);
 
 	responseType?: keyof ReturnType<typeof createResponseLookup>;
 
@@ -51,8 +51,8 @@ export type ExtraOptions<
 			options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
 		}) => void | Promise<void>;
 
-		onResponseError?: <TError = TBaseError>(errorContext: {
-			response: Response & { error: TError };
+		onResponseError?: <TErrorData = TBaseErrorData>(errorContext: {
+			response: Response & { errorData: TErrorData };
 			request: ReturnType<typeof pickFetchConfig<BaseConfig>>;
 			options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
 		}) => void | Promise<void>;
@@ -66,13 +66,13 @@ export type ExtraOptions<
 
 export type BaseConfig<
 	TBaseData = unknown,
-	TBaseError = unknown,
+	TBaseErrorData = unknown,
 	TBaseResultStyle extends ResultStyleUnion = undefined,
-> = Omit<RequestInit, "method" | "body"> & ExtraOptions<TBaseData, TBaseError, TBaseResultStyle>;
+> = Omit<RequestInit, "method" | "body"> & ExtraOptions<TBaseData, TBaseErrorData, TBaseResultStyle>;
 
-export type FetchConfig<TData, TError, TResultStyle extends ResultStyleUnion> = BaseConfig<
+export type FetchConfig<TData, TErrorData, TResultStyle extends ResultStyleUnion> = BaseConfig<
 	TData,
-	TError,
+	TErrorData,
 	TResultStyle
 >;
 
@@ -82,29 +82,29 @@ type ApiSuccessShape<TData> = {
 	response: Response;
 };
 
-export type ApiErrorShape<TError> =
+export type ApiErrorShape<TErrorData> =
 	| {
 			dataInfo: null;
 			errorInfo: {
 				errorName: "HTTPError";
 				message: string;
-				response: TError;
+				response: TErrorData;
 			};
 			response: Response;
 	  }
 	| {
 			dataInfo: null;
 			errorInfo: {
-				errorName: Required<PossibleErrorType>["name"];
+				errorName: Required<PossibleError>["name"];
 				message: string;
 			};
 			response: null;
 	  };
 
-type ResultStyleMap<TData = unknown, TError = unknown> = {
-	all: ApiSuccessShape<TData> | ApiErrorShape<TError>;
+type ResultStyleMap<TData = unknown, TErrorData = unknown> = {
+	all: ApiSuccessShape<TData> | ApiErrorShape<TErrorData>;
 	onlySuccess: TData;
-	onlyError: TError;
+	onlyError: TErrorData;
 	onlyResponse: Response;
 };
 
@@ -113,14 +113,14 @@ export type ResultStyleUnion = {
 	_: { [Key in keyof ResultStyleMap]: Key }[keyof ResultStyleMap] | undefined;
 }["_"];
 
-export type GetCallApiResult<TData, TError, TResultStyle> =
+export type GetCallApiResult<TData, TErrorData, TResultStyle> =
 	TResultStyle extends NonNullable<ResultStyleUnion>
-		? ResultStyleMap<TData, TError>[TResultStyle]
-		: ResultStyleMap<TData, TError>["all"];
+		? ResultStyleMap<TData, TErrorData>[TResultStyle]
+		: ResultStyleMap<TData, TErrorData>["all"];
 
 export type AbortSignalWithAny = typeof AbortSignal & { any: (signalArray: AbortSignal[]) => AbortSignal };
 
-export type PossibleErrorType = {
+export type PossibleError = {
 	name?: "AbortError" | "TimeoutError" | "SyntaxError" | "TypeError" | "Error" | "UnknownError";
 	message?: string;
 };

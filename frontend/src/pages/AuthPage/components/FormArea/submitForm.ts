@@ -1,9 +1,12 @@
 import { callMainApi } from "@/lib/api/callMainApi";
+import type { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open";
 import type { UseFormReset, UseFormSetError } from "react-hook-form";
 import type { NavigateFunction } from "react-router-dom";
+import { z } from "zod";
 import type { FormAreaProps } from "./FormArea";
-import type { FormSchemaType } from "./form.types";
+
+export type FormSchemaType = z.infer<typeof SignUpSchema> & z.infer<typeof LoginSchema>;
 
 type SubmitFormParams = {
 	formType: FormAreaProps["formType"];

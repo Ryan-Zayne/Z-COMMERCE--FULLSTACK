@@ -4,10 +4,10 @@ import type {
 	AbegSuccessResponse,
 	BaseRequestConfig,
 	CallAbegApiResult,
-} from "./create-fetcher.types";
-import { getResponseData } from "./create-fetcher.utils";
+} from "./create-abeg-fetcher.types";
+import { getResponseData } from "./create-abeg-fetcher.utils";
 
-const createFetcher = <TBaseData, TBaseError>(baseConfig: BaseRequestConfig) => {
+const createFetcher = <TBaseData, TBaseErrorData>(baseConfig: BaseRequestConfig) => {
 	const {
 		baseURL,
 		timeout,
@@ -21,11 +21,11 @@ const createFetcher = <TBaseData, TBaseError>(baseConfig: BaseRequestConfig) => 
 
 	let controller: AbortController;
 
-	const callApi = async <TData = TBaseData, TError = TBaseError>(
+	const callApi = async <TData = TBaseData, TErrorData = TBaseErrorData>(
 		url: `/${string}`,
 		bodyData?: Record<string, unknown> | FormData,
 		signal?: AbortSignal
-	): CallAbegApiResult<TData, TError> => {
+	): CallAbegApiResult<TData, TErrorData> => {
 		const prevController = abortControllerStore.get(url);
 
 		if (prevController) {
@@ -64,7 +64,7 @@ const createFetcher = <TBaseData, TBaseError>(baseConfig: BaseRequestConfig) => 
 
 			// == Response has http errors
 			if (!response.ok) {
-				const errorResponse = await getResponseData<AbegErrorResponse<TError>>(response);
+				const errorResponse = await getResponseData<AbegErrorResponse<TErrorData>>(response);
 
 				await onResponseError?.({ ...response, response: errorResponse });
 

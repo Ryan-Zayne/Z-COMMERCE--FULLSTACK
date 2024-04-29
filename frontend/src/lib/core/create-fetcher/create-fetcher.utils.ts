@@ -3,7 +3,7 @@ import { omitKeys } from "@/lib/utils/omitKeys";
 import { pickKeys } from "@/lib/utils/pickKeys";
 import type { BaseConfig, ExtraOptions } from "./create-fetcher.types";
 
-export const getUrlWithParams = (url: string, params: Record<string, string> | undefined) => {
+export const mergeUrlWithParams = (url: string, params: Record<string, string> | undefined): string => {
 	if (!params) {
 		return url;
 	}
@@ -21,16 +21,12 @@ export const getUrlWithParams = (url: string, params: Record<string, string> | u
 	return `${url}&${paramsString}`;
 };
 
-export const objectifyHeaders = (headers: RequestInit["headers"]) => {
-	if (headers instanceof Headers) {
-		return Object.fromEntries(headers.entries());
+export const objectifyHeaders = (headers: RequestInit["headers"]): Record<string, string> | undefined => {
+	if (!headers || isObject(headers)) {
+		return headers;
 	}
 
-	if (isArray(headers)) {
-		return Object.fromEntries(headers);
-	}
-
-	return headers;
+	return Object.fromEntries(isArray(headers) ? headers : headers.entries());
 };
 
 export const createResponseLookup = <TResponse>(
@@ -104,7 +100,7 @@ export const omitFetchConfig = <TObject extends Record<string, unknown>>(config:
 export const isHTTPError = (errorName: unknown): errorName is "HTTPError" => errorName === "HTTPError";
 
 type ErrorDetails<TErrorResponse> = {
-	response: Response & { data: TErrorResponse };
+	response: Response & { errorData: TErrorResponse };
 	defaultErrorMessage: string;
 };
 

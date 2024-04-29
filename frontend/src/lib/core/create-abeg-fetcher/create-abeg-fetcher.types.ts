@@ -13,14 +13,14 @@ export type AbegErrorResponse<TErrorResponse = Record<string, unknown>> = {
 };
 
 // Resolved Resoponse Details
-type AbegResponseDetails<TData, TError = Record<string, string[]>> =
+type AbegResponseDetails<TData, TErrorData = Record<string, string[]>> =
 	| {
 			data: AbegSuccessResponse<TData>;
 			error: null;
 	  }
 	| {
 			data: null;
-			error: AbegErrorResponse<TError>;
+			error: AbegErrorResponse<TErrorData>;
 	  };
 
 export type BaseRequestConfig = Pick<RequestInit, "headers" | "credentials"> & {
@@ -47,14 +47,14 @@ export type BaseRequestConfig = Pick<RequestInit, "headers" | "credentials"> & {
 	/**
 	 * Intercept the response and perform some action when an http error occurs.
 	 */
-	onResponseError?: <TError>(
+	onResponseError?: <TErrorData>(
 		errorResponseObj: Response & {
-			response: AbegErrorResponse<TError>;
+			response: AbegErrorResponse<TErrorData>;
 		}
 	) => Promise<void> | void;
 };
 
 // CallApi function return type (Response details Object wrapped in a promise)
-export type CallAbegApiResult<TData, TError = Record<string, string[]>> = Promise<
-	AbegResponseDetails<TData, TError>
+export type CallAbegApiResult<TData, TErrorData = Record<string, string[]>> = Promise<
+	AbegResponseDetails<TData, TErrorData>
 >;

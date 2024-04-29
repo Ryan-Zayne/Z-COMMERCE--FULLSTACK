@@ -1,6 +1,6 @@
 import { assertENV } from "@/lib/type-helpers/assert";
 import { toast } from "react-hot-toast";
-import { createFetcher } from "./create-fetcher";
+import { createFetcher } from "./create-abeg-fetcher";
 
 const BACKEND_API = assertENV(process.env.NEXT_PUBLIC_BACKEND_URL, {
 	message: "Please add the NEXT_PUBLIC_BACKEND_API variable to your .env file",
