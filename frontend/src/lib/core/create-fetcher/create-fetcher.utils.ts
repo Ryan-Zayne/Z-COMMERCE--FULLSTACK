@@ -1,4 +1,4 @@
-import { isObject } from "@/lib/type-helpers/typeof";
+import { isArray, isObject } from "@/lib/type-helpers/typeof";
 import { omitKeys } from "@/lib/utils/omitKeys";
 import { pickKeys } from "@/lib/utils/pickKeys";
 import type { BaseConfig, ExtraOptions } from "./create-fetcher.types";
@@ -19,6 +19,18 @@ export const getUrlWithParams = (url: string, params: Record<string, string> | u
 	}
 
 	return `${url}&${paramsString}`;
+};
+
+export const objectifyHeaders = (headers: RequestInit["headers"]) => {
+	if (headers instanceof Headers) {
+		return Object.fromEntries(headers.entries());
+	}
+
+	if (isArray(headers)) {
+		return Object.fromEntries(headers);
+	}
+
+	return headers;
 };
 
 export const createResponseLookup = <TResponse>(

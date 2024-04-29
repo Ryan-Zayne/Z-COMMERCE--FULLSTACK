@@ -1,4 +1,4 @@
-import { isArray, isFunction, isObject } from "@/lib/type-helpers/typeof";
+import { isFunction, isObject } from "@/lib/type-helpers/typeof";
 import { parseJSON } from "@/lib/utils/parseJSON";
 import { wait } from "@/lib/utils/wait";
 import type {
@@ -18,6 +18,7 @@ import {
 	getUrlWithParams,
 	isHTTPError,
 	isHTTPErrorInstance,
+	objectifyHeaders,
 	omitFetchConfig,
 	pickFetchConfig,
 } from "./create-fetcher.utils";
@@ -101,18 +102,16 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 			body: isObject(body) ? options.bodySerializer(body) : body,
 
 			headers:
-				isObject(baseHeaders) && isObject(headers)
+				baseHeaders ?? headers
 					? {
 							...(isObject(body) && {
 								"Content-Type": "application/json",
 								Accept: "application/json",
 							}),
-							...baseHeaders,
-							...headers,
+							...objectifyHeaders(baseHeaders),
+							...objectifyHeaders(headers),
 						}
-					: isArray(baseHeaders) && isArray(headers)
-						? [...baseHeaders, ...headers]
-						: undefined,
+					: undefined,
 
 			...restOfBaseFetchConfig,
 			...restOfFetchConfig,
@@ -160,6 +159,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 					options,
 				});
 
+				// == Pushing all error handling responsbility to catch
 				throw new HTTPError({
 					response: { ...response, data: errorResponse },
 					defaultErrorMessage: options.defaultErrorMessage,
@@ -199,7 +199,7 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 
 			return RESULT_STYLE_LOOKUP(options.resultStyle);
 
-			// Exhaustive Error handling
+			// == Exhaustive Error handling
 		} catch (error) {
 			const RESULT_STYLE_LOOKUP = (info: { message?: string; response?: Response }) => {
 				const { message = options.defaultErrorMessage, response } = info;
@@ -218,10 +218,11 @@ const createFetcher = <TBaseData, TBaseError, TBaseResultStyle extends ResultSty
 
 			const handleShouldRethrowError = () => {
 				const shouldThrowOnError = isFunction(options.throwOnError)
-					? isHTTPErrorInstance<TError & TBaseError>(error) && options.throwOnError(error)
+					? options.throwOnError(error as Error)
 					: options.throwOnError;
 
 				if (!shouldThrowOnError) return;
+
 				throw error;
 			};
 

@@ -29,7 +29,7 @@ export type ExtraOptions<
 
 	defaultErrorMessage?: string;
 
-	throwOnError?: boolean | ((error?: HTTPError<TBaseError>) => boolean);
+	throwOnError?: boolean | ((error?: Error | HTTPError<TBaseError>) => boolean);
 
 	responseType?: keyof ReturnType<typeof createResponseLookup>;
 
