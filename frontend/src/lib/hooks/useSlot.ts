@@ -8,11 +8,8 @@ const isSlotElement = (child: React.ReactNode, SlotWrapper: React.ElementType) =
 		return false;
 	}
 
-	const childSlotName = (child as NoopWithSlot).slot;
-	const wrapperSlotName = (SlotWrapper as NoopWithSlot).slot;
-
-	if (typeof childSlotName === "string" && typeof wrapperSlotName === "string") {
-		return childSlotName === wrapperSlotName;
+	if ((SlotWrapper as NoopWithSlot).slot) {
+		return (child.type as NoopWithSlot).slot === (SlotWrapper as NoopWithSlot).slot;
 	}
 
 	if (child.type === SlotWrapper) {

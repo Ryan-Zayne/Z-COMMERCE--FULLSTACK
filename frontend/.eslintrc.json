@@ -95,6 +95,10 @@
 		"@typescript-eslint/non-nullable-type-assertion-style": "off",
 		"@typescript-eslint/no-use-before-define": "off",
 		"@typescript-eslint/method-signature-style": ["error", "property"],
+		"@typescript-eslint/restrict-template-expressions": [
+			"error",
+			{ "allowNumber": true, "allowNullish": true, "allowBoolean": true }
+		],
 
 		// Airbnb-config/React plugin rules
 		"import/extensions": ["error", "never"],

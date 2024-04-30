@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"lib": ["ESNext", "DOM", "DOM.Iterable"],
-		"module": "ESNext",
+		"module": "Preserve",
 		"skipLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
