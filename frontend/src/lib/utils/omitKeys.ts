@@ -1,12 +1,5 @@
-import type { Prettify, Writeable } from "../type-helpers/global-type-helpers";
-
-type PrettifyOmitResult<
-	TObject extends Record<string, unknown>,
-	TOmitArray extends Array<keyof TObject>,
-> = Prettify<Writeable<Omit<TObject, TOmitArray[number]>>>;
-
 export const omitKeys = <
-	const TObject extends Record<string, unknown>,
+	TObject extends Record<string, unknown>,
 	const TOmitArray extends Array<keyof TObject>,
 >(
 	initialObject: TObject,
@@ -20,11 +13,11 @@ export const omitKeys = <
 
 	const updatedObject = Object.fromEntries(arrayFromFilteredObject);
 
-	return updatedObject as PrettifyOmitResult<TObject, TOmitArray>;
+	return updatedObject as Omit<TObject, keyof TOmitArray>;
 };
 
 export const omitKeysWithReduce = <
-	const TObject extends Record<string, unknown>,
+	TObject extends Record<string, unknown>,
 	const TOmitArray extends Array<keyof TObject>,
 >(
 	initialObject: TObject,
@@ -42,11 +35,11 @@ export const omitKeysWithReduce = <
 		return accumulator;
 	}, {});
 
-	return updatedObject as PrettifyOmitResult<TObject, TOmitArray>;
+	return updatedObject as Omit<TObject, keyof TOmitArray>;
 };
 
 export const omitKeysWithLoop = <
-	const TObject extends Record<string, unknown>,
+	TObject extends Record<string, unknown>,
 	const TOmitArray extends Array<keyof TObject>,
 >(
 	initialObject: TObject,
@@ -60,5 +53,5 @@ export const omitKeysWithLoop = <
 		!keysToOmitSet.has(key) && (updatedObject[key] = value);
 	}
 
-	return updatedObject as PrettifyOmitResult<TObject, TOmitArray>;
+	return updatedObject as Omit<TObject, keyof TOmitArray>;
 };

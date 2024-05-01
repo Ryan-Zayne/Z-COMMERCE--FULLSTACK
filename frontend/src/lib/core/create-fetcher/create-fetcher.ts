@@ -87,7 +87,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
 
-		// FIXME -  Remove this type cast once TS updates its libdom types for AbortSignal to include the any() method
+		// FIXME -   Remove this type cast once TS updates its libdom types for AbortSignal to include the any() method
 		const combinedSignal = (AbortSignal as AbortSignalWithAny).any([
 			fetchController.signal,
 			timeoutSignal ?? fetchController.signal,

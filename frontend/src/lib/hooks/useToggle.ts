@@ -5,9 +5,9 @@ type InitialState = boolean | (() => boolean);
 const useToggle = (initialValue: InitialState = false) => {
 	const [value, setValue] = useState(initialValue);
 
-	const toggle = useCallback(<TValue>(booleanValue?: TValue) => {
-		if (typeof booleanValue === "boolean") {
-			setValue(booleanValue);
+	const toggle = useCallback(<TValue>(newValue?: TValue) => {
+		if (typeof newValue === "boolean") {
+			setValue(newValue);
 			return;
 		}
 
@@ -18,4 +18,3 @@ const useToggle = (initialValue: InitialState = false) => {
 };
 
 export { useToggle };
-

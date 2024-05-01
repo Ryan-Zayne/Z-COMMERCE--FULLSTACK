@@ -18,9 +18,9 @@ export const useDebouncedFn = <TParams>(callBackFn: CallbackFn<TParams>, delay: 
 export const useDebouncedState = <TValue>(defaultValue: TValue, delay: number | undefined) => {
 	const [value, setValue] = useState(defaultValue);
 
-	const setDebouncedValue = useConstant(() => debounce((newValue: TValue) => setValue(newValue), delay));
+	const setDebouncedValue = useConstant(() => debounce(setValue, delay));
 
 	useUnmountEffect(() => setDebouncedValue.cancelTimeout());
 
-	return [value, setDebouncedValue] as const;
+	return [value, setDebouncedValue, setValue] as const;
 };

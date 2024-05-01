@@ -1,8 +1,9 @@
 import { cnMerge } from "@/lib/utils/cn";
 import { forwardRef } from "react";
+import { Slot } from "./Slot";
 
 export type ButtonProps = React.ComponentPropsWithRef<"button"> & {
-	/* eslint-disable no-use-before-define */
+	asChild?: boolean;
 	theme?: keyof typeof semanticClasses.themes;
 	variant?: keyof typeof semanticClasses.variants;
 	size?: keyof typeof semanticClasses.sizes;
@@ -34,6 +35,7 @@ const semanticClasses = {
 
 function Button(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) {
 	const {
+		asChild,
 		children,
 		className = "",
 		theme = "ghost",
@@ -51,10 +53,12 @@ function Button(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) 
 		className
 	);
 
+	const Component = asChild ? Slot : "button";
+
 	return (
-		<button ref={ref} className={BTN_CLASSES} {...otherValidBtnProps}>
+		<Component ref={ref} className={BTN_CLASSES} {...otherValidBtnProps}>
 			{children ?? text}
-		</button>
+		</Component>
 	);
 }
 

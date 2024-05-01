@@ -1,10 +1,3 @@
-import type { Prettify, Writeable } from "../type-helpers/global-type-helpers";
-
-type PrettifyPickResult<
-	TObject extends Record<string, unknown>,
-	TOmitArray extends Array<keyof TObject>,
-> = Prettify<Writeable<Pick<TObject, TOmitArray[number]>>>;
-
 /**
  * Generates a new object by picking specified keys from an initial object.
  *
@@ -24,7 +17,7 @@ const pickKeys = <TObject extends Record<string, unknown>, const TPickArray exte
 
 	const updatedObject = Object.fromEntries(filteredArray);
 
-	return updatedObject as PrettifyPickResult<TObject, TPickArray>;
+	return updatedObject as Pick<TObject, TPickArray[number]>;
 };
 
 export { pickKeys };

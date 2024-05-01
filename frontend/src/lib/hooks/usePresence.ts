@@ -1,13 +1,26 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { on } from "../utils/on";
 import { useCallbackRef } from "./useCallbackRef";
 import { useDebouncedState } from "./useDebounce";
+import { useToggle } from "./useToggle";
 
-type UsePresenceOptions = {
+type UsePresenceOptions<TDuration extends number | undefined> = {
 	defaultValue?: boolean;
-	duration?: number;
+	duration?: TDuration;
 	callbackFn?: () => void;
 };
+
+type UsePresenceResult<TElement, TDuration> = {
+	_: {
+		isPresent: boolean;
+		isVisible: boolean;
+		toggleIsShown: ReturnType<typeof useToggle>[1];
+	} & (TDuration extends undefined ? { elementRef: React.RefObject<TElement> } : unknown);
+}["_"];
+
+type UsePresence = <TElement extends HTMLElement, TDuration extends number | undefined = undefined>(
+	options?: UsePresenceOptions<TDuration>
+) => UsePresenceResult<TElement, TDuration>;
 
 /**
  *  usePresence hook provides a way to animate an element, before removing it from the DOM.
@@ -19,41 +32,60 @@ type UsePresenceOptions = {
  *
  * @returns A tuple containing the boolean that should be used to show and hide the element state and a function to toggle the presence state.
  */
-const usePresence = (options: UsePresenceOptions) => {
-	const { defaultValue = true, duration = 150, callbackFn } = options;
+const usePresence: UsePresence = (options = {}) => {
+	const { defaultValue = true, duration, callbackFn } = options;
 
-	const [isPresent, setIsPresent] = useDebouncedState(defaultValue, duration);
+	const [isShown, toggleIsShown] = useToggle(defaultValue);
+	const [isMounted, setDebouncedIsMounted, setIsMounted] = useDebouncedState(defaultValue, duration);
 
-	const animatedElementRef = useRef<HTMLElement>(null);
+	const elementRef = useRef<HTMLElement>(null);
 
-	const savedCallback = useCallbackRef(callbackFn);
+	const stableCallback = useCallbackRef(callbackFn);
 
-	useLayoutEffect(() => {
-		if (!animatedElementRef.current) return;
+	useEffect(() => {
+		if (!duration) return;
 
-		const element = animatedElementRef.current;
+		if (isShown) {
+			setIsMounted(true);
+			return;
+		}
 
-		const handlePresence = () => {
-			setIsPresent.cancelTimeout();
-			setIsPresent(false);
-		};
-
-		const removeTransitionEvent = on("transitionend", element, handlePresence);
-		const removeAnimationEvent = on("animationend", element, handlePresence);
+		setDebouncedIsMounted(false);
 
 		return () => {
-			removeTransitionEvent();
-			removeAnimationEvent();
+			setDebouncedIsMounted.cancelTimeout();
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [isShown]);
 
-	useLayoutEffect(() => {
-		!isPresent && savedCallback();
+	useEffect(() => {
+		if (duration) return;
+
+		if (isShown) {
+			setIsMounted(true);
+			return;
+		}
+
+		const removeEvent = on("transitionend", elementRef.current, () => {
+			setDebouncedIsMounted.cancelTimeout();
+			setIsMounted(false);
+		});
+
+		return removeEvent;
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isPresent]);
+	}, [duration, isShown]);
 
-	return { isPresent, setIsPresent, animatedElementRef };
+	useEffect(() => {
+		!isMounted && stableCallback();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isMounted]);
+
+	return {
+		isPresent: isMounted || isShown,
+		isVisible: isMounted && isShown,
+		toggleIsShown,
+		...(duration === undefined && { elementRef }),
+	} as never;
 };
 
 export { usePresence };

@@ -192,6 +192,7 @@
 		// Tailwind rules
 		"tailwindcss/no-custom-classname": "off",
 		"tailwindcss/no-contradicting-classname": "off",
+		"tailwindcss/no-unnecessary-arbitrary-value": "off",
 		"tailwindcss/classnames-order": [
 			"warn",
 			{

@@ -1,5 +1,6 @@
 import Button from "@/components/primitives/Button";
 import { useElementList } from "@/lib/hooks/useElementList";
+import { usePresence } from "@/lib/hooks/usePresence";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { Link } from "react-router-dom";
@@ -49,11 +50,14 @@ const categories = [
 
 function Categories() {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
+	const { isVisible, isPresent, elementRef, toggleIsShown } = usePresence<HTMLButtonElement>({
+		defaultValue: true,
+	});
 	const [CategoryLinksList] = useElementList();
 
 	return (
-		<article id="Categories" className="mt-[6rem] flex flex-col px-[4rem] lg:items-center">
-			<h2 className="text-center text-[2.5rem] font-[600] lg:text-[4rem]">All Categories</h2>
+		<main id="Categories" className="mt-[6rem] flex flex-col px-[4rem] lg:items-center">
+			<h2 className="text-center text-[2.5rem]  font-[600] lg:text-[4rem]">All Categories</h2>
 
 			<CategoryLinksList
 				className="mt-[3rem] grid auto-rows-[20rem] grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))] justify-items-center gap-[3rem] lg:auto-rows-[23rem] lg:grid-cols-[repeat(3,_minmax(30rem,1fr))] lg:gap-[4rem]"
@@ -70,17 +74,30 @@ function Categories() {
 						)}
 					>
 						<div className="flex min-w-[12rem] shrink-0 flex-col justify-center gap-[0.5rem] lg:gap-[1rem]">
-							<h3 className="text-center text-[1.8rem] lg:text-[2rem]">{category.title}</h3>
+							<h3 className="text-center text-[1.8rem] lg:text-[2rem]" onClick={toggleIsShown}>
+								{category.title}
+							</h3>
 
-							<Link to={category.path}>
+							{isPresent && (
 								<Button
-									text={"Shop Now"}
+									ref={elementRef}
 									variant={"shop"}
 									className={
-										"w-full bg-body p-[0.8rem] text-[--text-body] active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]"
+										"w-full bg-body p-[0.8rem] text-[--text-body]  active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]"
 									}
-								/>
-							</Link>
+									asChild={true}
+								>
+									<Link
+										to={category.path}
+										className={cnJoin(
+											"transition-opacity duration-1000",
+											isVisible ? "opacity-100" : "opacity-0"
+										)}
+									>
+										Shop Now
+									</Link>
+								</Button>
+							)}
 						</div>
 
 						<div className="flex w-[12rem] items-center lg:w-[15rem]">
@@ -94,7 +111,7 @@ function Categories() {
 					</li>
 				)}
 			/>
-		</article>
+		</main>
 	);
 }
 export default Categories;
