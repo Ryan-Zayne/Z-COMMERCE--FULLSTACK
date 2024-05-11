@@ -1,7 +1,13 @@
 import { isArray, isObject } from "@/lib/type-helpers/typeof";
 import { omitKeys } from "@/lib/utils/omitKeys";
 import { pickKeys } from "@/lib/utils/pickKeys";
-import type { BaseConfig, ExtraOptions } from "./create-fetcher.types";
+import type {
+	BaseConfig,
+	BaseRequestConfig,
+	ExtraOptions,
+	FetchConfig,
+	RequestConfig,
+} from "./create-fetcher.types";
 
 export const mergeUrlWithParams = (url: string, params: Record<string, string> | undefined): string => {
 	if (!params) {
@@ -75,7 +81,7 @@ export const defaultRetryCodes: Required<BaseConfig>["retryCodes"] =
 
 export const defaultRetryMethods: Required<BaseConfig>["retryMethods"] = ["GET"];
 
-const fetchSpecficKeys = [
+export const fetchSpecficKeys = [
 	"body",
 	"integrity",
 	"method",
@@ -90,12 +96,14 @@ const fetchSpecficKeys = [
 	"priority",
 	"mode",
 	"referrerPolicy",
-] satisfies Array<keyof BaseConfig>;
+] satisfies Array<keyof FetchConfig>;
 
-export const pickFetchConfig = <TObject extends Record<string, unknown>>(config: TObject): RequestInit =>
-	pickKeys(config, fetchSpecficKeys) as RequestInit;
-export const omitFetchConfig = <TObject extends Record<string, unknown>>(config: TObject): ExtraOptions =>
-	omitKeys(config, fetchSpecficKeys);
+export const splitConfig = <TObject extends Record<string, unknown>>(
+	config: TObject
+): ["body" extends keyof TObject ? RequestConfig : BaseRequestConfig, ExtraOptions] => [
+	pickKeys(config, fetchSpecficKeys) as BaseRequestConfig,
+	omitKeys(config, fetchSpecficKeys) as ExtraOptions,
+];
 
 export const isHTTPError = (errorName: unknown): errorName is "HTTPError" => errorName === "HTTPError";
 

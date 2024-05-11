@@ -19,45 +19,43 @@ import {
 	isHTTPErrorInstance,
 	mergeUrlWithParams,
 	objectifyHeaders,
-	omitFetchConfig,
-	pickFetchConfig,
+	splitConfig,
 } from "./create-fetcher.utils";
 
-const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends ResultStyleUnion = undefined>(
-	baseConfig: BaseConfig<TBaseData, TBaseErrorData, TBaseResultStyle> = {}
+const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends ResultStyleUnion = undefined>(
+	baseConfig: BaseConfig<TBaseData, TBaseErrorData, TBaseResultMode> = {}
 ) => {
-	const abortControllerStore = new Map<`/${string}`, AbortController>();
+	const abortControllerStore = new Map<string, AbortController>();
+
+	const [baseFetchConfig, baseExtraOptions] = splitConfig(baseConfig);
 
 	const {
 		method: baseMethod = "GET",
-		body: baseBody,
 		headers: baseHeaders,
 		signal: baseSignal,
 		...restOfBaseFetchConfig
-	} = pickFetchConfig(baseConfig);
-
-	const baseExtraOptions = omitFetchConfig(baseConfig);
+	} = baseFetchConfig;
 
 	const callApi = async <
 		TData = TBaseData,
 		TErrorData = TBaseErrorData,
-		TResultStyle extends ResultStyleUnion = TBaseResultStyle,
+		TResultMode extends ResultStyleUnion = TBaseResultMode,
 	>(
-		url: `/${string}`,
-		config: FetchConfig<TData, TErrorData, TResultStyle> = {}
-	): Promise<GetCallApiResult<TData, TErrorData, TResultStyle>> => {
+		url: string,
+		config: FetchConfig<TData, TErrorData, TResultMode> = {}
+	): Promise<GetCallApiResult<TData, TErrorData, TResultMode>> => {
 		// == This type is used to cast all return statements due to a design limitation in ts. Casting as intersection of all props in the resultmap could work too, or it resultant "never" could work too!. //LINK - See https://www.zhenghao.io/posts/type-functions for more info
-		type CallApiResult = GetCallApiResult<TData, TErrorData, TResultStyle>;
+		type CallApiResult = GetCallApiResult<TData, TErrorData, TResultMode>;
+
+		const [fetchConfig, extraOptions] = splitConfig(config);
 
 		const {
 			method = baseMethod,
-			body = baseBody,
+			body,
 			headers,
 			signal = baseSignal,
 			...restOfFetchConfig
-		} = pickFetchConfig(config);
-
-		const extraOptions = omitFetchConfig(config);
+		} = fetchConfig;
 
 		const prevFetchController = abortControllerStore.get(url);
 
@@ -71,7 +69,6 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 		abortControllerStore.set(url, fetchController);
 
 		const options = {
-			interceptors: {},
 			bodySerializer: JSON.stringify,
 			responseParser: parseJSON,
 			responseType: "json",
@@ -120,7 +117,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 		};
 
 		try {
-			await options.interceptors.onRequest?.({ request: requestInit, options });
+			await options.onRequest?.({ request: requestInit, options });
 
 			const response = await fetch(
 				`${options.baseURL}${mergeUrlWithParams(url, options.query)}`,
@@ -138,7 +135,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 				retryMethods.has(method);
 
 			if (shouldRetry) {
-				options.retryDelay > 0 && (await wait(options.retryDelay));
+				await wait(options.retryDelay);
 
 				return await callApi(url, { ...config, retries: options.retries - 1 });
 			}
@@ -150,7 +147,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 					options.responseParser
 				);
 
-				await options.interceptors.onResponseError?.({
+				await options.onResponseError?.({
 					response: { ...response, errorData },
 					request: requestInit,
 					options,
@@ -169,7 +166,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 				options.responseParser
 			);
 
-			await options.interceptors.onResponse?.({
+			await options.onResponse?.({
 				response: { ...response, data: successResponse },
 				request: requestInit,
 				options,
@@ -182,7 +179,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 					response: { ...response, data: successResponse },
 				};
 
-				if (!options.resultStyle) {
+				if (!options.resultMode) {
 					return apiDetails as CallApiResult;
 				}
 
@@ -191,7 +188,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 					onlySuccess: apiDetails.dataInfo,
 					onlyError: apiDetails.errorInfo,
 					onlyResponse: apiDetails.response,
-				}[options.resultStyle] as CallApiResult;
+				}[options.resultMode] as CallApiResult;
 			};
 
 			return resolveSuccessResult();
@@ -254,7 +251,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 				});
 			}
 
-			await options.interceptors.onRequestError?.({
+			await options.onRequestError?.({
 				request: requestInit,
 				error: error as Error,
 				options,
@@ -268,12 +265,14 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultStyle extends Resul
 		}
 	};
 
-	callApi.abort = (url: `/${string}`) => abortControllerStore.get(url)?.abort();
+	callApi.abort = (url: string) => abortControllerStore.get(url)?.abort();
 	callApi.isHTTPError = isHTTPError;
 	callApi.isHTTPErrorInstance = isHTTPErrorInstance;
-	callApi.native = fetch;
+	callApi.create = createFetcher;
 
 	return callApi;
 };
 
-export { createFetcher };
+const callApi = createFetcher();
+
+export { callApi };

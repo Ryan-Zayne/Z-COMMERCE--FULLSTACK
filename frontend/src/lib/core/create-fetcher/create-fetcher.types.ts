@@ -1,15 +1,13 @@
 import type { AnyNumber, AnyString } from "@/lib/type-helpers/global-type-helpers";
-import type {
-	HTTPError,
-	createResponseLookup,
-	omitFetchConfig,
-	pickFetchConfig,
-} from "./create-fetcher.utils";
+import type { HTTPError, createResponseLookup, fetchSpecficKeys } from "./create-fetcher.utils";
+
+export type BaseRequestConfig = Pick<FetchConfig, Exclude<(typeof fetchSpecficKeys)[number], "body">>;
+export type RequestConfig = Pick<FetchConfig, (typeof fetchSpecficKeys)[number]>;
 
 export type ExtraOptions<
 	TBaseData = unknown,
 	TBaseErrorData = unknown,
-	TBaseResultStyle extends ResultStyleUnion = ResultStyleUnion,
+	TBaseResultMode extends ResultStyleUnion = ResultStyleUnion,
 > = {
 	body?: Record<string, unknown> | RequestInit["body"];
 
@@ -21,7 +19,7 @@ export type ExtraOptions<
 
 	responseParser?: <TData>(responseData: string) => TData;
 
-	resultStyle?: TBaseResultStyle;
+	resultMode?: TBaseResultMode;
 
 	baseURL?: string;
 
@@ -33,30 +31,25 @@ export type ExtraOptions<
 
 	responseType?: keyof ReturnType<typeof createResponseLookup>;
 
-	interceptors?: {
-		onRequest?: (requestContext: {
-			request: ReturnType<typeof pickFetchConfig<BaseConfig>>;
-			options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
-		}) => void | Promise<void>;
+	onRequest?: (requestContext: { request: RequestConfig; options: ExtraOptions }) => void | Promise<void>;
 
-		onRequestError?: (requestContext: {
-			request: ReturnType<typeof pickFetchConfig<BaseConfig>>;
-			options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
-			error: Error;
-		}) => void | Promise<void>;
+	onRequestError?: (requestContext: {
+		request: RequestConfig;
+		options: ExtraOptions;
+		error: Error;
+	}) => void | Promise<void>;
 
-		onResponse?: <TData = TBaseData>(successContext: {
-			response: Response & { data: TData };
-			request: ReturnType<typeof pickFetchConfig<BaseConfig>>;
-			options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
-		}) => void | Promise<void>;
+	onResponse?: <TData = TBaseData>(successContext: {
+		response: Response & { data: TData };
+		request: RequestConfig;
+		options: ExtraOptions;
+	}) => void | Promise<void>;
 
-		onResponseError?: <TErrorData = TBaseErrorData>(errorContext: {
-			response: Response & { errorData: TErrorData };
-			request: ReturnType<typeof pickFetchConfig<BaseConfig>>;
-			options: ReturnType<typeof omitFetchConfig<BaseConfig>>;
-		}) => void | Promise<void>;
-	};
+	onResponseError?: <TErrorData = TBaseErrorData>(errorContext: {
+		response: Response & { errorData: TErrorData };
+		request: RequestConfig;
+		options: ExtraOptions;
+	}) => void | Promise<void>;
 
 	retries?: number;
 	retryCodes?: Array<409 | 425 | 429 | 500 | 502 | 503 | 504 | AnyNumber>;
@@ -67,14 +60,14 @@ export type ExtraOptions<
 export type BaseConfig<
 	TBaseData = unknown,
 	TBaseErrorData = unknown,
-	TBaseResultStyle extends ResultStyleUnion = undefined,
-> = Omit<RequestInit, "method" | "body"> & ExtraOptions<TBaseData, TBaseErrorData, TBaseResultStyle>;
+	TBaseResultMode extends ResultStyleUnion = undefined,
+> = Omit<FetchConfig<TBaseData, TBaseErrorData, TBaseResultMode>, "body">;
 
-export type FetchConfig<TData, TErrorData, TResultStyle extends ResultStyleUnion> = BaseConfig<
-	TData,
-	TErrorData,
-	TResultStyle
->;
+export type FetchConfig<
+	TData = unknown,
+	TErrorData = unknown,
+	TResultMode extends ResultStyleUnion = undefined,
+> = Omit<RequestInit, "method" | "body"> & ExtraOptions<TData, TErrorData, TResultMode>;
 
 type ApiSuccessShape<TData> = {
 	dataInfo: TData;
@@ -113,9 +106,9 @@ export type ResultStyleUnion = {
 	_: { [Key in keyof ResultStyleMap]: Key }[keyof ResultStyleMap] | undefined;
 }["_"];
 
-export type GetCallApiResult<TData, TErrorData, TResultStyle> =
-	TResultStyle extends NonNullable<ResultStyleUnion>
-		? ResultStyleMap<TData, TErrorData>[TResultStyle]
+export type GetCallApiResult<TData, TErrorData, TResultMode> =
+	TResultMode extends NonNullable<ResultStyleUnion>
+		? ResultStyleMap<TData, TErrorData>[TResultMode]
 		: ResultStyleMap<TData, TErrorData>["all"];
 
 export type AbortSignalWithAny = typeof AbortSignal & { any: (signalArray: AbortSignal[]) => AbortSignal };

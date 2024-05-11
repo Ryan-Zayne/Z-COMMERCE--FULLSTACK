@@ -1,2 +1,2 @@
-export { createFetcher } from "./create-fetcher";
+export { callApi } from "./create-fetcher";
 export * from "./create-fetcher.types";

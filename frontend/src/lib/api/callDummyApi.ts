@@ -1,11 +1,11 @@
-import { createFetcher } from "@/lib/core/create-fetcher";
+import { callApi } from "@/lib/core/create-fetcher";
 import { BASE_DUMMY_URL } from "@/lib/utils/constants";
 import type { DummyResponseData } from "@/store/react-query/react-query-store.types";
 
-const callDummyApi = createFetcher<DummyResponseData, unknown, "onlySuccess">({
+const callDummyApi = callApi.create<DummyResponseData, unknown, "onlySuccess">({
 	baseURL: BASE_DUMMY_URL,
 	throwOnError: true,
-	resultStyle: "onlySuccess",
+	resultMode: "onlySuccess",
 });
 
 export { callDummyApi };

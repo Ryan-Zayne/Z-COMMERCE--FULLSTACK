@@ -10,9 +10,7 @@ const debounce = <TParams>(
 
 	const { maxWait } = options ?? {};
 
-	const cancelMainTimeout = () => {
-		timeoutId && window.clearTimeout(timeoutId);
-	};
+	const cancelMainTimeout = (): void => void (timeoutId && window.clearTimeout(timeoutId));
 
 	const debouncedFn = (...params: TParams[]) => {
 		cancelMainTimeout();
@@ -22,7 +20,7 @@ const debounce = <TParams>(
 			timeoutId = null;
 		}, delay);
 
-		// == If maxWaitTimerId is not null, it means the maxWait timer is yet to be called, so dont register another one
+		// == If maxWaitTimerId is not null, it means the maxWait timeout has not been called yet, so dont register another one
 		if (!maxWait || maxWaitTimeoutId !== null) return;
 
 		maxWaitTimeoutId = window.setTimeout(() => {
@@ -34,7 +32,7 @@ const debounce = <TParams>(
 		}, maxWait);
 	};
 
-	debouncedFn.cancelTimeout = cancelMainTimeout;
+	debouncedFn.cancel = cancelMainTimeout;
 
 	return debouncedFn;
 };

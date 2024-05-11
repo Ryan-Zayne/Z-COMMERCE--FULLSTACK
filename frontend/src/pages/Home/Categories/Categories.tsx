@@ -50,9 +50,8 @@ const categories = [
 
 function Categories() {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
-	const { isVisible, isPresent, elementRef, toggleIsShown } = usePresence<HTMLButtonElement>({
-		defaultValue: true,
-	});
+	const { isVisible, isPresent, elementRef, toggleVisbility } = usePresence<HTMLButtonElement>(true);
+
 	const [CategoryLinksList] = useElementList();
 
 	return (
@@ -74,7 +73,7 @@ function Categories() {
 						)}
 					>
 						<div className="flex min-w-[12rem] shrink-0 flex-col justify-center gap-[0.5rem] lg:gap-[1rem]">
-							<h3 className="text-center text-[1.8rem] lg:text-[2rem]" onClick={toggleIsShown}>
+							<h3 className="text-center text-[1.8rem] lg:text-[2rem]" onClick={toggleVisbility}>
 								{category.title}
 							</h3>
 

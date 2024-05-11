@@ -1,24 +1,27 @@
 import { useEffect, useRef } from "react";
+import type { Prettify } from "../type-helpers/global-type-helpers";
 import { on } from "../utils/on";
 import { useCallbackRef } from "./useCallbackRef";
 import { useDebouncedState } from "./useDebounce";
 import { useToggle } from "./useToggle";
 
 type UsePresenceOptions<TDuration extends number | undefined> = {
-	defaultValue?: boolean;
 	duration?: TDuration;
 	callbackFn?: () => void;
 };
 
 type UsePresenceResult<TElement, TDuration> = {
-	_: {
-		isPresent: boolean;
-		isVisible: boolean;
-		toggleIsShown: ReturnType<typeof useToggle>[1];
-	} & (TDuration extends undefined ? { elementRef: React.RefObject<TElement> } : unknown);
+	_: Prettify<
+		{
+			isPresent: boolean;
+			isVisible: boolean;
+			toggleVisbility: ReturnType<typeof useToggle>[1];
+		} & (TDuration extends undefined ? { elementRef: React.RefObject<TElement> } : unknown)
+	>;
 }["_"];
 
 type UsePresence = <TElement extends HTMLElement, TDuration extends number | undefined = undefined>(
+	defaultValue?: boolean,
 	options?: UsePresenceOptions<TDuration>
 ) => UsePresenceResult<TElement, TDuration>;
 
@@ -32,11 +35,14 @@ type UsePresence = <TElement extends HTMLElement, TDuration extends number | und
  *
  * @returns A tuple containing the boolean that should be used to show and hide the element state and a function to toggle the presence state.
  */
-const usePresence: UsePresence = (options = {}) => {
-	const { defaultValue = true, duration, callbackFn } = options;
+const usePresence: UsePresence = (defaultValue = true, options = {}) => {
+	const { duration, callbackFn } = options;
 
 	const [isShown, toggleIsShown] = useToggle(defaultValue);
-	const [isMounted, setDebouncedIsMounted, setIsMounted] = useDebouncedState(defaultValue, duration);
+	const [isMounted, setDebouncedIsMounted, setRegularIsMounted] = useDebouncedState(
+		defaultValue,
+		duration
+	);
 
 	const elementRef = useRef<HTMLElement>(null);
 
@@ -46,14 +52,14 @@ const usePresence: UsePresence = (options = {}) => {
 		if (!duration) return;
 
 		if (isShown) {
-			setIsMounted(true);
+			setRegularIsMounted(true);
 			return;
 		}
 
 		setDebouncedIsMounted(false);
 
 		return () => {
-			setDebouncedIsMounted.cancelTimeout();
+			setDebouncedIsMounted.cancel();
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isShown]);
@@ -62,13 +68,13 @@ const usePresence: UsePresence = (options = {}) => {
 		if (duration) return;
 
 		if (isShown) {
-			setIsMounted(true);
+			setRegularIsMounted(true);
 			return;
 		}
 
 		const removeEvent = on("transitionend", elementRef.current, () => {
-			setDebouncedIsMounted.cancelTimeout();
-			setIsMounted(false);
+			setDebouncedIsMounted.cancel();
+			setRegularIsMounted(false);
 		});
 
 		return removeEvent;
@@ -83,7 +89,7 @@ const usePresence: UsePresence = (options = {}) => {
 	return {
 		isPresent: isMounted || isShown,
 		isVisible: isMounted && isShown,
-		toggleIsShown,
+		toggleVisibliliy: toggleIsShown,
 		...(duration === undefined && { elementRef }),
 	} as never;
 };
