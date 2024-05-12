@@ -1,4 +1,5 @@
 import { desktopQuery, mobileQuery, tabletQuery } from "@/lib/utils/constants";
+import { on } from "@/lib/utils/on";
 import type { StateCreator } from "zustand";
 import type { MediaQuerySlice } from "../../zustand-store.types";
 
@@ -37,17 +38,21 @@ export const createMediaQuerySlice: StateSlice<MediaQuerySlice> = (set, get) => 
 			const { setQuery } = get().mediaQueryActions;
 			const { mobile, tablet, desktop } = MEDIA_QUERY_LOOKUP;
 
+			let removeMobileEvent: (() => void) | undefined;
+			let removeTabletEvent: (() => void) | undefined;
+			let removeDesktopEvent: (() => void) | undefined;
+
 			if (action === "remove") {
-				mobile.queryList.removeEventListener("change", setQuery("mobile"));
-				tablet.queryList.removeEventListener("change", setQuery("tablet"));
-				desktop.queryList.removeEventListener("change", setQuery("desktop"));
+				removeMobileEvent?.();
+				removeTabletEvent?.();
+				removeDesktopEvent?.();
 
 				return;
 			}
 
-			mobile.queryList.addEventListener("change", setQuery("mobile"));
-			tablet.queryList.addEventListener("change", setQuery("tablet"));
-			desktop.queryList.addEventListener("change", setQuery("desktop"));
+			removeMobileEvent = on("change", mobile.queryList, setQuery("mobile"));
+			removeTabletEvent = on("change", tablet.queryList, setQuery("tablet"));
+			removeDesktopEvent = on("change", desktop.queryList, setQuery("desktop"));
 		},
 	},
 });

@@ -54,7 +54,7 @@ export const createResponseLookup = <TResponse>(
 export const getResponseData = <TResponse>(
 	response: Response,
 	responseType: keyof ReturnType<typeof createResponseLookup>,
-	parser: Required<BaseConfig>["responseParser"]
+	parser: BaseConfig["responseParser"]
 ) => {
 	const RESPONSE_LOOKUP = createResponseLookup<TResponse>(response, parser);
 
@@ -101,8 +101,8 @@ export const fetchSpecficKeys = [
 export const splitConfig = <TObject extends Record<string, unknown>>(
 	config: TObject
 ): ["body" extends keyof TObject ? RequestConfig : BaseRequestConfig, ExtraOptions] => [
-	pickKeys(config, fetchSpecficKeys) as BaseRequestConfig,
-	omitKeys(config, fetchSpecficKeys) as ExtraOptions,
+	pickKeys(config, fetchSpecficKeys) as never,
+	omitKeys(config, fetchSpecficKeys) as never,
 ];
 
 export const isHTTPError = (errorName: unknown): errorName is "HTTPError" => errorName === "HTTPError";

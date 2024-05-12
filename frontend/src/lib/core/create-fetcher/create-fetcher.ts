@@ -44,16 +44,17 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 		url: string,
 		config: FetchConfig<TData, TErrorData, TResultMode> = {}
 	): Promise<GetCallApiResult<TData, TErrorData, TResultMode>> => {
-		// == This type is used to cast all return statements due to a design limitation in ts. Casting as intersection of all props in the resultmap could work too, or it resultant "never" could work too!. //LINK - See https://www.zhenghao.io/posts/type-functions for more info
+		// == This type is used to cast all return statements due to a design limitation in ts. Casting as intersection of all props in the resultmap could work too, or it's resultant, "never", could work too!.
+		// == See https://www.zhenghao.io/posts/type-functions for more info
 		type CallApiResult = GetCallApiResult<TData, TErrorData, TResultMode>;
 
 		const [fetchConfig, extraOptions] = splitConfig(config);
 
 		const {
 			method = baseMethod,
+			signal = baseSignal,
 			body,
 			headers,
-			signal = baseSignal,
 			...restOfFetchConfig
 		} = fetchConfig;
 
@@ -147,15 +148,17 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 					options.responseParser
 				);
 
+				const errorResponseInfo = { ...response, errorData };
+
 				await options.onResponseError?.({
-					response: { ...response, errorData },
+					response: errorResponseInfo,
 					request: requestInit,
 					options,
 				});
 
 				// == Pushing all error handling responsbility to catch
 				throw new HTTPError({
-					response: { ...response, errorData },
+					response: errorResponseInfo,
 					defaultErrorMessage: options.defaultErrorMessage,
 				});
 			}
@@ -176,15 +179,14 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 				const apiDetails = {
 					dataInfo: successResponse,
 					errorInfo: null,
-					response: { ...response, data: successResponse },
+					response,
 				};
 
-				if (!options.resultMode) {
+				if (!options.resultMode || options.resultMode === "all") {
 					return apiDetails as CallApiResult;
 				}
 
 				return {
-					all: apiDetails,
 					onlySuccess: apiDetails.dataInfo,
 					onlyError: apiDetails.errorInfo,
 					onlyResponse: apiDetails.response,
@@ -212,52 +214,53 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 				const { message, response, errorData } = info;
 
-				const apiDetails = {
+				return {
 					dataInfo: null,
 					errorInfo: {
 						errorName: (error as PossibleError).name ?? "UnknownError",
-						...(Boolean(errorData) && { errorData }),
 						message: message ?? (error as PossibleError).message ?? options.defaultErrorMessage,
+						...(Boolean(errorData) && { errorData }),
 					},
 					response: response ?? null,
-				};
-
-				return apiDetails as CallApiResult;
+				} as CallApiResult;
 			};
 
-			if (error instanceof DOMException && error.name === "TimeoutError") {
-				const message = `Request timed out after ${options.timeout}ms`;
+			switch (true) {
+				case error instanceof DOMException && error.name === "TimeoutError": {
+					const message = `Request timed out after ${options.timeout}ms`;
 
-				console.info(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
+					console.info(
+						`%cTimeoutError: ${message}`,
+						"color: red; font-weight: 500; font-size: 14px;"
+					);
 
-				return resolveErrorResult({ message });
+					return resolveErrorResult({ message });
+				}
+
+				case error instanceof DOMException && error.name === "AbortError": {
+					const message = `Request was cancelled`;
+
+					console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
+
+					return resolveErrorResult({ message });
+				}
+
+				case isHTTPErrorInstance<TErrorData>(error): {
+					const { errorData = {}, ...response } = error.response;
+
+					return resolveErrorResult({
+						errorData,
+						response,
+						message: (errorData as PossibleError).message,
+					});
+				}
+
+				default: {
+					await options.onRequestError?.({ request: requestInit, error: error as Error, options });
+
+					return resolveErrorResult();
+				}
 			}
-
-			if (error instanceof DOMException && error.name === "AbortError") {
-				const message = `Request was cancelled`;
-
-				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
-
-				return resolveErrorResult({ message });
-			}
-
-			if (isHTTPErrorInstance<TErrorData>(error)) {
-				const { errorData, ...responseObj } = error.response;
-
-				return resolveErrorResult({
-					errorData,
-					message: (errorData as PossibleError | null)?.message,
-					response: responseObj,
-				});
-			}
-
-			await options.onRequestError?.({
-				request: requestInit,
-				error: error as Error,
-				options,
-			});
-
-			return resolveErrorResult();
 
 			// Remove the now unneeded AbortController from store
 		} finally {
@@ -273,6 +276,4 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 	return callApi;
 };
 
-const callApi = createFetcher();
-
-export { callApi };
+export default createFetcher();

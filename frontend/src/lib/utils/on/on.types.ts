@@ -1,6 +1,6 @@
-export type ElementOrSelectorSingle<TOptional = never> = HTMLElement | string | TOptional;
+export type ElementOrSelectorSingle<TOptional> = HTMLElement | string | TOptional;
 
-export type ElementOrSelectorArray<TOptional = never> = [
+export type ElementOrSelectorArray<TOptional> = [
 	HTMLElement | string | TOptional,
 	...Array<HTMLElement | string | TOptional>,
 ];
@@ -29,17 +29,19 @@ export type AddWindowEvents<TEvent extends keyof WindowEventMap = keyof WindowEv
 	options?: boolean | AddEventListenerOptions,
 ];
 
-export type AddEventParams = [
-	event: string,
-	element: ElementOrSelectorSingleOrArray<null> | Window,
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	listener: (...args: any[]) => void,
+export type AddMediaEvents<TEvent extends keyof MediaQueryListEventMap = keyof MediaQueryListEventMap> = [
+	event: TEvent,
+	element: MediaQueryList,
+	listener: Listener<TEvent, MediaQueryList, MediaQueryListEventMap>,
 	options?: boolean | AddEventListenerOptions,
 ];
 
+export type AddEventParams = AddHtmlEvents | AddWindowEvents | AddMediaEvents;
+
 export type ON = {
-	<TEvent extends keyof WindowEventMap>(...params: AddWindowEvents<TEvent>): () => void;
 	<TEvent extends keyof HTMLElementEventMap>(...params: AddHtmlEvents<TEvent>): () => void;
+	<TEvent extends keyof MediaQueryListEventMap>(...params: AddMediaEvents<TEvent>): () => void;
+	<TEvent extends keyof WindowEventMap>(...params: AddWindowEvents<TEvent>): () => void;
 };
 
 export type RegisterConfig = {

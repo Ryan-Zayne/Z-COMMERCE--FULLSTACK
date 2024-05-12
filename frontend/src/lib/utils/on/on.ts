@@ -1,14 +1,7 @@
 import { isArray, isString } from "../../type-helpers/typeof";
-import type {
-	AddEventParams,
-	ElementOrSelectorArray,
-	ElementOrSelectorSingle,
-	ElementOrSelectorSingleOrArray,
-	ON,
-	RegisterConfig,
-} from "./on.types";
+import type { AddEventParams, ON, RegisterConfig } from "./on.types";
 
-const registerSingle = (element: ElementOrSelectorSingle<null> | Window, config: RegisterConfig) => {
+const registerSingle = (element: unknown, config: RegisterConfig) => {
 	const { type, event, listener, options } = config;
 
 	const actionType = type === "add" ? "addEventListener" : "removeEventListener";
@@ -21,17 +14,15 @@ const registerSingle = (element: ElementOrSelectorSingle<null> | Window, config:
 	if (isString(element)) {
 		const nodeList = document.querySelectorAll<HTMLElement>(element);
 
-		nodeList.forEach((node) => node[actionType](event, listener as unknown as EventListener, options));
+		nodeList.forEach((node) => node[actionType](event, listener as never, options));
+
 		return;
 	}
 
-	element[actionType](event, listener as unknown as EventListener, options);
+	(element as HTMLElement)[actionType](event, listener as never, options);
 };
 
-const registerMultiple = (
-	elementArray: ElementOrSelectorArray<null> | Window[],
-	config: RegisterConfig
-) => {
+const registerMultiple = (elementArray: unknown[], config: RegisterConfig) => {
 	const { type, event, listener, options } = config;
 
 	const actionType = type === "add" ? "addEventListener" : "removeEventListener";
@@ -51,18 +42,16 @@ const registerMultiple = (
 		if (isString(element)) {
 			const nodeList = document.querySelectorAll<HTMLElement>(element);
 
-			nodeList.forEach((node) =>
-				node[actionType](event, listener as unknown as EventListener, options)
-			);
+			nodeList.forEach((node) => node[actionType](event, listener as never, options));
 
 			continue;
 		}
 
-		element[actionType](event, listener as unknown as EventListener, options);
+		(element as HTMLElement)[actionType](event, listener as never, options);
 	}
 };
 
-const register = (element: ElementOrSelectorSingleOrArray<null> | Window, config: RegisterConfig) => {
+const register = (element: AddEventParams["1"], config: RegisterConfig) => {
 	if (isArray(element)) {
 		registerMultiple(element, config);
 		return;
@@ -74,7 +63,7 @@ const register = (element: ElementOrSelectorSingleOrArray<null> | Window, config
 const on: ON = (...params: AddEventParams) => {
 	const [event, element, listener, options] = params;
 
-	const boundListener = () => listener.call(element, event, cleanup);
+	const boundListener = () => (listener as (...args: unknown[]) => void).call(element, event, cleanup);
 
 	const attach = () => {
 		register(element, { type: "add", event, listener: boundListener, options });
