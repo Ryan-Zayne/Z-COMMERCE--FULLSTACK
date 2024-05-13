@@ -9,12 +9,12 @@ import type {
 	RequestConfig,
 } from "./create-fetcher.types";
 
-export const mergeUrlWithParams = (url: string, params: Record<string, string> | undefined): string => {
+export const mergeUrlWithParams = (url: string, params: ExtraOptions["query"]): string => {
 	if (!params) {
 		return url;
 	}
 
-	const paramsString = new URLSearchParams(params).toString();
+	const paramsString = new URLSearchParams(params as Record<string, string>).toString();
 
 	if (!url.includes("?")) {
 		return `${url}?${paramsString}`;
@@ -37,13 +37,14 @@ export const objectifyHeaders = (headers: RequestInit["headers"]): Record<string
 
 export const createResponseLookup = <TResponse>(
 	response: Response,
-	parser?: Required<BaseConfig>["responseParser"]
+	parser?: Required<ExtraOptions>["responseParser"]
 ) => ({
 	json: async () => {
-		const data = parser<TResponse | null>?.(await response.text());
+		if (!parser) {
+			return response.json() as Promise<TResponse>;
+		}
 
-		// == use native response.json() as last resort of parser fails or is specified as null or undefined
-		return (data ?? response.json()) as Promise<TResponse>;
+		return parser<TResponse>(await response.text());
 	},
 	arrayBuffer: () => response.arrayBuffer() as Promise<TResponse>,
 	blob: () => response.blob() as Promise<TResponse>,
@@ -54,7 +55,7 @@ export const createResponseLookup = <TResponse>(
 export const getResponseData = <TResponse>(
 	response: Response,
 	responseType: keyof ReturnType<typeof createResponseLookup>,
-	parser: BaseConfig["responseParser"]
+	parser: ExtraOptions["responseParser"]
 ) => {
 	const RESPONSE_LOOKUP = createResponseLookup<TResponse>(response, parser);
 

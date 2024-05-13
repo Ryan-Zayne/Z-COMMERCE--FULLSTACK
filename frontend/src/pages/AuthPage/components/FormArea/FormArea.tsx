@@ -167,7 +167,7 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 						<p>
 							I agree to all
 							<Link
-								to={" "}
+								to=" "
 								className={"ml-[0.5rem] font-[500] underline hover:text-[hsl(214,89%,53%)]"}
 							>
 								Terms & Conditions

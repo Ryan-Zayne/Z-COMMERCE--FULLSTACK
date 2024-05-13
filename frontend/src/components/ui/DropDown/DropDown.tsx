@@ -1,5 +1,5 @@
+import { Slot } from "@/components/primitives";
 import { cnMerge } from "@/lib/utils/cn";
-import { Slot } from "../primitives";
 
 type DropDownProps = React.ComponentPropsWithoutRef<"div">;
 

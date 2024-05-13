@@ -1,5 +1,5 @@
 import Logo from "@/components/primitives/Logo";
-import DropDown from "@/components/ui/DropDown";
+import DropDown from "@/components/ui/DropDown/DropDown";
 import { useDisclosure } from "@/lib/hooks/useDisclosure";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";

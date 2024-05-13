@@ -79,13 +79,14 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 			retryCodes: defaultRetryCodes,
 			retryMethods: defaultRetryMethods,
 			defaultErrorMessage: "Failed to fetch data from server!",
+
 			...baseExtraOptions,
 			...extraOptions,
 		} satisfies ExtraOptions;
 
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
 
-		// FIXME -   Remove this type cast once TS updates its libdom types for AbortSignal to include the any() method
+		// FIXME -   Remove this type cast once TS updates its lib-dom types for AbortSignal to include the any() method
 		const combinedSignal = (AbortSignal as AbortSignalWithAny).any([
 			fetchController.signal,
 			timeoutSignal ?? fetchController.signal,
@@ -101,8 +102,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 			// == Return undefined if there are no headers or if the body is not an object
 			headers:
-				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-				baseHeaders || headers || isObject(body)
+				baseHeaders ?? headers ?? isObject(body)
 					? {
 							...(isObject(body) && {
 								"Content-Type": "application/json",

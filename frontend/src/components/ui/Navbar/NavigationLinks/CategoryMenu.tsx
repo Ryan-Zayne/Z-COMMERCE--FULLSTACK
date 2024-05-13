@@ -1,4 +1,4 @@
-import DropDown from "@/components/ui/DropDown";
+import DropDown from "@/components/ui/DropDown/DropDown";
 import { useDisclosure } from "@/lib/hooks";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";

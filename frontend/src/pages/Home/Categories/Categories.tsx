@@ -1,6 +1,5 @@
 import Button from "@/components/primitives/Button";
 import { useElementList } from "@/lib/hooks/useElementList";
-import { usePresence } from "@/lib/hooks/usePresence";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { Link } from "react-router-dom";
@@ -50,7 +49,6 @@ const categories = [
 
 function Categories() {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
-	const { isVisible, isPresent, elementRef, toggleVisbility } = usePresence<HTMLButtonElement>(true);
 
 	const [CategoryLinksList] = useElementList();
 
@@ -73,30 +71,17 @@ function Categories() {
 						)}
 					>
 						<div className="flex min-w-[12rem] shrink-0 flex-col justify-center gap-[0.5rem] lg:gap-[1rem]">
-							<h3 className="text-center text-[1.8rem] lg:text-[2rem]" onClick={toggleVisbility}>
-								{category.title}
-							</h3>
+							<h3 className="text-center text-[1.8rem] lg:text-[2rem]">{category.title}</h3>
 
-							{isPresent && (
-								<Button
-									ref={elementRef}
-									variant={"shop"}
-									className={
-										"w-full bg-body p-[0.8rem] text-[--text-body]  active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]"
-									}
-									asChild={true}
-								>
-									<Link
-										to={category.path}
-										className={cnJoin(
-											"transition-opacity duration-1000",
-											isVisible ? "opacity-100" : "opacity-0"
-										)}
-									>
-										Shop Now
-									</Link>
-								</Button>
-							)}
+							<Button
+								variant={"shop"}
+								className={
+									"w-full bg-body p-[0.8rem] text-[--text-body]  active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]"
+								}
+								asChild={true}
+							>
+								<Link to={category.path}>Shop Now</Link>
+							</Button>
 						</div>
 
 						<div className="flex w-[12rem] items-center lg:w-[15rem]">

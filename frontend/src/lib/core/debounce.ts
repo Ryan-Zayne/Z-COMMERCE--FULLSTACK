@@ -1,38 +1,47 @@
 import type { CallbackFn } from "../type-helpers/global-type-helpers";
+import { isObject } from "../type-helpers/typeof";
 
 const debounce = <TParams>(
 	callbackFn: CallbackFn<TParams>,
 	delay: number | undefined,
-	options?: { maxWait?: number }
+	options: { maxWait?: number } = {}
 ) => {
 	let timeoutId: number | null;
 	let maxWaitTimeoutId: number | null;
 
-	const { maxWait } = options ?? {};
+	const $clearMainTimeout = (): void => void (timeoutId && window.clearTimeout(timeoutId));
 
-	const cancelMainTimeout = (): void => void (timeoutId && window.clearTimeout(timeoutId));
+	type DebouncedFn = {
+		(...params: TParams[]): void;
+		(overrideOptions: { $delay: number }, ...params: TParams[]): void;
+		cancel: () => void;
+	};
 
-	const debouncedFn = (...params: TParams[]) => {
-		cancelMainTimeout();
+	const debouncedFn: DebouncedFn = (...params) => {
+		$clearMainTimeout();
+
+		const overrideOptions = isObject(params[0]) && "$delay" in params[0] ? params[0] : null;
+
+		const resolvedParams = (overrideOptions ? params.slice(1) : params) as TParams[];
 
 		timeoutId = window.setTimeout(() => {
-			callbackFn(...params);
+			callbackFn(...resolvedParams);
 			timeoutId = null;
-		}, delay);
+		}, overrideOptions?.$delay ?? delay);
 
-		// == If maxWaitTimerId is not null, it means the maxWait timeout has not been called yet, so dont register another one
-		if (!maxWait || maxWaitTimeoutId !== null) return;
+		// == If maxWaitTimerId is not equal to null, it means the previous maxWait timeout has not been called yet, so dont register another one
+		if (!options.maxWait || maxWaitTimeoutId !== null) return;
 
 		maxWaitTimeoutId = window.setTimeout(() => {
 			// == Cancel the main timeout before invoking callback
-			cancelMainTimeout();
+			$clearMainTimeout();
 
-			callbackFn(...params);
+			callbackFn(...resolvedParams);
 			maxWaitTimeoutId = null;
-		}, maxWait);
+		}, options.maxWait);
 	};
 
-	debouncedFn.cancel = cancelMainTimeout;
+	debouncedFn.cancel = $clearMainTimeout;
 
 	return debouncedFn;
 };

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Prettify } from "../type-helpers/global-type-helpers";
 import { on } from "../utils/on";
 import { useCallbackRef } from "./useCallbackRef";
@@ -7,6 +7,7 @@ import { useToggle } from "./useToggle";
 
 type UsePresenceOptions<TDuration extends number | undefined> = {
 	duration?: TDuration;
+	type?: "transition" | "animation";
 	callbackFn?: () => void;
 };
 
@@ -15,7 +16,7 @@ type UsePresenceResult<TElement, TDuration> = {
 		{
 			isPresent: boolean;
 			isVisible: boolean;
-			toggleVisbility: ReturnType<typeof useToggle>[1];
+			toggleVisibility: ReturnType<typeof useToggle>[1];
 		} & (TDuration extends undefined ? { elementRef: React.RefObject<TElement> } : unknown)
 	>;
 }["_"];
@@ -36,50 +37,61 @@ type UsePresence = <TElement extends HTMLElement, TDuration extends number | und
  * @returns A tuple containing the boolean that should be used to show and hide the element state and a function to toggle the presence state.
  */
 const usePresence: UsePresence = (defaultValue = true, options = {}) => {
-	const { duration, callbackFn } = options;
+	const { duration, type = "animation", callbackFn } = options;
 
-	const [isShown, toggleIsShown] = useToggle(defaultValue);
-	const [isMounted, setDebouncedIsMounted, setRegularIsMounted] = useDebouncedState(
+	const stableCallback = useCallbackRef(callbackFn);
+
+	const elementRef = useRef<HTMLElement>(null);
+
+	const [isShown, setIsShown] = useState(defaultValue);
+
+	const [isMounted, setDebouncedIsMounted, $setRegularIsMounted] = useDebouncedState(
 		defaultValue,
 		duration
 	);
 
-	const elementRef = useRef<HTMLElement>(null);
+	const setRegularIsMounted = (value: boolean) => {
+		if (type === "animation") {
+			$setRegularIsMounted(value);
+			return;
+		}
 
-	const stableCallback = useCallbackRef(callbackFn);
+		setDebouncedIsMounted({ $delay: 0 }, value);
+	};
 
-	useEffect(() => {
-		if (!duration) return;
-
-		if (isShown) {
+	const handleMountedWithoutRef = (value: boolean) => {
+		if (value) {
 			setRegularIsMounted(true);
 			return;
 		}
 
 		setDebouncedIsMounted(false);
+	};
 
-		return () => {
-			setDebouncedIsMounted.cancel();
-		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isShown]);
-
-	useEffect(() => {
-		if (duration) return;
-
-		if (isShown) {
+	const handleMountedWithRef = (value: boolean) => {
+		if (value) {
 			setRegularIsMounted(true);
 			return;
 		}
 
-		const removeEvent = on("transitionend", elementRef.current, () => {
+		on(type === "animation" ? "animationend" : "transitionend", elementRef.current, () => {
 			setDebouncedIsMounted.cancel();
-			setRegularIsMounted(false);
+			$setRegularIsMounted(false);
 		});
+	};
 
-		return removeEvent;
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [duration, isShown]);
+	const toggleVisibility = useCallbackRef(<TValue>(newValue?: TValue) => {
+		const handleMounted = !duration ? handleMountedWithRef : handleMountedWithoutRef;
+
+		if (typeof newValue === "boolean") {
+			setIsShown(newValue);
+			handleMounted(newValue);
+			return;
+		}
+
+		setIsShown(!isShown);
+		handleMounted(!isShown);
+	});
 
 	useEffect(() => {
 		!isMounted && stableCallback();
@@ -87,9 +99,9 @@ const usePresence: UsePresence = (defaultValue = true, options = {}) => {
 	}, [isMounted]);
 
 	return {
-		isPresent: isMounted || isShown,
-		isVisible: isMounted && isShown,
-		toggleVisibliliy: toggleIsShown,
+		isPresent: type === "animation" ? isMounted : isMounted || isShown,
+		isVisible: type === "animation" ? isShown : isMounted && isShown,
+		toggleVisibility,
 		...(duration === undefined && { elementRef }),
 	} as never;
 };

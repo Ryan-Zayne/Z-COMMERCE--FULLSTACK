@@ -1,7 +1,7 @@
 export * from "./Carousel";
 export { default as DismissableToaster } from "./DismissableToaster";
 export * from "./Drawer";
-export { default as DropDown } from "./DropDown";
+export { default as DropDown } from "./DropDown/DropDown";
 export { default as Footer } from "./Footer/Footer";
 export { default as LoadingSkeleton } from "./LoadingSkeleton";
 export { default as Navbar } from "./Navbar/Navbar";

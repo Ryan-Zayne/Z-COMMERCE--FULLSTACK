@@ -13,11 +13,14 @@ export type ExtraOptions<
 
 	method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | AnyString;
 
-	query?: Record<string, string>;
+	query?: Record<string, string | number | boolean>;
 
-	bodySerializer?: <TData>(bodyData: TData) => string;
+	bodySerializer?: (bodyData: Record<string, unknown>) => string;
 
-	responseParser?: <TData>(responseData: string) => TData;
+	responseParser?: {
+		(data: string): unknown;
+		<TData>(data: string): TData;
+	};
 
 	resultMode?: TBaseResultMode;
 
@@ -29,14 +32,16 @@ export type ExtraOptions<
 
 	throwOnError?: boolean | ((error?: Error | HTTPError<TBaseErrorData>) => boolean);
 
+	meta?: Record<string, unknown>;
+
 	responseType?: keyof ReturnType<typeof createResponseLookup>;
 
 	onRequest?: (requestContext: { request: RequestConfig; options: ExtraOptions }) => void | Promise<void>;
 
 	onRequestError?: (requestContext: {
 		request: RequestConfig;
-		options: ExtraOptions;
 		error: Error;
+		options: ExtraOptions;
 	}) => void | Promise<void>;
 
 	onResponse?: <TData = TBaseData>(successContext: {
