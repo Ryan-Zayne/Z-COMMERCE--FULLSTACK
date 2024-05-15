@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import { ContextError, getErrorMessage } from "./custom-context.utils";
 import type { CustomContextOptions } from "./customContext.types";
 
-const createCustomContext = <TContextValue>(options: CustomContextOptions<TContextValue>) => {
+const createCustomContext = <TContextValue>(options: CustomContextOptions<TContextValue> = {}) => {
 	const {
 		name = "Unnamed Context",
 		hookName = "Unnamed Context hook",

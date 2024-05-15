@@ -1,5 +1,4 @@
 import { isFunction, isObject } from "@/lib/type-helpers/typeof";
-import { parseJSON } from "@/lib/utils/parseJSON";
 import { wait } from "@/lib/utils/wait";
 import type {
 	AbortSignalWithAny,
@@ -71,7 +70,6 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 		const options = {
 			bodySerializer: JSON.stringify,
-			responseParser: parseJSON,
 			responseType: "json",
 			baseURL: "",
 			retries: 0,
@@ -246,12 +244,12 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 				}
 
 				case isHTTPErrorInstance<TErrorData>(error): {
-					const { errorData = {}, ...response } = error.response;
+					const { errorData, ...response } = error.response;
 
 					return resolveErrorResult({
 						errorData,
 						response,
-						message: (errorData as PossibleError).message,
+						message: (errorData as PossibleError | undefined)?.message,
 					});
 				}
 

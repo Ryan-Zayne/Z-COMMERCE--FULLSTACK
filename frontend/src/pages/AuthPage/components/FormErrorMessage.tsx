@@ -28,9 +28,9 @@ function FormErrorMessage<TStepData extends FieldValues>(props: ErrorParagraphPr
 	useEffect(() => {
 		if (!paragraphRef.current) return;
 
-		if (paragraphRef.current.classList.contains(paragraphClass)) return;
+		if (paragraphRef.current.classList.contains("animate-shake")) return;
 
-		paragraphRef.current.classList.add(paragraphClass);
+		paragraphRef.current.classList.add("animate-shake");
 	}, [formState.submitCount]);
 
 	const message =
@@ -69,7 +69,7 @@ function FormErrorMessage<TStepData extends FieldValues>(props: ErrorParagraphPr
 		<p
 			ref={paragraphRef}
 			className={cnMerge(paragraphClass, className)}
-			onAnimationEnd={() => paragraphRef.current?.classList.remove(paragraphClass)}
+			onAnimationEnd={() => paragraphRef.current?.classList.remove("animate-shake")}
 		>
 			*{message}
 		</p>

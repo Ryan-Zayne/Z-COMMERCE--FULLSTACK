@@ -1,14 +1,13 @@
 import { Button, LoadingSpinner } from "@/components/primitives";
 import { useToggle } from "@/lib/hooks";
 import { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
-import { cnMerge } from "@/lib/utils/cn";
+import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import FormErrorMessage from "../FormErrorMessage";
-import InputGroup from "../InputGroup";
+import Form from "../FormGroup";
 import { type FormSchemaType, submitForm } from "./submitForm";
 
 export type FormAreaProps = {
@@ -20,11 +19,10 @@ const semanticClasses = {
 	error: "border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error",
 };
 
-function FormArea({ formType, formClasses = "" }: FormAreaProps) {
-	const navigate = useNavigate();
-	const uniqueId = useId();
+function FormArea({ formType, formClasses }: FormAreaProps) {
 	const [isPasswordShow, togglePasswordShow] = useToggle(false);
 	const [isConfirmPasswordShow, toggleConfirmPasswordShow] = useToggle(false);
+	const navigate = useNavigate();
 
 	const { reset, setError, register, handleSubmit, formState } = useForm<FormSchemaType>({
 		resolver: zodResolver(formType === "Sign Up" ? SignUpSchema : LoginSchema),
@@ -43,60 +41,37 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 			{formState.isSubmitting && <LoadingSpinner type={"auth"} />}
 
 			{formType === "Sign Up" && (
-				<InputGroup>
-					<label htmlFor={`username__${uniqueId}`} className="text-label">
-						Username
-					</label>
+				<Form.Group>
+					<Form.Label>Username</Form.Label>
 
-					<input
+					<Form.Input
 						{...register("username")}
-						autoComplete="username"
 						type="text"
-						name="username"
-						id={`username__${uniqueId}`}
-						className={cnMerge(
-							`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-							formState.errors.username && semanticClasses.error
-						)}
+						className={cnJoin(formState.errors.username && semanticClasses.error)}
 					/>
 					<FormErrorMessage formState={formState} type="regular" errorField="username" />
-				</InputGroup>
+				</Form.Group>
 			)}
 
-			<InputGroup>
-				<label htmlFor={`email__${uniqueId}`} className="text-label">
-					Email address
-				</label>
+			<Form.Group>
+				<Form.Label>Email address</Form.Label>
 
-				<input
+				<Form.Input
 					{...register("email")}
-					autoComplete="email"
 					type="email"
-					name="email"
-					id={`email__${uniqueId}`}
-					className={cnMerge(
-						`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
-						formState.errors.email && semanticClasses.error
-					)}
+					className={cnJoin(formState.errors.email && semanticClasses.error)}
 				/>
 
 				<FormErrorMessage formState={formState} type="regular" errorField="email" />
-			</InputGroup>
+			</Form.Group>
 
-			<InputGroup className={"relative"}>
-				<label htmlFor={`password__${uniqueId}`} className="text-label">
-					Password
-				</label>
+			<Form.Group className={"relative"}>
+				<Form.Label>Password</Form.Label>
 
-				<input
+				<Form.Input
 					{...register("password")}
 					type={isPasswordShow ? "text" : "password"}
-					name="password"
-					id={`password__${uniqueId}`}
-					className={cnMerge(
-						"min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot",
-						formState.errors.password && semanticClasses.error
-					)}
+					className={cnJoin(formState.errors.password && semanticClasses.error)}
 				/>
 
 				<FormErrorMessage formState={formState} type="regular" errorField="password" />
@@ -108,23 +83,16 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 				>
 					{isPasswordShow ? <AiFillEyeInvisible /> : <AiFillEye />}
 				</button>
-			</InputGroup>
+			</Form.Group>
 
 			{formType === "Sign Up" && (
-				<InputGroup className={"relative"}>
-					<label htmlFor={`confirmPassword__${uniqueId}`} className="text-label">
-						Confirm Password
-					</label>
+				<Form.Group className={"relative"}>
+					<Form.Label>Confirm Password</Form.Label>
 
-					<input
+					<Form.Input
 						{...register("confirmPassword")}
 						type={isConfirmPasswordShow ? "text" : "password"}
-						name="confirmPassword"
-						id={`confirmPassword__${uniqueId}`}
-						className={cnMerge(
-							"min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input  focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot",
-							formState.errors.confirmPassword && semanticClasses.error
-						)}
+						className={cnJoin(formState.errors.confirmPassword && semanticClasses.error)}
 					/>
 
 					<FormErrorMessage formState={formState} type="regular" errorField="confirmPassword" />
@@ -136,28 +104,27 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 					>
 						{isConfirmPasswordShow ? <AiFillEyeInvisible /> : <AiFillEye />}
 					</button>
-				</InputGroup>
+				</Form.Group>
 			)}
 
 			<FormErrorMessage
 				className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
-				formState={formState}
 				type="root"
+				formState={formState}
 				errorField="serverError"
 			/>
 
 			<FormErrorMessage
 				className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
-				formState={formState}
 				type="root"
+				formState={formState}
 				errorField="caughtError"
 			/>
 
-			<InputGroup className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}>
-				<input
+			<Form.Group className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}>
+				<Form.Input
 					{...register(formType === "Sign Up" ? "acceptTerms" : "rememberMe")}
 					type="checkbox"
-					name={formType === "Sign Up" ? "acceptTerms" : "rememberMe"}
 				/>
 
 				{formType === "Login" && <p>Remember me</p>}
@@ -177,7 +144,7 @@ function FormArea({ formType, formClasses = "" }: FormAreaProps) {
 						<FormErrorMessage formState={formState} type="regular" errorField="acceptTerms" />
 					</>
 				)}
-			</InputGroup>
+			</Form.Group>
 
 			<Button
 				type={"submit"}

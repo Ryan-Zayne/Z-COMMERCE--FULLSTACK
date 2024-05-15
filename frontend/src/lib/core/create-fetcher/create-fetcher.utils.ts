@@ -2,11 +2,11 @@ import { isArray, isObject } from "@/lib/type-helpers/typeof";
 import { omitKeys } from "@/lib/utils/omitKeys";
 import { pickKeys } from "@/lib/utils/pickKeys";
 import type {
+	$BaseRequestConfig,
+	$RequestConfig,
 	BaseConfig,
-	BaseRequestConfig,
 	ExtraOptions,
 	FetchConfig,
-	RequestConfig,
 } from "./create-fetcher.types";
 
 export const mergeUrlWithParams = (url: string, params: ExtraOptions["query"]): string => {
@@ -101,12 +101,14 @@ export const fetchSpecficKeys = [
 
 export const splitConfig = <TObject extends Record<string, unknown>>(
 	config: TObject
-): ["body" extends keyof TObject ? RequestConfig : BaseRequestConfig, ExtraOptions] => [
+): ["body" extends keyof TObject ? $RequestConfig : $BaseRequestConfig, ExtraOptions] => [
 	pickKeys(config, fetchSpecficKeys) as never,
 	omitKeys(config, fetchSpecficKeys) as never,
 ];
 
-export const isHTTPError = (errorName: unknown): errorName is "HTTPError" => errorName === "HTTPError";
+export const isHTTPError = (
+	errorInfo: Record<string, unknown> | null
+): errorInfo is { errorName: "HTTPError" } => isObject(errorInfo) && errorInfo.errorName === "HTTPError";
 
 type ErrorDetails<TErrorResponse> = {
 	response: Response & { errorData: TErrorResponse };
@@ -133,7 +135,7 @@ export const isHTTPErrorInstance = <TErrorResponse>(
 	error: unknown
 ): error is HTTPError<TErrorResponse> => {
 	return (
-		(isObject(error) && error.name === "HTTPError" && error.isHTTPError === true) ||
-		error instanceof HTTPError
+		error instanceof HTTPError ||
+		(isObject(error) && error.name === "HTTPError" && error.isHTTPError === true)
 	);
 };
