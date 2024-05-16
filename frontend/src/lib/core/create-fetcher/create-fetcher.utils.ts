@@ -1,4 +1,4 @@
-import { isArray, isObject } from "@/lib/type-helpers/typeof";
+import { isArray, isFunction, isObject } from "@/lib/type-helpers/typeof";
 import { omitKeys } from "@/lib/utils/omitKeys";
 import { pickKeys } from "@/lib/utils/pickKeys";
 import type {
@@ -7,6 +7,7 @@ import type {
 	BaseConfig,
 	ExtraOptions,
 	FetchConfig,
+	PossibleError,
 } from "./create-fetcher.types";
 
 export const mergeUrlWithParams = (url: string, params: ExtraOptions["query"]): string => {
@@ -33,37 +34,6 @@ export const objectifyHeaders = (headers: RequestInit["headers"]): Record<string
 	}
 
 	return Object.fromEntries(isArray(headers) ? headers : headers.entries());
-};
-
-export const createResponseLookup = <TResponse>(
-	response: Response,
-	parser?: Required<ExtraOptions>["responseParser"]
-) => ({
-	json: async () => {
-		if (!parser) {
-			return response.json() as Promise<TResponse>;
-		}
-
-		return parser<TResponse>(await response.text());
-	},
-	arrayBuffer: () => response.arrayBuffer() as Promise<TResponse>,
-	blob: () => response.blob() as Promise<TResponse>,
-	formData: () => response.formData() as Promise<TResponse>,
-	text: () => response.text() as Promise<TResponse>,
-});
-
-export const getResponseData = <TResponse>(
-	response: Response,
-	responseType: keyof ReturnType<typeof createResponseLookup>,
-	parser: ExtraOptions["responseParser"]
-) => {
-	const RESPONSE_LOOKUP = createResponseLookup<TResponse>(response, parser);
-
-	if (!Object.hasOwn(RESPONSE_LOOKUP, responseType)) {
-		throw new Error(`Invalid response type: ${responseType}`);
-	}
-
-	return RESPONSE_LOOKUP[responseType]();
 };
 
 const retryCodesLookup = {
@@ -106,7 +76,97 @@ export const splitConfig = <TObject extends Record<string, unknown>>(
 	omitKeys(config, fetchSpecficKeys) as never,
 ];
 
-export const isHTTPError = (
+export const createResponseLookup = <TResponse>(
+	response: Response,
+	parser?: Required<ExtraOptions>["responseParser"]
+) => ({
+	json: async () => {
+		if (parser) {
+			return parser<TResponse>(await response.text());
+		}
+
+		return response.json() as Promise<TResponse>;
+	},
+	arrayBuffer: () => response.arrayBuffer() as Promise<TResponse>,
+	blob: () => response.blob() as Promise<TResponse>,
+	formData: () => response.formData() as Promise<TResponse>,
+	text: () => response.text() as Promise<TResponse>,
+});
+
+export const getResponseData = <TResponse>(
+	response: Response,
+	responseType: keyof ReturnType<typeof createResponseLookup>,
+	parser: ExtraOptions["responseParser"]
+) => {
+	const RESPONSE_LOOKUP = createResponseLookup<TResponse>(response, parser);
+
+	if (!Object.hasOwn(RESPONSE_LOOKUP, responseType)) {
+		throw new Error(`Invalid response type: ${responseType}`);
+	}
+
+	return RESPONSE_LOOKUP[responseType]();
+};
+
+type Info<TData> = (
+	| {
+			type: "success";
+			successData: TData;
+			response: Response;
+	  }
+	| {
+			type: "error";
+			error?: unknown;
+			errorData?: TData;
+			response?: Response;
+			message?: string;
+	  }
+) & { response?: Response; options: ExtraOptions };
+
+export const resolveResult = <CallApiResult, TData = unknown>(info: Info<TData>): CallApiResult => {
+	const { options, type, response } = info;
+
+	if (type === "error") {
+		const { error, errorData, message } = info;
+
+		const shouldThrowOnError = isFunction(options.throwOnError)
+			? options.throwOnError(error as Error)
+			: options.throwOnError;
+
+		if (shouldThrowOnError) {
+			throw error;
+		}
+
+		return {
+			dataInfo: null,
+			errorInfo: {
+				errorName: (error as PossibleError).name ?? "UnknownError",
+				message: message ?? (error as PossibleError).message ?? options.defaultErrorMessage,
+				...(Boolean(errorData) && { errorData }),
+			},
+			response: response ?? null,
+		} as CallApiResult;
+	}
+
+	const { successData } = info;
+
+	const apiDetails = {
+		dataInfo: successData,
+		errorInfo: null,
+		response,
+	};
+
+	if (!options.resultMode || options.resultMode === "all") {
+		return apiDetails as CallApiResult;
+	}
+
+	return {
+		onlySuccess: apiDetails.dataInfo,
+		onlyError: apiDetails.errorInfo,
+		onlyResponse: apiDetails.response,
+	}[options.resultMode] as CallApiResult;
+};
+
+export const isHTTPErrorInfo = (
 	errorInfo: Record<string, unknown> | null
 ): errorInfo is { errorName: "HTTPError" } => isObject(errorInfo) && errorInfo.errorName === "HTTPError";
 

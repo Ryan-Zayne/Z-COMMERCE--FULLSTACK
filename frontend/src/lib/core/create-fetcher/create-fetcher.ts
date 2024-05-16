@@ -1,6 +1,7 @@
-import { isFunction, isObject } from "@/lib/type-helpers/typeof";
+import { isObject } from "@/lib/type-helpers/typeof";
 import { wait } from "@/lib/utils/wait";
 import type {
+	$RequestConfig,
 	AbortSignalWithAny,
 	BaseConfig,
 	ExtraOptions,
@@ -14,10 +15,11 @@ import {
 	defaultRetryCodes,
 	defaultRetryMethods,
 	getResponseData,
-	isHTTPError,
+	isHTTPErrorInfo,
 	isHTTPErrorInstance,
 	mergeUrlWithParams,
 	objectifyHeaders,
+	resolveResult,
 	splitConfig,
 } from "./create-fetcher.utils";
 
@@ -28,12 +30,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 	const [baseFetchConfig, baseExtraOptions] = splitConfig(baseConfig);
 
-	const {
-		method: baseMethod = "GET",
-		headers: baseHeaders,
-		signal: baseSignal,
-		...restOfBaseFetchConfig
-	} = baseFetchConfig;
+	const { headers: baseHeaders, signal: baseSignal, ...restOfBaseFetchConfig } = baseFetchConfig;
 
 	const callApi = async <
 		TData = TBaseData,
@@ -43,19 +40,13 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 		url: string,
 		config: FetchConfig<TData, TErrorData, TResultMode> = {}
 	): Promise<GetCallApiResult<TData, TErrorData, TResultMode>> => {
-		// == This type is used to cast all return statements due to a design limitation in ts. Casting as intersection of all props in the resultmap could work too, or it's resultant, "never", could work too!.
-		// == See https://www.zhenghao.io/posts/type-functions for more info
+		// == This type is used to cast all return statements due to a design limitation in ts. Casting as an intersection of all properties in the resultmap or it's resultant, which is "never", could work too!
+		// LINK - See https://www.zhenghao.io/posts/type-functions for more info
 		type CallApiResult = GetCallApiResult<TData, TErrorData, TResultMode>;
 
 		const [fetchConfig, extraOptions] = splitConfig(config);
 
-		const {
-			method = baseMethod,
-			signal = baseSignal,
-			body,
-			headers,
-			...restOfFetchConfig
-		} = fetchConfig;
+		const { signal = baseSignal, body, headers, ...restOfFetchConfig } = fetchConfig;
 
 		const prevFetchController = abortControllerStore.get(url);
 
@@ -94,13 +85,14 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 		const requestInit = {
 			signal: combinedSignal,
 
-			method,
+			method: "GET",
 
 			body: isObject(body) ? options.bodySerializer(body) : body,
 
-			// == Return undefined if there are no headers or if the body is not an object
+			/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+			// == Return undefined if there are no headers provided or if the body is not an object
 			headers:
-				baseHeaders ?? headers ?? isObject(body)
+				baseHeaders || headers || isObject(body)
 					? {
 							...(isObject(body) && {
 								"Content-Type": "application/json",
@@ -113,7 +105,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 			...restOfBaseFetchConfig,
 			...restOfFetchConfig,
-		};
+		} satisfies $RequestConfig;
 
 		try {
 			await options.onRequest?.({ request: requestInit, options });
@@ -123,15 +115,12 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 				requestInit
 			);
 
-			const retryCodes = new Set(options.retryCodes);
-			const retryMethods = new Set(options.retryMethods);
-
 			const shouldRetry =
 				!combinedSignal.aborted &&
 				options.retries > 0 &&
 				!response.ok &&
-				retryCodes.has(response.status) &&
-				retryMethods.has(method);
+				options.retryCodes.includes(response.status) &&
+				options.retryMethods.includes(requestInit.method);
 
 			if (shouldRetry) {
 				await wait(options.retryDelay);
@@ -161,66 +150,39 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 				});
 			}
 
-			const successResponse = await getResponseData<TData>(
+			const successData = await getResponseData<TData>(
 				response,
 				options.responseType,
 				options.responseParser
 			);
 
 			await options.onResponse?.({
-				response: { ...response, data: successResponse },
+				response: { ...response, data: successData },
 				request: requestInit,
 				options,
 			});
 
-			const resolveSuccessResult = (): CallApiResult => {
-				const apiDetails = {
-					dataInfo: successResponse,
-					errorInfo: null,
-					response,
-				};
-
-				if (!options.resultMode || options.resultMode === "all") {
-					return apiDetails as CallApiResult;
-				}
-
-				return {
-					onlySuccess: apiDetails.dataInfo,
-					onlyError: apiDetails.errorInfo,
-					onlyResponse: apiDetails.response,
-				}[options.resultMode] as CallApiResult;
-			};
-
-			return resolveSuccessResult();
+			return resolveResult<CallApiResult, TData>({ type: "success", successData, response, options });
 
 			// == Exhaustive Error handling
 		} catch (error) {
-			type Info = {
+			type Details = {
 				message?: string;
 				errorData?: unknown;
 				response?: Response;
 			};
 
-			const resolveErrorResult = (info: Info = {}): CallApiResult => {
-				const shouldThrowOnError = isFunction(options.throwOnError)
-					? options.throwOnError(error as Error)
-					: options.throwOnError;
+			const resolveErrorResult = (details: Details = {}) => {
+				const { errorData, response, message } = details;
 
-				if (shouldThrowOnError) {
-					throw error;
-				}
-
-				const { message, response, errorData } = info;
-
-				return {
-					dataInfo: null,
-					errorInfo: {
-						errorName: (error as PossibleError).name ?? "UnknownError",
-						message: message ?? (error as PossibleError).message ?? options.defaultErrorMessage,
-						...(Boolean(errorData) && { errorData }),
-					},
-					response: response ?? null,
-				} as CallApiResult;
+				return resolveResult<CallApiResult>({
+					type: "error",
+					error,
+					options,
+					errorData,
+					response,
+					message,
+				});
 			};
 
 			switch (true) {
@@ -267,7 +229,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 	};
 
 	callApi.abort = (url: string) => abortControllerStore.get(url)?.abort();
-	callApi.isHTTPError = isHTTPError;
+	callApi.isHTTPErrorInfo = isHTTPErrorInfo;
 	callApi.isHTTPErrorInstance = isHTTPErrorInstance;
 	callApi.create = createFetcher;
 

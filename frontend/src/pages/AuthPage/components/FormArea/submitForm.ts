@@ -28,7 +28,7 @@ const submitForm =
 
 		noScrollOnOpen({ isActive: false });
 
-		if (callMainApi.isHTTPError(errorInfo) && "errors" in errorInfo.errorData) {
+		if (callMainApi.isHTTPErrorInfo(errorInfo) && "errors" in errorInfo.errorData) {
 			const { errors: zodErrors } = errorInfo.errorData;
 
 			zodErrors.forEach(([field, errorMessage]) => {
@@ -41,7 +41,7 @@ const submitForm =
 			return;
 		}
 
-		if (callMainApi.isHTTPError(errorInfo) && "errorTitle" in errorInfo.errorData) {
+		if (callMainApi.isHTTPErrorInfo(errorInfo) && "errorTitle" in errorInfo.errorData) {
 			const errorResponse = errorInfo.errorData;
 
 			setError("root.serverError", {

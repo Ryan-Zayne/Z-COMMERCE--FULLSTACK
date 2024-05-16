@@ -91,8 +91,8 @@ export type ApiErrorVariant<TErrorData> =
 			dataInfo: null;
 			errorInfo: {
 				errorName: "HTTPError";
-				message: string;
 				errorData: TErrorData;
+				message: string;
 			};
 			response: Response;
 	  }

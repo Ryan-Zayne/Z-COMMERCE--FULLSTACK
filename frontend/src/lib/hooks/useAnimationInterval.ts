@@ -13,9 +13,8 @@ const useAnimationInterval = (options: AnimationOptions) => {
 
 	const latestCallback = useCallbackRef(callbackFn);
 
-	const { onAnimationStart, onAnimationStop } = useConstant(() =>
-		setAnimationInterval(latestCallback, intervalDuration)
-	);
+	// prettier-ignore
+	const { onAnimationStart, onAnimationStop } = useConstant(() =>setAnimationInterval(latestCallback, intervalDuration));
 
 	useEffect(() => {
 		if (intervalDuration === null) return;
