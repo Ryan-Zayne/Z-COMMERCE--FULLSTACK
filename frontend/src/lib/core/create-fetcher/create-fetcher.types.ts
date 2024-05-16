@@ -36,6 +36,14 @@ export type ExtraOptions<
 
 	responseType?: keyof ReturnType<typeof createResponseLookup>;
 
+	retries?: number;
+
+	retryDelay?: number;
+
+	retryCodes?: Array<409 | 425 | 429 | 500 | 502 | 503 | 504 | AnyNumber>;
+
+	retryMethods?: Array<"GET" | "POST" | "PATCH" | "DELETE" | AnyString>;
+
 	onRequest?: (requestContext: {
 		request: $RequestConfig;
 		options: ExtraOptions;
@@ -58,11 +66,6 @@ export type ExtraOptions<
 		request: $RequestConfig;
 		options: ExtraOptions;
 	}) => void | Promise<void>;
-
-	retries?: number;
-	retryCodes?: Array<409 | 425 | 429 | 500 | 502 | 503 | 504 | AnyNumber>;
-	retryDelay?: number;
-	retryMethods?: Array<"GET" | "POST" | "PATCH" | "DELETE" | AnyString>;
 };
 
 export type BaseConfig<
@@ -77,13 +80,13 @@ export type FetchConfig<
 	TResultMode extends ResultStyleUnion = undefined,
 > = Omit<RequestInit, "method" | "body"> & ExtraOptions<TData, TErrorData, TResultMode>;
 
-type ApiSuccessShape<TData> = {
+type ApiSuccessVariant<TData> = {
 	dataInfo: TData;
 	errorInfo: null;
 	response: Response;
 };
 
-export type ApiErrorShape<TErrorData> =
+export type ApiErrorVariant<TErrorData> =
 	| {
 			dataInfo: null;
 			errorInfo: {
@@ -103,7 +106,7 @@ export type ApiErrorShape<TErrorData> =
 	  };
 
 type ResultStyleMap<TData = unknown, TErrorData = unknown> = {
-	all: ApiSuccessShape<TData> | ApiErrorShape<TErrorData>;
+	all: ApiSuccessVariant<TData> | ApiErrorVariant<TErrorData>;
 	onlySuccess: TData;
 	onlyError: TErrorData;
 	onlyResponse: Response;
