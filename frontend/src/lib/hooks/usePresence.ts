@@ -7,9 +7,20 @@ import { useToggle } from "./useToggle";
 
 type UsePresenceOptions<TDuration extends number | undefined, THasType extends boolean> = Prettify<
 	{
+		/**
+		 * The duration of the animation or transition
+		 */
 		duration?: TDuration;
+		/**
+		 * A callback function that will be called when the animation or transition ends
+		 */
 		callbackFn?: () => void;
-	} & (THasType extends true ? { type?: "animation" | "transition" } : unknown)
+	} & (THasType extends true
+		? /**
+			 * The type of animation, whether animation or transition
+			 */
+			{ type?: "animation" | "transition" }
+		: unknown)
 >;
 
 type UsePresenceResult<TElement, TDuration> = Prettify<
@@ -152,10 +163,6 @@ const useTransitionPresence: UseSpecificPresence = (defaultValue = true, options
  *
  * @param defaultValue - The default value for the presence state. Defaults to `true`.
  * @param options - The options for the usePresence hook.
- * @param options.type - The type of animation is a transition or an animation. Defaults to "animation".
- * @param options.duration - The duration in milliseconds for the debounce effect. Defaults to `150`.
- * @param options.callbackFn - A callback function to be called when the animation is over (when the presence state changes to `false`).
- *
  * @returns A tuple containing the boolean that should be used to show and hide the element state and a function to toggle the presence state.
  */
 
