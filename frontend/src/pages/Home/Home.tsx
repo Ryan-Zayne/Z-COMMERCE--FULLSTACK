@@ -1,4 +1,4 @@
-import Categories from "./Categories/Categories";
+import Categories from "./Categories";
 import Hero from "./Hero/Hero";
 import HomeProductSection from "./HomeProductSection/HomeProductSection";
 
