@@ -40,24 +40,11 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 		url: string,
 		config: FetchConfig<TData, TErrorData, TResultMode> = {}
 	): Promise<GetCallApiResult<TData, TErrorData, TResultMode>> => {
-		// == This type is used to cast all return statements due to a design limitation in ts. Casting as an intersection of all properties in the resultmap or it's resultant, which is "never", could work too!
+		// == This type is used to cast all return statements due to a design limitation in ts.
 		// LINK - See https://www.zhenghao.io/posts/type-functions for more info
 		type CallApiResult = GetCallApiResult<TData, TErrorData, TResultMode>;
 
 		const [fetchConfig, extraOptions] = splitConfig(config);
-
-		const { signal = baseSignal, body, headers, ...restOfFetchConfig } = fetchConfig;
-
-		const prevFetchController = abortControllerStore.get(url);
-
-		if (prevFetchController) {
-			const reason = new DOMException("Cancelled the previous unfinished request", "AbortError");
-			prevFetchController.abort(reason);
-		}
-
-		const fetchController = new AbortController();
-
-		abortControllerStore.set(url, fetchController);
 
 		const options = {
 			bodySerializer: JSON.stringify,
@@ -68,14 +55,27 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 			retryCodes: defaultRetryCodes,
 			retryMethods: defaultRetryMethods,
 			defaultErrorMessage: "Failed to fetch data from server!",
-
+			shouldCancelRedundantRequests: true,
 			...baseExtraOptions,
 			...extraOptions,
 		} satisfies ExtraOptions;
 
+		const { signal = baseSignal, body, headers, ...restOfFetchConfig } = fetchConfig;
+
+		const prevFetchController = abortControllerStore.get(url);
+
+		if (prevFetchController && options.shouldCancelRedundantRequests) {
+			const reason = new DOMException("Cancelled the previous unfinished request", "AbortError");
+			prevFetchController.abort(reason);
+		}
+
+		const fetchController = new AbortController();
+
+		abortControllerStore.set(url, fetchController);
+
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
 
-		// FIXME -   Remove this type cast once TS updates its lib-dom types for AbortSignal to include the any() method
+		// FIXME - Remove this type cast once TS updates its lib-dom types for AbortSignal to include the any() method
 		const combinedSignal = (AbortSignal as AbortSignalWithAny).any([
 			fetchController.signal,
 			timeoutSignal ?? fetchController.signal,
@@ -117,7 +117,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 			const shouldRetry =
 				!combinedSignal.aborted &&
-				options.retries > 0 &&
+				options.retries !== 0 &&
 				!response.ok &&
 				options.retryCodes.includes(response.status) &&
 				options.retryMethods.includes(requestInit.method);
@@ -166,14 +166,14 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 			// == Exhaustive Error handling
 		} catch (error) {
-			type Details = {
+			type ErrorDetails = {
 				message?: string;
 				errorData?: unknown;
 				response?: Response;
 			};
 
-			const resolveErrorResult = (details: Details = {}) => {
-				const { errorData, response, message } = details;
+			const resolveErrorResult = (errorDetails: ErrorDetails = {}) => {
+				const { errorData, response, message } = errorDetails;
 
 				return resolveResult<CallApiResult>({
 					type: "error",
@@ -185,42 +185,35 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 				});
 			};
 
-			switch (true) {
-				case error instanceof DOMException && error.name === "TimeoutError": {
-					const message = `Request timed out after ${options.timeout}ms`;
+			if (error instanceof DOMException && error.name === "TimeoutError") {
+				const message = `Request timed out after ${options.timeout}ms`;
 
-					console.info(
-						`%cTimeoutError: ${message}`,
-						"color: red; font-weight: 500; font-size: 14px;"
-					);
+				console.info(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
 
-					return resolveErrorResult({ message });
-				}
-
-				case error instanceof DOMException && error.name === "AbortError": {
-					const message = `Request was cancelled`;
-
-					console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
-
-					return resolveErrorResult({ message });
-				}
-
-				case isHTTPErrorInstance<TErrorData>(error): {
-					const { errorData, ...response } = error.response;
-
-					return resolveErrorResult({
-						errorData,
-						response,
-						message: (errorData as PossibleError | undefined)?.message,
-					});
-				}
-
-				default: {
-					await options.onRequestError?.({ request: requestInit, error: error as Error, options });
-
-					return resolveErrorResult();
-				}
+				return resolveErrorResult({ message });
 			}
+
+			if (error instanceof DOMException && error.name === "AbortError") {
+				const message = `Request was cancelled`;
+
+				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
+
+				return resolveErrorResult({ message });
+			}
+
+			if (isHTTPErrorInstance<TErrorData>(error)) {
+				const { errorData, ...response } = error.response;
+
+				return resolveErrorResult({
+					errorData,
+					response,
+					message: (errorData as PossibleError | undefined)?.message,
+				});
+			}
+
+			await options.onRequestError?.({ request: requestInit, error: error as Error, options });
+
+			return resolveErrorResult();
 
 			// Remove the now unneeded AbortController from store
 		} finally {

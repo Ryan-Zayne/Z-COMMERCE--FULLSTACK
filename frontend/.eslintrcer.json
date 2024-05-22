@@ -1,0 +1,260 @@
+{
+	"root": true,
+
+	"env": {
+		"browser": true,
+		"node": true,
+		"es2021": true
+	},
+
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/strict-type-checked",
+		"plugin:@typescript-eslint/stylistic-type-checked",
+		"plugin:react/recommended",
+		"plugin:react-hooks/recommended",
+		"plugin:react/jsx-runtime",
+		"plugin:jsx-a11y/recommended",
+		"plugin:oxlint/recommended",
+		"plugin:import-x/recommended",
+		"plugin:import-x/typescript",
+		"plugin:tailwindcss/recommended",
+		"plugin:@tanstack/eslint-plugin-query/recommended",
+		"plugin:unicorn/recommended",
+		"prettier"
+	],
+
+	"plugins": ["import"],
+
+	"parser": "@typescript-eslint/parser",
+
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module",
+		"tsconfigRootDir": ".",
+		"project": "config/tsconfig.eslint.json"
+	},
+
+	"settings": {
+		"react": {
+			"version": "detect"
+		},
+
+		"import/parsers": {
+			"@typescript-eslint/parser": [".ts", ".tsx", ".d.ts"]
+		},
+
+		"import/resolver": {
+			"typescript": {
+				"alwaysTryTypes": true,
+				"project": "tsconfig.json"
+			},
+			"node": true
+		},
+		"import/extensions": [".js", ".mjs", ".jsx", ".ts", ".tsx", ".d.ts"],
+		"import/external-module-folders": ["node_modules", "node_modules/@types"]
+	},
+
+	"rules": {
+		// Typescript Eslint Rules
+		"@typescript-eslint/no-unused-expressions": [
+			"error",
+			{
+				"allowShortCircuit": true,
+				"allowTernary": true
+			}
+		],
+		"@typescript-eslint/no-import-type-side-effects": "error",
+		"@typescript-eslint/no-unused-vars": "warn",
+		"@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
+		"@typescript-eslint/consistent-type-definitions": ["error", "type"],
+		"@typescript-eslint/no-useless-constructor": "error",
+		"@typescript-eslint/member-ordering": "error",
+		"@typescript-eslint/no-confusing-void-expression": "off",
+		"@typescript-eslint/non-nullable-type-assertion-style": "off",
+		"@typescript-eslint/no-use-before-define": "off",
+		"@typescript-eslint/method-signature-style": ["error", "property"],
+		"@typescript-eslint/restrict-template-expressions": [
+			"error",
+			{ "allowNumber": true, "allowNullish": true, "allowBoolean": true }
+		],
+		"@typescript-eslint/default-param-last": "error",
+		"@typescript-eslint/return-await": ["error", "in-try-catch"],
+		"@typescript-eslint/require-await": "error",
+		"@typescript-eslint/no-empty-function": [
+			"error",
+			{ "allow": ["arrowFunctions", "functions", "methods"] }
+		],
+		"@typescript-eslint/lines-between-class-members": "warn",
+		"@typescript-eslint/dot-notation": "error",
+		"@typescript-eslint/no-throw-literal": "error",
+		"@typescript-eslint/no-shadow": "error",
+		"@typescript-eslint/no-redeclare": "error",
+
+		"import-x/extensions": ["error", "never", { "ignorePackages": false }],
+		"import-x/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+		"import-x/prefer-default-export": "off",
+		"import-x/no-cycle": ["error", { "ignoreExternal": true, "maxDepth": 3 }],
+		"import-x/no-unresolved": "off",
+		"import-x/export": "error",
+		"import-x/no-named-as-default": "error",
+		"import-x/no-named-as-default-member": "error",
+		"import-x/no-mutable-exports": "error",
+		"import-x/first": "error",
+		"import-x/no-duplicates": "error",
+		"import-x/order": ["error", { "groups": [["builtin", "external", "internal"]] }],
+		"import-x/newline-after-import": "error",
+		"import-x/no-absolute-path": "error",
+		"import-x/no-named-default": "error",
+		"import-x/no-self-import": "error",
+		"import-x/no-useless-path-segments": ["error", { "commonjs": true }],
+		"import-x/no-relative-packages": "error",
+
+		// React rules
+		"react-hooks/rules-of-hooks": "error",
+		"react/self-closing-comp": ["error", { "component": true }],
+		"react/jsx-curly-brace-presence": [
+			"error",
+			{
+				"props": "ignore",
+				"children": "ignore",
+				"propElementValues": "always"
+			}
+		],
+		"react/jsx-no-useless-fragment": [
+			"error",
+			{
+				"allowExpressions": true
+			}
+		],
+		"react/jsx-boolean-value": ["error", "always"],
+		"react/button-has-type": "off",
+		"react/function-component-definition": "off",
+		"react-hooks/exhaustive-deps": "warn",
+		"react/jsx-filename-extension": [
+			"error",
+			{
+				"extensions": [".tsx", ".jsx"]
+			}
+		],
+		"react/jsx-props-no-spreading": "off",
+		"react/require-default-props": "off",
+		"react/hook-use-state": "off",
+		"react/no-invalid-html-attribute": "error",
+		"react/jsx-fragments": ["error", "syntax"],
+		"react/destructuring-assignment": ["error", "always"],
+		"react/no-typos": "error",
+		"react/no-array-index-key": "error",
+		"react/no-children-prop": "error",
+		"react/no-danger-with-children": "error",
+		"react/jsx-no-target-blank": ["error", { "enforceDynamicLinks": "always" }],
+		"react/jsx-no-duplicate-props": ["error", { "ignoreCase": true }],
+
+		// Jsx-A11y rules
+		"jsx-a11y/click-events-have-key-events": "off",
+		"jsx-a11y/no-static-element-interactions": "off",
+		"jsx-a11y/control-has-associated-label": "off",
+		"jsx-a11y/label-has-associated-control": [
+			"error",
+			{
+				"labelComponents": ["CustomInputLabel"],
+				"labelAttributes": ["label"],
+				"controlComponents": ["CustomInput"],
+				"depth": 3
+			}
+		],
+		"jsx-a11y/alt-text": [
+			"error",
+			{
+				"elements": ["img", "object", "area", "input[type='image']"],
+				"img": [],
+				"object": [],
+				"area": [],
+				"input[type='image']": []
+			}
+		],
+		"jsx-a11y/anchor-has-content": ["error", { "components": [] }],
+		"jsx-a11y/anchor-is-valid": [
+			"error",
+			{
+				"components": ["Link"],
+				"specialLink": ["to"],
+				"aspects": ["noHref", "invalidHref", "preferButton"]
+			}
+		],
+		"jsx-a11y/aria-activedescendant-has-tabindex": "error",
+		"jsx-a11y/aria-props": "error",
+		"jsx-a11y/aria-proptypes": "error",
+		"jsx-a11y/aria-role": ["error", { "ignoreNonDOM": false }],
+		"jsx-a11y/aria-unsupported-elements": "error",
+		"jsx-a11y/autocomplete-valid": ["warn", { "inputComponents": [] }],
+		"jsx-a11y/heading-has-content": ["error", { "components": [""] }],
+		"jsx-a11y/html-has-lang": "error",
+		"jsx-a11y/iframe-has-title": "error",
+		"jsx-a11y/img-redundant-alt": "error",
+		"jsx-a11y/interactive-supports-focus": "error",
+		"jsx-a11y/lang": "error",
+		"jsx-a11y/media-has-caption": [
+			"error",
+			{
+				"audio": [],
+				"video": [],
+				"track": []
+			}
+		],
+		"jsx-a11y/mouse-events-have-key-events": "error",
+		"jsx-a11y/no-access-key": "error",
+		"jsx-a11y/no-autofocus": ["error", { "ignoreNonDOM": true }],
+		"jsx-a11y/no-distracting-elements": ["error", { "elements": ["marquee", "blink"] }],
+		"jsx-a11y/no-interactive-element-to-noninteractive-role": [
+			"error",
+			{ "tr": ["none", "presentation"] }
+		],
+		"jsx-a11y/no-noninteractive-element-interactions": [
+			"error",
+			{ "handlers": ["onClick", "onMouseDown", "onMouseUp", "onKeyPress", "onKeyDown", "onKeyUp"] }
+		],
+		"jsx-a11y/no-noninteractive-element-to-interactive-role": [
+			"error",
+			{
+				"ul": ["listbox", "menu", "menubar", "radiogroup", "tablist", "tree", "treegrid"],
+				"ol": ["listbox", "menu", "menubar", "radiogroup", "tablist", "tree", "treegrid"],
+				"li": ["menuitem", "option", "row", "tab", "treeitem"],
+				"table": ["grid"],
+				"td": ["gridcell"]
+			}
+		],
+		"jsx-a11y/no-noninteractive-tabindex": [
+			"error",
+			{
+				"tags": [],
+				"roles": ["tabpanel"],
+				"allowExpressionValues": true
+			}
+		],
+		"jsx-a11y/no-redundant-roles": [
+			"error",
+			{
+				"nav": ["navigation"]
+			}
+		],
+		"jsx-a11y/role-has-required-aria-props": "error",
+		"jsx-a11y/role-supports-aria-props": "error",
+		"jsx-a11y/scope": "error",
+		"jsx-a11y/tabindex-no-positive": "error",
+		"jsx-a11y/anchor-ambiguous-text": "error",
+		"jsx-a11y/no-aria-hidden-on-focusable": "error",
+		"jsx-a11y/prefer-tag-over-role": "error",
+
+		// Tailwind rules
+		"tailwindcss/no-custom-classname": "off",
+		"tailwindcss/no-contradicting-classname": "off",
+		"tailwindcss/no-unnecessary-arbitrary-value": "off",
+		"tailwindcss/classnames-order": [
+			"warn",
+			{
+				"config": "./tailwind.config.ts"
+			}
+		]
+	}
+}

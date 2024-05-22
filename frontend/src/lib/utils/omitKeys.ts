@@ -5,10 +5,8 @@ export const omitKeys = <
 	initialObject: TObject,
 	keysToOmit: TOmitArray
 ) => {
-	const keysToOmitSet = new Set(keysToOmit);
-
 	const arrayFromFilteredObject = Object.entries(initialObject).filter(
-		([key]) => !keysToOmitSet.has(key)
+		([key]) => !keysToOmit.includes(key)
 	);
 
 	const updatedObject = Object.fromEntries(arrayFromFilteredObject);
@@ -23,12 +21,10 @@ export const omitKeysWithReduce = <
 	initialObject: TObject,
 	keysToOmit: TOmitArray
 ) => {
-	const keysToOmitSet = new Set(keysToOmit);
-
 	const arrayFromObject = Object.entries(initialObject);
 
 	const updatedObject = arrayFromObject.reduce<Record<string, unknown>>((accumulator, [key, value]) => {
-		if (!keysToOmitSet.has(key)) {
+		if (!keysToOmit.includes(key)) {
 			accumulator[key] = value;
 		}
 

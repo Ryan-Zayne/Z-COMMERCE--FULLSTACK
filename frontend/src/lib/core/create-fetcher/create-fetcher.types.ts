@@ -24,6 +24,8 @@ export type ExtraOptions<
 
 	resultMode?: TBaseResultMode;
 
+	shouldCancelRedundantRequests?: boolean;
+
 	baseURL?: string;
 
 	timeout?: number;
@@ -31,8 +33,6 @@ export type ExtraOptions<
 	defaultErrorMessage?: string;
 
 	throwOnError?: boolean | ((error?: Error | HTTPError<TBaseErrorData>) => boolean);
-
-	meta?: Record<string, unknown>;
 
 	responseType?: keyof ReturnType<typeof createResponseLookup>;
 
@@ -43,6 +43,8 @@ export type ExtraOptions<
 	retryCodes?: Array<409 | 425 | 429 | 500 | 502 | 503 | 504 | AnyNumber>;
 
 	retryMethods?: Array<"GET" | "POST" | "PATCH" | "DELETE" | AnyString>;
+
+	meta?: Record<string, unknown>;
 
 	onRequest?: (requestContext: {
 		request: $RequestConfig;
@@ -99,7 +101,7 @@ export type ApiErrorVariant<TErrorData> =
 	| {
 			dataInfo: null;
 			errorInfo: {
-				errorName: Required<PossibleError>["name"];
+				errorName: NonNullable<PossibleError["name"]>;
 				message: string;
 			};
 			response: null;
