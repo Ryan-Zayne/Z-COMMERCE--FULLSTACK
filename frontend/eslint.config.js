@@ -1,10 +1,13 @@
+import { fixupPluginRules } from "@eslint/compat";
 import eslintBase from "@eslint/js";
 import eslintImportX from "eslint-plugin-import-x";
+import eslintReact from "eslint-plugin-react";
+import eslintReactHooks from "eslint-plugin-react-hooks";
 import eslintUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-/** @type {import('typescript-eslint').ConfigWithExtends} */
+/** @type {import('typescript-eslint').ConfigWithExtends[]} */
 
 const eslintConfigArray = [
 	// Global Options
@@ -234,13 +237,12 @@ const eslintConfigArray = [
 	},
 
 	// Typescript Eslint Rules
-	...tseslint.configs.strictTypeChecked,
+	...tseslint.configs.strictTypeChecked.map((item) => ({ ...item, ignores: ["**/*.js"] })),
 	...tseslint.configs.stylisticTypeChecked,
 	{
-		ignores: ["**/*.js"],
 		languageOptions: {
 			parserOptions: {
-				project: "./config/tsconfig.eslint.json",
+				project: "config/tsconfig.eslint.json",
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},
@@ -294,6 +296,7 @@ const eslintConfigArray = [
 			"import-x/no-unresolved": "off",
 			"import-x/export": "error",
 			"import-x/no-named-as-default": "error",
+			"import-x/namespace": "off",
 			"import-x/no-named-as-default-member": "error",
 			"import-x/no-mutable-exports": "error",
 			"import-x/first": "error",
@@ -333,7 +336,69 @@ const eslintConfigArray = [
 		},
 	},
 
-	//
+	// React Rules
+	{
+		languageOptions: {
+			parserOptions: {
+				ecmaFeatures: { jsx: true },
+			},
+		},
+
+		settings: {
+			react: {
+				version: "detect",
+			},
+		},
+
+		plugins: {
+			react: fixupPluginRules(eslintReact),
+			"react-hooks": fixupPluginRules(eslintReactHooks),
+		},
+
+		rules: {
+			...eslintReact.configs.recommended.rules,
+			...eslintReact.configs["jsx-runtime"].rules,
+			...eslintReactHooks.configs.recommended.rules,
+			"react-hooks/rules-of-hooks": "error",
+			"react/self-closing-comp": ["error", { component: true }],
+			"react/jsx-curly-brace-presence": [
+				"error",
+				{
+					props: "ignore",
+					children: "ignore",
+					propElementValues: "always",
+				},
+			],
+			"react/jsx-no-useless-fragment": [
+				"error",
+				{
+					allowExpressions: true,
+				},
+			],
+			"react/jsx-boolean-value": ["error", "always"],
+			"react/button-has-type": "off",
+			"react/function-component-definition": "off",
+			"react-hooks/exhaustive-deps": "warn",
+			"react/jsx-filename-extension": [
+				"error",
+				{
+					extensions: [".tsx", ".jsx"],
+				},
+			],
+			"react/jsx-props-no-spreading": "off",
+			"react/require-default-props": "off",
+			"react/hook-use-state": "off",
+			"react/no-invalid-html-attribute": "error",
+			"react/jsx-fragments": ["error", "syntax"],
+			"react/destructuring-assignment": ["error", "always"],
+			"react/no-typos": "error",
+			"react/no-array-index-key": "error",
+			"react/no-children-prop": "error",
+			"react/no-danger-with-children": "error",
+			"react/jsx-no-target-blank": ["error", { enforceDynamicLinks: "always" }],
+			"react/jsx-no-duplicate-props": ["error", { ignoreCase: true }],
+		},
+	},
 ];
 
 export default eslintConfigArray;

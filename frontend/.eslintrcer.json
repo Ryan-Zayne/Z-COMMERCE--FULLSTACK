@@ -111,44 +111,7 @@
 		"import-x/no-relative-packages": "error",
 
 		// React rules
-		"react-hooks/rules-of-hooks": "error",
-		"react/self-closing-comp": ["error", { "component": true }],
-		"react/jsx-curly-brace-presence": [
-			"error",
-			{
-				"props": "ignore",
-				"children": "ignore",
-				"propElementValues": "always"
-			}
-		],
-		"react/jsx-no-useless-fragment": [
-			"error",
-			{
-				"allowExpressions": true
-			}
-		],
-		"react/jsx-boolean-value": ["error", "always"],
-		"react/button-has-type": "off",
-		"react/function-component-definition": "off",
-		"react-hooks/exhaustive-deps": "warn",
-		"react/jsx-filename-extension": [
-			"error",
-			{
-				"extensions": [".tsx", ".jsx"]
-			}
-		],
-		"react/jsx-props-no-spreading": "off",
-		"react/require-default-props": "off",
-		"react/hook-use-state": "off",
-		"react/no-invalid-html-attribute": "error",
-		"react/jsx-fragments": ["error", "syntax"],
-		"react/destructuring-assignment": ["error", "always"],
-		"react/no-typos": "error",
-		"react/no-array-index-key": "error",
-		"react/no-children-prop": "error",
-		"react/no-danger-with-children": "error",
-		"react/jsx-no-target-blank": ["error", { "enforceDynamicLinks": "always" }],
-		"react/jsx-no-duplicate-props": ["error", { "ignoreCase": true }],
+		,
 
 		// Jsx-A11y rules
 		"jsx-a11y/click-events-have-key-events": "off",
