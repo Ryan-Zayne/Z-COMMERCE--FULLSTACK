@@ -33,17 +33,18 @@ function CarouselContent<TElement extends React.ElementType = "article">(
 		shouldPauseOnHover,
 	});
 
+	// FIXME - Prevent touch swipe on mobile using a cover element or allow swipe but it must update the state appriopriately
 	return (
 		<HtmlElement
 			data-id="Carousel"
-			className={cnMerge("relative touch-none select-none", classNames.base)}
+			className={cnMerge("relative select-none", classNames.base)}
 			onMouseEnter={pauseAutoSlide}
 			onMouseLeave={resumeAutoSlide}
 		>
 			<div
 				data-id="Scroll Container"
 				className={cnMerge(
-					"flex size-full touch-none overflow-x-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+					"flex size-full overflow-x-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
 					classNames.scrollContainer
 				)}
 			>

@@ -39,7 +39,6 @@ const eslintConfigArray = [
 			"no-console": ["error", { allow: ["warn", "error", "info"] }],
 			"constructor-super": "error",
 			"no-class-assign": "error",
-			"no-confusing-arrow": ["error", { allowParens: true }],
 			//FIXME - JsOnly -  disallow modifying variables that are declared using const
 			"no-const-assign": "error",
 			"no-dupe-class-members": "error",
