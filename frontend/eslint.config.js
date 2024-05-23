@@ -1,8 +1,10 @@
 import { fixupPluginRules } from "@eslint/compat";
 import eslintBase from "@eslint/js";
 import eslintImportX from "eslint-plugin-import-x";
+import eslintJsxA11y from "eslint-plugin-jsx-a11y";
 import eslintReact from "eslint-plugin-react";
 import eslintReactHooks from "eslint-plugin-react-hooks";
+import eslintTailwind from "eslint-plugin-tailwindcss";
 import eslintUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -301,7 +303,6 @@ const eslintConfigArray = [
 			"import-x/no-mutable-exports": "error",
 			"import-x/first": "error",
 			"import-x/no-duplicates": "error",
-			"import-x/order": ["error", { groups: [["builtin", "external", "internal"]] }],
 			"import-x/newline-after-import": "error",
 			"import-x/no-absolute-path": "error",
 			"import-x/no-named-default": "error",
@@ -397,6 +398,125 @@ const eslintConfigArray = [
 			"react/no-danger-with-children": "error",
 			"react/jsx-no-target-blank": ["error", { enforceDynamicLinks: "always" }],
 			"react/jsx-no-duplicate-props": ["error", { ignoreCase: true }],
+		},
+	},
+
+	// JSX A11y Rules
+	{
+		plugins: {
+			"jsx-a11y": fixupPluginRules(eslintJsxA11y),
+		},
+		rules: {
+			"jsx-a11y/click-events-have-key-events": "off",
+			"jsx-a11y/no-static-element-interactions": "off",
+			"jsx-a11y/control-has-associated-label": "off",
+			"jsx-a11y/label-has-associated-control": [
+				"error",
+				{
+					labelComponents: ["CustomInputLabel"],
+					labelAttributes: ["label"],
+					controlComponents: ["CustomInput"],
+					depth: 3,
+				},
+			],
+			"jsx-a11y/alt-text": [
+				"error",
+				{
+					elements: ["img", "object", "area", "input[type='image']"],
+					img: [],
+					object: [],
+					area: [],
+					"input[type='image']": [],
+				},
+			],
+			"jsx-a11y/anchor-has-content": ["error", { components: [] }],
+			"jsx-a11y/anchor-is-valid": [
+				"error",
+				{
+					components: ["Link"],
+					specialLink: ["to"],
+					aspects: ["noHref", "invalidHref", "preferButton"],
+				},
+			],
+			"jsx-a11y/aria-activedescendant-has-tabindex": "error",
+			"jsx-a11y/aria-props": "error",
+			"jsx-a11y/aria-proptypes": "error",
+			"jsx-a11y/aria-role": ["error", { ignoreNonDOM: false }],
+			"jsx-a11y/aria-unsupported-elements": "error",
+			"jsx-a11y/autocomplete-valid": ["warn", { inputComponents: [] }],
+			"jsx-a11y/heading-has-content": ["error", { components: [""] }],
+			"jsx-a11y/html-has-lang": "error",
+			"jsx-a11y/iframe-has-title": "error",
+			"jsx-a11y/img-redundant-alt": "error",
+			"jsx-a11y/interactive-supports-focus": "error",
+			"jsx-a11y/lang": "error",
+			"jsx-a11y/media-has-caption": [
+				"error",
+				{
+					audio: [],
+					video: [],
+					track: [],
+				},
+			],
+			"jsx-a11y/mouse-events-have-key-events": "error",
+			"jsx-a11y/no-access-key": "error",
+			"jsx-a11y/no-autofocus": ["error", { ignoreNonDOM: true }],
+			"jsx-a11y/no-distracting-elements": ["error", { elements: ["marquee", "blink"] }],
+			"jsx-a11y/no-interactive-element-to-noninteractive-role": [
+				"error",
+				{ tr: ["none", "presentation"] },
+			],
+			"jsx-a11y/no-noninteractive-element-interactions": [
+				"error",
+				{ handlers: ["onClick", "onMouseDown", "onMouseUp", "onKeyPress", "onKeyDown", "onKeyUp"] },
+			],
+			"jsx-a11y/no-noninteractive-element-to-interactive-role": [
+				"error",
+				{
+					ul: ["listbox", "menu", "menubar", "radiogroup", "tablist", "tree", "treegrid"],
+					ol: ["listbox", "menu", "menubar", "radiogroup", "tablist", "tree", "treegrid"],
+					li: ["menuitem", "option", "row", "tab", "treeitem"],
+					table: ["grid"],
+					td: ["gridcell"],
+				},
+			],
+			"jsx-a11y/no-noninteractive-tabindex": [
+				"error",
+				{
+					tags: [],
+					roles: ["tabpanel"],
+					allowExpressionValues: true,
+				},
+			],
+			"jsx-a11y/no-redundant-roles": [
+				"error",
+				{
+					nav: ["navigation"],
+				},
+			],
+			"jsx-a11y/role-has-required-aria-props": "error",
+			"jsx-a11y/role-supports-aria-props": "error",
+			"jsx-a11y/scope": "error",
+			"jsx-a11y/tabindex-no-positive": "error",
+			"jsx-a11y/anchor-ambiguous-text": "error",
+			"jsx-a11y/no-aria-hidden-on-focusable": "error",
+			"jsx-a11y/prefer-tag-over-role": "error",
+		},
+	},
+
+	// Tailwind Rules
+	...eslintTailwind.configs["flat/recommended"],
+	{
+		rules: {
+			"tailwindcss/no-custom-classname": "off",
+			"tailwindcss/no-contradicting-classname": "off",
+			"tailwindcss/no-unnecessary-arbitrary-value": "off",
+			"tailwindcss/classnames-order": [
+				"warn",
+				{
+					config: "./tailwind.config.ts",
+				},
+			],
 		},
 	},
 ];

@@ -13,7 +13,7 @@ function LoginFormPage() {
 	return (
 		<Transition
 			className={
-				"relative z-10 w-[min(100%,48rem)] rounded-[4px] bg-body p-[3rem_3rem] md:p-[2rem_5rem]"
+				"relative z-10 w-[min(100%,48rem)] rounded-[4px]  bg-body p-[3rem_3rem] md:p-[2rem_5rem]"
 			}
 			show={isLoginPath}
 			appear={true}
