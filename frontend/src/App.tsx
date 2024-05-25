@@ -1,10 +1,10 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Suspense } from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import { LoadingSpinner } from "./components/primitives";
-import { DismissableToaster } from "./components/ui";
-import { routes } from "./pages/routes";
+import { SonnerToaster } from "./components/ui";
+import { router } from "./pages/routes";
 import { useGlobalStore } from "./store/zustand/globalStore";
 
 AOS.init();
@@ -15,10 +15,10 @@ function App() {
 	return (
 		<>
 			<Suspense fallback={<LoadingSpinner />}>
-				<RouterProvider router={createBrowserRouter(routes)} future={{ v7_startTransition: true }} />
+				<RouterProvider router={router} future={{ v7_startTransition: true }} />
 			</Suspense>
 
-			<DismissableToaster />
+			<SonnerToaster />
 		</>
 	);
 }

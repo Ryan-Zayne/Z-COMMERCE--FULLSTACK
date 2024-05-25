@@ -1,6 +1,6 @@
 import GlobalLayout from "@/layouts/GlobalLayout";
 import { lazy } from "react";
-import { Route, createRoutesFromElements } from "react-router-dom";
+import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import Home from "./Home/Home";
 
@@ -35,4 +35,6 @@ const routes = createRoutesFromElements(
 	</Route>
 );
 
-export { routes };
+const router = createBrowserRouter(routes);
+
+export { router };

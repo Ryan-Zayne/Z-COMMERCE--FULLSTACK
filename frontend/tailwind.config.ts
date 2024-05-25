@@ -41,6 +41,22 @@ const tailwindConfig = {
 				"nav-text": "var(--text-navbar)",
 				"dark-ball": "var(--dark-mode-ball)",
 				"brand-inverse": "var(--brand-inverse)",
+
+				// Shadcn colors
+				"shadcn-primary": "hsl(222.2 47.4% 11.2%)",
+				background: "hsl(0 0% 100%)",
+				foreground: "hsl(222.2 47.4% 11.2%)",
+				"primary-foreground": "hsl(210 40% 98%)",
+				"muted-foreground": "hsl(215.4 16.3% 46.9%)",
+				muted: "hsl(210 40% 96.1%)",
+
+				// Sonner toast colors
+				"success-bg": "hsl(150 100% 6%)",
+				"success-text": "hsl(150 100% 90%)",
+				"success-border": "hsl(147 100% 12%)",
+				"error-bg": "hsl(358 76% 10%)",
+				"error-text": "hsl(358 100% 81%)",
+				"error-border": "hsl(357 89% 16%)",
 			},
 
 			fontFamily: {
@@ -60,7 +76,6 @@ const tailwindConfig = {
 				"slide-out": "cubic-bezier(0.33, 0.85, 0.56, 1.02)",
 			},
 
-			/* eslint-disable sonarjs/no-duplicate-string */
 			keyframes: {
 				zoom: {
 					from: { transform: "translateX(-300%)" },

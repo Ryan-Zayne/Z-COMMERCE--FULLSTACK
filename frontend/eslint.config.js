@@ -7,7 +7,7 @@ import eslintReactHooks from "eslint-plugin-react-hooks";
 import eslintTailwind from "eslint-plugin-tailwindcss";
 import eslintUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
-import tseslint from "typescript-eslint";
+import tsEslint from "typescript-eslint";
 
 /** @type {import('typescript-eslint').ConfigWithExtends[]} */
 
@@ -17,6 +17,7 @@ const eslintConfigArray = [
 		ignores: ["dist/**", "node_modules/**", "build/**"],
 		files: ["**/*.ts", "**/*.tsx"],
 		languageOptions: {
+			parser: tsEslint.parser,
 			globals: {
 				...globals.browser,
 				...globals.node,
@@ -238,8 +239,8 @@ const eslintConfigArray = [
 	},
 
 	// Typescript Eslint Rules
-	...tseslint.configs.strictTypeChecked.map((item) => ({ ...item, ignores: ["**/*.js"] })),
-	...tseslint.configs.stylisticTypeChecked,
+	...tsEslint.configs.strictTypeChecked.map((item) => ({ ...item, ignores: ["**/*.js"] })),
+	...tsEslint.configs.stylisticTypeChecked,
 	{
 		languageOptions: {
 			parserOptions: {
@@ -256,7 +257,7 @@ const eslintConfigArray = [
 				},
 			],
 			"@typescript-eslint/no-import-type-side-effects": "error",
-			"@typescript-eslint/no-unused-vars": "warn",
+			"@typescript-eslint/no-unused-vars": ["warn", { ignoreRestSiblings: true }],
 			"@typescript-eslint/array-type": ["error", { default: "array-simple" }],
 			"@typescript-eslint/consistent-type-definitions": ["error", "type"],
 			"@typescript-eslint/no-useless-constructor": "error",

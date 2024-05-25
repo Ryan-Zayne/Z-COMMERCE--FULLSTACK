@@ -1,5 +1,4 @@
 export * from "./Carousel";
-export { default as DismissableToaster } from "./DismissableToaster";
 export * from "./Drawer";
 export { default as DropDown } from "./DropDown/DropDown";
 export { default as Footer } from "./Footer/Footer";
@@ -8,3 +7,4 @@ export { default as Navbar } from "./Navbar/Navbar";
 export { default as ProductCard } from "./ProductCard";
 export { default as ScrollToTopButton } from "./ScrollToTopButton";
 export { default as SearchForm } from "./SearchForm";
+export { default as SonnerToaster } from "./Toaster";

@@ -1,23 +1,14 @@
 import type { SelectorFn } from "@/lib/type-helpers/global-type-helpers";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/react/shallow";
 import type { ShopStore } from "./zustand-store.types";
 
-const toastInfo = {
-	added: {
-		message: "Product added successfully",
-		id: "toastId-added",
-	},
-	updated: {
-		message: "Item quantity has been updated",
-		id: "toastId-updated",
-	},
-	removed: {
-		message: "Product was removed from cart",
-		id: "toastId-removed",
-	},
+const toastMessages = {
+	added: "Product added successfully",
+	updated: "Item quantity has been updated",
+	removed: "Product was removed from cart",
 };
 
 // Store Object creation
@@ -41,8 +32,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 
 			set({ cart: [...cart, { ...productItem, quantity: 1 }] });
 
-			toast.success(toastInfo.added.message, { id: toastInfo.added.id });
-			toast.dismiss(toastInfo.removed.id);
+			toast.success(toastMessages.added);
 		},
 
 		incrementProductQuantity: (productId) => {
@@ -54,8 +44,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 
 			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity + 1 });
 
-			toast.success(toastInfo.updated.message, { id: toastInfo.updated.id });
-			toast.dismiss(toastInfo.added.id);
+			toast.success(toastMessages.updated);
 		},
 
 		decrementProductQuantity: (productId) => {
@@ -72,8 +61,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 
 			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity - 1 });
 
-			toast.success(toastInfo.updated.message, { id: toastInfo.updated.id });
-			toast.dismiss(toastInfo.added.id);
+			toast.success(toastMessages.updated);
 		},
 
 		removeProductFromCart: (productId) => {
@@ -81,9 +69,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 
 			set({ cart: updatedCart });
 
-			toast.success(toastInfo.removed.message, { id: toastInfo.removed.id });
-			toast.dismiss(toastInfo.updated.id);
-			toast.dismiss(toastInfo.added.id);
+			toast.success(toastMessages.removed);
 		},
 
 		toggleAddToWishList: (productItem) => {

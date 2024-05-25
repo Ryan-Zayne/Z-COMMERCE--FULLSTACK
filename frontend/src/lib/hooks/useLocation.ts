@@ -12,10 +12,10 @@ type LocationState = {
 
 const createLocationStore = <THistoryState>() => {
 	const locationState = {
-		state: isBrowser ? (window.history.state as THistoryState) : null,
-		hash: isBrowser ? window.location.hash : "",
-		pathname: isBrowser ? window.location.pathname : "",
-		search: isBrowser ? window.location.search : "",
+		state: isBrowser() ? (window.history.state as THistoryState) : null,
+		hash: isBrowser() ? window.location.hash : "",
+		pathname: isBrowser() ? window.location.pathname : "",
+		search: isBrowser() ? window.location.search : "",
 	};
 
 	const locationStore = {
