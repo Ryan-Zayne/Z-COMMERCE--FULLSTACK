@@ -15,7 +15,6 @@ type ImageTypeProps = Omit<ImageComponentProps, "imageType"> & {
 	handleImageLoad: () => void;
 };
 
-/* eslint-disable react-hooks/rules-of-hooks */
 const IMAGE_TYPE_LOOKUP = {
 	hasFallback: (props: ImageTypeProps) => {
 		const { src, blurSrc, className, isImageLoaded, handleImageLoad, ...restOfProps } = props;
@@ -63,6 +62,7 @@ const IMAGE_TYPE_LOOKUP = {
 function ImageComponent(props: ImageComponentProps) {
 	const { imageType, ...restOfProps } = props;
 	const [isImageLoaded, setIsImageLoaded] = useState(false);
+
 	const { [imageType]: ImageType } = IMAGE_TYPE_LOOKUP;
 
 	return (

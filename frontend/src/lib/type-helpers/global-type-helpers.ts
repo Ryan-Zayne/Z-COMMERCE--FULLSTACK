@@ -3,6 +3,11 @@ export type ForwardedRefType<TComponent extends React.ElementType | HTMLElement>
 		? React.ForwardedRef<React.ElementRef<TComponent>>
 		: React.ForwardedRef<TComponent>;
 
+export type InferProps<TComponent extends React.ElementType | HTMLElement> =
+	TComponent extends React.ElementType
+		? React.ComponentPropsWithoutRef<TComponent>
+		: React.HTMLAttributes<TComponent>;
+
 export type StateSetter<TSetter = unknown> = React.Dispatch<React.SetStateAction<TSetter>>;
 
 // == The intersection with "{}" or "unknown" or "NonNullable<unknown>" is necessary to make it work as expected based on quirks in the TS compiler

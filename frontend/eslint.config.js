@@ -36,7 +36,7 @@ const eslintConfigArray = [
 				},
 			],
 			"no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
-			"no-console": ["error", { allow: ["warn", "error", "info"] }],
+			"no-console": ["error", { allow: ["warn", "error", "info", "trace"] }],
 			"constructor-super": "error",
 			"no-class-assign": "error",
 			//FIXME - JsOnly -  disallow modifying variables that are declared using const
@@ -281,6 +281,7 @@ const eslintConfigArray = [
 			"@typescript-eslint/no-throw-literal": "error",
 			"@typescript-eslint/no-shadow": "error",
 			"@typescript-eslint/no-redeclare": "error",
+			"@typescript-eslint/prefer-nullish-coalescing": ["error", { ignoreConditionalTests: true }],
 		},
 	},
 
@@ -290,7 +291,7 @@ const eslintConfigArray = [
 		plugins: { "import-x": eslintImportX },
 		rules: {
 			...eslintImportX.configs.recommended.rules,
-			"import-x/extensions": ["error", "never", { ignorePackages: false }],
+			// "import-x/extensions": ["error", "never", { ignorePackages: true }],
 			"import-x/no-extraneous-dependencies": ["error", { devDependencies: true }],
 			"import-x/prefer-default-export": "off",
 			"import-x/no-cycle": ["error", { ignoreExternal: true, maxDepth: 3 }],
@@ -375,6 +376,7 @@ const eslintConfigArray = [
 					allowExpressions: true,
 				},
 			],
+			"react/no-unused-prop-types": "error",
 			"react/jsx-boolean-value": ["error", "always"],
 			"react/button-has-type": "off",
 			"react/function-component-definition": "off",

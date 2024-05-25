@@ -4,29 +4,9 @@ import type { ShopStore } from "@/store/zustand/zustand-store.types";
 import type React from "react";
 import { TbTrashXFilled } from "react-icons/tb";
 
-type CartItemWrapperProps = {
-	children: React.ReactNode;
-	showCartItems: boolean;
-};
-
 type CartItemProps = {
 	product: ShopStore["cart"][number];
 };
-
-function CartItemWrapper({ children, showCartItems }: CartItemWrapperProps) {
-	if (!showCartItems) {
-		return (
-			<li className="text-center italic">
-				<h4 className="text-[2.8rem] font-[500]">Why here go dey empty?!</h4>
-				<p className="mt-[0.7rem] text-[1.6rem]">
-					Shey na window shopping you come do or abi wetin?😐
-				</p>
-			</li>
-		);
-	}
-
-	return children;
-}
 
 function CartItem({ product }: CartItemProps) {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
@@ -66,4 +46,4 @@ function CartItem({ product }: CartItemProps) {
 	);
 }
 
-export { CartItem, CartItemWrapper };
+export default CartItem;

@@ -75,9 +75,6 @@ export function CarouselContextProvider<TImages extends ImagesType>(
 	return <Provider value={useInitCarouselStore}>{children}</Provider>;
 }
 
+// prettier-ignore
 // Store Hook
-export const useCarouselStore = <TResult,>(selector: SelectorFn<CarouselStore, TResult>) => {
-	const useInitCarouselStore = useCarouselContext();
-
-	return useInitCarouselStore(useShallow(selector));
-};
+export const useCarouselStore = <TResult,>(selector: SelectorFn<CarouselStore, TResult>) => useCarouselContext()(useShallow(selector));

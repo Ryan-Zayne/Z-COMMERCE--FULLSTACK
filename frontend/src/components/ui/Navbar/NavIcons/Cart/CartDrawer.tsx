@@ -1,11 +1,11 @@
-import { Button, Logo } from "@/components/primitives";
+import { Button, Logo, Show } from "@/components/primitives";
 import { Drawer, type DrawerContentProps, type DrawerStore } from "@/components/ui/Drawer";
 import { useElementList } from "@/lib/hooks";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { IoMdCart } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { CartItem, CartItemWrapper } from "./CartItem";
+import CartItem from "./CartItem";
 
 type CartDrawerProps = DrawerStore & { placement?: DrawerContentProps["placement"] };
 
@@ -42,13 +42,22 @@ function CartDrawer(props: CartDrawerProps) {
 				</Drawer.Header>
 
 				<Drawer.Body className={"px-[1.3rem] pt-[4rem] lg:px-[2rem]"}>
-					<CartItemWrapper showCartItems={cart.length > 0}>
+					<Show when={cart.length > 0}>
 						<CartItemsList
 							className="flex min-h-[14rem] flex-col gap-[1rem]"
 							each={cart}
 							render={(item) => <CartItem key={item.title} product={item} />}
 						/>
-					</CartItemWrapper>
+
+						<Show.Fallback>
+							<div className="text-center italic">
+								<h4 className="text-[2.8rem] font-[500]">Why here go dey empty?!</h4>
+								<p className="mt-[0.7rem] text-[1.6rem]">
+									Shey na window shopping you come do or abi wetin?😐
+								</p>
+							</div>
+						</Show.Fallback>
+					</Show>
 
 					<div className="mt-[4rem] px-[1rem] lg:px-[2.6rem]">
 						<p className="flex justify-between text-[1.8rem] font-[600]">

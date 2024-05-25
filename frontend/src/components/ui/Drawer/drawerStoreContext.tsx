@@ -20,7 +20,7 @@ const defaultStoreValues: DrawerStore = {
 
 const createDrawerStore = (storeValues = defaultStoreValues) => create<DrawerStore>()(() => storeValues);
 
-function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
+export function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 	const useInitDrawerStore = useConstant(() => createDrawerStore(storeValues));
 
 	useEffect(() => {
@@ -33,11 +33,6 @@ function DrawerContextProvider({ children, storeValues }: DrawerProviderProps) {
 	return <Provider value={useInitDrawerStore}>{children}</Provider>;
 }
 
+// prettier-ignore
 // Store Hook
-const useDrawerStore = <TResult,>(selector: SelectorFn<DrawerStore, TResult>) => {
-	const useInitDrawerStore = useCustomDrawerContext();
-
-	return useInitDrawerStore(selector);
-};
-
-export { DrawerContextProvider, useDrawerStore };
+export const useDrawerStore = <TResult,>(selector: SelectorFn<DrawerStore, TResult>) => useCustomDrawerContext()(selector)

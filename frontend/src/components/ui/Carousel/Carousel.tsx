@@ -1,4 +1,4 @@
-import { useBaseElementList } from "@/lib/hooks";
+import { useElementList } from "@/lib/hooks";
 import type { MyCustomCss } from "@/lib/type-helpers/global-type-helpers";
 import type { PolymorphicProps } from "@/lib/type-helpers/polymorpism-helper";
 import { cnMerge } from "@/lib/utils/cn";
@@ -138,7 +138,7 @@ function CarouselControls(props: CarouselControlProps) {
 function CarouselItemWrapper<TArrayItem>(props: CarouselWrapperProps<TArrayItem>) {
 	const { each, children, render, className } = props;
 
-	const [ItemList] = useBaseElementList();
+	const [ItemList] = useElementList("base");
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
 	const images = useCarouselStore((state) => each ?? (state.images as TArrayItem[]));
 
@@ -191,7 +191,7 @@ function CarouselIndicatorWrapper<TArrayItem>(props: CarouselWrapperProps<TArray
 	const { each, children, render, className } = props;
 
 	const images = useCarouselStore((state) => each ?? (state.images as TArrayItem[]));
-	const [IndicatorList] = useBaseElementList();
+	const [IndicatorList] = useElementList("base");
 
 	return (
 		<ul

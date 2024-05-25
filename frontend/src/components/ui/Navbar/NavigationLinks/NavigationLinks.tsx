@@ -1,6 +1,6 @@
 import Logo from "@/components/primitives/Logo";
 import Overlay from "@/components/primitives/Overlay";
-import { useBaseElementList } from "@/lib/hooks";
+import { useElementList } from "@/lib/hooks";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";
 import { RiCloseFill } from "react-icons/ri";
@@ -25,7 +25,7 @@ const NavigationLinks = () => {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
 	const { toggleNavShow } = useGlobalActions();
-	const [NavLinksList] = useBaseElementList();
+	const [NavLinksList] = useElementList("base");
 
 	const navLinkInfoArray: NavItemsType = [
 		{

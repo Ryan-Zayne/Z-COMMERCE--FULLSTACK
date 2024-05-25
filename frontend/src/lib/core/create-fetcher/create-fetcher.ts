@@ -89,7 +89,6 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 			body: isObject(body) ? options.bodySerializer(body) : body,
 
-			/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 			// == Return undefined if there are no headers provided or if the body is not an object
 			headers:
 				baseHeaders || headers || isObject(body)
@@ -189,6 +188,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 				const message = `Request timed out after ${options.timeout}ms`;
 
 				console.info(`%cTimeoutError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
+				console.trace("TimeoutError");
 
 				return resolveErrorResult({ message });
 			}
@@ -196,7 +196,8 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 			if (error instanceof DOMException && error.name === "AbortError") {
 				const message = `Request was cancelled`;
 
-				console.error(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
+				console.info(`%AbortError: ${message}`, "color: red; font-weight: 500; font-size: 14px;");
+				console.trace("AbortError");
 
 				return resolveErrorResult({ message });
 			}

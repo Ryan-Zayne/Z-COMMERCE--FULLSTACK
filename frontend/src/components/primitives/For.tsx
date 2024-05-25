@@ -23,7 +23,7 @@ export type ForRenderProps<TArrayItem> =
 
 type ForProps<TArrayItem> = ForRenderProps<TArrayItem> & EachProp<TArrayItem>;
 
-function For<TArrayItem>(props: ForProps<TArrayItem>) {
+function ForBase<TArrayItem>(props: ForProps<TArrayItem>) {
 	const { each, render, children } = props;
 
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -52,14 +52,14 @@ function ForList<TArrayItem, TElement extends React.ElementType = "ul">(
 
 	return (
 		<ListContainer className={className} {...restOfListProps} ref={ref}>
-			<For {...({ each, render, children } as ForProps<TArrayItem>)} />
+			<ForBase {...({ each, render, children } as ForProps<TArrayItem>)} />
 		</ListContainer>
 	);
 }
 
-const ForObject = {
-	For,
-	ForList: forwardRef(ForList) as typeof ForList,
+const For = {
+	Base: ForBase,
+	List: forwardRef(ForList),
 };
 
-export default ForObject;
+export default For;

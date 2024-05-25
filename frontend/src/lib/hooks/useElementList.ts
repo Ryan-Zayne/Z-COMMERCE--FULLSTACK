@@ -1,7 +1,6 @@
-import { ForObject } from "@/components/primitives";
+import { For } from "@/components/primitives";
 
-const { For, ForList } = ForObject;
+type UseElementList = (type?: "withWrapper" | "base") => [typeof For.List | typeof For.Base];
 
-export const useElementList = (): [ForList: typeof ForList] => [ForList];
-
-export const useBaseElementList = (): [For: typeof For] => [For];
+// prettier-ignore
+export const useElementList: UseElementList = (type = "withWrapper") => [type === "withWrapper" ? For.List : For.Base];
