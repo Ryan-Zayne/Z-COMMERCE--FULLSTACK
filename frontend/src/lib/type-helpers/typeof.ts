@@ -15,3 +15,9 @@ export const isFunction = <TFunction extends (...args: any) => any>(
 ): value is TFunction => {
 	return typeof value === "function";
 };
+
+export const isAsyncFuntion = <TAsyncFunction extends (...args: any) => Promise<any>>(
+	value: unknown
+): value is TAsyncFunction => {
+	return isFunction(value) && value.constructor.name === "AsyncFunction";
+};

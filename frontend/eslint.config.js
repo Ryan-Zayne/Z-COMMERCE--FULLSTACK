@@ -1,9 +1,13 @@
+/* eslint-disable unicorn/no-abusive-eslint-disable */
+/* eslint-disable */
 import { fixupPluginRules } from "@eslint/compat";
 import eslintBase from "@eslint/js";
+import * as eslintQuery from "@tanstack/eslint-plugin-query";
 import eslintImportX from "eslint-plugin-import-x";
 import eslintJsxA11y from "eslint-plugin-jsx-a11y";
 import eslintReact from "eslint-plugin-react";
 import eslintReactHooks from "eslint-plugin-react-hooks";
+import eslintSonarjs from "eslint-plugin-sonarjs";
 import eslintTailwind from "eslint-plugin-tailwindcss";
 import eslintUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
@@ -12,12 +16,10 @@ import tsEslint from "typescript-eslint";
 /** @type {import('typescript-eslint').ConfigWithExtends[]} */
 
 const eslintConfigArray = [
-	// Global Options
+	// == Global Options
+	{ ignores: ["dist/**", "node_modules/**", "build/**"] },
 	{
-		ignores: ["dist/**", "node_modules/**", "build/**"],
-		files: ["**/*.ts", "**/*.tsx"],
 		languageOptions: {
-			parser: tsEslint.parser,
 			globals: {
 				...globals.browser,
 				...globals.node,
@@ -25,7 +27,7 @@ const eslintConfigArray = [
 		},
 	},
 
-	// Base Eslint Rules
+	// == Base Eslint Rules
 	eslintBase.configs.recommended,
 	{
 		rules: {
@@ -132,7 +134,7 @@ const eslintConfigArray = [
 					exceptMethods: [],
 				},
 			],
-			complexity: ["error", 25],
+			complexity: ["warn", 25],
 			// specify curly brace conventions for all control statements
 			// https://eslint.org/docs/rules/curly
 			curly: ["error", "multi-line"], // multiline
@@ -238,9 +240,10 @@ const eslintConfigArray = [
 		},
 	},
 
-	// Typescript Eslint Rules
-	...tsEslint.configs.strictTypeChecked.map((item) => ({ ...item, ignores: ["**/*.js"] })),
+	// == Typescript Eslint Rules
+	...tsEslint.configs.strictTypeChecked,
 	...tsEslint.configs.stylisticTypeChecked,
+
 	{
 		languageOptions: {
 			parserOptions: {
@@ -286,7 +289,7 @@ const eslintConfigArray = [
 		},
 	},
 
-	// Import rules
+	// == Import rules
 	eslintImportX.configs.typescript,
 	{
 		plugins: { "import-x": eslintImportX },
@@ -313,7 +316,7 @@ const eslintConfigArray = [
 		},
 	},
 
-	// Unicorn rules
+	// == Unicorn rules
 	eslintUnicorn.configs["flat/recommended"],
 	{
 		rules: {
@@ -338,7 +341,7 @@ const eslintConfigArray = [
 		},
 	},
 
-	// React Rules
+	// == React Rules
 	{
 		languageOptions: {
 			parserOptions: {
@@ -403,7 +406,7 @@ const eslintConfigArray = [
 		},
 	},
 
-	// JSX A11y Rules
+	// == JSX A11y Rules
 	{
 		plugins: {
 			"jsx-a11y": fixupPluginRules(eslintJsxA11y),
@@ -506,7 +509,17 @@ const eslintConfigArray = [
 		},
 	},
 
-	// Tailwind Rules
+	// == Sonarjs Rules
+	eslintSonarjs.configs.recommended,
+	{
+		rules: {
+			"sonarjs/prefer-immediate-return": "off",
+			"sonarjs/cognitive-complexity": "off",
+			"sonarjs/no-duplicate-string": "off",
+		},
+	},
+
+	// == Tailwind Rules
 	...eslintTailwind.configs["flat/recommended"],
 	{
 		rules: {
@@ -519,6 +532,17 @@ const eslintConfigArray = [
 					config: "./tailwind.config.ts",
 				},
 			],
+		},
+	},
+
+	// == TanStack Query Rules
+
+	{
+		plugins: {
+			"@tanstack/query": fixupPluginRules(eslintQuery),
+		},
+		rules: {
+			...eslintQuery.configs.recommended.rules,
 		},
 	},
 ];

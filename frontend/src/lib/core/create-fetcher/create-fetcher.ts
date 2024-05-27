@@ -142,7 +142,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 					options,
 				});
 
-				// == Pushing all error handling responsbility to catch
+				// == Pushing all error handling responsibility to catch
 				throw new HTTPError({
 					response: errorResponseInfo,
 					defaultErrorMessage: options.defaultErrorMessage,
@@ -216,16 +216,16 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 			return resolveErrorResult();
 
-			// Remove the now unneeded AbortController from store
+			// == Remove the now unneeded AbortController from store
 		} finally {
 			abortControllerStore.delete(url);
 		}
 	};
 
-	callApi.abort = (url: string) => abortControllerStore.get(url)?.abort();
+	callApi.create = createFetcher;
 	callApi.isHTTPErrorInfo = isHTTPErrorInfo;
 	callApi.isHTTPErrorInstance = isHTTPErrorInstance;
-	callApi.create = createFetcher;
+	callApi.cancel = (url: string) => abortControllerStore.get(url)?.abort();
 
 	return callApi;
 };
