@@ -1,29 +1,32 @@
-import { useElementList } from "@/lib/hooks/useElementList";
+import { useElementList } from "@/lib/hooks";
 import { cnMerge } from "@/lib/utils/cn";
 import { useEffect, useRef } from "react";
-import type { FieldValues, FormState } from "react-hook-form";
+import { type Control, type FieldValues, useFormState } from "react-hook-form";
 
 type ErrorParagraphProps<TValues extends FieldValues> =
 	| {
 			className?: string;
 			type: "regular";
-			formState: FormState<TValues>;
+			control: Control<TValues>;
 			errorField: keyof TValues;
 	  }
 	| {
 			className?: string;
 			type: "root";
-			formState: FormState<TValues>;
+			control: Control<TValues>;
 			errorField: string;
 	  };
 
+const paragraphClass = "animate-shake pt-[0.3rem] text-[1.1rem] text-error";
+
 function FormErrorMessage<TStepData extends FieldValues>(props: ErrorParagraphProps<TStepData>) {
-	const { className, formState, errorField, type } = props;
+	const { className, control, errorField, type } = props;
+
+	const formState = useFormState({ control });
 
 	const [ErrorMessageList] = useElementList();
 
 	const paragraphRef = useRef<HTMLParagraphElement>(null);
-	const paragraphClass = "animate-shake pt-[0.3rem] text-[1.1rem] text-error";
 
 	useEffect(() => {
 		if (!paragraphRef.current) return;

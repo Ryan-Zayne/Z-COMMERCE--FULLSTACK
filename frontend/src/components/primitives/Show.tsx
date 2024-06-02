@@ -9,7 +9,7 @@ type ShowProps = {
 
 function Show({ when, children, fallback }: ShowProps) {
 	const fallBackChild = useSlot(children, ShowFallback, {
-		throwOnMutipleMatch: true,
+		throwOnMultipleMatch: true,
 		errorMessage: "Only one <Show.Fallback> component is allowed",
 	});
 

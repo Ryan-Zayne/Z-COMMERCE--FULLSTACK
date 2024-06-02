@@ -1,13 +1,12 @@
-import { Button, LoadingSpinner } from "@/components/primitives";
+import { Button, LoadingSpinner, Show, Switch } from "@/components/primitives";
 import { useToggle } from "@/lib/hooks";
 import { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
-import { cnJoin, cnMerge } from "@/lib/utils/cn";
+import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import FormErrorMessage from "../FormErrorMessage";
-import Form from "../FormGroup";
+import Form from "../Form";
 import { type FormSchemaType, submitForm } from "./submitForm";
 
 export type FormAreaProps = {
@@ -24,12 +23,15 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 	const [isConfirmPasswordShow, toggleConfirmPasswordShow] = useToggle(false);
 	const navigate = useNavigate();
 
-	const { reset, setError, register, handleSubmit, formState } = useForm<FormSchemaType>({
+	const methods = useForm<FormSchemaType>({
 		resolver: zodResolver(formType === "Sign Up" ? SignUpSchema : LoginSchema),
 	});
 
+	const { reset, setError, handleSubmit, control, formState } = methods;
+
 	return (
-		<form
+		<Form.Root
+			methods={methods}
 			onSubmit={(event) => {
 				void handleSubmit(submitForm({ formType, setError, reset, navigate }))(event);
 			}}
@@ -40,41 +42,33 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 		>
 			{formState.isSubmitting && <LoadingSpinner type={"auth"} />}
 
-			{formType === "Sign Up" && (
-				<Form.Group>
+			<Show when={formType === "Sign Up"}>
+				<Form.Item control={control} name="username">
 					<Form.Label>Username</Form.Label>
 
-					<Form.Input
-						{...register("username")}
-						type="text"
-						className={cnJoin(formState.errors.username && semanticClasses.error)}
-					/>
-					<FormErrorMessage formState={formState} type="regular" errorField="username" />
-				</Form.Group>
-			)}
+					<Form.Input type="text" errorClassName={semanticClasses.error} />
 
-			<Form.Group>
+					<Form.ErrorMessage control={control} type="regular" errorField="username" />
+				</Form.Item>
+			</Show>
+
+			<Form.Item control={control} name="email">
 				<Form.Label>Email address</Form.Label>
 
-				<Form.Input
-					{...register("email")}
-					type="email"
-					className={cnJoin(formState.errors.email && semanticClasses.error)}
-				/>
+				<Form.Input type="email" errorClassName={semanticClasses.error} />
 
-				<FormErrorMessage formState={formState} type="regular" errorField="email" />
-			</Form.Group>
+				<Form.ErrorMessage control={control} type="regular" errorField="email" />
+			</Form.Item>
 
-			<Form.Group className={"relative"}>
+			<Form.Item control={control} name="password" className="relative">
 				<Form.Label>Password</Form.Label>
 
 				<Form.Input
-					{...register("password")}
 					type={isPasswordShow ? "text" : "password"}
-					className={cnJoin(formState.errors.password && semanticClasses.error)}
+					errorClassName={semanticClasses.error}
 				/>
 
-				<FormErrorMessage formState={formState} type="regular" errorField="password" />
+				<Form.ErrorMessage control={control} type="regular" errorField="password" />
 
 				<button
 					className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
@@ -83,19 +77,18 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 				>
 					{isPasswordShow ? <AiFillEyeInvisible /> : <AiFillEye />}
 				</button>
-			</Form.Group>
+			</Form.Item>
 
-			{formType === "Sign Up" && (
-				<Form.Group className={"relative"}>
+			<Show when={formType === "Sign Up"}>
+				<Form.Item control={control} name="confirmPassword" className={"relative"}>
 					<Form.Label>Confirm Password</Form.Label>
 
 					<Form.Input
-						{...register("confirmPassword")}
 						type={isConfirmPasswordShow ? "text" : "password"}
-						className={cnJoin(formState.errors.confirmPassword && semanticClasses.error)}
+						errorClassName={semanticClasses.error}
 					/>
 
-					<FormErrorMessage formState={formState} type="regular" errorField="confirmPassword" />
+					<Form.ErrorMessage control={control} type="regular" errorField="confirmPassword" />
 
 					<button
 						className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
@@ -104,47 +97,49 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 					>
 						{isConfirmPasswordShow ? <AiFillEyeInvisible /> : <AiFillEye />}
 					</button>
-				</Form.Group>
-			)}
+				</Form.Item>
+			</Show>
 
-			<FormErrorMessage
+			<Form.ErrorMessage
 				className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
 				type="root"
-				formState={formState}
 				errorField="serverError"
 			/>
 
-			<FormErrorMessage
+			<Form.ErrorMessage
 				className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
 				type="root"
-				formState={formState}
 				errorField="caughtError"
 			/>
 
-			<Form.Group className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}>
-				<Form.Input
-					{...register(formType === "Sign Up" ? "acceptTerms" : "rememberMe")}
-					type="checkbox"
-				/>
+			<Form.Item
+				control={control}
+				name={formType === "Sign Up" ? "acceptTerms" : "rememberMe"}
+				className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}
+			>
+				<Form.Input type="checkbox" />
 
-				{formType === "Login" && <p>Remember me</p>}
+				<Switch>
+					<Switch.Match when={formType === "Login"}>
+						<p>Remember me</p>
+					</Switch.Match>
 
-				{formType === "Sign Up" && (
-					<>
-						<p>
-							I agree to all
+					<Switch.Match when={formType === "Sign Up"}>
+						<div className="flex">
+							<p>I agree to all</p>
+
 							<Link
-								to=" "
+								to="#terms"
 								className={"ml-[0.5rem] font-[500] underline hover:text-[hsl(214,89%,53%)]"}
 							>
 								Terms & Conditions
 							</Link>
-						</p>
+						</div>
 
-						<FormErrorMessage formState={formState} type="regular" errorField="acceptTerms" />
-					</>
-				)}
-			</Form.Group>
+						<Form.ErrorMessage control={control} type="regular" errorField="acceptTerms" />
+					</Switch.Match>
+				</Switch>
+			</Form.Item>
 
 			<Button
 				type={"submit"}
@@ -156,7 +151,7 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 					formState.isSubmitting && "cursor-not-allowed brightness-[0.5]"
 				)}
 			/>
-		</form>
+		</Form.Root>
 	);
 }
 

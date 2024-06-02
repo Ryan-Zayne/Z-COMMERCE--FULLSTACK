@@ -25,7 +25,7 @@ export const isSlotElement = (child: React.ReactNode, SlotWrapper: React.Element
 };
 
 type UseSlotOptions = {
-	throwOnMutipleMatch?: boolean;
+	throwOnMultipleMatch?: boolean;
 	errorMessage?: string;
 };
 
@@ -35,17 +35,17 @@ const useSlot = <TProps extends Record<string, unknown>>(
 	options: UseSlotOptions = {}
 ) => {
 	const {
-		throwOnMutipleMatch = false,
+		throwOnMultipleMatch = false,
 		errorMessage = "Only one instance of the SlotComponent is allowed",
 	} = options;
 
 	const Slot = useMemo(() => {
 		const childrenArray = Children.toArray(children);
 
-		return throwOnMutipleMatch
+		return throwOnMultipleMatch
 			? childrenArray.filter((child) => isSlotElement(child, SlotWrapper))
 			: childrenArray.find((child) => isSlotElement(child, SlotWrapper));
-	}, [children, throwOnMutipleMatch, SlotWrapper]);
+	}, [children, throwOnMultipleMatch, SlotWrapper]);
 
 	if (isArray(Slot) && Slot.length > 1) {
 		throw new Error(errorMessage);

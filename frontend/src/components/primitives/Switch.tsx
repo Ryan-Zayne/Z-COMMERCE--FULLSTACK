@@ -14,10 +14,10 @@ type SwitchCaseProps<TWhen = unknown> = {
 };
 
 function Switch<TCondition>(props: SwitchProps<TCondition>) {
-	const { children, condition = Symbol("no-condition") as never } = props;
+	const { children, condition = Symbol.for("no-condition") as never } = props;
 
-	const defaultCase = useSlot(children, SwitchDefault, {
-		throwOnMutipleMatch: true,
+	const defaultCase = useSlot(children, Default, {
+		throwOnMultipleMatch: true,
 		errorMessage: "Only one <Switch.Default> component is allowed",
 	});
 
@@ -25,7 +25,7 @@ function Switch<TCondition>(props: SwitchProps<TCondition>) {
 		const casesArray = Children.toArray(children) as Extract<SwitchProps["children"], unknown[]>;
 
 		// == Use a symbol to represent the case where no condition is set, and in such case only find matching child via the truthiness of the "when" prop
-		return condition === Symbol.for("no-condtion")
+		return condition === Symbol.for("no-condition")
 			? casesArray.find((child) => child.props.when)
 			: casesArray.find((child) => child.props.when === condition);
 	}, [children, condition]);
@@ -33,16 +33,16 @@ function Switch<TCondition>(props: SwitchProps<TCondition>) {
 	return matchedCase ?? defaultCase;
 }
 
-function SwitchCase<TWhen>({ children }: SwitchCaseProps<TWhen>) {
+export function Match<TWhen>({ children }: SwitchCaseProps<TWhen>) {
 	return children;
 }
 
-function SwitchDefault({ children }: Pick<SwitchCaseProps, "children">) {
+export function Default({ children }: Pick<SwitchCaseProps, "children">) {
 	return children;
 }
-SwitchDefault.slot = Symbol.for("fallback");
+Default.slot = Symbol.for("fallback");
 
-Switch.Case = SwitchCase;
-Switch.Default = SwitchDefault;
+Switch.Match = Match;
+Switch.Default = Default;
 
 export default Switch;
