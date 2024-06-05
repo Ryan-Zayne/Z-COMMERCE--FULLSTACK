@@ -23,7 +23,10 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 	const handleMinus = () => decrementProductQuantity(productItem.id);
 
 	return (
-		<article className="mt-[2.5rem] flex max-w-[46rem] flex-col max-md:mx-auto md:mt-0 lg:gap-[2rem] lg:pb-[0.5rem]">
+		<article
+			className="mt-[2.5rem] flex max-w-[46rem] flex-col max-md:mx-auto md:mt-0 lg:gap-[2rem]
+				lg:pb-[0.5rem]"
+		>
 			<div className="flex items-center justify-between lg:w-[90%]">
 				<div>
 					<h2 className="text-[2.5rem] font-[600] lg:text-[3.4rem]">{productItem.brand}</h2>
@@ -48,9 +51,13 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 			</div>
 
 			<div className="mt-[3.5rem] flex items-center gap-[4rem] md:mt-[4.5rem] lg:gap-[6rem]">
-				<div className="flex w-[14rem] items-center justify-between rounded-[4rem] bg-carousel-btn p-[0.6rem_1.1rem] text-[2.3rem] font-[600] md:w-[17rem] md:text-[2.6rem] ">
+				<div
+					className="flex w-[14rem] items-center justify-between rounded-[4rem] bg-carousel-btn
+						p-[0.6rem_1.1rem] text-[2.3rem] font-[600] md:w-[17rem] md:text-[2.6rem]"
+				>
 					<button
-						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
+						className="active:scale-[1.2] disabled:brightness-[0.5]
+							disabled:active:transform-none"
 						disabled={productQuantityChosen === 0}
 						onClick={handleMinus}
 					>
@@ -60,7 +67,8 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 					<p className="font-roboto">{productQuantityChosen}</p>
 
 					<button
-						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
+						className="active:scale-[1.2] disabled:brightness-[0.5]
+							disabled:active:transform-none"
 						disabled={productQuantityChosen === productItem.stock}
 						onClick={handlePlus}
 					>
@@ -71,7 +79,10 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 				<div className="whitespace-nowrap">
 					<p className="text-[1.4rem] font-[300] tracking-wide md:text-[1.7rem]">
 						Only
-						<span className="inline-block min-w-[3.8rem] text-center text-[1.8rem] font-[500] text-[hsl(43,67%,50%)]">
+						<span
+							className="inline-block min-w-[3.8rem] text-center text-[1.8rem] font-[500]
+								text-[hsl(43,67%,50%)]"
+						>
 							{quantityLeftInStock}
 						</span>
 						Items Left
@@ -84,9 +95,10 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 				<Button
 					theme={"secondary"}
 					variant={"shop"}
-					className={
-						"w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out  [box-shadow:0_0_0_1.3px_var(--color-secondary)] hover:scale-[1.1] hover:bg-heading hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)] active:scale-[1.1] lg:w-[20rem]"
-					}
+					className={`w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out
+						[box-shadow:0_0_0_1.3px_var(--color-secondary)] hover:scale-[1.1] hover:bg-heading
+						hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)]
+						active:scale-[1.1] lg:w-[20rem]`}
 				>
 					<Link to={"/checkout"}>Buy Now</Link>
 				</Button>
@@ -94,9 +106,10 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 				<Button
 					theme={"ghost"}
 					variant={"shop"}
-					className={
-						"w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out [box-shadow:0_0_0_1.3px_var(--color-primary)] hover:scale-[1.1] hover:bg-heading hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)] active:scale-[1.17] lg:w-[20rem]"
-					}
+					className={`w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out
+						[box-shadow:0_0_0_1.3px_var(--color-primary)] hover:scale-[1.1] hover:bg-heading
+						hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)]
+						active:scale-[1.17] lg:w-[20rem]`}
 					onClick={handlePlus}
 				>
 					<AiOutlineShoppingCart className="mr-[1rem] text-[2rem]" />

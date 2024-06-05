@@ -19,8 +19,9 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 				<Carousel.Controls
 					classNames={{
 						base: "md:px-[0.8rem] lg:px-[2rem]",
-						iconContainer:
-							"rounded-[5px] bg-carousel-btn transition-transform active:scale-[1.11] hover:box-shadow-[0_0_5px_var(--text-dark)] p-[0.8rem_0.5rem] lg:p-[1.3rem_0.9rem]",
+						iconContainer: `rounded-[5px] bg-carousel-btn p-[0.8rem_0.5rem]
+						transition-transform hover:box-shadow-[0_0_5px_var(--text-dark)]
+						active:scale-[1.11] lg:p-[1.3rem_0.9rem]`,
 					}}
 					icon={{
 						iconType: "rightIcon",
@@ -43,8 +44,10 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 							key={image}
 							currentIndex={index}
 							classNames={{
-								base: "bg-[hsl(198,14%,14%)] hover:bg-[hsl(220,62%,31%)] hover:box-shadow-[0_0_5px_hsl(220,62%,31%)]",
-								onActive: "p-[0.4rem] w-[0.6rem] bg-[hsl(220,62%,31%)]",
+								base: `bg-[hsl(198,14%,14%)] hover:bg-[hsl(220,62%,31%)]
+								hover:box-shadow-[0_0_5px_hsl(220,62%,31%)]`,
+
+								onActive: "w-[0.6rem] bg-[hsl(220,62%,31%)] p-[0.4rem]",
 							}}
 						/>
 					)}

@@ -34,7 +34,8 @@ function FooterDropDowns() {
 			data-aos="fade-up"
 			data-aos-duration="1200"
 			data-aos-delay="250"
-			className="flex flex-col gap-[2rem] p-[6rem_1.5rem_4rem] lg:flex-row lg:justify-between lg:px-[4.4rem]"
+			className="flex flex-col gap-[2rem] p-[6rem_1.5rem_4rem] lg:flex-row lg:justify-between
+				lg:px-[4.4rem]"
 		>
 			<article>
 				<Logo className={"dark:brightness-[0.8] dark:contrast-[1.8]"} />
@@ -48,9 +49,13 @@ function FooterDropDowns() {
 							<h4 className="text-[1.5rem] font-[500]">Contact Us</h4>
 
 							<button
-								className={cnJoin(`text-[1.5rem] font-[200] transition-transform duration-300`, {
-									"rotate-180": dropOne.isOpen,
-								})}
+								className={cnJoin(
+									`text-[1.5rem] font-[200] transition-transform
+								duration-300`,
+									{
+										"rotate-180": dropOne.isOpen,
+									}
+								)}
 							>
 								<FaChevronDown />
 							</button>
@@ -85,9 +90,13 @@ function FooterDropDowns() {
 							<h4 className="text-[1.5rem] font-[500]">Follow Us</h4>
 
 							<button
-								className={cnJoin(`text-[1.5rem] font-[200] transition-transform duration-300`, {
-									"rotate-180": dropTwo.isOpen,
-								})}
+								className={cnJoin(
+									`text-[1.5rem] font-[200] transition-transform
+								duration-300`,
+									{
+										"rotate-180": dropTwo.isOpen,
+									}
+								)}
 							>
 								<FaChevronDown />
 							</button>
@@ -96,8 +105,10 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						classNames={{
-							panelList:
-								"flex items-center gap-[2rem] [&_li]:pt-[1.5rem] lg:[&_li]:pb-[1.5rem] pl-[2.5rem] text-[1.7rem]",
+							panelList: [
+								`flex items-center gap-[2rem] pl-[2.5rem] text-[1.7rem] [&_li]:pt-[1.5rem]
+								lg:[&_li]:pb-[1.5rem]`,
+							],
 						}}
 						isOpen={isDesktop ? true : dropTwo.isOpen}
 					>
@@ -125,7 +136,8 @@ function FooterDropDowns() {
 				<DropDown.Root className={"min-w-[20rem]"}>
 					<DropDown.Trigger
 						className={cnMerge(
-							"flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary lg:dark:text-heading"
+							`flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary
+							lg:dark:text-heading`
 						)}
 						onClick={handleDropDowns(dropThree)}
 					>
@@ -133,7 +145,7 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
-								className={cnJoin(`font-[200] transition-transform duration-300`, {
+								className={cnJoin("font-[200] transition-transform duration-300", {
 									"rotate-180": dropThree.isOpen,
 								})}
 							>
@@ -159,7 +171,8 @@ function FooterDropDowns() {
 				<DropDown.Root className={"min-w-[20rem]"}>
 					<DropDown.Trigger
 						className={cnMerge(
-							"flex cursor-pointer items-center justify-between text-[1.5rem]  lg:text-primary lg:dark:text-heading"
+							`flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary
+							lg:dark:text-heading`
 						)}
 						onClick={() => handleDropDowns(dropFour)}
 					>
@@ -167,9 +180,13 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
-								className={cnJoin(`text-[1.5rem] font-[200] transition-transform duration-300`, {
-									"rotate-180": dropFour.isOpen,
-								})}
+								className={cnJoin(
+									`text-[1.5rem] font-[200] transition-transform
+								duration-300`,
+									{
+										"rotate-180": dropFour.isOpen,
+									}
+								)}
 							>
 								<FaChevronDown />
 							</button>
@@ -193,7 +210,8 @@ function FooterDropDowns() {
 				<DropDown.Root className={"min-w-[20rem]"}>
 					<DropDown.Trigger
 						className={cnMerge(
-							"flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary lg:dark:text-heading"
+							`flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary
+							lg:dark:text-heading`
 						)}
 						onClick={() => handleDropDowns(dropFive)}
 					>
@@ -201,9 +219,13 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
-								className={cnMerge(`text-[1.5rem] font-[200] transition-transform duration-300`, {
-									"rotate-180": dropFive.isOpen,
-								})}
+								className={cnMerge(
+									`text-[1.5rem] font-[200] transition-transform
+								duration-300`,
+									{
+										"rotate-180": dropFive.isOpen,
+									}
+								)}
 							>
 								<FaChevronDown />
 							</button>

@@ -59,7 +59,7 @@ function ForList<TArrayItem, TElement extends React.ElementType = "ul">(
 
 const For = {
 	Base: ForBase,
-	List: forwardRef(ForList),
+	List: forwardRef(ForList) as typeof ForList,
 };
 
 export default For;

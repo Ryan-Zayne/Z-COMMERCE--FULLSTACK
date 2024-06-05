@@ -36,7 +36,10 @@ function ProductCategoryPage() {
 			</header>
 
 			<article className="mt-[4rem] px-[3rem]">
-				<ul className="grid grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))] justify-items-center gap-[5rem_2rem]">
+				<ul
+					className="grid grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))] justify-items-center
+						gap-[5rem_2rem]"
+				>
 					{ProductCategoryCards}
 				</ul>
 			</article>

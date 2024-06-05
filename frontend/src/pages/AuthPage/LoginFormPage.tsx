@@ -13,7 +13,7 @@ function LoginFormPage() {
 	return (
 		<Transition
 			className={
-				"relative z-10 w-[min(100%,48rem)] rounded-[4px]  bg-body p-[3rem_3rem] md:p-[2rem_5rem]"
+				"relative z-10 w-[min(100%,48rem)] rounded-[4px] bg-body p-[3rem_3rem] md:p-[2rem_5rem]"
 			}
 			show={isLoginPath}
 			appear={true}
@@ -27,9 +27,8 @@ function LoginFormPage() {
 				{!isDesktop && <Logo className={"ml-[-0.8rem] w-[16rem] md:w-full"} />}
 
 				<h2
-					className={
-						"font-roboto text-[3.8rem] font-[800] text-[color:hsl(0,0%,20%)] dark:text-[color:hsl(38,9%,76%)] max-lg:mt-[1.5rem]"
-					}
+					className={`font-roboto text-[3.8rem] font-[800] text-[color:hsl(0,0%,20%)]
+						dark:text-[color:hsl(38,9%,76%)] max-lg:mt-[1.5rem]`}
 				>
 					Login
 				</h2>
@@ -47,18 +46,16 @@ function LoginFormPage() {
 				<div className="flex flex-col items-center text-[1.5rem]">
 					<Button
 						theme={"ghost"}
-						className={
-							"w-[max(80%,27.1rem)] gap-[1rem] rounded-[10rem] border-[2px] border-gray-400 dark:border-carousel-btn"
-						}
+						className={`w-[max(80%,27.1rem)] gap-[1rem] rounded-[10rem] border-[2px]
+							border-gray-400 dark:border-carousel-btn`}
 					>
 						<FcGoogle className="text-[1.8rem]" />
 						Continue with Google
 					</Button>
 
 					<Button
-						className={
-							"mt-[1.5rem] w-[max(80%,27.1rem)] gap-[1rem] rounded-[10rem] border-[2px] border-carousel-btn bg-[hsl(214,89%,38%)] text-light"
-						}
+						className={`mt-[1.5rem] w-[max(80%,27.1rem)] gap-[1rem] rounded-[10rem]
+							border-[2px] border-carousel-btn bg-[hsl(214,89%,38%)] text-light`}
 					>
 						<FaFacebook className="text-[1.8rem]" />
 						Continue with Facebook

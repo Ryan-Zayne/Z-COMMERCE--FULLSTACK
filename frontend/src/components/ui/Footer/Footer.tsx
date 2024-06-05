@@ -3,7 +3,10 @@ import FooterHeaderSection from "./FooterHeaderSection";
 
 function Footer() {
 	return (
-		<footer className="flex flex-col pt-[7rem] lg:pt-[9rem] [&_li:hover]:text-secondary [&_li]:cursor-pointer">
+		<footer
+			className="flex flex-col pt-[7rem] lg:pt-[9rem] [&_li:hover]:text-secondary
+				[&_li]:cursor-pointer"
+		>
 			<FooterHeaderSection />
 
 			<FooterDropDowns />

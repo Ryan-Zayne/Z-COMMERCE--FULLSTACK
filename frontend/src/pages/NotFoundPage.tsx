@@ -24,7 +24,8 @@ function NotFoundPage() {
 			<h1 className="mt-8">{getDefaultMessage(href) ?? "Page Not Found"}</h1>
 
 			<Link
-				className="navlink-transition relative mt-6 inline-flex items-center border-b border-dotted border-dark font-medium text-heading hover:border-black/0"
+				className="navlink-transition relative mt-6 inline-flex items-center border-b border-dotted
+					border-dark font-medium text-heading hover:border-black/0"
 				to={"/"}
 			>
 				Back to Home

@@ -63,7 +63,11 @@ function SearchForm(props: SearchFormProps) {
 			>
 				<input
 					className={cnMerge(
-						`w-full rounded-[2.5rem_0_0_2.5rem] border-secondary bg-[--color-body,_white] py-[0.6rem] pl-[2.3rem] transition-[box-shadow] duration-200 [border-width:2px_0_2px_2px] placeholder:font-[500] placeholder:text-placeholder focus-within:shadow-[1px_0_10px_2px_var(--color-secondary)] max-sm:placeholder:text-[1.4rem]`,
+						`w-full rounded-[2.5rem_0_0_2.5rem] border-secondary bg-[--color-body,_white]
+						py-[0.6rem] pl-[2.3rem] transition-[box-shadow] duration-200
+						[border-width:2px_0_2px_2px] placeholder:font-[500] placeholder:text-placeholder
+						focus-within:shadow-[1px_0_10px_2px_var(--color-secondary)]
+						max-sm:placeholder:text-[1.4rem]`,
 						classNames?.input
 					)}
 					type={type === "search" ? "search" : "email"}
@@ -75,7 +79,8 @@ function SearchForm(props: SearchFormProps) {
 				<Button
 					type="button"
 					className={cnMerge(
-						`px-[2.1rem] text-[1.8rem] transition-[colors,scale] duration-300 hover:bg-primary hover:text-heading active:scale-[1.08]`,
+						`px-[2.1rem] text-[1.8rem] transition-[colors,scale] duration-300 hover:bg-primary
+						hover:text-heading active:scale-[1.08]`,
 						classNames?.btn
 					)}
 					variant={variant}
@@ -88,7 +93,9 @@ function SearchForm(props: SearchFormProps) {
 			{type === "search" && data.length > 0 && query !== "" && (
 				<SearchItemsList
 					className={cnMerge(
-						"custom-scrollbar absolute top-[14rem] z-[100] flex max-h-[50rem] w-[min(100%,_40rem)] flex-col gap-[1rem] overflow-y-auto rounded-[1rem] bg-body p-[2rem] text-[1.2rem]",
+						`custom-scrollbar absolute top-[14rem] z-[100] flex max-h-[50rem]
+						w-[min(100%,_40rem)] flex-col gap-[1rem] overflow-y-auto rounded-[1rem] bg-body
+						p-[2rem] text-[1.2rem]`,
 						isMobile && "inset-x-0 mx-auto",
 						!isMobile && "top-[8.1rem]"
 					)}
@@ -97,7 +104,8 @@ function SearchForm(props: SearchFormProps) {
 						<li key={item?.id ?? index}>
 							<Link
 								to={`/products/${item?.category}/${item?.id}`}
-								className="flex items-center rounded-[5px] p-[1rem] box-shadow-[0_1px_10px_hsl(0,0%,0%,0.6)] lg:p-[1.6rem] "
+								className="flex items-center rounded-[5px] p-[1rem]
+									box-shadow-[0_1px_10px_hsl(0,0%,0%,0.6)] lg:p-[1.6rem]"
 							>
 								<img
 									className="aspect-square w-[5rem] rounded-full object-cover"

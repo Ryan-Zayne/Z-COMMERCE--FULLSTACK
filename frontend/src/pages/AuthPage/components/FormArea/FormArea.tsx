@@ -36,7 +36,8 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 				void handleSubmit(submitForm({ formType, setError, reset, navigate }))(event);
 			}}
 			className={cnMerge(
-				"mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem] [&_label]:text-[1.2rem]",
+				`mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem]
+				[&_label]:text-[1.2rem]`,
 				[formClasses]
 			)}
 		>
@@ -101,13 +102,13 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 			</Show>
 
 			<Form.ErrorMessage
-				className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
+				className={"mb-[-0.7rem] mt-[-1rem] text-[1.3rem]"}
 				type="root"
 				errorField="serverError"
 			/>
 
 			<Form.ErrorMessage
-				className={"mb-[-0.7rem] mt-[-1rem]  text-[1.3rem]"}
+				className={"mb-[-0.7rem] mt-[-1rem] text-[1.3rem]"}
 				type="root"
 				errorField="caughtError"
 			/>

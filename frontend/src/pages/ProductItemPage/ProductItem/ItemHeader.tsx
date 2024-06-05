@@ -37,7 +37,9 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 				{isHearted ? (
 					<AiFillHeart className="scale-[1.16] text-[2.1rem] text-heading active:scale-[1.23]" />
 				) : (
-					<AiOutlineHeart className="text-[2.1rem] text-carousel-dot hover:text-heading active:scale-[1.23]" />
+					<AiOutlineHeart
+						className="text-[2.1rem] text-carousel-dot hover:text-heading active:scale-[1.23]"
+					/>
 				)}
 			</button>
 		</>

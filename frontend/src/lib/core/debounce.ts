@@ -29,7 +29,7 @@ const debounce = <TParams>(
 			timeoutId = null;
 		}, overrideOptions?.$delay ?? delay);
 
-		// == If maxWaitTimerId is not equal to null, it means the previous maxWait timeout has not been called yet, so dont register another one
+		// == If maxWaitTimerId is not equal to null, it means the previous maxWait timeout has not yet been called, so don't register another one
 		if (!options.maxWait || maxWaitTimeoutId !== null) return;
 
 		maxWaitTimeoutId = window.setTimeout(() => {

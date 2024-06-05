@@ -20,7 +20,10 @@ function ProductItemPage() {
 				<ItemHeader productItem={assertDefined(productItem)} />
 			</header>
 
-			<div className="mt-[3rem] md:mt-[4.5rem] md:flex md:h-[47rem] md:justify-around md:gap-[4rem] md:px-[1rem] lg:mt-[6rem] lg:gap-[8rem]">
+			<div
+				className="mt-[3rem] md:mt-[4.5rem] md:flex md:h-[47rem] md:justify-around md:gap-[4rem]
+					md:px-[1rem] lg:mt-[6rem] lg:gap-[8rem]"
+			>
 				<ItemHero slideImages={productItem?.images ?? []} />
 
 				<ItemDescription productItem={assertDefined(productItem)} />

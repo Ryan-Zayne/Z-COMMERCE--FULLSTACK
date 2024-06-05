@@ -60,7 +60,7 @@ function FormItem<TValues extends FieldValues>(props: InputItemProps<TValues>) {
 
 	return (
 		<FormItemProvider value={inputDetails}>
-			<div className={cnMerge(`flex flex-col`, className)}>{children}</div>
+			<div className={cnMerge("flex flex-col", className)}>{children}</div>
 		</FormItemProvider>
 	);
 }
@@ -91,7 +91,8 @@ const FormInput = (
 			id={id}
 			className={cnMerge(
 				restOfProps.type !== "checkbox" && [
-					"min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot",
+					`min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
+					focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
 				],
 				formState.errors[name] && errorClassName,
 				className

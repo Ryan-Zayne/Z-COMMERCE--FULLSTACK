@@ -53,12 +53,15 @@ const NavigationLinks = () => {
 			<ul
 				id="Navigation List"
 				className={cnJoin(
-					"flex gap-[3.2rem] [&_>_li_>_a:not(:has(img))]:navlink-transition [&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative",
+					`flex gap-[3.2rem] [&_>_li_>_a:not(:has(img))]:navlink-transition
+					[&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative`,
 
 					isDesktop && "relative gap-[12rem]",
 
 					!isDesktop && [
-						"fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] flex-col bg-navbar pt-[7rem] text-[1.4rem] text-nav-text transition-transform ease-slide-out [backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]",
+						`fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] flex-col bg-navbar pt-[7rem]
+						text-[1.4rem] text-nav-text transition-transform ease-slide-out
+						[backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]`,
 
 						isNavShow ? "translate-x-0 duration-[600ms]" : "translate-x-full duration-[250ms]",
 					]

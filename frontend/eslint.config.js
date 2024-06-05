@@ -243,7 +243,6 @@ const eslintConfigArray = [
 	// == Typescript Eslint Rules
 	...tsEslint.configs.strictTypeChecked,
 	...tsEslint.configs.stylisticTypeChecked,
-
 	{
 		languageOptions: {
 			parserOptions: {
@@ -522,21 +521,23 @@ const eslintConfigArray = [
 	// == Tailwind Rules
 	...eslintTailwind.configs["flat/recommended"],
 	{
+		settings: {
+			tailwindcss: {
+				callees: ["tv", "cnMerge", "cn", "cnJoin", "twMerge", "twJoin"],
+				cssFiles: [],
+				config: "./tailwind.config.ts",
+				removeDuplicates: false, // Turned off cuz prettier already handles this via plugin
+			},
+		},
 		rules: {
-			"tailwindcss/no-custom-classname": "off",
-			"tailwindcss/no-contradicting-classname": "off",
+			"tailwindcss/classnames-order": "warn",
+			"tailwindcss/no-custom-classname": "warn",
+			"tailwindcss/no-contradicting-classname": "off", // Turned off cuz tw intellisense already handles this
 			"tailwindcss/no-unnecessary-arbitrary-value": "off",
-			"tailwindcss/classnames-order": [
-				"warn",
-				{
-					config: "./tailwind.config.ts",
-				},
-			],
 		},
 	},
 
 	// == TanStack Query Rules
-
 	{
 		plugins: {
 			"@tanstack/query": fixupPluginRules(eslintQuery),

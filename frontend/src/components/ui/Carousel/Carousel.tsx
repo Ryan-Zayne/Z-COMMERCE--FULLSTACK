@@ -146,7 +146,8 @@ function CarouselItemWrapper<TArrayItem>(props: CarouselWrapperProps<TArrayItem>
 		<ul
 			data-id="Carousel Image Wrapper"
 			className={cnMerge(
-				"flex w-full shrink-0 snap-center [transform:translate3d(var(--translate-distance),0,0)] [transition:transform_800ms_ease]",
+				`flex w-full shrink-0 snap-center [transform:translate3d(var(--translate-distance),0,0)]
+				[transition:transform_800ms_ease]`,
 				className
 			)}
 			style={
@@ -223,7 +224,8 @@ function CarouselIndicator(props: CarouselIndicatorProps) {
 			<button
 				onClick={() => goToSlide(currentIndex)}
 				className={cnMerge(
-					"size-[6px] rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot hover:[box-shadow:0_0_5px_var(--carousel-dot)]",
+					`size-[6px] rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot
+					hover:[box-shadow:0_0_5px_var(--carousel-dot)]`,
 					classNames.base,
 					currentIndex === currentSlide && [
 						"w-[3.5rem] rounded-[0.5rem] bg-carousel-dot",

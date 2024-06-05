@@ -10,8 +10,8 @@
 		"check-types": "tsc --noEmit --pretty",
 		"build": "vite build",
 		"preview": "vite preview",
-		"format": "prettier --write .",
-		"lint": "pnpx oxlint src/**/*.{ts,tsx} && pnpx eslint src/**/*.{ts,tsx} --report-unused-disable-directives --max-warnings 0"
+		"format": "pnpx prettier --write .",
+		"lint": "pnpx eslint src/**/*.{ts,tsx} --report-unused-disable-directives --max-warnings 0"
 	},
 	"dependencies": {
 		"@headlessui/react": "^1.7.19",

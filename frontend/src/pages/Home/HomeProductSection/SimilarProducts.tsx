@@ -13,7 +13,8 @@ function SimilarProducts({ data }: DataArrayProp) {
 			</h2>
 
 			<ProductCardsList
-				className="grid grid-cols-[repeat(auto-fit,_minmax(min(100%,23.6rem),_1fr))] justify-items-center gap-[3rem_1.5rem]"
+				className="grid grid-cols-[repeat(auto-fit,_minmax(min(100%,23.6rem),_1fr))]
+					justify-items-center gap-[3rem_1.5rem]"
 				each={data}
 				render={(product) => (
 					<ProductCard

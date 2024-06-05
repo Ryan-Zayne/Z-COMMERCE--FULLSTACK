@@ -24,7 +24,10 @@ function SignUpFormPage() {
 			<header>
 				{!isDesktop && <Logo className={"ml-[-0.8rem] w-[16rem] md:w-full"} />}
 
-				<h2 className="font-roboto text-[3.8rem] font-[800] text-[color:hsl(0,0%,20%)] dark:text-[color:hsl(38,9%,76%)] max-lg:mt-[2rem]">
+				<h2
+					className="font-roboto text-[3.8rem] font-[800] text-[color:hsl(0,0%,20%)]
+						dark:text-[color:hsl(38,9%,76%)] max-lg:mt-[2rem]"
+				>
 					Sign Up
 				</h2>
 			</header>
@@ -48,7 +51,10 @@ function SignUpFormPage() {
 					</button>
 				</div>
 
-				<p className="mx-auto mt-[4rem] text-center text-[1.4rem] font-[500] text-input lg:mt-[3rem]">
+				<p
+					className="mx-auto mt-[4rem] text-center text-[1.4rem] font-[500] text-input
+						lg:mt-[3rem]"
+				>
 					Already have an account?
 					<Link
 						className="ml-[0.4rem] text-[hsl(214,89%,53%)] hover:text-[hsl(214,89%,60%)]"

@@ -43,7 +43,10 @@ const LOADER_LOOKUP = {
 
 	auth: () => (
 		<Teleport>
-			<aside className="fixed inset-0 z-[600] flex select-none items-center justify-center bg-black/60 backdrop-blur-[1.5px]">
+			<aside
+				className="fixed inset-0 z-[600] flex select-none items-center justify-center bg-black/60
+					backdrop-blur-[1.5px]"
+			>
 				<img
 					className="aspect-square w-[30rem] max-md:translate-y-[-4rem] lg:w-[30%]"
 					src={loadingSpinner}

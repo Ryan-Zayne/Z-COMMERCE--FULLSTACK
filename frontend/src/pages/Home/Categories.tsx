@@ -54,10 +54,12 @@ function Categories() {
 
 	return (
 		<main id="Categories" className="mt-[6rem] flex flex-col px-[4rem] lg:items-center">
-			<h2 className="text-center text-[2.5rem]  font-[600] lg:text-[4rem]">All Categories</h2>
+			<h2 className="text-center text-[2.5rem] font-[600] lg:text-[4rem]">All Categories</h2>
 
 			<CategoryLinksList
-				className="mt-[3rem] grid auto-rows-[20rem] grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))] justify-items-center gap-[3rem] lg:auto-rows-[23rem] lg:grid-cols-[repeat(3,_minmax(30rem,1fr))] lg:gap-[4rem]"
+				className="mt-[3rem] grid auto-rows-[20rem] grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))]
+					justify-items-center gap-[3rem] lg:auto-rows-[23rem]
+					lg:grid-cols-[repeat(3,_minmax(30rem,1fr))] lg:gap-[4rem]"
 				each={categories}
 				render={(category) => (
 					<li
@@ -66,18 +68,22 @@ function Categories() {
 						data-aos-duration="600"
 						data-aos-anchor-easing="ease-out"
 						className={cnJoin(
-							`flex w-[min(100%,27rem)] justify-between gap-[1.5rem] rounded-[5rem] p-[2rem] transition-transform duration-[800ms] ease-in-out hover:scale-[1.09] lg:w-full lg:rounded-[6rem]`,
+							`flex w-[min(100%,27rem)] justify-between gap-[1.5rem] rounded-[5rem] p-[2rem]
+							transition-transform duration-[800ms] ease-in-out hover:scale-[1.09] lg:w-full
+							lg:rounded-[6rem]`,
 							[isDarkMode ? category.bgDark : category.bgLight]
 						)}
 					>
-						<div className="flex min-w-[12rem] shrink-0 flex-col justify-center gap-[0.5rem] lg:gap-[1rem]">
+						<div
+							className="flex min-w-[12rem] shrink-0 flex-col justify-center gap-[0.5rem]
+								lg:gap-[1rem]"
+						>
 							<h3 className="text-center text-[1.8rem] lg:text-[2rem]">{category.title}</h3>
 
 							<Button
 								variant={"shop"}
-								className={
-									"w-full bg-body p-[0.8rem] text-[--text-body]  active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]"
-								}
+								className={`w-full bg-body p-[0.8rem] text-[--text-body]
+									active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]`}
 								asChild={true}
 							>
 								<Link to={category.path}>Shop Now</Link>

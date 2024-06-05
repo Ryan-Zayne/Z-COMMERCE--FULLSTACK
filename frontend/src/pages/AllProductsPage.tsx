@@ -32,7 +32,10 @@ function AllProductsPage() {
 			</header>
 
 			<article className="mt-[8rem] px-[3rem]">
-				<ul className="grid grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))] justify-items-center gap-[5rem_2rem]">
+				<ul
+					className="grid grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))] justify-items-center
+						gap-[5rem_2rem]"
+				>
 					{allProductCards}
 				</ul>
 			</article>

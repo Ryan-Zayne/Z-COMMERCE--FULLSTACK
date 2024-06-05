@@ -1,6 +1,10 @@
 import { For } from "@/components/primitives";
 
-type UseElementList = (type?: "withWrapper" | "base") => [typeof For.List | typeof For.Base];
+function useElementList(type: "base"): [typeof For.Base];
+function useElementList(type?: "withWrapper"): [typeof For.List];
 
-// prettier-ignore
-export const useElementList: UseElementList = (type = "withWrapper") => [type === "withWrapper" ? For.List : For.Base];
+function useElementList(type = "withWrapper") {
+	return type === "withWrapper" ? [For.List] : [For.Base];
+}
+
+export { useElementList };
