@@ -90,10 +90,8 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 				<DropDown.Panel
 					isOpen={isOpen}
 					classNames={{
-						panelContainer: [
-							`absolute inset-x-0 z-[50] m-[0.5rem_2rem_0] rounded-[5px]
-							bg-[hsl(215,19%,35%,0.9)] [backdrop-filter:blur(4rem)]`,
-						],
+						panelContainer: `absolute inset-x-0 z-[50] m-[0.5rem_2rem_0] rounded-[5px]
+						bg-[hsl(215,19%,35%,0.9)] [backdrop-filter:blur(4rem)]`,
 
 						panelList: cnJoin("flex flex-col gap-[1.5rem] pl-[3rem] text-[1.4rem]", [
 							isOpen && "py-[2rem]",

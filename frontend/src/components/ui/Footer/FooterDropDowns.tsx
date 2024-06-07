@@ -105,10 +105,8 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						classNames={{
-							panelList: [
-								`flex items-center gap-[2rem] pl-[2.5rem] text-[1.7rem] [&_li]:pt-[1.5rem]
+							panelList:`flex items-center gap-[2rem] pl-[2.5rem] text-[1.7rem] [&_li]:pt-[1.5rem]
 								lg:[&_li]:pb-[1.5rem]`,
-							],
 						}}
 						isOpen={isDesktop ? true : dropTwo.isOpen}
 					>

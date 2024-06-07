@@ -22,7 +22,7 @@ const submitForm =
 
 		noScrollOnOpen({ isActive: true });
 
-		const { errorInfo } = await callMainApi(AUTH_URL, {
+		const { errorInfo, dataInfo } = await callMainApi(AUTH_URL, {
 			body: formDataObj,
 		});
 

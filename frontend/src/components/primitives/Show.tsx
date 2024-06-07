@@ -1,5 +1,4 @@
-import { isSlotElement, useSlot } from "@/lib/hooks/useSlot";
-import { Children, useMemo } from "react";
+import { useGetOtherChildren, useSlot } from "@/lib/hooks/useSlot";
 
 type ShowProps = {
 	when: boolean;
@@ -10,8 +9,10 @@ type ShowProps = {
 function Show({ when, children, fallback }: ShowProps) {
 	const fallBackChild = useSlot(children, ShowFallback, {
 		throwOnMultipleMatch: true,
-		errorMessage: "Only one <Show.Fallback> component is allowed",
+		errorMessage: "Only one <Show.Default> component is allowed",
 	});
+
+	const otherChildren = useGetOtherChildren(children, ShowFallback);
 
 	if (fallBackChild && fallback) {
 		throw new Error(`
@@ -20,12 +21,7 @@ function Show({ when, children, fallback }: ShowProps) {
 		`);
 	}
 
-	const restOfChildren = useMemo(
-		() => Children.toArray(children).filter((child) => !isSlotElement(child, ShowFallback)),
-		[children]
-	);
-
-	return when ? restOfChildren : fallBackChild ?? fallback;
+	return when ? otherChildren : fallBackChild ?? fallback;
 }
 
 function ShowFallback({ children }: Pick<ShowProps, "children">) {

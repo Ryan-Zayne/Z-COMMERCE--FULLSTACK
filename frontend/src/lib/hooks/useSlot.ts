@@ -4,7 +4,10 @@ import { isArray } from "../type-helpers/typeof";
 type Noop = () => void;
 type WithSlot = { slot?: string };
 
-export const isSlotElement = (child: React.ReactNode, SlotWrapper: React.ElementType) => {
+export const isSlotElement = <TProps>(
+	child: React.ReactNode,
+	SlotWrapper: React.ComponentType<TProps>
+) => {
 	if (!isValidElement(child)) {
 		return false;
 	}
@@ -29,9 +32,9 @@ type UseSlotOptions = {
 	errorMessage?: string;
 };
 
-const useSlot = <TProps extends Record<string, unknown>>(
+export const useSlot = <TProps>(
 	children: React.ReactNode,
-	SlotWrapper: React.ElementType<TProps>,
+	SlotWrapper: React.ComponentType<TProps>,
 	options: UseSlotOptions = {}
 ) => {
 	const {
@@ -54,4 +57,18 @@ const useSlot = <TProps extends Record<string, unknown>>(
 	return (isArray(Slot) ? Slot[0] : Slot) as React.ReactElement<TProps> | undefined;
 };
 
-export { useSlot };
+export const useGetOtherChildren = <TProps>(
+	children: React.ReactNode,
+	SlotWrappers: React.ComponentType<TProps> | Array<React.ComponentType<TProps>>
+) => {
+	const otherChildren = useMemo(() => {
+		const childrenArray = Children.toArray(children);
+
+		// prettier-ignore
+		return isArray(SlotWrappers)
+			? childrenArray.filter((child) => SlotWrappers.some((slotWrapper) => !isSlotElement(child, slotWrapper)))
+			: childrenArray.filter((child) => !isSlotElement(child, SlotWrappers));
+	}, [SlotWrappers, children]);
+
+	return otherChildren;
+};
