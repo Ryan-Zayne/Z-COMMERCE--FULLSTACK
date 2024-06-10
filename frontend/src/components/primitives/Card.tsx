@@ -1,4 +1,4 @@
-import type { PolymorphicProps } from "@/lib/type-helpers/polymorpism-helper";
+import type { PolymorphicProps } from "@/lib/type-helpers/polymorphism";
 
 type CardProps = {
 	className?: string;

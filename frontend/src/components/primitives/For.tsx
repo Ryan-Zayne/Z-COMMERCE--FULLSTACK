@@ -1,5 +1,5 @@
 import type { ForwardedRefType } from "@/lib/type-helpers/global-type-helpers";
-import type { PolymorphicPropsWithRef } from "@/lib/type-helpers/polymorpism-helper";
+import type { PolymorphicPropsWithRef } from "@/lib/type-helpers/polymorphism";
 import { forwardRef } from "react";
 
 // prettier-ignore

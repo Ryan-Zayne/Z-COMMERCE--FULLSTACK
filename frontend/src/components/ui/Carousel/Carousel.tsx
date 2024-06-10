@@ -1,6 +1,6 @@
 import { useElementList } from "@/lib/hooks";
 import type { MyCustomCss } from "@/lib/type-helpers/global-type-helpers";
-import type { PolymorphicProps } from "@/lib/type-helpers/polymorpism-helper";
+import type { PolymorphicProps } from "@/lib/type-helpers/polymorphism";
 import { cnMerge } from "@/lib/utils/cn";
 import { LuChevronLeftCircle } from "react-icons/lu";
 import type {

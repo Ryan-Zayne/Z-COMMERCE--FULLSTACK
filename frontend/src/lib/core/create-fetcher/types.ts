@@ -1,8 +1,8 @@
 import type { AnyNumber, AnyString } from "@/lib/type-helpers/global-type-helpers";
-import type { HTTPError, createResponseLookup, fetchSpecficKeys } from "./create-fetcher.utils";
+import type { HTTPError, fetchSpecificKeys, handleResponseType } from "./utils";
 
-export type $BaseRequestConfig = Pick<FetchConfig, Exclude<(typeof fetchSpecficKeys)[number], "body">>;
-export type $RequestConfig = Pick<FetchConfig, (typeof fetchSpecficKeys)[number]>;
+export type $BaseRequestConfig = Pick<FetchConfig, Exclude<(typeof fetchSpecificKeys)[number], "body">>;
+export type $RequestConfig = Pick<FetchConfig, (typeof fetchSpecificKeys)[number]>;
 
 export type ExtraOptions<
 	TBaseData = unknown,
@@ -34,7 +34,7 @@ export type ExtraOptions<
 
 	throwOnError?: boolean | ((error?: Error | HTTPError<TBaseErrorData>) => boolean);
 
-	responseType?: keyof ReturnType<typeof createResponseLookup>;
+	responseType?: keyof ReturnType<typeof handleResponseType>;
 
 	retries?: number;
 
@@ -57,15 +57,15 @@ export type ExtraOptions<
 		options: ExtraOptions;
 	}) => void | Promise<void>;
 
-	onResponse?: <TData = TBaseData>(successContext: {
-		response: Response & { data: TData };
+	onResponse?: (successContext: {
 		request: $RequestConfig;
+		response: Response & { data: TBaseData };
 		options: ExtraOptions;
 	}) => void | Promise<void>;
 
-	onResponseError?: <TErrorData = TBaseErrorData>(errorContext: {
-		response: Response & { errorData: TErrorData };
+	onResponseError?: (errorContext: {
 		request: $RequestConfig;
+		response: Response & { errorData: TBaseErrorData };
 		options: ExtraOptions;
 	}) => void | Promise<void>;
 };

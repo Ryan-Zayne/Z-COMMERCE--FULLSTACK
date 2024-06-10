@@ -1,7 +1,9 @@
 import { useLocation } from "./useLocation";
 
-function useSearchParams<TSearchParams extends Record<string, string>>() {
-	const [search, , replaceSearch] = useLocation((state) => state.search);
+const useSearchParams = <TSearchParams extends Record<string, string>>(
+	action: "push" | "replace" = "push"
+) => {
+	const [search, setSearch] = useLocation((state) => state.search);
 
 	const getParams = () => {
 		const searchParams = new URLSearchParams(search);
@@ -13,10 +15,10 @@ function useSearchParams<TSearchParams extends Record<string, string>>() {
 	const setParams = (queryParams: TSearchParams) => {
 		const searchParams = new URLSearchParams(queryParams);
 
-		replaceSearch(`?${searchParams.toString()}`);
+		setSearch[action](`?${searchParams.toString()}`);
 	};
 
 	return [getParams, setParams] as const;
-}
+};
 
 export { useSearchParams };

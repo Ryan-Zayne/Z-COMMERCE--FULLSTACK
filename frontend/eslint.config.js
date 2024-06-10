@@ -237,6 +237,7 @@ const eslintConfigArray = [
 			radix: "error",
 			"vars-on-top": "error",
 			"wrap-iife": ["error", "outside", { functionPrototypeMethods: false }],
+			"no-mixed-spaces-and-tabs": "off",
 		},
 	},
 

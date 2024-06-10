@@ -8,7 +8,7 @@ import type {
 	ExtraOptions,
 	FetchConfig,
 	PossibleError,
-} from "./create-fetcher.types";
+} from "./types";
 
 export const mergeUrlWithParams = (url: string, params: ExtraOptions["query"]): string => {
 	if (!params) {
@@ -52,7 +52,7 @@ export const defaultRetryCodes: Required<BaseConfig>["retryCodes"] =
 
 export const defaultRetryMethods: Required<BaseConfig>["retryMethods"] = ["GET"];
 
-export const fetchSpecficKeys = [
+export const fetchSpecificKeys = [
 	"body",
 	"integrity",
 	"method",
@@ -72,11 +72,11 @@ export const fetchSpecficKeys = [
 export const splitConfig = <TObject extends Record<string, unknown>>(
 	config: TObject
 ): ["body" extends keyof TObject ? $RequestConfig : $BaseRequestConfig, ExtraOptions] => [
-	pickKeys(config, fetchSpecficKeys) as never,
-	omitKeys(config, fetchSpecficKeys) as never,
+	pickKeys(config, fetchSpecificKeys) as never,
+	omitKeys(config, fetchSpecificKeys) as never,
 ];
 
-export const createResponseLookup = <TResponse>(
+export const handleResponseType = <TResponse>(
 	response: Response,
 	parser?: Required<ExtraOptions>["responseParser"]
 ) => ({
@@ -95,16 +95,16 @@ export const createResponseLookup = <TResponse>(
 
 export const getResponseData = <TResponse>(
 	response: Response,
-	responseType: keyof ReturnType<typeof createResponseLookup>,
+	responseType: keyof ReturnType<typeof handleResponseType>,
 	parser: ExtraOptions["responseParser"]
 ) => {
-	const RESPONSE_LOOKUP = createResponseLookup<TResponse>(response, parser);
+	const RESPONSE_TYPE_LOOKUP = handleResponseType<TResponse>(response, parser);
 
-	if (!Object.hasOwn(RESPONSE_LOOKUP, responseType)) {
+	if (!Object.hasOwn(RESPONSE_TYPE_LOOKUP, responseType)) {
 		throw new Error(`Invalid response type: ${responseType}`);
 	}
 
-	return RESPONSE_LOOKUP[responseType]();
+	return RESPONSE_TYPE_LOOKUP[responseType]();
 };
 
 type Info<TData> = (

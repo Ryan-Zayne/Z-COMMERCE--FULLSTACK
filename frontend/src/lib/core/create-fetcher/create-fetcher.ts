@@ -1,4 +1,4 @@
-import { isObject } from "@/lib/type-helpers/typeof";
+import { isFormData, isObject } from "@/lib/type-helpers/typeof";
 import { wait } from "@/lib/utils/wait";
 import type {
 	$RequestConfig,
@@ -9,7 +9,7 @@ import type {
 	GetCallApiResult,
 	PossibleError,
 	ResultStyleUnion,
-} from "./create-fetcher.types";
+} from "./types";
 import {
 	HTTPError,
 	defaultRetryCodes,
@@ -21,7 +21,7 @@ import {
 	objectifyHeaders,
 	resolveResult,
 	splitConfig,
-} from "./create-fetcher.utils";
+} from "./utils";
 
 const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends ResultStyleUnion = undefined>(
 	baseConfig: BaseConfig<TBaseData, TBaseErrorData, TBaseResultMode> = {}
@@ -97,6 +97,9 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 								"Content-Type": "application/json",
 								Accept: "application/json",
 							}),
+							...(isFormData(body) && {
+								"Content-Type": "multipart/form-data",
+							}),
 							...objectifyHeaders(baseHeaders),
 							...objectifyHeaders(headers),
 						}
@@ -134,17 +137,15 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 					options.responseParser
 				);
 
-				const errorResponseInfo = { ...response, errorData };
-
 				await options.onResponseError?.({
-					response: errorResponseInfo,
+					response: { ...response, errorData },
 					request: requestInit,
 					options,
 				});
 
 				// == Pushing all error handling responsibility to catch
 				throw new HTTPError({
-					response: errorResponseInfo,
+					response: { ...response, errorData },
 					defaultErrorMessage: options.defaultErrorMessage,
 				});
 			}

@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-custom-classname */
 import loadingSpinner from "@/assets/loadingSpinner.svg";
 import Teleport from "@/components/primitives/Teleport";
 
