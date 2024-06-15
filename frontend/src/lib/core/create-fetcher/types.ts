@@ -14,7 +14,6 @@ export type ExtraOptions<
 	method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | AnyString;
 
 	query?: Record<string, string | number | boolean>;
-
 	bodySerializer?: (bodyData: Record<string, unknown>) => string;
 
 	responseParser?: {
@@ -24,7 +23,7 @@ export type ExtraOptions<
 
 	resultMode?: TBaseResultMode;
 
-	shouldCancelRedundantRequests?: boolean;
+	cancelRedundantRequests?: boolean;
 
 	baseURL?: string;
 

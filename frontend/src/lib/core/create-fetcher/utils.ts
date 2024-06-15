@@ -107,26 +107,40 @@ export const getResponseData = <TResponse>(
 	return RESPONSE_TYPE_LOOKUP[responseType]();
 };
 
-type Info<TData> = (
-	| {
-			type: "success";
-			successData: TData;
-			response: Response;
-	  }
-	| {
-			type: "error";
-			error?: unknown;
-			errorData?: TData;
-			response?: Response;
-			message?: string;
-	  }
-) & { response?: Response; options: ExtraOptions };
+type DataInfo = {
+	successData: unknown;
+	options: ExtraOptions;
+	response: Response;
+};
 
-export const resolveResult = <CallApiResult, TData = unknown>(info: Info<TData>): CallApiResult => {
-	const { options, type, response } = info;
+export const resolveSuccessResult = <CallApiResult>(info: DataInfo): CallApiResult => {
+	const { options, response, successData } = info;
 
-	if (type === "error") {
-		const { error, errorData, message } = info;
+	const apiDetails = { dataInfo: successData, errorInfo: null, response };
+
+	if (options.resultMode === undefined || options.resultMode === "all") {
+		return apiDetails as CallApiResult;
+	}
+
+	return {
+		onlySuccess: apiDetails.dataInfo,
+		onlyError: apiDetails.errorInfo,
+		onlyResponse: apiDetails.response,
+	}[options.resultMode] as CallApiResult;
+};
+
+// == Using curring here so error and options are not required to be passed every time, instead to be captured once by way of closure
+export const $resolveErrorResult = <CallApiResult>($info: { error?: unknown; options: ExtraOptions }) => {
+	const { error, options } = $info;
+
+	type ErrorInfo = {
+		response?: Response;
+		errorData?: unknown;
+		message?: string;
+	};
+
+	const resolveErrorResult = (info: ErrorInfo = {}): CallApiResult => {
+		const { errorData, message, response } = info;
 
 		const shouldThrowOnError = isFunction(options.throwOnError)
 			? options.throwOnError(error as Error)
@@ -145,27 +159,10 @@ export const resolveResult = <CallApiResult, TData = unknown>(info: Info<TData>)
 			},
 			response: response ?? null,
 		} as CallApiResult;
-	}
-
-	const { successData } = info;
-
-	const apiDetails = {
-		dataInfo: successData,
-		errorInfo: null,
-		response,
 	};
 
-	if (!options.resultMode || options.resultMode === "all") {
-		return apiDetails as CallApiResult;
-	}
-
-	return {
-		onlySuccess: apiDetails.dataInfo,
-		onlyError: apiDetails.errorInfo,
-		onlyResponse: apiDetails.response,
-	}[options.resultMode] as CallApiResult;
+	return resolveErrorResult;
 };
-
 export const isHTTPErrorInfo = (
 	errorInfo: Record<string, unknown> | null
 ): errorInfo is { errorName: "HTTPError" } => isObject(errorInfo) && errorInfo.errorName === "HTTPError";

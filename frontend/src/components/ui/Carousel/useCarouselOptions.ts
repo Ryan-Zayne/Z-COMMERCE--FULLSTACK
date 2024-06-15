@@ -22,7 +22,7 @@ const useCarouselOptions = (options: CarouselOptions = {}) => {
 	const shouldAutoSlide = hasAutoSlide && !isPaused && !isMobile;
 
 	useAnimationInterval({
-		callbackFn: nextSlide,
+		onAnimation: nextSlide,
 		intervalDuration: shouldAutoSlide ? autoSlideInterval : null,
 	});
 

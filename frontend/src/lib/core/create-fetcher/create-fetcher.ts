@@ -11,6 +11,7 @@ import type {
 	ResultStyleUnion,
 } from "./types";
 import {
+	$resolveErrorResult,
 	HTTPError,
 	defaultRetryCodes,
 	defaultRetryMethods,
@@ -19,16 +20,16 @@ import {
 	isHTTPErrorInstance,
 	mergeUrlWithParams,
 	objectifyHeaders,
-	resolveResult,
+	resolveSuccessResult,
 	splitConfig,
 } from "./utils";
 
 const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends ResultStyleUnion = undefined>(
-	baseConfig: BaseConfig<TBaseData, TBaseErrorData, TBaseResultMode> = {}
+	baseConfig?: BaseConfig<TBaseData, TBaseErrorData, TBaseResultMode>
 ) => {
 	const abortControllerStore = new Map<string, AbortController>();
 
-	const [baseFetchConfig, baseExtraOptions] = splitConfig(baseConfig);
+	const [baseFetchConfig, baseExtraOptions] = splitConfig(baseConfig ?? {});
 
 	const { headers: baseHeaders, signal: baseSignal, ...restOfBaseFetchConfig } = baseFetchConfig;
 
@@ -38,13 +39,13 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 		TResultMode extends ResultStyleUnion = TBaseResultMode,
 	>(
 		url: string,
-		config: FetchConfig<TData, TErrorData, TResultMode> = {}
+		config?: FetchConfig<TData, TErrorData, TResultMode>
 	): Promise<GetCallApiResult<TData, TErrorData, TResultMode>> => {
 		// == This type is used to cast all return statements due to a design limitation in ts.
 		// LINK - See https://www.zhenghao.io/posts/type-functions for more info
 		type CallApiResult = GetCallApiResult<TData, TErrorData, TResultMode>;
 
-		const [fetchConfig, extraOptions] = splitConfig(config);
+		const [fetchConfig, extraOptions] = splitConfig(config ?? {});
 
 		const options = {
 			bodySerializer: JSON.stringify,
@@ -55,7 +56,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 			retryCodes: defaultRetryCodes,
 			retryMethods: defaultRetryMethods,
 			defaultErrorMessage: "Failed to fetch data from server!",
-			shouldCancelRedundantRequests: true,
+			cancelRedundantRequests: true,
 			...baseExtraOptions,
 			...extraOptions,
 		} satisfies ExtraOptions;
@@ -64,22 +65,22 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 
 		const prevFetchController = abortControllerStore.get(url);
 
-		if (prevFetchController && options.shouldCancelRedundantRequests) {
+		if (prevFetchController && options.cancelRedundantRequests) {
 			const reason = new DOMException("Cancelled the previous unfinished request", "AbortError");
 			prevFetchController.abort(reason);
 		}
 
-		const fetchController = new AbortController();
+		const newFetchController = new AbortController();
 
-		abortControllerStore.set(url, fetchController);
+		abortControllerStore.set(url, newFetchController);
 
 		const timeoutSignal = options.timeout ? AbortSignal.timeout(options.timeout) : null;
 
 		// FIXME - Remove this type cast once TS updates its lib-dom types for AbortSignal to include the any() method
 		const combinedSignal = (AbortSignal as AbortSignalWithAny).any([
-			fetchController.signal,
-			timeoutSignal ?? fetchController.signal,
-			signal ?? fetchController.signal,
+			newFetchController.signal,
+			timeoutSignal ?? newFetchController.signal,
+			signal ?? newFetchController.signal,
 		]);
 
 		const requestInit = {
@@ -137,13 +138,7 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 					options.responseParser
 				);
 
-				await options.onResponseError?.({
-					response: { ...response, errorData },
-					request: requestInit,
-					options,
-				});
-
-				// == Pushing all error handling responsibility to catch
+				// == Pushing all error handling responsibilities to the catch block
 				throw new HTTPError({
 					response: { ...response, errorData },
 					defaultErrorMessage: options.defaultErrorMessage,
@@ -162,28 +157,11 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 				options,
 			});
 
-			return resolveResult<CallApiResult, TData>({ type: "success", successData, response, options });
+			return resolveSuccessResult<CallApiResult>({ successData, response, options });
 
 			// == Exhaustive Error handling
 		} catch (error) {
-			type ErrorDetails = {
-				message?: string;
-				errorData?: unknown;
-				response?: Response;
-			};
-
-			const resolveErrorResult = (errorDetails: ErrorDetails = {}) => {
-				const { errorData, response, message } = errorDetails;
-
-				return resolveResult<CallApiResult>({
-					type: "error",
-					error,
-					options,
-					errorData,
-					response,
-					message,
-				});
-			};
+			const resolveErrorResult = $resolveErrorResult<CallApiResult>({ error, options });
 
 			if (error instanceof DOMException && error.name === "TimeoutError") {
 				const message = `Request timed out after ${options.timeout}ms`;
@@ -206,6 +184,12 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 			if (isHTTPErrorInstance<TErrorData>(error)) {
 				const { errorData, ...response } = error.response;
 
+				await options.onResponseError?.({
+					response: { ...response, errorData },
+					request: requestInit,
+					options,
+				});
+
 				return resolveErrorResult({
 					errorData,
 					response,
@@ -213,11 +197,12 @@ const createFetcher = <TBaseData, TBaseErrorData, TBaseResultMode extends Result
 				});
 			}
 
+			// == At this point only the request errors exist, so the request error interceptor is called
 			await options.onRequestError?.({ request: requestInit, error: error as Error, options });
 
 			return resolveErrorResult();
 
-			// == Remove the now unneeded AbortController from store
+			// == Removing the now unneeded AbortController from store
 		} finally {
 			abortControllerStore.delete(url);
 		}

@@ -2,17 +2,18 @@ import { on } from "@/lib/utils/on";
 import { useEffect, useRef, useState } from "react";
 import { useCallbackRef } from "../useCallbackRef";
 import { useDebouncedState } from "../useDebounce";
-import type { UseSpecificPresence } from "./usePresence.types";
+import type { UseSpecificPresence } from "./types";
 
 const useTransitionPresence: UseSpecificPresence = (defaultValue = true, options = {}) => {
-	const { callbackFn, duration } = options;
+	const { onExitComplete, duration } = options;
 	const [isShown, setIsShown] = useState(defaultValue);
+
 	const [isMounted, setDebouncedIsMounted, setRegularIsMounted] = useDebouncedState(
 		defaultValue,
 		duration
 	);
 	const elementRef = useRef<HTMLElement>(null);
-	const stableCallback = useCallbackRef(callbackFn);
+	const stableOnExitComplete = useCallbackRef(onExitComplete);
 
 	const handleIsMountedWithoutRef = (value: boolean) => {
 		if (value) {
@@ -49,7 +50,7 @@ const useTransitionPresence: UseSpecificPresence = (defaultValue = true, options
 	});
 
 	useEffect(() => {
-		!isMounted && stableCallback();
+		!isMounted && stableOnExitComplete();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isMounted]);
 

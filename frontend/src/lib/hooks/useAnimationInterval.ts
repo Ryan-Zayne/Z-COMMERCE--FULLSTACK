@@ -4,28 +4,28 @@ import { setAnimationInterval } from "../core/setAnimationInterval";
 import { useConstant } from "./useConstant";
 
 type AnimationOptions = {
-	callbackFn: () => void;
+	onAnimation: () => void;
 	intervalDuration: number | null;
 };
 
 const useAnimationInterval = (options: AnimationOptions) => {
-	const { callbackFn, intervalDuration } = options;
+	const { onAnimation, intervalDuration } = options;
 
-	const latestCallback = useCallbackRef(callbackFn);
+	const latestCallback = useCallbackRef(onAnimation);
 
 	// prettier-ignore
-	const { onAnimationStart, onAnimationStop } = useConstant(() =>setAnimationInterval(latestCallback, intervalDuration));
+	const { start, stop } = useConstant(() => setAnimationInterval(latestCallback, intervalDuration));
 
 	useEffect(() => {
 		if (intervalDuration === null) return;
 
-		onAnimationStart();
+		start();
 
-		return onAnimationStop;
+		return stop;
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [intervalDuration]);
 
-	return { onAnimationStart, onAnimationStop };
+	return { start, stop };
 };
 
 export { useAnimationInterval };

@@ -10,6 +10,7 @@ import eslintReactHooks from "eslint-plugin-react-hooks";
 import eslintSonarjs from "eslint-plugin-sonarjs";
 import eslintTailwind from "eslint-plugin-tailwindcss";
 import eslintUnicorn from "eslint-plugin-unicorn";
+import eslintJsdoc from "eslint-plugin-jsdoc";
 import globals from "globals";
 import tsEslint from "typescript-eslint";
 
@@ -286,6 +287,15 @@ const eslintConfigArray = [
 			"@typescript-eslint/no-shadow": "error",
 			"@typescript-eslint/no-redeclare": "error",
 			"@typescript-eslint/prefer-nullish-coalescing": ["error", { ignoreConditionalTests: true }],
+		},
+	},
+
+	// == Jsdoc rules
+	eslintJsdoc.configs["flat/recommended-typescript"],
+	{
+		plugins: { jsdoc: eslintJsdoc },
+		rules: {
+			"jsdoc/require-description": "warn",
 		},
 	},
 

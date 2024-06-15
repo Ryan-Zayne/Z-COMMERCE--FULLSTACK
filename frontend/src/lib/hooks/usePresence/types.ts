@@ -1,6 +1,17 @@
 import type { Prettify } from "@/lib/type-helpers/global-type-helpers";
 import type { useToggle } from "../useToggle";
 
+type GetTypeProp<THasType extends boolean> = {
+	_: THasType extends true
+		? {
+				/**
+				 * The type of animation, whether animation or transition
+				 */
+				type?: "animation" | "transition";
+			}
+		: unknown;
+}["_"];
+
 type UsePresenceOptions<TDuration extends number | undefined, THasType extends boolean> = Prettify<
 	{
 		/**
@@ -10,13 +21,8 @@ type UsePresenceOptions<TDuration extends number | undefined, THasType extends b
 		/**
 		 * A callback function that will be called when the animation or transition ends
 		 */
-		callbackFn?: () => void;
-	} & (THasType extends true
-		? /**
-			 * The type of animation, whether animation or transition
-			 */
-			{ type?: "animation" | "transition" }
-		: unknown)
+		onExitComplete?: () => void;
+	} & GetTypeProp<THasType>
 >;
 
 type UsePresenceResult<TElement, TDuration> = Prettify<

@@ -1,4 +1,4 @@
-const setAnimationInterval = (callbackFn: () => void, intervalDuration: number | null) => {
+const setAnimationInterval = (onAnimation: () => void, intervalDuration: number | null) => {
 	let startTimeStamp: number | null;
 	let animationFrameId: number;
 
@@ -12,23 +12,23 @@ const setAnimationInterval = (callbackFn: () => void, intervalDuration: number |
 		const elapsedTime = Math.floor(timeStamp - startTimeStamp);
 
 		if (elapsedTime >= intervalDuration) {
-			callbackFn();
+			onAnimation();
 			startTimeStamp = null; // == Reset the starting time stamp
 		}
 
 		animationFrameId = requestAnimationFrame(smoothAnimation);
 	};
 
-	const onAnimationStart = () => {
+	const start = () => {
 		animationFrameId = requestAnimationFrame(smoothAnimation);
 	};
 
-	const onAnimationStop = () => {
+	const stop = () => {
 		cancelAnimationFrame(animationFrameId);
 		startTimeStamp = null;
 	};
 
-	return { onAnimationStart, onAnimationStop };
+	return { start, stop };
 };
 
 export { setAnimationInterval };

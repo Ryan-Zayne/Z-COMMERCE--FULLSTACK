@@ -1,5 +1,5 @@
+import type { UsePresence } from "./types";
 import { useAnimationPresence } from "./useAnimationPresence";
-import type { UsePresence } from "./usePresence.types";
 import { useTransitionPresence } from "./useTransitionPresence";
 
 /**
@@ -11,11 +11,11 @@ import { useTransitionPresence } from "./useTransitionPresence";
  */
 
 const usePresence: UsePresence = (defaultValue = true, options = {}) => {
-	const { duration, type = "animation", callbackFn } = options;
+	const { duration, type = "animation", onExitComplete } = options;
 
 	const useSpecificPresence = type === "animation" ? useAnimationPresence : useTransitionPresence;
 
-	return useSpecificPresence(defaultValue, { duration, callbackFn });
+	return useSpecificPresence(defaultValue, { duration, onExitComplete });
 };
 
 export { usePresence };
