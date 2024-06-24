@@ -1,6 +1,6 @@
-import { callApi } from "@/lib/core/create-fetcher";
 import { BASE_AUTH_URL } from "@/lib/utils/constants";
 import type { FormSchemaType } from "@/pages/AuthPage/components/FormArea";
+import { callApi } from "@zayne-labs/callapi";
 
 type FormResponseDataType = {
 	status: "success";

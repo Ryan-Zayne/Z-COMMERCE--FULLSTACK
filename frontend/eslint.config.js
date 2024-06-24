@@ -4,13 +4,13 @@ import { fixupPluginRules } from "@eslint/compat";
 import eslintBase from "@eslint/js";
 import * as eslintQuery from "@tanstack/eslint-plugin-query";
 import eslintImportX from "eslint-plugin-import-x";
+import eslintJsdoc from "eslint-plugin-jsdoc";
 import eslintJsxA11y from "eslint-plugin-jsx-a11y";
 import eslintReact from "eslint-plugin-react";
 import eslintReactHooks from "eslint-plugin-react-hooks";
 import eslintSonarjs from "eslint-plugin-sonarjs";
 import eslintTailwind from "eslint-plugin-tailwindcss";
 import eslintUnicorn from "eslint-plugin-unicorn";
-import eslintJsdoc from "eslint-plugin-jsdoc";
 import globals from "globals";
 import tsEslint from "typescript-eslint";
 
@@ -30,7 +30,7 @@ const eslintConfigArray = [
 
 	// == Base Eslint Rules
 	eslintBase.configs.recommended,
-	{
+		{
 		rules: {
 			"no-return-assign": ["error", "except-parens"],
 			"prefer-arrow-callback": [
@@ -79,7 +79,6 @@ const eslintConfigArray = [
 			"no-constant-condition": "warn",
 			"no-empty": "error",
 			"no-func-assign": "error",
-			"valid-jsdoc": "error",
 			"no-await-in-loop": "error",
 			"no-cond-assign": ["error", "always"],
 			"no-duplicate-case": "error",
@@ -291,13 +290,13 @@ const eslintConfigArray = [
 	},
 
 	// == Jsdoc rules
-	eslintJsdoc.configs["flat/recommended-typescript"],
-	{
-		plugins: { jsdoc: eslintJsdoc },
-		rules: {
-			"jsdoc/require-description": "warn",
-		},
-	},
+	// eslintJsdoc.configs["flat/recommended-typescript"],
+	// {
+	// 	plugins: { jsdoc: eslintJsdoc },
+	// 	rules: {
+	// 		"jsdoc/require-description": "warn",
+	// 	},
+	// },
 
 	// == Import rules
 	eslintImportX.configs.typescript,

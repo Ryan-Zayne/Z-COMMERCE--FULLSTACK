@@ -1,42 +1,12 @@
 {
+	"extends": "@zayne-labs/tsconfig/bundler/vite",
 	"compilerOptions": {
-		"target": "ESNext",
-		"lib": ["ESNext", "DOM", "DOM.Iterable"],
-		"module": "Preserve",
-		"skipLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["src/*"]
-		},
-		"types": ["vite/client"],
-
-		/* Bundler mode */
-		"moduleResolution": "bundler",
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"esModuleInterop": false,
-		"useDefineForClassFields": true,
-		"moduleDetection": "force",
-		"verbatimModuleSyntax": true,
-		"noEmit": true,
-		"jsx": "preserve",
-
-		/* Linting */
-		"strict": true,
-		"allowJs": false,
-		"noImplicitOverride": true,
-		"noImplicitReturns": true,
-		"noImplicitThis": true,
-		"noFallthroughCasesInSwitch": true,
-		"allowUnreachableCode": false,
-		"allowSyntheticDefaultImports": true,
-		"forceConsistentCasingInFileNames": true,
-		"noErrorTruncation": true,
-		"noUncheckedIndexedAccess": true
+		}
 	},
 
 	"exclude": ["dist", "node_modules"],
-	"include": ["src/**/*.tsx", "src/**/*.ts", "./*.ts", "vite.config.ts"],
-
-	"references": [{ "path": "./config/tsconfig.vite.json" }]
+	"include": ["src/**/*.tsx", "src/**/*.ts", "./*.ts", "vite.config.ts"]
 }

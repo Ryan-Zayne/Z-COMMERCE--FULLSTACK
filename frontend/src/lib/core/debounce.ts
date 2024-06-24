@@ -1,5 +1,21 @@
 import type { CallbackFn } from "../type-helpers/global-type-helpers";
-import { isObject } from "../type-helpers/typeof";
+import { isArray, isObject } from "../type-helpers/typeof";
+
+type DebouncedFnParams<TParams> =
+	| TParams[]
+	| [params: TParams | TParams[], overrideOptions: { $delay: number }];
+
+/**
+ * Creates a debounced function that delays invoking `callbackFn` until after `delay` milliseconds have elapsed
+ * since the last time the debounced function was invoked. The function has options to handle maximum wait time.
+ * It can be configured to override the delay dynamically when called.
+ *
+ * @param callbackFn - The function to debounce.
+ * @param delay - The number of milliseconds to delay.
+ * @param options - Optional settings like maxWait
+ *
+ * @returns the new debounced function.
+ */
 
 const debounce = <TParams>(
 	callbackFn: CallbackFn<TParams>,
@@ -11,37 +27,44 @@ const debounce = <TParams>(
 
 	const $clearMainTimeout = (): void => void (timeoutId && window.clearTimeout(timeoutId));
 
-	type DebouncedFn = {
-		(...params: TParams[]): void;
-		(overrideOptions: { $delay: number }, ...params: TParams[]): void;
-		cancel: () => void;
-	};
+	function debouncedFn(...params: TParams[]): void;
+	function debouncedFn(params: TParams | TParams[], overrideOptions: { $delay: number }): void;
 
-	const debouncedFn: DebouncedFn = (...params) => {
+	function debouncedFn(...params: DebouncedFnParams<TParams>) {
+		const overrideOptions = isObject(params[1]) && "$delay" in params[1] ? params[1] : null;
+
+		const resolvedParams = overrideOptions ? params[0] : params;
+
 		$clearMainTimeout();
 
-		const overrideOptions = isObject(params[0]) && "$delay" in params[0] ? params[0] : null;
-
-		const resolvedParams = (overrideOptions ? params.slice(1) : params) as TParams[];
-
 		timeoutId = window.setTimeout(() => {
-			callbackFn(...resolvedParams);
+			isArray(resolvedParams)
+				? callbackFn(...(resolvedParams as TParams[]))
+				: callbackFn(resolvedParams);
+
 			timeoutId = null;
 		}, overrideOptions?.$delay ?? delay);
 
-		// == If maxWaitTimerId is not equal to null, it means the previous maxWait timeout has not yet been called, so don't register another one
-		if (!options.maxWait || maxWaitTimeoutId !== null) return;
+		if (!options.maxWait) return;
+
+		// == Only register a new maxWaitTimeout if it's timeoutId is set to null, which implies the previous one has been executed
+		if (maxWaitTimeoutId !== null) return;
 
 		maxWaitTimeoutId = window.setTimeout(() => {
-			// == Cancel the main timeout before invoking callback
+			// == Cancel the main timeout before invoking callbackFn
 			$clearMainTimeout();
 
-			callbackFn(...resolvedParams);
+			isArray(resolvedParams)
+				? callbackFn(...(resolvedParams as TParams[]))
+				: callbackFn(resolvedParams);
+
 			maxWaitTimeoutId = null;
 		}, options.maxWait);
-	};
+	}
 
 	debouncedFn.cancel = $clearMainTimeout;
+	// prettier-ignore
+	debouncedFn.cancelMaxWait = (): void => void (maxWaitTimeoutId && window.clearTimeout(maxWaitTimeoutId));
 
 	return debouncedFn;
 };

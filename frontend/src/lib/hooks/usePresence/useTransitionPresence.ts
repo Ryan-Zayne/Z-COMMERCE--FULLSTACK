@@ -17,7 +17,7 @@ const useTransitionPresence: UseSpecificPresence = (defaultValue = true, options
 
 	const handleIsMountedWithoutRef = (value: boolean) => {
 		if (value) {
-			setDebouncedIsMounted({ $delay: 0 }, value);
+			setDebouncedIsMounted(value, { $delay: 0 });
 			return;
 		}
 
@@ -26,7 +26,7 @@ const useTransitionPresence: UseSpecificPresence = (defaultValue = true, options
 
 	const handleIsMountedWithRef = (value: boolean) => {
 		if (value) {
-			setDebouncedIsMounted({ $delay: 0 }, value);
+			setDebouncedIsMounted(value, { $delay: 0 });
 			return;
 		}
 

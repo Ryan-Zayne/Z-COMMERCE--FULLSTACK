@@ -5,7 +5,7 @@ export const isArray = <TArray>(value: unknown): value is TArray[] => Array.isAr
 export const isFormData = (value: unknown) => value instanceof FormData;
 
 export const isObject = <TObject extends Record<string, unknown>>(value: unknown): value is TObject => {
-	return typeof value === "object" && value !== null && !isFormData(value) && !isArray(value);
+	return typeof value === "object" && value !== null && !isFormData(value) && !Array.isArray(value);
 };
 
 // == `Any` is required here so that one can pass custom function type without type errors

@@ -1,6 +1,6 @@
-import type { CallbackFn } from "../type-helpers/global-type-helpers";
 import { throttleByFrame, throttleBySetTimeout, throttleByTimer } from "../core/throttle";
-import { useUnmountEffect } from "./effect-wrappers/useUnmountEffect";
+import type { CallbackFn } from "../type-helpers/global-type-helpers";
+import { useOnUnmountEffect } from "./effect-wrappers/useUnmountEffect";
 import { useCallbackRef } from "./useCallbackRef";
 import { useConstant } from "./useConstant";
 
@@ -9,7 +9,7 @@ export const useThrottleBySetTimeout = <TParams>(callbackFn: CallbackFn<TParams>
 
 	const throttledCallback = useConstant(() => throttleBySetTimeout(latestCallback, delay));
 
-	useUnmountEffect(() => throttledCallback.cancelTimeout());
+	useOnUnmountEffect(() => throttledCallback.cancelTimeout());
 
 	return throttledCallback;
 };
@@ -27,7 +27,7 @@ export const useThrottleByFrame = <TParams>(callbackFn: CallbackFn<TParams>) => 
 
 	const throttledCallback = useConstant(() => throttleByFrame(latestCallback));
 
-	useUnmountEffect(() => throttledCallback.cancelAnimation());
+	useOnUnmountEffect(() => throttledCallback.cancelAnimation());
 
 	return throttledCallback;
 };
