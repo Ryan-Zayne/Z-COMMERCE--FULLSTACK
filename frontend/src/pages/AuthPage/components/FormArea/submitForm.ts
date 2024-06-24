@@ -1,6 +1,7 @@
 import { callMainApi } from "@/lib/api/callMainApi";
 import type { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open";
+import { isHTTPError } from "@zayne-labs/callapi";
 import type { UseFormReset, UseFormSetError } from "react-hook-form";
 import type { NavigateFunction } from "react-router-dom";
 import { z } from "zod";
@@ -22,14 +23,14 @@ const submitForm =
 
 		noScrollOnOpen({ isActive: true });
 
-		const { errorInfo } = await callMainApi(AUTH_URL, {
+		const { error } = await callMainApi(AUTH_URL, {
 			body: formDataObj,
 		});
 
 		noScrollOnOpen({ isActive: false });
 
-		if (callMainApi.isHTTPErrorInfo(errorInfo) && "errors" in errorInfo.errorData) {
-			const { errors: zodErrors } = errorInfo.errorData;
+		if (isHTTPError(error) && "errors" in error.errorData) {
+			const { errors: zodErrors } = error.errorData;
 
 			zodErrors.forEach(([field, errorMessage]) => {
 				setError(field, {
@@ -41,8 +42,8 @@ const submitForm =
 			return;
 		}
 
-		if (callMainApi.isHTTPErrorInfo(errorInfo) && "errorTitle" in errorInfo.errorData) {
-			const errorResponse = errorInfo.errorData;
+		if (isHTTPError(error) && "errorTitle" in error.errorData) {
+			const errorResponse = error.errorData;
 
 			setError("root.serverError", {
 				type: errorResponse.errorTitle,
@@ -52,10 +53,10 @@ const submitForm =
 			return;
 		}
 
-		if (errorInfo !== null) {
+		if (error !== null) {
 			setError("root.caughtError", {
 				type: "caughtError",
-				message: errorInfo.message,
+				message: error.message,
 			});
 
 			return;
