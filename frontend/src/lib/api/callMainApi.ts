@@ -1,6 +1,6 @@
 import { BASE_AUTH_URL } from "@/lib/utils/constants";
 import type { FormSchemaType } from "@/pages/AuthPage/components/FormArea";
-import { callApi } from "@zayne-labs/callapi";
+import { createFetchClient } from "@zayne-labs/callapi";
 
 type FormResponseDataType = {
 	status: "success";
@@ -12,7 +12,7 @@ export type FormErrorResponseType =
 	| { status: "error"; errors: Array<[keyof FormSchemaType, string | string[]]> }
 	| { status: "error"; errorTitle: string; message: string; stackTrace: string };
 
-const callMainApi = callApi.create<FormResponseDataType, FormErrorResponseType>({
+const callMainApi = createFetchClient<FormResponseDataType, FormErrorResponseType>({
 	baseURL: BASE_AUTH_URL,
 
 	method: "POST",

@@ -24,8 +24,8 @@ importers:
         specifier: ^18.3.0
         version: 18.3.0
       '@zayne-labs/callapi':
-        specifier: ^0.2.5
-        version: 0.2.5
+        specifier: ^0.2.6
+        version: 0.2.6
       aos:
         specifier: ^2.3.4
         version: 2.3.4
@@ -94,8 +94,8 @@ importers:
         specifier: ^3.4.3
         version: 3.4.3
       typescript:
-        specifier: 5.5.1-rc
-        version: 5.5.1-rc
+        specifier: 5.5.2
+        version: 5.5.2
       vite:
         specifier: ^5.2.11
         version: 5.2.12(@types/node@20.13.0)
@@ -599,8 +599,8 @@ packages:
     peerDependencies:
       vite: ^4 || ^5
 
-  '@zayne-labs/callapi@0.2.5':
-    resolution: {integrity: sha512-ZG60nzV3T05EPdgjoD+8LgcHV8S8DOS/n2WPdAId/DwyyNgrph5evxqauwkTthOTiA0jQgfRCzG5Xw9QQVP8CQ==}
+  '@zayne-labs/callapi@0.2.6':
+    resolution: {integrity: sha512-CLTl1IBsEtRdWVQcJh1DJE4hOdKwueh1TNXmSop4pm5iEw6cCGdq9RMI3umxrB6MXc1k1wP3oPry+Gmq+D07IQ==}
 
   '@zayne-labs/tsconfig@0.0.7':
     resolution: {integrity: sha512-mKLwRBlA+LPbXBKg9xoRS/xhzXAN87Y2HGK8I+1HQsPu+CmGobs5uRkXchpm9SBhsOZIjzfZYycDhDmIUM+JFQ==}
@@ -1196,8 +1196,8 @@ packages:
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
-  typescript@5.5.1-rc:
-    resolution: {integrity: sha512-7cbqBhh2QH0RaI7AD0ElJ2Ww/iRdW1w2wH/S2dv6EbdNQQlv39fx+V5VOepxLgfUvRkU5D5pxzgPuvHSAQOdpQ==}
+  typescript@5.5.2:
+    resolution: {integrity: sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -1700,7 +1700,7 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@zayne-labs/callapi@0.2.5': {}
+  '@zayne-labs/callapi@0.2.6': {}
 
   '@zayne-labs/tsconfig@0.0.7': {}
 
@@ -2291,7 +2291,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  typescript@5.5.1-rc: {}
+  typescript@5.5.2: {}
 
   undici-types@5.26.5: {}
 
