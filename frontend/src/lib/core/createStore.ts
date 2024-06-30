@@ -40,7 +40,7 @@ const createStore = <TState>(initializer: StateCreator<TState>) => {
 				? { ...state, ...nextState }
 				: (nextState as TState);
 
-		listeners.size > 0 && listeners.forEach((onStoreChange) => onStoreChange(state, previousState));
+		listeners.forEach((onStoreChange) => onStoreChange(state, previousState));
 	};
 
 	const getState = () => state;
@@ -55,7 +55,6 @@ const createStore = <TState>(initializer: StateCreator<TState>) => {
 
 	const api: StoreApi<TState> = { getState, getInitialState, setState, subscribe };
 
-	// eslint-disable-next-line no-multi-assign
 	const initialState = (state = initializer(getState, setState, api));
 
 	return api;

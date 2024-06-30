@@ -1,1 +1,1 @@
-export * from "./submitForm";
+export * from "./generateOnSubmit";

@@ -1,4 +1,4 @@
-export const wait = (delay: number) => {
+export const waitUntil = (delay: number) => {
 	if (delay === 0) return;
 
 	const { promise, resolve } = Promise.withResolvers();
@@ -8,16 +8,14 @@ export const wait = (delay: number) => {
 	return promise;
 };
 
-export const waitSync = (delay: number) => {
+export const waitUntilSync = (delay: number) => {
 	if (delay === 0) return;
 
 	const startTime = performance.now();
 
 	let currentTime = startTime;
 
-	const elapsedTime = Math.floor(currentTime - startTime);
-
-	while (elapsedTime < delay) {
+	while (Math.floor(currentTime - startTime) < delay) {
 		currentTime = performance.now();
 	}
 };

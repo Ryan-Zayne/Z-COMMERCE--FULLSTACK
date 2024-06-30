@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import Form from "../Form";
-import { type FormSchemaType, submitForm } from "./submitForm";
+import { type FormSchemaType, generateOnSubmit } from "./generateOnSubmit";
 
 export type FormAreaProps = {
 	formType: "Login" | "Sign Up";
@@ -29,12 +29,12 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 
 	const { reset, setError, handleSubmit, control, formState } = methods;
 
+	const onSubmit = generateOnSubmit({ formType, setError, reset, navigate });
+
 	return (
 		<Form.Root
 			methods={methods}
-			onSubmit={(event) => {
-				void handleSubmit(submitForm({ formType, setError, reset, navigate }))(event);
-			}}
+			onSubmit={(event) => void handleSubmit(onSubmit)(event)}
 			className={cnMerge(
 				`mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem]
 				[&_label]:text-[1.2rem]`,

@@ -16,16 +16,15 @@ type SubmitFormParams = {
 	navigate: NavigateFunction;
 };
 
-const submitForm =
-	({ formType, setError, reset, navigate }: SubmitFormParams) =>
-	async (formDataObj: FormSchemaType) => {
+const generateOnSubmit = (submitParams: SubmitFormParams) => {
+	const { formType, setError, reset, navigate } = submitParams;
+
+	const onSubmit = async (formDataObj: FormSchemaType) => {
 		const AUTH_URL = formType === "Sign Up" ? `/sign-up` : `/login`;
 
 		noScrollOnOpen({ isActive: true });
 
-		const { error } = await callMainApi(AUTH_URL, {
-			body: formDataObj,
-		});
+		const { error } = await callMainApi(AUTH_URL, { body: formDataObj });
 
 		noScrollOnOpen({ isActive: false });
 
@@ -66,4 +65,7 @@ const submitForm =
 		navigate("/", { replace: true });
 	};
 
-export { submitForm };
+	return onSubmit;
+};
+
+export { generateOnSubmit };

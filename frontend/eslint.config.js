@@ -1,12 +1,10 @@
-/* eslint-disable unicorn/no-abusive-eslint-disable */
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import eslintReact from "@eslint-react/eslint-plugin";
 import { fixupPluginRules } from "@eslint/compat";
-import eslintBase from "@eslint/js";
-import * as eslintQuery from "@tanstack/eslint-plugin-query";
+import eslintJs from "@eslint/js";
 import eslintImportX from "eslint-plugin-import-x";
-import eslintJsdoc from "eslint-plugin-jsdoc";
-import eslintJsxA11y from "eslint-plugin-jsx-a11y";
-import eslintReact from "eslint-plugin-react";
 import eslintReactHooks from "eslint-plugin-react-hooks";
 import eslintSonarjs from "eslint-plugin-sonarjs";
 import eslintTailwind from "eslint-plugin-tailwindcss";
@@ -14,11 +12,15 @@ import eslintUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import tsEslint from "typescript-eslint";
 
-/** @type {import('typescript-eslint').ConfigWithExtends[]} */
+/**
+ * @import { Linter } from "eslint"
+ * @type {Linter.Config}
+ * */
 
 const eslintConfigArray = [
 	// == Global Options
 	{ ignores: ["dist/**", "node_modules/**", "build/**"] },
+
 	{
 		languageOptions: {
 			globals: {
@@ -29,23 +31,13 @@ const eslintConfigArray = [
 	},
 
 	// == Base Eslint Rules
-	eslintBase.configs.recommended,
-		{
+	eslintJs.configs.recommended,
+	{
 		rules: {
 			"no-return-assign": ["error", "except-parens"],
-			"prefer-arrow-callback": [
-				"error",
-				{
-					allowNamedFunctions: true,
-				},
-			],
+			"prefer-arrow-callback": ["error", { allowNamedFunctions: true }],
 			"no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
 			"no-console": ["error", { allow: ["warn", "error", "info", "trace"] }],
-			"constructor-super": "error",
-			"no-class-assign": "error",
-			//FIXME - JsOnly -  disallow modifying variables that are declared using const
-			"no-const-assign": "error",
-			"no-dupe-class-members": "error",
 			"no-restricted-exports": [
 				"error",
 				{
@@ -55,60 +47,19 @@ const eslintConfigArray = [
 					],
 				},
 			],
-			"no-this-before-super": "error",
 			"no-useless-computed-key": "error",
 			"no-useless-constructor": "error",
 			"no-useless-rename": [
 				"error",
 				{ ignoreDestructuring: false, ignoreImport: false, ignoreExport: false },
 			],
-			"no-var": "error",
-			"no-unsafe-optional-chaining": ["error", { disallowArithmeticOperators: true }],
-			"no-unsafe-negation": "error",
-			"no-unsafe-finally": "error",
-			"no-unreachable-loop": [
-				"error",
-				{
-					ignore: [], // WhileStatement, DoWhileStatement, ForStatement, ForInStatement, ForOfStatement
-				},
-			],
-			// disallow irregular whitespace outside of strings and comments
-			"no-irregular-whitespace": "error",
-			"no-invalid-regexp": "error",
-			"getter-return": ["error", { allowImplicit: true }],
+			"no-unreachable-loop": "error",
 			"no-constant-condition": "warn",
-			"no-empty": "error",
-			"no-func-assign": "error",
 			"no-await-in-loop": "error",
-			"no-cond-assign": ["error", "always"],
-			"no-duplicate-case": "error",
-			"no-unreachable": "error",
-			"no-unexpected-multiline": "error",
 			"no-template-curly-in-string": "error",
-			"no-sparse-arrays": "error",
 			"object-shorthand": ["error", "always", { ignoreConstructors: false, avoidQuotes: true }],
-			"prefer-const": ["error", { destructuring: "any", ignoreReadBeforeAssign: true }],
-			"prefer-destructuring": [
-				"error",
-				{
-					VariableDeclarator: {
-						array: false,
-						object: true,
-					},
-					AssignmentExpression: {
-						array: true,
-						object: false,
-					},
-				},
-				{
-					enforceForRenamedProperties: false,
-				},
-			],
-			"prefer-reflect": "warn",
-			"prefer-rest-params": "error",
-			"prefer-spread": "error",
+
 			"prefer-template": "error",
-			"rest-spread-spacing": ["error", "never"],
 			"symbol-description": "error",
 			"no-restricted-imports": ["off", { paths: [], patterns: [] }],
 			"no-restricted-globals": [
@@ -124,43 +75,26 @@ const eslintConfigArray = [
 						"Use Number.isNaN instead https://github.com/airbnb/javascript#standard-library--isnan",
 				},
 			],
-			"no-shadow-restricted-names": "error",
-			"no-undef": "error",
 			"no-undef-init": "error",
 			"array-callback-return": ["error", { allowImplicit: true }],
-			"class-methods-use-this": [
-				"error",
-				{
-					exceptMethods: [],
-				},
-			],
+			"class-methods-use-this": "error",
 			complexity: ["warn", 25],
-			// specify curly brace conventions for all control statements
-			// https://eslint.org/docs/rules/curly
-			curly: ["error", "multi-line"], // multiline
+			curly: ["error", "multi-line"],
 			"default-case": ["error", { commentPattern: "^no default$" }],
 			"default-case-last": "error",
-			// enforces consistent newlines before or after dots
-			// https://eslint.org/docs/rules/dot-location
-			"dot-location": ["error", "property"],
 			eqeqeq: ["error", "always", { null: "ignore" }],
 			"grouped-accessor-pairs": "error",
 			"no-alert": "warn",
-			"no-case-declarations": "error",
 			"no-constructor-return": "error",
 			"no-else-return": ["error", { allowElseIf: false }],
-			"no-empty-function": ["error", { allow: ["arrowFunctions", "functions", "methods"] }],
-			"no-empty-pattern": "error",
 			"no-extend-native": "error",
 			"no-extra-bind": "error",
-			"no-fallthrough": "error",
-			"no-floating-decimal": "error",
-			"no-global-assign": ["error", { exceptions: [] }],
 			"no-lone-blocks": "error",
 			"no-loop-func": "error",
 			"no-new": "error",
 			"no-new-func": "error",
 			"no-new-wrappers": "error",
+			"default-param-last": "error",
 			"no-param-reassign": [
 				"error",
 				{
@@ -224,20 +158,22 @@ const eslintConfigArray = [
 				},
 			],
 			"no-script-url": "error",
-			"no-self-assign": ["error", { props: true }],
 			"no-self-compare": "error",
 			"no-sequences": "error",
-			"no-useless-catch": "error",
 			"no-useless-concat": "error",
-			"no-useless-escape": "error",
 			"no-useless-return": "error",
-			"prefer-promise-reject-errors": ["error", { allowEmptyReject: true }],
 			"prefer-object-has-own": "error",
 			"prefer-regex-literals": ["error", { disallowRedundantWrapping: true }],
 			radix: "error",
 			"vars-on-top": "error",
-			"wrap-iife": ["error", "outside", { functionPrototypeMethods: false }],
-			"no-mixed-spaces-and-tabs": "off",
+			"max-depth": ["error", 1],
+			"logical-assignment-operators": "warn",
+			"no-useless-assignment": "warn",
+			"operator-assignment": "warn",
+			"no-implicit-coercion": "warn",
+			"prefer-object-spread": "warn",
+			"no-unmodified-loop-condition": "error",
+			"no-unneeded-ternary": "warn",
 		},
 	},
 
@@ -263,7 +199,6 @@ const eslintConfigArray = [
 			"@typescript-eslint/no-unused-vars": ["warn", { ignoreRestSiblings: true }],
 			"@typescript-eslint/array-type": ["error", { default: "array-simple" }],
 			"@typescript-eslint/consistent-type-definitions": ["error", "type"],
-			"@typescript-eslint/no-useless-constructor": "error",
 			"@typescript-eslint/member-ordering": "error",
 			"@typescript-eslint/no-confusing-void-expression": "off",
 			"@typescript-eslint/non-nullable-type-assertion-style": "off",
@@ -280,23 +215,28 @@ const eslintConfigArray = [
 				"error",
 				{ allow: ["arrowFunctions", "functions", "methods"] },
 			],
-			"@typescript-eslint/lines-between-class-members": "warn",
-			"@typescript-eslint/dot-notation": "error",
-			"@typescript-eslint/no-throw-literal": "error",
 			"@typescript-eslint/no-shadow": "error",
 			"@typescript-eslint/no-redeclare": "error",
 			"@typescript-eslint/prefer-nullish-coalescing": ["error", { ignoreConditionalTests: true }],
+			"@typescript-eslint/prefer-destructuring": [
+				"error",
+				{
+					VariableDeclarator: {
+						array: false,
+						object: true,
+					},
+					AssignmentExpression: {
+						array: true,
+						object: false,
+					},
+				},
+				{
+					enforceForRenamedProperties: false,
+				},
+			],
+			"@typescript-eslint/prefer-find": "warn",
 		},
 	},
-
-	// == Jsdoc rules
-	// eslintJsdoc.configs["flat/recommended-typescript"],
-	// {
-	// 	plugins: { jsdoc: eslintJsdoc },
-	// 	rules: {
-	// 		"jsdoc/require-description": "warn",
-	// 	},
-	// },
 
 	// == Import rules
 	eslintImportX.configs.typescript,
@@ -352,169 +292,40 @@ const eslintConfigArray = [
 
 	// == React Rules
 	{
-		languageOptions: {
-			parserOptions: {
-				ecmaFeatures: { jsx: true },
-			},
-		},
-
-		settings: {
-			react: {
-				version: "detect",
-			},
-		},
-
 		plugins: {
-			react: fixupPluginRules(eslintReact),
+			...eslintReact.configs["recommended-type-checked"].plugins,
 			"react-hooks": fixupPluginRules(eslintReactHooks),
 		},
 
 		rules: {
-			...eslintReact.configs.recommended.rules,
-			...eslintReact.configs["jsx-runtime"].rules,
-			...eslintReactHooks.configs.recommended.rules,
-			"react-hooks/rules-of-hooks": "error",
-			"react/self-closing-comp": ["error", { component: true }],
-			"react/jsx-curly-brace-presence": [
-				"error",
-				{
-					props: "ignore",
-					children: "ignore",
-					propElementValues: "always",
-				},
-			],
-			"react/jsx-no-useless-fragment": [
-				"error",
-				{
-					allowExpressions: true,
-				},
-			],
-			"react/no-unused-prop-types": "error",
-			"react/jsx-boolean-value": ["error", "always"],
-			"react/button-has-type": "off",
-			"react/function-component-definition": "off",
-			"react-hooks/exhaustive-deps": "warn",
-			"react/jsx-filename-extension": [
-				"error",
-				{
-					extensions: [".tsx", ".jsx"],
-				},
-			],
-			"react/jsx-props-no-spreading": "off",
-			"react/require-default-props": "off",
-			"react/hook-use-state": "off",
-			"react/no-invalid-html-attribute": "error",
-			"react/jsx-fragments": ["error", "syntax"],
-			"react/destructuring-assignment": ["error", "always"],
-			"react/no-typos": "error",
-			"react/no-array-index-key": "error",
-			"react/no-children-prop": "error",
-			"react/no-danger-with-children": "error",
-			"react/jsx-no-target-blank": ["error", { enforceDynamicLinks: "always" }],
-			"react/jsx-no-duplicate-props": ["error", { ignoreCase: true }],
-		},
-	},
+			...eslintReact.configs["recommended-type-checked"].rules,
+			"@eslint-react/function-component-definition": "off",
+			"@eslint-react/no-missing-component-display-name": "error",
+			"@eslint-react/prefer-destructuring-assignment": "error",
+			"@eslint-react/avoid-shorthand-boolean": "error",
+			"@eslint-react/prefer-shorthand-fragment": "error",
+			"@eslint-react/no-array-index-key": "error",
+			"@eslint-react/no-children-prop": "error",
+			"@eslint-react/naming-convention/filename-extension": ["warn", "as-needed"],
+			"@eslint-react/naming-convention/use-state": "warn",
+			"@eslint-react/naming-convention/component-name": "warn",
+			"@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "error",
+			"@eslint-react/hooks-extra/prefer-use-state-lazy-initialization": "error",
 
-	// == JSX A11y Rules
-	{
-		plugins: {
-			"jsx-a11y": fixupPluginRules(eslintJsxA11y),
-		},
-		rules: {
-			"jsx-a11y/click-events-have-key-events": "off",
-			"jsx-a11y/no-static-element-interactions": "off",
-			"jsx-a11y/control-has-associated-label": "off",
-			"jsx-a11y/label-has-associated-control": [
-				"error",
-				{
-					labelComponents: ["CustomInputLabel"],
-					labelAttributes: ["label"],
-					controlComponents: ["CustomInput"],
-					depth: 3,
-				},
-			],
-			"jsx-a11y/alt-text": [
-				"error",
-				{
-					elements: ["img", "object", "area", "input[type='image']"],
-					img: [],
-					object: [],
-					area: [],
-					"input[type='image']": [],
-				},
-			],
-			"jsx-a11y/anchor-has-content": ["error", { components: [] }],
-			"jsx-a11y/anchor-is-valid": [
-				"error",
-				{
-					components: ["Link"],
-					specialLink: ["to"],
-					aspects: ["noHref", "invalidHref", "preferButton"],
-				},
-			],
-			"jsx-a11y/aria-activedescendant-has-tabindex": "error",
-			"jsx-a11y/aria-props": "error",
-			"jsx-a11y/aria-proptypes": "error",
-			"jsx-a11y/aria-role": ["error", { ignoreNonDOM: false }],
-			"jsx-a11y/aria-unsupported-elements": "error",
-			"jsx-a11y/autocomplete-valid": ["warn", { inputComponents: [] }],
-			"jsx-a11y/heading-has-content": ["error", { components: [""] }],
-			"jsx-a11y/html-has-lang": "error",
-			"jsx-a11y/iframe-has-title": "error",
-			"jsx-a11y/img-redundant-alt": "error",
-			"jsx-a11y/interactive-supports-focus": "error",
-			"jsx-a11y/lang": "error",
-			"jsx-a11y/media-has-caption": [
-				"error",
-				{
-					audio: [],
-					video: [],
-					track: [],
-				},
-			],
-			"jsx-a11y/mouse-events-have-key-events": "error",
-			"jsx-a11y/no-access-key": "error",
-			"jsx-a11y/no-autofocus": ["error", { ignoreNonDOM: true }],
-			"jsx-a11y/no-distracting-elements": ["error", { elements: ["marquee", "blink"] }],
-			"jsx-a11y/no-interactive-element-to-noninteractive-role": [
-				"error",
-				{ tr: ["none", "presentation"] },
-			],
-			"jsx-a11y/no-noninteractive-element-interactions": [
-				"error",
-				{ handlers: ["onClick", "onMouseDown", "onMouseUp", "onKeyPress", "onKeyDown", "onKeyUp"] },
-			],
-			"jsx-a11y/no-noninteractive-element-to-interactive-role": [
-				"error",
-				{
-					ul: ["listbox", "menu", "menubar", "radiogroup", "tablist", "tree", "treegrid"],
-					ol: ["listbox", "menu", "menubar", "radiogroup", "tablist", "tree", "treegrid"],
-					li: ["menuitem", "option", "row", "tab", "treeitem"],
-					table: ["grid"],
-					td: ["gridcell"],
-				},
-			],
-			"jsx-a11y/no-noninteractive-tabindex": [
-				"error",
-				{
-					tags: [],
-					roles: ["tabpanel"],
-					allowExpressionValues: true,
-				},
-			],
-			"jsx-a11y/no-redundant-roles": [
-				"error",
-				{
-					nav: ["navigation"],
-				},
-			],
-			"jsx-a11y/role-has-required-aria-props": "error",
-			"jsx-a11y/role-supports-aria-props": "error",
-			"jsx-a11y/scope": "error",
-			"jsx-a11y/tabindex-no-positive": "error",
-			"jsx-a11y/anchor-ambiguous-text": "error",
-			"jsx-a11y/no-aria-hidden-on-focusable": "error",
-			"jsx-a11y/prefer-tag-over-role": "error",
+			"react-hooks/exhaustive-deps": "warn",
+			"react-hooks/rules-of-hooks": "error",
+
+			// "react/no-invalid-html-attribute": "error",
+			// "react/self-closing-comp": ["error", { component: true }],
+			// "react/jsx-curly-brace-presence": [
+			// 	"error",
+			// 	{
+			// 		props: "ignore",
+			// 		children: "ignore",
+			// 		propElementValues: "always",
+			// 	},
+			// ],
+			// "react/no-unused-prop-types": "error",
 		},
 	},
 
@@ -540,20 +351,8 @@ const eslintConfigArray = [
 			},
 		},
 		rules: {
-			"tailwindcss/classnames-order": "warn",
-			"tailwindcss/no-custom-classname": "warn",
 			"tailwindcss/no-contradicting-classname": "off", // Turned off cuz tw intellisense already handles this
-			"tailwindcss/no-unnecessary-arbitrary-value": "off",
-		},
-	},
-
-	// == TanStack Query Rules
-	{
-		plugins: {
-			"@tanstack/query": fixupPluginRules(eslintQuery),
-		},
-		rules: {
-			...eslintQuery.configs.recommended.rules,
+			"tailwindcss/no-unnecessary-arbitrary-value": "off", // Turned off cuz using a custom root font-size (10px)
 		},
 	},
 ];
