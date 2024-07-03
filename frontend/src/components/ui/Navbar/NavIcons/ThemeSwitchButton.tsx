@@ -1,7 +1,6 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeActions, useThemeStore } from "@/store/zustand/themeStore";
-import { BsFillMoonStarsFill } from "react-icons/bs";
-import { FaSun } from "react-icons/fa";
 
 function ThemeSwitchButton({ display = "" }: { display?: string }) {
 	const theme = useThemeStore((state) => state.theme);
@@ -16,8 +15,8 @@ function ThemeSwitchButton({ display = "" }: { display?: string }) {
 				className="relative flex h-[2.2rem] w-[4.3rem] items-center justify-between gap-[0.6rem]
 					[padding-block:0.3rem] [padding-inline:0.6rem_0.5rem]"
 			>
-				<FaSun color="var(--text-header)" fontSize={"1.2rem"} />
-				<BsFillMoonStarsFill color="pink" fontSize={"1rem"} />
+				<IconBox icon="fa6-solid:sun" color="var(--text-header)" fontSize={"1.2rem"} />
+				<IconBox icon="bi:moon-stars-fill" color="pink" fontSize={"1rem"} />
 
 				<span
 					className={cnJoin(

@@ -1,7 +1,7 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import { LoadingSkeleton, ProductCard } from "@/components/ui";
 import { assertDefined } from "@/lib/type-helpers/assert";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
-import { TiArrowBack } from "react-icons/ti";
 import { Link } from "react-router-dom";
 
 function AllProductsPage() {
@@ -26,7 +26,7 @@ function AllProductsPage() {
 				<h1 className="mx-auto text-[3rem] font-[700] lg:text-[4rem]">All Products</h1>
 				<button className="text-[3rem]">
 					<Link to={"/"}>
-						<TiArrowBack />
+						<IconBox icon="typcn:arrow-back" />
 					</Link>
 				</button>
 			</header>

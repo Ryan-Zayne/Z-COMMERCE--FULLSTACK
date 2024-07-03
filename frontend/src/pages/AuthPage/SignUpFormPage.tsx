@@ -1,8 +1,8 @@
 import { facebook } from "@/assets/authPageImages";
 import { Logo } from "@/components/primitives";
+import { IconBox } from "@/components/primitives/IconBox";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { Transition } from "@headlessui/react";
-import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation } from "react-router-dom";
 import FormArea from "./components/FormArea/FormArea";
 
@@ -43,7 +43,7 @@ function SignUpFormPage() {
 			<footer>
 				<div className="flex items-center justify-center gap-[3rem] text-[1.5rem]">
 					<button className="rounded-[50%] border-[2px] border-label bg-white p-[0.8rem]">
-						<FcGoogle className="text-[3rem]" />
+						<IconBox icon="fa6-brands:google" className="text-[3rem]" />
 					</button>
 
 					<button className={"rounded-[50%] border-[2px] border-facebook bg-facebook"}>
@@ -51,10 +51,7 @@ function SignUpFormPage() {
 					</button>
 				</div>
 
-				<p
-					className="mx-auto mt-[4rem] text-center text-[1.4rem] font-[500] text-input
-						lg:mt-[3rem]"
-				>
+				<p className="mx-auto mt-[4rem] text-center text-[1.4rem] font-[500] text-input lg:mt-[3rem]">
 					Already have an account?
 					<Link
 						className="ml-[0.4rem] text-[hsl(214,89%,53%)] hover:text-[hsl(214,89%,60%)]"

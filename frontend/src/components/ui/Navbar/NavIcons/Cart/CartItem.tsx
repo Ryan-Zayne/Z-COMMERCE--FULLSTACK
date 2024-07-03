@@ -1,8 +1,7 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import { useShopActions } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ShopStore } from "@/store/zustand/zustand-store.types";
-import type React from "react";
-import { TbTrashXFilled } from "react-icons/tb";
 
 type CartItemProps = {
 	product: ShopStore["cart"][number];
@@ -20,7 +19,7 @@ function CartItem({ product }: CartItemProps) {
 				isDarkMode
 					? "box-shadow-[0_1px_10px_hsl(0,0%,0%,0.6)]"
 					: "box-shadow-[0_2px_6px_hsl(0,0%,0%,0.3)]"
-			}`}
+				}`}
 		>
 			<img
 				className="aspect-square w-[5rem] rounded-[50%] lg:w-[7rem]"
@@ -28,10 +27,7 @@ function CartItem({ product }: CartItemProps) {
 				alt=""
 			/>
 
-			<div
-				className="ml-[1rem] flex flex-col gap-[0.3rem] text-[1.3rem] lg:ml-[1.6rem]
-					lg:text-[1.5rem]"
-			>
+			<div className="ml-[1rem] flex flex-col gap-[0.3rem] text-[1.3rem] lg:ml-[1.6rem] lg:text-[1.5rem]">
 				<h4 className="font-roboto font-600 lg:text-[1.7rem]">{product.title}</h4>
 				<p className="font-500 text-[hsl(0,0%,50%,0.7)]">${product.price}</p>
 				<p>
@@ -44,7 +40,7 @@ function CartItem({ product }: CartItemProps) {
 					lg:text-[2.3rem]"
 				onClick={handleRemoveProduct}
 			>
-				<TbTrashXFilled />
+				<IconBox icon="tabler:trash-filled" />
 			</button>
 		</li>
 	);

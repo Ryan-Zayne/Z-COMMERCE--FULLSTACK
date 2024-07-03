@@ -1,9 +1,9 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import Overlay from "@/components/primitives/Overlay";
 import { useElementList } from "@/lib/hooks";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";
-import { RiCloseFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import CategoryMenu from "./CategoryMenu";
 
@@ -72,7 +72,7 @@ const NavigationLinks = () => {
 						className={"absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600"}
 						onClick={toggleNavShow}
 					>
-						<RiCloseFill />
+						<IconBox icon="ri:close-fill" />
 					</button>
 				)}
 

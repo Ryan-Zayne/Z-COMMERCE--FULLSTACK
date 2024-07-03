@@ -43,11 +43,15 @@ const tailwindConfig = {
 				"brand-inverse": "var(--brand-inverse)",
 
 				// Shadcn colors
+
+				"shadcn-input": "hsl(214.3 31.8% 91.4%)",
+				border: "theme(colors.input)",
+				"muted-foreground": "hsl(215.4 16.3% 46.9%)",
+				"shadcn-ring": "hsl(215 20.2% 65.1%)",
 				"shadcn-primary": "hsl(222.2 47.4% 11.2%)",
 				background: "hsl(0 0% 100%)",
 				foreground: "hsl(222.2 47.4% 11.2%)",
 				"primary-foreground": "hsl(210 40% 98%)",
-				"muted-foreground": "hsl(215.4 16.3% 46.9%)",
 				muted: "hsl(210 40% 96.1%)",
 
 				// Sonner toast colors

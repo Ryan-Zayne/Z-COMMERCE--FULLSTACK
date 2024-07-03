@@ -1,3 +1,4 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown/DropDown";
 import SearchForm from "@/components/ui/SearchForm";
@@ -7,7 +8,6 @@ import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { useEffect } from "react";
-import { BiCartAlt, BiHeart, BiSearchAlt2, BiUser } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import CartDrawer from "./Cart/CartDrawer";
 import HamBurgerButton from "./HamBurgerButton";
@@ -37,7 +37,7 @@ const NavIcons = () => {
 			className="relative flex w-full select-none items-center justify-between gap-[1rem] px-[1rem]
 				lg:pr-[4rem]"
 		>
-			<Logo className={cnJoin(isDarkMode && "contrast-[1.8]) brightness-[0.8]")} />
+			<Logo className={cnJoin(isDarkMode && "brightness-[0.8] contrast-[1.8]")} />
 
 			<SearchForm
 				isSearchShow={isSearchShow}
@@ -46,8 +46,7 @@ const NavIcons = () => {
 					base: cnMerge(
 						isMobile &&
 							`absolute inset-x-0 top-[6.1rem] flex h-0 justify-center overflow-y-hidden
-							rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms]
-							ease-out`,
+							rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out`,
 						isSearchShow && "h-[8.1rem] duration-[600ms] ease-[ease]"
 					),
 				}}
@@ -59,7 +58,7 @@ const NavIcons = () => {
 			>
 				{isMobile && (
 					<button className="hover:text-heading active:scale-[1.25]" onClick={toggleSearchShow}>
-						<BiSearchAlt2 />
+						<IconBox icon="bx:bxs-search-alt-2" />
 					</button>
 				)}
 
@@ -68,7 +67,7 @@ const NavIcons = () => {
 						hover:[transition:transform_1000ms_ease-in-out] active:scale-[1.2] lg:text-[2.3rem]"
 				>
 					<Link to={"/wishlist"}>
-						<BiHeart />
+						<IconBox icon="bi:heart" />
 					</Link>
 				</button>
 
@@ -79,7 +78,7 @@ const NavIcons = () => {
 								hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
 							onClick={dropDownDisclosure.onToggle}
 						>
-							<BiUser />
+							<IconBox icon="bi:person" />
 						</button>
 					</DropDown.Trigger>
 
@@ -105,13 +104,12 @@ const NavIcons = () => {
 					className="relative active:scale-[1.1] lg:text-[2.3rem]"
 					onClick={cartDisclosure.onOpen}
 				>
-					<BiCartAlt className="hover:text-heading" />
+					<IconBox icon="bx:cart-alt" className="hover:text-heading" />
 
 					{cart.length > 0 && (
 						<span
-							className="absolute right-[-1rem] top-[-0.6rem] inline-flex size-[1.7rem]
-								items-center justify-center rounded-[50%] bg-secondary text-[1.2rem]
-								font-[500]"
+							className="absolute right-[-1rem] top-[-0.6rem] inline-flex size-[1.7rem] items-center
+								justify-center rounded-[50%] bg-secondary text-[1.2rem] font-[500]"
 						>
 							{cart.length}
 						</span>

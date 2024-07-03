@@ -1,6 +1,6 @@
 import { Overlay, Teleport } from "@/components/primitives";
+import { IconBox } from "@/components/primitives/IconBox";
 import { cnMerge } from "@/lib/utils/cn";
-import { RiCloseFill } from "react-icons/ri";
 import type {
 	DrawerCloseProps,
 	DrawerContentProps,
@@ -54,13 +54,13 @@ function DrawerContent({ className, children, placement = "right" }: DrawerConte
 }
 
 function DrawerCloseButton(props: DrawerCloseProps) {
-	const { className = "", icon = <RiCloseFill /> } = props;
+	const { className = "", icon = "ri:close-fill" } = props;
 
 	const onClose = useDrawerStore((state) => state.onClose);
 
 	return (
 		<button className={cnMerge(`absolute right-[2rem] top-[2rem] ${className}`)} onClick={onClose}>
-			{icon}
+			<IconBox icon={icon} />
 		</button>
 	);
 }

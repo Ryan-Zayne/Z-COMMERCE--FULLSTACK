@@ -1,8 +1,8 @@
 import { Button } from "@/components/primitives";
+import { IconBox } from "@/components/primitives/IconBox";
 import StarRating from "@/components/primitives/StarRating";
 import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
 import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
-import { AiFillMinusCircle, AiFillPlusCircle, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 type ItemDescriptionProps = {
@@ -56,23 +56,21 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 						p-[0.6rem_1.1rem] text-[2.3rem] font-[600] md:w-[17rem] md:text-[2.6rem]"
 				>
 					<button
-						className="active:scale-[1.2] disabled:brightness-[0.5]
-							disabled:active:transform-none"
+						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
 						disabled={productQuantityChosen === 0}
 						onClick={handleMinus}
 					>
-						<AiFillMinusCircle />
+						<IconBox icon="mdi:minus-circle" />
 					</button>
 
 					<p className="font-roboto">{productQuantityChosen}</p>
 
 					<button
-						className="active:scale-[1.2] disabled:brightness-[0.5]
-							disabled:active:transform-none"
+						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
 						disabled={productQuantityChosen === productItem.stock}
 						onClick={handlePlus}
 					>
-						<AiFillPlusCircle />
+						<IconBox icon="mdi:plus-circle" />
 					</button>
 				</div>
 
@@ -112,7 +110,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 						active:scale-[1.17] lg:w-[20rem]`}
 					onClick={handlePlus}
 				>
-					<AiOutlineShoppingCart className="mr-[1rem] text-[2rem]" />
+					<IconBox icon="mdi:cart-outline" className="mr-[1rem] text-[2rem]" />
 					<p>Add to Cart</p>
 				</Button>
 			</div>

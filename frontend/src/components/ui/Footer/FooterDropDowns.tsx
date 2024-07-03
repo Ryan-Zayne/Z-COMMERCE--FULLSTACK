@@ -1,12 +1,9 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown/DropDown";
 import { useDisclosure } from "@/lib/hooks/useDisclosure";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from "react-icons/bs";
-import { FaChevronDown } from "react-icons/fa";
-import { MdLocationOn, MdMail, MdPhone } from "react-icons/md";
-import { TfiYoutube } from "react-icons/tfi";
 
 function FooterDropDowns() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -49,15 +46,11 @@ function FooterDropDowns() {
 							<h4 className="text-[1.5rem] font-[500]">Contact Us</h4>
 
 							<button
-								className={cnJoin(
-									`text-[1.5rem] font-[200] transition-transform
-								duration-300`,
-									{
-										"rotate-180": dropOne.isOpen,
-									}
-								)}
+								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
+									"rotate-180": dropOne.isOpen,
+								})}
 							>
-								<FaChevronDown />
+								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
 						</DropDown.Trigger>
 					)}
@@ -67,15 +60,15 @@ function FooterDropDowns() {
 						classNames={{ panelList: semanticClasses.panelList }}
 					>
 						<li className="mt-[1rem] w-[27rem]">
-							<MdLocationOn />
+							<IconBox icon="mdi:map-marker" />
 							60, 29th Street, San Francisco, CA 94110, United States of America
 						</li>
 						<li>
-							<MdPhone />
+							<IconBox icon="mdi:phone" />
 							(+00) 123-456-789
 						</li>
 						<li>
-							<MdMail />
+							<IconBox icon="mdi:email" />
 							digitalgenie@company.com
 						</li>
 					</DropDown.Panel>
@@ -90,47 +83,42 @@ function FooterDropDowns() {
 							<h4 className="text-[1.5rem] font-[500]">Follow Us</h4>
 
 							<button
-								className={cnJoin(
-									`text-[1.5rem] font-[200] transition-transform
-								duration-300`,
-									{
-										"rotate-180": dropTwo.isOpen,
-									}
-								)}
+								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
+									"rotate-180": dropTwo.isOpen,
+								})}
 							>
-								<FaChevronDown />
+								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
 						</DropDown.Trigger>
 					)}
 
 					<DropDown.Panel
 						classNames={{
-							panelList:`flex items-center gap-[2rem] pl-[2.5rem] text-[1.7rem] [&_li]:pt-[1.5rem]
-								lg:[&_li]:pb-[1.5rem]`,
+							panelList: `flex items-center gap-[2rem] pl-[2.5rem] text-[1.7rem] [&_li]:pt-[1.5rem]
+							lg:[&_li]:pb-[1.5rem]`,
 						}}
 						isOpen={isDesktop ? true : dropTwo.isOpen}
 					>
 						<li>
-							<BsFacebook />
+							<IconBox icon="bi:facebook" />
 						</li>
 						<li>
-							<BsTwitter />
+							<IconBox icon="bi:twitter" />
 						</li>
 						<li>
-							<TfiYoutube />
+							<IconBox icon="bi:youtube" />
 						</li>
 						<li>
-							<BsInstagram />
+							<IconBox icon="bi:instagram" />
 						</li>
 						<li>
-							<BsPinterest />
+							<IconBox icon="bi:pinterest" />
 						</li>
 					</DropDown.Panel>
 				</DropDown.Root>
 			</article>
 
 			<article>
-				{/* eslint-disable-next-line sonarjs/no-duplicate-string */}
 				<DropDown.Root className={"min-w-[20rem]"}>
 					<DropDown.Trigger
 						className={cnMerge(
@@ -147,7 +135,7 @@ function FooterDropDowns() {
 									"rotate-180": dropThree.isOpen,
 								})}
 							>
-								<FaChevronDown />
+								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
 						)}
 					</DropDown.Trigger>
@@ -178,15 +166,11 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
-								className={cnJoin(
-									`text-[1.5rem] font-[200] transition-transform
-								duration-300`,
-									{
-										"rotate-180": dropFour.isOpen,
-									}
-								)}
+								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
+									"rotate-180": dropFour.isOpen,
+								})}
 							>
-								<FaChevronDown />
+								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
 						)}
 					</DropDown.Trigger>
@@ -217,15 +201,11 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
-								className={cnMerge(
-									`text-[1.5rem] font-[200] transition-transform
-								duration-300`,
-									{
-										"rotate-180": dropFive.isOpen,
-									}
-								)}
+								className={cnMerge("text-[1.5rem] font-[200] transition-transform duration-300", {
+									"rotate-180": dropFive.isOpen,
+								})}
 							>
-								<FaChevronDown />
+								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
 						)}
 					</DropDown.Trigger>

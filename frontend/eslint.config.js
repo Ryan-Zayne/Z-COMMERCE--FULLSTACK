@@ -6,6 +6,7 @@ import { fixupPluginRules } from "@eslint/compat";
 import eslintJs from "@eslint/js";
 import eslintImportX from "eslint-plugin-import-x";
 import eslintReactHooks from "eslint-plugin-react-hooks";
+import eslintReactRefresh from "eslint-plugin-react-refresh";
 import eslintSonarjs from "eslint-plugin-sonarjs";
 import eslintTailwind from "eslint-plugin-tailwindcss";
 import eslintUnicorn from "eslint-plugin-unicorn";
@@ -166,9 +167,8 @@ const eslintConfigArray = [
 			"prefer-regex-literals": ["error", { disallowRedundantWrapping: true }],
 			radix: "error",
 			"vars-on-top": "error",
-			"max-depth": ["error", 1],
+			"max-depth": ["error", 2],
 			"logical-assignment-operators": "warn",
-			"no-useless-assignment": "warn",
 			"operator-assignment": "warn",
 			"no-implicit-coercion": "warn",
 			"prefer-object-spread": "warn",
@@ -326,6 +326,16 @@ const eslintConfigArray = [
 			// 	},
 			// ],
 			// "react/no-unused-prop-types": "error",
+		},
+	},
+
+	// == React-Refresh Rules
+	{
+		plugins: {
+			"react-refresh": eslintReactRefresh,
+		},
+		rules: {
+			"react-refresh/only-export-components": "warn",
 		},
 	},
 

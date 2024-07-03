@@ -1,9 +1,8 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import { useToggle } from "@/lib/hooks";
 import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
 import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
 import type { ShopStore } from "@/store/zustand/zustand-store.types";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { TiArrowBack } from "react-icons/ti";
 import { Link } from "react-router-dom";
 
 type ItemHeaderProps = {
@@ -25,7 +24,7 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 		<>
 			<button className={"text-[3rem]"}>
 				<Link to={"/"}>
-					<TiArrowBack />
+					<IconBox icon="typcn:arrow-back" />
 				</Link>
 			</button>
 
@@ -35,9 +34,13 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 
 			<button className="rounded-[50%] bg-primary p-[0.7rem]" onClick={handleHeartClick}>
 				{isHearted ? (
-					<AiFillHeart className="scale-[1.16] text-[2.1rem] text-heading active:scale-[1.23]" />
+					<IconBox
+						icon="ant-design:heart-filled"
+						className="scale-[1.16] text-[2.1rem] text-heading active:scale-[1.23]"
+					/>
 				) : (
-					<AiOutlineHeart
+					<IconBox
+						icon="ant-design:heart-outlined"
 						className="text-[2.1rem] text-carousel-dot hover:text-heading active:scale-[1.23]"
 					/>
 				)}

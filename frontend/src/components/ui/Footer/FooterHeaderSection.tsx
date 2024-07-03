@@ -1,6 +1,5 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import SearchForm from "@/components/ui/SearchForm";
-import { BsFacebook, BsInstagram, BsPinterest, BsTwitter } from "react-icons/bs";
-import { TfiYoutube } from "react-icons/tfi";
 import { NewsletterIcon, getOnApple, getOnGoogle } from "./images";
 
 function FooterHeaderSection() {
@@ -64,11 +63,11 @@ function FooterHeaderSection() {
 					className="flex gap-[2rem] text-[2rem] [&_svg:hover]:text-secondary
 						[&_svg]:cursor-pointer"
 				>
-					<BsFacebook />
-					<BsTwitter />
-					<TfiYoutube />
-					<BsInstagram />
-					<BsPinterest />
+							<IconBox icon="bi:facebook" />
+							<IconBox icon="bi:twitter" />
+							<IconBox icon="bi:youtube" />
+							<IconBox icon="bi:instagram" />
+							<IconBox icon="bi:pinterest" />
 				</span>
 			</div>
 		</section>

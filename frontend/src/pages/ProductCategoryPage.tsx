@@ -1,7 +1,7 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import { LoadingSkeleton, ProductCard } from "@/components/ui";
 import { assertDefined } from "@/lib/type-helpers/assert";
 import { useGetProductCategory } from "@/store/react-query/useGetProductCategory";
-import { TiArrowBack } from "react-icons/ti";
 import { Link, useParams } from "react-router-dom";
 
 function ProductCategoryPage() {
@@ -26,7 +26,7 @@ function ProductCategoryPage() {
 			<header className="flex items-center justify-center">
 				<button className="ml-[3rem] text-[3rem]">
 					<Link to={"/"}>
-						<TiArrowBack />
+						<IconBox icon="typcn:arrow-back" />
 					</Link>
 				</button>
 

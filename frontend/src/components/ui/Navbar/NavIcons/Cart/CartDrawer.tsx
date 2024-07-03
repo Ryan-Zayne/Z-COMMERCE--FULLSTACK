@@ -1,9 +1,9 @@
 import { Button, Logo, Show } from "@/components/primitives";
+import { IconBox } from "@/components/primitives/IconBox";
 import { Drawer, type DrawerContentProps, type DrawerStore } from "@/components/ui/Drawer";
 import { useElementList } from "@/lib/hooks";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
-import { IoMdCart } from "react-icons/io";
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
 
@@ -26,8 +26,7 @@ function CartDrawer(props: CartDrawerProps) {
 				className={"w-[min(100%,30rem)] pb-[1.6rem] lg:min-w-[40rem]"}
 			>
 				<Drawer.CloseButton
-					className={`rounded-[4px] bg-heading p-[0.2rem] text-[2.6rem] text-primary
-						lg:scale-[1.2]`}
+					className={"rounded-[4px] bg-heading p-[0.2rem] text-[2.6rem] text-primary lg:scale-[1.2]"}
 				/>
 
 				<Drawer.Header
@@ -36,7 +35,8 @@ function CartDrawer(props: CartDrawerProps) {
 				>
 					<Logo />
 
-					<IoMdCart
+					<IconBox
+						icon="mdi:cart"
 						className={`text-[4.5rem] ${isDarkMode ? "text-carousel-dot" : "text-primary"}`}
 					/>
 				</Drawer.Header>

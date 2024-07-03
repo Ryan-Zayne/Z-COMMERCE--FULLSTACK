@@ -5,9 +5,8 @@ import { cnMerge } from "@/lib/utils/cn";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useEffect } from "react";
-import type { IconType } from "react-icons";
-import { BiSearchAlt2 } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { IconBox } from "../primitives/IconBox";
 
 type SearchFormProps = Pick<ButtonProps, "theme" | "variant" | "size" | "text"> & {
 	classNames?: {
@@ -19,7 +18,7 @@ type SearchFormProps = Pick<ButtonProps, "theme" | "variant" | "size" | "text"> 
 	};
 
 	isSearchShow?: boolean;
-	buttonIcon?: IconType;
+	buttonIcon?: string;
 	placeholder?: string;
 	type?: "search" | "subscribe";
 };
@@ -29,7 +28,7 @@ function SearchForm(props: SearchFormProps) {
 		type = "search",
 		isSearchShow,
 		classNames,
-		buttonIcon: ButtonIcon = BiSearchAlt2,
+		buttonIcon = "bx:search-alt-2",
 		theme = "secondary",
 		variant = "input",
 		placeholder = type === "search" ? "Search for products..." : "Enter Your Email address...",
@@ -63,9 +62,9 @@ function SearchForm(props: SearchFormProps) {
 			>
 				<input
 					className={cnMerge(
-						`w-full rounded-[2.5rem_0_0_2.5rem] border-secondary bg-[--color-body,_white]
-						py-[0.6rem] pl-[2.3rem] transition-[box-shadow] duration-200
-						[border-width:2px_0_2px_2px] placeholder:font-[500] placeholder:text-placeholder
+						`w-full rounded-[2.5rem_0_0_2.5rem] border-secondary bg-[--color-body,_white] py-[0.6rem]
+						pl-[2.3rem] transition-[box-shadow] duration-200 [border-width:2px_0_2px_2px]
+						placeholder:font-[500] placeholder:text-placeholder
 						focus-within:shadow-[1px_0_10px_2px_var(--color-secondary)]
 						max-sm:placeholder:text-[1.4rem]`,
 						classNames?.input
@@ -86,16 +85,15 @@ function SearchForm(props: SearchFormProps) {
 					variant={variant}
 					theme={theme}
 				>
-					{text ?? <ButtonIcon />}
+					{text ?? <IconBox icon={buttonIcon} />}
 				</Button>
 			</form>
 
 			{type === "search" && data.length > 0 && query !== "" && (
 				<SearchItemsList
 					className={cnMerge(
-						`custom-scrollbar absolute top-[14rem] z-[100] flex max-h-[50rem]
-						w-[min(100%,_40rem)] flex-col gap-[1rem] overflow-y-auto rounded-[1rem] bg-body
-						p-[2rem] text-[1.2rem]`,
+						`custom-scrollbar absolute top-[14rem] z-[100] flex max-h-[50rem] w-[min(100%,_40rem)]
+						flex-col gap-[1rem] overflow-y-auto rounded-[1rem] bg-body p-[2rem] text-[1.2rem]`,
 						isMobile && "inset-x-0 mx-auto",
 						!isMobile && "top-[8.1rem]"
 					)}

@@ -1,6 +1,6 @@
 import { useScrollObserver } from "@/lib/hooks";
 import { cnMerge } from "@/lib/utils/cn";
-import { BsChevronUp } from "react-icons/bs";
+import { IconBox } from "../primitives/IconBox";
 
 function ScrollToTopButton() {
 	const { isScrolled, elementRef } = useScrollObserver({ rootMargin: "1000px 0px 0px" });
@@ -19,7 +19,7 @@ function ScrollToTopButton() {
 					[isScrolled && "duration-[1.2s] ease-in-out [scale:1] [translate:0_0]"]
 				)}
 			>
-				<BsChevronUp />
+				<IconBox icon="bi:chevron-up" />
 			</button>
 		</div>
 	);

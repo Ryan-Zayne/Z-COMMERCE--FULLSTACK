@@ -1,10 +1,8 @@
 import { Button, LoadingSpinner, Show, Switch } from "@/components/primitives";
-import { useToggle } from "@/lib/hooks";
 import { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import Form from "../Form";
 import { type FormSchemaType, generateOnSubmit } from "./generateOnSubmit";
@@ -19,8 +17,6 @@ const semanticClasses = {
 };
 
 function FormArea({ formType, formClasses }: FormAreaProps) {
-	const [isPasswordShow, togglePasswordShow] = useToggle(false);
-	const [isConfirmPasswordShow, toggleConfirmPasswordShow] = useToggle(false);
 	const navigate = useNavigate();
 
 	const methods = useForm<FormSchemaType>({
@@ -64,40 +60,18 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 			<Form.Item control={control} name="password" className="relative">
 				<Form.Label>Password</Form.Label>
 
-				<Form.Input
-					type={isPasswordShow ? "text" : "password"}
-					errorClassName={semanticClasses.error}
-				/>
+				<Form.Input type={"password"} errorClassName={semanticClasses.error} />
 
 				<Form.ErrorMessage control={control} type="regular" errorField="password" />
-
-				<button
-					className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
-					type="button"
-					onClick={togglePasswordShow}
-				>
-					{isPasswordShow ? <AiFillEyeInvisible /> : <AiFillEye />}
-				</button>
 			</Form.Item>
 
 			<Show when={formType === "Sign Up"}>
 				<Form.Item control={control} name="confirmPassword" className={"relative"}>
 					<Form.Label>Confirm Password</Form.Label>
 
-					<Form.Input
-						type={isConfirmPasswordShow ? "text" : "password"}
-						errorClassName={semanticClasses.error}
-					/>
+					<Form.Input type={"password"} errorClassName={semanticClasses.error} />
 
 					<Form.ErrorMessage control={control} type="regular" errorField="confirmPassword" />
-
-					<button
-						className="absolute right-[2rem] top-[2.3rem] text-[1.8rem]"
-						type="button"
-						onClick={toggleConfirmPasswordShow}
-					>
-						{isConfirmPasswordShow ? <AiFillEyeInvisible /> : <AiFillEye />}
-					</button>
 				</Form.Item>
 			</Show>
 

@@ -58,14 +58,15 @@ export type CarouselControlProps = {
 		iconContainer?: string;
 	};
 
+	// == Allow for custom icons, either passing both or just one of the two
 	icon?:
 		| {
-				iconType?: undefined;
+				iconType?: null;
 				prev?: React.ReactNode;
 				next?: React.ReactNode;
 		  }
 		| {
-				iconType: "leftIcon" | "rightIcon";
+				iconType: "prevIcon" | "nextIcon";
 				icon?: React.ReactNode;
 		  };
 };

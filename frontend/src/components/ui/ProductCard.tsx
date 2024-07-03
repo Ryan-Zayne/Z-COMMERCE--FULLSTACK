@@ -6,8 +6,8 @@ import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/zustand-store.types";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { IconBox } from "../primitives/IconBox";
 
 type ProductCardProps = {
 	link: string;
@@ -77,24 +77,24 @@ function ProductCard(props: ProductCardProps) {
 					<button
 						onClick={handleAddToWishList}
 						className={cnJoin(
-							`group/btn absolute bottom-[1.1rem] right-[1.3rem] z-[100] rounded-[50%]
-							bg-primary p-[0.7rem]`,
+							`group/btn absolute bottom-[1.1rem] right-[1.3rem] z-[100] rounded-[50%] bg-primary
+							p-[0.7rem]`,
 							[
 								isHearted
 									? "translate-y-0 opacity-100"
-									: `translate-y-[5rem] opacity-0 transition-[opacity,transform]
-										duration-[1s] group-hover/card:translate-y-[0]
-										group-hover/card:opacity-100`,
+									: `translate-y-[5rem] opacity-0 transition-[opacity,transform] duration-[1s]
+										group-hover/card:translate-y-[0] group-hover/card:opacity-100`,
 							]
 						)}
 					>
 						{isHearted ? (
-							<AiFillHeart
-								className="scale-[1.16] text-[1.9rem] text-heading
-									group-active/btn:scale-[1.23]"
+							<IconBox
+								icon="ant-design:heart-filled"
+								className="scale-[1.16] text-[1.9rem] text-heading group-active/btn:scale-[1.23]"
 							/>
 						) : (
-							<AiOutlineHeart
+							<IconBox
+								icon="ant-design:heart-outlined"
 								className="text-[1.9rem] text-carousel-dot group-hover/btn:text-heading
 									group-active/btn:scale-[1.23]"
 							/>
@@ -103,8 +103,8 @@ function ProductCard(props: ProductCardProps) {
 
 					<ImageComponent
 						className={cnJoin(
-							`rounded-[0.8rem_0.8rem_0_0] brightness-[0.9] transition-[transform]
-							duration-[800ms] ease-in-out group-hover/card:scale-[1.17]`,
+							`rounded-[0.8rem_0.8rem_0_0] brightness-[0.9] transition-[transform] duration-[800ms]
+							ease-in-out group-hover/card:scale-[1.17]`,
 							isHearted && "scale-[1.17]"
 						)}
 						src={image}
@@ -115,9 +115,7 @@ function ProductCard(props: ProductCardProps) {
 				</Card.Header>
 
 				<Card.Body className="px-[1.4rem] pt-[1rem]">
-					<header
-						className="flex min-h-[7.2rem] items-center justify-between gap-[0.4rem] font-[600]"
-					>
+					<header className="flex min-h-[7.2rem] items-center justify-between gap-[0.4rem] font-[600]">
 						<h3 className="capitalize">{productItem.title}</h3>
 						<span className="text-[1.8rem]">
 							<sup className="text-[1.4rem]">$</sup>

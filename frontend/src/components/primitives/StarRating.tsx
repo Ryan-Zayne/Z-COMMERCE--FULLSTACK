@@ -1,23 +1,24 @@
-import type { IconType } from "react-icons";
-import { AiFillStar } from "react-icons/ai";
+import { IconBox } from "./IconBox";
 
 type StarRatingProps = {
 	rating: number;
 	text?: string;
 	className?: string;
-	icon?: IconType;
+	icon?: string;
 };
 
 function StarRating(props: StarRatingProps) {
-	const { rating, text = "", className = "", icon: RatingIcon = AiFillStar } = props;
+	const { rating, text = "", className = "", icon = "ant-design:star-filled" } = props;
 
-	const star5 = [...Array(5).keys()].map((id) => <RatingIcon key={id} color="var(--text-header)" />);
+	const star5 = [...Array(5).keys()].map((id) => (
+		<IconBox icon={icon} key={id} color="var(--text-header)" />
+	));
 
 	const star4 = [...Array(5).keys()].map((id, index) =>
 		index === 4 ? (
-			<RatingIcon key={id} color="var(--text-dark)" />
+			<IconBox icon={icon} key={id} color="var(--text-dark)" />
 		) : (
-			<RatingIcon key={id} color="var(--text-header)" />
+			<IconBox icon={icon} key={id} color="var(--text-header)" />
 		)
 	);
 

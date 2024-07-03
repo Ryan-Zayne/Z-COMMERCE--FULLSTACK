@@ -1,8 +1,8 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import { useElementList } from "@/lib/hooks";
 import type { MyCustomCss } from "@/lib/type-helpers/global-type-helpers";
 import type { PolymorphicProps } from "@/lib/type-helpers/polymorphism";
 import { cnMerge } from "@/lib/utils/cn";
-import { LuChevronLeftCircle } from "react-icons/lu";
 import type {
 	CarouselButtonsProps,
 	CarouselContentProps,
@@ -11,7 +11,7 @@ import type {
 	CarouselWrapperProps,
 	OtherCarouselProps,
 } from "./carousel.types";
-import { CarouselContextProvider, useCarouselStore } from "./carouselStoreContext";
+import { useCarouselStore } from "./carouselStoreContext";
 import { useCarouselOptions } from "./useCarouselOptions";
 
 // TODO -  Add dragging and swiping support
@@ -21,7 +21,7 @@ function CarouselContent<TElement extends React.ElementType = "article">(
 	const {
 		as: HtmlElement = "article",
 		children,
-		classNames = {},
+		classNames,
 		hasAutoSlide,
 		autoSlideInterval,
 		shouldPauseOnHover,
@@ -37,7 +37,7 @@ function CarouselContent<TElement extends React.ElementType = "article">(
 	return (
 		<HtmlElement
 			data-id="Carousel"
-			className={cnMerge("relative select-none", classNames.base)}
+			className={cnMerge("relative select-none", classNames?.base)}
 			onMouseEnter={pauseAutoSlide}
 			onMouseLeave={resumeAutoSlide}
 		>
@@ -45,7 +45,7 @@ function CarouselContent<TElement extends React.ElementType = "article">(
 				data-id="Scroll Container"
 				className={cnMerge(
 					"flex size-full overflow-x-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-					classNames.scrollContainer
+					classNames?.scrollContainer
 				)}
 			>
 				{children}
@@ -55,26 +55,27 @@ function CarouselContent<TElement extends React.ElementType = "article">(
 }
 
 function CarouselButton(props: CarouselButtonsProps) {
-	const { type, icon, classNames = {} } = props;
+	const { type, icon, classNames } = props;
 
 	const nextOrPreviousSlide = useCarouselStore((state) =>
 		type === "prev" ? state.actions.previousSlide : state.actions.nextSlide
 	);
-
-	const DefaultIcon = LuChevronLeftCircle;
 
 	return (
 		<button
 			className={cnMerge(
 				"z-[30] flex h-full w-[15%] items-center",
 				type === "prev" ? "justify-start" : "justify-end",
-				classNames.base
+				classNames?.base
 			)}
 			onClick={nextOrPreviousSlide}
 		>
-			<span className={cnMerge("transition-transform active:scale-[1.06]", classNames.iconContainer)}>
+			<span className={cnMerge("transition-transform active:scale-[1.06]", classNames?.iconContainer)}>
 				{icon ?? (
-					<DefaultIcon className={cnMerge(type === "next" && "rotate-180", classNames.defaultIcon)} />
+					<IconBox
+						icon="lucide:circle-chevron-left"
+						className={cnMerge(type === "next" && "rotate-180", classNames?.defaultIcon)}
+					/>
 				)}
 			</span>
 		</button>
@@ -112,7 +113,7 @@ function CarouselControls(props: CarouselControlProps) {
 						classNames={{
 							defaultIcon: classNames?.defaultIcon,
 							iconContainer: cnMerge(
-								icon.iconType === "rightIcon" && "rotate-180",
+								icon.iconType === "nextIcon" && "rotate-180",
 								classNames?.iconContainer
 							),
 						}}
@@ -123,7 +124,7 @@ function CarouselControls(props: CarouselControlProps) {
 						classNames={{
 							defaultIcon: classNames?.defaultIcon,
 							iconContainer: cnMerge(
-								icon.iconType === "leftIcon" && "rotate-180",
+								icon.iconType === "prevIcon" && "rotate-180",
 								classNames?.iconContainer
 							),
 						}}
@@ -212,7 +213,7 @@ function CarouselIndicatorWrapper<TArrayItem>(props: CarouselWrapperProps<TArray
 }
 
 function CarouselIndicator(props: CarouselIndicatorProps) {
-	const { classNames = {}, currentIndex } = props;
+	const { classNames, currentIndex } = props;
 
 	const {
 		currentSlide,
@@ -226,10 +227,10 @@ function CarouselIndicator(props: CarouselIndicatorProps) {
 				className={cnMerge(
 					`size-[6px] rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot
 					hover:[box-shadow:0_0_5px_var(--carousel-dot)]`,
-					classNames.base,
+					classNames?.base,
 					currentIndex === currentSlide && [
 						"w-[3.5rem] rounded-[0.5rem] bg-carousel-dot",
-						classNames.onActive,
+						classNames?.onActive,
 					]
 				)}
 			/>
@@ -237,15 +238,11 @@ function CarouselIndicator(props: CarouselIndicatorProps) {
 	);
 }
 
-const Carousel = {
-	Root: CarouselContextProvider,
-	Content: CarouselContent,
-	Controls: CarouselControls,
-	Item: CarouselItem,
-	ItemWrapper: CarouselItemWrapper,
-	Caption: CarouselCaption,
-	Indicator: CarouselIndicator,
-	IndicatorWrapper: CarouselIndicatorWrapper,
-};
-
-export default Carousel;
+export { CarouselContextProvider as Root } from "./carouselStoreContext.jsx";
+export const Content = CarouselContent;
+export const Controls = CarouselControls;
+export const Item = CarouselItem;
+export const ItemWrapper = CarouselItemWrapper;
+export const Caption = CarouselCaption;
+export const Indicator = CarouselIndicator;
+export const IndicatorWrapper = CarouselIndicatorWrapper;

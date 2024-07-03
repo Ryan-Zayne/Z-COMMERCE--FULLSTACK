@@ -32,7 +32,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 
 			set({ cart: [...cart, { ...productItem, quantity: 1 }] });
 
-			toast.success(toastMessages.added);
+			toast.success(toastMessages.added, { position: "top-center" });
 		},
 
 		incrementProductQuantity: (productId) => {
@@ -44,7 +44,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 
 			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity + 1 });
 
-			toast.success(toastMessages.updated);
+			toast.success(toastMessages.updated, { position: "top-center" });
 		},
 
 		decrementProductQuantity: (productId) => {
@@ -61,7 +61,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 
 			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity - 1 });
 
-			toast.success(toastMessages.updated);
+			toast.success(toastMessages.updated, { position: "top-center" });
 		},
 
 		removeProductFromCart: (productId) => {
@@ -69,7 +69,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 
 			set({ cart: updatedCart });
 
-			toast.success(toastMessages.removed);
+			toast.success(toastMessages.removed, { position: "top-center" });
 		},
 
 		toggleAddToWishList: (productItem) => {

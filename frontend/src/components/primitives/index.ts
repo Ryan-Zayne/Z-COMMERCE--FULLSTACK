@@ -1,6 +1,7 @@
 export { default as Button, type ButtonProps } from "./Button";
 export { default as Card } from "./Card";
 export { default as For } from "./For";
+export { default as Input } from "./Input";
 export * from "./Slot";
 export { default as Show } from "./Show";
 export { default as Switch, Match, Default } from "./Switch";

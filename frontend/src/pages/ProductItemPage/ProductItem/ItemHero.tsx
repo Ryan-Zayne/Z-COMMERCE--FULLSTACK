@@ -1,6 +1,6 @@
 import { ImageComponent } from "@/components/primitives";
+import { IconBox } from "@/components/primitives/IconBox";
 import { Carousel, type CarouselProviderProps } from "@/components/ui";
-import { BsChevronRight } from "react-icons/bs";
 
 type ItemHeroProps = {
 	slideImages: Extract<CarouselProviderProps["images"], string[]>;
@@ -18,14 +18,13 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 			>
 				<Carousel.Controls
 					classNames={{
-						base: "md:px-[0.8rem] lg:px-[2rem]",
-						iconContainer: `rounded-[5px] bg-carousel-btn p-[0.8rem_0.5rem]
-						transition-transform hover:box-shadow-[0_0_5px_var(--text-dark)]
-						active:scale-[1.11] lg:p-[1.3rem_0.9rem]`,
+						base: "px-[0.8rem] lg:px-[2rem]",
+						iconContainer: `rounded-[5px] bg-carousel-btn p-[0.8rem_0.5rem] transition-transform
+						hover:box-shadow-[0_0_5px_var(--text-dark)] active:scale-[1.11] lg:p-[1.3rem_0.9rem]`,
 					}}
 					icon={{
-						iconType: "rightIcon",
-						icon: <BsChevronRight />,
+						iconType: "nextIcon",
+						icon: <IconBox icon="bi:chevron-right" />,
 					}}
 				/>
 

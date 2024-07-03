@@ -10,8 +10,6 @@ export const tabletQuery = window.matchMedia("(min-width: 768px)");
 
 export const desktopQuery = window.matchMedia("(min-width: 1000px)");
 
-export const getScrollBarWidth = () => (window.innerWidth - document.documentElement.clientWidth) / 10;
-
 export const BASE_DUMMY_URL = "https://dummyjson.com";
 
 const BASE_API_URL = "/api/v1";

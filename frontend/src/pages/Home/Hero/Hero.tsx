@@ -1,7 +1,7 @@
 import { Button, ImageComponent } from "@/components/primitives";
+import { IconBox } from "@/components/primitives/IconBox";
 import { Carousel } from "@/components/ui";
 import { useAnimateElementRefs } from "@/lib/hooks";
-import { RxPaperPlane } from "react-icons/rx";
 import { slideImages } from "./images";
 
 function Hero() {
@@ -26,8 +26,8 @@ function Hero() {
 							hover:box-shadow-[0_0_5px_var(--text-dark)] lg:p-[1.3rem_0.9rem]`,
 						}}
 						icon={{
-							iconType: "rightIcon",
-							icon: <RxPaperPlane className="lg:text-[1.7rem]" />,
+							iconType: "nextIcon",
+							icon: <IconBox icon="radix-icons:paper-plane" className="lg:text-[1.7rem]" />,
 						}}
 					/>
 
@@ -46,8 +46,8 @@ function Hero() {
 					/>
 
 					<Carousel.Caption
-						className="ml-[4.5rem] mt-[3.7rem] flex flex-col items-start text-light
-							md:ml-[7.5rem] lg:ml-[36rem] lg:mt-[8rem]"
+						className="ml-[4.5rem] mt-[3.7rem] flex flex-col items-start text-light md:ml-[7.5rem]
+							lg:ml-[36rem] lg:mt-[8rem]"
 					>
 						<h1
 							ref={(elem) => (animatedElements.heading = elem)}
@@ -71,10 +71,9 @@ function Hero() {
 							ref={(elem) => (animatedElements.button = elem)}
 							text={"Shop Now"}
 							theme={"secondary"}
-							className="z-50 text-[clamp(1.3rem,_1vw+1rem,_1.7rem)] font-[600]
-								transition-shadow duration-[400ms]
-								hover:[box-shadow:0_10px_20px_hsl(43,100%,55%,0.4)] active:scale-[1.04]
-								max-sm:p-[1rem_2.8rem]"
+							className="z-50 text-[clamp(1.3rem,_1vw+1rem,_1.7rem)] font-[600] transition-shadow
+								duration-[400ms] hover:[box-shadow:0_10px_20px_hsl(43,100%,55%,0.4)]
+								active:scale-[1.04] max-sm:p-[1rem_2.8rem]"
 						/>
 					</Carousel.Caption>
 

@@ -1,8 +1,7 @@
 import { Button, Logo } from "@/components/primitives";
+import { IconBox } from "@/components/primitives/IconBox";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { Transition } from "@headlessui/react";
-import { FaFacebook } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation } from "react-router-dom";
 import FormArea from "./components/FormArea/FormArea";
 
@@ -46,18 +45,18 @@ function LoginFormPage() {
 				<div className="flex flex-col items-center text-[1.5rem]">
 					<Button
 						theme={"ghost"}
-						className={`w-[max(80%,27.1rem)] gap-[1rem] rounded-[10rem] border-[2px]
-							border-gray-400 dark:border-carousel-btn`}
+						className={`w-[max(80%,27.1rem)] gap-[1rem] rounded-[10rem] border-[2px] border-gray-400
+							dark:border-carousel-btn`}
 					>
-						<FcGoogle className="text-[1.8rem]" />
+						<IconBox icon="fa:google" className="text-[1.8rem]" />
 						Continue with Google
 					</Button>
 
 					<Button
-						className={`mt-[1.5rem] w-[max(80%,27.1rem)] gap-[1rem] rounded-[10rem]
-							border-[2px] border-carousel-btn bg-[hsl(214,89%,38%)] text-light`}
+						className={`mt-[1.5rem] w-[max(80%,27.1rem)] gap-[1rem] rounded-[10rem] border-[2px]
+							border-carousel-btn bg-[hsl(214,89%,38%)] text-light`}
 					>
-						<FaFacebook className="text-[1.8rem]" />
+						<IconBox icon="fa:facebook" className="text-[1.8rem]" />
 						Continue with Facebook
 					</Button>
 				</div>

@@ -1,10 +1,9 @@
+import { IconBox } from "@/components/primitives/IconBox";
 import DropDown from "@/components/ui/DropDown/DropDown";
 import { useDisclosure } from "@/lib/hooks";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";
 import { useEffect } from "react";
-import { AiOutlineCaretDown } from "react-icons/ai";
-import { BsChevronDoubleRight, BsMenuButtonFill } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 
 const categories = [
@@ -63,7 +62,7 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 			>
 				<p>{category.title}</p>
 
-				{isDesktopDevice && <BsChevronDoubleRight />}
+				{isDesktopDevice && <IconBox icon="bi:chevron-double-right" />}
 			</Link>
 		</li>
 	));
@@ -83,7 +82,7 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 							isOpen && "rotate-180"
 						)}
 					>
-						<AiOutlineCaretDown />
+						<IconBox icon="basil:caret-down-outline" />
 					</button>
 				</DropDown.Trigger>
 
@@ -113,7 +112,7 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 					<h3 className="font-[500]">Shop By Category</h3>
 
 					<button className="text-[2rem]">
-						<BsMenuButtonFill />
+						<IconBox icon="bi:menu-button-fill" />
 					</button>
 				</DropDown.Trigger>
 
