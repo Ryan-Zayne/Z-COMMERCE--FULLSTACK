@@ -14,13 +14,9 @@ export type FormErrorResponseType =
 
 const callMainApi = createFetchClient<FormResponseDataType, FormErrorResponseType>({
 	baseURL: BASE_AUTH_URL,
-
 	method: "POST",
-
 	retries: 3,
-
 	credentials: "same-origin",
-
 	defaultErrorMessage: "Failed to submit form",
 });
 

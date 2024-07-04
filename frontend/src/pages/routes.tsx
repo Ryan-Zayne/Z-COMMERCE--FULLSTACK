@@ -4,6 +4,7 @@ import { Route, createBrowserRouter, createRoutesFromElements } from "react-rout
 import ErrorPage from "./ErrorPage";
 import Home from "./Home/Home";
 
+/* eslint-disable react-refresh/only-export-components */
 const AuthLayout = lazy(() => import("@/layouts/AuthLayout"));
 const AllProductsPage = lazy(() => import("@/pages/AllProductsPage"));
 const SignUpFormPage = lazy(() => import("@/pages/AuthPage/SignUpFormPage"));
@@ -13,19 +14,22 @@ const ProductItemPage = lazy(() => import("@/pages/ProductItemPage/ProductItemPa
 const NotFoundPage = lazy(() => import("@/pages/NotFoundPage"));
 
 const routes = createRoutesFromElements(
-	<Route errorElement={<ErrorPage />}>
+	<Route>
 		{/* Global Layout */}
 		<Route path="/" element={<GlobalLayout />}>
-			<Route index={true} element={<Home />} />
-			<Route path="products">
-				<Route index={true} element={<AllProductsPage />} />
-				<Route path=":category" element={<ProductCategoryPage />} />
-				<Route path=":category/:productId" element={<ProductItemPage />} />
+			{/* Error Boundary: Doing it this way so the navbar and footer still renders during error */}
+			<Route errorElement={<ErrorPage />}>
+				<Route index={true} element={<Home />} />
+				<Route path="products">
+					<Route index={true} element={<AllProductsPage />} />
+					<Route path=":category" element={<ProductCategoryPage />} />
+					<Route path=":category/:productId" element={<ProductItemPage />} />
+				</Route>
 			</Route>
 		</Route>
 
 		{/* Auth Layout */}
-		<Route path="auth" element={<AuthLayout />}>
+		<Route path="auth" element={<AuthLayout />} errorElement={<ErrorPage />}>
 			<Route path="sign-up" element={<SignUpFormPage />} />
 			<Route path="login" element={<LoginFormPage />} />
 		</Route>

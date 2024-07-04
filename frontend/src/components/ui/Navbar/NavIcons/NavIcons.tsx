@@ -58,7 +58,7 @@ const NavIcons = () => {
 			>
 				{isMobile && (
 					<button className="hover:text-heading active:scale-[1.25]" onClick={toggleSearchShow}>
-						<IconBox icon="bx:bxs-search-alt-2" />
+						<IconBox icon="bx:search-alt-2" />
 					</button>
 				)}
 
@@ -67,7 +67,7 @@ const NavIcons = () => {
 						hover:[transition:transform_1000ms_ease-in-out] active:scale-[1.2] lg:text-[2.3rem]"
 				>
 					<Link to={"/wishlist"}>
-						<IconBox icon="bi:heart" />
+						<IconBox icon="bx:heart" />
 					</Link>
 				</button>
 
@@ -78,7 +78,7 @@ const NavIcons = () => {
 								hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
 							onClick={dropDownDisclosure.onToggle}
 						>
-							<IconBox icon="bi:person" />
+							<IconBox icon="bx:user" />
 						</button>
 					</DropDown.Trigger>
 

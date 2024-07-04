@@ -2,6 +2,7 @@ import Button from "@/components/primitives/Button";
 import { useElementList } from "@/lib/hooks/useElementList";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
+import { m } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const categories = [
@@ -62,15 +63,20 @@ function Categories() {
 					lg:grid-cols-[repeat(3,_minmax(30rem,1fr))] lg:gap-[4rem]"
 				each={categories}
 				render={(category) => (
-					<li
+					<m.li
 						key={category.title}
-						data-aos="fade-up"
-						data-aos-duration="600"
-						data-aos-anchor-easing="ease-out"
+						initial={{ y: 50, opacity: 0, scale: 0.8 }}
+						whileInView={{
+							y: 0,
+							opacity: 1,
+							scale: 1,
+							transition: { ease: "easeInOut", duration: 0.6 },
+						}}
+						viewport={{ margin: "-40px" }}
+						whileHover={{ scale: 1.09, transition: { duration: 0.3 } }}
 						className={cnJoin(
 							`flex w-[min(100%,27rem)] justify-between gap-[1.5rem] rounded-[5rem] p-[2rem]
-							transition-transform duration-[800ms] ease-in-out hover:scale-[1.09] lg:w-full
-							lg:rounded-[6rem]`,
+							lg:w-full lg:rounded-[6rem]`,
 							[isDarkMode ? category.bgDark : category.bgLight]
 						)}
 					>
@@ -83,7 +89,7 @@ function Categories() {
 							<Button
 								variant={"shop"}
 								className={`w-full bg-body p-[0.8rem] text-[--text-body]
-									active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]`}
+								active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]`}
 								asChild={true}
 							>
 								<Link to={category.path}>Shop Now</Link>
@@ -98,7 +104,7 @@ function Categories() {
 								alt=""
 							/>
 						</div>
-					</li>
+					</m.li>
 				)}
 			/>
 		</main>

@@ -39,7 +39,7 @@ function SearchForm(props: SearchFormProps) {
 
 	const isMobile = useGlobalStore((state) => state.isMobile);
 
-	const { query, setQuery, data, loading } = useSearch(allProductsArray, 500);
+	const { query, setQuery, data, isLoading } = useSearch(allProductsArray, 500);
 
 	useEffect(() => {
 		if (!isSearchShow) {

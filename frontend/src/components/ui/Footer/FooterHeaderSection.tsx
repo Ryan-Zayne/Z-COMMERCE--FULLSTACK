@@ -1,12 +1,15 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import SearchForm from "@/components/ui/SearchForm";
+import { m } from "framer-motion";
 import { NewsletterIcon, getOnApple, getOnGoogle } from "./images";
 
 function FooterHeaderSection() {
 	return (
-		<section
-			data-aos="fade-up"
-			data-aos-duration="1000"
+		<m.section
+			initial={{ y: 100, opacity: 0 }}
+			whileInView={{ y: 0, opacity: 1 }}
+			transition={{ duration: 0.7 }}
+			viewport={{ margin: "-20px 0px 0px" }}
 			className="flex flex-col bg-slate-900 bg-footer-image bg-cover bg-no-repeat p-[3rem_2rem]
 				[background-position:center] lg:flex-row lg:justify-between lg:px-[clamp(3rem,9vw,18rem)]"
 		>
@@ -60,17 +63,16 @@ function FooterHeaderSection() {
 				</span>
 
 				<span
-					className="flex gap-[2rem] text-[2rem] [&_svg:hover]:text-secondary
-						[&_svg]:cursor-pointer"
+					className="flex gap-[2rem] text-[2rem] [&_svg:hover]:text-secondary [&_svg]:cursor-pointer"
 				>
-							<IconBox icon="bi:facebook" />
-							<IconBox icon="bi:twitter" />
-							<IconBox icon="bi:youtube" />
-							<IconBox icon="bi:instagram" />
-							<IconBox icon="bi:pinterest" />
+					<IconBox icon="bi:facebook" />
+					<IconBox icon="bi:twitter" />
+					<IconBox icon="bi:youtube" />
+					<IconBox icon="bi:instagram" />
+					<IconBox icon="bi:pinterest" />
 				</span>
 			</div>
-		</section>
+		</m.section>
 	);
 }
 

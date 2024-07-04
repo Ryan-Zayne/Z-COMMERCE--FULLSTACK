@@ -4,6 +4,7 @@ import DropDown from "@/components/ui/DropDown/DropDown";
 import { useDisclosure } from "@/lib/hooks/useDisclosure";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
+import { m } from "framer-motion";
 
 function FooterDropDowns() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -26,11 +27,11 @@ function FooterDropDowns() {
 	};
 
 	return (
-		<section
+		<m.section
+			initial={{ y: 100, opacity: 0 }}
+			whileInView={{ y: 0, opacity: 1 }}
+			transition={{ duration: 0.6 }}
 			id="DropDown Section"
-			data-aos="fade-up"
-			data-aos-duration="1200"
-			data-aos-delay="250"
 			className="flex flex-col gap-[2rem] p-[6rem_1.5rem_4rem] lg:flex-row lg:justify-between
 				lg:px-[4.4rem]"
 		>
@@ -222,7 +223,7 @@ function FooterDropDowns() {
 					</DropDown.Panel>
 				</DropDown.Root>
 			</article>
-		</section>
+		</m.section>
 	);
 }
 

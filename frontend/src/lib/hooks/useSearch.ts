@@ -18,9 +18,9 @@ const checkObjectPropsForQuery = (item: Record<string, unknown>, query: string):
 const useSearch = <TData>(initialData: TData[], delay?: number) => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filteredData, setFilteredData] = useState(initialData);
-	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
-	const debouncedFn = useDebouncedFn(() => {
+	const handleDebouncedSearch = useDebouncedFn(() => {
 		const query = searchQuery.toLowerCase();
 
 		const filteredResults = initialData.filter((item) => {
@@ -36,16 +36,15 @@ const useSearch = <TData>(initialData: TData[], delay?: number) => {
 		});
 
 		setFilteredData(filteredResults);
-		setLoading(false);
+		setIsLoading(false);
 	}, delay);
 
 	useAfterMountEffect(() => {
-		setLoading(true);
-		debouncedFn();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		setIsLoading(true);
+		handleDebouncedSearch();
 	}, [searchQuery]);
 
-	return { query: searchQuery, setQuery: setSearchQuery, data: filteredData, loading };
+	return { query: searchQuery, setQuery: setSearchQuery, data: filteredData, isLoading };
 };
 
 export { useSearch };

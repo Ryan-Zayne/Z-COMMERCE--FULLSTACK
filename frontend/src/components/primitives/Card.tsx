@@ -16,22 +16,10 @@ type OtherCardProps = {
 function Card<TElement extends React.ElementType = "article">(
 	props: PolymorphicProps<TElement, CardProps>
 ) {
-	const {
-		as: Element = "article",
-		children,
-		className = "",
-		aosAnimation = "",
-		aosDuration = "",
-		aosEasing = "",
-	} = props;
+	const { as: Element = "article", children, className, ...restOfProps } = props;
 
 	return (
-		<Element
-			data-aos={aosAnimation}
-			data-aos-duration={aosDuration}
-			data-aos-anchor-easing={aosEasing}
-			className={className}
-		>
+		<Element className={className} {...restOfProps}>
 			{children}
 		</Element>
 	);
@@ -40,25 +28,37 @@ function Card<TElement extends React.ElementType = "article">(
 function CardHeader<TElement extends React.ElementType = "header">(
 	props: PolymorphicProps<TElement, OtherCardProps>
 ) {
-	const { as: Element = "header", children, className } = props;
+	const { as: Element = "header", children, className, ...restOfProps } = props;
 
-	return <Element className={className}>{children}</Element>;
+	return (
+		<Element className={className} {...restOfProps}>
+			{children}
+		</Element>
+	);
 }
 
 function CardBody<TElement extends React.ElementType = "div">(
 	props: PolymorphicProps<TElement, OtherCardProps>
 ) {
-	const { as: Element = "div", children, className = "" } = props;
+	const { as: Element = "div", children, className, ...restOfProps } = props;
 
-	return <Element className={className}>{children}</Element>;
+	return (
+		<Element className={className} {...restOfProps}>
+			{children}
+		</Element>
+	);
 }
 
 function CardFooter<TElement extends React.ElementType = "footer">(
 	props: PolymorphicProps<TElement, OtherCardProps>
 ) {
-	const { as: Element = "footer", children, className = "" } = props;
+	const { as: Element = "footer", children, className, ...restOfProps } = props;
 
-	return <Element className={className}>{children}</Element>;
+	return (
+		<Element className={className} {...restOfProps}>
+			{children}
+		</Element>
+	);
 }
 
 Card.Header = CardHeader;
