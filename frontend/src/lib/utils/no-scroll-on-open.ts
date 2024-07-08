@@ -1,4 +1,4 @@
-import { checkDeviceIsMobileOrTablet } from "./check-device-is-mobile-or-tablet";
+import { checkDeviceIsMobileOrTablet } from "./check-is-mobile-or-tablet";
 
 type NoScrollOnOpenOptions = {
 	isActive: boolean;

@@ -13,9 +13,9 @@ function HomeProductSection() {
 		similarProducts,
 	} = useGetHomePageProducts();
 
-	if (isPending) {
-		return <LoadingSkeleton count={10} />;
-	}
+	// if (isPending) {
+	// 	return <LoadingSkeleton count={10} />;
+	// }
 
 	return (
 		<section id="Products Section" className="flex flex-col gap-[6rem] px-[2rem] pt-[6rem]">

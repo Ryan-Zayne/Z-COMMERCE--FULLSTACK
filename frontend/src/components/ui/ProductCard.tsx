@@ -120,8 +120,7 @@ function ProductCard(props: ProductCardProps) {
 						>
 							<h3 className="capitalize">{productItem.title}</h3>
 							<span className="text-[1.8rem]">
-								<sup className="text-[1.4rem]">$</sup>
-								{productItem.price}
+								<sup className="text-[1.4rem]">$</sup>+ {productItem.price}
 								<sup className="text-[1.4rem]">.00</sup>
 							</span>
 						</header>

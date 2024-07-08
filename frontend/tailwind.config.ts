@@ -1,8 +1,13 @@
+import { nextui } from "@nextui-org/theme";
 import plugin from "tailwindcss/plugin";
 import type { Config } from "tailwindcss/types/config";
 
 const tailwindConfig = {
-	content: ["./index.html", "./src/**/*.{ts,tsx}"],
+	content: [
+		"./index.html",
+		"./src/**/*.{ts,tsx}",
+		"./node_modules/@nextui-org/theme/dist/components/pagination.js",
+	],
 	darkMode: ["class", '[data-theme="dark"]'],
 
 	theme: {
@@ -133,6 +138,7 @@ const tailwindConfig = {
 	},
 
 	plugins: [
+		nextui(),
 		plugin((pluginObj) => {
 			// eslint-disable-next-line @typescript-eslint/unbound-method
 			const { matchVariant, matchUtilities, addComponents } = pluginObj;
