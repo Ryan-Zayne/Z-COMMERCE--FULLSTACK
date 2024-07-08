@@ -5,7 +5,7 @@
 	"main": "src/server.js",
 	"type": "module",
 	"scripts": {
-		"start": "node src/server.js",
+		"start": "node src/server.ts",
 		"start:prod": "cross-env NODE_ENV=production tsx --env-file=.env src/server.ts",
 		"dev": "tsx --env-file=.env --watch src/server.ts --clear-screen=false",
 		"format": "prettier --write .",
