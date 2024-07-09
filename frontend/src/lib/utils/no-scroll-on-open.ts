@@ -4,13 +4,14 @@ type NoScrollOnOpenOptions = {
 	isActive: boolean;
 };
 
-function getViewportScrollbarWidth() {
+const getScrollbarWidth = () => {
 	// Create a div that's wider and taller than the viewport
 	const div = document.createElement("div");
-
-	console.dir(div.style);
-	div.style.inset = "0";
+	div.style.width = "100vw";
+	div.style.height = "100vh";
+	div.style.overflow = "scroll";
 	div.style.position = "absolute";
+	div.style.top = "-10000px";
 
 	// Add it to the body
 	document.body.append(div);
@@ -21,8 +22,9 @@ function getViewportScrollbarWidth() {
 	// Remove the div from the body
 	div.remove();
 
-	return scrollbarWidth;
-}
+	return scrollbarWidth / 10;
+};
+
 const noScrollOnOpen = ({ isActive }: NoScrollOnOpenOptions) => {
 	const { isMobileOrTablet } = checkDeviceIsMobileOrTablet();
 	const isDesktop = !isMobileOrTablet;
@@ -35,11 +37,7 @@ const noScrollOnOpen = ({ isActive }: NoScrollOnOpenOptions) => {
 
 	document.body.style.setProperty("--overflow-y", "hidden");
 
-	console.log(getViewportScrollbarWidth());
-
-	const scrollbarWidth = (window.innerWidth - document.documentElement.clientWidth) / 10;
-
-	isDesktop && document.body.style.setProperty("--scrollbar-padding", `${scrollbarWidth}rem`);
+	isDesktop && document.body.style.setProperty("--scrollbar-padding", `${getScrollbarWidth()}rem`);
 };
 
 export { noScrollOnOpen };

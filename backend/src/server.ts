@@ -1,3 +1,7 @@
+/* eslint-disable import-x/first */
+if (process.env.NODE_ENV === "production") {
+	await import("module-alias/register");
+}
 import path from "node:path";
 import "@colors/colors";
 import cookieParser from "cookie-parser";
