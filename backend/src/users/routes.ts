@@ -1,10 +1,10 @@
-import { verifyUser } from "@/common/middleware";
+// import { verifyUser } from "@/common/middleware";
 import express from "express";
 import { updateUserProfile } from "./controllers";
 
 const router = express.Router();
 
-router.use(verifyUser);
+// router.use(verifyUser);
 
 router.patch("/update-profile", updateUserProfile);
 
