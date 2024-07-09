@@ -5,7 +5,7 @@
 	"main": "src/server.js",
 	"type": "module",
 	"scripts": {
-		"start": "tsx -r tsconfig-paths/register src/server.ts",
+		"start": "tsx src/server.ts",
 		"start:prod": "cross-env NODE_ENV=production tsx --env-file=.env src/server.ts",
 		"dev": "tsx --env-file=.env --watch src/server.ts --clear-screen=false",
 		"format": "prettier --write .",
@@ -16,7 +16,7 @@
 		"node": ">=20.11.0"
 	},
 	"_moduleAliases": {
-		"@": "./src"
+		"@": "src"
 	},
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
@@ -31,7 +31,6 @@
 		"module-alias": "^2.2.3",
 		"mongoose": "^8.2.3",
 		"morgan": "^1.10.0",
-		"tsconfig-paths": "^4.2.0",
 		"tsx": "^4.16.2",
 		"zod": "^3.22.4"
 	},
