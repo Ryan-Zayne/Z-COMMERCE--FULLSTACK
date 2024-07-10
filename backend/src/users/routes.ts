@@ -1,6 +1,7 @@
-import { verifyUser } from "@/common/middleware";
 import express from "express";
 import { updateUserProfile } from "./controllers";
+
+const { verifyUser } = require("@/common/middleware");
 
 const router = express.Router();
 
