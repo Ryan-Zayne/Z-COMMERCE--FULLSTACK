@@ -1,4 +1,3 @@
-import "module-alias/register";
 import "@colors/colors";
 import path from "node:path";
 import cookieParser from "cookie-parser";
