@@ -1,6 +1,6 @@
 import { useDebugValue, useSyncExternalStore } from "react";
 import type { StoreApi } from "../core/createStore";
-import type { SelectorFn } from "../type-helpers/global-type-helpers";
+import type { SelectorFn } from "../type-helpers/global";
 
 const useStore = <TState, TSlice = TState>(
 	store: StoreApi<TState>,

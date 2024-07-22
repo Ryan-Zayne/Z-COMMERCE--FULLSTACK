@@ -1,5 +1,5 @@
 import { createCustomContext, useConstant } from "@/lib/hooks";
-import type { PrettyOmit, SelectorFn } from "@/lib/type-helpers/global-type-helpers";
+import type { PrettyOmit, SelectorFn } from "@/lib/type-helpers/global";
 import { useEffect } from "react";
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";

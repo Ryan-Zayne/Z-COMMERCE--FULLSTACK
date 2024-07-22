@@ -1,5 +1,5 @@
 import { isArray, isString } from "../../type-helpers/typeof";
-import type { AddEventParams, ON, RegisterConfig } from "./on.types";
+import type { AddEventParams, ON, RegisterConfig } from "./types";
 
 const registerSingle = (element: unknown, config: RegisterConfig) => {
 	const { type, event, listener, options } = config;

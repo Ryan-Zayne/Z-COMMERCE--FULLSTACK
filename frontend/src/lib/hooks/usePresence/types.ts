@@ -1,4 +1,4 @@
-import type { Prettify } from "@/lib/type-helpers/global-type-helpers";
+import type { Prettify } from "@/lib/type-helpers/global";
 import type { useToggle } from "../useToggle";
 
 type GetTypeProp<THasType extends boolean> = {

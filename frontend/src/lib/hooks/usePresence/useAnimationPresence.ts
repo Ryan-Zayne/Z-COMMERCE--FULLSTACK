@@ -13,7 +13,13 @@ const useAnimationPresence: UseSpecificPresence = (defaultValue = true, options 
 		duration
 	);
 	const elementRef = useRef<HTMLElement>(null);
+
 	const stableOnExitComplete = useCallbackRef(onExitComplete);
+
+	useEffect(() => {
+		!isMounted && stableOnExitComplete();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isMounted]);
 
 	const handleIsMountedWithoutRef = (value: boolean) => {
 		if (value) {
@@ -48,11 +54,6 @@ const useAnimationPresence: UseSpecificPresence = (defaultValue = true, options 
 		setIsShown(!isShown);
 		handleSetIsMounted(!isShown);
 	});
-
-	useEffect(() => {
-		!isMounted && stableOnExitComplete();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isMounted]);
 
 	return {
 		isPresent: isMounted,

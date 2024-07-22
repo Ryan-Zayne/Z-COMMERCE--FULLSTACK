@@ -1,5 +1,5 @@
 import type { EachProp, ForRenderProps } from "@/components/primitives/For";
-import type { Prettify } from "@/lib/type-helpers/global-type-helpers";
+import type { Prettify } from "@/lib/type-helpers/global";
 import type { StoreApi } from "zustand";
 
 // Carousel store types

@@ -1,4 +1,4 @@
-import type { SelectorFn } from "@/lib/type-helpers/global-type-helpers";
+import type { SelectorFn } from "@/lib/type-helpers/global";
 import { createDefaultSelector } from "../core/createDefaultSelector";
 import { type StorageOptions, createExternalStorageStore } from "../core/createExternalStorageStore";
 import type { StoreApi } from "../core/createStore";

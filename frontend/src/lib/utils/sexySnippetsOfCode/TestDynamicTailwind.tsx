@@ -1,4 +1,4 @@
-import type { MyCustomCss } from "@/lib/type-helpers/global-type-helpers";
+import type { MyCustomCss } from "@/lib/type-helpers/global";
 
 function TestDynamicTailwind() {
 	const dynamicText = "blue"; // pretend this is dynamic

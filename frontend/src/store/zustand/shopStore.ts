@@ -1,4 +1,4 @@
-import type { SelectorFn } from "@/lib/type-helpers/global-type-helpers";
+import type { SelectorFn } from "@/lib/type-helpers/global";
 import { toast } from "sonner";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";

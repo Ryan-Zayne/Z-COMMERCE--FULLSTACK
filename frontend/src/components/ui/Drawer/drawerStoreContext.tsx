@@ -1,5 +1,5 @@
 import { createCustomContext, useConstant } from "@/lib/hooks";
-import type { SelectorFn } from "@/lib/type-helpers/global-type-helpers";
+import type { SelectorFn } from "@/lib/type-helpers/global";
 import { useEffect } from "react";
 import { create } from "zustand";
 import type { DrawerProviderProps, DrawerStore } from "./drawer.types";

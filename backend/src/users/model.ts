@@ -1,7 +1,8 @@
-import bcryptjs from "bcryptjs";
-import { Schema, model } from "mongoose";
+import { generateAccessToken, generateRefreshToken, hashPassword, verifyPassword } from "@/auth/services";
+import mongoose from "mongoose";
+import type { UserMethods, UserModelType, UserType } from "./types";
 
-const UserSchema = new Schema(
+const UserSchema = new mongoose.Schema<UserType, unknown, UserMethods>(
 	{
 		username: {
 			type: String,
@@ -18,13 +19,37 @@ const UserSchema = new Schema(
 
 		password: {
 			type: String,
-			required: [true, "Please add the user password"],
+			min: [8, "Password must be at least 8 characters long"],
+			required: [true, "Password field is required"],
 			select: false,
 		},
 
-		roles: {
-			type: [String],
-			default: ["user"],
+		role: {
+			type: String,
+			enum: ["user", "admin"],
+			default: "user",
+		},
+
+		isSuspended: {
+			type: Boolean,
+			default: false,
+		},
+
+		isDeleted: {
+			type: Boolean,
+			default: false,
+			select: false,
+		},
+
+		lastLogin: {
+			type: Date,
+			default: Date.now(),
+		},
+
+		loginRetries: {
+			type: Number,
+			default: 0,
+			select: false,
 		},
 
 		refreshTokenArray: {
@@ -34,24 +59,17 @@ const UserSchema = new Schema(
 		},
 	},
 
-	{ timestamps: true }
+	{ timestamps: true, versionKey: false }
 );
 
-UserSchema.pre("save", async function hashPassword(next) {
-	if (!this.isModified("password")) {
-		next();
-	}
+UserSchema.pre("save", hashPassword);
 
-	const saltRounds = 12;
-	this.password = await bcryptjs.hash(this.password, saltRounds);
-});
+UserSchema.method("verifyPassword", verifyPassword);
+UserSchema.method("generateAccessToken", generateAccessToken);
+UserSchema.method("generateRefreshToken", generateRefreshToken);
 
-UserSchema.method("comparePassword", async function comparePassword(plainPassword: string) {
-	const isValidPassword = await bcryptjs.compare(plainPassword, this.password);
+const UserModel =
+	(mongoose.models.User as UserModelType | undefined) ??
+	mongoose.model<UserType, UserModelType>("User", UserSchema);
 
-	return isValidPassword;
-});
-
-const UserModel = model("User", UserSchema);
-
-export default UserModel;
+export { UserModel };

@@ -1,24 +1,32 @@
-import { LoginSchema, SignUpSchema } from "../lib/schemas/formSchema.js";
-import { asyncHandler } from "../lib/utils/asyncHandler.js";
+import { LoginSchema, SignUpSchema } from "../zod-schemas/formSchema.js";
+import { catchAsync } from "../utils/catchAsync.js";
 
-const SCHEMA_LOOKUP = new Map()
-	.set("/sign-up", SignUpSchema)
-	.set("/login", LoginSchema)
-	.set("default", () => {
+const SCHEMA_LOOKUP = {
+	"/sign-up": SignUpSchema,
+	"/login": LoginSchema,
+	default: () => {
 		throw new Error("No schema found for this path!");
-	});
+	},
+};
 
-const validateDataWithZod = asyncHandler((req, res, next) => {
-	if (!(req.method === "POST")) {
+const validateDataWithZod = catchAsync<{ validatedBody: unknown; path: string }>((req, res, next) => {
+	if (req.method !== "POST") {
 		next();
 		return;
 	}
 
 	const rawData = req.body;
 
-	const selectedSchema = SCHEMA_LOOKUP.get(req.path) ?? SCHEMA_LOOKUP.get("default")();
+	if (!rawData) {
+		next();
+		return;
+	}
 
-	const result = selectedSchema.safeParse(rawData);
+	const selectedSchema = Object.hasOwn(SCHEMA_LOOKUP, req.path)
+		? SCHEMA_LOOKUP[req.path as keyof typeof SCHEMA_LOOKUP]
+		: SCHEMA_LOOKUP.default();
+
+	const result = (selectedSchema as typeof SignUpSchema).safeParse(rawData);
 
 	if (!result.success) {
 		const zodErrors = Object.entries(result.error.flatten().fieldErrors);

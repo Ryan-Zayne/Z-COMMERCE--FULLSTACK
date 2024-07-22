@@ -1,6 +1,6 @@
 [[redirects]]
 from = "/api/v1/*"
-to = "https://zayne-commerce-server.onrender.com/api/v1/:splat"
+to = "https://api-zayne-commerce.onrender.com/api/v1/:splat"
 status = 200
 force = true
 

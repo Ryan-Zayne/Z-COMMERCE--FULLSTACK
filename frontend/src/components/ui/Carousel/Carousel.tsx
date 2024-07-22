@@ -1,6 +1,6 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import { useElementList } from "@/lib/hooks";
-import type { MyCustomCss } from "@/lib/type-helpers/global-type-helpers";
+import type { MyCustomCss } from "@/lib/type-helpers/global";
 import type { PolymorphicProps } from "@/lib/type-helpers/polymorphism";
 import { cnMerge } from "@/lib/utils/cn";
 import type {

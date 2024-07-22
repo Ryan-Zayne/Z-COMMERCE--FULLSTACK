@@ -2,6 +2,9 @@
 /* eslint-disable */
 import eslintBase from "@eslint/js";
 import eslintImportX from "eslint-plugin-import-x";
+import eslintNode from "eslint-plugin-n";
+import eslintPromise from "eslint-plugin-promise";
+import eslintSecurity from "eslint-plugin-security";
 import eslintSonarjs from "eslint-plugin-sonarjs";
 import eslintUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
@@ -339,6 +342,21 @@ const eslintConfigArray = [
 			"sonarjs/no-duplicate-string": "off",
 		},
 	},
+
+	// == Node Rules
+	eslintNode.configs["flat/recommended-module"],
+	{
+		rules: {
+			"n/no-unpublished-import": "off",
+			"n/no-missing-import": "off",
+		},
+	},
+
+	// == Promise Rules
+	eslintPromise.configs["flat/recommended"],
+
+	// == Security Rules
+	eslintSecurity.configs.recommended,
 ];
 
 export default eslintConfigArray;

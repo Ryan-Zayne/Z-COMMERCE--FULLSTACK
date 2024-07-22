@@ -1,16 +1,18 @@
-import { asyncHandler } from "@/common/lib/utils";
-import UserModel from "@/users/model";
+import { AppError, catchAsync } from "@/common/utils";
+import { UserModel } from "@/users/model";
+import type { HydratedUserType } from "@/users/types";
 
 // @route POST /api/auth/sign-up
 // @access Public
-const signUpUser = asyncHandler(async (req, res) => {
+const signUpUser = catchAsync<{
+	validatedBody: Pick<HydratedUserType, "username" | "email" | "password">;
+}>(async (req, res) => {
 	const { username, email, password } = req.validatedBody;
 
 	const existingUser = Boolean(await UserModel.exists({ email }));
 
 	if (existingUser) {
-		res.status(400);
-		throw new Error("User with this email has already registered!");
+		throw new AppError(400, "User with this email has already registered!");
 	}
 
 	const newUser = await UserModel.create({ username, email, password });

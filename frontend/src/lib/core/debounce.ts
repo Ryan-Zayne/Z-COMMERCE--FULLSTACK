@@ -1,4 +1,4 @@
-import type { CallbackFn } from "../type-helpers/global-type-helpers";
+import type { CallbackFn } from "../type-helpers/global";
 import { isArray, isObject } from "../type-helpers/typeof";
 
 type DebouncedFnParams<TParams> =

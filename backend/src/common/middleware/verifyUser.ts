@@ -1,8 +1,8 @@
 import { decodeJwtToken } from "@/auth/services";
-import UserModel from "@/users/model";
-import { asyncHandler } from "../lib/utils/asyncHandler";
+import { UserModel } from "@/users/model";
+import { catchAsync } from "../utils/catchAsync";
 
-const verifyUser = asyncHandler(async (req, res, next) => {
+const verifyUser = catchAsync(async (req, res, next) => {
 	const authHeader = req.headers.authorization ?? req.headers.Authorization;
 	const isValidAuthHeader = Boolean(authHeader?.startsWith("Bearer"));
 

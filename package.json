@@ -18,8 +18,5 @@
 		"build": "cd frontend && pnpm build",
 		"preview": "cd frontend && pnpm preview",
 		"start": "cd backend && pnpm start"
-	},
-	"devDependencies": {
-		"@types/bcryptjs": "^2.4.6"
 	}
 }

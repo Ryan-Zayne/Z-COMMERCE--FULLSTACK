@@ -1,4 +1,4 @@
-import type { ForwardedRefType } from "@/lib/type-helpers/global-type-helpers";
+import type { ForwardedRefType } from "@/lib/type-helpers/global";
 import { Children, cloneElement, forwardRef, isValidElement } from "react";
 import { type PossibleRef, composeRefs } from "./composeRefs";
 import { type UnknownProps, mergeProps } from "./mergeProps";

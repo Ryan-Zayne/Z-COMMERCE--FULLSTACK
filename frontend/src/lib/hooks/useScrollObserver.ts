@@ -1,37 +1,43 @@
 import { useEffect, useRef, useState } from "react";
+import { isBrowser } from "../utils/constants";
+import { useConstant } from "./useConstant";
 
-const useScrollObserver = <TElement extends HTMLElement = HTMLDivElement>(
-	options: IntersectionObserverInit = {}
-) => {
-	const elementRef = useRef<TElement>(null);
+const useScrollObserver = <TElement extends HTMLElement>(options: IntersectionObserverInit = {}) => {
+	const { rootMargin = "10px 0px 0px 0px", ...restOfOptions } = options;
+
+	const observedElementRef = useRef<TElement>(null);
+
 	const [isScrolled, setIsScrolled] = useState(false);
 
-	const [scrollObserver] = useState(
-		() =>
-			new IntersectionObserver(([entry]) => {
-				setIsScrolled(!entry?.isIntersecting);
-			}, options)
-	);
+	const elementObserver = useConstant(() => {
+		if (!isBrowser()) return;
 
-	useEffect(
-		function scrollObservationEffect() {
-			const elementNode = elementRef.current;
-			const scrollWatcher = document.createElement("span");
-			scrollWatcher.dataset.scrollTracker = "";
+		return new IntersectionObserver(
+			([entry]) => {
+				if (!entry) return;
+				setIsScrolled(!entry.isIntersecting);
+			},
+			{ rootMargin, ...restOfOptions }
+		);
+	});
 
-			elementNode && elementNode.before(scrollWatcher);
+	useEffect(() => {
+		if (!observedElementRef.current || !elementObserver) return;
 
-			scrollObserver.observe(scrollWatcher);
+		const scrollWatcher = document.createElement("span");
+		scrollWatcher.dataset.scrollWatcher = "";
 
-			return () => {
-				scrollWatcher.remove();
-				scrollObserver.disconnect();
-			};
-		},
-		[scrollObserver]
-	);
+		observedElementRef.current.before(scrollWatcher);
 
-	return { elementRef, isScrolled };
+		elementObserver.observe(scrollWatcher);
+
+		return () => {
+			scrollWatcher.remove();
+			elementObserver.disconnect();
+		};
+	}, [elementObserver]);
+
+	return { isScrolled, observedElementRef };
 };
 
 export { useScrollObserver };

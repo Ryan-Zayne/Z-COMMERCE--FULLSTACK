@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { StoreApi, UseBoundStore } from "zustand";
-import type { SelectorFn } from "../type-helpers/global-type-helpers";
+import type { SelectorFn } from "../type-helpers/global";
 
 /**
  * A custom hook that returns a value from a store and syncs it with a local state.

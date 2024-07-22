@@ -1,8 +1,9 @@
 import { clearExistingCookie, decodeJwtToken } from "@/auth/services";
-import UserModel from "@/users/model";
-import { asyncHandler } from "../lib/utils/asyncHandler";
+import { ENVIRONMENT } from "@/env";
+import { UserModel } from "@/users/model";
+import { catchAsync } from "../utils/catchAsync";
 
-export const preventTokenReuse = asyncHandler(async (req, res, next) => {
+export const preventTokenReuse = catchAsync<{ user: unknown }>(async (req, res, next) => {
 	const { refreshToken } = req.signedCookies;
 
 	if (!refreshToken) {
@@ -10,14 +11,12 @@ export const preventTokenReuse = asyncHandler(async (req, res, next) => {
 		throw new Error("Cookie is missing!");
 	}
 
-	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken }).select(
-		"+refreshTokenArray"
-	);
+	const userWithToken = await UserModel.findOne({ refreshTokenArray: "" }).select("+refreshTokenArray");
 
 	if (!userWithToken) {
 		// UserWithToken not found, Refresh token reuse detected!
 		try {
-			const decodedPayload = decodeJwtToken(refreshToken, process.env.REFRESH_SECRET);
+			const decodedPayload = decodeJwtToken(refreshToken, ENVIRONMENT.REFRESH_SECRET);
 
 			await UserModel.findByIdAndUpdate(decodedPayload.userId, { refreshTokenArray: [] });
 

@@ -7,7 +7,7 @@
 		"dev": "vite --open",
 		"tunnel": "tunnel share -s z-commerce .",
 		"dev:tunnel": "concurrently 'pnpm:dev' 'pnpm:tunnel'",
-		"check-types": "tsc --noEmit --pretty --project",
+		"check-types": "tsc --pretty --incremental -p tsconfig.json",
 		"build": "vite build",
 		"preview": "vite preview",
 		"format": "pnpx prettier --write .",

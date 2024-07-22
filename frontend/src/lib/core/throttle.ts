@@ -1,4 +1,4 @@
-import type { CallbackFn } from "../type-helpers/global-type-helpers";
+import type { CallbackFn } from "../type-helpers/global";
 
 export const throttleBySetTimeout = <TParams>(callbackFn: CallbackFn<TParams>, delay: number) => {
 	let timeoutId: number | null = null;

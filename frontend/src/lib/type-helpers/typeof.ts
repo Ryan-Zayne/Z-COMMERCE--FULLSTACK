@@ -1,3 +1,5 @@
+import type { AnyAsyncFunction, AnyFunction } from "./global";
+
 export const isString = (value: unknown) => typeof value === "string";
 
 export const isArray = <TArray>(value: unknown): value is TArray[] => Array.isArray(value);
@@ -10,15 +12,11 @@ export const isObject = <TObject extends Record<string, unknown>>(value: unknown
 	);
 };
 
-// == `Any` is required here so that one can pass custom function type without type errors
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const isFunction = <TFunction extends (...args: any[]) => any>(
-	value: unknown
-): value is TFunction => {
+export const isFunction = <TFunction extends AnyFunction>(value: unknown): value is TFunction => {
 	return typeof value === "function";
 };
 
-export const isAsyncFunction = <TAsyncFunction extends (...args: any[]) => Promise<any>>(
+export const isAsyncFunction = <TAsyncFunction extends AnyAsyncFunction>(
 	value: unknown
 ): value is TAsyncFunction => {
 	return isFunction(value) && value.constructor.name === "AsyncFunction";

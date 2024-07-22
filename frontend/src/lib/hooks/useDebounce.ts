@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { debounce } from "../core/debounce";
-import type { CallbackFn } from "../type-helpers/global-type-helpers";
+import type { CallbackFn } from "../type-helpers/global";
 import { useOnUnmountEffect } from "./effect-wrappers/useUnmountEffect";
 import { useCallbackRef } from "./useCallbackRef";
 import { useConstant } from "./useConstant";

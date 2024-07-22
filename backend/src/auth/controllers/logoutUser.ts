@@ -1,10 +1,10 @@
-import { asyncHandler } from "@/common/lib/utils";
-import UserModel from "@/users/model";
+import { catchAsync } from "@/common/utils";
+import { UserModel } from "@/users/model";
 import { clearExistingCookie } from "../services";
 
 // @route GET /api/auth/logout
 // @access Private
-const logoutUser = asyncHandler(async (req, res) => {
+const logoutUser = catchAsync(async (req, res) => {
 	const { refreshToken } = req.signedCookies;
 
 	clearExistingCookie(res);

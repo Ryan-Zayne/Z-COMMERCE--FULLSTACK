@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { type LocationState, createLocationStore } from "../core/createLocationStore";
-import type { SelectorFn } from "../type-helpers/global-type-helpers";
+import type { SelectorFn } from "../type-helpers/global";
 import { useConstant } from "./useConstant";
 
 const useLocation = <TSlice = LocationState>(

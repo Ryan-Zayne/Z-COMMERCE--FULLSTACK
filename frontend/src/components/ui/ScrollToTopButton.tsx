@@ -3,11 +3,13 @@ import { cnMerge } from "@/lib/utils/cn";
 import { IconBox } from "../primitives/IconBox";
 
 function ScrollToTopButton() {
-	const { isScrolled, elementRef } = useScrollObserver({ rootMargin: "1000px 0px 0px" });
+	const { isScrolled, observedElementRef } = useScrollObserver<HTMLDivElement>({
+		rootMargin: "1000px 0px 0px",
+	});
 
 	return (
 		<div
-			ref={elementRef}
+			ref={observedElementRef}
 			className="fixed bottom-[3rem] right-[3rem] z-[500]"
 			onClick={() => window.scrollTo(0, 0)}
 		>
