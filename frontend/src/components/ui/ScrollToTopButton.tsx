@@ -1,6 +1,6 @@
 import { useScrollObserver } from "@/lib/hooks";
 import { cnMerge } from "@/lib/utils/cn";
-import { IconBox } from "../primitives/IconBox";
+import { IconBox } from "../primitives";
 
 function ScrollToTopButton() {
 	const { isScrolled, observedElementRef } = useScrollObserver<HTMLDivElement>({

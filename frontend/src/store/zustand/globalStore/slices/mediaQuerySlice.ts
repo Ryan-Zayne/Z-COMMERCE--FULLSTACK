@@ -38,21 +38,16 @@ export const createMediaQuerySlice: StateSlice<MediaQuerySlice> = (set, get) => 
 			const { setQuery } = get().mediaQueryActions;
 			const { mobile, tablet, desktop } = MEDIA_QUERY_LOOKUP;
 
-			let removeMobileEvent: (() => void) | undefined;
-			let removeTabletEvent: (() => void) | undefined;
-			let removeDesktopEvent: (() => void) | undefined;
+			const controller = new AbortController();
 
 			if (action === "remove") {
-				removeMobileEvent?.();
-				removeTabletEvent?.();
-				removeDesktopEvent?.();
-
+				controller.abort();
 				return;
 			}
 
-			removeMobileEvent = on("change", mobile.queryList, setQuery("mobile"));
-			removeTabletEvent = on("change", tablet.queryList, setQuery("tablet"));
-			removeDesktopEvent = on("change", desktop.queryList, setQuery("desktop"));
+			on("change", mobile.queryList, setQuery("mobile"), { signal: controller.signal });
+			on("change", tablet.queryList, setQuery("tablet"), { signal: controller.signal });
+			on("change", desktop.queryList, setQuery("desktop"), { signal: controller.signal });
 		},
 	},
 });

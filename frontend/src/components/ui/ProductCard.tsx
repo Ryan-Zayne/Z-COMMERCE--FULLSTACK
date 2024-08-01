@@ -8,7 +8,7 @@ import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/zustand-store.types";
 import { m } from "framer-motion";
 import { Link } from "react-router-dom";
-import { IconBox } from "../primitives/IconBox";
+import { IconBox } from "../primitives";
 
 type ProductCardProps = {
 	link: string;

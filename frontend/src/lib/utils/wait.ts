@@ -1,4 +1,4 @@
-const PromiseWithResolvers = <TPromise>() => {
+export const PromiseWithResolvers = <TPromise>() => {
 	let resolve!: (value: TPromise) => void, reject!: (reason?: unknown) => void;
 
 	const promise = new Promise<TPromise>((res, rej) => {

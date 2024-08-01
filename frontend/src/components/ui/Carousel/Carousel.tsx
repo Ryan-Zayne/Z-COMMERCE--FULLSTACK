@@ -1,5 +1,5 @@
+import { getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
-import { useElementList } from "@/lib/hooks";
 import type { MyCustomCss } from "@/lib/type-helpers/global";
 import type { PolymorphicProps } from "@/lib/type-helpers/polymorphism";
 import { cnMerge } from "@/lib/utils/cn";
@@ -63,6 +63,7 @@ function CarouselButton(props: CarouselButtonsProps) {
 
 	return (
 		<button
+			type="button"
 			className={cnMerge(
 				"z-[30] flex h-full w-[15%] items-center",
 				type === "prev" ? "justify-start" : "justify-end",
@@ -139,7 +140,7 @@ function CarouselControls(props: CarouselControlProps) {
 function CarouselItemWrapper<TArrayItem>(props: CarouselWrapperProps<TArrayItem>) {
 	const { each, children, render, className } = props;
 
-	const [ItemList] = useElementList("base");
+	const [ItemList] = getElementList("base");
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
 	const images = useCarouselStore((state) => each ?? (state.images as TArrayItem[]));
 
@@ -193,7 +194,7 @@ function CarouselIndicatorWrapper<TArrayItem>(props: CarouselWrapperProps<TArray
 	const { each, children, render, className } = props;
 
 	const images = useCarouselStore((state) => each ?? (state.images as TArrayItem[]));
-	const [IndicatorList] = useElementList("base");
+	const [IndicatorList] = getElementList("base");
 
 	return (
 		<ul
@@ -223,6 +224,7 @@ function CarouselIndicator(props: CarouselIndicatorProps) {
 	return (
 		<li className="inline-flex">
 			<button
+				type="button"
 				onClick={() => goToSlide(currentIndex)}
 				className={cnMerge(
 					`size-[6px] rounded-[50%] bg-carousel-btn ease-in-out hover:bg-carousel-dot

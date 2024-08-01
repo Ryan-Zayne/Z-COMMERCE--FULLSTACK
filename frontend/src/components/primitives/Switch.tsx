@@ -1,5 +1,5 @@
-import { useSlot } from "@/lib/hooks/useSlot";
-import { Children, useMemo } from "react";
+import { getSlotElement } from "@/lib/core/getSlotElement";
+import { isArray } from "@/lib/type-helpers";
 
 type ValidSwitchComponentType = React.ReactElement<SwitchCaseProps, "">;
 
@@ -16,19 +16,18 @@ type SwitchCaseProps<TWhen = unknown> = {
 function Switch<TCondition>(props: SwitchProps<TCondition>) {
 	const { children, condition = Symbol.for("no-condition") as never } = props;
 
-	const defaultCase = useSlot(children, Default, {
-		throwOnMultipleMatch: true,
+	const defaultCase = getSlotElement(children, Default, {
+		throwOnMultipleSlotMatch: true,
 		errorMessage: "Only one <Switch.Default> component is allowed",
 	});
 
-	const matchedCase = useMemo(() => {
-		const casesArray = Children.toArray(children) as Extract<SwitchProps["children"], unknown[]>;
+	const casesArray = isArray(children) ? children : [children];
 
-		// == Use a symbol to represent the case where no condition is set, and in such case only find matching child via the truthiness of the "when" prop
-		return condition === Symbol.for("no-condition")
+	// == Using a symbol to represent the case where no condition is set, and in such case only find matching child via the truthiness of the "when" prop
+	const matchedCase =
+		condition === Symbol.for("no-condition")
 			? casesArray.find((child) => child.props.when)
 			: casesArray.find((child) => child.props.when === condition);
-	}, [children, condition]);
 
 	return matchedCase ?? defaultCase;
 }

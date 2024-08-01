@@ -1,7 +1,7 @@
+import { getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import Overlay from "@/components/primitives/Overlay";
-import { useElementList } from "@/lib/hooks";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";
 import { NavLink } from "react-router-dom";
@@ -25,7 +25,7 @@ const NavigationLinks = () => {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
 	const { toggleNavShow } = useGlobalActions();
-	const [NavLinksList] = useElementList("base");
+	const [NavLinksList] = getElementList("base");
 
 	const navLinkInfoArray: NavItemsType = [
 		{

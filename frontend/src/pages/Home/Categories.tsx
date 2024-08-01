@@ -1,5 +1,5 @@
+import { getElementList } from "@/components/primitives";
 import Button from "@/components/primitives/Button";
-import { useElementList } from "@/lib/hooks/useElementList";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { m } from "framer-motion";
@@ -51,7 +51,7 @@ const categories = [
 function Categories() {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
-	const [CategoryLinksList] = useElementList();
+	const [CategoryLinksList] = getElementList();
 
 	return (
 		<main id="Categories" className="mt-[6rem] flex flex-col px-[4rem] lg:items-center">

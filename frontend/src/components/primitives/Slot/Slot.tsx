@@ -1,5 +1,5 @@
-import type { ForwardedRefType } from "@/lib/type-helpers/global";
-import { Children, cloneElement, forwardRef, isValidElement } from "react";
+import { isArray } from "@/lib/type-helpers/typeof";
+import { Children, cloneElement, isValidElement } from "react";
 import SlotClone from "./SlotClone";
 
 type SlotProps = {
@@ -11,7 +11,7 @@ type SlotProps = {
  * -----------------------------------------------------------------------------------------------*/
 
 export function Slottable({ children }: Pick<SlotProps, "children">) {
-	return <>{children}</>;
+	return children;
 }
 
 const isSlottable = (child: React.ReactNode): child is React.ReactElement => {
@@ -22,19 +22,18 @@ const isSlottable = (child: React.ReactNode): child is React.ReactElement => {
  * Slot
  * -----------------------------------------------------------------------------------------------*/
 
-type ReactElementWithChildren = { props: { children: React.ReactNode } };
-
-function Slot(props: SlotProps, forwardedRef: ForwardedRefType<HTMLElement>) {
+function Slot(props: SlotProps) {
 	const { children, ...restOfSlotProps } = props;
 
-	const childrenArray = Children.toArray(children);
-	const slottable = childrenArray.find((child) => isSlottable(child));
+	const childrenArray = isArray<React.ReactNode>(children) ? children : [children];
+	const slottable = childrenArray.find((element) => isSlottable(element));
 
 	if (slottable) {
 		// == The new element to render is the one passed as a child of `Slottable`
-		const newElement = (slottable as ReactElementWithChildren).props.children;
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		const newElement = slottable.props.children as unknown;
 
-		const newChildren = childrenArray.map((child) => {
+		const newElementChildren = childrenArray.map((child) => {
 			if (child !== slottable) {
 				return child;
 			}
@@ -44,23 +43,17 @@ function Slot(props: SlotProps, forwardedRef: ForwardedRefType<HTMLElement>) {
 			}
 
 			// == Because the new element will be the one rendered, we are only interested in grabbing its children (`newElement.props.children`)
-			return isValidElement(newElement)
-				? (newElement as ReactElementWithChildren).props.children
-				: null;
+			return isValidElement<Pick<SlotProps, "children">>(newElement) ? newElement.props.children : null;
 		});
 
 		return (
-			<SlotClone {...restOfSlotProps} ref={forwardedRef}>
-				{isValidElement(newElement) ? cloneElement(newElement, undefined, newChildren) : null}
+			<SlotClone {...restOfSlotProps}>
+				{isValidElement(newElement) ? cloneElement(newElement, undefined, newElementChildren) : null}
 			</SlotClone>
 		);
 	}
 
-	return (
-		<SlotClone {...restOfSlotProps} ref={forwardedRef}>
-			{children}
-		</SlotClone>
-	);
+	return <SlotClone {...restOfSlotProps}>{children}</SlotClone>;
 }
 
-export default forwardRef(Slot);
+export default Slot;

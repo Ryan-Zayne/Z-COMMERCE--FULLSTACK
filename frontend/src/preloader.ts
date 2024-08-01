@@ -6,7 +6,7 @@ import { useThemeStore } from "./store/zustand/themeStore";
 useThemeStore.getState().actions.initThemeOnLoad();
 
 // NOTE - Preloader Removal
-const removePreloader = (...[, cleanup]: Parameters<Parameters<typeof on>[2]>) => {
+const removePreloader = () => {
 	const preloaderElement = document.querySelector<HTMLElement>("#preloader");
 
 	if (!preloaderElement) return;
@@ -19,11 +19,9 @@ const removePreloader = (...[, cleanup]: Parameters<Parameters<typeof on>[2]>) =
 		preloaderElement.remove();
 		noScrollOnOpen({ isActive: false });
 	});
-
-	cleanup();
 };
 
-on("DOMContentLoaded", window, removePreloader);
+on("DOMContentLoaded", window, removePreloader, { once: true });
 
 // NOTE - Scroll restoration for moxilla browser
 window.history.scrollRestoration = "auto";

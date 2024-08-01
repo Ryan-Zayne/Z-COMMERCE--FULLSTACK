@@ -1,5 +1,4 @@
 import { isObject } from "@/lib/type-helpers/typeof";
-import { twMerge } from "tailwind-merge";
 
 export type UnknownProps = Record<string, unknown>;
 
@@ -10,6 +9,15 @@ const mergeProps = (slotProps: UnknownProps, childProps: UnknownProps) => {
 	for (const propName of Object.keys(slotProps)) {
 		const slotPropValue = slotProps[propName];
 		const childPropValue = childProps[propName];
+
+		// if it's `style`, we merge them
+		if (propName === "style" && isObject(slotPropValue) && isObject(childPropValue)) {
+			overrideProps[propName] = { ...slotPropValue, ...childPropValue };
+		}
+
+		if (propName === "className") {
+			overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(" ");
+		}
 
 		const isHandler = /^on[A-Z]/.test(propName);
 
@@ -29,17 +37,7 @@ const mergeProps = (slotProps: UnknownProps, childProps: UnknownProps) => {
 		}
 	}
 
-	return {
-		...slotProps,
-		...overrideProps,
-
-		className: twMerge(slotProps.className as string, overrideProps.className as string),
-
-		style: {
-			...(isObject(slotProps.style) && slotProps.style),
-			...(isObject(overrideProps.style) && overrideProps.style),
-		},
-	} as Record<string, unknown>;
+	return { ...slotProps, ...overrideProps };
 };
 
 export { mergeProps };

@@ -9,7 +9,6 @@ const setRef = <TRef>(ref: PossibleRef<TRef>, value: TRef) => {
 
 	if (typeof ref === "function") {
 		ref(value);
-
 		return;
 	}
 

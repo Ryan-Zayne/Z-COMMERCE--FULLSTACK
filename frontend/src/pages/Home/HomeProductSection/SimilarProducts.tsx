@@ -1,10 +1,10 @@
+import { getElementList } from "@/components/primitives";
 import ProductCard from "@/components/ui/ProductCard";
-import { useElementList } from "@/lib/hooks/useElementList";
 import { assertDefined } from "@/lib/type-helpers/assert";
 import type { DataArrayProp } from "./home-product.types";
 
 function SimilarProducts({ data }: DataArrayProp) {
-	const [ProductCardsList] = useElementList();
+	const [ProductCardsList] = getElementList();
 
 	return (
 		<article id="Similar Products You Might Like" className="flex flex-col gap-[3rem] px-[3rem]">

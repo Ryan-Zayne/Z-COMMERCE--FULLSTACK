@@ -1,23 +1,25 @@
-import type { ForwardedRefType } from "@/lib/type-helpers/global";
-import { Children, cloneElement, forwardRef, isValidElement } from "react";
+import { Children, cloneElement, isValidElement } from "react";
 import { type PossibleRef, composeRefs } from "./composeRefs";
 import { type UnknownProps, mergeProps } from "./mergeProps";
 
 type SlotCloneProps = {
 	children: React.ReactNode;
+	ref?: React.RefObject<HTMLElement>;
 };
 
-function SlotClone(props: SlotCloneProps, forwardedRef: ForwardedRefType<HTMLElement>) {
-	const { children, ...slotProps } = props;
+function SlotClone(props: SlotCloneProps) {
+	const { children, ref: forwardedRef, ...restOfSlotProps } = props;
 
-	if (isValidElement(children)) {
-		const unknownChildren = children as unknown as UnknownProps;
-
+	if (isValidElement<UnknownProps>(children)) {
 		const clonedProps = {
-			...mergeProps(slotProps, children.props as UnknownProps),
+			...mergeProps(restOfSlotProps, children.props),
 			ref: forwardedRef
-				? composeRefs(forwardedRef, unknownChildren.ref as PossibleRef<unknown>)
-				: unknownChildren.ref,
+				? composeRefs(
+						forwardedRef,
+						(children.props.ref ??
+							(children as unknown as typeof children.props).ref) as PossibleRef<unknown>
+					)
+				: (children.props.ref ?? (children as unknown as typeof children.props).ref),
 		};
 
 		return cloneElement(children, clonedProps);
@@ -26,4 +28,4 @@ function SlotClone(props: SlotCloneProps, forwardedRef: ForwardedRefType<HTMLEle
 	return Children.count(children) > 1 ? Children.only(null) : null;
 }
 
-export default forwardRef(SlotClone);
+export default SlotClone;

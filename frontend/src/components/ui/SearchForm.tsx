@@ -1,5 +1,4 @@
-import { Button, type ButtonProps } from "@/components/primitives";
-import { useElementList } from "@/lib/hooks";
+import { Button, type ButtonProps, getElementList } from "@/components/primitives";
 import { useSearch } from "@/lib/hooks/useSearch";
 import { cnMerge } from "@/lib/utils/cn";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
@@ -47,7 +46,7 @@ function SearchForm(props: SearchFormProps) {
 		}
 	}, [isSearchShow, setQuery]);
 
-	const [SearchItemsList] = useElementList();
+	const [SearchItemsList] = getElementList();
 
 	const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value);
 

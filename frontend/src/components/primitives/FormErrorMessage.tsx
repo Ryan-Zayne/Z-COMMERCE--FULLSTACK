@@ -1,20 +1,20 @@
-import { useElementList } from "@/lib/hooks";
 import { cnMerge } from "@/lib/utils/cn";
 import { useEffect, useRef } from "react";
 import { type Control, type FieldValues, useFormState } from "react-hook-form";
+import { getElementList } from "./For/getElementList";
 
 type ErrorParagraphProps<TValues extends FieldValues> =
 	| {
-			className?: string;
 			type: "regular";
 			control: Control<TValues>;
 			errorField: keyof TValues;
+			className?: string;
 	  }
 	| {
-			className?: string;
 			type: "root";
 			control: Control<TValues>;
 			errorField: string;
+			className?: string;
 	  };
 
 const paragraphClass = "animate-shake pt-[0.3rem] text-[1.1rem] text-error";
@@ -24,16 +24,25 @@ function FormErrorMessage<TStepData extends FieldValues>(props: ErrorParagraphPr
 
 	const formState = useFormState({ control });
 
-	const [ErrorMessageList] = useElementList();
+	const [ErrorMessageList] = getElementList();
 
-	const paragraphRef = useRef<HTMLParagraphElement>(null);
+	const errorParagraphRef = useRef<HTMLParagraphElement>(null);
 
 	useEffect(() => {
-		if (!paragraphRef.current) return;
+		if (!errorParagraphRef.current) return;
 
-		if (paragraphRef.current.classList.contains("animate-shake")) return;
+		if (!errorParagraphRef.current.classList.contains("animate-shake")) {
+			errorParagraphRef.current.classList.add("animate-shake");
+		}
 
-		paragraphRef.current.classList.add("animate-shake");
+		// Scroll to first error message
+		if (Object.keys(formState.errors).indexOf(errorField as string) === 0) {
+			errorParagraphRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "center",
+			});
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formState.submitCount]);
 
 	const message =
@@ -70,9 +79,9 @@ function FormErrorMessage<TStepData extends FieldValues>(props: ErrorParagraphPr
 
 	return (
 		<p
-			ref={paragraphRef}
+			ref={errorParagraphRef}
 			className={cnMerge(paragraphClass, className)}
-			onAnimationEnd={() => paragraphRef.current?.classList.remove("animate-shake")}
+			onAnimationEnd={() => errorParagraphRef.current?.classList.remove("animate-shake")}
 		>
 			*{message}
 		</p>

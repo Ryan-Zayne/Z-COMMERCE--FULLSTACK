@@ -1,7 +1,6 @@
-import { Button, Logo, Show } from "@/components/primitives";
+import { Button, Logo, Show, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { Drawer, type DrawerContentProps, type DrawerStore } from "@/components/ui/Drawer";
-import { useElementList } from "@/lib/hooks";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { Link } from "react-router-dom";
@@ -15,7 +14,7 @@ function CartDrawer(props: CartDrawerProps) {
 	const cart = useShopStore((state) => state.cart);
 	const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
-	const [CartItemsList] = useElementList();
+	const [CartItemsList] = getElementList();
 
 	return (
 		<Drawer.Root {...{ isOpen, onClose, onOpen }}>

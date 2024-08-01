@@ -1,10 +1,10 @@
 import { Button, LoadingSpinner, Show, Switch } from "@/components/primitives";
+import { Form } from "@/components/ui";
 import { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import Form from "../Form";
 import { type FormSchemaType, generateOnSubmit } from "./generateOnSubmit";
 
 export type FormAreaProps = {

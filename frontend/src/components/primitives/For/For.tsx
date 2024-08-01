@@ -1,5 +1,4 @@
-import type { ForwardedRefType } from "@/lib/type-helpers/global";
-import type { PolymorphicPropsWithRef } from "@/lib/type-helpers/polymorphism";
+import type { ForwardedRefType, PolymorphicPropsWithRef } from "@/lib/type-helpers";
 import { forwardRef } from "react";
 
 // prettier-ignore
@@ -46,20 +45,16 @@ function ForBase<TArrayItem>(props: ForProps<TArrayItem>) {
 
 function ForList<TArrayItem, TElement extends React.ElementType = "ul">(
 	props: PolymorphicPropsWithRef<TElement, ForProps<TArrayItem> & { className?: string }>,
-	ref: ForwardedRefType<HTMLElement>
+	ref: ForwardedRefType<TElement>
 ) {
 	const { each, render, children, as: ListContainer = "ul", className, ...restOfListProps } = props;
 
 	return (
-		<ListContainer className={className} {...restOfListProps} ref={ref}>
+		<ListContainer ref={ref} className={className} {...restOfListProps}>
 			<ForBase {...({ each, render, children } as ForProps<TArrayItem>)} />
 		</ListContainer>
 	);
 }
 
-const For = {
-	Base: ForBase,
-	List: forwardRef(ForList) as typeof ForList,
-};
-
-export default For;
+export const Base = ForBase;
+export const List = forwardRef(ForList) as typeof ForList;
