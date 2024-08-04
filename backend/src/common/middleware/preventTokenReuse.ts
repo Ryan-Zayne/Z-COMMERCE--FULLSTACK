@@ -11,7 +11,10 @@ export const preventTokenReuse = catchAsync<{ user: unknown }>(async (req, res, 
 		throw new Error("Cookie is missing!");
 	}
 
-	const userWithToken = await UserModel.findOne({ refreshTokenArray: "" }).select("+refreshTokenArray");
+	// LINK - How this works: https://www.mongodb.com/docs/manual/tutorial/query-arrays/#query-an-array-for-an-element
+	const userWithToken = await UserModel.findOne({ refreshTokenArray: refreshToken }).select(
+		"+refreshTokenArray"
+	);
 
 	if (!userWithToken) {
 		// UserWithToken not found, Refresh token reuse detected!

@@ -20,7 +20,7 @@ export type UserType = {
 	isIdVerified: boolean;
 	isSuspended: boolean;
 	isDeleted: boolean;
-	lastLogin: Date;
+	lastLogin: number;
 	isMobileVerified: boolean;
 	isEmailVerified: boolean;
 	createdAt: Date;

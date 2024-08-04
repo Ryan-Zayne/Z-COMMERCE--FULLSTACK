@@ -13,7 +13,6 @@ export const setCookie = (
 		httpOnly: true,
 		signed: true,
 		partitioned: isProduction,
-		// maxAge: 24 * 60 * 60 * 1000,
 		...options,
 	});
 };

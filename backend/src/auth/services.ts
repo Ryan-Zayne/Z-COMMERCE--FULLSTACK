@@ -50,12 +50,3 @@ export const decodeJwtToken = (token: string, secretKey: string) => {
 
 	return decodedPayload;
 };
-
-export const clearExistingCookie = (res: Response) => {
-	res.clearCookie("refreshToken", {
-		sameSite: "none",
-		secure: isProduction,
-		httpOnly: true,
-		signed: true,
-	});
-};

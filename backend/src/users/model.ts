@@ -42,7 +42,7 @@ const UserSchema = new mongoose.Schema<UserType, unknown, UserMethods>(
 		},
 
 		lastLogin: {
-			type: Date,
+			type: Number,
 			default: Date.now(),
 		},
 
