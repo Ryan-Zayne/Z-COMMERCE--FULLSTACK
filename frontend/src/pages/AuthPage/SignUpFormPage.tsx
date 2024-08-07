@@ -12,6 +12,7 @@ function SignUpFormPage() {
 
 	return (
 		<Transition
+			as="main"
 			className={"relative z-10 w-[min(100%,48rem)] rounded-[4px] bg-body p-[2rem_3rem] md:px-[5rem]"}
 			show={isSignUpPath}
 			appear={true}

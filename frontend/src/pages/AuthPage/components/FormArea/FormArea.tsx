@@ -34,7 +34,7 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 			className={cnMerge(
 				`mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem]
 				[&_label]:text-[1.2rem]`,
-				[formClasses]
+				formClasses
 			)}
 		>
 			{formState.isSubmitting && <LoadingSpinner type={"auth"} />}
@@ -43,7 +43,12 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 				<Form.Item control={control} name="username">
 					<Form.Label>Username</Form.Label>
 
-					<Form.Input type="text" errorClassName={semanticClasses.error} />
+					<Form.Input
+						type="text"
+						className="min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
+							focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot"
+						errorClassName={semanticClasses.error}
+					/>
 
 					<Form.ErrorMessage control={control} type="regular" errorField="username" />
 				</Form.Item>
@@ -52,7 +57,12 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 			<Form.Item control={control} name="email">
 				<Form.Label>Email address</Form.Label>
 
-				<Form.Input type="email" errorClassName={semanticClasses.error} />
+				<Form.Input
+					type="email"
+					className="min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
+						focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot"
+					errorClassName={semanticClasses.error}
+				/>
 
 				<Form.ErrorMessage control={control} type="regular" errorField="email" />
 			</Form.Item>
@@ -60,7 +70,14 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 			<Form.Item control={control} name="password" className="relative">
 				<Form.Label>Password</Form.Label>
 
-				<Form.Input type={"password"} errorClassName={semanticClasses.error} />
+				<Form.Input
+					type="password"
+					classNames={{
+						inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
+						text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
+					}}
+					errorClassName={semanticClasses.error}
+				/>
 
 				<Form.ErrorMessage control={control} type="regular" errorField="password" />
 			</Form.Item>
@@ -69,7 +86,14 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 				<Form.Item control={control} name="confirmPassword" className={"relative"}>
 					<Form.Label>Confirm Password</Form.Label>
 
-					<Form.Input type={"password"} errorClassName={semanticClasses.error} />
+					<Form.Input
+						type="password"
+						classNames={{
+							inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
+							text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
+						}}
+						errorClassName={semanticClasses.error}
+					/>
 
 					<Form.ErrorMessage control={control} type="regular" errorField="confirmPassword" />
 				</Form.Item>

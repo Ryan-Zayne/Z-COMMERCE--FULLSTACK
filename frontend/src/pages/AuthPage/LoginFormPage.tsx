@@ -11,6 +11,7 @@ function LoginFormPage() {
 
 	return (
 		<Transition
+			as="main"
 			className={
 				"relative z-10 w-[min(100%,48rem)] rounded-[4px] bg-body p-[3rem_3rem] md:p-[2rem_5rem]"
 			}

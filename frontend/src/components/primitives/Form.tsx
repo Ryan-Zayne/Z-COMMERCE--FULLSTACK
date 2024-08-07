@@ -1,8 +1,8 @@
 import { getSlotElement } from "@/lib/core/getSlotElement";
 import { createCustomContext, useToggle } from "@/lib/hooks";
-import type { PolymorphicPropsWithRef } from "@/lib/type-helpers";
+import type { ForwardedRefType, PolymorphicPropsWithRef } from "@/lib/type-helpers";
 import { cnMerge } from "@/lib/utils/cn";
-import { Fragment as ReactFragment, useEffect, useId, useMemo, useRef } from "react";
+import { Fragment as ReactFragment, forwardRef, useEffect, useId, useMemo, useRef } from "react";
 import {
 	type Control,
 	type ControllerFieldState,
@@ -17,7 +17,7 @@ import {
 	useFormContext as useHookFormContext,
 } from "react-hook-form";
 import { getElementList } from "./For";
-import { IconBox } from "./IconBox";
+import { IconBox, loadIcons } from "./IconBox";
 import InputPrimitive, { type InputProps } from "./Input";
 import Show from "./Show";
 
@@ -141,14 +141,15 @@ function FormInput<TType extends React.HTMLInputTypeAttribute | "textarea">(
 		errorClassName?: string;
 		withEyeIcon?: boolean;
 		classNames?: { inputGroup?: string; input?: string };
-	}
+	},
+	ref: ForwardedRefType<HTMLElement>
 ) {
 	const { id, name } = useFormItemContext();
 	const { register, formState } = useHookFormContext();
 
 	const [isPasswordVisible, toggleVisibility] = useToggle(false);
 
-	const { className, classNames, errorClassName, ref, type, withEyeIcon = true, ...restOfProps } = props;
+	const { className, classNames, errorClassName, type, withEyeIcon = true, ...restOfProps } = props;
 
 	const shouldHaveEyeIcon = withEyeIcon && type === "password";
 
@@ -160,6 +161,7 @@ function FormInput<TType extends React.HTMLInputTypeAttribute | "textarea">(
 	return (
 		<Element {...(shouldHaveEyeIcon && { className: cnMerge("w-full", classNames?.inputGroup) })}>
 			<InputPrimitiveCoerced
+				ref={ref}
 				id={id}
 				type={type === "password" && isPasswordVisible ? "text" : type}
 				className={cnMerge(
@@ -178,6 +180,12 @@ function FormInput<TType extends React.HTMLInputTypeAttribute | "textarea">(
 					type="button"
 					onClick={toggleVisibility}
 					className="size-5 shrink-0 lg:size-6"
+					onLoad={() => {
+						loadIcons([
+							"material-symbols:visibility-outline-rounded",
+							"material-symbols:visibility-off-outline-rounded",
+						]);
+					}}
 				>
 					<IconBox
 						icon={
@@ -311,10 +319,11 @@ export const Root = FormRoot;
 export const Item = FormItem;
 export const Label = FormLabel;
 export const ErrorMessage = FormErrorMessage;
-export const Input = FormInput;
+export const Input = forwardRef(FormInput);
 export const InputGroup = FormInputGroup;
 export const InputLeftItem = FormInputLeftItem;
 export const InputRightItem = FormInputRightItem;
 export const Controller = FormController;
 // eslint-disable-next-line unicorn/prefer-export-from
 export { ControllerPrimitive };
+
