@@ -8,5 +8,5 @@
 	},
 
 	"exclude": ["dist", "node_modules"],
-	"include": ["src/**/*.tsx", "src/**/*.ts", "./*.ts", "vite.config.ts"]
+	"include": ["src/**/*.tsx", "src/**/*.ts", "./*.ts"]
 }

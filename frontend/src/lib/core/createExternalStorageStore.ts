@@ -1,14 +1,15 @@
 import { isFunction, isObject } from "@/lib/type-helpers/typeof";
 import { on } from "@/lib/utils/on";
 import { parseJSON } from "@/lib/utils/parseJSON";
-import type { NewStateFn, StoreApi } from "./createStore";
+import type { StoreApi, UpdateStateFn } from "./createStore";
 
 export type StorageOptions<TStorageValue> = {
 	storageArea?: "localStorage" | "sessionStorage";
-	shouldSyncData?: boolean;
+	shouldSyncAcrossTabs?: boolean;
 	logger?: (error: unknown) => void;
 	parser?: (value: unknown) => TStorageValue;
 	stringifier?: (object: TStorageValue | null) => string;
+	equalityFn?: (nextState: TStorageValue, previousState: TStorageValue) => boolean;
 };
 
 const handleCurrentTabId = (shouldSyncData: boolean) => {
@@ -29,24 +30,25 @@ const handleCurrentTabId = (shouldSyncData: boolean) => {
 	return tabIdActions;
 };
 
-const createExternalStorageStore = <TStorageValue>(
+const createExternalStorageStore = <TStorageValue, TStorageSlice = TStorageValue>(
 	key: string,
 	defaultValue: TStorageValue,
 	options: StorageOptions<TStorageValue> = {}
 ) => {
 	const {
-		shouldSyncData = true,
+		shouldSyncAcrossTabs = true,
 		storageArea = "localStorage",
 		stringifier = JSON.stringify,
 		parser = parseJSON<TStorageValue>,
 		logger = console.info,
+		equalityFn = Object.is,
 	} = options;
 
 	const selectedStorage = window[storageArea];
 
 	let rawStorageValue: ReturnType<typeof selectedStorage.getItem> = selectedStorage.getItem(key);
 
-	const tabIdActions = handleCurrentTabId(shouldSyncData);
+	const tabIdActions = handleCurrentTabId(shouldSyncAcrossTabs);
 
 	const getInitialStorageValue = () => {
 		try {
@@ -84,10 +86,12 @@ const createExternalStorageStore = <TStorageValue>(
 
 	const getInitialState = () => defaultValue;
 
-	const setState: StoreApi<TStorageValue | null>["setState"] = (newState, shouldReplace) => {
+	type $StoreApi = StoreApi<TStorageValue, TStorageSlice>;
+
+	const setState: $StoreApi["setState"] = (newState, shouldReplace) => {
 		const previousState = getState();
 
-		const nextState = isFunction<NewStateFn<TStorageValue | null>>(newState)
+		const nextState = isFunction<UpdateStateFn<TStorageValue | null>>(newState)
 			? newState(previousState)
 			: newState;
 
@@ -113,14 +117,14 @@ const createExternalStorageStore = <TStorageValue>(
 		});
 	};
 
-	const subscribe: StoreApi<TStorageValue>["subscribe"] = (onStoreChange) => {
+	const subscribe: $StoreApi["subscribe"] = (onStoreChange) => {
 		const handleStorageStoreChange = (event: StorageEvent) => {
 			// == This would prevent state syncing across tabs if `shouldSyncData` is set to `false`
-			if (!shouldSyncData && window.name !== tabIdActions?.get()) return;
+			if (!shouldSyncAcrossTabs && window.name !== tabIdActions?.get()) return;
 
 			if (event.key !== key || event.storageArea !== selectedStorage) return;
 
-			if (Object.is(event.oldValue, event.newValue)) return;
+			if (equalityFn(event.oldValue as never, event.newValue as never)) return;
 
 			onStoreChange(parser(event.oldValue as string), parser(event.newValue as string));
 		};
@@ -128,6 +132,30 @@ const createExternalStorageStore = <TStorageValue>(
 		const removeStorageEvent = on("storage", window, handleStorageStoreChange);
 
 		return removeStorageEvent;
+	};
+
+	subscribe.withSelector = (selector, onStoreChange, subscribeOptions = {}) => {
+		const { equalityFn: $equalityFn = equalityFn, fireListenerImmediately = false } = subscribeOptions;
+
+		let slice = selector(getState());
+
+		if (fireListenerImmediately) {
+			onStoreChange(slice as never, slice as never);
+		}
+
+		const modifiedOnStoreChange = ($state: TStorageValue) => {
+			const nextSlice = selector($state);
+
+			if ($equalityFn(slice as never, nextSlice as never)) return;
+
+			const previousSlice = slice;
+
+			slice = nextSlice;
+
+			onStoreChange(slice as never, previousSlice as never);
+		};
+
+		return subscribe(modifiedOnStoreChange);
 	};
 
 	const removeState = () => {
@@ -140,7 +168,7 @@ const createExternalStorageStore = <TStorageValue>(
 		setState,
 		subscribe,
 		removeState,
-	};
+	} satisfies $StoreApi & { removeState: typeof removeState };
 };
 
 export { createExternalStorageStore };

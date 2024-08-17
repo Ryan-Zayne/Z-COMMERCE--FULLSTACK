@@ -1,6 +1,6 @@
 import type { ForwardedRefType } from "@/lib/type-helpers";
 import { cnMerge } from "@/lib/utils/cn";
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 
 export type InputProps<TType extends React.HTMLInputTypeAttribute | "textarea"> = TType extends "textarea"
 	? React.ComponentPropsWithRef<"textarea"> & { type?: TType }
@@ -22,7 +22,7 @@ function Input<TType extends React.HTMLInputTypeAttribute | "textarea">(
 			type={type}
 			className={cnMerge(
 				!inputTypesWithoutFullWith.has(type) && "flex w-full",
-				`text-sm file:border-0 file:bg-transparent placeholder:text-muted-foreground
+				`text-[14px] file:border-0 file:bg-transparent placeholder:text-muted-foreground
 				focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50`,
 				className
 			)}

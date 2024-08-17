@@ -1,11 +1,11 @@
 import { isFunction } from "../type-helpers/typeof";
 
-type NewStateFn<TObject> = (prevState: TObject) => Partial<TObject>;
+type UpdateStateFn<TObject> = (prevState: TObject) => Partial<TObject>;
 
-type ObjectApi<TObject> = {
-	getObject: () => TObject;
+type ObjectApi<in out TObject> = {
 	getInitialObject: () => TObject;
-	setObject: (newObject: Partial<TObject> | NewStateFn<TObject>, shouldReplace?: boolean) => void;
+	getObject: () => TObject;
+	setObject: (newObject: Partial<TObject> | UpdateStateFn<TObject>, shouldReplace?: boolean) => void;
 };
 
 export type ObjectCreator<TObject> = (
@@ -15,25 +15,24 @@ export type ObjectCreator<TObject> = (
 ) => TObject;
 
 const createObject = <TObject>(initializer: ObjectCreator<TObject>) => {
-	let stateObject = {} as TObject;
+	let stateObject: TObject;
 
 	const setObject: ObjectApi<TObject>["setObject"] = (newObject, shouldReplace) => {
-		const updatedObject = isFunction<NewStateFn<TObject>>(newObject)
+		const updatedObject = isFunction<UpdateStateFn<TObject>>(newObject)
 			? newObject(stateObject)
 			: newObject;
 
 		if (Object.is(updatedObject, stateObject)) return;
 
-		stateObject = shouldReplace ? (updatedObject as TObject) : { ...stateObject, ...updatedObject };
+		stateObject = !shouldReplace ? { ...stateObject, ...updatedObject } : (updatedObject as TObject);
 	};
 
 	const getObject = () => stateObject;
 
 	const getInitialObject = () => initialObject;
 
-	const api: ObjectApi<TObject> = { getObject, getInitialObject, setObject };
+	const api: ObjectApi<TObject> = { getInitialObject, getObject, setObject };
 
-	// eslint-disable-next-line no-multi-assign
 	const initialObject = (stateObject = initializer(getObject, setObject, api));
 
 	return stateObject;

@@ -7,8 +7,8 @@ import "./index.css";
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-			staleTime: Number.POSITIVE_INFINITY,
 			gcTime: 10 * (60 * 1000),
+			staleTime: Number.POSITIVE_INFINITY,
 		},
 	},
 });
@@ -16,6 +16,6 @@ const queryClient = new QueryClient({
 createRoot(document.querySelector("#root") as HTMLElement).render(
 	<QueryClientProvider client={queryClient}>
 		<App />
-		<ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
+		<ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
 	</QueryClientProvider>
 );

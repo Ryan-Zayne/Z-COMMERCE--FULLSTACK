@@ -26,15 +26,7 @@ function DropDownTrigger({ asChild, children, ...restOfProps }: DropDownHeaderPr
 }
 
 function DropDownPanel(props: DropDownPanelProps) {
-	const {
-		id = "",
-		isOpen = false,
-		children,
-		classNames = {
-			panelContainer: "",
-			panelList: "",
-		},
-	} = props;
+	const { id = "", isOpen = false, children, classNames } = props;
 
 	return (
 		<div
@@ -42,10 +34,10 @@ function DropDownPanel(props: DropDownPanelProps) {
 			className={cnMerge(
 				"invisible grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-[500ms]",
 				isOpen && "visible grid-rows-[1fr]",
-				classNames.panelContainer
+				classNames?.panelContainer
 			)}
 		>
-			<ul className={cnMerge("overflow-y-hidden [transition:padding_500ms]", classNames.panelList)}>
+			<ul className={cnMerge("overflow-y-hidden [transition:padding_500ms]", classNames?.panelList)}>
 				{children}
 			</ul>
 		</div>

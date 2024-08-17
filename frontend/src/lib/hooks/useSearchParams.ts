@@ -1,24 +1,54 @@
+import { isArray, isFunction, isObject } from "../type-helpers";
 import { useLocation } from "./useLocation";
 
-const useSearchParams = <TSearchParams extends Record<string, string>>(
+type KeyValuePair = [string, string];
+
+export type URLSearchParamsInit =
+	| string
+	| KeyValuePair[]
+	| Record<string, string | string[]>
+	| URLSearchParams;
+
+export const createSearchParams = (paramsInit: URLSearchParamsInit = ""): URLSearchParams => {
+	if (!isObject(paramsInit)) {
+		return new URLSearchParams(paramsInit);
+	}
+
+	const arrayOfKeyValuePairs: KeyValuePair[] = [];
+
+	for (const [key, value] of Object.entries(paramsInit)) {
+		if (isArray(value)) {
+			arrayOfKeyValuePairs.push(...(value.map((v) => [key, v]) as KeyValuePair[]));
+
+			continue;
+		}
+
+		arrayOfKeyValuePairs.push([key, value] as KeyValuePair);
+	}
+
+	return new URLSearchParams(arrayOfKeyValuePairs);
+};
+
+const useSearchParams = <TSearchParams extends URLSearchParamsInit>(
 	action: "push" | "replace" = "push"
 ) => {
 	const [search, setSearch] = useLocation((state) => state.search);
 
-	const getParams = () => {
-		const searchParams = new URLSearchParams(search);
-		const searchParamObject = Object.fromEntries(searchParams.entries());
+	const searchParams = new URLSearchParams(search);
 
-		return searchParamObject as TSearchParams;
+	type QueryParams = { _: TSearchParams | ((prev: TSearchParams) => TSearchParams) }["_"];
+
+	const setSearchParams = (queryParams: QueryParams) => {
+		const nextSearchParams = isFunction(queryParams)
+			? queryParams(searchParams as TSearchParams)
+			: queryParams;
+
+		const params = createSearchParams(nextSearchParams);
+
+		setSearch[action](`?${params.toString()}`);
 	};
 
-	const setParams = (queryParams: TSearchParams) => {
-		const searchParams = new URLSearchParams(queryParams);
-
-		setSearch[action](`?${searchParams.toString()}`);
-	};
-
-	return [getParams, setParams] as const;
+	return [searchParams, setSearchParams] as const;
 };
 
 export { useSearchParams };

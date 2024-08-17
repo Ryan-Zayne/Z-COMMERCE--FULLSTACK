@@ -55,7 +55,7 @@ export const getSlotElement = <TProps>(
 		? childrenArray.filter((child) => isSlotElement(child, SlotWrapper))
 		: childrenArray.find((child) => isSlotElement(child, SlotWrapper));
 
-	if (isArray(Slot) && Slot.length > 1) {
+	if (throwOnMultipleSlotMatch && isArray(Slot) && Slot.length > 1) {
 		throw new Error(errorMessage);
 	}
 

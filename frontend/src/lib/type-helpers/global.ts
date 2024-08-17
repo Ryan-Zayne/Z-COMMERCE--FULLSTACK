@@ -15,9 +15,9 @@ export type Prettify<TObject> = { [Key in keyof TObject]: TObject[Key] } & NonNu
 
 export type PrettyOmit<TObject, K extends keyof TObject> = Prettify<Omit<TObject, K>>;
 
-export type CallbackFn<TParams, TResult = void> = (...params: TParams[]) => TResult;
+export type CallbackFn<in TParams, out TResult = void> = (...params: TParams[]) => TResult;
 
-export type SelectorFn<TStore, TResult> = (state: TStore) => TResult;
+export type SelectorFn<in TStore, out TResult> = (state: TStore) => TResult;
 
 export type Writeable<TObject> = { -readonly [Key in keyof TObject]: TObject[Key] };
 

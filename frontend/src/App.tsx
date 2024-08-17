@@ -10,9 +10,9 @@ useGlobalStore.getState().mediaQueryActions.handleQueryListeners("add");
 
 function App() {
 	return (
-		<LazyMotion strict={true} features={domAnimation}>
+		<LazyMotion features={domAnimation} strict={true}>
 			<Suspense fallback={<LoadingSpinner />}>
-				<RouterProvider router={router} future={{ v7_startTransition: true }} />
+				<RouterProvider future={{ v7_startTransition: true }} router={router} />
 			</Suspense>
 
 			<SonnerToaster />

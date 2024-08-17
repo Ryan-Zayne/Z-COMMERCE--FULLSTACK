@@ -1,15 +1,17 @@
-/* eslint-disable import-x/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/// <reference path="./eslint-typegen.d.ts" />
+
 import eslintReact from "@eslint-react/eslint-plugin";
 import { fixupPluginRules } from "@eslint/compat";
 import eslintJs from "@eslint/js";
+import eslintStylistic from "@stylistic/eslint-plugin";
 import eslintImportX from "eslint-plugin-import-x";
+import eslintPerfectionist from "eslint-plugin-perfectionist";
 import eslintReactHooks from "eslint-plugin-react-hooks";
 import eslintReactRefresh from "eslint-plugin-react-refresh";
 import eslintSonarjs from "eslint-plugin-sonarjs";
 import eslintTailwind from "eslint-plugin-tailwindcss";
 import eslintUnicorn from "eslint-plugin-unicorn";
+import typegen from "eslint-typegen";
 import globals from "globals";
 import tsEslint from "typescript-eslint";
 
@@ -18,11 +20,11 @@ import tsEslint from "typescript-eslint";
  * @type {Linter.Config}
  * */
 
-const eslintConfigArray = [
+const eslintConfigArray = typegen([
 	// == Global Options
-	{ ignores: ["dist/**", "node_modules/**", "build/**"] },
-
+	{ name: "zayne/defaults/ignores", ignores: ["dist/**", "build/**"] },
 	{
+		name: "zayne/defaults/languageOptions",
 		languageOptions: {
 			globals: {
 				...globals.browser,
@@ -32,8 +34,9 @@ const eslintConfigArray = [
 	},
 
 	// == Base Eslint Rules
-	eslintJs.configs.recommended,
+	{ ...eslintJs.configs.recommended, name: "eslint/recommended" },
 	{
+		name: "zayne/eslint",
 		rules: {
 			"no-return-assign": ["error", "except-parens"],
 			"prefer-arrow-callback": ["error", { allowNamedFunctions: true }],
@@ -59,7 +62,6 @@ const eslintConfigArray = [
 			"no-await-in-loop": "error",
 			"no-template-curly-in-string": "error",
 			"object-shorthand": ["error", "always", { ignoreConstructors: false, avoidQuotes: true }],
-
 			"prefer-template": "error",
 			"symbol-description": "error",
 			"no-restricted-imports": ["off", { paths: [], patterns: [] }],
@@ -174,19 +176,35 @@ const eslintConfigArray = [
 			"prefer-object-spread": "warn",
 			"no-unmodified-loop-condition": "error",
 			"no-unneeded-ternary": "warn",
+			"no-unused-vars": "warn",
 		},
 	},
 
 	// == Typescript Eslint Rules
-	...tsEslint.configs.strictTypeChecked,
-	...tsEslint.configs.stylisticTypeChecked,
+	// == Typescript Eslint Rules
+	...tsEslint.configs.strictTypeChecked.map((config) => ({ ...config, files: ["**/*.ts", "**/*.tsx"] })),
+	...tsEslint.configs.stylisticTypeChecked.map((config) => ({
+		...config,
+		files: ["**/*.ts", "**/*.tsx"],
+	})),
 	{
+		name: "zayne/@typescript-eslint",
+		files: ["**/*.ts", "**/*.tsx"],
 		languageOptions: {
+			parser: tsEslint.parser,
 			parserOptions: {
-				project: "config/tsconfig.eslint.json",
+				projectService: {
+					allowDefaultProject: ["*.js"],
+					defaultProject: "tsconfig.json",
+				},
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},
+
+		plugins: {
+			"@typescript-eslint": tsEslint.plugin,
+		},
+
 		rules: {
 			"@typescript-eslint/no-unused-expressions": [
 				"error",
@@ -199,6 +217,7 @@ const eslintConfigArray = [
 			"@typescript-eslint/no-unused-vars": ["warn", { ignoreRestSiblings: true }],
 			"@typescript-eslint/array-type": ["error", { default: "array-simple" }],
 			"@typescript-eslint/consistent-type-definitions": ["error", "type"],
+			"@typescript-eslint/no-useless-constructor": "error",
 			"@typescript-eslint/member-ordering": "error",
 			"@typescript-eslint/no-confusing-void-expression": "off",
 			"@typescript-eslint/non-nullable-type-assertion-style": "off",
@@ -215,36 +234,61 @@ const eslintConfigArray = [
 				"error",
 				{ allow: ["arrowFunctions", "functions", "methods"] },
 			],
+			"@typescript-eslint/dot-notation": "error",
 			"@typescript-eslint/no-shadow": "error",
-			"@typescript-eslint/no-redeclare": "error",
 			"@typescript-eslint/prefer-nullish-coalescing": ["error", { ignoreConditionalTests: true }],
-			"@typescript-eslint/prefer-destructuring": [
-				"error",
-				{
-					VariableDeclarator: {
-						array: false,
-						object: true,
-					},
-					AssignmentExpression: {
-						array: true,
-						object: false,
-					},
-				},
-				{
-					enforceForRenamedProperties: false,
-				},
+			"@typescript-eslint/no-unnecessary-type-parameters": "off",
+		},
+	},
+
+	// == Stylistic Rules
+	{
+		name: "zayne/@stylistic",
+		plugins: { "@stylistic": eslintStylistic },
+		rules: {
+			"@stylistic/spaced-comment": [
+				"warn",
+				...eslintStylistic.configs["recommended-flat"].rules["@stylistic/spaced-comment"].filter(
+					(item) => item !== "error"
+				),
 			],
-			"@typescript-eslint/prefer-find": "warn",
+			"@stylistic/jsx-self-closing-comp": "warn",
+			"@stylistic/no-floating-decimal": "error",
+		},
+	},
+
+	// == Perfectionist Rules
+
+	{
+		name: "perfectionist/recommended-alphabetical",
+		...eslintPerfectionist.configs["recommended-alphabetical"],
+	},
+	{
+		name: "zayne/perfectionist",
+		rules: {
+			"perfectionist/sort-imports": "off",
+			"perfectionist/sort-exports": "off",
+			"perfectionist/sort-named-imports": "off",
+			"perfectionist/sort-named-exports": "off",
 		},
 	},
 
 	// == Import rules
-	eslintImportX.configs.typescript,
 	{
+		name: "import-x/zayne",
+		languageOptions: {
+			parserOptions: eslintImportX.configs.react.parserOptions,
+		},
+		settings: {
+			...eslintImportX.configs.typescript.settings,
+			...eslintImportX.configs.react.settings,
+		},
+
 		plugins: { "import-x": eslintImportX },
 		rules: {
 			...eslintImportX.configs.recommended.rules,
-			// "import-x/extensions": ["error", "never", { ignorePackages: true }],
+			...eslintImportX.configs.typescript.rules,
+			"import-x/extensions": ["error", "never", { ignorePackages: true }],
 			"import-x/no-extraneous-dependencies": ["error", { devDependencies: true }],
 			"import-x/prefer-default-export": "off",
 			"import-x/no-cycle": ["error", { ignoreExternal: true, maxDepth: 3 }],
@@ -265,33 +309,9 @@ const eslintConfigArray = [
 		},
 	},
 
-	// == Unicorn rules
-	eslintUnicorn.configs["flat/recommended"],
-	{
-		rules: {
-			"unicorn/no-null": "off",
-			"unicorn/filename-case": [
-				"warn",
-				{
-					cases: {
-						camelCase: true,
-						pascalCase: true,
-						kebabCase: true,
-					},
-				},
-			],
-			"unicorn/no-negated-condition": "off",
-			"unicorn/prevent-abbreviations": "off",
-			"unicorn/new-for-builtins": "off",
-			"unicorn/numeric-separators-style": "off",
-			"unicorn/no-array-reduce": "off",
-			"unicorn/no-array-for-each": "off",
-			"unicorn/no-useless-undefined": ["error", { checkArguments: true }],
-		},
-	},
-
 	// == React Rules
 	{
+		name: "zayne/@eslint-react",
 		plugins: {
 			...eslintReact.configs["recommended-type-checked"].plugins,
 			"react-hooks": fixupPluginRules(eslintReactHooks),
@@ -316,39 +336,53 @@ const eslintConfigArray = [
 			"@eslint-react/no-children-count": "off",
 			"@eslint-react/no-clone-element": "off",
 
+			// Hook rules
 			"react-hooks/exhaustive-deps": "warn",
 			"react-hooks/rules-of-hooks": "error",
+		},
+	},
 
-			// "react/no-invalid-html-attribute": "error",
-			// "react/self-closing-comp": ["error", { component: true }],
-			// "react/jsx-curly-brace-presence": [
-			// 	"error",
-			// 	{
-			// 		props: "ignore",
-			// 		children: "ignore",
-			// 		propElementValues: "always",
-			// 	},
-			// ],
-			// "react/no-unused-prop-types": "error",
+	// == Unicorn rules
+	eslintUnicorn.configs["flat/recommended"],
+	{
+		name: "zayne/unicorn",
+		rules: {
+			"unicorn/no-null": "off",
+			"unicorn/filename-case": [
+				"warn",
+				{
+					cases: {
+						camelCase: true,
+						pascalCase: true,
+						kebabCase: true,
+					},
+				},
+			],
+			"unicorn/no-negated-condition": "off",
+			"unicorn/prevent-abbreviations": "off",
+			"unicorn/new-for-builtins": "off",
+			"unicorn/numeric-separators-style": "off",
+			"unicorn/no-array-reduce": "off",
+			"unicorn/no-array-for-each": "off",
+			"unicorn/no-useless-undefined": ["error", { checkArguments: true }],
 		},
 	},
 
 	// == React-Refresh Rules
 	{
-		plugins: {
-			"react-refresh": eslintReactRefresh,
-		},
+		name: "zayne/react-refresh",
+		plugins: { "react-refresh": eslintReactRefresh },
 		rules: {
 			"react-refresh/only-export-components": "warn",
 		},
 	},
 
 	// == Sonarjs Rules
-	eslintSonarjs.configs.recommended,
+	{ ...eslintSonarjs.configs.recommended, name: "sonarjs/recommended" },
 	{
+		name: "zayne/sonarjs",
 		rules: {
 			"sonarjs/prefer-immediate-return": "off",
-			"sonarjs/cognitive-complexity": "off",
 			"sonarjs/no-duplicate-string": "off",
 		},
 	},
@@ -356,6 +390,7 @@ const eslintConfigArray = [
 	// == Tailwind Rules
 	...eslintTailwind.configs["flat/recommended"],
 	{
+		name: "zayne/tailwindcss",
 		settings: {
 			tailwindcss: {
 				callees: ["tv", "cnMerge", "cn", "cnJoin", "twMerge", "twJoin"],
@@ -369,6 +404,6 @@ const eslintConfigArray = [
 			"tailwindcss/no-unnecessary-arbitrary-value": "off", // Turned off cuz using a custom root font-size (10px)
 		},
 	},
-];
+]);
 
 export default eslintConfigArray;
