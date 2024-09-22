@@ -1,32 +1,12 @@
-import { checkDeviceIsMobileOrTablet } from "./check-is-mobile-or-tablet";
+import { checkIsDeviceMobileOrTablet } from "@zayne-labs/toolkit";
 
 type NoScrollOnOpenOptions = {
 	isActive: boolean;
 };
 
-// const getScrollbarWidth = () => {
-// 	// Create a div that's wider and taller than the viewport
-// 	const div = document.createElement("div");
-// 	div.style.width = "100%";
-// 	div.style.height = "100vh";
-// 	div.style.overflow = "scroll";
-// 	div.style.position = "absolute";
-// 	div.style.top = "-10000px";
-
-// 	// Add it to the body
-// 	document.body.append(div);
-
-// 	// Calculate the scrollbar width
-// 	const scrollbarWidth = div.offsetWidth - div.clientWidth;
-
-// 	// Remove the div from the body
-// 	div.remove();
-
-// 	return scrollbarWidth / 10;
-// };
-
 const noScrollOnOpen = ({ isActive }: NoScrollOnOpenOptions) => {
-	const { isMobileOrTablet } = checkDeviceIsMobileOrTablet();
+	const isMobileOrTablet = checkIsDeviceMobileOrTablet();
+
 	const isDesktop = !isMobileOrTablet;
 
 	if (!isActive) {

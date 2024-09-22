@@ -1,1 +1,1 @@
-export { default as Slot, Slottable } from "./Slot";
+export { Slot, Slottable } from "./Slot";

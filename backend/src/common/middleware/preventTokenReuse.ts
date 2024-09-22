@@ -1,4 +1,5 @@
-import { clearExistingCookie, decodeJwtToken } from "@/auth/services";
+import { decodeJwtToken } from "@/auth/services";
+// import { clearExistingCookie, decodeJwtToken } from "@/auth/services";
 import { ENVIRONMENT } from "@/env";
 import { UserModel } from "@/users/model";
 import { catchAsync } from "../utils/catchAsync";
@@ -38,7 +39,7 @@ export const preventTokenReuse = catchAsync<{ user: unknown }>(async (req, res, 
 
 			// Clear existing refreshToken cookie either way
 		} finally {
-			clearExistingCookie(res);
+			// clearExistingCookie(res);
 		}
 	}
 

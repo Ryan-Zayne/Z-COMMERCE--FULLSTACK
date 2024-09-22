@@ -4,15 +4,19 @@ class AppError extends Error {
 	statusCode: (typeof errorCodes)[keyof typeof errorCodes];
 	status: string;
 	isOperational: boolean;
-	data?: unknown;
+	errors?: unknown;
 
-	constructor(statusCode: (typeof errorCodes)[keyof typeof errorCodes], message: string, data?: unknown) {
+	constructor(
+		statusCode: (typeof errorCodes)[keyof typeof errorCodes],
+		message: string,
+		errors?: unknown
+	) {
 		super(message);
 
 		this.statusCode = statusCode;
 		this.status = `${statusCode}`.startsWith("5") ? "Failed" : "Error";
 		this.isOperational = true;
-		this.data = data;
+		this.errors = errors;
 
 		Error.captureStackTrace(this, this.constructor);
 	}

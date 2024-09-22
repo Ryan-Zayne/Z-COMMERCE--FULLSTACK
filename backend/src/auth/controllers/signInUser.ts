@@ -10,7 +10,7 @@ const signInUser = catchAsync<{
 	validatedBody: Pick<HydratedUserType, "email" | "password">;
 	signedCookies: { zayneRefreshToken: string };
 }>(async (req, res) => {
-	const { zayneRefreshToken } = req.signedCookies;
+	const { zayneRefreshToken } = req.cookies;
 	const { email, password } = req.validatedBody;
 
 	const user = await UserModel.findOne({ email }).select(["+password", "+refreshTokenArray"]);

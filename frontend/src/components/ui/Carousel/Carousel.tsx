@@ -1,8 +1,7 @@
 import { getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
-import type { MyCustomCss } from "@/lib/type-helpers/global";
-import type { PolymorphicProps } from "@/lib/type-helpers/polymorphism";
 import { cnMerge } from "@/lib/utils/cn";
+import type { MyCustomCss, PolymorphicProps } from "@zayne-labs/toolkit/react";
 import type {
 	CarouselButtonsProps,
 	CarouselContentProps,
@@ -20,16 +19,16 @@ function CarouselContent<TElement extends React.ElementType = "article">(
 ) {
 	const {
 		as: HtmlElement = "article",
+		autoSlideInterval,
 		children,
 		classNames,
 		hasAutoSlide,
-		autoSlideInterval,
 		shouldPauseOnHover,
 	} = props;
 
 	const { pauseAutoSlide, resumeAutoSlide } = useCarouselOptions({
-		hasAutoSlide,
 		autoSlideInterval,
+		hasAutoSlide,
 		shouldPauseOnHover,
 	});
 
@@ -55,7 +54,7 @@ function CarouselContent<TElement extends React.ElementType = "article">(
 }
 
 function CarouselButton(props: CarouselButtonsProps) {
-	const { type, icon, classNames } = props;
+	const { classNames, icon, type } = props;
 
 	const nextOrPreviousSlide = useCarouselStore((state) =>
 		type === "prev" ? state.actions.previousSlide : state.actions.nextSlide
@@ -138,7 +137,7 @@ function CarouselControls(props: CarouselControlProps) {
 }
 
 function CarouselItemWrapper<TArrayItem>(props: CarouselWrapperProps<TArrayItem>) {
-	const { each, children, render, className } = props;
+	const { children, className, each, render } = props;
 
 	const [ItemList] = getElementList("base");
 	const currentSlide = useCarouselStore((state) => state.currentSlide);
@@ -191,7 +190,7 @@ function CarouselCaption<TElement extends React.ElementType = "div">(
 }
 
 function CarouselIndicatorWrapper<TArrayItem>(props: CarouselWrapperProps<TArrayItem>) {
-	const { each, children, render, className } = props;
+	const { children, className, each, render } = props;
 
 	const images = useCarouselStore((state) => each ?? (state.images as TArrayItem[]));
 	const [IndicatorList] = getElementList("base");
@@ -217,8 +216,8 @@ function CarouselIndicator(props: CarouselIndicatorProps) {
 	const { classNames, currentIndex } = props;
 
 	const {
-		currentSlide,
 		actions: { goToSlide },
+		currentSlide,
 	} = useCarouselStore((state) => state);
 
 	return (
@@ -240,7 +239,7 @@ function CarouselIndicator(props: CarouselIndicatorProps) {
 	);
 }
 
-export { CarouselContextProvider as Root } from "./carouselStoreContext.jsx";
+export { CarouselContextProvider as Root } from "./carouselStoreContext";
 export const Content = CarouselContent;
 export const Controls = CarouselControls;
 export const Item = CarouselItem;

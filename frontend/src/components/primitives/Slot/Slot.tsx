@@ -1,4 +1,4 @@
-import { isArray } from "@/lib/type-helpers/typeof";
+import { isArray } from "@zayne-labs/toolkit/type-helpers";
 import { Children, cloneElement, isValidElement } from "react";
 import SlotClone from "./SlotClone";
 
@@ -8,7 +8,7 @@ type SlotProps = {
 
 /* -------------------------------------------------------------------------------------------------
  * Slottable
- * -----------------------------------------------------------------------------------------------*/
+ * ----------------------------------------------------------------------------------------------- */
 
 export function Slottable({ children }: Pick<SlotProps, "children">) {
 	return children;
@@ -20,9 +20,9 @@ const isSlottable = (child: React.ReactNode): child is React.ReactElement => {
 
 /* -------------------------------------------------------------------------------------------------
  * Slot
- * -----------------------------------------------------------------------------------------------*/
+ * ----------------------------------------------------------------------------------------------- */
 
-function Slot(props: SlotProps) {
+export function Slot(props: SlotProps) {
 	const { children, ...restOfSlotProps } = props;
 
 	const childrenArray = isArray<React.ReactNode>(children) ? children : [children];
@@ -56,4 +56,4 @@ function Slot(props: SlotProps) {
 	return <SlotClone {...restOfSlotProps}>{children}</SlotClone>;
 }
 
-export default Slot;
+

@@ -1,4 +1,6 @@
-import { getOtherChildren, getSlotElement } from "@/lib/core/getSlotElement";
+"use client";
+
+import { getOtherChildren, getSlotElement } from "@zayne-labs/toolkit/react";
 
 type ShowProps = {
 	when: boolean;
@@ -7,21 +9,21 @@ type ShowProps = {
 };
 
 function Show({ when, children, fallback }: ShowProps) {
-	const fallBackChild = getSlotElement(children, ShowFallback, {
+	const fallBackSlot = getSlotElement(children, ShowFallback, {
 		throwOnMultipleSlotMatch: true,
 		errorMessage: "Only one <Show.Default> component is allowed",
 	});
 
-	const otherChildren = getOtherChildren(children, ShowFallback);
+	const otherChildren = getOtherChildren(children, [ShowFallback]);
 
-	if (fallBackChild && fallback) {
+	if (fallBackSlot && fallback) {
 		throw new Error(`
 			Both fallback mechanisms cannot be used at the same time.
 			Either the "fallback" prop is used or "<Show.Fallback>" component is used
 		`);
 	}
 
-	return when ? otherChildren : (fallBackChild ?? fallback);
+	return when ? otherChildren : (fallBackSlot ?? fallback);
 }
 
 function ShowFallback({ children }: Pick<ShowProps, "children">) {

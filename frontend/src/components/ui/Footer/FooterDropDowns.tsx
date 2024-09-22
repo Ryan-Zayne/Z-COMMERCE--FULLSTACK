@@ -1,9 +1,9 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown/DropDown";
-import { useDisclosure } from "@/lib/hooks/useDisclosure";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
+import { useDisclosure } from "@zayne-labs/toolkit/react";
 import { m } from "framer-motion";
 
 function FooterDropDowns() {
@@ -28,8 +28,8 @@ function FooterDropDowns() {
 
 	return (
 		<m.section
-			initial={{ y: 100, opacity: 0 }}
-			whileInView={{ y: 0, opacity: 1 }}
+			initial={{ opacity: 0, y: 100 }}
+			whileInView={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.6 }}
 			id="DropDown Section"
 			className="flex flex-col gap-[2rem] p-[6rem_1.5rem_4rem] lg:flex-row lg:justify-between
@@ -47,6 +47,7 @@ function FooterDropDowns() {
 							<h4 className="text-[1.5rem] font-[500]">Contact Us</h4>
 
 							<button
+							type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropOne.isOpen,
 								})}
@@ -84,6 +85,7 @@ function FooterDropDowns() {
 							<h4 className="text-[1.5rem] font-[500]">Follow Us</h4>
 
 							<button
+							type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropTwo.isOpen,
 								})}
@@ -132,6 +134,7 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
+							type="button"
 								className={cnJoin("font-[200] transition-transform duration-300", {
 									"rotate-180": dropThree.isOpen,
 								})}
@@ -167,6 +170,7 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
+							type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropFour.isOpen,
 								})}
@@ -202,6 +206,7 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
+							type="button"
 								className={cnMerge("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropFive.isOpen,
 								})}

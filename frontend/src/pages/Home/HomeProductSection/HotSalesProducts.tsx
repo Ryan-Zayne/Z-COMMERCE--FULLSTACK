@@ -1,5 +1,5 @@
 import { ProductCard } from "@/components/ui";
-import { assertDefined } from "@/lib/type-helpers/assert";
+import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
 import type { DataArrayProp } from "./home-product.types";
 
 function HotSalesProducts({ data }: DataArrayProp) {

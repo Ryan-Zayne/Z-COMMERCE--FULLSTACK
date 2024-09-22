@@ -9,6 +9,7 @@ const SonnerToaster = (props: ToasterProps) => {
 	return (
 		<Sonner
 			theme={theme}
+			// eslint-disable-next-line tailwindcss/no-custom-classname
 			className="toaster group"
 			position="bottom-right"
 			duration={3000}
@@ -16,24 +17,25 @@ const SonnerToaster = (props: ToasterProps) => {
 			pauseWhenPageIsHidden={true}
 			toastOptions={{
 				classNames: {
-					toast: "group toast p-[20px] max-lg:mx-auto max-lg:group-[.toaster]:max-w-max group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
+					toast: "group toast p-[20px] max-lg:mx-auto max-lg:group-[.toaster]:max-w-max group-[.toaster]:bg-shadcn-background group-[.toaster]:text-shadcn-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
 
-					success:
-						"group success data-[type=success]:group-[.toaster]:bg-success-bg data-[type=success]:group-[.toaster]:text-success-text data-[type=success]:border-success-border",
+					actionButton:
+						"group-[.toast]:bg-shadcn-primary group-[.toast]:text-shadcn-primary-foreground",
 
-					error: "group error data-[type=error]:group-[.toaster]:bg-error-bg data-[type=error]:group-[.toaster]:text-error-text data-[type=error]:group-[.toaster]:border-error-border",
-
-					title: "group-[.toaster]:text-[16px] group-[.toaster]:font-bold",
-
-					description:
-						"group-[.toaster]:text-[14px] group-[.toast]:text-muted-foreground group-[.toast.error]:text-inherit group-[.toast.success]:text-inherit",
+					cancelButton: "group-[.toast]:bg-shadcn-muted group-[.toast]:text-shadcn-muted-foreground",
 
 					closeButton:
 						"group-[.toaster]:bg-inherit group-[.toaster]:text-inherit group-[.toaster]:border-inherit data-[close-button]:group-[.toaster]:hover:border-inherit data-[close-button]:group-[.toaster]:hover:bg-inherit",
 
-					actionButton: "group-[.toast]:bg-shadcn-primary group-[.toast]:text-primary-foreground",
+					description:
+						"group-[.toaster]:text-[14px] group-[.toast]:text-shadcn-muted-foreground group-[.toast.error]:text-inherit group-[.toast.success]:text-inherit",
 
-					cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+					error: "group error data-[type=error]:group-[.toaster]:bg-sonner-error-bg data-[type=error]:group-[.toaster]:text-sonner-error-text data-[type=error]:group-[.toaster]:border-sonner-error-border",
+
+					success:
+						"group success data-[type=success]:group-[.toaster]:bg-sonner-success-bg data-[type=success]:group-[.toaster]:text-sonner-success-text data-[type=success]:border-sonner-success-border",
+
+					title: "group-[.toaster]:text-[16px] group-[.toaster]:font-bold",
 				},
 			}}
 			{...props}

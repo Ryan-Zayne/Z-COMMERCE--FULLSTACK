@@ -8,4 +8,3 @@ export { default as ProductCard } from "./ProductCard";
 export { default as ScrollToTopButton } from "./ScrollToTopButton";
 export { default as SearchForm } from "./SearchForm";
 export { default as SonnerToaster } from "./Toaster";
-export * as Form from "../primitives/Form";

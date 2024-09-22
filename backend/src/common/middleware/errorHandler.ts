@@ -2,12 +2,13 @@ import type { ErrorRequestHandler } from "express";
 import { errorCodes, isDevMode } from "../constants";
 import type { AppError } from "../utils";
 
-const errorHandler: ErrorRequestHandler = (error: AppError & { kind: string }, req, res, next) => {
+const errorHandler: ErrorRequestHandler = (error: AppError & { kind: string }, _req, res, _next) => {
 	/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 	const errorInfo = {
 		status: "error",
 		statusCode: error.statusCode ?? 500,
 		message: error.message ?? "Something went wrong",
+		...(Boolean(error.errors) && { errors: error.errors }),
 		stackTrace: isDevMode ? error.stack : "Just dey play",
 	};
 

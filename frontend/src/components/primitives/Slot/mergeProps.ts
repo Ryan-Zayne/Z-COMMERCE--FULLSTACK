@@ -1,4 +1,4 @@
-import { isObject } from "@/lib/type-helpers/typeof";
+import { isFunction, isObject } from "@zayne-labs/toolkit/type-helpers";
 
 export type UnknownProps = Record<string, unknown>;
 
@@ -19,12 +19,12 @@ const mergeProps = (slotProps: UnknownProps, childProps: UnknownProps) => {
 			overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(" ");
 		}
 
-		const isHandler = /^on[A-Z]/.test(propName);
+		const isHandler = propName.startsWith("on");
 
 		if (!isHandler) continue;
 
 		// if the handler exists on both, we compose them
-		if (typeof slotPropValue === "function" && typeof childPropValue === "function") {
+		if (isFunction(slotPropValue) && isFunction(childPropValue)) {
 			overrideProps[propName] = (...args: unknown[]) => {
 				childPropValue(...args);
 				slotPropValue(...args);

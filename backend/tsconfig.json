@@ -1,5 +1,6 @@
 {
 	"extends": "@zayne-labs/tsconfig/bundler/no-dom/app",
+
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
@@ -7,5 +8,5 @@
 		}
 	},
 
-	"include": ["src/**/*.ts", "./*.ts"]
+	"include": ["src/**/*.ts"]
 }

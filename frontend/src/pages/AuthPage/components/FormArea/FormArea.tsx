@@ -1,41 +1,40 @@
-import { Button, LoadingSpinner, Show, Switch } from "@/components/primitives";
-import { Form } from "@/components/ui";
+import { Button, Form, LoadingSpinner, Show, Switch } from "@/components/primitives";
 import { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { type FormSchemaType, generateOnSubmit } from "./generateOnSubmit";
+import { type FormSchemaType, generateOnSubmitFn } from "./generateOnSubmit";
 
 export type FormAreaProps = {
-	formType: "Login" | "Sign Up";
 	formClasses?: string;
+	formType: "Login" | "Sign Up";
 };
 
 const semanticClasses = {
 	error: "border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error",
 };
 
-function FormArea({ formType, formClasses }: FormAreaProps) {
+function FormArea({ formClasses, formType }: FormAreaProps) {
 	const navigate = useNavigate();
 
 	const methods = useForm<FormSchemaType>({
 		resolver: zodResolver(formType === "Sign Up" ? SignUpSchema : LoginSchema),
 	});
 
-	const { reset, setError, handleSubmit, control, formState } = methods;
+	const { control, formState, handleSubmit, reset, setError } = methods;
 
-	const onSubmit = generateOnSubmit({ formType, setError, reset, navigate });
+	const onSubmit = generateOnSubmitFn({ formType, navigate, reset, setError });
 
 	return (
 		<Form.Root
-			methods={methods}
-			onSubmit={(event) => void handleSubmit(onSubmit)(event)}
 			className={cnMerge(
 				`mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem]
 				[&_label]:text-[1.2rem]`,
 				formClasses
 			)}
+			methods={methods}
+			onSubmit={(event) => void handleSubmit(onSubmit)(event)}
 		>
 			{formState.isSubmitting && <LoadingSpinner type={"auth"} />}
 
@@ -44,13 +43,13 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 					<Form.Label>Username</Form.Label>
 
 					<Form.Input
-						type="text"
 						className="min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
 							focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot"
 						errorClassName={semanticClasses.error}
+						type="text"
 					/>
 
-					<Form.ErrorMessage control={control} type="regular" errorField="username" />
+					<Form.ErrorMessage control={control} errorField="username" type="regular" />
 				</Form.Item>
 			</Show>
 
@@ -58,63 +57,63 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 				<Form.Label>Email address</Form.Label>
 
 				<Form.Input
-					type="email"
 					className="min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
 						focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot"
 					errorClassName={semanticClasses.error}
+					type="email"
 				/>
 
-				<Form.ErrorMessage control={control} type="regular" errorField="email" />
+				<Form.ErrorMessage control={control} errorField="email" type="regular" />
 			</Form.Item>
 
-			<Form.Item control={control} name="password" className="relative">
+			<Form.Item className="relative" control={control} name="password">
 				<Form.Label>Password</Form.Label>
 
 				<Form.Input
-					type="password"
 					classNames={{
 						inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
 						text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
 					}}
 					errorClassName={semanticClasses.error}
+					type="password"
 				/>
 
-				<Form.ErrorMessage control={control} type="regular" errorField="password" />
+				<Form.ErrorMessage control={control} errorField="password" type="regular" />
 			</Form.Item>
 
 			<Show when={formType === "Sign Up"}>
-				<Form.Item control={control} name="confirmPassword" className={"relative"}>
+				<Form.Item className={"relative"} control={control} name="confirmPassword">
 					<Form.Label>Confirm Password</Form.Label>
 
 					<Form.Input
-						type="password"
 						classNames={{
 							inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
 							text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
 						}}
 						errorClassName={semanticClasses.error}
+						type="password"
 					/>
 
-					<Form.ErrorMessage control={control} type="regular" errorField="confirmPassword" />
+					<Form.ErrorMessage control={control} errorField="confirmPassword" type="regular" />
 				</Form.Item>
 			</Show>
 
 			<Form.ErrorMessage
 				className={"mb-[-0.7rem] mt-[-1rem] text-[1.3rem]"}
-				type="root"
 				errorField="serverError"
+				type="root"
 			/>
 
 			<Form.ErrorMessage
 				className={"mb-[-0.7rem] mt-[-1rem] text-[1.3rem]"}
-				type="root"
 				errorField="caughtError"
+				type="root"
 			/>
 
 			<Form.Item
+				className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}
 				control={control}
 				name={formType === "Sign Up" ? "acceptTerms" : "rememberMe"}
-				className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}
 			>
 				<Form.Input type="checkbox" />
 
@@ -128,27 +127,27 @@ function FormArea({ formType, formClasses }: FormAreaProps) {
 							<p>I agree to all</p>
 
 							<Link
-								to="#terms"
 								className={"ml-[0.5rem] font-[500] underline hover:text-[hsl(214,89%,53%)]"}
+								to="#terms"
 							>
 								Terms & Conditions
 							</Link>
 						</div>
 
-						<Form.ErrorMessage control={control} type="regular" errorField="acceptTerms" />
+						<Form.ErrorMessage control={control} errorField="acceptTerms" type="regular" />
 					</Switch.Match>
 				</Switch>
 			</Form.Item>
 
 			<Button
-				type={"submit"}
-				text={formType}
-				theme={"secondary"}
-				disabled={formState.isSubmitting}
 				className={cnMerge(
 					"mt-[1.5rem] rounded-[1rem] text-[1.7rem] font-[600]",
 					formState.isSubmitting && "cursor-not-allowed brightness-[0.5]"
 				)}
+				disabled={formState.isSubmitting}
+				text={formType}
+				theme={"secondary"}
+				type={"submit"}
 			/>
 		</Form.Root>
 	);

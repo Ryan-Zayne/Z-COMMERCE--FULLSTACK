@@ -1,23 +1,23 @@
 import { callMainApi } from "@/lib/api/callMainApi";
 import type { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open";
-import { isHTTPError } from "@zayne-labs/callapi";
+import { isHTTPError } from "@zayne-labs/callapi/utils";
 import type { UseFormReset, UseFormSetError } from "react-hook-form";
 import type { NavigateFunction } from "react-router-dom";
 import { z } from "zod";
 import type { FormAreaProps } from "./FormArea";
 
-export type FormSchemaType = z.infer<typeof SignUpSchema> & z.infer<typeof LoginSchema>;
+export type FormSchemaType = z.infer<typeof LoginSchema> & z.infer<typeof SignUpSchema>;
 
 type SubmitFormParams = {
 	formType: FormAreaProps["formType"];
-	setError: UseFormSetError<FormSchemaType>;
-	reset: UseFormReset<FormSchemaType>;
 	navigate: NavigateFunction;
+	reset: UseFormReset<FormSchemaType>;
+	setError: UseFormSetError<FormSchemaType>;
 };
 
-const generateOnSubmit = (submitParams: SubmitFormParams) => {
-	const { formType, setError, reset, navigate } = submitParams;
+const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
+	const { formType, navigate, reset, setError } = submitParams;
 
 	const onSubmit = async (formDataObj: FormSchemaType) => {
 		const AUTH_URL = formType === "Sign Up" ? `/sign-up` : `/login`;
@@ -33,8 +33,8 @@ const generateOnSubmit = (submitParams: SubmitFormParams) => {
 
 			zodErrors.forEach(([field, errorMessage]) => {
 				setError(field, {
-					type: "serverZodErrors",
 					message: Array.isArray(errorMessage) ? errorMessage.join(", ") : errorMessage,
+					type: field,
 				});
 			});
 
@@ -45,8 +45,8 @@ const generateOnSubmit = (submitParams: SubmitFormParams) => {
 			const errorResponse = error.errorData;
 
 			setError("root.serverError", {
-				type: errorResponse.errorTitle,
 				message: errorResponse.message,
+				type: errorResponse.errorTitle,
 			});
 
 			return;
@@ -54,8 +54,8 @@ const generateOnSubmit = (submitParams: SubmitFormParams) => {
 
 		if (error !== null) {
 			setError("root.caughtError", {
-				type: "caughtError",
 				message: error.message,
+				type: "caughtError",
 			});
 
 			return;
@@ -68,4 +68,4 @@ const generateOnSubmit = (submitParams: SubmitFormParams) => {
 	return onSubmit;
 };
 
-export { generateOnSubmit };
+export { generateOnSubmitFn };

@@ -5,7 +5,6 @@
 	"type": "module",
 	"scripts": {
 		"dev:client": "cd frontend && pnpm dev",
-		"dev:tunnel": "cd frontend && pnpm dev:tunnel",
 		"dev:server": "cd backend && pnpm dev",
 		"dev": "concurrently 'pnpm:dev:client' 'pnpm:dev:server'",
 		"lint:client": "cd frontend && pnpm lint",

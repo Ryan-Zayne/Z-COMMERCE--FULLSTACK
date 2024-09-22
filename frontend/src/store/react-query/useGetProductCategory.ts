@@ -1,4 +1,4 @@
-import { assertDefined } from "@/lib/type-helpers/assert";
+import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
 import { useGetAllProducts } from "./useGetAllProducts";
 
 const possibleCategories = new Set(["smartphones", "laptops", "watches", "vehicles", "lighting"]);
@@ -27,8 +27,8 @@ const useGetProductCategory = (productCategory: string | undefined) => {
 	const productsArray = PRODUCTS_LOOKUP.get(productCategory);
 
 	return {
-		isPending,
 		isError,
+		isPending,
 		productsArray: assertDefined(productsArray),
 	};
 };

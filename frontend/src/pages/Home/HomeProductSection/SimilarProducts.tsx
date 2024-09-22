@@ -1,6 +1,6 @@
 import { getElementList } from "@/components/primitives";
 import ProductCard from "@/components/ui/ProductCard";
-import { assertDefined } from "@/lib/type-helpers/assert";
+import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
 import type { DataArrayProp } from "./home-product.types";
 
 function SimilarProducts({ data }: DataArrayProp) {

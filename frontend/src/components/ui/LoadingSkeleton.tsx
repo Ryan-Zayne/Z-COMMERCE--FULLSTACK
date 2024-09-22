@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-custom-classname */
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
@@ -13,23 +14,9 @@ function LoadingSkeleton({ count = 5, type = "genericPage" }: SkeletonProps) {
 	const [SkeletonCardList] = getElementList();
 
 	const SKELETON_LOOKUP = {
-		productItemPage: () => (
-			<section className="p-[1rem_2rem_3rem] lg:pt-[3rem]">
-				<div
-					className="mt-[3rem] flex flex-col items-center gap-[4rem] overflow-hidden md:mt-[4.5rem]
-						md:h-[47rem] md:flex-row md:items-start md:justify-around md:px-[1rem] lg:mt-[6rem]
-						lg:flex-row lg:gap-[8rem]"
-				>
-					<SkeletonTheme
-						highlightColor={cnJoin(isDarkMode && "#1e2021")}
-						baseColor={cnJoin(isDarkMode && "#232628")}
-					>
-						<Skeleton className="h-[35rem] w-[40rem] md:h-[47rem] lg:w-full" />
-						<Skeleton className="h-[47rem] w-[46rem] max-md:mx-auto" />
-					</SkeletonTheme>
-				</div>
-			</section>
-		),
+		default: () => {
+			throw new Error(`Case ${type} is unhandled`);
+		},
 
 		genericPage: () => (
 			<section className="mt-[8rem] flex flex-col gap-[6rem] pt-[6rem]">
@@ -83,9 +70,23 @@ function LoadingSkeleton({ count = 5, type = "genericPage" }: SkeletonProps) {
 			</section>
 		),
 
-		default: () => {
-			throw new Error(`Case ${type} is unhandled`);
-		},
+		productItemPage: () => (
+			<section className="p-[1rem_2rem_3rem] lg:pt-[3rem]">
+				<div
+					className="mt-[3rem] flex flex-col items-center gap-[4rem] overflow-hidden md:mt-[4.5rem]
+						md:h-[47rem] md:flex-row md:items-start md:justify-around md:px-[1rem] lg:mt-[6rem]
+						lg:flex-row lg:gap-[8rem]"
+				>
+					<SkeletonTheme
+						highlightColor={cnJoin(isDarkMode && "#1e2021")}
+						baseColor={cnJoin(isDarkMode && "#232628")}
+					>
+						<Skeleton className="h-[35rem] w-[40rem] md:h-[47rem] lg:w-full" />
+						<Skeleton className="h-[47rem] w-[46rem] max-md:mx-auto" />
+					</SkeletonTheme>
+				</div>
+			</section>
+		),
 	};
 
 	return SKELETON_LOOKUP[type]();

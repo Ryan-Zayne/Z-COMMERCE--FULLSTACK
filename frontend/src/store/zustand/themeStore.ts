@@ -1,16 +1,24 @@
-import { isObject } from "@/lib/type-helpers/typeof";
 import { prefersDarkMode } from "@/lib/utils/constants";
-import { on } from "@/lib/utils/on";
+import { on } from "@zayne-labs/toolkit";
+import { isObject } from "@zayne-labs/toolkit/type-helpers";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ThemeStore } from "./zustand-store.types";
 
 // Store Object Initializtion
 const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
-	theme: prefersDarkMode ? "dark" : "light",
-	isDarkMode: document.documentElement.dataset.theme === "dark",
+	isDarkMode: prefersDarkMode,
 
+	theme: prefersDarkMode ? "dark" : "light",
+
+	// eslint-disable-next-line perfectionist/sort-objects
 	actions: {
+		initThemeOnLoad: () => {
+			const { theme: persistedTheme } = get();
+
+			document.documentElement.dataset.theme = persistedTheme;
+		},
+
 		toggleTheme: () => {
 			const newTheme = get().theme === "light" ? "dark" : "light";
 
@@ -22,23 +30,17 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 				document.documentElement.removeAttribute("class");
 			});
 
-			set({ theme: newTheme, isDarkMode: newTheme === "dark" });
-		},
-
-		initThemeOnLoad: () => {
-			const { theme: persistedTheme } = get();
-
-			document.documentElement.dataset.theme = persistedTheme;
+			set({ theme: newTheme });
 		},
 	},
 });
 
-const assertState = <TState>(state: unknown) => {
+const assertState = (state: unknown) => {
 	if (!isObject(state)) {
 		throw new TypeError("Invalid app state");
 	}
 
-	return state as TState;
+	return state;
 };
 
 // Store hook Creation
@@ -46,14 +48,18 @@ export const useThemeStore = create<ThemeStore>()(
 	persist(themeStoreObjectFn, {
 		name: "colorScheme",
 		version: 1,
-		partialize: ({ theme }) => ({ theme }),
+
+		// eslint-disable-next-line perfectionist/sort-objects
 		migrate(persistedState) {
-			const validPersistedState = assertState<ThemeStore>(persistedState);
+			const validPersistedState = assertState(persistedState);
 
 			return validPersistedState;
 		},
+		partialize: ({ theme }) => ({ theme }),
 	})
 );
+
+useThemeStore.subscribe((state) => useThemeStore.setState({ isDarkMode: state.theme === "dark" }));
 
 // Actions hook
 export const useThemeActions = () => useThemeStore((state) => state.actions);

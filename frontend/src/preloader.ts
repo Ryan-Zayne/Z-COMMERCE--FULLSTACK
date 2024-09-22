@@ -1,5 +1,5 @@
+import { on } from "@zayne-labs/toolkit";
 import { noScrollOnOpen } from "./lib/utils/no-scroll-on-open";
-import { on } from "./lib/utils/on";
 import { useThemeStore } from "./store/zustand/themeStore";
 
 // NOTE - This prevents flicker of wrong theme onLoad
@@ -21,7 +21,7 @@ const removePreloader = () => {
 	});
 };
 
-on("DOMContentLoaded", window, removePreloader, { once: true });
+on("DOMContentLoaded", document, removePreloader, { once: true });
 
 // NOTE - Scroll restoration for moxilla browser
 window.history.scrollRestoration = "auto";

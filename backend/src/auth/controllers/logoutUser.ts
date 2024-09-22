@@ -1,13 +1,13 @@
 import { catchAsync } from "@/common/utils";
 import { UserModel } from "@/users/model";
-import { clearExistingCookie } from "../services";
+// import { clearExistingCookie } from "../services";
 
 // @route GET /api/auth/logout
 // @access Private
 const logoutUser = catchAsync(async (req, res) => {
 	const { refreshToken } = req.signedCookies;
 
-	clearExistingCookie(res);
+	// clearExistingCookie(res);
 
 	// No token, hence no user to log out
 	if (!refreshToken) {

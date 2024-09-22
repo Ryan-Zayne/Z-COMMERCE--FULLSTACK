@@ -1,6 +1,6 @@
 import { LoadingSkeleton } from "@/components/ui";
-import { assertDefined } from "@/lib/type-helpers/assert";
 import { useGetProductItem } from "@/store/react-query/useGetProductItem";
+import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
 import { useParams } from "react-router-dom";
 import ItemDescription from "./ProductItem/ItemDescription";
 import ItemHeader from "./ProductItem/ItemHeader";

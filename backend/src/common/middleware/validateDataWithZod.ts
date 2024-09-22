@@ -1,5 +1,6 @@
-import { LoginSchema, SignUpSchema } from "../zod-schemas/formSchema.js";
+import { AppError } from "../utils";
 import { catchAsync } from "../utils/catchAsync.js";
+import { LoginSchema, SignUpSchema } from "../zod-schemas/formSchema.js";
 
 const SCHEMA_LOOKUP = {
 	"/sign-up": SignUpSchema,
@@ -31,8 +32,7 @@ const validateDataWithZod = catchAsync<{ validatedBody: unknown; path: string }>
 	if (!result.success) {
 		const zodErrors = Object.entries(result.error.flatten().fieldErrors);
 
-		res.status(422).json({ status: "error", errors: zodErrors });
-		return;
+		throw new AppError(422, "Validation Failed", zodErrors);
 	}
 
 	req.validatedBody = result.data;

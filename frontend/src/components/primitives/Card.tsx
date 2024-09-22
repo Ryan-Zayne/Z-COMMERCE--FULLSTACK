@@ -1,16 +1,16 @@
-import type { PolymorphicProps } from "@/lib/type-helpers/polymorphism";
+import type { PolymorphicProps } from "@zayne-labs/toolkit/react";
 
 type CardProps = {
-	className?: string;
-	children?: React.ReactNode;
 	aosAnimation?: string;
 	aosDuration?: string;
 	aosEasing?: string;
+	children?: React.ReactNode;
+	className?: string;
 };
 
 type OtherCardProps = {
-	className?: string;
 	children?: React.ReactNode;
+	className?: string;
 };
 
 function Card<TElement extends React.ElementType = "article">(

@@ -1,8 +1,8 @@
 import { IconBox } from "@/components/primitives/IconBox";
-import { useToggle } from "@/lib/hooks";
 import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
 import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
 import type { ShopStore } from "@/store/zustand/zustand-store.types";
+import { useToggle } from "@zayne-labs/toolkit/react";
 import { Link } from "react-router-dom";
 
 type ItemHeaderProps = {

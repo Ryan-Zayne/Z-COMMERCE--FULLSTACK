@@ -1,17 +1,16 @@
-import { useAnimationInterval } from "@/lib/hooks/useAnimationInterval";
-import { useCallbackRef } from "@/lib/hooks/useCallbackRef";
 import { useGlobalStore } from "@/store/zustand/globalStore";
+import { useAnimationInterval, useCallbackRef } from "@zayne-labs/toolkit/react";
 import { useState } from "react";
 import { useCarouselStore } from "./carouselStoreContext";
 
 type CarouselOptions = {
-	hasAutoSlide?: boolean;
 	autoSlideInterval?: number;
+	hasAutoSlide?: boolean;
 	shouldPauseOnHover?: boolean;
 };
 
 const useCarouselOptions = (options: CarouselOptions = {}) => {
-	const { hasAutoSlide = false, autoSlideInterval = 5000, shouldPauseOnHover = false } = options;
+	const { autoSlideInterval = 5000, hasAutoSlide = false, shouldPauseOnHover = false } = options;
 
 	const isMobile = useGlobalStore((state) => state.isMobile);
 
@@ -22,8 +21,8 @@ const useCarouselOptions = (options: CarouselOptions = {}) => {
 	const shouldAutoSlide = hasAutoSlide && !isPaused && !isMobile;
 
 	useAnimationInterval({
-		onAnimation: nextSlide,
 		intervalDuration: shouldAutoSlide ? autoSlideInterval : null,
+		onAnimation: nextSlide,
 	});
 
 	const pauseAutoSlide = useCallbackRef(() => shouldPauseOnHover && setIsPaused(true));

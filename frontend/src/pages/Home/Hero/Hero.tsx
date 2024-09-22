@@ -1,11 +1,24 @@
 import { Button, ImageComponent } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { Carousel } from "@/components/ui";
-import { useAnimateElementRefs } from "@/lib/hooks";
+import { useAnimateElementRefs } from "@zayne-labs/toolkit/react";
 import { slideImages } from "./images";
 
 function Hero() {
-	const { animatedElements, handleElementsAnimation } = useAnimateElementRefs();
+	const { animatedElements, handleElementsAnimation } = useAnimateElementRefs([
+		{
+			animationClass: "animate-fade-in-down",
+			targetElement: "heading",
+		},
+		{
+			animationClass: "animate-fade-in-up",
+			targetElement: "button",
+		},
+		{
+			animationClass: "animate-fade-in-up-2",
+			targetElement: "paragraph",
+		},
+	]);
 
 	return (
 		<section id="Hero">
@@ -26,8 +39,8 @@ function Hero() {
 							hover:box-shadow-[0_0_5px_var(--text-dark)] lg:p-[1.3rem_0.9rem]`,
 						}}
 						icon={{
-							iconType: "nextIcon",
 							icon: <IconBox icon="radix-icons:paper-plane" className="lg:text-[1.7rem]" />,
+							iconType: "nextIcon",
 						}}
 					/>
 

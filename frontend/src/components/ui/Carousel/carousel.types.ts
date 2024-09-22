@@ -1,20 +1,20 @@
-import type { EachProp, ForRenderProps } from "@/components/primitives/For";
-import type { Prettify } from "@/lib/type-helpers/global";
+import type { EachProp, ForRenderProps } from "@/components/primitives/For/For";
+import type { Prettify } from "@zayne-labs/toolkit/type-helpers";
 import type { StoreApi } from "zustand";
 
 // Carousel store types
 export type ImagesType = Array<Record<string, string>> | string[];
 
 export type CarouselStore<TImages extends ImagesType = ImagesType> = {
-	currentSlide: number;
-	maxSlide: number;
-	images: TImages;
-
 	actions: {
 		goToSlide: (newValue: number) => void;
 		nextSlide: () => void;
 		previousSlide: () => void;
 	};
+	currentSlide: number;
+	images: TImages;
+
+	maxSlide: number;
 };
 
 export type CarouselStoreApi<TImages extends ImagesType = ImagesType> = StoreApi<CarouselStore<TImages>>;
@@ -27,28 +27,28 @@ export type CarouselProviderProps<TImages extends ImagesType = ImagesType> = {
 
 // Carousel component types
 export type CarouselContentProps = {
+	autoSlideInterval?: number;
+
 	children: React.ReactNode;
 
 	classNames?: {
 		base?: string;
 		scrollContainer?: string;
 	};
-
 	hasAutoSlide?: boolean;
-	autoSlideInterval?: number;
 	shouldPauseOnHover?: boolean;
 };
 
 export type CarouselButtonsProps = {
-	type: "prev" | "next";
-
 	classNames?: {
 		base?: string;
-		iconContainer?: string;
 		defaultIcon?: string;
+		iconContainer?: string;
 	};
 
 	icon?: React.ReactNode;
+
+	type: "prev" | "next";
 };
 
 export type CarouselControlProps = {
@@ -62,12 +62,12 @@ export type CarouselControlProps = {
 	icon?:
 		| {
 				iconType?: null;
-				prev?: React.ReactNode;
 				next?: React.ReactNode;
+				prev?: React.ReactNode;
 		  }
 		| {
-				iconType: "prevIcon" | "nextIcon";
 				icon?: React.ReactNode;
+				iconType: "prevIcon" | "nextIcon";
 		  };
 };
 

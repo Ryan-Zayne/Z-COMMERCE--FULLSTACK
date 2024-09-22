@@ -1,7 +1,7 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import { LoadingSkeleton, ProductCard } from "@/components/ui";
-import { assertDefined } from "@/lib/type-helpers/assert";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
+import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
 import { Link } from "react-router-dom";
 
 function AllProductsPage() {

@@ -1,4 +1,4 @@
-import type { SelectorFn } from "@/lib/type-helpers/global";
+import type { SelectorFn } from "@zayne-labs/toolkit/type-helpers";
 import { type StateCreator, create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import type { GlobalStore } from "../zustand-store.types";

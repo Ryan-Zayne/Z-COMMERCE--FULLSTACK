@@ -1,44 +1,44 @@
 import { Button, type ButtonProps, getElementList } from "@/components/primitives";
-import { useSearch } from "@/lib/hooks/useSearch";
 import { cnMerge } from "@/lib/utils/cn";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
 import { useGlobalStore } from "@/store/zustand/globalStore";
+import { useSearch } from "@zayne-labs/toolkit/react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IconBox } from "../primitives/IconBox";
 
 type SearchFormProps = Pick<ButtonProps, "theme" | "variant" | "size" | "text"> & {
-	classNames?: {
-		container?: string;
-		base?: string;
-		input?: string;
-		btn?: string;
-		dropDown?: string;
-	};
-
-	isSearchShow?: boolean;
 	buttonIcon?: string;
+
+	classNames?: {
+		base?: string;
+		btn?: string;
+		container?: string;
+		dropDown?: string;
+		input?: string;
+	};
+	isSearchShow?: boolean;
 	placeholder?: string;
 	type?: "search" | "subscribe";
 };
 
 function SearchForm(props: SearchFormProps) {
 	const {
-		type = "search",
-		isSearchShow,
-		classNames,
 		buttonIcon = "bx:search-alt-2",
-		theme = "secondary",
-		variant = "input",
+		classNames,
+		isSearchShow,
+		type = "search",
 		placeholder = type === "search" ? "Search for products..." : "Enter Your Email address...",
 		text,
+		theme = "secondary",
+		variant = "input",
 	} = props;
 
 	const { allProductsArray } = useGetAllProducts();
 
 	const isMobile = useGlobalStore((state) => state.isMobile);
 
-	const { query, setQuery, data, isLoading } = useSearch(allProductsArray, 500);
+	const { data, query, setQuery } = useSearch(allProductsArray, 500);
 
 	useEffect(() => {
 		if (!isSearchShow) {

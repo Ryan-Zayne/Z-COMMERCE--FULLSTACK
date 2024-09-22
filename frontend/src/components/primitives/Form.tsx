@@ -1,8 +1,12 @@
-import { getSlotElement } from "@/lib/core/getSlotElement";
-import { createCustomContext, useToggle } from "@/lib/hooks";
-import type { ForwardedRefType, PolymorphicPropsWithRef } from "@/lib/type-helpers";
 import { cnMerge } from "@/lib/utils/cn";
-import { Fragment as ReactFragment, forwardRef, useEffect, useId, useMemo, useRef } from "react";
+import {
+	createCustomContext,
+	getOtherChildren,
+	getSlotElement,
+	useToggle,
+} from "@zayne-labs/toolkit/react";
+import type { PolymorphicPropsWithRef } from "@zayne-labs/toolkit/react";
+import { Fragment as ReactFragment, useEffect, useId, useMemo, useRef } from "react";
 import {
 	type Control,
 	type ControllerFieldState,
@@ -10,30 +14,32 @@ import {
 	type ControllerProps,
 	type ControllerRenderProps,
 	type FieldPath,
-	type FieldValues,
+	type FormState,
 	FormProvider as HookFormProvider,
 	type UseFormReturn,
 	type UseFormStateReturn,
+	useFormState,
 	useFormContext as useHookFormContext,
 } from "react-hook-form";
-import { getElementList } from "./For";
-import { IconBox, loadIcons } from "./IconBox";
-import InputPrimitive, { type InputProps } from "./Input";
+import { getElementList } from "./For/getElementList";
+import { IconBox } from "./IconBox";
 import Show from "./Show";
 
+type FieldValues = Record<string, unknown>;
+
 type FormRootProps<TValues extends FieldValues> = React.ComponentPropsWithoutRef<"form"> & {
-	methods: UseFormReturn<TValues>;
 	children: React.ReactNode;
+	methods: UseFormReturn<TValues>;
 };
 
 type ContextValue = {
 	name: string;
-	id: string;
+	uniqueId: string;
 };
 
 const [FormItemProvider, useFormItemContext] = createCustomContext<ContextValue>({
-	providerName: "FormItemProvider",
 	hookName: "useFormItemContext",
+	providerName: "FormItemProvider",
 });
 
 function FormRoot<TValues extends FieldValues>(props: FormRootProps<TValues>) {
@@ -41,7 +47,7 @@ function FormRoot<TValues extends FieldValues>(props: FormRootProps<TValues>) {
 
 	return (
 		<HookFormProvider {...methods}>
-			<form className={cnMerge("flex flex-col", className)} {...restOfProps}>
+			<form className={cnMerge("flex flex-col", className)} method="POST" {...restOfProps}>
 				{children}
 			</form>
 		</HookFormProvider>
@@ -51,15 +57,15 @@ function FormRoot<TValues extends FieldValues>(props: FormRootProps<TValues>) {
 type FormItemProps<TControl, TFieldValues extends FieldValues> =
 	TControl extends Control<infer TValues>
 		? {
-				name: keyof TValues;
 				children: React.ReactNode;
 				className?: string;
+				name: keyof TValues;
 			}
 		: {
-				control?: Control<TFieldValues>;
-				name: keyof TFieldValues;
 				children: React.ReactNode;
 				className?: string;
+				control?: Control<TFieldValues>;
+				name: keyof TFieldValues;
 			};
 
 function FormItem<TControl, TFieldValues extends FieldValues = FieldValues>(
@@ -70,7 +76,7 @@ function FormItem<TControl, TFieldValues extends FieldValues = FieldValues>(
 	const uniqueId = useId();
 
 	const value = useMemo(
-		() => ({ name: String(name), id: `${String(name)}-(${uniqueId})` }),
+		() => ({ name: String(name), uniqueId: `${String(name)}-(${uniqueId})` }),
 		[name, uniqueId]
 	);
 
@@ -82,29 +88,31 @@ function FormItem<TControl, TFieldValues extends FieldValues = FieldValues>(
 }
 
 function FormLabel({ children, className }: { children: string; className?: string }) {
-	const { id } = useFormItemContext();
+	const { uniqueId } = useFormItemContext();
 
 	return (
-		<label htmlFor={id} className={className}>
+		<label htmlFor={uniqueId} className={className}>
 			{children}
 		</label>
 	);
 }
 
-function FormInputGroup(props: React.ComponentPropsWithRef<"div"> & { displayOtherChildren?: boolean }) {
-	const { children, className, displayOtherChildren, ...restOfProps } = props;
-	const InputSlot = getSlotElement(children, FormInput);
+function FormInputGroup(props: React.ComponentPropsWithRef<"div">) {
+	const { children, className, ...restOfProps } = props;
 	const LeftItemSlot = getSlotElement(children, FormInputLeftItem);
 	const RightItemSlot = getSlotElement(children, FormInputRightItem);
 
+	const otherChildren = getOtherChildren(children, [FormInputLeftItem, FormInputRightItem]);
+
 	return (
-		<div className={cnMerge("flex items-center justify-between gap-4", className)} {...restOfProps}>
+		<div className={cnMerge("flex items-center justify-between", className)} {...restOfProps}>
 			{LeftItemSlot}
-			{!displayOtherChildren ? (InputSlot ?? children) : children}
+			{otherChildren}
 			{RightItemSlot}
 		</div>
 	);
 }
+
 type FormSideItemProps = {
 	children?: React.ReactNode;
 	className?: string;
@@ -116,7 +124,7 @@ function FormInputLeftItem<TElement extends React.ElementType = "span">(
 	const { children, className, ...restOfProps } = props;
 
 	return (
-		<span className={cnMerge("inline-block", className)} {...restOfProps}>
+		<span className={cnMerge("inline-flex items-center justify-center", className)} {...restOfProps}>
 			{children}
 		</span>
 	);
@@ -129,91 +137,194 @@ function FormInputRightItem<TElement extends React.ElementType = "span">(
 	const { as: Element = "span", children, className, ...restOfProps } = props;
 
 	return (
-		<Element className={cnMerge("inline-block", className)} {...restOfProps}>
+		<Element className={cnMerge("inline-flex items-center justify-center", className)} {...restOfProps}>
 			{children}
 		</Element>
 	);
 }
 FormInputRightItem.slot = Symbol.for("rightItem");
 
-function FormInput<TType extends React.HTMLInputTypeAttribute | "textarea">(
-	props: Omit<InputProps<TType>, "id" | "name"> & {
-		errorClassName?: string;
-		withEyeIcon?: boolean;
-		classNames?: { inputGroup?: string; input?: string };
-	},
-	ref: ForwardedRefType<HTMLElement>
+export type FormInputPrimitiveProps<TFieldValues extends FieldValues = FieldValues> = Omit<
+	React.ComponentPropsWithRef<"input">,
+	"children"
+> & {
+	classNames?: { input?: string; inputGroup?: string };
+	errorClassName?: string;
+	name?: keyof TFieldValues;
+	withEyeIcon?: boolean;
+} & (
+		| { control: Control<TFieldValues>; formState?: never }
+		| { control?: never; formState?: FormState<TFieldValues> }
+	);
+
+const inputTypesWithoutFullWith = new Set<React.HTMLInputTypeAttribute>(["checkbox", "radio"]);
+
+function FormInputPrimitive<TFieldValues extends FieldValues>(
+	props: FormInputPrimitiveProps<TFieldValues>
 ) {
-	const { id, name } = useFormItemContext();
-	const { register, formState } = useHookFormContext();
+	const {
+		className,
+		classNames,
+		control,
+		errorClassName,
+		formState,
+		id: idPrimitive,
+		name: namePrimitive,
+		ref,
+		type = "text",
+		withEyeIcon = true,
+		...restOfProps
+	} = props;
+
+	const contextValues = useFormItemContext();
+
+	const name = namePrimitive ?? contextValues.name;
+
+	const id = idPrimitive ?? contextValues.uniqueId;
+
+	const getFormState = (control ? useFormState : () => formState) as typeof useFormState;
+
+	const { errors } = (getFormState({ control }) as UseFormStateReturn<TFieldValues> | undefined) ?? {};
 
 	const [isPasswordVisible, toggleVisibility] = useToggle(false);
 
-	const { className, classNames, errorClassName, type, withEyeIcon = true, ...restOfProps } = props;
-
 	const shouldHaveEyeIcon = withEyeIcon && type === "password";
 
-	const Element = shouldHaveEyeIcon ? FormInputGroup : ReactFragment;
+	const WrapperElement = shouldHaveEyeIcon ? FormInputGroup : ReactFragment;
 
-	// FIXME - Had to do this unsafe type coercion to shut TS up about props mismatch for now, figure out a better solution later
-	const InputPrimitiveCoerced = InputPrimitive as unknown as string;
+	const WrapperElementProps = shouldHaveEyeIcon && {
+		className: cnMerge("w-full", classNames?.inputGroup),
+	};
 
 	return (
-		<Element {...(shouldHaveEyeIcon && { className: cnMerge("w-full", classNames?.inputGroup) })}>
-			<InputPrimitiveCoerced
-				ref={ref}
+		<WrapperElement {...WrapperElementProps}>
+			<input
 				id={id}
+				name={name}
 				type={type === "password" && isPasswordVisible ? "text" : type}
 				className={cnMerge(
-					name && formState.errors[name] && errorClassName,
+					!inputTypesWithoutFullWith.has(type) && "flex w-full",
+					`text-sm file:border-0 file:bg-transparent placeholder:text-shadcn-muted-foreground
+					focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50`,
 					className,
-					classNames?.input
+					classNames?.input,
+					name && errors?.[name] && errorClassName
 				)}
-				{...(Boolean(name) && register(name))}
-				{...(Boolean(ref) && { ref })}
 				{...restOfProps}
 			/>
-
 			<Show when={shouldHaveEyeIcon}>
 				<FormInputRightItem
 					as="button"
 					type="button"
 					onClick={toggleVisibility}
 					className="size-5 shrink-0 lg:size-6"
-					onLoad={() => {
-						loadIcons([
-							"material-symbols:visibility-outline-rounded",
-							"material-symbols:visibility-off-outline-rounded",
-						]);
-					}}
 				>
-					<IconBox
-						icon={
-							isPasswordVisible
-								? "material-symbols:visibility-outline-rounded"
-								: "material-symbols:visibility-off-outline-rounded"
-						}
-						className="size-full"
-					/>
+					{isPasswordVisible ? (
+						<IconBox icon="material-symbols:visibility-off-outline-rounded" className="size-full" />
+					) : (
+						<IconBox icon="material-symbols:visibility-outline-rounded" className="size-full" />
+					)}
 				</FormInputRightItem>
 			</Show>
-		</Element>
+		</WrapperElement>
 	);
 }
-FormInput.slot = Symbol.for("input");
 
-type FormControllerProps<TFieldValue> = Omit<
+function FormInput(props: Omit<FormInputPrimitiveProps, "id" | "name" | "formState" | "control">) {
+	const { name } = useFormItemContext();
+	const { formState, register } = useHookFormContext();
+
+	const { ref, ...restOfProps } = props;
+
+	return (
+		<FormInputPrimitive
+			name={name}
+			formState={formState}
+			{...(Boolean(name) && register(name))}
+			{...(Boolean(ref) && { ref })}
+			{...restOfProps}
+		/>
+	);
+}
+
+type FormTextAreaPrimitiveProps<TFieldValues extends FieldValues = FieldValues> =
+	React.ComponentPropsWithRef<"textarea"> & {
+		errorClassName?: string;
+		name?: keyof TFieldValues;
+	} & (
+			| { control: Control<TFieldValues>; formState?: never }
+			| { control?: never; formState?: FormState<TFieldValues> }
+		);
+
+function FormTextAreaPrimitive<TFieldValues extends FieldValues>(
+	props: FormTextAreaPrimitiveProps<TFieldValues>
+) {
+	const {
+		className,
+		control,
+		errorClassName,
+		formState,
+		id: idPrimitive,
+		name: namePrimitive,
+		ref,
+		...restOfProps
+	} = props;
+
+	const contextValues = useFormItemContext();
+
+	const name = namePrimitive ?? contextValues.name;
+
+	const id = idPrimitive ?? contextValues.uniqueId;
+
+	const getFormState = (control ? useFormState : () => formState) as typeof useFormState;
+
+	const { errors } = (getFormState({ control }) as UseFormStateReturn<TFieldValues> | undefined) ?? {};
+
+	return (
+		<textarea
+			id={id}
+			name={name}
+			className={cnMerge(
+				`w-full text-sm placeholder:text-shadcn-muted-foreground focus-visible:outline-none
+				disabled:cursor-not-allowed disabled:opacity-50`,
+				className,
+				name && errors?.[name] && errorClassName
+			)}
+			{...restOfProps}
+		/>
+	);
+}
+
+function FormTextArea(props: Omit<FormTextAreaPrimitiveProps, "id" | "name" | "formState" | "control">) {
+	const { name } = useFormItemContext();
+
+	const { formState, register } = useHookFormContext();
+
+	const { ref, ...restOfProps } = props;
+
+	return (
+		<FormTextAreaPrimitive
+			name={name}
+			formState={formState}
+			{...(Boolean(name) && register(name))}
+			{...(Boolean(ref) && { ref })}
+			{...restOfProps}
+		/>
+	);
+}
+
+type FormControllerProps<TFieldValues> = Omit<
 	ControllerProps<FieldValues, FieldPath<FieldValues>>,
 	"name" | "control" | "render"
 > & {
 	render: (props: {
-		field: Omit<ControllerRenderProps, "value"> & { value: TFieldValue };
+		field: Omit<ControllerRenderProps, "value"> & { value: TFieldValues };
 		fieldState: ControllerFieldState;
 		formState: UseFormStateReturn<FieldValues>;
 	}) => React.ReactElement;
 };
 
-function FormController<TFieldValue = never>(props: FormControllerProps<TFieldValue>) {
+function FormController<TFieldValues = never>(props: FormControllerProps<TFieldValues>) {
 	const { control } = useHookFormContext<FieldValues, FieldPath<FieldValues>>();
 	const { name } = useFormItemContext();
 
@@ -225,20 +336,20 @@ function FormController<TFieldValue = never>(props: FormControllerProps<TFieldVa
 type FormErrorMessageProps<TControl, TFieldValues extends FieldValues> =
 	| (TControl extends Control<infer TValues>
 			? {
-					type: "regular";
-					errorField: keyof TValues;
 					className?: string;
+					errorField: keyof TValues;
+					type: "regular";
 				}
 			: {
-					type: "regular";
+					className?: string;
 					control?: Control<TFieldValues>; // == Here for type inference of errorField prop
 					errorField: keyof TFieldValues;
-					className?: string;
+					type: "regular";
 				})
 	| {
-			type: "root";
 			className?: string;
 			errorField: string;
+			type: "root";
 	  };
 
 function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValues>(
@@ -291,10 +402,10 @@ function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValu
 				render={(messageItem, index) => (
 					<p
 						className={cnMerge(
-							"ml-[1.5rem] list-item",
+							"ml-[15px] list-item",
 							paragraphClasses,
 							className,
-							index === 0 && "mt-[0.4rem]"
+							index === 0 && "mt-1"
 						)}
 					>
 						*{messageItem}
@@ -316,14 +427,27 @@ function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValu
 }
 
 export const Root = FormRoot;
-export const Item = FormItem;
-export const Label = FormLabel;
-export const ErrorMessage = FormErrorMessage;
-export const Input = forwardRef(FormInput);
-export const InputGroup = FormInputGroup;
-export const InputLeftItem = FormInputLeftItem;
-export const InputRightItem = FormInputRightItem;
-export const Controller = FormController;
-// eslint-disable-next-line unicorn/prefer-export-from
-export { ControllerPrimitive };
 
+export const Item = FormItem;
+
+export const Label = FormLabel;
+
+export const ErrorMessage = FormErrorMessage;
+
+export const Input = FormInput;
+
+export const InputPrimitive = FormInputPrimitive;
+
+export const InputGroup = FormInputGroup;
+
+export const InputLeftItem = FormInputLeftItem;
+
+export const InputRightItem = FormInputRightItem;
+
+export const TextAreaPrimitive = FormTextAreaPrimitive;
+
+export const TextArea = FormTextArea;
+
+export const Controller = FormController;
+
+export { Controller as ControllerPrimitive } from "react-hook-form";

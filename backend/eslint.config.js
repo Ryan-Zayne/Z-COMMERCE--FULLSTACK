@@ -5,7 +5,6 @@ import eslintImportX from "eslint-plugin-import-x";
 import eslintNode from "eslint-plugin-n";
 import eslintPromise from "eslint-plugin-promise";
 import eslintSecurity from "eslint-plugin-security";
-import eslintSonarjs from "eslint-plugin-sonarjs";
 import eslintUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import tsEslint from "typescript-eslint";
@@ -240,7 +239,7 @@ const eslintConfigArray = [
 	{
 		languageOptions: {
 			parserOptions: {
-				project: "tsconfig.eslint.json",
+				project: "tsconfig.json",
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},
@@ -253,7 +252,10 @@ const eslintConfigArray = [
 				},
 			],
 			"@typescript-eslint/no-import-type-side-effects": "error",
-			"@typescript-eslint/no-unused-vars": ["warn", { ignoreRestSiblings: true }],
+			"@typescript-eslint/no-unused-vars": [
+				"warn",
+				{ ignoreRestSiblings: true, argsIgnorePattern: "^_" },
+			],
 			"@typescript-eslint/array-type": ["error", { default: "array-simple" }],
 			"@typescript-eslint/consistent-type-definitions": ["error", "type"],
 			"@typescript-eslint/no-useless-constructor": "error",
@@ -330,16 +332,6 @@ const eslintConfigArray = [
 			"unicorn/no-array-reduce": "off",
 			"unicorn/no-array-for-each": "off",
 			"unicorn/no-useless-undefined": ["error", { checkArguments: true }],
-		},
-	},
-
-	// == Sonarjs Rules
-	eslintSonarjs.configs.recommended,
-	{
-		rules: {
-			"sonarjs/prefer-immediate-return": "off",
-			"sonarjs/cognitive-complexity": "off",
-			"sonarjs/no-duplicate-string": "off",
 		},
 	},
 

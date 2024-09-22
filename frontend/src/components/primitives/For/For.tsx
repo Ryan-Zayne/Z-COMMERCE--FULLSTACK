@@ -1,5 +1,4 @@
-import type { ForwardedRefType, PolymorphicPropsWithRef } from "@/lib/type-helpers";
-import { forwardRef } from "react";
+import type { PolymorphicPropsWithRef } from "@zayne-labs/toolkit/react";
 
 // prettier-ignore
 type RenderPropFn<TArrayItem> = (
@@ -23,38 +22,45 @@ export type ForRenderProps<TArrayItem> =
 type ForProps<TArrayItem> = ForRenderProps<TArrayItem> & EachProp<TArrayItem>;
 
 function ForBase<TArrayItem>(props: ForProps<TArrayItem>) {
-	const { each, render, children } = props;
+	const { children, each, render } = props;
 
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (each == null) {
-		return [];
+		return null;
 	}
 
-	const JSXElementList = each.map((...params) => {
-		const coercedParams = params as Parameters<RenderPropFn<TArrayItem>>;
+	if (each.length === 0) {
+		return each;
+	}
 
+	const JSXElementList = each.map((...params: Parameters<RenderPropFn<TArrayItem>>) => {
 		if (typeof children === "function") {
-			return children(...coercedParams);
+			return children(...params);
 		}
 
-		return render(...coercedParams);
+		return render(...params);
 	});
 
 	return JSXElementList;
 }
 
 function ForList<TArrayItem, TElement extends React.ElementType = "ul">(
-	props: PolymorphicPropsWithRef<TElement, ForProps<TArrayItem> & { className?: string }>,
-	ref: ForwardedRefType<TElement>
+	props: PolymorphicPropsWithRef<TElement, ForProps<TArrayItem> & { className?: string }>
 ) {
-	const { each, render, children, as: ListContainer = "ul", className, ...restOfListProps } = props;
+	const { as: ListContainer = "ul", children, className, each, ref, render, ...restOfListProps } = props;
+
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	if (each == null) {
+		return null;
+	}
 
 	return (
 		<ListContainer ref={ref} className={className} {...restOfListProps}>
-			<ForBase {...({ each, render, children } as ForProps<TArrayItem>)} />
+			<ForBase {...({ children, each, render } as ForProps<TArrayItem>)} />
 		</ListContainer>
 	);
 }
 
 export const Base = ForBase;
-export const List = forwardRef(ForList) as typeof ForList;
+
+export const List = ForList;
