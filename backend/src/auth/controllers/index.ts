@@ -1,3 +1,3 @@
-export { signInUser } from "./signInUser";
-export { logoutUser } from "./logoutUser";
-export { signUpUser } from "./signUpUser";
+export { signInUser } from "./signin";
+export { logoutUser } from "./logout";
+export { signUpUser } from "./signup";

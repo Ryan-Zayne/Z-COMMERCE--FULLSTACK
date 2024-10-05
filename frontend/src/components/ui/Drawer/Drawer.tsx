@@ -26,12 +26,12 @@ function DrawerOverlay() {
 	return <Overlay isOpen={isOpen} onClose={onClose} />;
 }
 
-function DrawerContent({ className, children, placement = "right" }: DrawerContentProps) {
+function DrawerContent({ children, className, placement = "right" }: DrawerContentProps) {
 	const isOpen = useDrawerStore((state) => state.isOpen);
 
 	const placementClasses = {
-		right: "right-0 translate-x-full",
 		left: "left-0 translate-x-[-100%]",
+		right: "right-0 translate-x-full",
 	};
 
 	return (
@@ -43,7 +43,7 @@ function DrawerContent({ className, children, placement = "right" }: DrawerConte
 
 				placementClasses[placement],
 
-				isOpen ? "translate-x-0 duration-[600ms]" : "duration-[250ms] ease-slide-out",
+				isOpen ? "translate-x-0 duration-[600ms]" : "duration-250 ease-slide-out",
 
 				className
 			)}
@@ -59,7 +59,7 @@ function DrawerCloseButton(props: DrawerCloseProps) {
 	const onClose = useDrawerStore((state) => state.onClose);
 
 	return (
-		<button className={cnMerge(`absolute right-[2rem] top-[2rem] ${className}`)} onClick={onClose}>
+		<button type="button" className={cnMerge(`absolute right-8 top-8 ${className}`)} onClick={onClose}>
 			<IconBox icon={icon} />
 		</button>
 	);
@@ -90,13 +90,13 @@ function DrawerFooter({ children, className = "" }: OtherDrawerProps) {
 }
 
 const Drawer = {
-	Root: DrawerRoot,
-	Overlay: DrawerOverlay,
-	Content: DrawerContent,
-	CloseButton: DrawerCloseButton,
-	Header: DrawerHeader,
 	Body: DrawerBody,
+	CloseButton: DrawerCloseButton,
+	Content: DrawerContent,
 	Footer: DrawerFooter,
+	Header: DrawerHeader,
+	Overlay: DrawerOverlay,
+	Root: DrawerRoot,
 };
 
 export default Drawer;

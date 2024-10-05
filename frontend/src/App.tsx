@@ -6,7 +6,7 @@ import { SonnerToaster } from "./components/ui";
 import { router } from "./pages/routes";
 import { useGlobalStore } from "./store/zustand/globalStore";
 
-useGlobalStore.getState().mediaQueryActions.handleQueryListeners("add");
+useGlobalStore.getState().actions.handleQueryListeners("add");
 
 function App() {
 	return (

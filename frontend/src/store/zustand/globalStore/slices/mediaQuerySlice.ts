@@ -1,9 +1,7 @@
 import { desktopQuery, mobileQuery, tabletQuery } from "@/lib/utils/constants";
 import { on } from "@zayne-labs/toolkit";
 import type { StateCreator } from "zustand";
-import type { MediaQuerySlice } from "../../zustand-store.types";
-
-type StateSlice<TSlice> = StateCreator<TSlice, [], [], TSlice>;
+import type { GlobalStore, MediaQuerySlice } from "../../zustand-store.types";
 
 export const MEDIA_QUERY_LOOKUP = {
 	desktop: {
@@ -22,14 +20,14 @@ export const MEDIA_QUERY_LOOKUP = {
 	} as const,
 };
 
-export const createMediaQuerySlice: StateSlice<MediaQuerySlice> = (set, get) => ({
+export const createMediaQuerySlice: StateCreator<GlobalStore, [], [], MediaQuerySlice> = (set, get) => ({
 	isDesktop: MEDIA_QUERY_LOOKUP.desktop.queryList.matches,
 	isMobile: MEDIA_QUERY_LOOKUP.mobile.queryList.matches,
 	isTablet: MEDIA_QUERY_LOOKUP.tablet.queryList.matches,
 
-	mediaQueryActions: {
+	actions: {
 		handleQueryListeners: (action) => {
-			const { setQuery } = get().mediaQueryActions;
+			const { setQuery } = get().actions;
 			const { desktop, mobile, tablet } = MEDIA_QUERY_LOOKUP;
 
 			const controller = new AbortController();

@@ -1,11 +1,11 @@
-import { createCustomContext, useConstant } from "@zayne-labs/toolkit/react";
-import type { PrettyOmit, SelectorFn } from "@zayne-labs/toolkit/type-helpers";
+import { createZustandContext, useConstant } from "@zayne-labs/toolkit/react";
+import type { PrettyOmit } from "@zayne-labs/toolkit/type-helpers";
 import { useEffect } from "react";
 import { create } from "zustand";
-import { useShallow } from "zustand/react/shallow";
+import { createWithEqualityFn } from "zustand/traditional";
 import type { CarouselProviderProps, CarouselStore, ImagesType } from "./carousel.types";
 
-const [Provider, useCarouselContext] = createCustomContext<ReturnType<typeof createCarouselStore>>({
+const [Provider, useCarouselStore] = createZustandContext<CarouselStore>({
 	hookName: "useCarouselStore",
 	name: "CarouselStoreContext",
 	providerName: "CarouselContextProvider",
@@ -17,7 +17,7 @@ const createCarouselStore = <TImages extends ImagesType>(
 ) => {
 	const { images, onSlideBtnClick } = storeValues;
 
-	const useInitCarouselStore = create<CarouselStore<TImages>>()((set, get) => ({
+	const useInitCarouselStore = createWithEqualityFn<CarouselStore<TImages>>()((set, get) => ({
 		currentSlide: 0,
 		images,
 		maxSlide: images.length - 1,
@@ -76,7 +76,5 @@ export function CarouselContextProvider<TImages extends ImagesType>(
 	return <Provider value={useInitCarouselStore}>{children}</Provider>;
 }
 
-// Store Hook
-// prettier-ignore
 // eslint-disable-next-line react-refresh/only-export-components
-export const useCarouselStore = <TResult,>(selector: SelectorFn<CarouselStore, TResult>) => useCarouselContext()(useShallow(selector));
+export { useCarouselStore };

@@ -3,45 +3,46 @@ import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import Overlay from "@/components/primitives/Overlay";
 import { cnJoin } from "@/lib/utils/cn";
-import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";
+import { useGlobalStore } from "@/store/zustand/globalStore";
 import { NavLink } from "react-router-dom";
 import CategoryMenu from "./CategoryMenu";
 
 type NavItemsType = Array<
 	| {
-			title: string;
-			path: string;
+			childElement: React.ReactNode;
 			className?: string;
+			id: number;
+			shouldShow: boolean;
 	  }
 	| {
-			id: number;
-			childElement: React.ReactNode;
-			shouldShow: boolean;
 			className?: string;
+			path: string;
+			title: string;
 	  }
 >;
 
 const NavigationLinks = () => {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
-	const { toggleNavShow } = useGlobalActions();
+	const { toggleNavShow } = useGlobalStore((state) => state.actions);
+
 	const [NavLinksList] = getElementList("base");
 
 	const navLinkInfoArray: NavItemsType = [
 		{
-			id: 1,
 			childElement: <Logo className={"mb-[2rem] ml-[4rem]"} />,
+			id: 1,
 			shouldShow: !isDesktop,
 		},
-		{ title: "Home", path: "/" },
+		{ path: "/", title: "Home" },
 		{
-			id: 2,
 			childElement: <CategoryMenu deviceType={"mobile"} />,
-			shouldShow: !isDesktop,
 			className: "max-lg:pl-[4rem]",
+			id: 2,
+			shouldShow: !isDesktop,
 		},
-		{ title: "Products", path: "/products" },
-		{ title: "Contact", path: "/contact-us" },
+		{ path: "/products", title: "Products" },
+		{ path: "/contact-us", title: "Contact" },
 	];
 
 	return (
@@ -80,7 +81,7 @@ const NavigationLinks = () => {
 					each={navLinkInfoArray}
 					render={(navLinkInfo) => {
 						if ("shouldShow" in navLinkInfo) {
-							const { shouldShow, id, childElement, className } = navLinkInfo;
+							const { childElement, className, id, shouldShow } = navLinkInfo;
 
 							return (
 								shouldShow && (

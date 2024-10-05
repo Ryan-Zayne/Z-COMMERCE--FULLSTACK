@@ -30,7 +30,7 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 				document.documentElement.removeAttribute("class");
 			});
 
-			set({ theme: newTheme });
+			set({ isDarkMode: newTheme === "dark", theme: newTheme });
 		},
 	},
 });
@@ -58,8 +58,6 @@ export const useThemeStore = create<ThemeStore>()(
 		partialize: ({ theme }) => ({ theme }),
 	})
 );
-
-useThemeStore.subscribe((state) => useThemeStore.setState({ isDarkMode: state.theme === "dark" }));
 
 // Actions hook
 export const useThemeActions = () => useThemeStore((state) => state.actions);

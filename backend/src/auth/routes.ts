@@ -5,12 +5,11 @@ import { logoutUser, signInUser, signUpUser } from "./controllers";
 
 const router = express.Router();
 
-// router.get("/refresh", preventTokenReuse, refreshTokenHandler);
 router.get("/logout", verifyUser, logoutUser);
 
 router.use(validateDataWithZod);
 
-router.post("/sign-up", signUpUser);
-router.post("/login", signInUser);
+router.post("/signup", signUpUser);
+router.post("/signin", signInUser);
 
 export { router as authRouter };

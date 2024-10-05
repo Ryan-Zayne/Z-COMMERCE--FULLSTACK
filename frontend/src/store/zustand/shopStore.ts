@@ -7,8 +7,8 @@ import type { ShopStore } from "./zustand-store.types";
 
 const toastMessages = {
 	added: "Product added successfully",
-	updated: "Item quantity has been updated",
 	removed: "Product was removed from cart",
+	updated: "Item quantity has been updated",
 };
 
 // Store Object creation
@@ -16,14 +16,15 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 	cart: [],
 	wishList: [],
 
-	shopActions: {
+	// eslint-disable-next-line perfectionist/sort-objects
+	actions: {
 		addToCart: (productItem) => {
 			const { cart } = get();
 
 			const isProductItemInCart = cart.some((item) => item.id === productItem.id);
 
 			if (isProductItemInCart) {
-				const { incrementProductQuantity } = get().shopActions;
+				const { incrementProductQuantity } = get().actions;
 
 				incrementProductQuantity(productItem.id);
 
@@ -35,20 +36,8 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 			toast.success(toastMessages.added, { position: "top-center" });
 		},
 
-		incrementProductQuantity: (productId) => {
-			const { updateProductQuantity } = get().shopActions;
-
-			const productItemInCart = get().cart.find((item) => item.id === productId);
-
-			if (!productItemInCart || productItemInCart.quantity >= productItemInCart.stock) return;
-
-			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity + 1 });
-
-			toast.success(toastMessages.updated, { position: "top-center" });
-		},
-
 		decrementProductQuantity: (productId) => {
-			const { updateProductQuantity, removeProductFromCart } = get().shopActions;
+			const { removeProductFromCart, updateProductQuantity } = get().actions;
 
 			const productItemInCart = get().cart.find((item) => item.id === productId);
 
@@ -60,6 +49,18 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 			}
 
 			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity - 1 });
+
+			toast.success(toastMessages.updated, { position: "top-center" });
+		},
+
+		incrementProductQuantity: (productId) => {
+			const { updateProductQuantity } = get().actions;
+
+			const productItemInCart = get().cart.find((item) => item.id === productId);
+
+			if (!productItemInCart || productItemInCart.quantity >= productItemInCart.stock) return;
+
+			updateProductQuantity(productId, { updatedQuantity: productItemInCart.quantity + 1 });
 
 			toast.success(toastMessages.updated, { position: "top-center" });
 		},
@@ -100,11 +101,11 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 });
 
 // Store hook Creation
-export const useShopStore = create<ShopStore>()(
+export const useShopStore = create(
 	persist(shopStateObjectFn, {
 		name: "shop",
+		partialize: ({ actions, ...actualState }) => actualState,
 		version: 1,
-		partialize: ({ shopActions, ...actualState }) => actualState,
 	})
 );
 
@@ -114,4 +115,4 @@ export const useShopStoreShallow = <TResult>(selector: SelectorFn<ShopStore, TRe
 Object.assign(useShopStoreShallow, useShopStore);
 
 // Actions hook
-export const useShopActions = () => useShopStore((state) => state.shopActions);
+export const useShopActions = () => useShopStore((state) => state.actions);

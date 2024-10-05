@@ -1,7 +1,7 @@
 import { Button, Logo } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
+import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { Transition } from "@headlessui/react";
 import { Link, useLocation } from "react-router-dom";
 import FormArea from "./components/FormArea/FormArea";
 
@@ -10,18 +10,12 @@ function LoginFormPage() {
 	const isLoginPath = useLocation().pathname.endsWith("login");
 
 	return (
-		<Transition
-			as="main"
-			className={
-				"relative z-10 w-[min(100%,48rem)] rounded-[4px] bg-body p-[3rem_3rem] md:p-[2rem_5rem]"
-			}
-			show={isLoginPath}
-			appear={true}
-			enter={"transition-[opacity,transform] duration-[800ms]"}
-			enterFrom={"opacity-0 translate-x-[2rem]"}
-			enterTo={"opacity-100 translate-x-[0]"}
-			leaveFrom={"opacity-100"}
-			leaveTo={"opacity-0"}
+		<div
+			className={cnJoin(
+				`relative z-10 w-[min(100%,48rem)] rounded-[4px] bg-body p-[3rem_3rem]
+				transition-[opacity,transform] duration-[800ms] md:p-[2rem_5rem]`
+				// isVisible ? "translate-x-[0] opacity-100" : "translate-x-[2rem] opacity-0"
+			)}
 		>
 			<header>
 				{!isDesktop && <Logo className={"ml-[-0.8rem] w-[16rem] md:w-full"} />}
@@ -72,7 +66,7 @@ function LoginFormPage() {
 					</Link>
 				</p>
 			</footer>
-		</Transition>
+		</div>
 	);
 }
 

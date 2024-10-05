@@ -1,50 +1,42 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import DropDown from "@/components/ui/DropDown/DropDown";
 import { cnJoin } from "@/lib/utils/cn";
-import { useGlobalActions, useGlobalStore } from "@/store/zustand/globalStore";
+import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useDisclosure } from "@zayne-labs/toolkit/react";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const categories = [
-	{ title: "All Products", path: "products" },
-	{ title: "Smartphones", path: "products/smartphones" },
-	{ title: "Laptops", path: "products/laptops" },
-	{ title: "Watches", path: "products/watches" },
-	{ title: "Vehicles", path: "products/vehicles" },
-	{ title: "Digital Lighting", path: "products/lighting" },
+	{ path: "products", title: "All Products" },
+	{ path: "products/smartphones", title: "Smartphones" },
+	{ path: "products/laptops", title: "Laptops" },
+	{ path: "products/watches", title: "Watches" },
+	{ path: "products/vehicles", title: "Vehicles" },
+	{ path: "products/lighting", title: "Digital Lighting" },
 ];
 
-function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
+function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 	const href = useLocation().pathname;
 	const isDesktopDevice = deviceType === "desktop";
 
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
-	const { toggleNavShow } = useGlobalActions();
+	const { toggleNavShow } = useGlobalStore((state) => state.actions);
 
-	const { isOpen, onToggle, onClose, onOpen } = useDisclosure({
+	const { isOpen, onClose, onOpen, onToggle } = useDisclosure({
 		initialState: isDesktopDevice && href === "/",
 	});
 
-	useEffect(
-		function defaultDropDownStateOnDesktop() {
-			if (!isDesktopDevice) return;
+	useEffect(() => {
+		if (!isDesktopDevice) return;
 
-			href === "/" ? onOpen() : onClose();
-		},
+		href === "/" ? onOpen() : onClose();
+	}, [href, isDesktopDevice, onClose, onOpen]);
 
-		[href, isDesktopDevice, onClose, onOpen]
-	);
+	useEffect(() => {
+		if (isDesktopDevice) return;
 
-	useEffect(
-		function closeDropDownOnNavbarClose() {
-			if (isDesktopDevice) return;
-
-			!isNavShow && onClose();
-		},
-
-		[isDesktopDevice, isNavShow, onClose]
-	);
+		!isNavShow && onClose();
+	}, [isDesktopDevice, isNavShow, onClose]);
 
 	const CategoryList = categories.map((category) => (
 		<li
@@ -68,6 +60,38 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 	));
 
 	const DEVICE_TYPE_LOOKUP = {
+		desktop: () => (
+			<DropDown.Root id={"Shop-By-Categories DropDown"} className={"relative z-50 ml-[1rem]"}>
+				<DropDown.Trigger
+					className={`flex w-[28rem] cursor-pointer flex-row-reverse justify-end gap-[1rem]
+						rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-[--color-primary]`}
+					onClick={onToggle}
+				>
+					<h3 className="font-[500]">Shop By Category</h3>
+
+					<button className="text-[2rem]">
+						<IconBox icon="bi:menu-button-fill" />
+					</button>
+				</DropDown.Trigger>
+
+				<DropDown.Panel
+					isOpen={isOpen}
+					id="Category List"
+					classNames={{
+						panelContainer: "absolute h-[48.5rem] w-full",
+						panelList: cnJoin(
+							`bg-body px-[2rem] font-[400] box-shadow-[0_1px_3px_0.3px_var(--color-primary)]
+							dark:box-shadow-[0_1px_3px_0.3px_var(--carousel-dot)]`,
+
+							isOpen ? "pt-[5rem]" : "box-shadow-[none]"
+						),
+					}}
+				>
+					{CategoryList}
+				</DropDown.Panel>
+			</DropDown.Root>
+		),
+
 		mobile: () => (
 			<DropDown.Root id={"Mobile-Categories dropdown"}>
 				<DropDown.Trigger
@@ -95,38 +119,6 @@ function CategoryMenu({ deviceType }: { deviceType: "mobile" | "desktop" }) {
 						panelList: cnJoin("flex flex-col gap-[1.5rem] pl-[3rem] text-[1.4rem]", [
 							isOpen && "py-[2rem]",
 						]),
-					}}
-				>
-					{CategoryList}
-				</DropDown.Panel>
-			</DropDown.Root>
-		),
-
-		desktop: () => (
-			<DropDown.Root id={"Shop-By-Categories DropDown"} className={"relative z-50 ml-[1rem]"}>
-				<DropDown.Trigger
-					className={`flex w-[28rem] cursor-pointer flex-row-reverse justify-end gap-[1rem]
-						rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-[--color-primary]`}
-					onClick={onToggle}
-				>
-					<h3 className="font-[500]">Shop By Category</h3>
-
-					<button className="text-[2rem]">
-						<IconBox icon="bi:menu-button-fill" />
-					</button>
-				</DropDown.Trigger>
-
-				<DropDown.Panel
-					isOpen={isOpen}
-					id="Category List"
-					classNames={{
-						panelContainer: "absolute h-[48.5rem] w-full",
-						panelList: cnJoin(
-							`bg-body px-[2rem] font-[400] box-shadow-[0_1px_3px_0.3px_var(--color-primary)]
-							dark:box-shadow-[0_1px_3px_0.3px_var(--carousel-dot)]`,
-
-							isOpen ? "pt-[5rem]" : "box-shadow-[none]"
-						),
 					}}
 				>
 					{CategoryList}
