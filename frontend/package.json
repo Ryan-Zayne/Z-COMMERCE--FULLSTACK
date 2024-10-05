@@ -13,7 +13,6 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"@headlessui/react": "^2.1.9",
 		"@hookform/resolvers": "^3.9.0",
 		"@nextui-org/skeleton": "^2.0.32",
 		"@nextui-org/theme": "^2.2.11",
