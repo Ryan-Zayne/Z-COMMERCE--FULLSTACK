@@ -47,7 +47,7 @@ function FooterDropDowns() {
 							<h4 className="text-[1.5rem] font-[500]">Contact Us</h4>
 
 							<button
-							type="button"
+								type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropOne.isOpen,
 								})}
@@ -85,7 +85,7 @@ function FooterDropDowns() {
 							<h4 className="text-[1.5rem] font-[500]">Follow Us</h4>
 
 							<button
-							type="button"
+								type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropTwo.isOpen,
 								})}
@@ -134,7 +134,7 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
-							type="button"
+								type="button"
 								className={cnJoin("font-[200] transition-transform duration-300", {
 									"rotate-180": dropThree.isOpen,
 								})}
@@ -170,7 +170,7 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
-							type="button"
+								type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropFour.isOpen,
 								})}
@@ -206,7 +206,7 @@ function FooterDropDowns() {
 
 						{!isDesktop && (
 							<button
-							type="button"
+								type="button"
 								className={cnMerge("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropFive.isOpen,
 								})}
