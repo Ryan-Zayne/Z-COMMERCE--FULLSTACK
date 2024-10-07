@@ -2,7 +2,7 @@ import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import StarRating from "@/components/primitives/StarRating";
 import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
-import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
+import { useShopStore } from "@/store/zustand/shopStore";
 import { Link } from "react-router-dom";
 
 type ItemDescriptionProps = {
@@ -13,7 +13,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 	const productItemInCart = useShopStore((state) => state.cart).find(
 		(item) => item.id === productItem.id
 	);
-	const { addToCart, decrementProductQuantity } = useShopActions();
+	const { addToCart, decrementProductQuantity } = useShopStore((state) => state.actions);
 
 	const productQuantityChosen = productItemInCart?.quantity ?? 0;
 	const quantityLeftInStock = productItem.stock - productQuantityChosen;

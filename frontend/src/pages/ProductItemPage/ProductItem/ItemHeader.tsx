@@ -1,6 +1,6 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
-import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
+import { useShopStore } from "@/store/zustand/shopStore";
 import type { ShopStore } from "@/store/zustand/zustand-store.types";
 import { useToggle } from "@zayne-labs/toolkit/react";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ type ItemHeaderProps = {
 
 function ItemHeader({ productItem }: ItemHeaderProps) {
 	const wishList = useShopStore((state) => state.wishList);
-	const { toggleAddToWishList } = useShopActions();
+	const { toggleAddToWishList } = useShopStore((state) => state.actions);
 	const isProductInWishList = wishList.some((item) => item.id === productItem.id);
 	const [isHearted, toggleHearted] = useToggle(() => isProductInWishList);
 

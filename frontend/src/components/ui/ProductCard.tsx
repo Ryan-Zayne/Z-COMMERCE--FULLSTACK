@@ -1,30 +1,26 @@
-import { Button, Card, ImageComponent, StarRating } from "@/components/primitives";
+import { Button, Card, IconBox, ImageComponent, StarRating } from "@/components/primitives";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { useShopActions, useShopStore } from "@/store/zustand/shopStore";
+import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/zustand-store.types";
 import { useToggle } from "@zayne-labs/toolkit/react";
 import { m } from "framer-motion";
 import { Link } from "react-router-dom";
-import { IconBox } from "../primitives";
 
 type ProductCardProps = {
-	link: string;
 	image: string;
+	link: string;
 	productItem: DummyResponseDataItem | ResponseDataItemInCart;
-	aosAnimation?: string;
-	aosDuration?: string;
-	aosEasing?: string;
 };
 
 function ProductCard(props: ProductCardProps) {
-	const { link = "", image, productItem } = props;
+	const { image, link = "", productItem } = props;
 
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 	const isMobile = useGlobalStore((state) => state.isMobile);
-	const { addToCart, toggleAddToWishList } = useShopActions();
+	const { addToCart, toggleAddToWishList } = useShopStore((state) => state.actions);
 	const isProductInWishList = useShopStore((state) => state.wishList).some(
 		(item) => item.id === productItem.id
 	);
@@ -46,11 +42,11 @@ function ProductCard(props: ProductCardProps) {
 
 	return (
 		<m.li
-			initial={{ y: 80, opacity: 0, scale: 0.8 }}
+			initial={{ opacity: 0, scale: 0.8, y: 80 }}
 			whileInView={{
-				y: 0,
 				opacity: 1,
 				scale: 1,
+				y: 0,
 			}}
 			transition={{ duration: 0.6, ease: "easeInOut" }}
 			viewport={{ margin: "-20px 0px 0px" }}

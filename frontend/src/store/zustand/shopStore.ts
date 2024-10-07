@@ -1,8 +1,6 @@
-import type { SelectorFn } from "@zayne-labs/toolkit/type-helpers";
 import { toast } from "sonner";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
-import { useShallow } from "zustand/react/shallow";
 import type { ShopStore } from "./zustand-store.types";
 
 const toastMessages = {
@@ -108,11 +106,3 @@ export const useShopStore = create(
 		version: 1,
 	})
 );
-
-export const useShopStoreShallow = <TResult>(selector: SelectorFn<ShopStore, TResult>) =>
-	useShopStore(useShallow(selector));
-
-Object.assign(useShopStoreShallow, useShopStore);
-
-// Actions hook
-export const useShopActions = () => useShopStore((state) => state.actions);
