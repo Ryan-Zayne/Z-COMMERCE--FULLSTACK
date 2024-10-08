@@ -2,29 +2,29 @@ import type { SignOptions } from "jsonwebtoken";
 import type { HydratedDocumentFromSchema, Model, Schema } from "mongoose";
 
 export type UserType = {
-	username: string;
+	address: string[];
+	createdAt: Date;
 	email: string;
-	password: string;
-	refreshTokenArray: string[];
-	role: "user" | "admin";
+	ipAddress: string;
+	isDeleted: boolean;
+	isEmailVerified: boolean;
+	isIdVerified: boolean;
+	isMobileVerified: boolean;
 	isProfileComplete: boolean;
-	phoneNumber: string;
-	verificationToken: string;
-	passwordResetToken: string;
+	isSuspended: boolean;
+	lastLogin: number;
+	loginRetries: number;
+	password: string;
+	passwordChangedAt: Date;
 	passwordResetExpires: Date;
 	passwordResetRetries: number;
-	passwordChangedAt: Date;
-	ipAddress: string;
-	loginRetries: number;
-	address: string[];
-	isIdVerified: boolean;
-	isSuspended: boolean;
-	isDeleted: boolean;
-	lastLogin: number;
-	isMobileVerified: boolean;
-	isEmailVerified: boolean;
-	createdAt: Date;
+	passwordResetToken: string;
+	phoneNumber: string;
+	refreshTokenArray: string[];
+	role: "admin" | "user";
 	updatedAt: Date;
+	username: string;
+	verificationToken: string;
 };
 
 export type HydratedUserType = Omit<

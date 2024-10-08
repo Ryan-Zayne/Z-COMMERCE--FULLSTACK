@@ -1,22 +1,22 @@
-import type { errorCodes } from "../constants";
+import type { ErrorCodesUnion } from "../constants";
 
 class AppError extends Error {
-	statusCode: (typeof errorCodes)[keyof typeof errorCodes];
-	status: string;
-	isOperational: boolean;
 	errors?: unknown;
+	isOperational: boolean;
+	status: string;
+	statusCode: ErrorCodesUnion;
 
 	constructor(
-		statusCode: (typeof errorCodes)[keyof typeof errorCodes],
+		statusCode: ErrorCodesUnion,
 		message: string,
-		errors?: unknown
+		options: ErrorOptions & { errors?: unknown } = {}
 	) {
-		super(message);
+		super(message, options);
 
 		this.statusCode = statusCode;
-		this.status = `${statusCode}`.startsWith("5") ? "Failed" : "Error";
+		this.status = String(statusCode).startsWith("5") ? "Failed" : "Error";
 		this.isOperational = true;
-		this.errors = errors;
+		this.errors = options.errors;
 
 		Error.captureStackTrace(this, this.constructor);
 	}

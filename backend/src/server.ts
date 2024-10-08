@@ -1,11 +1,11 @@
-import { ENVIRONMENT } from "./env";
+import { ENVIRONMENT } from "./common/env";
 import "@colors/colors";
 import path from "node:path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import mongoSanitize from "express-mongo-sanitize";
-import rateLimit from "express-rate-limit";
+import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import hpp from "hpp";
 import morgan from "morgan";
@@ -66,20 +66,20 @@ process.on("uncaughtException", (error) => {
 	console.error("UNCAUGHT EXCEPTION! 💥 Server Shutting down...");
 
 	const errorInfo = {
-		title: `Uncaught Exception: ${error.name}`,
+		date: new Date().toLocaleString("en-Nigeria", {
+			dateStyle: "full",
+			timeStyle: "medium",
+			timeZone: "Africa/Lagos",
+		}),
 		message: error.message,
 		stackTrace: error.stack,
 
-		date: new Date().toLocaleString("en-Nigeria", {
-			timeZone: "Africa/Lagos",
-			dateStyle: "full",
-			timeStyle: "medium",
-		}),
+		title: `Uncaught Exception: ${error.name}`,
 	};
 
 	console.error(errorInfo);
 
-	// eslint-disable-next-line n/no-process-exit
+	// eslint-disable-next-line node/no-process-exit
 	process.exit(1);
 });
 

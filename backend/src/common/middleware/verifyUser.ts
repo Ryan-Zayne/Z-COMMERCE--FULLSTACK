@@ -1,6 +1,6 @@
 import { decodeJwtToken } from "@/auth/services";
 import { UserModel } from "@/users/model";
-import { catchAsync } from "../utils/catchAsync";
+import { catchAsync } from "./catchAsyncErrors";
 
 const verifyUser = catchAsync(async (req, res, next) => {
 	const authHeader = req.headers.authorization ?? req.headers.Authorization;

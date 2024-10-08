@@ -4,58 +4,58 @@ import type { UserMethods, UserModelType, UserType } from "./types";
 
 const UserSchema = new mongoose.Schema<UserType, unknown, UserMethods>(
 	{
-		username: {
-			type: String,
-			required: [true, "Please add the user name"],
-		},
-
 		email: {
-			type: String,
-			required: [true, "Please add the user email address"],
-			unique: true,
 			lowercase: true,
+			required: [true, "Please add the user email address"],
 			trim: true,
-		},
-
-		password: {
 			type: String,
-			min: [8, "Password must be at least 8 characters long"],
-			required: [true, "Password field is required"],
-			select: false,
-		},
-
-		role: {
-			type: String,
-			enum: ["user", "admin"],
-			default: "user",
-		},
-
-		isSuspended: {
-			type: Boolean,
-			default: false,
+			unique: true,
 		},
 
 		isDeleted: {
-			type: Boolean,
 			default: false,
 			select: false,
+			type: Boolean,
+		},
+
+		isSuspended: {
+			default: false,
+			type: Boolean,
 		},
 
 		lastLogin: {
-			type: Number,
 			default: Date.now(),
+			type: Number,
 		},
 
 		loginRetries: {
-			type: Number,
 			default: 0,
 			select: false,
+			type: Number,
+		},
+
+		password: {
+			min: [8, "Password must be at least 8 characters long"],
+			required: [true, "Password field is required"],
+			select: false,
+			type: String,
 		},
 
 		refreshTokenArray: {
-			type: [String],
 			default: [],
 			select: false,
+			type: [String],
+		},
+
+		role: {
+			default: "user",
+			enum: ["user", "admin"],
+			type: String,
+		},
+
+		username: {
+			required: [true, "Please add the user name"],
+			type: String,
 		},
 	},
 

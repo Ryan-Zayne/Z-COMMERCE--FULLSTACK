@@ -1,4 +1,4 @@
-import { catchAsync } from "@/common/utils";
+import { catchAsync } from "@/common/middleware";
 import { UserModel } from "@/users/model";
 // import { clearExistingCookie } from "../services";
 

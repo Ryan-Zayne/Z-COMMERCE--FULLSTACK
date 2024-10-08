@@ -1,8 +1,8 @@
 import { decodeJwtToken } from "@/auth/services";
 // import { clearExistingCookie, decodeJwtToken } from "@/auth/services";
-import { ENVIRONMENT } from "@/env";
+import { ENVIRONMENT } from "@/common/zod-schemas/envSchema";
 import { UserModel } from "@/users/model";
-import { catchAsync } from "../utils/catchAsync";
+import { catchAsync } from "./catchAsyncErrors";
 
 export const preventTokenReuse = catchAsync<{ user: unknown }>(async (req, res, next) => {
 	const { refreshToken } = req.signedCookies;

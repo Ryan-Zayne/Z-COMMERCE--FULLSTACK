@@ -1,26 +1,52 @@
-import { isProduction } from "@/common/constants";
+import { ENVIRONMENT } from "@/common/env";
 import type { HydratedUserType } from "@/users/types";
 import bcryptjs from "bcryptjs";
-import type { Response } from "express";
 import jwt, { type SignOptions } from "jsonwebtoken";
 import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 
+export type DecodedJwtPayload = {
+	id: string;
+	token?: string;
+};
+
+type JwtOptions<TExtraOptions> = TExtraOptions & {
+	secretKey?: string;
+};
+
+export const decodeJwtToken = (token: string, options: JwtOptions<jwt.VerifyOptions> = {}) => {
+	const { secretKey = ENVIRONMENT.ACCESS_SECRET, ...restOfOptions } = options;
+
+	const decodedPayload = jwt.verify(token, secretKey, restOfOptions) as DecodedJwtPayload;
+
+	return decodedPayload;
+};
+
+export const encodeJwtToken = (payload: DecodedJwtPayload, options: JwtOptions<jwt.SignOptions>) => {
+	const { secretKey = ENVIRONMENT.ACCESS_SECRET, ...restOfOptions } = options;
+
+	const encodedToken = jwt.sign(payload, secretKey, restOfOptions);
+
+	return encodedToken;
+};
+
 export function generateAccessToken(this: HydratedUserType, options: SignOptions = {}) {
-	const { expiresIn = "5m" } = options;
+	const { expiresIn = ENVIRONMENT.ACCESS_JWT_EXPIRES_IN } = options;
 
-	const payLoad = { userId: this.id };
+	const payLoad = {
+		id: this.id,
+	};
 
-	const accessToken = jwt.sign(payLoad, process.env.ACCESS_SECRET, { expiresIn });
+	const accessToken = encodeJwtToken(payLoad, { expiresIn });
 
 	return accessToken;
 }
 
 export function generateRefreshToken(this: HydratedUserType, options: SignOptions = {}) {
-	const { expiresIn = "15m" } = options;
+	const { expiresIn = ENVIRONMENT.REFRESH_JWT_EXPIRES_IN } = options;
 
-	const payLoad = { userId: this.id };
+	const payLoad = { id: this.id };
 
-	const refreshToken = jwt.sign(payLoad, process.env.REFRESH_SECRET, { expiresIn });
+	const refreshToken = encodeJwtToken(payLoad, { expiresIn, secretKey: ENVIRONMENT.REFRESH_SECRET });
 
 	return refreshToken;
 }
@@ -44,9 +70,3 @@ export async function verifyPassword(this: HydratedUserType, plainPassword: stri
 
 	return isValidPassword;
 }
-
-export const decodeJwtToken = (token: string, secretKey: string) => {
-	const decodedPayload = jwt.verify(token, secretKey) as { userId: string };
-
-	return decodedPayload;
-};

@@ -1,4 +1,4 @@
-import { ENVIRONMENT } from "@/env";
+import { ENVIRONMENT } from "@/common/env";
 import mongoose from "mongoose";
 import { isProduction } from "../constants";
 

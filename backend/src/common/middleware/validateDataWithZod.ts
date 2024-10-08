@@ -1,6 +1,6 @@
 import { AppError } from "../utils";
-import { catchAsync } from "../utils/catchAsync";
 import { LoginSchema, SignUpSchema } from "../zod-schemas/formSchema";
+import { catchAsync } from "./catchAsyncErrors";
 
 const SCHEMA_LOOKUP = {
 	"/sign-up": SignUpSchema,
