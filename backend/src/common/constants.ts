@@ -4,6 +4,7 @@ import { defineEnum } from "@zayne-labs/toolkit/type-helpers";
 export const PORT = ENVIRONMENT.PORT;
 
 export const isDevMode = ENVIRONMENT.NODE_ENV === "development";
+
 export const isProduction = ENVIRONMENT.NODE_ENV === "production";
 
 export const errorCodes = defineEnum({
