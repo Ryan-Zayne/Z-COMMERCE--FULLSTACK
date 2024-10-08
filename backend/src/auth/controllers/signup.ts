@@ -1,13 +1,13 @@
-import { AppError, catchAsync } from "@/common/utils";
+import { catchAsync } from "@/common/middleware";
+import { AppError } from "@/common/utils";
+import { AppResponse } from "@/common/utils/appResponse";
 import { UserModel } from "@/users/model";
 import type { HydratedUserType } from "@/users/types";
 
-// @route POST /api/auth/sign-up
-// @access Public
-const signUpUser = catchAsync<{
-	validatedBody: Pick<HydratedUserType, "username" | "email" | "password">;
+const signUp = catchAsync<{
+	validatedBody: Pick<HydratedUserType, "email" | "password" | "username">;
 }>(async (req, res) => {
-	const { username, email, password } = req.validatedBody;
+	const { email, password, username } = req.validatedBody;
 
 	const existingUser = Boolean(await UserModel.exists({ email }));
 
@@ -15,9 +15,12 @@ const signUpUser = catchAsync<{
 		throw new AppError(400, "User with this email has already registered!");
 	}
 
-	const newUser = await UserModel.create({ username, email, password });
+	const newUser = await UserModel.create({ email, password, username });
 
-	res.status(201).json({ status: "success", user: { name: newUser.username, email: newUser.email } });
+	return AppResponse(res, 201, "User created successfully", {
+		status: "success",
+		user: { email: newUser.email, name: newUser.username },
+	});
 });
 
-export { signUpUser };
+export { signUp };

@@ -1,5 +1,5 @@
 export { errorHandler } from "./errorHandler";
 export { notFoundHandler } from "./notFoundHandler";
-export { verifyUser } from "./verifyUser";
-export { preventTokenReuse } from "./preventTokenReuse";
 export { catchAsync } from "./catchAsyncErrors";
+export { protect } from "./protect";
+export { validateDataWithZod } from "./validateDataWithZod";

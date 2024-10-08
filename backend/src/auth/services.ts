@@ -1,3 +1,4 @@
+import { ACCESS_JWT_EXPIRES_IN, REFRESH_JWT_EXPIRES_IN } from "@/common/constants";
 import { ENVIRONMENT } from "@/common/env";
 import type { HydratedUserType } from "@/users/types";
 import bcryptjs from "bcryptjs";
@@ -30,7 +31,7 @@ export const encodeJwtToken = (payload: DecodedJwtPayload, options: JwtOptions<j
 };
 
 export function generateAccessToken(this: HydratedUserType, options: SignOptions = {}) {
-	const { expiresIn = ENVIRONMENT.ACCESS_JWT_EXPIRES_IN } = options;
+	const { expiresIn = ACCESS_JWT_EXPIRES_IN } = options;
 
 	const payLoad = {
 		id: this.id,
@@ -42,11 +43,14 @@ export function generateAccessToken(this: HydratedUserType, options: SignOptions
 }
 
 export function generateRefreshToken(this: HydratedUserType, options: SignOptions = {}) {
-	const { expiresIn = ENVIRONMENT.REFRESH_JWT_EXPIRES_IN } = options;
+	const { expiresIn = REFRESH_JWT_EXPIRES_IN } = options;
 
 	const payLoad = { id: this.id };
 
-	const refreshToken = encodeJwtToken(payLoad, { expiresIn, secretKey: ENVIRONMENT.REFRESH_SECRET });
+	const refreshToken = encodeJwtToken(payLoad, {
+		expiresIn,
+		secretKey: ENVIRONMENT.REFRESH_SECRET,
+	});
 
 	return refreshToken;
 }

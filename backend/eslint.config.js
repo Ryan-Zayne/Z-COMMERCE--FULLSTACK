@@ -10,6 +10,11 @@ export default zayne(
 	[
 		{
 			rules: {
+				"no-eval": ["error", { allowIndirect: true }],
+			},
+		},
+		{
+			rules: {
 				"import/no-named-as-default-member": "off",
 			},
 		},

@@ -1,3 +1,4 @@
+import { ACCESS_JWT_EXPIRES_IN, REFRESH_JWT_EXPIRES_IN } from "@/common/constants";
 import { catchAsync } from "@/common/middleware";
 import { AppError, omitSensitiveFields, setCookie } from "@/common/utils";
 import { AppResponse } from "@/common/utils/appResponse";
@@ -7,7 +8,10 @@ import { differenceInHours } from "date-fns";
 
 // @route POST /api/auth/login
 // @access Public
-const signInUser = catchAsync<{
+const signIn = catchAsync<{
+	signedCookies: {
+		zayneRefreshToken: string;
+	};
 	validatedBody: Pick<HydratedUserType, "email" | "password">;
 }>(async (req, res) => {
 	const { zayneRefreshToken } = req.signedCookies;
@@ -49,16 +53,14 @@ const signInUser = catchAsync<{
 	const newZayneRefreshToken = user.generateRefreshToken();
 
 	setCookie(res, "zayneAccessToken", newZayneAccessToken, {
-		maxAge: 15 * 60 * 1000, // 15 minutes
+		maxAge: ACCESS_JWT_EXPIRES_IN,
 	});
 
 	setCookie(res, "zayneRefreshToken", newZayneRefreshToken, {
-		maxAge: 24 * 60 * 60 * 1000, // 24 hours
+		maxAge: REFRESH_JWT_EXPIRES_IN,
 	});
 
-	const existingUserWithToken = Boolean(await UserModel.exists({ refreshTokenArray: zayneRefreshToken }));
-
-	const existingRefreshTokenArray = existingUserWithToken
+	const existingRefreshTokenArray = user.refreshTokenArray.includes(zayneRefreshToken)
 		? user.refreshTokenArray.filter((token) => token !== zayneRefreshToken)
 		: [];
 
@@ -74,7 +76,9 @@ const signInUser = catchAsync<{
 		{ new: true }
 	);
 
-	AppResponse(res, 200, "Signed in successfully", { user: omitSensitiveFields(updatedUser as UserType) });
+	return AppResponse(res, 200, "Signed in successfully", {
+		user: omitSensitiveFields(updatedUser as UserType),
+	});
 });
 
-export { signInUser };
+export { signIn };

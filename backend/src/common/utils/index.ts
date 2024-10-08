@@ -1,4 +1,4 @@
 export * from "./generateRandomStuff";
-export { authenticate } from "./authenticate";
+export { authenticateUser } from "./authenticateUser";
 export { AppError } from "./appError";
 export * from "./helpers";
