@@ -1,5 +1,6 @@
 import { Slot } from "@/components/primitives";
 import { cnMerge } from "@/lib/utils/cn";
+import type { PolymorphicPropsWithRef } from "@zayne-labs/toolkit/react";
 
 type DropDownProps = React.ComponentPropsWithoutRef<"div">;
 
@@ -15,8 +16,12 @@ type DropDownPanelProps = Pick<DropDownProps, "children" | "id"> & {
 	isOpen: boolean;
 };
 
-function DropDownRoot({ children, ...restOfProps }: DropDownProps) {
-	return <div {...restOfProps}>{children}</div>;
+function DropDownRoot<TElement extends React.ElementType = "div">(
+	props: PolymorphicPropsWithRef<TElement, DropDownProps>
+) {
+	const { as: Element = "div", children, ...restOfProps } = props;
+
+	return <Element {...restOfProps}>{children}</Element>;
 }
 
 function DropDownTrigger({ asChild, children, ...restOfProps }: DropDownHeaderProps) {

@@ -1,4 +1,4 @@
-import type { PolymorphicProps } from "@zayne-labs/toolkit/react";
+import type { PolymorphicProps, PolymorphicPropsWithRef } from "@zayne-labs/toolkit/react";
 
 type CardProps = {
 	aosAnimation?: string;
@@ -14,7 +14,7 @@ type OtherCardProps = {
 };
 
 function Card<TElement extends React.ElementType = "article">(
-	props: PolymorphicProps<TElement, CardProps>
+	props: PolymorphicPropsWithRef<TElement, CardProps>
 ) {
 	const { as: Element = "article", children, className, ...restOfProps } = props;
 
@@ -26,7 +26,7 @@ function Card<TElement extends React.ElementType = "article">(
 }
 
 function CardHeader<TElement extends React.ElementType = "header">(
-	props: PolymorphicProps<TElement, OtherCardProps>
+	props: PolymorphicPropsWithRef<TElement, OtherCardProps>
 ) {
 	const { as: Element = "header", children, className, ...restOfProps } = props;
 
@@ -38,7 +38,7 @@ function CardHeader<TElement extends React.ElementType = "header">(
 }
 
 function CardBody<TElement extends React.ElementType = "div">(
-	props: PolymorphicProps<TElement, OtherCardProps>
+	props: PolymorphicPropsWithRef<TElement, OtherCardProps>
 ) {
 	const { as: Element = "div", children, className, ...restOfProps } = props;
 

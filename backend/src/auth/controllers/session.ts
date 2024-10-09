@@ -1,10 +1,9 @@
 import { catchAsync } from "@/common/middleware";
 import { AppError, omitSensitiveFields } from "@/common/utils";
 import { AppResponse } from "@/common/utils/appResponse";
-import type { UserType } from "@/users/types";
-import type { HydratedDocument } from "mongoose";
+import type { HydratedUserType } from "@/users/types";
 
-const session = catchAsync<{ user: HydratedDocument<UserType> | undefined }>((req, res) => {
+const session = catchAsync<{ user: HydratedUserType | undefined }>((req, res) => {
 	const currentUser = req.user;
 
 	if (!currentUser) {

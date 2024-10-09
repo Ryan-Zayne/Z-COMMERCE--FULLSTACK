@@ -4,7 +4,7 @@ import { useState } from "react";
 type ImageComponentProps = React.ComponentPropsWithRef<"img"> & {
 	blurSrc?: string;
 	className?: string;
-	fetchpriority?: "auto" | "high" | "low";
+	fetchPriority?: "auto" | "high" | "low";
 	imageType: "hasFallback" | "hasSkeleton";
 	src: string;
 	wrapperClassName?: string;

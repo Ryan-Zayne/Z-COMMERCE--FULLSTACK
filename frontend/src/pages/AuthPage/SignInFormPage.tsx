@@ -33,7 +33,7 @@ function LoginFormPage() {
 						</h2>
 					</header>
 
-					<FormArea classNames={{ form: "mt-[3rem]" }} formType="SignIn" />
+					<FormArea classNames={{ form: "mt-[3rem]" }} formVariant="SignIn" />
 
 					<div className="my-[3rem] flex items-center justify-center text-input">
 						<span className="mr-[1rem] inline-block h-[1px] w-full bg-carousel-btn" />

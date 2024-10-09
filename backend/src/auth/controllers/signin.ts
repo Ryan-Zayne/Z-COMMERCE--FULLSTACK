@@ -21,7 +21,7 @@ const signIn = catchAsync<{
 	const user = await UserModel.findOne({ email }).select(["+password", "+refreshTokenArray"]);
 
 	if (!user) {
-		throw new AppError(401, "Invalid email or password!");
+		throw new AppError(401, "Email or password is incorrect");
 	}
 
 	const isValidPassword = Boolean(await user.verifyPassword(password));

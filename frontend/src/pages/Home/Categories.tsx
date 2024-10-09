@@ -65,13 +65,13 @@ function Categories() {
 				render={(category) => (
 					<m.li
 						key={category.title}
-						initial={{ opacity: 0, y: 100 }}
+						initial={{ opacity: 0, y: 70 }}
 						whileInView={{
 							opacity: 1,
 							transition: { duration: 0.7 },
 							y: 0,
 						}}
-						viewport={{ once: true }}
+						viewport={{ margin: "-20px 0px 0px", once: true }}
 						whileHover={{ scale: 1.09, transition: { duration: 0.3 } }}
 						className={cnJoin(
 							`flex w-[min(100%,27rem)] justify-between gap-[1.5rem] rounded-[5rem] p-[2rem]

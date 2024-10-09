@@ -10,7 +10,11 @@ type FormResponseDataType = {
 
 export type FormErrorResponseType =
 	| {
-			errors: Array<[keyof FormSchemaType, string | string[]]>;
+			errors: {
+				fieldErrors: Array<[keyof FormSchemaType, string | string[]]>;
+				formErrors: string[];
+			};
+			errorTitle: string;
 			message: string;
 			stackTrace: string;
 			status: "error";

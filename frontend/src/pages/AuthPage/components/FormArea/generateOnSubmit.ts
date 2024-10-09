@@ -10,17 +10,17 @@ import type { FormAreaProps } from "./FormArea";
 export type FormSchemaType = z.infer<typeof LoginSchema> & z.infer<typeof SignUpSchema>;
 
 type SubmitFormParams = {
-	formType: FormAreaProps["formType"];
+	formVariant: FormAreaProps["formVariant"];
 	navigate: NavigateFunction;
 	reset: UseFormReset<FormSchemaType>;
 	setError: UseFormSetError<FormSchemaType>;
 };
 
 const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
-	const { formType, navigate, reset, setError } = submitParams;
+	const { formVariant, navigate, reset, setError } = submitParams;
 
 	const onSubmit = async (formDataObj: FormSchemaType) => {
-		const AUTH_URL = formType === "SignUp" ? `/signup` : `siginin`;
+		const AUTH_URL = formVariant === "SignUp" ? `/signup` : `siginin`;
 
 		noScrollOnOpen({ isActive: true });
 
@@ -29,9 +29,16 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 		noScrollOnOpen({ isActive: false });
 
 		if (isHTTPError(error) && "errors" in error.errorData) {
-			const { errors: zodErrors } = error.errorData;
+			const {
+				errors: { fieldErrors, formErrors },
+			} = error.errorData;
 
-			zodErrors.forEach(([field, errorMessage]) => {
+			// setError("root.serverError", {
+			// 	message: errorResponse.message,
+			// 	type: errorResponse.errorTitle,
+			// });
+
+			fieldErrors.forEach(([field, errorMessage]) => {
 				setError(field, {
 					message: Array.isArray(errorMessage) ? errorMessage.join(", ") : errorMessage,
 					type: field,
@@ -41,7 +48,7 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 			return;
 		}
 
-		if (isHTTPError(error) && "errorTitle" in error.errorData) {
+		if (isHTTPError(error)) {
 			const errorResponse = error.errorData;
 
 			setError("root.serverError", {
@@ -52,7 +59,7 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 			return;
 		}
 
-		if (error !== null) {
+		if (error) {
 			setError("root.caughtError", {
 				message: error.message,
 				type: "caughtError",

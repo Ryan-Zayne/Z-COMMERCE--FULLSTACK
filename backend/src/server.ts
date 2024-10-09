@@ -51,7 +51,7 @@ app.use(morgan("dev"));
  * Routes - v1
  */
 app.use("/api/v1/alive", (req, res) => AppResponse(res, 200, "Server is up and running"));
-app.use("/api/*", validateDataWithZod);
+app.use(validateDataWithZod);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 

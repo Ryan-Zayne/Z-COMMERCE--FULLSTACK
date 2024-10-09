@@ -1,3 +1,4 @@
+import { Show } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown/DropDown";
@@ -38,8 +39,8 @@ function FooterDropDowns() {
 			<article>
 				<Logo className={"dark:brightness-[0.8] dark:contrast-[1.8]"} />
 
-				<DropDown.Root className="mt-[0.7rem]">
-					{!isDesktop && (
+				<DropDown.Root className="mt-[1rem]">
+					<Show when={!isDesktop}>
 						<DropDown.Trigger
 							className={"flex cursor-pointer items-center justify-between"}
 							onClick={handleDropDowns(dropOne)}
@@ -55,7 +56,7 @@ function FooterDropDowns() {
 								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
 						</DropDown.Trigger>
-					)}
+					</Show>
 
 					<DropDown.Panel
 						isOpen={!isDesktop ? dropOne.isOpen : true}
@@ -77,7 +78,7 @@ function FooterDropDowns() {
 				</DropDown.Root>
 
 				<DropDown.Root className="mt-[2rem]">
-					{!isDesktop && (
+					<Show when={!isDesktop}>
 						<DropDown.Trigger
 							className={"flex cursor-pointer items-center justify-between"}
 							onClick={handleDropDowns(dropTwo)}
@@ -93,7 +94,7 @@ function FooterDropDowns() {
 								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
 						</DropDown.Trigger>
-					)}
+					</Show>
 
 					<DropDown.Panel
 						classNames={{
@@ -132,7 +133,7 @@ function FooterDropDowns() {
 					>
 						<h4 className="font-[500] lg:text-[1.8rem]">Information</h4>
 
-						{!isDesktop && (
+						<Show when={!isDesktop}>
 							<button
 								type="button"
 								className={cnJoin("font-[200] transition-transform duration-300", {
@@ -141,7 +142,7 @@ function FooterDropDowns() {
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
-						)}
+						</Show>
 					</DropDown.Trigger>
 
 					<DropDown.Panel
@@ -164,11 +165,11 @@ function FooterDropDowns() {
 							`flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary
 							lg:dark:text-heading`
 						)}
-						onClick={() => handleDropDowns(dropFour)}
+						onClick={handleDropDowns(dropFour)}
 					>
 						<h4 className={"font-[500] lg:text-[1.8rem]"}>Our Services</h4>
 
-						{!isDesktop && (
+						<Show when={!isDesktop}>
 							<button
 								type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
@@ -177,7 +178,7 @@ function FooterDropDowns() {
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
-						)}
+						</Show>
 					</DropDown.Trigger>
 
 					<DropDown.Panel
@@ -200,11 +201,11 @@ function FooterDropDowns() {
 							`flex cursor-pointer items-center justify-between text-[1.5rem] lg:text-primary
 							lg:dark:text-heading`
 						)}
-						onClick={() => handleDropDowns(dropFive)}
+						onClick={handleDropDowns(dropFive)}
 					>
 						<h4 className="font-[500] lg:text-[1.8rem]">My Account</h4>
 
-						{!isDesktop && (
+						<Show when={!isDesktop}>
 							<button
 								type="button"
 								className={cnMerge("text-[1.5rem] font-[200] transition-transform duration-300", {
@@ -213,7 +214,7 @@ function FooterDropDowns() {
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
 							</button>
-						)}
+						</Show>
 					</DropDown.Trigger>
 
 					<DropDown.Panel

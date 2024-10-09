@@ -4,12 +4,14 @@ import type { AppError } from "../utils";
 
 const errorHandler: ErrorRequestHandler = (error: AppError & { kind: string }, _req, res, _next) => {
 	/* eslint-disable ts-eslint/no-unnecessary-condition */
+	/* eslint-disable perfectionist/sort-objects */
 	const errorInfo = {
 		status: "error",
-		// eslint-disable-next-line perfectionist/sort-objects
 		message: error.message ?? "Something went wrong",
 		statusCode: error.statusCode ?? 500,
-		...(Boolean(error.errors) && { errors: error.errors }),
+		...(Boolean(error.errors) && {
+			errors: error.errors,
+		}),
 		stackTrace: isDevMode ? error.stack : "Just dey play",
 	};
 

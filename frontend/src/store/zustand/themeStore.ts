@@ -1,9 +1,10 @@
-import { prefersDarkMode } from "@/lib/utils/constants";
-import { on } from "@zayne-labs/toolkit";
+import { isBrowser, on } from "@zayne-labs/toolkit";
 import { isObject } from "@zayne-labs/toolkit/type-helpers";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ThemeStore } from "./zustand-store.types";
+
+const prefersDarkMode = isBrowser() && globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
 
 // Store Object Initializtion
 const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({

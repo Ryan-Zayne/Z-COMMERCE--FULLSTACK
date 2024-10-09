@@ -34,7 +34,7 @@ function SignUpFormPage() {
 						</h2>
 					</header>
 
-					<FormArea formType="SignUp" />
+					<FormArea formVariant="SignUp" />
 
 					<div className="my-[3.3rem] flex items-center">
 						<span className="mr-[1rem] inline-block h-[1px] w-full bg-carousel-btn" />

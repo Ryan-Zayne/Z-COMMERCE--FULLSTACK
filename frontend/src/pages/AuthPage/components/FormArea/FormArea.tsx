@@ -8,23 +8,23 @@ import { type FormSchemaType, generateOnSubmitFn } from "./generateOnSubmit";
 
 export type FormAreaProps = {
 	classNames?: { form?: string };
-	formType: "SignIn" | "SignUp";
+	formVariant: "SignIn" | "SignUp";
 };
 
 const semanticClasses = {
 	error: "border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error",
 };
 
-function FormArea({ classNames, formType }: FormAreaProps) {
+function FormArea({ classNames, formVariant }: FormAreaProps) {
 	const navigate = useNavigate();
 
 	const methods = useForm<FormSchemaType>({
-		resolver: zodResolver(formType === "SignUp" ? SignUpSchema : LoginSchema),
+		resolver: zodResolver(formVariant === "SignUp" ? SignUpSchema : LoginSchema),
 	});
 
 	const { control, formState, handleSubmit, reset, setError } = methods;
 
-	const onSubmit = generateOnSubmitFn({ formType, navigate, reset, setError });
+	const onSubmit = generateOnSubmitFn({ formVariant, navigate, reset, setError });
 
 	return (
 		<Form.Root
@@ -38,7 +38,7 @@ function FormArea({ classNames, formType }: FormAreaProps) {
 		>
 			{formState.isSubmitting && <LoadingSpinner type={"auth"} />}
 
-			<Show when={formType === "SignUp"}>
+			<Show when={formVariant === "SignUp"}>
 				<Form.Item control={control} name="username">
 					<Form.Label>Username</Form.Label>
 
@@ -81,7 +81,7 @@ function FormArea({ classNames, formType }: FormAreaProps) {
 				<Form.ErrorMessage control={control} errorField="password" type="regular" />
 			</Form.Item>
 
-			<Show when={formType === "SignUp"}>
+			<Show when={formVariant === "SignUp"}>
 				<Form.Item className={"relative"} control={control} name="confirmPassword">
 					<Form.Label>Confirm Password</Form.Label>
 
@@ -113,16 +113,16 @@ function FormArea({ classNames, formType }: FormAreaProps) {
 			<Form.Item
 				className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}
 				control={control}
-				name={formType === "SignUp" ? "acceptTerms" : "rememberMe"}
+				name={formVariant === "SignUp" ? "acceptTerms" : "rememberMe"}
 			>
 				<Form.Input type="checkbox" />
 
 				<Switch>
-					<Switch.Match when={formType === "SignIn"}>
+					<Switch.Match when={formVariant === "SignIn"}>
 						<p>Remember me</p>
 					</Switch.Match>
 
-					<Switch.Match when={formType === "SignUp"}>
+					<Switch.Match when={formVariant === "SignUp"}>
 						<div className="flex">
 							<p>I agree to all</p>
 
@@ -145,7 +145,7 @@ function FormArea({ classNames, formType }: FormAreaProps) {
 					formState.isSubmitting && "cursor-not-allowed brightness-[0.5]"
 				)}
 				disabled={formState.isSubmitting}
-				text={formType}
+				text={formVariant}
 				theme={"secondary"}
 				type={"submit"}
 			/>

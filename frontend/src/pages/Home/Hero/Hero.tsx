@@ -52,7 +52,7 @@ function Hero() {
 									imageType={"hasFallback"}
 									src={image.src}
 									blurSrc={image.blurSrc}
-									fetchpriority={"high"}
+									fetchPriority={"high"}
 								/>
 							</Carousel.Item>
 						)}
