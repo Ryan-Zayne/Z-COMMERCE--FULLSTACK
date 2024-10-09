@@ -17,10 +17,7 @@ const signUp = catchAsync<{
 
 	const newUser = await UserModel.create({ email, password, username });
 
-	return AppResponse(res, 201, "Account created successfully", {
-		status: "success",
-		user: omitSensitiveFields(newUser),
-	});
+	return AppResponse(res, 201, "Account created successfully", { user: omitSensitiveFields(newUser) });
 });
 
 export { signUp };

@@ -12,4 +12,10 @@ declare global {
 }
 
 // Will crash server if an env variable is missing not found
-export const ENVIRONMENT = envSchema.parse(process.env);
+const result = envSchema.safeParse(process.env);
+
+if (!result.success) {
+	throw new Error("Missing environment variable(s)", { cause: result.error.flatten().fieldErrors });
+}
+
+export const ENVIRONMENT = result.data;
