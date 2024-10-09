@@ -30,32 +30,38 @@ app.use(cookieParser(ENVIRONMENT.COOKIE_SECRET));
  * Middleware - App Security
  */
 app.use(helmet(helmetOptions));
-
 app.use(cors(corsOptions)); // Cors
 app.use(rateLimit(rateLimitOptions)); // Rate Limiting
 app.use(mongoSanitize()); // Data sanitization against NoSQL query injection
 app.use(hpp()); // Prevent Parameter Pollution
+// Prevent browser from caching sensitive information
 app.use((_, res, next) => {
-	// Prevent browser from caching sensitive information
 	res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
 	res.set("Pragma", "no-cache");
 	res.set("Expires", "0");
 	next();
 });
 
-// Middleware - Logger
+/**
+ * Middleware - Logger
+ */
 app.use(morgan("dev"));
 
-// v1 Routes
+/**
+ * Routes - v1
+ */
 app.use("/api/v1/alive", (req, res) => AppResponse(res, 200, "Server is up and running"));
 app.use("/api/*", validateDataWithZod);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 
-// Serve Frontend if needed in production
+/**
+ * Serve Frontend if needed in production
+ */
 if (isProduction) {
-	// Serve up dist folder as static files
 	const pathToDistFolder = path.resolve("../", "frontend", "dist");
+
+	// Serve up dist folder as static files
 	app.use(express.static(pathToDistFolder));
 
 	// Serve up index.html file for all routes
@@ -75,7 +81,7 @@ app.use(errorHandler);
 process.on("uncaughtException", (error) => {
 	console.error("UNCAUGHT EXCEPTION! 💥 Server Shutting down...");
 
-	const errorInfo = {
+	console.error({
 		date: new Date().toLocaleString("en-Nigeria", {
 			dateStyle: "full",
 			timeStyle: "medium",
@@ -85,9 +91,7 @@ process.on("uncaughtException", (error) => {
 		stackTrace: error.stack,
 
 		title: `Uncaught Exception: ${error.name}`,
-	};
-
-	console.error(errorInfo);
+	});
 
 	// eslint-disable-next-line node/no-process-exit
 	process.exit(1);
