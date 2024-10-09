@@ -13,7 +13,8 @@ const setConnectionToDb = async () => {
 		console.error(error);
 	}
 
-	/* eslint-disable @typescript-eslint/unbound-method */
+	/* eslint-disable ts-eslint/unbound-method */
+	/* eslint-disable ts-eslint/no-deprecated */
 	mongoose.connection.on("connected", () => {
 		console.info("MongoDB Atlas connected!".bold);
 	});

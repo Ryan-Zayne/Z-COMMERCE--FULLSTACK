@@ -1,3 +1,4 @@
+import type { z } from "zod";
 import { envSchema } from "./zod-schemas/envSchema";
 
 // == Disabling process.env globally via TS
@@ -5,7 +6,7 @@ declare global {
 	// eslint-disable-next-line ts-eslint/no-namespace
 	namespace NodeJS {
 		/* eslint-disable ts-eslint/consistent-type-definitions */
-		// @ts-expect-error - Ignoring ts assignability issues with Record<string, undefined>, because it's there to disable access to process.env not included in the zod schema
+
 		interface ProcessEnv extends z.infer<typeof envSchema>, Record<string, undefined> {}
 	}
 }

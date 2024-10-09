@@ -4,12 +4,17 @@ import { LoginSchema, SignUpSchema } from "../zod-schemas/formSchema";
 import { catchAsync } from "./catchAsyncErrors";
 
 const SCHEMA_LOOKUP = new Map<string, ZodSchema>([
-	["/login", LoginSchema],
-	["/sign-up", SignUpSchema],
+	["/auth/signin", LoginSchema],
+	["/auth/signup", SignUpSchema],
 ]);
 
-const validateDataWithZod = catchAsync<{ path: string; validatedBody: unknown }>((req, res, next) => {
-	if (req.method !== "POST" || !SCHEMA_LOOKUP.has(req.path)) {
+const methodsToSkipValidation = new Set(["GET"]);
+
+const validateDataWithZod = catchAsync<{ path: string }>((req, res, next) => {
+	// eslint-disable-next-line ts-eslint/no-non-null-assertion
+	const mainPath = req.path.split("v1")[1]!;
+
+	if (methodsToSkipValidation.has(req.method) || !SCHEMA_LOOKUP.has(mainPath)) {
 		next();
 		return;
 	}
@@ -22,17 +27,20 @@ const validateDataWithZod = catchAsync<{ path: string; validatedBody: unknown }>
 	}
 
 	// eslint-disable-next-line ts-eslint/no-non-null-assertion
-	const selectedSchema = SCHEMA_LOOKUP.get(req.path)!;
+	const selectedSchema = SCHEMA_LOOKUP.get(mainPath)!;
 
 	const result = selectedSchema.safeParse(rawData);
 
 	if (!result.success) {
-		const zodErrors = Object.entries(result.error.flatten().fieldErrors);
+		const zodErrorDetails = {
+			...result.error.formErrors,
+			fieldErrors: Object.entries(result.error.formErrors.fieldErrors),
+		};
 
-		throw new AppError(422, "Validation Failed", { errors: zodErrors });
+		throw new AppError(422, "Validation Failed", { errors: zodErrorDetails });
 	}
 
-	req.validatedBody = result.data;
+	req.body = result.data as Record<string, unknown>;
 
 	next();
 });

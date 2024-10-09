@@ -9,7 +9,7 @@ import FormArea from "./components/FormArea/FormArea";
 
 function SignUpFormPage() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
-	const isSignUpPath = useLocation().pathname.endsWith("sign-up");
+	const isSignUpPath = useLocation().pathname.endsWith("signup");
 
 	return (
 		<AnimatePresence>
@@ -34,7 +34,7 @@ function SignUpFormPage() {
 						</h2>
 					</header>
 
-					<FormArea formType={"Sign Up"} />
+					<FormArea formType="SignUp" />
 
 					<div className="my-[3.3rem] flex items-center">
 						<span className="mr-[1rem] inline-block h-[1px] w-full bg-carousel-btn" />
@@ -66,7 +66,7 @@ function SignUpFormPage() {
 							Already have an account?
 							<Link
 								className="ml-[0.4rem] text-[hsl(214,89%,53%)] hover:text-[hsl(214,89%,60%)]"
-								to={"/auth/login"}
+								to={"/auth/signin"}
 							>
 								Sign in
 							</Link>

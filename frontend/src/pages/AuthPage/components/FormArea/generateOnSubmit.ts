@@ -20,7 +20,7 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 	const { formType, navigate, reset, setError } = submitParams;
 
 	const onSubmit = async (formDataObj: FormSchemaType) => {
-		const AUTH_URL = formType === "Sign Up" ? `/sign-up` : `/login`;
+		const AUTH_URL = formType === "SignUp" ? `/signup` : `siginin`;
 
 		noScrollOnOpen({ isActive: true });
 

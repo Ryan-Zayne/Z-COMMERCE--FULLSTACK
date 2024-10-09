@@ -42,13 +42,13 @@ const NavIcons = () => {
 			<SearchForm
 				isSearchShow={isSearchShow}
 				classNames={{
-					container: cnJoin(!isMobile && "w-[min(100%,_54vw)]"),
 					base: cnMerge(
 						isMobile &&
 							`absolute inset-x-0 top-[6.1rem] flex h-0 justify-center overflow-y-hidden
 							rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out`,
 						isSearchShow && "h-[8.1rem] duration-[600ms] ease-[ease]"
 					),
+					container: cnJoin(!isMobile && "w-[min(100%,_54vw)]"),
 				}}
 			/>
 
@@ -94,9 +94,9 @@ const NavIcons = () => {
 							),
 						}}
 					>
-						<Link to={"/auth/login"}>My Account</Link>
+						{/* Only activate on signup <Link to={"/auth/signin"}>My Account</Link> */}
 						<Link to={"/checkout"}>Checkout</Link>
-						<Link to={"/auth/login"}>User Login</Link>
+						<Link to={"/auth/signin"}>User Login</Link>
 					</DropDown.Panel>
 				</DropDown.Root>
 

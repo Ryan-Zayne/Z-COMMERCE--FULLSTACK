@@ -1,4 +1,3 @@
-import { ENVIRONMENT } from "./common/env";
 import "@colors/colors";
 import path from "node:path";
 import cookieParser from "cookie-parser";
@@ -12,19 +11,28 @@ import morgan from "morgan";
 import { authRouter } from "./auth/routes";
 import { corsOptions, helmetOptions, rateLimitOptions, setConnectionToDb } from "./common/config";
 import { PORT, isProduction } from "./common/constants";
-import { errorHandler, notFoundHandler } from "./common/middleware";
+import { ENVIRONMENT } from "./common/env";
+import { errorHandler, notFoundHandler, validateDataWithZod } from "./common/middleware";
+import { AppResponse } from "./common/utils/appResponse";
 import { userRouter } from "./users/routes";
 
 const app = express();
 
-app.use(express.json({ limit: "1mb" }));
+/**
+ * Express configuration
+ */
+app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]); // Enable trust proxy
+app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(ENVIRONMENT.COOKIE_SECRET));
 
-// Middleware - App Security
+/**
+ * Middleware - App Security
+ */
 app.use(helmet(helmetOptions));
-app.use(cors(corsOptions));
-app.use(rateLimit(rateLimitOptions));
+
+app.use(cors(corsOptions)); // Cors
+app.use(rateLimit(rateLimitOptions)); // Rate Limiting
 app.use(mongoSanitize()); // Data sanitization against NoSQL query injection
 app.use(hpp()); // Prevent Parameter Pollution
 app.use((_, res, next) => {
@@ -38,7 +46,9 @@ app.use((_, res, next) => {
 // Middleware - Logger
 app.use(morgan("dev"));
 
-// Routes
+// v1 Routes
+app.use(validateDataWithZod);
+app.use("/api/v1/alive", (req, res) => AppResponse(res, 200, "Server is up and running"));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 

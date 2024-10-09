@@ -8,7 +8,8 @@
 	},
 	"scripts": {
 		"check-types": "tsc --incremental --pretty p tsconfig.json ",
-		"dev": "tsx --env-file=.env --watch src/server.ts --clear-screen=false",
+		"dev": "tsx --env-file=.env src/server.ts --clear-screen=false",
+		"dev:watch": "tsx --env-file=.env --watch src/server.ts --clear-screen=false",
 		"format": "prettier --write .",
 		"lint": "eslint src/**/*.ts",
 		"start": "tsx --loader esm-module-alias/loader src/server.ts",

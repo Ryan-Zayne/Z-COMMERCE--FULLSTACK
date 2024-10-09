@@ -7,19 +7,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { type FormSchemaType, generateOnSubmitFn } from "./generateOnSubmit";
 
 export type FormAreaProps = {
-	formClasses?: string;
-	formType: "Login" | "Sign Up";
+	classNames?: { form?: string };
+	formType: "SignIn" | "SignUp";
 };
 
 const semanticClasses = {
 	error: "border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error",
 };
 
-function FormArea({ formClasses, formType }: FormAreaProps) {
+function FormArea({ classNames, formType }: FormAreaProps) {
 	const navigate = useNavigate();
 
 	const methods = useForm<FormSchemaType>({
-		resolver: zodResolver(formType === "Sign Up" ? SignUpSchema : LoginSchema),
+		resolver: zodResolver(formType === "SignUp" ? SignUpSchema : LoginSchema),
 	});
 
 	const { control, formState, handleSubmit, reset, setError } = methods;
@@ -31,14 +31,14 @@ function FormArea({ formClasses, formType }: FormAreaProps) {
 			className={cnMerge(
 				`mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem]
 				[&_label]:text-[1.2rem]`,
-				formClasses
+				classNames?.form
 			)}
 			methods={methods}
 			onSubmit={(event) => void handleSubmit(onSubmit)(event)}
 		>
 			{formState.isSubmitting && <LoadingSpinner type={"auth"} />}
 
-			<Show when={formType === "Sign Up"}>
+			<Show when={formType === "SignUp"}>
 				<Form.Item control={control} name="username">
 					<Form.Label>Username</Form.Label>
 
@@ -81,7 +81,7 @@ function FormArea({ formClasses, formType }: FormAreaProps) {
 				<Form.ErrorMessage control={control} errorField="password" type="regular" />
 			</Form.Item>
 
-			<Show when={formType === "Sign Up"}>
+			<Show when={formType === "SignUp"}>
 				<Form.Item className={"relative"} control={control} name="confirmPassword">
 					<Form.Label>Confirm Password</Form.Label>
 
@@ -113,16 +113,16 @@ function FormArea({ formClasses, formType }: FormAreaProps) {
 			<Form.Item
 				className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}
 				control={control}
-				name={formType === "Sign Up" ? "acceptTerms" : "rememberMe"}
+				name={formType === "SignUp" ? "acceptTerms" : "rememberMe"}
 			>
 				<Form.Input type="checkbox" />
 
 				<Switch>
-					<Switch.Match when={formType === "Login"}>
+					<Switch.Match when={formType === "SignIn"}>
 						<p>Remember me</p>
 					</Switch.Match>
 
-					<Switch.Match when={formType === "Sign Up"}>
+					<Switch.Match when={formType === "SignUp"}>
 						<div className="flex">
 							<p>I agree to all</p>
 

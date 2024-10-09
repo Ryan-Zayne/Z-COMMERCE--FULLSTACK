@@ -1,8 +1,9 @@
 import { authenticateUser, setCookie } from "@/common/utils";
 import type { UserType } from "@/users/types";
+import type { HydratedDocument } from "mongoose";
 import { catchAsync } from "./catchAsyncErrors";
 
-const protect = catchAsync<{ user: UserType }>(async (req, res, next) => {
+const protect = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res, next) => {
 	// == Get the cookies from the request headers
 	const { zayneAccessToken, zayneRefreshToken } = req.signedCookies;
 

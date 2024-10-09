@@ -8,7 +8,7 @@ import FormArea from "./components/FormArea/FormArea";
 
 function LoginFormPage() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
-	const isLoginPath = useLocation().pathname.endsWith("login");
+	const isLoginPath = useLocation().pathname.endsWith("signin");
 
 	return (
 		<AnimatePresence>
@@ -33,7 +33,7 @@ function LoginFormPage() {
 						</h2>
 					</header>
 
-					<FormArea formClasses={"mt-[3rem]"} formType={"Login"} />
+					<FormArea classNames={{ form: "mt-[3rem]" }} formType="SignIn" />
 
 					<div className="my-[3rem] flex items-center justify-center text-input">
 						<span className="mr-[1rem] inline-block h-[1px] w-full bg-carousel-btn" />
@@ -65,7 +65,7 @@ function LoginFormPage() {
 							New user?
 							<Link
 								className="ml-[0.4rem] text-[hsl(214,89%,53%)] hover:text-[hsl(214,89%,60%)]"
-								to={"/auth/sign-up"}
+								to={"/auth/signup"}
 							>
 								Create an account
 							</Link>

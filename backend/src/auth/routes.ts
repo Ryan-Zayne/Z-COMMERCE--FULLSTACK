@@ -1,14 +1,15 @@
-import { protect, validateDataWithZod } from "@/common/middleware";
+import { protect } from "@/common/middleware";
 import express from "express";
 import { signIn, signOut, signUp } from "./controllers";
+import { session } from "./controllers/session";
 
 const router = express.Router();
 
-router.use(validateDataWithZod);
 router.post("/signup", signUp);
 router.post("/signin", signIn);
 
 router.use(protect);
+router.get("/session", session);
 router.get("/signout", signOut);
 
 export { router as authRouter };

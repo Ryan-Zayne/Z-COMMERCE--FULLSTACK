@@ -3,20 +3,20 @@ import { catchAsync } from "@/common/middleware";
 import { AppError, omitSensitiveFields, setCookie } from "@/common/utils";
 import { AppResponse } from "@/common/utils/appResponse";
 import { UserModel } from "@/users/model";
-import type { HydratedUserType, UserType } from "@/users/types";
+import type { HydratedUserType } from "@/users/types";
 import { differenceInHours } from "date-fns";
 
 // @route POST /api/auth/login
 // @access Public
 const signIn = catchAsync<{
+	body: Pick<HydratedUserType, "email" | "password">;
 	signedCookies: {
 		zayneRefreshToken: string;
 	};
-	validatedBody: Pick<HydratedUserType, "email" | "password">;
 }>(async (req, res) => {
 	const { zayneRefreshToken } = req.signedCookies;
 
-	const { email, password } = req.validatedBody;
+	const { email, password } = req.body;
 
 	const user = await UserModel.findOne({ email }).select(["+password", "+refreshTokenArray"]);
 
@@ -77,7 +77,7 @@ const signIn = catchAsync<{
 	);
 
 	return AppResponse(res, 200, "Signed in successfully", {
-		user: omitSensitiveFields(updatedUser as UserType),
+		user: omitSensitiveFields(updatedUser),
 	});
 });
 

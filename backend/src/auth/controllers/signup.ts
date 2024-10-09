@@ -5,13 +5,9 @@ import { UserModel } from "@/users/model";
 import type { HydratedUserType } from "@/users/types";
 
 const signUp = catchAsync<{
-	validatedBody: Pick<HydratedUserType, "email" | "password" | "username">;
+	body: Pick<HydratedUserType, "email" | "password" | "username">;
 }>(async (req, res) => {
-	const { email, password, username } = req.validatedBody;
-
-	if (!email || !password) {
-		throw new AppError(400, "Incomplete signup data");
-	}
+	const { email, password, username } = req.body;
 
 	const existingUser = Boolean(await UserModel.exists({ email }));
 

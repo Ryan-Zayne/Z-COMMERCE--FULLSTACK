@@ -8,7 +8,7 @@ import Home from "./Home/Home";
 const AuthLayout = lazy(() => import("@/layouts/AuthLayout"));
 const AllProductsPage = lazy(() => import("@/pages/AllProductsPage"));
 const SignUpFormPage = lazy(() => import("@/pages/AuthPage/SignUpFormPage"));
-const LoginFormPage = lazy(() => import("@/pages/AuthPage/LoginFormPage"));
+const SignInFormPage = lazy(() => import("@/pages/AuthPage/SignInFormPage"));
 const ProductCategoryPage = lazy(() => import("@/pages/ProductCategoryPage"));
 const ProductItemPage = lazy(() => import("@/pages/ProductItemPage/ProductItemPage"));
 const NotFoundPage = lazy(() => import("@/pages/NotFoundPage"));
@@ -30,8 +30,8 @@ const routes = createRoutesFromElements(
 
 		{/* Auth Layout */}
 		<Route path="auth" element={<AuthLayout />} errorElement={<ErrorPage />}>
-			<Route path="sign-up" element={<SignUpFormPage />} />
-			<Route path="login" element={<LoginFormPage />} />
+			<Route path="signup" element={<SignUpFormPage />} />
+			<Route path="signin" element={<SignInFormPage />} />
 		</Route>
 
 		{/* 404 Page */}
