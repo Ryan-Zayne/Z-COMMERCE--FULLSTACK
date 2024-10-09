@@ -7,44 +7,44 @@ import { Link } from "react-router-dom";
 
 const categories = [
 	{
-		title: "SmartPhones",
-		path: "products/smartphones",
+		bgDark: "bg-[hsl(27,96%,33%)]",
+		bgLight: "bg-orange-400",
 		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436586/smartphone-transformed_jbfngh_t4v6hj.webp",
 		imageAspectRatio: "aspect-[0.83]",
-		bgLight: "bg-orange-400",
-		bgDark: "bg-[hsl(27,96%,33%)]",
+		path: "products/smartphones",
+		title: "SmartPhones",
 	},
 	{
-		title: "Laptops",
-		path: "products/laptops",
+		bgDark: "bg-[hsl(200,6%,31%)]",
+		bgLight: "bg-gray-400",
 		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436585/laptop-transformed_dhamlu_dmts1f.webp",
 		imageAspectRatio: "aspect-[1.33]",
-		bgLight: "bg-gray-400",
-		bgDark: "bg-[hsl(200,6%,31%)]",
+		path: "products/laptops",
+		title: "Laptops",
 	},
 	{
-		title: "Vehicles",
-		path: "products/vehicles",
+		bgDark: "bg-[hsl(270,95%,25%)]",
+		bgLight: "bg-purple-400",
 		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436585/car-transformed_wegeou.webp",
 		imageAspectRatio: "aspect-[2.02]",
-		bgLight: "bg-purple-400",
-		bgDark: "bg-[hsl(270,95%,25%)]",
+		path: "products/vehicles",
+		title: "Vehicles",
 	},
 	{
-		title: "Watches",
-		path: "products/watches",
+		bgDark: "bg-[hsl(188,86%,38%)]",
+		bgLight: "bg-cyan-400",
 		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436588/watches-transformed_tgsflz.webp",
 		imageAspectRatio: "aspect-[1.21]",
-		bgLight: "bg-cyan-400",
-		bgDark: "bg-[hsl(188,86%,38%)]",
+		path: "products/watches",
+		title: "Watches",
 	},
 	{
-		title: "Digital Lighting",
-		path: "products/lighting",
+		bgDark: "bg-[hsl(151,76%,26%)]",
+		bgLight: "bg-green-300",
 		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436587/lighting-transformed_bzmi3h.webp",
 		imageAspectRatio: "aspect-[1.03]",
-		bgLight: "bg-green-300",
-		bgDark: "bg-[hsl(151,76%,26%)]",
+		path: "products/lighting",
+		title: "Digital Lighting",
 	},
 ];
 
@@ -65,14 +65,13 @@ function Categories() {
 				render={(category) => (
 					<m.li
 						key={category.title}
-						initial={{ y: 50, opacity: 0, scale: 0.8 }}
+						initial={{ opacity: 0, y: 100 }}
 						whileInView={{
-							y: 0,
 							opacity: 1,
-							scale: 1,
-							transition: { ease: "easeInOut", duration: 0.6 },
+							transition: { duration: 0.7 },
+							y: 0,
 						}}
-						viewport={{ margin: "-40px" }}
+						viewport={{ once: true }}
 						whileHover={{ scale: 1.09, transition: { duration: 0.3 } }}
 						className={cnJoin(
 							`flex w-[min(100%,27rem)] justify-between gap-[1.5rem] rounded-[5rem] p-[2rem]

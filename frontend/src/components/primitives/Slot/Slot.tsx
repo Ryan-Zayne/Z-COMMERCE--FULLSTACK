@@ -2,9 +2,9 @@ import { isArray } from "@zayne-labs/toolkit/type-helpers";
 import { Children, cloneElement, isValidElement } from "react";
 import SlotClone from "./SlotClone";
 
-type SlotProps = {
+type SlotProps = React.HTMLAttributes<HTMLElement> & {
 	children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLElement>;
+};
 
 /* -------------------------------------------------------------------------------------------------
  * Slottable
@@ -30,7 +30,7 @@ export function Slot(props: SlotProps) {
 
 	if (slottable) {
 		// == The new element to render is the one passed as a child of `Slottable`
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		// eslint-disable-next-line ts-eslint/no-unsafe-member-access
 		const newElement = slottable.props.children as unknown;
 
 		const newElementChildren = childrenArray.map((child) => {
@@ -55,5 +55,3 @@ export function Slot(props: SlotProps) {
 
 	return <SlotClone {...restOfSlotProps}>{children}</SlotClone>;
 }
-
-

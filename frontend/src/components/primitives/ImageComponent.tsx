@@ -2,22 +2,22 @@ import { cnMerge } from "@/lib/utils/cn";
 import { useState } from "react";
 
 type ImageComponentProps = React.ComponentPropsWithRef<"img"> & {
-	src: string;
-	imageType: "hasFallback" | "hasSkeleton";
 	blurSrc?: string;
 	className?: string;
+	fetchpriority?: "auto" | "high" | "low";
+	imageType: "hasFallback" | "hasSkeleton";
+	src: string;
 	wrapperClassName?: string;
-	fetchpriority?: "auto" | "low" | "high";
 };
 
 type ImageTypeProps = Omit<ImageComponentProps, "imageType"> & {
-	isImageLoaded: boolean;
 	handleImageLoad: () => void;
+	isImageLoaded: boolean;
 };
 
 const IMAGE_TYPE_LOOKUP = {
 	hasFallback: (props: ImageTypeProps) => {
-		const { src, blurSrc, className, isImageLoaded, handleImageLoad, ...restOfProps } = props;
+		const { blurSrc, className, handleImageLoad, isImageLoaded, src, ...restOfProps } = props;
 
 		return (
 			<img
@@ -31,7 +31,7 @@ const IMAGE_TYPE_LOOKUP = {
 	},
 
 	hasSkeleton: (props: ImageTypeProps) => {
-		const { src, className, wrapperClassName, isImageLoaded, handleImageLoad, onClick, ...restOfProps } =
+		const { className, handleImageLoad, isImageLoaded, onClick, src, wrapperClassName, ...restOfProps } =
 			props;
 
 		return (

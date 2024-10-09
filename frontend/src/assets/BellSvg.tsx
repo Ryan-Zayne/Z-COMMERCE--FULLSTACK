@@ -5,7 +5,7 @@ function BellSvg() {
 			fill="currentColor"
 			strokeWidth="0"
 			viewBox="0 0 24 24"
-			className="drop-shadow-glow animate-flicker text-yellow-300"
+			className="animate-flicker text-yellow-300"
 			height="60"
 			width="60"
 			xmlns="http://www.w3.org/2000/svg"

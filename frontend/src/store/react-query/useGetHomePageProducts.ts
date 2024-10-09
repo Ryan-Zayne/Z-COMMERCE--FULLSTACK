@@ -13,9 +13,9 @@ const useGetHomePageProducts = () => {
 	];
 
 	return {
-		isPending,
-		isError,
 		hotSalesProducts,
+		isError,
+		isPending,
 		recentlyViewedProducts,
 		similarProducts,
 	};

@@ -23,8 +23,8 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 						hover:box-shadow-[0_0_5px_var(--text-dark)] active:scale-[1.11] lg:p-[1.3rem_0.9rem]`,
 					}}
 					icon={{
-						iconType: "nextIcon",
 						icon: <IconBox icon="bi:chevron-right" />,
+						iconType: "nextIcon",
 					}}
 				/>
 

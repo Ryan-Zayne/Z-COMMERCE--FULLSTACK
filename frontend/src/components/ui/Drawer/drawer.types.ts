@@ -1,14 +1,14 @@
 // Drawer store types
 export type DrawerStore = {
 	isOpen: boolean;
-	onOpen: () => void;
 	onClose: () => void;
+	onOpen: () => void;
 	onToggle?: () => void;
 };
 export type DrawerProviderProps = { children: React.ReactNode; storeValues: DrawerStore };
 
 // Drawer component types
-export type DrawerRootProps = Pick<DrawerProviderProps, "children"> & DrawerStore;
+export type DrawerRootProps = DrawerStore & Pick<DrawerProviderProps, "children">;
 
 export type DrawerContentProps = Pick<DrawerProviderProps, "children"> & {
 	className?: string;

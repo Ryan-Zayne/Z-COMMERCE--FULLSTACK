@@ -230,7 +230,7 @@ function FormInputPrimitive<TFieldValues extends FieldValues>(
 	);
 }
 
-function FormInput(props: Omit<FormInputPrimitiveProps, "id" | "name" | "formState" | "control">) {
+function FormInput(props: Omit<FormInputPrimitiveProps, "control" | "formState" | "id" | "name">) {
 	const { name } = useFormItemContext();
 	const { formState, register } = useHookFormContext();
 
@@ -295,7 +295,7 @@ function FormTextAreaPrimitive<TFieldValues extends FieldValues>(
 	);
 }
 
-function FormTextArea(props: Omit<FormTextAreaPrimitiveProps, "id" | "name" | "formState" | "control">) {
+function FormTextArea(props: Omit<FormTextAreaPrimitiveProps, "control" | "formState" | "id" | "name">) {
 	const { name } = useFormItemContext();
 
 	const { formState, register } = useHookFormContext();
@@ -315,7 +315,7 @@ function FormTextArea(props: Omit<FormTextAreaPrimitiveProps, "id" | "name" | "f
 
 type FormControllerProps<TFieldValues> = Omit<
 	ControllerProps<FieldValues, FieldPath<FieldValues>>,
-	"name" | "control" | "render"
+	"control" | "name" | "render"
 > & {
 	render: (props: {
 		field: Omit<ControllerRenderProps, "value"> & { value: TFieldValues };

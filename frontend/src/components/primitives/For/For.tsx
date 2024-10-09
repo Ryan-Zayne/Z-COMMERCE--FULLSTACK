@@ -19,12 +19,12 @@ export type ForRenderProps<TArrayItem> =
 			render: RenderPropFn<TArrayItem>;
 	  };
 
-type ForProps<TArrayItem> = ForRenderProps<TArrayItem> & EachProp<TArrayItem>;
+type ForProps<TArrayItem> = EachProp<TArrayItem> & ForRenderProps<TArrayItem>;
 
 function ForBase<TArrayItem>(props: ForProps<TArrayItem>) {
 	const { children, each, render } = props;
 
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	// eslint-disable-next-line ts-eslint/no-unnecessary-condition
 	if (each == null) {
 		return null;
 	}
@@ -49,7 +49,7 @@ function ForList<TArrayItem, TElement extends React.ElementType = "ul">(
 ) {
 	const { as: ListContainer = "ul", children, className, each, ref, render, ...restOfListProps } = props;
 
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	// eslint-disable-next-line ts-eslint/no-unnecessary-condition
 	if (each == null) {
 		return null;
 	}

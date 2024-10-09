@@ -48,7 +48,7 @@ export type CarouselButtonsProps = {
 
 	icon?: React.ReactNode;
 
-	type: "prev" | "next";
+	type: "next" | "prev";
 };
 
 export type CarouselControlProps = {
@@ -61,13 +61,13 @@ export type CarouselControlProps = {
 	// == Allow for custom icons, either passing both or just one of the two
 	icon?:
 		| {
+				icon?: React.ReactNode;
+				iconType: "nextIcon" | "prevIcon";
+		  }
+		| {
 				iconType?: null;
 				next?: React.ReactNode;
 				prev?: React.ReactNode;
-		  }
-		| {
-				icon?: React.ReactNode;
-				iconType: "prevIcon" | "nextIcon";
 		  };
 };
 

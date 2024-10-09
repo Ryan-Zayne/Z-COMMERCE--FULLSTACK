@@ -1,14 +1,14 @@
 import { IconBox } from "./IconBox";
 
 type StarRatingProps = {
-	rating: number;
-	text?: string;
 	className?: string;
 	icon?: string;
+	rating: number;
+	text?: string;
 };
 
 function StarRating(props: StarRatingProps) {
-	const { rating, text = "", className = "", icon = "ant-design:star-filled" } = props;
+	const { className = "", icon = "ant-design:star-filled", rating, text = "" } = props;
 
 	const star5 = [...Array(5).keys()].map((id) => (
 		<IconBox icon={icon} key={id} color="var(--text-header)" />

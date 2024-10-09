@@ -2,13 +2,13 @@ import BellSvg from "@/assets/BellSvg";
 import { Link, useLocation } from "react-router-dom";
 
 const notFoundMessageDefaults = {
-	"/wishlist": "WishList page still under construction",
-	"/contact-us": "Contact page still under construction",
 	"/checkout": "Checkout page still under construction",
+	"/contact-us": "Contact page still under construction",
+	"/wishlist": "WishList page still under construction",
 };
 
 const getDefaultMessage = (href: string) => {
-	/*  eslint-disable consistent-return */
+	 
 	if (!(href in notFoundMessageDefaults)) return;
 
 	return notFoundMessageDefaults[href as keyof typeof notFoundMessageDefaults];

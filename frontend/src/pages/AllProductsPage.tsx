@@ -5,7 +5,7 @@ import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
 import { Link } from "react-router-dom";
 
 function AllProductsPage() {
-	const { isPending, allProductsArray } = useGetAllProducts();
+	const { allProductsArray, isPending } = useGetAllProducts();
 
 	if (isPending) {
 		return <LoadingSkeleton count={10} />;

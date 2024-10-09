@@ -11,38 +11,34 @@ export type CommonStateSlice = {
 };
 
 export type MediaQuerySlice = {
-	isDesktop: boolean;
-	isMobile: boolean;
-	isTablet: boolean;
-
 	actions: {
 		handleQueryListeners: (action: "add" | "remove") => void;
 		setQuery: (query: keyof typeof MEDIA_QUERY_LOOKUP) => () => void;
 	};
+	isDesktop: boolean;
+	isMobile: boolean;
+
+	isTablet: boolean;
 };
 
 export type GlobalStore = CommonStateSlice & MediaQuerySlice;
 
 // ThemeState Types
 export type ThemeStore = {
-	isDarkMode: boolean;
-
-	theme: string;
-
 	actions: {
 		initThemeOnLoad: () => void;
 		toggleTheme: () => void;
 	};
+
+	isDarkMode: boolean;
+
+	theme: string;
 };
 
 // ShopState Types
 export type ResponseDataItemInCart = DummyResponseDataItem & { quantity: number };
 
 export type ShopStore = {
-	cart: ResponseDataItemInCart[];
-
-	wishList: DummyResponseDataItem[];
-
 	actions: {
 		addToCart: (productItem: DummyResponseDataItem) => void;
 
@@ -59,4 +55,8 @@ export type ShopStore = {
 			newData: { updatedQuantity: number }
 		) => void;
 	};
+
+	cart: ResponseDataItemInCart[];
+
+	wishList: DummyResponseDataItem[];
 };

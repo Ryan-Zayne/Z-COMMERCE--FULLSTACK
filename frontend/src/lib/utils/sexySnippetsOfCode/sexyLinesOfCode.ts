@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable ts-eslint/no-unused-vars */
 
 // == This, is beauty...
-(({ age, ...rest }) => rest)({ name: "a", age: 1, id: 1 });
+(({ age, ...rest }) => rest)({ age: 1, id: 1, name: "a" });
 
 // == This gets input data from a form and returns it in the form of an object instead of a Map. Sexy stuff IMO...
 const getFormData = (event: SubmitEvent) => {
@@ -47,7 +47,6 @@ function randomIntOverload(...args: unknown[]): unknown {
 			const min = Math.min(arg1, arg2);
 			const randomInt = crypto.randomInt(min, max);
 
-			// eslint-disable-next-line consistent-return
 			return randomInt;
 		},
 

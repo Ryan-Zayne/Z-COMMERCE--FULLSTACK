@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 
 function ProductCategoryPage() {
 	const { category } = useParams();
-	const { productsArray, isPending } = useGetProductCategory(category);
+	const { isPending, productsArray } = useGetProductCategory(category);
 
 	if (isPending) {
 		return <LoadingSkeleton count={category === "watches" || category === "vehicles" ? 10 : 5} />;

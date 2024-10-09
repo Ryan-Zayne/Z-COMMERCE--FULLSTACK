@@ -1,7 +1,6 @@
 import { createZustandContext, useConstant } from "@zayne-labs/toolkit/react";
 import type { PrettyOmit } from "@zayne-labs/toolkit/type-helpers";
 import { useEffect } from "react";
-import { create } from "zustand";
 import { createWithEqualityFn } from "zustand/traditional";
 import type { CarouselProviderProps, CarouselStore, ImagesType } from "./carousel.types";
 

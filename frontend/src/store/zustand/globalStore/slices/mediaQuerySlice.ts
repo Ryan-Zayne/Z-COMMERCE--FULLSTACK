@@ -21,10 +21,6 @@ export const MEDIA_QUERY_LOOKUP = {
 };
 
 export const createMediaQuerySlice: StateCreator<GlobalStore, [], [], MediaQuerySlice> = (set, get) => ({
-	isDesktop: MEDIA_QUERY_LOOKUP.desktop.queryList.matches,
-	isMobile: MEDIA_QUERY_LOOKUP.mobile.queryList.matches,
-	isTablet: MEDIA_QUERY_LOOKUP.tablet.queryList.matches,
-
 	actions: {
 		handleQueryListeners: (action) => {
 			const { setQuery } = get().actions;
@@ -48,4 +44,8 @@ export const createMediaQuerySlice: StateCreator<GlobalStore, [], [], MediaQuery
 			set({ [queryKey]: queryList.matches });
 		},
 	},
+	isDesktop: MEDIA_QUERY_LOOKUP.desktop.queryList.matches,
+	isMobile: MEDIA_QUERY_LOOKUP.mobile.queryList.matches,
+
+	isTablet: MEDIA_QUERY_LOOKUP.tablet.queryList.matches,
 });

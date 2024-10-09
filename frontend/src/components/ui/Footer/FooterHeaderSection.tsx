@@ -6,8 +6,8 @@ import { NewsletterIcon, getOnApple, getOnGoogle } from "./images";
 function FooterHeaderSection() {
 	return (
 		<m.section
-			initial={{ y: 100, opacity: 0 }}
-			whileInView={{ y: 0, opacity: 1 }}
+			initial={{ opacity: 0, y: 100 }}
+			whileInView={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.7 }}
 			viewport={{ margin: "-20px 0px 0px" }}
 			className="flex flex-col bg-slate-900 bg-footer-image bg-cover bg-no-repeat p-[3rem_2rem]

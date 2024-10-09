@@ -1,21 +1,21 @@
 import { createPortal } from "react-dom";
 
 type ValidHtmlTags = keyof HTMLElementTagNameMap;
-type ValidSelectorAttributes = keyof React.AllHTMLAttributes<HTMLElement> | `data-${string}`;
+type ValidSelectorAttributes = `data-${string}` | keyof React.AllHTMLAttributes<HTMLElement>;
 export type ValidSelector =
-	| ValidHtmlTags
-	| `#${string}`
 	| `.${string}`
-	| `data-${string}`
 	| `[${ValidSelectorAttributes}='${string}']`
-	| `${ValidHtmlTags}[${ValidSelectorAttributes}='${string}']`;
+	| `#${string}`
+	| `${ValidHtmlTags}[${ValidSelectorAttributes}='${string}']`
+	| `data-${string}`
+	| ValidHtmlTags;
 
 type PortalProps = {
 	children: React.ReactNode;
 	to?: ValidSelector;
 };
 
-function Teleport({ to = "#portal-holder", children }: PortalProps) {
+function Teleport({ children, to = "#portal-holder" }: PortalProps) {
 	const teleportDestination = document.querySelector<HTMLElement>(to);
 
 	return createPortal(children, teleportDestination ?? document.body);

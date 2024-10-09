@@ -5,16 +5,16 @@ import { getElementList } from "./For/getElementList";
 
 type ErrorParagraphProps<TValues extends FieldValues> =
 	| {
-			type: "regular";
+			className?: string;
 			control: Control<TValues>;
 			errorField: keyof TValues;
-			className?: string;
+			type: "regular";
 	  }
 	| {
-			type: "root";
+			className?: string;
 			control: Control<TValues>;
 			errorField: string;
-			className?: string;
+			type: "root";
 	  };
 
 const paragraphClass = "animate-shake pt-[0.3rem] text-[1.1rem] text-error";

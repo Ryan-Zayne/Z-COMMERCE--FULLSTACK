@@ -17,8 +17,6 @@ const SonnerToaster = (props: ToasterProps) => {
 			pauseWhenPageIsHidden={true}
 			toastOptions={{
 				classNames: {
-					toast: "group toast p-[20px] max-lg:mx-auto max-lg:group-[.toaster]:max-w-max group-[.toaster]:bg-shadcn-background group-[.toaster]:text-shadcn-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
-
 					actionButton:
 						"group-[.toast]:bg-shadcn-primary group-[.toast]:text-shadcn-primary-foreground",
 
@@ -36,6 +34,8 @@ const SonnerToaster = (props: ToasterProps) => {
 						"group success data-[type=success]:group-[.toaster]:bg-sonner-success-bg data-[type=success]:group-[.toaster]:text-sonner-success-text data-[type=success]:border-sonner-success-border",
 
 					title: "group-[.toaster]:text-[16px] group-[.toaster]:font-bold",
+
+					toast: "group toast p-[20px] max-lg:mx-auto max-lg:group-[.toaster]:max-w-max group-[.toaster]:bg-shadcn-background group-[.toaster]:text-shadcn-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
 				},
 			}}
 			{...props}

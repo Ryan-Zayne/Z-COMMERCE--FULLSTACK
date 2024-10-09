@@ -1,14 +1,14 @@
-export const isServer = () => typeof window === "undefined" || typeof document === "undefined";
+export const isServer = () => typeof globalThis === "undefined" || typeof document === "undefined";
 
 export const isBrowser = () => !isServer();
 
-export const prefersDarkMode = isServer() && window.matchMedia("(prefers-color-scheme: dark)").matches;
+export const prefersDarkMode = isServer() && globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
 
-export const mobileQuery = window.matchMedia("(max-width: 767px)");
+export const mobileQuery = globalThis.matchMedia("(max-width: 767px)");
 
-export const tabletQuery = window.matchMedia("(min-width: 768px)");
+export const tabletQuery = globalThis.matchMedia("(min-width: 768px)");
 
-export const desktopQuery = window.matchMedia("(min-width: 1000px)");
+export const desktopQuery = globalThis.matchMedia("(min-width: 1000px)");
 
 export const BASE_DUMMY_URL = "https://dummyjson.com";
 

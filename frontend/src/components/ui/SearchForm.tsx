@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IconBox } from "../primitives/IconBox";
 
-type SearchFormProps = Pick<ButtonProps, "theme" | "variant" | "size" | "text"> & {
+type SearchFormProps = Pick<ButtonProps, "size" | "text" | "theme" | "variant"> & {
 	buttonIcon?: string;
 
 	classNames?: {

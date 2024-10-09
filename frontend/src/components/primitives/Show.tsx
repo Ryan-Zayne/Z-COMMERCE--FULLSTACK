@@ -3,15 +3,15 @@
 import { getOtherChildren, getSlotElement } from "@zayne-labs/toolkit/react";
 
 type ShowProps = {
-	when: boolean;
 	children: React.ReactNode;
 	fallback?: React.ReactNode;
+	when: boolean;
 };
 
-function Show({ when, children, fallback }: ShowProps) {
+function Show({ children, fallback, when }: ShowProps) {
 	const fallBackSlot = getSlotElement(children, ShowFallback, {
-		throwOnMultipleSlotMatch: true,
 		errorMessage: "Only one <Show.Default> component is allowed",
+		throwOnMultipleSlotMatch: true,
 	});
 
 	const otherChildren = getOtherChildren(children, [ShowFallback]);

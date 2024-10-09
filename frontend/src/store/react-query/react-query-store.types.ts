@@ -1,15 +1,15 @@
 export type DummyResponseData = {
 	products: Array<{
-		id: number;
-		title: string;
+		brand: string;
+		category: string;
 		description: string;
+		id: number;
+		images: string[];
 		price: number;
 		rating: number;
 		stock: number;
-		brand: string;
-		category: string;
 		thumbnail: string;
-		images: string[];
+		title: string;
 	}>;
 };
 

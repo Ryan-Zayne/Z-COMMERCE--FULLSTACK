@@ -7,12 +7,12 @@ type DropDownHeaderProps = React.ComponentPropsWithoutRef<"header"> & {
 	asChild?: boolean;
 };
 
-type DropDownPanelProps = Pick<DropDownProps, "id" | "children"> & {
-	isOpen: boolean;
+type DropDownPanelProps = Pick<DropDownProps, "children" | "id"> & {
 	classNames?: {
 		panelContainer?: string;
 		panelList?: string;
 	};
+	isOpen: boolean;
 };
 
 function DropDownRoot({ children, ...restOfProps }: DropDownProps) {
@@ -26,7 +26,7 @@ function DropDownTrigger({ asChild, children, ...restOfProps }: DropDownHeaderPr
 }
 
 function DropDownPanel(props: DropDownPanelProps) {
-	const { id = "", isOpen = false, children, classNames } = props;
+	const { children, classNames, id = "", isOpen = false } = props;
 
 	return (
 		<div
@@ -45,9 +45,9 @@ function DropDownPanel(props: DropDownPanelProps) {
 }
 
 const DropDown = {
+	Panel: DropDownPanel,
 	Root: DropDownRoot,
 	Trigger: DropDownTrigger,
-	Panel: DropDownPanel,
 };
 
 export default DropDown;

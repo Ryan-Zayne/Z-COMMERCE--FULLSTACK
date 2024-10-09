@@ -3,6 +3,21 @@ import loadingSpinner from "@/assets/loadingSpinner.svg";
 import Teleport from "@/components/primitives/Teleport";
 
 const LOADER_LOOKUP = {
+	auth: () => (
+		<Teleport>
+			<aside
+				className="fixed inset-0 z-[600] flex select-none items-center justify-center bg-black/60
+					backdrop-blur-[1.5px]"
+			>
+				<img
+					className="aspect-square w-[30rem] max-md:translate-y-[-4rem] lg:w-[30%]"
+					src={loadingSpinner}
+					alt=""
+				/>
+			</aside>
+		</Teleport>
+	),
+
 	regular: () => (
 		<aside id="preloader">
 			<div className="dank-ass-loader">
@@ -41,23 +56,8 @@ const LOADER_LOOKUP = {
 			</div>
 		</aside>
 	),
-
-	auth: () => (
-		<Teleport>
-			<aside
-				className="fixed inset-0 z-[600] flex select-none items-center justify-center bg-black/60
-					backdrop-blur-[1.5px]"
-			>
-				<img
-					className="aspect-square w-[30rem] max-md:translate-y-[-4rem] lg:w-[30%]"
-					src={loadingSpinner}
-					alt=""
-				/>
-			</aside>
-		</Teleport>
-	),
 };
-function LoadingSpinner({ type = "regular" }: { type?: "regular" | "auth" }) {
+function LoadingSpinner({ type = "regular" }: { type?: "auth" | "regular" }) {
 	return LOADER_LOOKUP[type]();
 }
 

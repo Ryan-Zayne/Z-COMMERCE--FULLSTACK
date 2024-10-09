@@ -24,4 +24,4 @@ const removePreloader = () => {
 on("DOMContentLoaded", document, removePreloader, { once: true });
 
 // NOTE - Scroll restoration for moxilla browser
-window.history.scrollRestoration = "auto";
+globalThis.history.scrollRestoration = "auto";

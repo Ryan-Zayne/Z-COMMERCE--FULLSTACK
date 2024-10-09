@@ -10,6 +10,84 @@ const tailwindConfig = {
 	],
 	darkMode: ["class", '[data-theme="dark"]'],
 
+	plugins: [
+		nextui(),
+		plugin((pluginObj) => {
+			// eslint-disable-next-line ts-eslint/unbound-method
+			const { addComponents, matchUtilities, matchVariant } = pluginObj;
+
+			addComponents({
+				".custom-scrollbar": {
+					"&::-webkit-scrollbar": {
+						width: "1rem",
+					},
+
+					"&::-webkit-scrollbar-thumb": {
+						backgroundColor: "hsl(206, 13%, 14%)",
+						border: "1px solid hsl(0, 0%, 76%)",
+						borderRadius: "1rem",
+					},
+
+					"&::-webkit-scrollbar-track": {
+						backgroundColor: "hsl(0, 0%, 76%)",
+						borderRadius: "1rem 1rem 0 0",
+					},
+				},
+			});
+
+			addComponents({
+				".navlink-transition": {
+					"&::before": {
+						backgroundColor: "var(--brand-inverse)",
+						borderRadius: "50%",
+						bottom: "2rem",
+						content: '""',
+						height: " 0.5rem",
+						left: "50%",
+						opacity: "0",
+						position: "absolute",
+						transform: "translateX(-50%)",
+						transition: `
+							opacity 0.4s ease 0s,
+							bottom 0.3s ease 0.1s,
+							height 0.5s ease 0.3s,
+							border-radius 0.2s ease 0.4s,
+							width 0.5s ease 0.4s
+							`,
+						width: "0.5rem",
+					},
+
+					"&:hover::before": {
+						borderRadius: "2rem",
+						bottom: "-0.5rem",
+						height: "0.3rem",
+						opacity: "1",
+						width: "calc(100% + 0.2rem)",
+					},
+				},
+			});
+
+			matchUtilities({
+				"box-shadow": (value) => ({
+					boxShadow: value,
+				}),
+			});
+
+			matchVariant(
+				"nth",
+
+				(value) => `&:nth-child(${value})`,
+
+				{
+					values: {
+						1: "1",
+						2: "2",
+					},
+				}
+			);
+		}),
+	],
+
 	theme: {
 		backgroundImage: {
 			"footer-image":
@@ -137,84 +215,6 @@ const tailwindConfig = {
 			xl: "1280px",
 		},
 	},
-
-	plugins: [
-		nextui(),
-		plugin((pluginObj) => {
-			// eslint-disable-next-line @typescript-eslint/unbound-method
-			const { addComponents, matchUtilities, matchVariant } = pluginObj;
-
-			addComponents({
-				".custom-scrollbar": {
-					"&::-webkit-scrollbar": {
-						width: "1rem",
-					},
-
-					"&::-webkit-scrollbar-thumb": {
-						backgroundColor: "hsl(206, 13%, 14%)",
-						border: "1px solid hsl(0, 0%, 76%)",
-						borderRadius: "1rem",
-					},
-
-					"&::-webkit-scrollbar-track": {
-						backgroundColor: "hsl(0, 0%, 76%)",
-						borderRadius: "1rem 1rem 0 0",
-					},
-				},
-			});
-
-			addComponents({
-				".navlink-transition": {
-					"&::before": {
-						backgroundColor: "var(--brand-inverse)",
-						borderRadius: "50%",
-						bottom: "2rem",
-						content: '""',
-						height: " 0.5rem",
-						left: "50%",
-						opacity: "0",
-						position: "absolute",
-						transform: "translateX(-50%)",
-						transition: `
-							opacity 0.4s ease 0s,
-							bottom 0.3s ease 0.1s,
-							height 0.5s ease 0.3s,
-							border-radius 0.2s ease 0.4s,
-							width 0.5s ease 0.4s
-							`,
-						width: "0.5rem",
-					},
-
-					"&:hover::before": {
-						borderRadius: "2rem",
-						bottom: "-0.5rem",
-						height: "0.3rem",
-						opacity: "1",
-						width: "calc(100% + 0.2rem)",
-					},
-				},
-			});
-
-			matchUtilities({
-				"box-shadow": (value) => ({
-					boxShadow: value,
-				}),
-			});
-
-			matchVariant(
-				"nth",
-
-				(value) => `&:nth-child(${value})`,
-
-				{
-					values: {
-						1: "1",
-						2: "2",
-					},
-				}
-			);
-		}),
-	],
 } satisfies Config;
 
 export default tailwindConfig;

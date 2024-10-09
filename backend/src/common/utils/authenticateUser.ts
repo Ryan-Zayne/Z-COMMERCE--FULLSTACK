@@ -19,6 +19,7 @@ const verifyUser = async (decodedPayload: DecodedJwtPayload, zayneRefreshToken: 
 
 	if (!user.refreshTokenArray.includes(zayneRefreshToken)) {
 		await UserModel.findByIdAndUpdate(user.id, { refreshTokenArray: [] });
+
 		throw new AppError(401, "Invalid token. Please log in again!");
 	}
 

@@ -15,23 +15,23 @@ const useGetAllProducts = () => {
 
 	const {
 		data: allProductsArray,
-		isPending,
 		isError,
+		isPending,
 	} = useQueries({
-		queries: productQueries.map(({ key, url }) => ({
-			queryKey: [key, { url }],
-			queryFn: () => callDummyApi(url),
-			select: transformData,
-		})),
-
 		combine: (resultsArray) => ({
 			data: resultsArray.flatMap((item) => item.data).filter((product) => product?.id !== 3), // Filtered out 3rd product cuz it's faulty,
-			isPending: resultsArray.some((item) => item.isPending),
 			isError: resultsArray.some((item) => item.isError),
+			isPending: resultsArray.some((item) => item.isPending),
 		}),
+
+		queries: productQueries.map(({ key, url }) => ({
+			queryFn: () => callDummyApi(url),
+			queryKey: [key, { url }],
+			select: transformData,
+		})),
 	});
 
-	return { allProductsArray, isPending, isError };
+	return { allProductsArray, isError, isPending };
 };
 
 export { useGetAllProducts };

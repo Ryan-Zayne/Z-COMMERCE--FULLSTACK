@@ -1,7 +1,7 @@
 import { useGetAllProducts } from "./useGetAllProducts";
 
 const useGetProductItem = (productId: string | undefined) => {
-	const { isError, isPending, allProductsArray } = useGetAllProducts();
+	const { allProductsArray, isError, isPending } = useGetAllProducts();
 
 	const productItem = allProductsArray.find((item) => item?.id === Number(productId));
 

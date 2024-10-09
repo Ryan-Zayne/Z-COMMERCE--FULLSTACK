@@ -19,8 +19,11 @@ function ProductCard(props: ProductCardProps) {
 	const { image, link = "", productItem } = props;
 
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
+
 	const isMobile = useGlobalStore((state) => state.isMobile);
+
 	const { addToCart, toggleAddToWishList } = useShopStore((state) => state.actions);
+
 	const isProductInWishList = useShopStore((state) => state.wishList).some(
 		(item) => item.id === productItem.id
 	);
@@ -42,14 +45,13 @@ function ProductCard(props: ProductCardProps) {
 
 	return (
 		<m.li
-			initial={{ opacity: 0, scale: 0.8, y: 80 }}
+			initial={{ opacity: 0, y: 200 }}
 			whileInView={{
 				opacity: 1,
-				scale: 1,
+				transition: { duration: 0.8, type: "tween" },
 				y: 0,
 			}}
-			transition={{ duration: 0.6, ease: "easeInOut" }}
-			viewport={{ margin: "-20px 0px 0px" }}
+			viewport={{ once: true }}
 		>
 			<Card
 				className={cnMerge(
@@ -71,16 +73,16 @@ function ProductCard(props: ProductCardProps) {
 						className="relative h-[18rem] w-full overflow-hidden rounded-[0.8rem_0.8rem_0_0]"
 					>
 						<button
+							type="button"
 							onClick={handleAddToWishList}
 							className={cnJoin(
 								`group/btn absolute bottom-[1.1rem] right-[1.3rem] z-[100] rounded-[50%] bg-primary
 								p-[0.7rem]`,
-								[
-									isHearted
-										? "translate-y-0 opacity-100"
-										: `translate-y-[5rem] opacity-0 transition-[opacity,transform] duration-[1s]
-											group-hover/card:translate-y-[0] group-hover/card:opacity-100`,
-								]
+
+								isHearted
+									? "translate-y-0 opacity-100"
+									: `translate-y-[5rem] opacity-0 transition-[opacity,transform] duration-[1s]
+										group-hover/card:translate-y-[0] group-hover/card:opacity-100`
 							)}
 						>
 							{isHearted ? (
