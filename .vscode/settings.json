@@ -1,5 +1,7 @@
 {
 	"typescript.tsdk": "frontend\\node_modules\\typescript\\lib",
 	"eslint.workingDirectories": ["frontend", "backend"],
-	"cSpell.words": ["shadcn", "signin", "sonarjs", "Sonner", "stringifier"]
+	"cSpell.words": ["shadcn", "signin", "sonarjs", "Sonner", "stringifier"],
+	"terminal-keeper.killProcess": false,
+	"terminal-keeper.wslSupport": false
 }

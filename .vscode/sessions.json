@@ -1,0 +1,101 @@
+{
+	"$schema": "https://cdn.statically.io/gh/nguyenngoclongdev/cdn/main/schema/v10/terminal-keeper.json",
+	"theme": "tribe",
+	"active": "default",
+	"activateOnStartup": true,
+	"keepExistingTerminals": false,
+	"sessions": {
+		"default": [
+			{
+				"autoExecuteCommands": true,
+				"cwd": "frontend",
+				"icon": "browser",
+				"name": "dev:client",
+				"commands": ["pnpm dev"]
+			},
+			{
+				"autoExecuteCommands": true,
+				"cwd": "backend",
+				"icon": "server",
+				"name": "dev:server",
+				"commands": ["pnpm dev:watch"]
+			}
+		],
+
+		"frontend": [
+			{
+				"cwd": "frontend",
+				"name": "build",
+				"commands": ["vite build"]
+			},
+			{
+				"cwd": "frontend",
+				"name": "check-types",
+				"commands": ["tsc --pretty --incremental -p tsconfig.json"]
+			},
+			{
+				"cwd": "frontend",
+				"name": "dev",
+				"commands": ["vite"]
+			},
+			{
+				"cwd": "frontend",
+				"name": "dev:tunnel",
+				"commands": ["concurrently 'pnpm:dev' 'pnpm:tunnel'"]
+			},
+			{
+				"cwd": "frontend",
+				"name": "format",
+				"commands": ["prettier --write ."]
+			},
+			{
+				"cwd": "frontend",
+				"name": "lint",
+				"commands": ["eslint src/**/*.{ts,tsx} --report-unused-disable-directives --max-warnings 0"]
+			},
+			{
+				"cwd": "frontend",
+				"name": "preview",
+				"commands": ["vite preview"]
+			}
+		],
+
+		"backend": [
+			{
+				"cwd": "backend",
+				"name": "check-types",
+				"commands": ["tsc --incremental --pretty p tsconfig.json "]
+			},
+			{
+				"cwd": "backend",
+				"name": "dev",
+				"commands": ["tsx --env-file=.env src/server.ts --clear-screen=false"]
+			},
+			{
+				"cwd": "backend",
+				"name": "dev:watch",
+				"commands": ["tsx --env-file=.env --watch src/server.ts --clear-screen=false"]
+			},
+			{
+				"cwd": "backend",
+				"name": "format",
+				"commands": ["prettier --write ."]
+			},
+			{
+				"cwd": "backend",
+				"name": "lint",
+				"commands": ["eslint src/**/*.ts"]
+			},
+			{
+				"cwd": "backend",
+				"name": "start",
+				"commands": ["tsx --loader esm-module-alias/loader src/server.ts"]
+			},
+			{
+				"cwd": "backend",
+				"name": "start:test",
+				"commands": ["cross-env NODE_ENV=production tsx --env-file=.env src/server.ts"]
+			}
+		]
+	}
+}

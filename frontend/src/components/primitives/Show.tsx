@@ -1,6 +1,7 @@
 "use client";
 
 import { getOtherChildren, getSlotElement } from "@zayne-labs/toolkit/react";
+import React from "react";
 
 type ShowProps = {
 	children: React.ReactNode;
@@ -14,7 +15,12 @@ function Show({ children, fallback, when }: ShowProps) {
 		throwOnMultipleSlotMatch: true,
 	});
 
-	const otherChildren = getOtherChildren(children, [ShowFallback]);
+	const contentSlot = getSlotElement(children, ShowContent, {
+		errorMessage: "Only one <Show.Content> component is allowed",
+		throwOnMultipleSlotMatch: true,
+	});
+
+	const otherChildren = getOtherChildren(children, [ShowFallback, ShowContent]);
 
 	if (fallBackSlot && fallback) {
 		throw new Error(`
@@ -23,8 +29,13 @@ function Show({ children, fallback, when }: ShowProps) {
 		`);
 	}
 
-	return when ? otherChildren : (fallBackSlot ?? fallback);
+	return when ? (contentSlot ?? otherChildren) : (fallBackSlot ?? fallback);
 }
+
+function ShowContent({ children }: Pick<ShowProps, "children">) {
+	return children;
+}
+ShowContent.slot = Symbol.for("content");
 
 function ShowFallback({ children }: Pick<ShowProps, "children">) {
 	return children;
@@ -32,5 +43,6 @@ function ShowFallback({ children }: Pick<ShowProps, "children">) {
 ShowFallback.slot = Symbol.for("fallback");
 
 Show.Fallback = ShowFallback;
+Show.Content = ShowContent;
 
 export default Show;
