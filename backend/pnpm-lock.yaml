@@ -12,8 +12,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.0
       '@zayne-labs/toolkit':
-        specifier: ^0.4.5
-        version: 0.4.5
+        specifier: ^0.4.6
+        version: 0.4.6
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
@@ -540,8 +540,8 @@ packages:
       zustand:
         optional: true
 
-  '@zayne-labs/toolkit@0.4.5':
-    resolution: {integrity: sha512-IxCcMsg3bn/dw38GJ/igBcFU+6gG2xh5vn/otCW8gw9lMBAZmuLQ8vEbb268z47kBH+lsoXYBpypouvwqB08jg==}
+  '@zayne-labs/toolkit@0.4.6':
+    resolution: {integrity: sha512-e9K8LwvAdgR9jAnzt5qbasHdxDd4h0xvrHQGil2yhgdtw1xHI7SA0tKvVSXnkQbVNAR4QxIuTYuOG5XB2gXDMw==}
     engines: {node: '>=18.x'}
     peerDependencies:
       '@types/react': ^18.0.0
@@ -782,8 +782,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  electron-to-chromium@1.5.34:
-    resolution: {integrity: sha512-/TZAiChbAflBNjCg+VvstbcwAtIL/VdMFO3NgRFIzBjpvPzWOTIbbO8kNb6RwU4bt9TP7K+3KqBKw/lOU+Y+GA==}
+  electron-to-chromium@1.5.35:
+    resolution: {integrity: sha512-hOSRInrIDm0Brzp4IHW2F/VM+638qOL2CzE0DgpnGzKW27C95IqqeqgKz/hxHGnvPxvQGpHUGD5qRVC9EZY2+A==}
 
   encodeurl@1.0.2:
     resolution: {integrity: sha512-TPJXq8JqFaVYm2CWmPvnP2Iyo4ZSM7/QKcSmuMLDObfpH5fi7RUGmd/rTDf+rut/saiDiQEeVTNgAmJEdAOx0w==}
@@ -2204,7 +2204,7 @@ snapshots:
 
   '@zayne-labs/toolkit@0.2.0': {}
 
-  '@zayne-labs/toolkit@0.4.5': {}
+  '@zayne-labs/toolkit@0.4.6': {}
 
   '@zayne-labs/tsconfig@0.1.1': {}
 
@@ -2281,7 +2281,7 @@ snapshots:
   browserslist@4.24.0:
     dependencies:
       caniuse-lite: 1.0.30001667
-      electron-to-chromium: 1.5.34
+      electron-to-chromium: 1.5.35
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.0)
 
@@ -2412,7 +2412,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.34: {}
+  electron-to-chromium@1.5.35: {}
 
   encodeurl@1.0.2: {}
 

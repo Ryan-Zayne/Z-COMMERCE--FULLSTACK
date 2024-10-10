@@ -20,7 +20,7 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 	const { formVariant, navigate, reset, setError } = submitParams;
 
 	const onSubmit = async (formDataObj: FormSchemaType) => {
-		const AUTH_URL = formVariant === "SignUp" ? `/signup` : `siginin`;
+		const AUTH_URL = formVariant === "SignUp" ? `/signup` : `/siginin`;
 
 		noScrollOnOpen({ isActive: true });
 
@@ -29,18 +29,16 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 		noScrollOnOpen({ isActive: false });
 
 		if (isHTTPError(error) && "errors" in error.errorData) {
-			const {
-				errors: { fieldErrors, formErrors },
-			} = error.errorData;
+			const zodErrorDetails = error.errorData.errors;
 
-			// setError("root.serverError", {
-			// 	message: errorResponse.message,
-			// 	type: errorResponse.errorTitle,
-			// });
+			setError("root.serverError", {
+				message: zodErrorDetails.formErrors as never,
+				type: error.errorData.errorTitle,
+			});
 
-			fieldErrors.forEach(([field, errorMessage]) => {
+			zodErrorDetails.fieldErrors.forEach(([field, errorMessage]) => {
 				setError(field, {
-					message: Array.isArray(errorMessage) ? errorMessage.join(", ") : errorMessage,
+					message: errorMessage as never,
 					type: field,
 				});
 			});

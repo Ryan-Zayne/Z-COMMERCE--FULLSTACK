@@ -45,23 +45,20 @@ function FormErrorMessage<TStepData extends FieldValues>(props: ErrorParagraphPr
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formState.submitCount]);
 
-	const message =
+	const message = (
 		type === "root"
 			? formState.errors.root?.[errorField]?.message
-			: (formState.errors[errorField]?.message as string | undefined);
+			: formState.errors[errorField]?.message
+	) as string | string[];
 
 	if (!message) {
 		return null;
 	}
 
-	const splitterRegex = /, (?=[A-Z])/;
-
-	if (splitterRegex.test(message)) {
-		const messageArray = message.split(splitterRegex);
-
+	if (Array.isArray(message)) {
 		return (
 			<ErrorMessageList
-				each={messageArray}
+				each={message}
 				render={(messageItem, index) => (
 					<p
 						className={cnMerge(

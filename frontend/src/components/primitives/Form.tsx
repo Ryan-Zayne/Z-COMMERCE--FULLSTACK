@@ -47,7 +47,7 @@ function FormRoot<TValues extends FieldValues>(props: FormRootProps<TValues>) {
 
 	return (
 		<HookFormProvider {...methods}>
-			<form className={cnMerge("flex flex-col", className)} method="POST" {...restOfProps}>
+			<form className={cnMerge("flex flex-col", className)} {...restOfProps}>
 				{children}
 			</form>
 		</HookFormProvider>
@@ -170,7 +170,6 @@ function FormInputPrimitive<TFieldValues extends FieldValues>(
 		formState,
 		id: idPrimitive,
 		name: namePrimitive,
-		ref,
 		type = "text",
 		withEyeIcon = true,
 		...restOfProps
@@ -193,7 +192,7 @@ function FormInputPrimitive<TFieldValues extends FieldValues>(
 	const WrapperElement = shouldHaveEyeIcon ? FormInputGroup : ReactFragment;
 
 	const WrapperElementProps = shouldHaveEyeIcon && {
-		className: cnMerge("w-full", classNames?.inputGroup),
+		className: cnMerge("w-full", classNames?.inputGroup, errors?.[name] && errorClassName),
 	};
 
 	return (
@@ -208,7 +207,7 @@ function FormInputPrimitive<TFieldValues extends FieldValues>(
 					focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50`,
 					className,
 					classNames?.input,
-					name && errors?.[name] && errorClassName
+					errors?.[name] && errorClassName
 				)}
 				{...restOfProps}
 			/>

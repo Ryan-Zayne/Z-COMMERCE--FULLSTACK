@@ -20,7 +20,7 @@
 	},
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
-		"@zayne-labs/toolkit": "^0.4.5",
+		"@zayne-labs/toolkit": "^0.4.6",
 		"bcryptjs": "^2.4.3",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",

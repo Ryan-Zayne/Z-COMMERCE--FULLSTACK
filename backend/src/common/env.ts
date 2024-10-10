@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import { envSchema } from "./zod-schemas/envSchema";
+import { envSchema } from "./schemas/envSchema";
 
 // == Disabling process.env globally via TS
 declare global {

@@ -27,9 +27,9 @@ export const removeCookie = (res: Response, name: PossibleCookieNames) => {
 	res.cookie(name, "expired", { maxAge: -1 });
 };
 
-export const omitSensitiveFields = <TObject extends AnyObject>(
+export const omitSensitiveFields = <TObject extends AnyObject, TOmitArray extends Array<keyof UserType>>(
 	userObject: TObject | null,
-	keysToOmit: Array<keyof UserType> = []
+	keysToOmit: TOmitArray = [] as never
 ) => {
 	if (!userObject) {
 		return null;

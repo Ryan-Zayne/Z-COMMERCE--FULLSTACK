@@ -1,6 +1,6 @@
 import type { ZodSchema } from "zod";
+import { LoginSchema, SignUpSchema } from "../schemas/formSchema";
 import { AppError } from "../utils";
-import { LoginSchema, SignUpSchema } from "../zod-schemas/formSchema";
 import { catchAsync } from "./catchAsyncErrors";
 
 const SCHEMA_LOOKUP = new Map<string, ZodSchema>([
