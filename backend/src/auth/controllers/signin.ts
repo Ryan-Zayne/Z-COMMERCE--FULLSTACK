@@ -30,7 +30,7 @@ const signIn = catchAsync<{
 		// == For every time the password is gotten wrong, increment the login retries by 1
 		await UserModel.findByIdAndUpdate(user._id, { $inc: { loginRetries: 1 } });
 
-		throw new AppError(401, "Invalid email or password!");
+		throw new AppError(401, "Email or password is incorrect");
 	}
 
 	if (user.isSuspended) {
@@ -43,7 +43,7 @@ const signIn = catchAsync<{
 	const lastLoginRetry = differenceInHours(currentRequestTime, user.lastLogin);
 
 	if (user.loginRetries >= 3 && lastLoginRetry < 12) {
-		throw new AppError(401, "login retries exceeded!");
+		throw new AppError(401, "Login retries exceeded");
 
 		// TODO: send reset password email to user
 	}

@@ -207,7 +207,7 @@ function FormInputPrimitive<TFieldValues extends FieldValues>(
 					focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50`,
 					className,
 					classNames?.input,
-					errors?.[name] && errorClassName
+					type !== "password" && errors?.[name] && errorClassName
 				)}
 				{...restOfProps}
 			/>
@@ -265,7 +265,6 @@ function FormTextAreaPrimitive<TFieldValues extends FieldValues>(
 		formState,
 		id: idPrimitive,
 		name: namePrimitive,
-		ref,
 		...restOfProps
 	} = props;
 
@@ -379,35 +378,34 @@ function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValu
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formState.submitCount]);
 
-	const message =
+	const message = (
 		type === "root"
 			? formState.errors.root?.[errorField]?.message
-			: (formState.errors[errorField]?.message as string | undefined);
+			: formState.errors[errorField]?.message
+	) as string | string[];
 
 	if (!message) {
 		return null;
 	}
 
-	const paragraphClasses = "animate-shake pt-[0.3rem] text-[1.1rem] text-error";
-
-	const splitterRegex = /, (?=[A-Z])/;
-
-	const messageArray = message.split(splitterRegex);
+	const errorParagraphClasses = "animate-shake pt-[0.3rem] text-[1.1rem] text-error";
 
 	return (
-		<Show when={splitterRegex.test(message)}>
+		<Show when={Array.isArray(message)}>
 			<ErrorMessageList
-				each={messageArray}
+				each={message as string[]}
 				render={(messageItem, index) => (
 					<p
+						key={messageItem}
 						className={cnMerge(
 							"ml-[15px] list-item",
-							paragraphClasses,
+							errorParagraphClasses,
 							className,
 							index === 0 && "mt-1"
 						)}
 					>
-						*{messageItem}
+						<span>*</span>
+						{messageItem}
 					</p>
 				)}
 			/>
@@ -415,10 +413,11 @@ function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValu
 			<Show.Fallback>
 				<p
 					ref={errorParagraphRef}
-					className={cnMerge(paragraphClasses, className)}
+					className={cnMerge(errorParagraphClasses, className)}
 					onAnimationEnd={() => errorParagraphRef.current?.classList.remove("animate-shake")}
 				>
-					*{message}
+					<span>*</span>
+					{message}
 				</p>
 			</Show.Fallback>
 		</Show>

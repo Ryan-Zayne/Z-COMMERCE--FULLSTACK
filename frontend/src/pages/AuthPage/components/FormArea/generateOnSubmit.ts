@@ -20,7 +20,7 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 	const { formVariant, navigate, reset, setError } = submitParams;
 
 	const onSubmit = async (formDataObj: FormSchemaType) => {
-		const AUTH_URL = formVariant === "SignUp" ? `/signup` : `/siginin`;
+		const AUTH_URL = formVariant === "SignUp" ? `/signup` : `/signin`;
 
 		noScrollOnOpen({ isActive: true });
 
@@ -56,6 +56,7 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 
 			return;
 		}
+
 
 		if (error) {
 			setError("root.caughtError", {

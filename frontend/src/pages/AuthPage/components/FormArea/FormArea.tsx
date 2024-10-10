@@ -12,7 +12,7 @@ export type FormAreaProps = {
 };
 
 const semanticClasses = {
-	error: "border-b-error focus-visible:border-b-error dark:focus-visible:border-b-error",
+	error: "border-b-error focus-within:border-b-error dark:focus-within:border-b-error",
 };
 
 function FormArea({ classNames, formVariant }: FormAreaProps) {
@@ -44,7 +44,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 
 					<Form.Input
 						className="min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
-							focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot"
+							focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot"
 						errorClassName={semanticClasses.error}
 						type="text"
 					/>
@@ -58,7 +58,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 
 				<Form.Input
 					className="min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
-						focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot"
+						focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot"
 					errorClassName={semanticClasses.error}
 					type="email"
 				/>
@@ -72,7 +72,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 				<Form.Input
 					classNames={{
 						inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
-						text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
+						text-input focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 					}}
 					errorClassName={semanticClasses.error}
 					type="password"
@@ -82,13 +82,13 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 			</Form.Item>
 
 			<Show when={formVariant === "SignUp"}>
-				<Form.Item className={"relative"} control={control} name="confirmPassword">
+				<Form.Item className="relative" control={control} name="confirmPassword">
 					<Form.Label>Confirm Password</Form.Label>
 
 					<Form.Input
 						classNames={{
 							inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
-							text-input focus-visible:border-b-navbar dark:focus-visible:border-b-carousel-dot`,
+							text-input focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 						}}
 						errorClassName={semanticClasses.error}
 						type="password"
@@ -99,7 +99,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 			</Show>
 
 			<Form.ErrorMessage
-				className={"mb-[-0.7rem] mt-[-1rem] text-[1.3rem]"}
+				className="mb-[-0.7rem] mt-[-1rem] text-[1.3rem]"
 				errorField="serverError"
 				type="root"
 			/>
@@ -111,7 +111,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 			/>
 
 			<Form.Item
-				className={"flex flex-row gap-[1rem] text-[1.3rem] text-input"}
+				className="flex flex-row flex-wrap gap-x-[1rem] text-[1.3rem] text-input"
 				control={control}
 				name={formVariant === "SignUp" ? "acceptTerms" : "rememberMe"}
 			>

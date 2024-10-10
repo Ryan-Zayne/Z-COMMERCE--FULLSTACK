@@ -31,6 +31,7 @@ const callMainApi = createFetchClient<FormResponseDataType, FormErrorResponseTyp
 	credentials: "same-origin",
 	defaultErrorMessage: "Failed to submit form",
 	method: "POST",
+	timeout: 8 * 1000,
 });
 
 export { callMainApi };
