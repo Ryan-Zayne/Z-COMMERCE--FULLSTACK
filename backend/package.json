@@ -16,7 +16,7 @@
 		"start:test": "cross-env NODE_ENV=production tsx --env-file=.env src/server.ts"
 	},
 	"imports": {
-		"@": "src"
+		"@/*": "src/*"
 	},
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
