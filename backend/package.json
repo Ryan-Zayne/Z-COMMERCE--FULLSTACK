@@ -12,10 +12,10 @@
 		"dev:watch": "tsx --env-file=.env --watch src/server.ts --clear-screen=false",
 		"format": "prettier --write .",
 		"lint": "eslint src/**/*.ts",
-		"start": "tsx --loader esm-module-alias/loader src/server.ts",
+		"start": "tsx src/server.ts",
 		"start:test": "cross-env NODE_ENV=production tsx --env-file=.env src/server.ts"
 	},
-	"aliases": {
+	"imports": {
 		"@": "src"
 	},
 	"dependencies": {
