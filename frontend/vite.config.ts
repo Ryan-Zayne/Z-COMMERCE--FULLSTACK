@@ -1,18 +1,9 @@
-import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
-
-// prettier-ignore
-const getFrontendFilePath = (path: 'src' | `src/${string}`) => fileURLToPath(new URL(path, import.meta.url));
+import viteTsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-	plugins: [react()],
-
-	resolve: {
-		alias: {
-			"@": getFrontendFilePath("src"),
-		},
-	},
+	plugins: [react(), viteTsconfigPaths()],
 
 	server: {
 		proxy: {

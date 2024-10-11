@@ -11,7 +11,7 @@ function ProductItemPage() {
 	const { isPending, productItem } = useGetProductItem(productId);
 
 	if (isPending) {
-		return <LoadingSkeleton type={"productItemPage"} />;
+		return <LoadingSkeleton variant={"productItemPage"} />;
 	}
 
 	return (

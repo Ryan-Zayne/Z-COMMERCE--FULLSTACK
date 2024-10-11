@@ -3,6 +3,9 @@
 	"type": "module",
 	"version": "1.0.0",
 	"main": "src/server.ts",
+	"imports": {
+		"@/*": "src/*"
+	},
 	"engines": {
 		"node": ">=20.0.0"
 	},
@@ -14,9 +17,6 @@
 		"lint": "eslint src/**/*.ts",
 		"start": "tsx src/server.ts",
 		"start:test": "cross-env NODE_ENV=production tsx --env-file=.env src/server.ts"
-	},
-	"imports": {
-		"@/*": "src/*"
 	},
 	"dependencies": {
 		"@colors/colors": "^1.6.0",

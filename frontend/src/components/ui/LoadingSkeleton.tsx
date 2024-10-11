@@ -6,16 +6,17 @@ import { getElementList } from "../primitives";
 
 type SkeletonProps = {
 	count?: number;
-	type?: "genericPage" | "productItemPage";
+	variant?: "genericPage" | "productItemPage";
 };
 
-function LoadingSkeleton({ count = 5, type = "genericPage" }: SkeletonProps) {
+function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
+
 	const [SkeletonCardList] = getElementList();
 
 	const SKELETON_LOOKUP = {
 		default: () => {
-			throw new Error(`Case ${type} is unhandled`);
+			throw new Error(`Case ${variant} is unhandled`);
 		},
 
 		genericPage: () => (
@@ -29,9 +30,7 @@ function LoadingSkeleton({ count = 5, type = "genericPage" }: SkeletonProps) {
 							<li
 								key={id}
 								className={cnMerge(
-									`w-[min(100%,25rem)] rounded-[1.2rem] bg-white/[0.17]
-									box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)] ${isDarkMode &&
-									"bg-[hsl(200,5.88%,10%,0.17)]"}`
+									"rounded-[1.2rem w-[min(100%,25rem)] box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)]"
 								)}
 							>
 								<SkeletonTheme
@@ -81,7 +80,7 @@ function LoadingSkeleton({ count = 5, type = "genericPage" }: SkeletonProps) {
 						highlightColor={cnJoin(isDarkMode && "#1e2021")}
 						baseColor={cnJoin(isDarkMode && "#232628")}
 					>
-						<Skeleton className="h-[35rem] w-[40rem] md:h-[47rem] lg:w-full" />
+						<Skeleton className="h-[35rem] w-[40rem] md:h-[47rem] lg:min-w-[50rem]" />
 						<Skeleton className="h-[47rem] w-[46rem] max-md:mx-auto" />
 					</SkeletonTheme>
 				</div>
@@ -89,7 +88,7 @@ function LoadingSkeleton({ count = 5, type = "genericPage" }: SkeletonProps) {
 		),
 	};
 
-	return SKELETON_LOOKUP[type]();
+	return SKELETON_LOOKUP[variant]();
 }
 
 export default LoadingSkeleton;

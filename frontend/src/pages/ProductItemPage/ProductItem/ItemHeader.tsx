@@ -32,16 +32,19 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 				{productItem.title}
 			</h1>
 
-			<button className="rounded-[50%] bg-primary p-[0.7rem]" onClick={handleHeartClick}>
+			<button
+				className="flex size-[4rem] items-center justify-center rounded-[50%] bg-primary"
+				onClick={handleHeartClick}
+			>
 				{isHearted ? (
 					<IconBox
 						icon="ant-design:heart-filled"
-						className="scale-[1.16] text-[2.1rem] text-heading active:scale-[1.23]"
+						className="size-[2.1rem] text-heading active:scale-[1.23]"
 					/>
 				) : (
 					<IconBox
 						icon="ant-design:heart-outlined"
-						className="text-[2.1rem] text-carousel-dot hover:text-heading active:scale-[1.23]"
+						className="size-[2.1rem] text-carousel-dot hover:text-heading active:scale-[1.23]"
 					/>
 				)}
 			</button>
