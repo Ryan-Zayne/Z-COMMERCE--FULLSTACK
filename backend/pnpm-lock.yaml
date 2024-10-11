@@ -29,9 +29,6 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
-      esm-module-alias:
-        specifier: ^2.2.1
-        version: 2.2.1
       express:
         specifier: ^4.21.1
         version: 4.21.1
@@ -962,9 +959,6 @@ packages:
     peerDependenciesMeta:
       jiti:
         optional: true
-
-  esm-module-alias@2.2.1:
-    resolution: {integrity: sha512-CmxoWJb4ShzOQEHc5MBIgp7BUYSiyZkvUzGtJxQlCUZhLXJ/teO7LSyZa9gzPpM5HOarj14GW4DxRuTuCliV1w==}
 
   espree@10.2.0:
     resolution: {integrity: sha512-upbkBJbckcCNBDBDXEbuhjbP68n+scUd3k/U2EkyM9nw+I/jPiL4cLF/Al06CF96wRltFda16sxDFrxsI1v0/g==}
@@ -2669,8 +2663,6 @@ snapshots:
       text-table: 0.2.0
     transitivePeerDependencies:
       - supports-color
-
-  esm-module-alias@2.2.1: {}
 
   espree@10.2.0:
     dependencies:
