@@ -1,10 +1,10 @@
 import { Button, Card, IconBox, ImageComponent, StarRating } from "@/components/primitives";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
-import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
+import type { DummyResponseDataItem } from "@/store/react-query/types";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
-import type { ResponseDataItemInCart } from "@/store/zustand/zustand-store.types";
+import type { ResponseDataItemInCart } from "@/store/zustand/types";
 import { useToggle } from "@zayne-labs/toolkit/react";
 import { m } from "framer-motion";
 import { Link } from "react-router-dom";

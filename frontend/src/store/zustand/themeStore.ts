@@ -2,7 +2,7 @@ import { isBrowser, on } from "@zayne-labs/toolkit";
 import { isObject } from "@zayne-labs/toolkit/type-helpers";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ThemeStore } from "./zustand-store.types";
+import type { ThemeStore } from "./types";
 
 const prefersDarkMode = isBrowser() && globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
 

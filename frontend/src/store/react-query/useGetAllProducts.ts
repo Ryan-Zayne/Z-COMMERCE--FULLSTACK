@@ -1,37 +1,43 @@
-import { callDummyApi } from "@/lib/api/callDummyApi";
-import { transformData } from "@/store/react-query/helpers/transFormData";
 import { useQueries } from "@tanstack/react-query";
+import { getProductQuery, productKeys } from "./queryFactory";
 
 const useGetAllProducts = () => {
-	const productQueries = [
-		{ key: "smartphones", url: "/products/category/smartphones" },
-		{ key: "laptops", url: "/products/category/laptops" },
-		{ key: "mens-watches", url: "/products/category/mens-watches" },
-		{ key: "womens-watches", url: "/products/category/womens-watches" },
-		{ key: "automotive", url: "/products/category/automotive" },
-		{ key: "motorcycle", url: "/products/category/motorcycle" },
-		{ key: "lighting", url: "/products/category/lighting" },
-	] as const;
-
 	const {
 		data: allProductsArray,
 		isError,
 		isPending,
 	} = useQueries({
 		combine: (resultsArray) => ({
-			data: resultsArray.flatMap((item) => item.data).filter((product) => product?.id !== 3), // Filtered out 3rd product cuz it's faulty,
+			data: resultsArray.flatMap((item) => item.data),
 			isError: resultsArray.some((item) => item.isError),
 			isPending: resultsArray.some((item) => item.isPending),
 		}),
-
-		queries: productQueries.map(({ key, url }) => ({
-			queryFn: () => callDummyApi(url),
-			queryKey: [key, { url }],
-			select: transformData,
-		})),
+		queries: productKeys.map((key) => getProductQuery(key)),
 	});
 
-	return { allProductsArray, isError, isPending };
+	const recentlyViewedProductsArray = allProductsArray.filter((item) => item?.category === "smartphones");
+
+	const hotSalesProductsArray = allProductsArray.filter((item) => item?.category === "laptops");
+
+	const vehiclesProductsArray = [
+		...allProductsArray.filter((item) => item?.category === "motorcycle"),
+		...allProductsArray.filter((item) => item?.category === "automotive"),
+	];
+
+	const watchesProductsArray = [
+		...allProductsArray.filter((item) => item?.category === "mens-watches"),
+		...allProductsArray.filter((item) => item?.category === "womens-watches"),
+	];
+
+	return {
+		allProductsArray,
+		hotSalesProductsArray,
+		isError,
+		isPending,
+		recentlyViewedProductsArray,
+		vehiclesProductsArray,
+		watchesProductsArray,
+	};
 };
 
 export { useGetAllProducts };

@@ -1,20 +1,20 @@
-import GlobalLayout from "@/layouts/GlobalLayout";
+import GlobalLayout from "@/pages/GlobalLayout";
 import { lazy } from "react";
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
-import Home from "./Home/Home";
+import Home from "./Home";
 
 /* eslint-disable react-refresh/only-export-components */
-const AuthLayout = lazy(() => import("@/layouts/AuthLayout"));
+const AuthLayout = lazy(() => import("@/pages/AuthPage/AuthLayout"));
 const AllProductsPage = lazy(() => import("@/pages/AllProductsPage"));
 const SignUpFormPage = lazy(() => import("@/pages/AuthPage/SignUpFormPage"));
 const SignInFormPage = lazy(() => import("@/pages/AuthPage/SignInFormPage"));
 const ProductCategoryPage = lazy(() => import("@/pages/ProductCategoryPage"));
-const ProductItemPage = lazy(() => import("@/pages/ProductItemPage/ProductItemPage"));
+const ProductItemPage = lazy(() => import("@/pages/ProductItemPage"));
 const NotFoundPage = lazy(() => import("@/pages/NotFoundPage"));
 
 const routes = createRoutesFromElements(
-	<Route>
+	<Route errorElement={<ErrorPage />}>
 		{/* Global Layout */}
 		<Route path="/" element={<GlobalLayout />}>
 			{/* Error Boundary: Doing it this way so the navbar and footer still renders during error */}
@@ -39,6 +39,4 @@ const routes = createRoutesFromElements(
 	</Route>
 );
 
-const router = createBrowserRouter(routes);
-
-export { router };
+export const router = createBrowserRouter(routes);

@@ -1,6 +1,6 @@
 import ProductCard from "@/components/ui/ProductCard";
 import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
-import type { DataArrayProp } from "./home-product.types";
+import type { DataArrayProp } from "./types";
 
 function RecentProducts({ data }: DataArrayProp) {
 	const ProductCards = data

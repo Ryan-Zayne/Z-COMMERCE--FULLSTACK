@@ -9,7 +9,6 @@ export default zayne({
 		},
 	},
 	typescript: {
-		allowDefaultProjects: ["*.js"],
-		tsconfigPath: "tsconfig.json",
+		tsconfigPath: "tsconfig.eslint.json",
 	},
 });

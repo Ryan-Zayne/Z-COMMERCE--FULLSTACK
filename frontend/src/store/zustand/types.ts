@@ -1,4 +1,4 @@
-import type { DummyResponseDataItem } from "../react-query/react-query-store.types";
+import type { DummyResponseDataItem } from "../react-query/types";
 import type { MEDIA_QUERY_LOOKUP } from "./globalStore/slices/mediaQuerySlice";
 
 // Global State Types

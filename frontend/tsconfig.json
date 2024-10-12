@@ -1,12 +1,14 @@
 {
-	"extends": "@zayne-labs/tsconfig/bundler/vite",
+	"extends": "@zayne-labs/tsconfig/bundler/dom",
+
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["src/*"]
-		}
+		},
+		"skipLibCheck": true
 	},
 
-	"include": ["src/**/*.tsx", "src/**/*.ts", "./*.ts"],
+	"include": ["src/**/*.tsx", "src/**/*.ts", "tailwind.config.ts"],
 	"exclude": ["dist", "node_modules"]
 }

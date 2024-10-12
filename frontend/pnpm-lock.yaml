@@ -30,8 +30,8 @@ importers:
         specifier: 1.0.0-rc.10
         version: 1.0.0-rc.10
       '@zayne-labs/toolkit':
-        specifier: ^0.4.12
-        version: 0.4.12(@types/react@18.3.11)(react@19.0.0-rc-9d2da591-20240808)(sonner@1.5.0(react-dom@19.0.0-rc-9d2da591-20240808(react@19.0.0-rc-9d2da591-20240808))(react@19.0.0-rc-9d2da591-20240808))(zustand@5.0.0-rc.2(@types/react@18.3.11)(react@19.0.0-rc-9d2da591-20240808)(use-sync-external-store@1.2.2(react@19.0.0-rc-9d2da591-20240808)))
+        specifier: ^0.5.0
+        version: 0.5.0(@types/react@18.3.11)(react@19.0.0-rc-9d2da591-20240808)(sonner@1.5.0(react-dom@19.0.0-rc-9d2da591-20240808(react@19.0.0-rc-9d2da591-20240808))(react@19.0.0-rc-9d2da591-20240808))(zustand@5.0.0-rc.2(@types/react@18.3.11)(react@19.0.0-rc-9d2da591-20240808)(use-sync-external-store@1.2.2(react@19.0.0-rc-9d2da591-20240808)))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1024,8 +1024,8 @@ packages:
       zustand:
         optional: true
 
-  '@zayne-labs/toolkit@0.4.12':
-    resolution: {integrity: sha512-shDM00h+5kF5qSQYT5B/NV/6Sz9E1eFKb4GzfDR2KVQY99j/Ru8Ego0bqrThtQwifqiDzOE1/9OhjY2y09wuMw==}
+  '@zayne-labs/toolkit@0.5.0':
+    resolution: {integrity: sha512-O5+LIJwoQBnQiBTxGO48aQ4hBc1nWdlo/tczMsIE6m88H04Q3GblTBwBMu+u5Qa8zaP70VMoinBEJDiOWs21Jw==}
     engines: {node: '>=18.x'}
     peerDependencies:
       '@types/react': ^18.0.0
@@ -3905,7 +3905,7 @@ snapshots:
       sonner: 1.5.0(react-dom@19.0.0-rc-9d2da591-20240808(react@19.0.0-rc-9d2da591-20240808))(react@19.0.0-rc-9d2da591-20240808)
       zustand: 5.0.0-rc.2(@types/react@18.3.11)(react@19.0.0-rc-9d2da591-20240808)(use-sync-external-store@1.2.2(react@19.0.0-rc-9d2da591-20240808))
 
-  '@zayne-labs/toolkit@0.4.12(@types/react@18.3.11)(react@19.0.0-rc-9d2da591-20240808)(sonner@1.5.0(react-dom@19.0.0-rc-9d2da591-20240808(react@19.0.0-rc-9d2da591-20240808))(react@19.0.0-rc-9d2da591-20240808))(zustand@5.0.0-rc.2(@types/react@18.3.11)(react@19.0.0-rc-9d2da591-20240808)(use-sync-external-store@1.2.2(react@19.0.0-rc-9d2da591-20240808)))':
+  '@zayne-labs/toolkit@0.5.0(@types/react@18.3.11)(react@19.0.0-rc-9d2da591-20240808)(sonner@1.5.0(react-dom@19.0.0-rc-9d2da591-20240808(react@19.0.0-rc-9d2da591-20240808))(react@19.0.0-rc-9d2da591-20240808))(zustand@5.0.0-rc.2(@types/react@18.3.11)(react@19.0.0-rc-9d2da591-20240808)(use-sync-external-store@1.2.2(react@19.0.0-rc-9d2da591-20240808)))':
     optionalDependencies:
       '@types/react': 18.3.11
       react: 19.0.0-rc-9d2da591-20240808

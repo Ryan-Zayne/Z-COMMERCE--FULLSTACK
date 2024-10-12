@@ -1,7 +1,7 @@
 import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import StarRating from "@/components/primitives/StarRating";
-import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
+import type { DummyResponseDataItem } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { Link } from "react-router-dom";
 

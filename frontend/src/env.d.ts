@@ -1,10 +1,10 @@
 /* eslint-disable ts-eslint/consistent-type-definitions */
 /// <reference types="vite/client" />
 
-type ImportMetaEnv = {
+interface ImportMetaEnv {
 	readonly NODE_ENV: "development" | "production";
-};
+}
 
-type ImportMeta = {
+interface ImportMeta {
 	readonly env: ImportMetaEnv;
-};
+}

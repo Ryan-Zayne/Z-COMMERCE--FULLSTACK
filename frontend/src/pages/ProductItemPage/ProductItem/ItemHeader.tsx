@@ -1,7 +1,7 @@
 import { IconBox } from "@/components/primitives/IconBox";
-import type { DummyResponseDataItem } from "@/store/react-query/react-query-store.types";
+import type { DummyResponseDataItem } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
-import type { ShopStore } from "@/store/zustand/zustand-store.types";
+import type { ShopStore } from "@/store/zustand/types";
 import { useToggle } from "@zayne-labs/toolkit/react";
 import { Link } from "react-router-dom";
 

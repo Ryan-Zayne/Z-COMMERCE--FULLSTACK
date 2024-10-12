@@ -1,7 +1,7 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
-import type { ShopStore } from "@/store/zustand/zustand-store.types";
+import type { ShopStore } from "@/store/zustand/types";
 
 type CartItemProps = {
 	product: ShopStore["cart"][number];
@@ -10,7 +10,7 @@ type CartItemProps = {
 function CartItem({ product }: CartItemProps) {
 	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
-	const { removeProductFromCart } =  useShopStore((state) => state.actions);
+	const { removeProductFromCart } = useShopStore((state) => state.actions);
 
 	const handleRemoveProduct = () => removeProductFromCart(product.id);
 

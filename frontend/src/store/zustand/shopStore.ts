@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ShopStore } from "./zustand-store.types";
+import type { ShopStore } from "./types";
 
 const toastMessages = {
 	added: "Product added successfully",

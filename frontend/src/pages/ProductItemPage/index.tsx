@@ -1,5 +1,5 @@
 import { LoadingSkeleton } from "@/components/ui";
-import { useGetProductItem } from "@/store/react-query/useGetProductItem";
+import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
 import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
 import { useParams } from "react-router-dom";
 import ItemDescription from "./ProductItem/ItemDescription";
@@ -8,10 +8,17 @@ import ItemHero from "./ProductItem/ItemHero";
 
 function ProductItemPage() {
 	const { productId } = useParams();
-	const { isPending, productItem } = useGetProductItem(productId);
+
+	const { allProductsArray, isPending } = useGetAllProducts();
 
 	if (isPending) {
 		return <LoadingSkeleton variant={"productItemPage"} />;
+	}
+
+	const productItem = allProductsArray.find((item) => item?.id === Number(productId));
+
+	if (!productItem) {
+		throw new Error("Product not found!");
 	}
 
 	return (
@@ -24,7 +31,7 @@ function ProductItemPage() {
 				className="mt-[3rem] md:mt-[4.5rem] md:flex md:h-[47rem] md:justify-around md:gap-[4rem]
 					md:px-[1rem] lg:mt-[6rem] lg:gap-[8rem]"
 			>
-				<ItemHero slideImages={productItem?.images ?? []} />
+				<ItemHero slideImages={productItem.images} />
 
 				<ItemDescription productItem={assertDefined(productItem)} />
 			</div>
