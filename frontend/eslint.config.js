@@ -9,7 +9,7 @@ export default zayne({
 		},
 	},
 	tanstack: {
-		react: true,
+		query: true,
 	},
 	typescript: {
 		tsconfigPath: "tsconfig.eslint.json",
