@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 
-export const generateRandomString = (options: { length?: number; encoding?: BufferEncoding }) => {
-	const { length = 30, encoding = "hex" } = options;
+export const generateRandomString = (options: { encoding?: BufferEncoding; length?: number }) => {
+	const { encoding = "hex", length = 30 } = options;
 
 	const byteLength = Math.ceil(length / 2);
 
@@ -16,7 +16,7 @@ export const generateRandomUUID = ({ length = 15 } = {}) => {
 	return randomUUID;
 };
 
-export const generateRandomInteger = ({ min = 0, max = 100 } = {}) => {
+export const generateRandomInteger = ({ max = 100, min = 0 } = {}) => {
 	const randomInteger = crypto.randomInt(min, max);
 
 	return randomInteger;

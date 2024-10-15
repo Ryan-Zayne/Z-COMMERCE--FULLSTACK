@@ -14,7 +14,6 @@ import { PORT, isProduction } from "./common/constants";
 import { ENVIRONMENT } from "./common/env";
 import { errorHandler, notFoundHandler, validateDataWithZod } from "./common/middleware";
 import { AppResponse } from "./common/utils/appResponse";
-import { userRouter } from "./users/routes";
 
 const app = express();
 
@@ -50,10 +49,9 @@ app.use(morgan("dev"));
 /**
  * Routes - v1
  */
-app.use("/api/v1/alive", (req, res) => AppResponse(res, 200, "Server is up and running"));
-app.use(validateDataWithZod);
+app.get("/api/v1/alive", (req, res) => AppResponse(res, 200, "Server is up and running"));
+app.use("/api/v1/:id", validateDataWithZod);
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/users", userRouter);
 
 /**
  * Serve Frontend if needed in production

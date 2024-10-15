@@ -8,13 +8,15 @@ const SCHEMA_LOOKUP = new Map<string, ZodSchema>([
 	["/auth/signup", SignUpSchema],
 ]);
 
-const methodsToSkipValidation = new Set(["GET"]);
+const methodsToSkip = new Set(["GET"]);
 
 const validateDataWithZod = catchAsync<{ path: string }>((req, res, next) => {
-	// eslint-disable-next-line ts-eslint/no-non-null-assertion
-	const mainPath = req.path.split("v1")[1]!;
+	const apiVersionRegex = /v\d+/;
 
-	if (methodsToSkipValidation.has(req.method) || !SCHEMA_LOOKUP.has(mainPath)) {
+	// eslint-disable-next-line ts-eslint/no-non-null-assertion
+	const mainPath = req.originalUrl.split(apiVersionRegex)[1]!;
+
+	if (methodsToSkip.has(req.method) || !SCHEMA_LOOKUP.has(mainPath)) {
 		next();
 		return;
 	}
@@ -33,8 +35,8 @@ const validateDataWithZod = catchAsync<{ path: string }>((req, res, next) => {
 
 	if (!result.success) {
 		const zodErrorDetails = {
-			...result.error.formErrors,
 			fieldErrors: Object.entries(result.error.formErrors.fieldErrors),
+			formErrors: result.error.formErrors,
 		};
 
 		throw new AppError(422, "Validation Failed", { errors: zodErrorDetails });
