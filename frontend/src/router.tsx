@@ -1,23 +1,20 @@
-import GlobalLayout from "@/pages/GlobalLayout";
+import GlobalLayout from "@/pages/layout";
 import { lazy } from "react";
-import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import ErrorPage from "./ErrorPage";
-import Home from "./Home";
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import Home from "./pages/Home";
+import ErrorPage from "./pages/error";
 
-/* eslint-disable react-refresh/only-export-components */
-const AuthLayout = lazy(() => import("@/pages/AuthPage/AuthLayout"));
+const AuthLayout = lazy(() => import("@/pages/AuthPage/layout"));
 const AllProductsPage = lazy(() => import("@/pages/AllProductsPage"));
 const SignUpFormPage = lazy(() => import("@/pages/AuthPage/SignUpFormPage"));
 const SignInFormPage = lazy(() => import("@/pages/AuthPage/SignInFormPage"));
 const ProductCategoryPage = lazy(() => import("@/pages/ProductCategoryPage"));
 const ProductItemPage = lazy(() => import("@/pages/ProductItemPage"));
-const NotFoundPage = lazy(() => import("@/pages/NotFoundPage"));
+const NotFoundPage = lazy(() => import("@/pages/404"));
 
 const routes = createRoutesFromElements(
 	<Route errorElement={<ErrorPage />}>
-		{/* Global Layout */}
 		<Route path="/" element={<GlobalLayout />}>
-			{/* Error Boundary: Doing it this way so the navbar and footer still renders during error */}
 			<Route errorElement={<ErrorPage />}>
 				<Route index={true} element={<Home />} />
 				<Route path="products">
@@ -28,15 +25,17 @@ const routes = createRoutesFromElements(
 			</Route>
 		</Route>
 
-		{/* Auth Layout */}
-		<Route path="auth" element={<AuthLayout />} errorElement={<ErrorPage />}>
+		<Route path="auth" element={<AuthLayout />}>
 			<Route path="signup" element={<SignUpFormPage />} />
 			<Route path="signin" element={<SignInFormPage />} />
 		</Route>
 
-		{/* 404 Page */}
 		<Route path="*" element={<NotFoundPage />} />
 	</Route>
 );
 
-export const router = createBrowserRouter(routes);
+const browserRouter = createBrowserRouter(routes);
+
+export function Router() {
+	return <RouterProvider future={{ v7_startTransition: true }} router={browserRouter} />;
+}

@@ -8,7 +8,6 @@ const notFoundMessageDefaults = {
 };
 
 const getDefaultMessage = (href: string) => {
-	 
 	if (!(href in notFoundMessageDefaults)) return;
 
 	return notFoundMessageDefaults[href as keyof typeof notFoundMessageDefaults];
