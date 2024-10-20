@@ -1,7 +1,4 @@
-"use client";
-
 import { getOtherChildren, getSlotElement } from "@zayne-labs/toolkit/react";
-import React from "react";
 
 type ShowProps = {
 	children: React.ReactNode;

@@ -38,7 +38,7 @@ function DrawerContent({ children, className, placement = "right" }: DrawerConte
 		<main
 			data-id="Drawer Content Container"
 			className={cnMerge(
-				`custom-scrollbar fixed inset-[0_auto_0_auto] z-[500] flex flex-col overflow-y-auto bg-body
+				`custom-scrollbar fixed inset-y-0 z-[500] flex flex-col overflow-y-auto bg-body
 				transition-transform ease-slide-out`,
 
 				placementClasses[placement],

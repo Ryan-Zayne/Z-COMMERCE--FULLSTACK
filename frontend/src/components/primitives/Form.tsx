@@ -162,24 +162,21 @@ const inputTypesWithoutFullWith = new Set<React.HTMLInputTypeAttribute>(["checkb
 function FormInputPrimitive<TFieldValues extends FieldValues>(
 	props: FormInputPrimitiveProps<TFieldValues>
 ) {
+	const contextValues = useFormItemContext();
+
 	const {
 		className,
 		classNames,
 		control,
 		errorClassName,
 		formState,
-		id: idPrimitive,
-		name: namePrimitive,
+		/* eslint-disable react/no-unstable-default-props */
+		id = contextValues.uniqueId,
+		name = contextValues.name,
 		type = "text",
 		withEyeIcon = true,
 		...restOfProps
 	} = props;
-
-	const contextValues = useFormItemContext();
-
-	const name = namePrimitive ?? contextValues.name;
-
-	const id = idPrimitive ?? contextValues.uniqueId;
 
 	const getFormState = (control ? useFormState : () => formState) as typeof useFormState;
 
