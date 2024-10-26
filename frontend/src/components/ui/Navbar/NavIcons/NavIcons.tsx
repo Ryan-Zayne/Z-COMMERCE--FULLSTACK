@@ -3,9 +3,11 @@ import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown/DropDown";
 import SearchForm from "@/components/ui/SearchForm";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
+import { getSessionQuery } from "@/store/react-query/queryFactory";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
+import { useQuery } from "@tanstack/react-query";
 import { useDisclosure, useToggle } from "@zayne-labs/toolkit/react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -23,6 +25,8 @@ const NavIcons = () => {
 
 	const cartDisclosure = useDisclosure({ hasScrollControl: true });
 	const dropDownDisclosure = useDisclosure();
+
+	const { data } = useQuery(getSessionQuery());
 
 	useEffect(() => {
 		if (!isMobile && isSearchShow) {
@@ -94,9 +98,9 @@ const NavIcons = () => {
 							),
 						}}
 					>
-						{/* Only activate on signup <Link to={"/auth/signin"}>My Account</Link> */}
-						<Link to={"/checkout"}>Checkout</Link>
-						<Link to={"/auth/signin"}>User Login</Link>
+						{data && <Link to="user/account">My Account</Link>}
+						<Link to="/checkout">Checkout</Link>
+						{!data && <Link to="/auth/signin">User Login</Link>}
 					</DropDown.Panel>
 				</DropDown.Root>
 

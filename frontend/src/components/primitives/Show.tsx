@@ -1,4 +1,4 @@
-import { getOtherChildren, getSlotElement } from "@zayne-labs/toolkit/react";
+import { getOtherChildren, getSlotElement } from "@zayne-labs/toolkit/react/utils";
 
 type ShowProps = {
 	children: React.ReactNode;

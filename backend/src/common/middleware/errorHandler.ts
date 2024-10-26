@@ -19,7 +19,6 @@ const errorHandler: ErrorRequestHandler = (error: AppError & { kind: string }, _
 		const { stackTrace, status } = errorInfo;
 
 		res.status(404).json({
-			errorTitle: "Not Found",
 			message: "Resource not found",
 			stackTrace,
 			status,
@@ -31,20 +30,20 @@ const errorHandler: ErrorRequestHandler = (error: AppError & { kind: string }, _
 
 	// prettier-ignore
 	const ERROR_LOOKUP = new Map([
-		[String(errorCodes.BAD_REQUEST), () => res.status(400).json({ errorTitle: "Bad Request", ...errorInfo })],
+		[String(errorCodes.BAD_REQUEST), () => res.status(400).json(errorInfo)],
 
-		[String(errorCodes.FORBIDDEN), () => res.status(403).json({ errorTitle: "Forbidden", ...errorInfo })],
+		[String(errorCodes.FORBIDDEN), () => res.status(403).json(errorInfo)],
 
-		[String(errorCodes.NOT_FOUND), () => res.status(404).json({ errorTitle: "Not Found", ...errorInfo })],
+		[String(errorCodes.NOT_FOUND), () => res.status(404).json(errorInfo)],
 
-		[String(errorCodes.SERVER_ERROR), () => res.status(500).json({ errorTitle: "Internal Server Error", ...errorInfo })],
+		[String(errorCodes.SERVER_ERROR), () => res.status(500).json(errorInfo)],
 
-		[String(errorCodes.UNAUTHORIZED), () => res.status(401).json({ errorTitle: "Unauthorized", ...errorInfo })],
+		[String(errorCodes.UNAUTHORIZED), () => res.status(401).json(errorInfo)],
 
-		[String(errorCodes.VALIDATION_ERROR), () => res.status(422).json({ errorTitle: "Validation Failed", ...errorInfo })],
+		[String(errorCodes.VALIDATION_ERROR), () => res.status(422).json(errorInfo)],
 
 		// eslint-disable-next-line perfectionist/sort-maps
-		["default", () => res.status(500).json({ errorTitle: "You don break something bah?", ...errorInfo })],
+		["default", () => res.status(500).json(errorInfo)],
 	]);
 
 	(ERROR_LOOKUP.get(String(errorInfo.statusCode)) ?? ERROR_LOOKUP.get("default"))?.();

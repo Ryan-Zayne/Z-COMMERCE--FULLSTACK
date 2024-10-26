@@ -10,6 +10,7 @@ export const SignUpSchema = z
 			.string()
 			.min(3, "Username must be at least 3 characters!")
 			.max(30, "Username must not be more than 30 characters long")
+
 			.regex(
 				/^(?!.*-[a-z])[A-Z]['a-z-]*(?:-[A-Z]['a-z-]*)*(?:'[A-Z]['a-z-]*)*$/,
 				`

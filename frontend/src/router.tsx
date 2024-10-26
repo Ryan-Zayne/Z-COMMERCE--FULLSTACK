@@ -1,6 +1,18 @@
 import GlobalLayout from "@/pages/layout";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { lazy } from "react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import { getSessionQuery } from "./store/react-query/queryFactory";
+
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			gcTime: 10 * (60 * 1000),
+			staleTime: Infinity,
+		},
+	},
+});
 
 const AuthLayout = lazy(() => import("@/pages/AuthPage/layout"));
 const Home = lazy(() => import("@/pages/Home/page"));
@@ -12,9 +24,15 @@ const ProductItemPage = lazy(() => import("@/pages/ProductItemPage"));
 const NotFoundPage = lazy(() => import("@/pages/404"));
 const ErrorPage = lazy(() => import("@/pages/error"));
 
+const sessionLoader = ($queryClient: QueryClient) => async () => {
+	await $queryClient.prefetchQuery(getSessionQuery());
+
+	return null;
+};
+
 const routes = createRoutesFromElements(
 	<Route errorElement={<ErrorPage />}>
-		<Route path="/" element={<GlobalLayout />}>
+		<Route path="/" element={<GlobalLayout />} loader={sessionLoader(queryClient)}>
 			<Route errorElement={<ErrorPage />}>
 				<Route index={true} element={<Home />} />
 				<Route path="products">
@@ -37,5 +55,10 @@ const routes = createRoutesFromElements(
 const browserRouter = createBrowserRouter(routes);
 
 export function Router() {
-	return <RouterProvider future={{ v7_startTransition: true }} router={browserRouter} />;
+	return (
+		<QueryClientProvider client={queryClient}>
+			<RouterProvider future={{ v7_startTransition: true }} router={browserRouter} />
+			<ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
+		</QueryClientProvider>
+	);
 }

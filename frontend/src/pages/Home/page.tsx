@@ -1,3 +1,4 @@
+import { Show } from "@/components/primitives";
 import { LoadingSkeleton } from "@/components/ui";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
 import Categories from "./Categories";
@@ -14,19 +15,21 @@ function Home() {
 		vehiclesProductsArray: similarProductsArray,
 	} = useGetAllProducts();
 
-	if (isPending) {
-		return <LoadingSkeleton count={15} />;
-	}
-
 	return (
 		<>
 			<Hero />
 			<Categories />
 
 			<section id="Products Section" className="flex flex-col gap-[6rem] px-[2rem] pt-[6rem]">
-				<HotSalesProducts data={hotSalesProductsArray} />
-				<RecentProducts data={recentlyViewedProductsArray} />
-				<SimilarProducts data={similarProductsArray} />
+				<Show when={!isPending}>
+					<HotSalesProducts data={hotSalesProductsArray} />
+					<RecentProducts data={recentlyViewedProductsArray} />
+					<SimilarProducts data={similarProductsArray} />
+
+					<Show.Fallback>
+						<LoadingSkeleton count={15} />
+					</Show.Fallback>
+				</Show>
 			</section>
 		</>
 	);

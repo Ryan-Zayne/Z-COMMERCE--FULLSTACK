@@ -77,8 +77,8 @@ function SearchForm(props: SearchFormProps) {
 				<Button
 					type="button"
 					className={cnMerge(
-						`px-[2.1rem] text-[1.8rem] transition-[colors,scale] duration-300 hover:bg-primary
-						hover:text-heading active:scale-[1.08]`,
+						`h-[4rem] w-[6rem] p-0 text-[1.8rem] transition-[colors,scale] duration-300
+						hover:bg-primary hover:text-heading active:scale-[1.08]`,
 						classNames?.btn
 					)}
 					variant={variant}

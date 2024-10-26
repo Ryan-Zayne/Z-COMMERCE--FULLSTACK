@@ -77,7 +77,9 @@ const signIn = catchAsync<{
 	);
 
 	return AppResponse(res, 200, "Signed in successfully", {
-		user: omitSensitiveFields(updatedUser),
+		data: {
+			user: omitSensitiveFields(updatedUser),
+		},
 	});
 });
 

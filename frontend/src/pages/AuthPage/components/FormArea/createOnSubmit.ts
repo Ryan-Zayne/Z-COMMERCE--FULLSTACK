@@ -1,6 +1,7 @@
 import { callMainApi } from "@/lib/api/callMainApi";
 import type { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { noScrollOnOpen } from "@/lib/utils/no-scroll-on-open";
+import type { QueryClient } from "@tanstack/react-query";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
 import type { UseFormReset, UseFormSetError } from "react-hook-form";
 import type { NavigateFunction } from "react-router-dom";
@@ -12,19 +13,20 @@ export type FormSchemaType = z.infer<typeof LoginSchema> & z.infer<typeof SignUp
 type SubmitFormParams = {
 	formVariant: FormAreaProps["formVariant"];
 	navigate: NavigateFunction;
+	queryClient: QueryClient;
 	reset: UseFormReset<FormSchemaType>;
 	setError: UseFormSetError<FormSchemaType>;
 };
 
-const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
-	const { formVariant, navigate, reset, setError } = submitParams;
+const createOnSubmitFn = (submitParams: SubmitFormParams) => {
+	const { formVariant, navigate, queryClient, setError } = submitParams;
 
 	const onSubmit = async (formDataObj: FormSchemaType) => {
 		const AUTH_URL = formVariant === "SignUp" ? `/signup` : `/signin`;
 
 		noScrollOnOpen({ isActive: true });
 
-		const { error } = await callMainApi(AUTH_URL, { body: formDataObj });
+		const { data, error } = await callMainApi(AUTH_URL, { body: formDataObj });
 
 		noScrollOnOpen({ isActive: false });
 
@@ -33,13 +35,11 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 
 			setError("root.serverError", {
 				message: zodErrorDetails.formErrors as never,
-				type: error.errorData.errorTitle,
 			});
 
 			zodErrorDetails.fieldErrors.forEach(([field, errorMessage]) => {
 				setError(field, {
 					message: errorMessage as never,
-					type: field,
 				});
 			});
 
@@ -51,27 +51,25 @@ const generateOnSubmitFn = (submitParams: SubmitFormParams) => {
 
 			setError("root.serverError", {
 				message: errorResponse.message,
-				type: errorResponse.errorTitle,
 			});
 
 			return;
 		}
-
 
 		if (error) {
 			setError("root.caughtError", {
 				message: error.message,
-				type: "caughtError",
 			});
 
 			return;
 		}
 
-		reset();
-		navigate("/", { replace: true });
+		await queryClient.setQueryData(["session"], data.data);
+
+		formVariant === "SignUp" ? navigate("/auth/signin") : navigate("/", { replace: true });
 	};
 
 	return onSubmit;
 };
 
-export { generateOnSubmitFn };
+export { createOnSubmitFn };

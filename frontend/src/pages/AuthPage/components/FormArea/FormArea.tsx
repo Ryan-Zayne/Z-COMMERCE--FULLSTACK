@@ -2,9 +2,10 @@ import { Button, Form, LoadingSpinner, Show, Switch } from "@/components/primiti
 import { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { type FormSchemaType, generateOnSubmitFn } from "./generateOnSubmit";
+import { type FormSchemaType, createOnSubmitFn } from "./createOnSubmit";
 
 export type FormAreaProps = {
 	classNames?: { form?: string };
@@ -24,7 +25,9 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 
 	const { control, formState, handleSubmit, reset, setError } = methods;
 
-	const onSubmit = generateOnSubmitFn({ formVariant, navigate, reset, setError });
+	const queryClient = useQueryClient();
+
+	const onSubmit = createOnSubmitFn({ formVariant, navigate, queryClient, reset, setError });
 
 	return (
 		<Form.Root

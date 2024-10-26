@@ -46,6 +46,7 @@ export const omitSensitiveFields = <TObject extends AnyObject, TOmitArray extend
 		"lastLogin",
 		"refreshTokenArray",
 		"loginRetries",
+		"password",
 		...keysToOmit,
 	]);
 

@@ -102,6 +102,7 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 export const useShopStore = create(
 	persist(shopStateObjectFn, {
 		name: "shop",
+		// eslint-disable-next-line ts-eslint/no-unused-vars
 		partialize: ({ actions, ...actualState }) => actualState,
 		version: 1,
 	})

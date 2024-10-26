@@ -1,4 +1,5 @@
-import { createZustandContext, useConstant } from "@zayne-labs/toolkit/react";
+import { useConstant } from "@zayne-labs/toolkit/react";
+import { createZustandContext } from "@zayne-labs/toolkit/react/zustand";
 import type { PrettyOmit } from "@zayne-labs/toolkit/type-helpers";
 import { useEffect } from "react";
 import { createWithEqualityFn } from "zustand/traditional";
