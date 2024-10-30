@@ -1,4 +1,5 @@
 import { cnMerge } from "@/lib/utils/cn";
+import { toArray } from "@zayne-labs/toolkit";
 import { type PolymorphicPropsWithRef, createCustomContext, useToggle } from "@zayne-labs/toolkit/react";
 import { getOtherChildren, getSlotElement } from "@zayne-labs/toolkit/react/utils";
 import { Fragment as ReactFragment, useEffect, useId, useMemo, useRef } from "react";
@@ -11,6 +12,7 @@ import {
 	type FieldPath,
 	type FormState,
 	FormProvider as HookFormProvider,
+	type RegisterOptions,
 	type UseFormReturn,
 	type UseFormStateReturn,
 	useFormState,
@@ -18,7 +20,6 @@ import {
 } from "react-hook-form";
 import { getElementList } from "./For/getElementList";
 import { IconBox } from "./IconBox";
-import Show from "./Show";
 
 type FieldValues = Record<string, unknown>;
 
@@ -100,7 +101,7 @@ function FormInputGroup(props: React.ComponentPropsWithRef<"div">) {
 	const otherChildren = getOtherChildren(children, [FormInputLeftItem, FormInputRightItem]);
 
 	return (
-		<div className={cnMerge("flex items-center justify-between", className)} {...restOfProps}>
+		<div className={cnMerge("flex items-center justify-between gap-2", className)} {...restOfProps}>
 			{LeftItemSlot}
 			{otherChildren}
 			{RightItemSlot}
@@ -143,7 +144,7 @@ export type FormInputPrimitiveProps<TFieldValues extends FieldValues = FieldValu
 	React.ComponentPropsWithRef<"input">,
 	"children"
 > & {
-	classNames?: { input?: string; inputGroup?: string };
+	classNames?: { eyeIcon?: string; input?: string; inputGroup?: string };
 	errorClassName?: string;
 	name?: keyof TFieldValues;
 	withEyeIcon?: boolean;
@@ -196,15 +197,17 @@ function FormInputPrimitive<TFieldValues extends FieldValues>(
 				type={type === "password" && isPasswordVisible ? "text" : type}
 				className={cnMerge(
 					!inputTypesWithoutFullWith.has(type) && "flex w-full",
-					`text-sm file:border-0 file:bg-transparent placeholder:text-shadcn-muted-foreground
-					focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50`,
+					`bg-transparent text-sm file:border-0 file:bg-transparent
+					placeholder:text-shadcn-muted-foreground focus-visible:outline-none
+					disabled:cursor-not-allowed disabled:opacity-50`,
 					className,
 					classNames?.input,
 					type !== "password" && errors?.[name] && errorClassName
 				)}
 				{...restOfProps}
 			/>
-			<Show when={shouldHaveEyeIcon}>
+
+			{shouldHaveEyeIcon && (
 				<FormInputRightItem
 					as="button"
 					type="button"
@@ -212,17 +215,29 @@ function FormInputPrimitive<TFieldValues extends FieldValues>(
 					className="size-5 shrink-0 lg:size-6"
 				>
 					{isPasswordVisible ? (
-						<IconBox icon="material-symbols:visibility-off-outline-rounded" className="size-full" />
+						<IconBox
+							icon="material-symbols:visibility-off-outline-rounded"
+							className={cnMerge("size-full", classNames?.eyeIcon)}
+						/>
 					) : (
-						<IconBox icon="material-symbols:visibility-outline-rounded" className="size-full" />
+						<IconBox
+							icon="material-symbols:visibility-outline-rounded"
+							className={cnMerge("size-full", classNames?.eyeIcon)}
+						/>
 					)}
 				</FormInputRightItem>
-			</Show>
+			)}
 		</WrapperElement>
 	);
 }
 
-function FormInput(props: Omit<FormInputPrimitiveProps, "control" | "formState" | "id" | "name" | "ref">) {
+function FormInput(
+	props: Omit<FormInputPrimitiveProps, "control" | "formState" | "id" | "name" | "ref"> & {
+		rules?: RegisterOptions;
+	}
+) {
+	const { rules, ...restOfProps } = props;
+
 	const { name } = useFormItemContext();
 	const { formState, register } = useHookFormContext();
 
@@ -230,8 +245,8 @@ function FormInput(props: Omit<FormInputPrimitiveProps, "control" | "formState" 
 		<FormInputPrimitive
 			name={name}
 			formState={formState}
-			{...(Boolean(name) && register(name))}
-			{...props}
+			{...(Boolean(name) && register(name, rules))}
+			{...restOfProps}
 		/>
 	);
 }
@@ -271,8 +286,8 @@ function FormTextAreaPrimitive<TFieldValues extends FieldValues>(
 			id={id}
 			name={name}
 			className={cnMerge(
-				`w-full text-sm placeholder:text-shadcn-muted-foreground focus-visible:outline-none
-				disabled:cursor-not-allowed disabled:opacity-50`,
+				`w-full bg-transparent text-sm placeholder:text-shadcn-muted-foreground
+				focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50`,
 				className,
 				name && errors?.[name] && errorClassName
 			)}
@@ -282,18 +297,21 @@ function FormTextAreaPrimitive<TFieldValues extends FieldValues>(
 }
 
 function FormTextArea(
-	props: Omit<FormTextAreaPrimitiveProps, "control" | "formState" | "id" | "name" | "ref">
+	props: Omit<FormTextAreaPrimitiveProps, "control" | "formState" | "id" | "name" | "ref"> & {
+		rules?: RegisterOptions;
+	}
 ) {
-	const { name } = useFormItemContext();
+	const { rules, ...restOfProps } = props;
 
+	const { name } = useFormItemContext();
 	const { formState, register } = useHookFormContext();
 
 	return (
 		<FormTextAreaPrimitive
 			name={name}
 			formState={formState}
-			{...(Boolean(name) && register(name))}
-			{...props}
+			{...(Boolean(name) && register(name, rules))}
+			{...restOfProps}
 		/>
 	);
 }
@@ -322,6 +340,7 @@ type FormErrorMessageProps<TControl, TFieldValues extends FieldValues> =
 	| (TControl extends Control<infer TValues>
 			? {
 					className?: string;
+					control?: never;
 					errorField: keyof TValues;
 					type: "regular";
 				}
@@ -333,10 +352,10 @@ type FormErrorMessageProps<TControl, TFieldValues extends FieldValues> =
 				})
 	| {
 			className?: string;
+			control?: never;
 			errorField: string;
 			type: "root";
 	  };
-
 function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValues>(
 	props: FormErrorMessageProps<TControl, TFieldValues>
 ) {
@@ -344,26 +363,27 @@ function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValu
 
 	const { formState } = useHookFormContext();
 
-	const [ErrorMessageList] = getElementList();
-
-	const errorParagraphRef = useRef<HTMLParagraphElement>(null);
+	const wrapperRef = useRef<HTMLUListElement>(null);
 
 	useEffect(() => {
-		if (!errorParagraphRef.current) return;
+		const errorParagraphs = wrapperRef.current?.children;
 
-		if (!errorParagraphRef.current.classList.contains("animate-shake")) {
-			errorParagraphRef.current.classList.add("animate-shake");
+		if (!errorParagraphs) return;
+
+		for (const errorParagraph of errorParagraphs) {
+			if (!errorParagraph.classList.contains("animate-shake")) {
+				errorParagraph.classList.add("animate-shake");
+			}
 		}
 
 		// Scroll to first error message
 		if (Object.keys(formState.errors).indexOf(errorField as string) === 0) {
-			errorParagraphRef.current.scrollIntoView({
+			errorParagraphs[0]?.scrollIntoView({
 				behavior: "smooth",
 				block: "center",
 			});
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [formState.submitCount]);
+	}, [errorField, formState.errors, formState.submitCount]);
 
 	const message = (
 		type === "root"
@@ -375,39 +395,33 @@ function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValu
 		return null;
 	}
 
-	const errorParagraphClasses = "animate-shake pt-[0.3rem] text-[1.1rem] text-error";
+	const errorParagraphClasses = "animate-shake";
+
+	const messageArray = toArray(message);
+
+	const [ErrorMessageList] = getElementList();
 
 	return (
-		<Show when={Array.isArray(message)}>
-			<ErrorMessageList
-				each={message as string[]}
-				render={(messageItem, index) => (
-					<p
-						key={messageItem}
-						className={cnMerge(
-							"ml-[15px] list-item",
-							errorParagraphClasses,
-							className,
-							index === 0 && "mt-1"
-						)}
-					>
-						<span>*</span>
-						{messageItem}
-					</p>
-				)}
-			/>
-
-			<Show.Fallback>
+		<ErrorMessageList
+			ref={wrapperRef}
+			each={messageArray}
+			render={(messageItem, index) => (
 				<p
-					ref={errorParagraphRef}
-					className={cnMerge(errorParagraphClasses, className)}
-					onAnimationEnd={() => errorParagraphRef.current?.classList.remove("animate-shake")}
+					onAnimationEnd={(event) => event.currentTarget.classList.remove("animate-shake")}
+					key={messageItem}
+					className={cnMerge(
+						"ml-[15px]",
+						messageArray.length > 1 && "list-item",
+						errorParagraphClasses,
+						className,
+						index === 0 && "mt-1"
+					)}
 				>
 					<span>*</span>
-					{message}
+					{messageItem}
 				</p>
-			</Show.Fallback>
-		</Show>
+			)}
+		/>
 	);
 }
 
