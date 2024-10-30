@@ -356,6 +356,7 @@ type FormErrorMessageProps<TControl, TFieldValues extends FieldValues> =
 			errorField: string;
 			type: "root";
 	  };
+
 function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValues>(
 	props: FormErrorMessageProps<TControl, TFieldValues>
 ) {
@@ -382,6 +383,7 @@ function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValu
 				behavior: "smooth",
 				block: "center",
 			});
+			window.scrollBy({ behavior: "smooth", top: -100 });
 		}
 	}, [errorField, formState.errors, formState.submitCount]);
 
