@@ -2,8 +2,8 @@ import { type DecodedJwtPayload, decodeJwtToken, encodeJwtToken } from "@/auth/s
 import { ENVIRONMENT } from "@/common/env";
 import { UserModel } from "@/users/model";
 import jwt from "jsonwebtoken";
-import { ACCESS_JWT_EXPIRES_IN } from "../constants";
-import { AppError } from "./appError";
+import { ACCESS_JWT_EXPIRES_IN } from "../../constants";
+import { AppError } from "../../utils/appError";
 
 const verifyUser = async (decodedPayload: DecodedJwtPayload, zayneRefreshToken: string) => {
 	// == Check if user exists

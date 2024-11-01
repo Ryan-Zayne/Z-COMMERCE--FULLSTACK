@@ -1,7 +1,8 @@
-import { authenticateUser, setCookie } from "@/common/utils";
+import { setCookie } from "@/common/utils";
 import type { UserType } from "@/users/types";
 import type { HydratedDocument } from "mongoose";
-import { catchAsync } from "./catchAsyncErrors";
+import { catchAsync } from "../catchAsyncErrors";
+import { authenticateUser } from "./authenticateUser";
 
 const protect = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res, next) => {
 	// == Get the cookies from the request headers
