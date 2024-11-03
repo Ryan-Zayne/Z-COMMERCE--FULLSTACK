@@ -336,19 +336,138 @@ function FormController<TFieldValues = never>(props: FormControllerProps<TFieldV
 	);
 }
 
+type FormErrorRenderProps = {
+	className: string;
+	field: { errorMessage: string; errorMessageArray: string[]; index: number };
+	onAnimationEnd?: React.ReactEventHandler<HTMLElement>;
+};
+
+type FormErrorMessagePrimitiveProps<TFieldValues extends FieldValues> = {
+	className?: string;
+	classNames?: {
+		container?: string;
+		errorMessage?: string;
+		errorMessageAnimation?: string;
+	};
+	control: Control<TFieldValues>; // == Here for type inference of errorField prop
+	render: (props: FormErrorRenderProps) => React.ReactNode;
+	withAnimationOnInvalid?: boolean;
+} & (
+	| {
+			errorField: keyof TFieldValues;
+			type?: "regular";
+	  }
+	| {
+			errorField: string;
+			type: "root";
+	  }
+);
+
+function FormErrorMessagePrimitive<TFieldValues extends FieldValues>(
+	props: Extract<FormErrorMessagePrimitiveProps<TFieldValues>, { type?: "regular" }>
+): React.ReactNode;
+
+function FormErrorMessagePrimitive<TFieldValues extends FieldValues>(
+	// eslint-disable-next-line ts-eslint/unified-signatures
+	props: Extract<FormErrorMessagePrimitiveProps<TFieldValues>, { type: "root" }>
+): React.ReactNode;
+
+function FormErrorMessagePrimitive<TFieldValues extends FieldValues>(
+	props: FormErrorMessagePrimitiveProps<TFieldValues>
+) {
+	const {
+		className,
+		classNames,
+		control,
+		errorField,
+		render,
+		type = "regular",
+		withAnimationOnInvalid = true,
+	} = props;
+
+	const formState = useFormState({ control });
+
+	const wrapperRef = useRef<HTMLUListElement>(null);
+
+	const errorAnimationClass = classNames?.errorMessageAnimation ?? "animate-shake";
+
+	useEffect(() => {
+		if (!withAnimationOnInvalid) return;
+
+		const errorMessageElements = wrapperRef.current?.children;
+
+		if (!errorMessageElements) return;
+
+		for (const element of errorMessageElements) {
+			element.classList.add(errorAnimationClass);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [formState.submitCount]);
+
+	useEffect(() => {
+		const errorMessageElements = wrapperRef.current?.children;
+
+		if (!errorMessageElements) return;
+
+		// == Scroll to first error message
+		if (Object.keys(formState.errors).indexOf(errorField as string) === 0) {
+			errorMessageElements[0]?.scrollIntoView({
+				behavior: "smooth",
+				block: "center",
+			});
+
+			window.scrollBy({ behavior: "smooth", top: -100 });
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [formState.submitCount]);
+
+	const message = (
+		type === "root"
+			? formState.errors.root?.[errorField as string]?.message
+			: formState.errors[errorField]?.message
+	) as string | string[];
+
+	if (!message) {
+		return null;
+	}
+
+	const errorMessageArray = toArray(message);
+
+	const [ErrorMessageList] = getElementList();
+
+	const onAnimationEnd: React.AnimationEventHandler<HTMLElement> | undefined = withAnimationOnInvalid
+		? (event) => event.currentTarget.classList.remove(errorAnimationClass)
+		: undefined;
+
+	return (
+		<ErrorMessageList
+			ref={wrapperRef}
+			each={errorMessageArray}
+			className={cnMerge("flex flex-col", classNames?.container)}
+			render={(errorMessage, index) => {
+				return render({
+					className: cnMerge(errorAnimationClass, className, classNames?.errorMessage),
+					field: { errorMessage, errorMessageArray, index },
+					onAnimationEnd,
+				});
+			}}
+		/>
+	);
+}
+
 type FormErrorMessageProps<TControl, TFieldValues extends FieldValues> =
 	| (TControl extends Control<infer TValues>
 			? {
 					className?: string;
 					control?: never;
 					errorField: keyof TValues;
-					type: "regular";
+					type?: "regular";
 				}
 			: {
 					className?: string;
 					control?: Control<TFieldValues>; // == Here for type inference of errorField prop
 					errorField: keyof TFieldValues;
-					type: "regular";
+					type?: "regular";
 				})
 	| {
 			className?: string;
@@ -362,65 +481,21 @@ function FormErrorMessage<TControl, TFieldValues extends FieldValues = FieldValu
 ) {
 	const { className, errorField, type } = props;
 
-	const { formState } = useHookFormContext();
-
-	const wrapperRef = useRef<HTMLUListElement>(null);
-
-	useEffect(() => {
-		const errorParagraphs = wrapperRef.current?.children;
-
-		if (!errorParagraphs) return;
-
-		for (const errorParagraph of errorParagraphs) {
-			if (!errorParagraph.classList.contains("animate-shake")) {
-				errorParagraph.classList.add("animate-shake");
-			}
-		}
-
-		// Scroll to first error message
-		if (Object.keys(formState.errors).indexOf(errorField as string) === 0) {
-			errorParagraphs[0]?.scrollIntoView({
-				behavior: "smooth",
-				block: "center",
-			});
-			window.scrollBy({ behavior: "smooth", top: -100 });
-		}
-	}, [errorField, formState.errors, formState.submitCount]);
-
-	const message = (
-		type === "root"
-			? formState.errors.root?.[errorField]?.message
-			: formState.errors[errorField]?.message
-	) as string | string[];
-
-	if (!message) {
-		return null;
-	}
-
-	const errorParagraphClasses = "animate-shake";
-
-	const messageArray = toArray(message);
-
-	const [ErrorMessageList] = getElementList();
+	const { control } = useHookFormContext();
 
 	return (
-		<ErrorMessageList
-			ref={wrapperRef}
-			each={messageArray}
-			render={(messageItem, index) => (
+		<FormErrorMessagePrimitive
+			control={control}
+			errorField={errorField as string}
+			type={type as "root"}
+			render={({ field: { errorMessage, index }, ...restOfProps }) => (
 				<p
-					onAnimationEnd={(event) => event.currentTarget.classList.remove("animate-shake")}
-					key={messageItem}
-					className={cnMerge(
-						"ml-[15px]",
-						messageArray.length > 1 && "list-item",
-						errorParagraphClasses,
-						className,
-						index === 0 && "mt-1"
-					)}
+					key={errorMessage}
+					{...restOfProps}
+					className={cnMerge("ml-[15px]", restOfProps.className, className, index === 0 && "mt-1")}
 				>
 					<span>*</span>
-					{messageItem}
+					{errorMessage}
 				</p>
 			)}
 		/>
@@ -432,6 +507,8 @@ export const Root = FormRoot;
 export const Item = FormItem;
 
 export const Label = FormLabel;
+
+export const ErrorMessagePrimitive = FormErrorMessagePrimitive;
 
 export const ErrorMessage = FormErrorMessage;
 

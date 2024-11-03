@@ -64,9 +64,7 @@ const createOnSubmitFn = (submitParams: SubmitFormParams) => {
 			return;
 		}
 
-		await queryClient.setQueryData(["session"], data.data);
-
-		formVariant === "SignUp" ? navigate("/auth/signin") : navigate("/", { replace: true });
+		navigate("/", { replace: true });
 	};
 
 	return onSubmit;
