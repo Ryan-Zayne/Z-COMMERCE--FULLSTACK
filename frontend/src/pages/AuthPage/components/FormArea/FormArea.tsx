@@ -52,7 +52,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 						type="text"
 					/>
 
-					<Form.ErrorMessage control={control} errorField="username" type="regular" />
+					<Form.ErrorMessage control={control} className="text-error" errorField="username" />
 				</Form.Item>
 			</Show>
 
@@ -66,7 +66,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 					type="email"
 				/>
 
-				<Form.ErrorMessage control={control} errorField="email" type="regular" />
+				<Form.ErrorMessage control={control} className="text-error" errorField="email" />
 			</Form.Item>
 
 			<Form.Item className="relative" control={control} name="password">
@@ -81,7 +81,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 					type="password"
 				/>
 
-				<Form.ErrorMessage control={control} errorField="password" type="regular" />
+				<Form.ErrorMessage control={control} className="text-error" errorField="password" />
 			</Form.Item>
 
 			<Show when={formVariant === "SignUp"}>
@@ -97,18 +97,18 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 						type="password"
 					/>
 
-					<Form.ErrorMessage control={control} errorField="confirmPassword" type="regular" />
+					<Form.ErrorMessage control={control} className="text-error" errorField="confirmPassword" />
 				</Form.Item>
 			</Show>
 
 			<Form.ErrorMessage
-				className="mb-[-0.7rem] mt-[-1rem] text-[1.3rem]"
+				className="mb-[-0.7rem] mt-[-1rem] text-error"
 				errorField="serverError"
 				type="root"
 			/>
 
 			<Form.ErrorMessage
-				className={"mb-[-0.7rem] mt-[-1rem] text-[1.3rem]"}
+				className="mb-[-0.7rem] mt-[-1rem] text-error"
 				errorField="caughtError"
 				type="root"
 			/>
@@ -137,7 +137,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 							</Link>
 						</div>
 
-						<Form.ErrorMessage control={control} errorField="acceptTerms" type="regular" />
+						<Form.ErrorMessage control={control} className="text-error" errorField="acceptTerms" />
 					</Switch.Match>
 				</Switch>
 			</Form.Item>

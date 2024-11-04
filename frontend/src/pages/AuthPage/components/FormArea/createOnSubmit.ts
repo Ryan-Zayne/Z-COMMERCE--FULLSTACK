@@ -19,14 +19,14 @@ type SubmitFormParams = {
 };
 
 const createOnSubmitFn = (submitParams: SubmitFormParams) => {
-	const { formVariant, navigate, queryClient, setError } = submitParams;
+	const { formVariant, navigate, setError } = submitParams;
 
 	const onSubmit = async (formDataObj: FormSchemaType) => {
 		const AUTH_URL = formVariant === "SignUp" ? `/signup` : `/signin`;
 
 		noScrollOnOpen({ isActive: true });
 
-		const { data, error } = await callMainApi(AUTH_URL, { body: formDataObj });
+		const { error } = await callMainApi(AUTH_URL, { body: formDataObj });
 
 		noScrollOnOpen({ isActive: false });
 

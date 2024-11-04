@@ -24,8 +24,8 @@ const ProductItemPage = lazy(() => import("@/pages/ProductItemPage"));
 const NotFoundPage = lazy(() => import("@/pages/404"));
 const ErrorPage = lazy(() => import("@/pages/error"));
 
-const sessionLoader = ($queryClient: QueryClient) => async () => {
-	await $queryClient.prefetchQuery(getSessionQuery());
+const sessionLoader = ($queryClient: QueryClient) => () => {
+	$queryClient.prefetchQuery(getSessionQuery());
 
 	return null;
 };
