@@ -16,7 +16,7 @@ export const setCookie = (
 	res.cookie(name, value, {
 		httpOnly: true,
 		partitioned: isProduction,
-		sameSite: isProduction ? "none" : "lax",
+		sameSite: "none",
 		secure: isProduction,
 		signed: true,
 		...options,
