@@ -9,6 +9,9 @@
 			"./src/*.ts"
 		]
 	},
+	"aliases": {
+		"@": "src"
+	},
 	"engines": {
 		"node": ">=20.0.0"
 	},
