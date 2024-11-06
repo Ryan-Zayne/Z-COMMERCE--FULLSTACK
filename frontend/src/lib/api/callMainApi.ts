@@ -1,6 +1,6 @@
 import { BASE_API_URL, BASE_AUTH_URL } from "@/lib/utils/constants";
-import type { FormSchemaType } from "@/pages/AuthPage/components/FormArea";
 import { createFetchClient } from "@zayne-labs/callapi";
+import type { FormSchemaType } from "../schemas/formSchema";
 
 type BaseApiSuccessType = {
 	message: string;

@@ -33,3 +33,5 @@ export const LoginSchema = z
 		rememberMe: z.boolean().optional(),
 	})
 	.strict();
+
+export type FormSchemaType = z.infer<typeof LoginSchema> & z.infer<typeof SignUpSchema>;

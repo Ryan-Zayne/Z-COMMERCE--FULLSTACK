@@ -1,11 +1,11 @@
 import { Button, Form, LoadingSpinner, Show, Switch } from "@/components/primitives";
-import { LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
+import { LoginSchema, SignUpSchema, type FormSchemaType } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { type FormSchemaType, createOnSubmitFn } from "./createOnSubmit";
+import { createOnSubmitFn } from "./createOnSubmit";
 
 export type FormAreaProps = {
 	classNames?: { form?: string };
@@ -46,9 +46,11 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 					<Form.Label>Username</Form.Label>
 
 					<Form.Input
-						className="min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
-							focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot"
-						errorClassName={semanticClasses.error}
+						classNames={{
+							error: semanticClasses.error,
+							input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
+							focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
+						}}
 						type="text"
 					/>
 
@@ -60,9 +62,11 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 				<Form.Label>Email address</Form.Label>
 
 				<Form.Input
-					className="min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
-						focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot"
-					errorClassName={semanticClasses.error}
+					classNames={{
+						error: semanticClasses.error,
+						input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
+						focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
+					}}
 					type="email"
 				/>
 
@@ -74,10 +78,10 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 
 				<Form.Input
 					classNames={{
+						error: semanticClasses.error,
 						inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
 						text-input focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 					}}
-					errorClassName={semanticClasses.error}
 					type="password"
 				/>
 
@@ -90,10 +94,10 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 
 					<Form.Input
 						classNames={{
+							error: semanticClasses.error,
 							inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
 							text-input focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 						}}
-						errorClassName={semanticClasses.error}
 						type="password"
 					/>
 
