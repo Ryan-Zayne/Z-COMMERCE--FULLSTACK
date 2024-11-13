@@ -1,7 +1,8 @@
 import { cnMerge } from "@/lib/utils/cn";
 import { toArray } from "@zayne-labs/toolkit";
-import { type PolymorphicPropsWithRef, createCustomContext, useToggle } from "@zayne-labs/toolkit/react";
+import { type PolymorphicProps, createCustomContext, useToggle } from "@zayne-labs/toolkit/react";
 import { getOtherChildren, getSlotElement } from "@zayne-labs/toolkit/react/utils";
+import { isArray } from "@zayne-labs/toolkit/type-helpers";
 import { Fragment as ReactFragment, useEffect, useId, useMemo, useRef } from "react";
 import {
 	type Control,
@@ -129,7 +130,7 @@ type FormSideItemProps = {
 };
 
 function FormInputLeftItem<TElement extends React.ElementType = "span">(
-	props: PolymorphicPropsWithRef<TElement, FormSideItemProps>
+	props: PolymorphicProps<TElement, FormSideItemProps>
 ) {
 	const { children, className, ...restOfProps } = props;
 
@@ -142,7 +143,7 @@ function FormInputLeftItem<TElement extends React.ElementType = "span">(
 FormInputLeftItem.slot = Symbol.for("leftItem");
 
 function FormInputRightItem<TElement extends React.ElementType = "span">(
-	props: PolymorphicPropsWithRef<TElement, FormSideItemProps>
+	props: PolymorphicProps<TElement, FormSideItemProps>
 ) {
 	const { as: Element = "span", children, className, ...restOfProps } = props;
 
@@ -427,11 +428,18 @@ function FormErrorMessagePrimitive<TFieldValues extends FieldValues>(
 		}
 	}, [errorField, formState.errors]);
 
-	const message = (
-		type === "root"
-			? formState.errors.root?.[errorField as string]?.message
-			: formState.errors[errorField]?.message
-	) as string | string[];
+	const castedError = formState.errors[errorField] as unknown as
+		| Array<{ message: string } | undefined>
+		| { message: string }
+		| undefined;
+
+	const regularMessage = isArray(castedError)
+		? castedError.map((item) => item?.message)
+		: castedError?.message;
+
+	const rootMessage = formState.errors.root?.[errorField as string]?.message as string | string[];
+
+	const message = type === "root" ? rootMessage : (regularMessage as typeof rootMessage);
 
 	if (!message) {
 		return null;
