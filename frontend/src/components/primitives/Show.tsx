@@ -8,7 +8,7 @@ type ShowProps = {
 
 function Show({ children, fallback, when }: ShowProps) {
 	const fallBackSlot = getSlotElement(children, ShowFallback, {
-		errorMessage: "Only one <Show.Default> component is allowed",
+		errorMessage: "Only one <Show.Fallback> or <Show.OtherWise> component is allowed",
 		throwOnMultipleSlotMatch: true,
 	});
 
@@ -21,8 +21,7 @@ function Show({ children, fallback, when }: ShowProps) {
 
 	if (fallBackSlot && fallback) {
 		throw new Error(`
-			Both fallback mechanisms cannot be used at the same time.
-			Either the "fallback" prop is used or "<Show.Fallback>" component is used
+			The fallback prop and <Show.Fallback> or <Show.OtherWise> cannot be used at the same time.
 		`);
 	}
 
@@ -41,5 +40,6 @@ ShowFallback.slot = Symbol.for("fallback");
 
 Show.Fallback = ShowFallback;
 Show.Content = ShowContent;
+Show.OtherWise = ShowFallback;
 
 export default Show;

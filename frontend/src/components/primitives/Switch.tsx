@@ -1,4 +1,3 @@
-"use client"
 
 import { getSlotElement } from "@zayne-labs/toolkit/react/utils";
 import { isArray } from "@zayne-labs/toolkit/type-helpers";
