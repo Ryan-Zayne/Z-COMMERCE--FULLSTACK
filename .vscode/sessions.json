@@ -2,8 +2,9 @@
 	"$schema": "https://cdn.statically.io/gh/nguyenngoclongdev/cdn/main/schema/v10/terminal-keeper.json",
 	"theme": "dice",
 	"active": "default",
-	"activateOnStartup": true,
+	"activateOnStartup": false,
 	"keepExistingTerminals": false,
+	"noClear": true,
 	"sessions": {
 		"default": [
 			{
@@ -59,7 +60,6 @@
 				"commands": ["vite preview"]
 			}
 		],
-
 		"backend": [
 			{
 				"cwd": "backend",

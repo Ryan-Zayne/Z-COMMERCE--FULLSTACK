@@ -8,8 +8,7 @@ const setRef = <TRef>(ref: PossibleRef<TRef>, value: TRef) => {
 	if (ref == null) return;
 
 	if (typeof ref === "function") {
-		ref(value);
-		return;
+		return ref(value);
 	}
 
 	// eslint-disable-next-line no-param-reassign
