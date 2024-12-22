@@ -1,4 +1,4 @@
-import { isFunction, isObject } from "@zayne-labs/toolkit/type-helpers";
+import { isFunction, isPlainObject } from "@zayne-labs/toolkit/type-helpers";
 
 export type UnknownProps = Record<string, unknown>;
 
@@ -10,8 +10,8 @@ const mergeProps = (slotProps: UnknownProps, childProps: UnknownProps) => {
 		const slotPropValue = slotProps[propName];
 		const childPropValue = childProps[propName];
 
-		// if it's `style`, we merge them
-		if (propName === "style" && isObject(slotPropValue) && isObject(childPropValue)) {
+		// == if it's `style`, we merge them
+		if (propName === "style" && isPlainObject(slotPropValue) && isPlainObject(childPropValue)) {
 			overrideProps[propName] = { ...slotPropValue, ...childPropValue };
 		}
 
@@ -23,7 +23,7 @@ const mergeProps = (slotProps: UnknownProps, childProps: UnknownProps) => {
 
 		if (!isHandler) continue;
 
-		// if the handler exists on both, we compose them
+		// == if the handler exists on both, we compose them
 		if (isFunction(slotPropValue) && isFunction(childPropValue)) {
 			overrideProps[propName] = (...args: unknown[]) => {
 				childPropValue(...args);
@@ -31,8 +31,8 @@ const mergeProps = (slotProps: UnknownProps, childProps: UnknownProps) => {
 			};
 		}
 
-		// but if it exists only on the slot, we use only that one
-		if (typeof slotPropValue === "function") {
+		// == but if it exists only on the slot, we use only that one
+		if (isFunction(slotPropValue)) {
 			overrideProps[propName] = slotPropValue;
 		}
 	}

@@ -25,7 +25,7 @@ const NotFoundPage = lazy(() => import("@/pages/404"));
 const ErrorPage = lazy(() => import("@/pages/error"));
 
 const sessionLoader = ($queryClient: QueryClient) => () => {
-	$queryClient.prefetchQuery(getSessionQuery());
+	void $queryClient.prefetchQuery(getSessionQuery());
 
 	return null;
 };
@@ -57,7 +57,7 @@ const browserRouter = createBrowserRouter(routes);
 export function Router() {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<RouterProvider future={{ v7_startTransition: true }} router={browserRouter} />
+			<RouterProvider router={browserRouter} />
 			<ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
 		</QueryClientProvider>
 	);

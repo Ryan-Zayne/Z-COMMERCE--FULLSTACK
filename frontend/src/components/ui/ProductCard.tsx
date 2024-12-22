@@ -6,7 +6,7 @@ import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/types";
 import { useToggle } from "@zayne-labs/toolkit/react";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { Link } from "react-router-dom";
 
 type ProductCardProps = {
@@ -53,7 +53,7 @@ function ProductCard(props: ProductCardProps) {
 			}}
 			viewport={{ once: true }}
 		>
-			<Card
+			<Card.Root
 				className={cnMerge(
 					`group/card w-[min(100%,26rem)] rounded-[1.2rem]
 					transition-[transform,box-shadow,background-color] duration-[1000ms] ease-in-out
@@ -88,7 +88,8 @@ function ProductCard(props: ProductCardProps) {
 							{isHearted ? (
 								<IconBox
 									icon="ant-design:heart-filled"
-									className="scale-[1.16] text-[1.9rem] text-heading group-active/btn:scale-[1.23]"
+									className="scale-[1.16] text-[1.9rem] text-heading
+										group-active/btn:scale-[1.23]"
 								/>
 							) : (
 								<IconBox
@@ -112,7 +113,7 @@ function ProductCard(props: ProductCardProps) {
 						/>
 					</Card.Header>
 
-					<Card.Body className="px-[1.4rem] pt-[1rem]">
+					<Card.Content className="px-[1.4rem] pt-[1rem]">
 						<header
 							className="flex min-h-[7.2rem] items-center justify-between gap-[0.4rem] font-[600]"
 						>
@@ -128,7 +129,7 @@ function ProductCard(props: ProductCardProps) {
 						</p>
 
 						<StarRating rating={productItem.rating} />
-					</Card.Body>
+					</Card.Content>
 
 					<Card.Footer className="p-[1.3rem_1rem_1rem]">
 						<hr
@@ -148,7 +149,7 @@ function ProductCard(props: ProductCardProps) {
 						/>
 					</Card.Footer>
 				</Link>
-			</Card>
+			</Card.Root>
 		</m.li>
 	);
 }

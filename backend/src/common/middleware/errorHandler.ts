@@ -42,7 +42,7 @@ const errorHandler: ErrorRequestHandler = (error: AppError & { kind: string }, _
 
 		[String(errorCodes.VALIDATION_ERROR), () => res.status(422).json(errorInfo)],
 
-		// eslint-disable-next-line perfectionist/sort-maps
+		/* eslint-disable perfectionist/sort-maps */
 		["default", () => res.status(500).json(errorInfo)],
 	]);
 

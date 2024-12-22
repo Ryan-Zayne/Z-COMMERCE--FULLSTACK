@@ -1,7 +1,6 @@
 import { ACCESS_JWT_EXPIRES_IN, REFRESH_JWT_EXPIRES_IN } from "@/common/constants";
 import { catchAsync } from "@/common/middleware";
-import { AppError, omitSensitiveFields, setCookie } from "@/common/utils";
-import { AppResponse } from "@/common/utils/appResponse";
+import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/common/utils";
 import { UserModel } from "@/users/model";
 import type { HydratedUserType } from "@/users/types";
 import { differenceInHours } from "date-fns";

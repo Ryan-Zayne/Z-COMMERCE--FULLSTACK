@@ -63,7 +63,9 @@ function Hero() {
 							lg:ml-[36rem] lg:mt-[8rem]"
 					>
 						<h1
-							ref={(elem) => (animatedElements.heading = elem)}
+							ref={(elem) => {
+								animatedElements.heading = elem;
+							}}
 							className="w-[17ch] font-roboto text-[clamp(2rem,_4vw+1rem,_3rem)] font-600
 								text-heading"
 						>
@@ -71,7 +73,9 @@ function Hero() {
 						</h1>
 
 						<p
-							ref={(elem) => (animatedElements.paragraph = elem)}
+							ref={(elem) => {
+								animatedElements.paragraph = elem;
+							}}
 							className="z-20 w-[30ch] text-[clamp(1.3rem,_1vw+1rem,_1.7rem)]
 								[margin-block:1rem_3rem] md:[margin-block:1.8rem_3.7rem] lg:w-[40ch]
 								lg:text-[clamp(1.5rem,_1vw+1rem,_2rem)]"
@@ -81,7 +85,9 @@ function Hero() {
 						</p>
 
 						<Button
-							ref={(elem) => (animatedElements.button = elem)}
+							ref={(elem) => {
+								animatedElements.button = elem;
+							}}
 							text={"Shop Now"}
 							theme={"secondary"}
 							className="z-50 text-[clamp(1.3rem,_1vw+1rem,_1.7rem)] font-[600] transition-shadow

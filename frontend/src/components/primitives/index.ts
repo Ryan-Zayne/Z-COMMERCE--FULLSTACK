@@ -1,8 +1,7 @@
 export { default as Button, type ButtonProps } from "./Button";
-export { default as Card } from "./Card";
+export * as Card from "./Card";
 export * from "./For";
 export * as Form from "./Form";
-export * from "./Form";
 export * from "./Slot";
 export { default as Show } from "./Show";
 export { IconBox } from "./IconBox";

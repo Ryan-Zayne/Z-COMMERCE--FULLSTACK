@@ -1,10 +1,23 @@
 import * as For from "./For";
 
-function getElementList(type: "base"): [typeof For.Base];
-function getElementList(type?: "withWrapper"): [typeof For.List];
+type GetElementListResult<TVariant extends "base" | "withWrapper"> = TVariant extends "base"
+	? [typeof For.Base]
+	: [typeof For.List];
 
-function getElementList(type = "withWrapper") {
-	return type === "withWrapper" ? [For.List] : [For.Base];
-}
+const getElementList = <TVariant extends "base" | "withWrapper" = "withWrapper">(
+	variant?: TVariant
+): GetElementListResult<TVariant> => {
+	switch (variant) {
+		case "base": {
+			return [For.Base] as never;
+		}
+		case "withWrapper": {
+			return [For.List] as never;
+		}
+		default: {
+			return [For.List] as never;
+		}
+	}
+};
 
 export { getElementList };

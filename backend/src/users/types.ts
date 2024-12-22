@@ -1,3 +1,4 @@
+import type { Roles } from "@/common/constants/enums";
 import type { SignOptions } from "jsonwebtoken";
 import type { HydratedDocumentFromSchema, Model, Schema } from "mongoose";
 
@@ -5,6 +6,8 @@ export type UserType = {
 	address: string[];
 	createdAt: Date;
 	email: string;
+	emailVerificationExpires: Date;
+	emailVerificationToken: string;
 	ipAddress: string;
 	isDeleted: boolean;
 	isEmailVerified: boolean;
@@ -21,10 +24,9 @@ export type UserType = {
 	passwordResetToken: string;
 	phoneNumber: string;
 	refreshTokenArray: string[];
-	role: "admin" | "user";
+	role: (typeof Roles)[number];
 	updatedAt: Date;
 	username: string;
-	verificationToken: string;
 };
 
 export type HydratedUserType = Omit<

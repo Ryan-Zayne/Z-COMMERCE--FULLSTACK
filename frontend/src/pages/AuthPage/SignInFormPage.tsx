@@ -2,7 +2,7 @@ import { Button, Logo } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, m } from "motion/react";
 import { Link, useLocation } from "react-router-dom";
 import FormArea from "./components/FormArea/FormArea";
 

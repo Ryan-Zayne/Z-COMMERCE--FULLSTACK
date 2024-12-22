@@ -1,5 +1,5 @@
 import type { HydratedUserType, UserType } from "@/users/types";
-import { omitKeys } from "@zayne-labs/toolkit";
+import { omitKeys } from "@zayne-labs/toolkit/core";
 import type { UnmaskType } from "@zayne-labs/toolkit/type-helpers";
 import type { CookieOptions, Response } from "express";
 import type { AnyObject } from "mongoose";
@@ -35,11 +35,11 @@ export const omitSensitiveFields = <TObject extends AnyObject, TOmitArray extend
 		return null;
 	}
 
-	// Use JSON.parse and JSON.stringify to clone the user object, to remove all methods that transform the object to mongodb nonsense
+	// == Use JSON.parse and JSON.stringify to clone the user object, to prevent omitKeys from transforming the object to mongodb nonsense
 	// eslint-disable-next-line unicorn/prefer-structured-clone
 	const clonedUserObject = JSON.parse(JSON.stringify(userObject)) as HydratedUserType;
 
-	const safeUserObject = omitKeys({ ...clonedUserObject, id: clonedUserObject._id }, [
+	const safeUserObject = omitKeys(clonedUserObject, [
 		"_id",
 		"updatedAt",
 		"createdAt",

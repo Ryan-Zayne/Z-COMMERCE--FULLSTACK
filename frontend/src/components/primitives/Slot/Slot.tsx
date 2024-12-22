@@ -1,10 +1,10 @@
+import type { InferProps } from "@zayne-labs/toolkit/react/utils";
 import { isArray } from "@zayne-labs/toolkit/type-helpers";
 import { Children, cloneElement, isValidElement } from "react";
-import SlotClone from "./SlotClone";
+import { type PossibleRef, composeRefs } from "./composeRefs";
+import { type UnknownProps, mergeProps } from "./mergeProps";
 
-type SlotProps = {
-	children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLElement>;
+type SlotProps = InferProps<HTMLElement>;
 
 /* -------------------------------------------------------------------------------------------------
  * Slottable
@@ -22,7 +22,7 @@ const isSlottable = (child: React.ReactNode): child is React.ReactElement => {
  * Slot
  * ----------------------------------------------------------------------------------------------- */
 
-function Slot(props: SlotProps) {
+export function Slot(props: SlotProps) {
 	const { children, ...restOfSlotProps } = props;
 
 	const childrenArray = isArray<React.ReactNode>(children) ? children : [children];
@@ -30,8 +30,7 @@ function Slot(props: SlotProps) {
 
 	if (slottable) {
 		// == The new element to render is the one passed as a child of `Slottable`
-		// eslint-disable-next-line ts-eslint/no-unsafe-member-access
-		const newElement = slottable.props.children as unknown;
+		const newElement = (slottable.props as SlotProps).children;
 
 		const newElementChildren = childrenArray.map((child) => {
 			if (child !== slottable) {
@@ -56,4 +55,24 @@ function Slot(props: SlotProps) {
 	return <SlotClone {...restOfSlotProps}>{children}</SlotClone>;
 }
 
-export default Slot;
+type SlotCloneProps = {
+	children: React.ReactNode;
+	ref?: React.RefObject<HTMLElement>;
+};
+
+function SlotClone(props: SlotCloneProps) {
+	const { children, ref: forwardedRef, ...restOfSlotProps } = props;
+
+	if (!isValidElement<UnknownProps>(children)) {
+		return Children.count(children) > 1 ? Children.only(null) : null;
+	}
+
+	const childRef = children.props.ref ?? (children as unknown as UnknownProps).ref;
+
+	const clonedProps = {
+		...mergeProps(restOfSlotProps, children.props),
+		ref: forwardedRef ? composeRefs([forwardedRef, childRef as PossibleRef<unknown>]) : childRef,
+	};
+
+	return cloneElement(children, clonedProps);
+}

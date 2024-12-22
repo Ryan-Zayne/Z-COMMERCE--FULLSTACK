@@ -20,6 +20,10 @@ class AppError extends Error {
 
 		Error.captureStackTrace(this, this.constructor);
 	}
+
+	isAppError = () => {
+		this.isOperational = true;
+	};
 }
 
 export { AppError };

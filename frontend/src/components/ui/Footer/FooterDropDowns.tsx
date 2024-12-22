@@ -5,7 +5,7 @@ import DropDown from "@/components/ui/DropDown/DropDown";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useDisclosure } from "@zayne-labs/toolkit/react";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 
 function FooterDropDowns() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);

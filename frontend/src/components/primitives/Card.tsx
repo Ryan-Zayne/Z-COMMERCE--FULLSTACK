@@ -1,68 +1,57 @@
-import type { PolymorphicProps } from "@zayne-labs/toolkit/react";
+import { cnMerge } from "@/lib/utils/cn";
+import type { PolymorphicProps } from "@zayne-labs/toolkit/react/utils";
+import { Slot } from "./Slot";
 
-type CardProps = {
-	aosAnimation?: string;
-	aosDuration?: string;
-	aosEasing?: string;
-	children?: React.ReactNode;
-	className?: string;
-};
+function CardRoot<TElement extends React.ElementType = "article">(props: PolymorphicProps<TElement>) {
+	const { as: Element = "article", ...restOfProps } = props;
 
-type OtherCardProps = {
-	children?: React.ReactNode;
-	className?: string;
-};
+	return <Element {...restOfProps} />;
+}
 
-function Card<TElement extends React.ElementType = "article">(
-	props: PolymorphicProps<TElement, CardProps>
-) {
-	const { as: Element = "article", children, className, ...restOfProps } = props;
+function CardHeader<TElement extends React.ElementType = "header">(props: PolymorphicProps<TElement>) {
+	const { as: Element = "header", ...restOfProps } = props;
+
+	return <Element {...restOfProps} />;
+}
+
+function CardTitle<TElement extends React.ElementType = "h3">(props: PolymorphicProps<TElement>) {
+	const { as: Element = "h3", className, ...restOfProps } = props;
+
+	return <Element className={cnMerge("font-semibold", className)} {...restOfProps} />;
+}
+
+function CardDescription<TElement extends React.ElementType = "p">(props: PolymorphicProps<TElement>) {
+	const { as: Element = "p", className, ...restOfProps } = props;
 
 	return (
-		<Element className={className} {...restOfProps}>
-			{children}
-		</Element>
+		<Element className={cnMerge("text-sm text-shadcn-muted-foreground", className)} {...restOfProps} />
 	);
 }
 
-function CardHeader<TElement extends React.ElementType = "header">(
-	props: PolymorphicProps<TElement, OtherCardProps>
-) {
-	const { as: Element = "header", children, className, ...restOfProps } = props;
+function CardContent<TElement extends React.ElementType = "div">(props: PolymorphicProps<TElement>) {
+	const { as: Element = "div", ...restOfProps } = props;
 
-	return (
-		<Element className={className} {...restOfProps}>
-			{children}
-		</Element>
-	);
-}
-
-function CardBody<TElement extends React.ElementType = "div">(
-	props: PolymorphicProps<TElement, OtherCardProps>
-) {
-	const { as: Element = "div", children, className, ...restOfProps } = props;
-
-	return (
-		<Element className={className} {...restOfProps}>
-			{children}
-		</Element>
-	);
+	return <Element {...restOfProps} />;
 }
 
 function CardFooter<TElement extends React.ElementType = "footer">(
-	props: PolymorphicProps<TElement, OtherCardProps>
+	props: PolymorphicProps<TElement, { asChild?: boolean }>
 ) {
-	const { as: Element = "footer", children, className, ...restOfProps } = props;
+	const { as: Element = "footer", asChild, ...restOfProps } = props;
 
-	return (
-		<Element className={className} {...restOfProps}>
-			{children}
-		</Element>
-	);
+	const Component = asChild ? Slot : Element;
+
+	return <Component {...restOfProps} />;
 }
 
-Card.Header = CardHeader;
-Card.Body = CardBody;
-Card.Footer = CardFooter;
+export const Root = CardRoot;
 
-export default Card;
+export const Header = CardHeader;
+
+export const Title = CardTitle;
+
+export const Description = CardDescription;
+
+export const Content = CardContent;
+
+export const Footer = CardFooter;

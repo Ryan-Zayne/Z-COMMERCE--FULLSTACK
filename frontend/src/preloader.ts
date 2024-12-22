@@ -1,4 +1,4 @@
-import { on } from "@zayne-labs/toolkit";
+import { on } from "@zayne-labs/toolkit/core";
 import { noScrollOnOpen } from "./lib/utils/no-scroll-on-open";
 import { useThemeStore } from "./store/zustand/themeStore";
 

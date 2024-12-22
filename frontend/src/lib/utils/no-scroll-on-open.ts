@@ -1,4 +1,4 @@
-import { checkIsDeviceMobileOrTablet } from "@zayne-labs/toolkit";
+import { checkIsDeviceMobileOrTablet } from "@zayne-labs/toolkit/core";
 
 type NoScrollOnOpenOptions = {
 	isActive: boolean;

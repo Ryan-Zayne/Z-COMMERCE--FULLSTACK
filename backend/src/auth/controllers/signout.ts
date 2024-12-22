@@ -1,6 +1,5 @@
 import { catchAsync } from "@/common/middleware";
-import { AppError, removeCookie } from "@/common/utils";
-import { AppResponse } from "@/common/utils/appResponse";
+import { AppError, AppResponse, removeCookie } from "@/common/utils";
 import { UserModel } from "@/users/model";
 import type { UserType } from "@/users/types";
 import type { HydratedDocument } from "mongoose";

@@ -1,4 +1,4 @@
-import { isBrowser, on } from "@zayne-labs/toolkit";
+import { isBrowser, on } from "@zayne-labs/toolkit/core";
 import { isObject } from "@zayne-labs/toolkit/type-helpers";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -12,7 +12,7 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 
 	theme: prefersDarkMode ? "dark" : "light",
 
-	// eslint-disable-next-line perfectionist/sort-objects
+	/* eslint-disable perfectionist/sort-objects */
 	actions: {
 		initThemeOnLoad: () => {
 			const { theme: persistedTheme } = get();
@@ -50,7 +50,6 @@ export const useThemeStore = create<ThemeStore>()(
 		name: "colorScheme",
 		version: 1,
 
-		// eslint-disable-next-line perfectionist/sort-objects
 		migrate(persistedState) {
 			const validPersistedState = assertState(persistedState);
 

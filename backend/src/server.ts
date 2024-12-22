@@ -13,7 +13,7 @@ import { corsOptions, helmetOptions, rateLimitOptions, setConnectionToDb } from 
 import { PORT, isProduction } from "./common/constants";
 import { ENVIRONMENT } from "./common/env";
 import { errorHandler, notFoundHandler, validateDataWithZod } from "./common/middleware";
-import { AppResponse } from "./common/utils/appResponse";
+import { AppResponse } from "./common/utils/AppResponse";
 
 const app = express();
 

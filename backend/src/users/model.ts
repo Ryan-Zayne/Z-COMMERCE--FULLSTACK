@@ -1,4 +1,5 @@
 import { generateAccessToken, generateRefreshToken, hashPassword, verifyPassword } from "@/auth/services";
+import { Roles } from "@/common/constants/enums";
 import mongoose from "mongoose";
 import type { UserMethods, UserModelType, UserType } from "./types";
 
@@ -12,7 +13,23 @@ const UserSchema = new mongoose.Schema<UserType, unknown, UserMethods>(
 			unique: true,
 		},
 
+		emailVerificationExpires: {
+			select: false,
+			type: Date,
+		},
+
+		emailVerificationToken: {
+			select: false,
+			type: String,
+		},
+
 		isDeleted: {
+			default: false,
+			select: false,
+			type: Boolean,
+		},
+
+		isEmailVerified: {
 			default: false,
 			select: false,
 			type: Boolean,
@@ -48,8 +65,8 @@ const UserSchema = new mongoose.Schema<UserType, unknown, UserMethods>(
 		},
 
 		role: {
-			default: "user",
-			enum: ["user", "admin"],
+			default: "member",
+			enum: Roles,
 			type: String,
 		},
 

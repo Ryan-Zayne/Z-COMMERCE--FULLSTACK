@@ -2,7 +2,7 @@ import { getElementList } from "@/components/primitives";
 import Button from "@/components/primitives/Button";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
-import { m } from "framer-motion";
+import { m } from "motion/react";
 import { Link } from "react-router-dom";
 
 const categories = [

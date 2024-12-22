@@ -1,4 +1,4 @@
-import type { MyCustomCss } from "@zayne-labs/toolkit/react";
+import type { MyCustomCss } from "@zayne-labs/toolkit/react/utils";
 
 function TestDynamicTailwind() {
 	const dynamicText = "blue"; // pretend this is dynamic

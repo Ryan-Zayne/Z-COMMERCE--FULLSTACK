@@ -1,6 +1,5 @@
 import { catchAsync } from "@/common/middleware";
-import { AppError, omitSensitiveFields } from "@/common/utils";
-import { AppResponse } from "@/common/utils/appResponse";
+import { AppError, AppResponse, omitSensitiveFields } from "@/common/utils";
 import type { HydratedUserType } from "@/users/types";
 
 const session = catchAsync<{ user: HydratedUserType | undefined }>((req, res) => {
