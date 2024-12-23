@@ -15,8 +15,8 @@
 		"dev:watch": "tsx --env-file=.env --watch src/server.ts --clear-screen=false",
 		"format": "prettier --write .",
 		"lint": "eslint src/**/*.ts",
-		"start": "tsx --import 'src/config/env/register' src/server.ts",
-		"start:test": "cross-env NODE_ENV=production tsx --env-file=.env --import 'src/config/env/register' src/server.ts"
+		"start": "tsx --import './src/config/register/alias' src/server.ts",
+		"start:test": "cross-env NODE_ENV=production tsx --env-file=.env --import './src/config/register/alias' src/server.ts"
 	},
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
