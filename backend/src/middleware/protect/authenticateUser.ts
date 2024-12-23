@@ -102,11 +102,13 @@ const authenticateUser = async (tokens: RawSignedCookies) => {
 
 		// == Error handling
 	} catch (error) {
-		// == If the error is a JsonWebTokenError or TokenExpiredError, Verify the refresh token and generate a new access token
-		if (
+		// == If the refresh token is present and error is a JsonWebTokenError or TokenExpiredError, Verify the refresh token and generate a new access token
+
+		const isEligibleForAccessTokenRefresh =
 			zayneRefreshToken &&
-			(error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError)
-		) {
+			(error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError);
+
+		if (isEligibleForAccessTokenRefresh) {
 			const userInfoWithNewToken = await handleAccessTokenRefresh(zayneRefreshToken);
 
 			return userInfoWithNewToken;

@@ -1,6 +1,6 @@
 import { isObject } from "@zayne-labs/toolkit/type-helpers";
 import type { ErrorRequestHandler } from "express";
-import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { Error as MongooseError } from "mongoose";
 import { type ErrorCodesUnion, errorCodes, isDevMode } from "../constants";
 import { AppError, AppResponse } from "../utils";
@@ -54,10 +54,10 @@ const handleMongooseDuplicateFieldsError = (error: MongooseError) => {
 const handleTimeoutError = (error: Error) => new AppError(408, "Request timeout", { cause: error });
 
 // prettier-ignore
-const handleJWTError = (error: JsonWebTokenError) => new AppError(401, "Invalid token. Please log in again!", { cause: error });
+const handleJWTError = (error: jwt.JsonWebTokenError) => new AppError(401, "Invalid token. Please log in again!", { cause: error });
 
 // prettier-ignore
-const handleJWTExpiredError = (error: TokenExpiredError) => new AppError(401, "Your token has expired!", { cause: error });
+const handleJWTExpiredError = (error: jwt.TokenExpiredError) => new AppError(401, "Your token has expired!", { cause: error });
 
 const errorModifier = (error: AppError) => {
 	let modifiedError = error;
@@ -78,12 +78,12 @@ const errorModifier = (error: AppError) => {
 			break;
 		}
 
-		case error instanceof JsonWebTokenError: {
+		case error instanceof jwt.JsonWebTokenError: {
 			modifiedError = handleJWTError(error);
 			break;
 		}
 
-		case error instanceof TokenExpiredError: {
+		case error instanceof jwt.TokenExpiredError: {
 			modifiedError = handleJWTExpiredError(error);
 			break;
 		}
