@@ -60,11 +60,11 @@ export const omitSensitiveFields = <TObject extends AnyObject, TOmitArray extend
 	return safeUserObject;
 };
 
-export const getDomainReferer = (req: Request) => {
+export const getDomainReferer = (req: Request, withReferer = isProduction) => {
 	try {
 		const referer = req.get("referer");
 
-		if (!referer) {
+		if (!withReferer || !referer) {
 			return ENVIRONMENT.FRONTEND_URL;
 		}
 

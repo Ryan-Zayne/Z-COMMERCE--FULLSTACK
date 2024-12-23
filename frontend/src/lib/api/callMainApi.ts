@@ -23,7 +23,7 @@ type ApiErrorType<TError> = BaseApiErrorType & { errors: TError };
 
 export type FormErrorResponseType =
 	| ApiErrorType<{
-			fieldErrors: Array<[keyof FormSchemaType, string | string[]]>;
+			fieldErrors: Record<keyof FormSchemaType, string[]>;
 			formErrors: string[];
 	  }>
 	| BaseApiErrorType;

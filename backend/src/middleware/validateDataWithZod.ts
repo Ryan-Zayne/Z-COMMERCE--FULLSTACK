@@ -34,10 +34,9 @@ const validateDataWithZod = catchAsync<{ path: string }>((req, res, next) => {
 	const result = selectedSchema.safeParse(rawData);
 
 	if (!result.success) {
-		const zodErrorDetails = {
-			fieldErrors: Object.entries(result.error.formErrors.fieldErrors),
-			formErrors: result.error.formErrors,
-		};
+		const { fieldErrors, formErrors } = result.error.formErrors;
+
+		const zodErrorDetails = { fieldErrors, formErrors };
 
 		throw new AppError(422, "Validation Failed", { errors: zodErrorDetails });
 	}

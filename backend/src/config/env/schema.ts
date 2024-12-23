@@ -9,7 +9,7 @@ export const envSchema = z.object({
 	EMAIL_USER: z.string(),
 	FRONTEND_URL: z.string(),
 	MONGO_URI: z.string(),
-	NODE_ENV: z.string(),
+	NODE_ENV: z.enum(["development", "production"]),
 	PORT: z.string(),
 	REFRESH_JWT_EXPIRES_IN: z.string(),
 	REFRESH_SECRET: z.string(),

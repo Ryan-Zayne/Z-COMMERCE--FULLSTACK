@@ -1,0 +1,21 @@
+meta {
+  name: Signup
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL-dev}}/auth/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "Ferdinand",
+    "password": "Superman",
+    "acceptTerms": true,
+    "email": "ferdinandchidera49@gmail.com",
+    "confirmPassword": "Superman"
+  }
+}

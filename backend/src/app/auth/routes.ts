@@ -8,8 +8,8 @@ const router = express.Router();
 router.post("/signup", signUp);
 router.post("/signin", signIn);
 
-router.use("/:endpoint", protect);
-router.get("/session", session);
-router.get("/signout", signOut);
+// router.use("/:endpoint", protect); // This always ends up hitting routes i don't want
+router.get("/session", protect, session);
+router.get("/signout", protect, signOut);
 
 export { router as authRouter };

@@ -2,6 +2,7 @@ import { UserModel } from "@/app/users/model";
 import type { HydratedUserType } from "@/app/users/types";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields } from "@/utils";
+import { sendVerificationEmail } from "../services";
 
 const signUp = catchAsync<{
 	body: Pick<HydratedUserType, "email" | "password" | "username">;
@@ -15,6 +16,8 @@ const signUp = catchAsync<{
 	}
 
 	const newUser = await UserModel.create({ email, password, username });
+
+	void sendVerificationEmail(newUser as HydratedUserType, req);
 
 	return AppResponse(res, 201, "Account created successfully", {
 		data: {

@@ -15,6 +15,10 @@ type SubmitFormParams = {
 	setError: UseFormSetError<FormSchemaType>;
 };
 
+const typedObjectEntries = <TObject extends Record<string, unknown>>(obj: TObject) => {
+	return Object.entries(obj) as Array<[keyof TObject, TObject[keyof TObject]]>;
+};
+
 const createOnSubmitFn = (submitParams: SubmitFormParams) => {
 	const { formVariant, navigate, setError } = submitParams;
 
@@ -34,7 +38,7 @@ const createOnSubmitFn = (submitParams: SubmitFormParams) => {
 				message: zodErrorDetails.formErrors as never,
 			});
 
-			zodErrorDetails.fieldErrors.forEach(([field, errorMessage]) => {
+			typedObjectEntries(zodErrorDetails.fieldErrors).forEach(([field, errorMessage]) => {
 				setError(field, {
 					message: errorMessage as never,
 				});
