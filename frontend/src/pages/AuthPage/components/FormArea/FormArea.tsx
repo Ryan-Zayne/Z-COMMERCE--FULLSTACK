@@ -1,5 +1,5 @@
 import { Button, Form, LoadingSpinner, Show, Switch } from "@/components/primitives";
-import { LoginSchema, SignUpSchema, type FormSchemaType } from "@/lib/schemas/formSchema";
+import { type FormSchemaType, LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -152,7 +152,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 					formState.isSubmitting && "cursor-not-allowed brightness-[0.5]"
 				)}
 				disabled={formState.isSubmitting}
-				text={formVariant}
+				text={formVariant === "SignIn" ? "Sign In" : "Sign Up"}
 				theme={"secondary"}
 				type={"submit"}
 			/>

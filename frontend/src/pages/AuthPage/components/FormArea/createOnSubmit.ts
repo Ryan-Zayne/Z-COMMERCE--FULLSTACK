@@ -61,7 +61,7 @@ const createOnSubmitFn = (submitParams: SubmitFormParams) => {
 			return;
 		}
 
-		navigate("/", { replace: true });
+		// navigate("/", { replace: true });
 	};
 
 	return onSubmit;

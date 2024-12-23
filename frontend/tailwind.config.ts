@@ -91,11 +91,11 @@ const tailwindConfig = {
 	theme: {
 		backgroundImage: {
 			"footer-image":
-				"url('https://res.cloudinary.com/djvestif4/image/upload/v1700101462/newsletter-bg_yqqx6n.webp')",
+				"url('https://res.cloudinary.com/djvestif4/image/upload/v1700101462/z-commerce/newsletter-bg_yqqx6n.webp')",
 			"glitter-image":
-				"url('https://res.cloudinary.com/djvestif4/image/upload/v1700101265/glitter.webp')",
+				"url('https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/glitter.webp')",
 			"yellow-cart":
-				"url('https://res.cloudinary.com/djvestif4/image/upload/v1700101265/yellow-cart-bg.webp')",
+				"url('https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/yellow-cart-bg.webp')",
 		},
 
 		extend: {

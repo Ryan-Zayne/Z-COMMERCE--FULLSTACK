@@ -28,6 +28,7 @@
 		"@colors/colors": "^1.6.0",
 		"@zayne-labs/toolkit": "^0.8.10",
 		"bcryptjs": "^2.4.3",
+		"consola": "^3.3.0",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
