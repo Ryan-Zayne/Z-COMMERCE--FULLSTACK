@@ -61,8 +61,8 @@ function SearchForm(props: SearchFormProps) {
 			>
 				<input
 					className={cnMerge(
-						`w-full rounded-[2.5rem_0_0_2.5rem] border-secondary bg-[--color-body,_white] py-[0.6rem]
-						pl-[2.3rem] transition-[box-shadow] duration-200 [border-width:2px_0_2px_2px]
+						`w-full rounded-[2.5rem_0_0_2.5rem] border-y-2 border-l-2 border-secondary
+						bg-[--color-body,_white] py-[0.6rem] pl-[2.3rem] transition-[box-shadow] duration-200
 						placeholder:font-[500] placeholder:text-placeholder
 						focus-within:shadow-[1px_0_10px_2px_var(--color-secondary)]
 						max-sm:placeholder:text-[1.4rem]`,
@@ -77,7 +77,7 @@ function SearchForm(props: SearchFormProps) {
 				<Button
 					type="button"
 					className={cnMerge(
-						`h-[4rem] w-[6rem] p-0 text-[1.8rem] transition-[colors,scale] duration-300
+						`h-full min-w-[6rem] p-0 text-[1.8rem] transition-[colors,scale] duration-300
 						hover:bg-primary hover:text-heading active:scale-[1.08]`,
 						classNames?.btn
 					)}

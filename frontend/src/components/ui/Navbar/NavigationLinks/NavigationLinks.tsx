@@ -42,6 +42,7 @@ const NavigationLinks = () => {
 			shouldShow: !isDesktop,
 		},
 		{ path: "/products", title: "Products" },
+		{ path: "/about", title: "About" },
 		{ path: "/contact-us", title: "Contact" },
 	];
 
@@ -70,6 +71,7 @@ const NavigationLinks = () => {
 			>
 				{!isDesktop && (
 					<button
+						type="button"
 						className={"absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600"}
 						onClick={toggleNavShow}
 					>

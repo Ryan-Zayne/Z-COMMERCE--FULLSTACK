@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
 useQueryClientStore.setState({ queryClient });
 
 const AuthLayout = lazy(() => import("@/pages/auth/layout"));
-const RootLayout = lazy(() => import("@/pages/layout"));
+const HomeLayout = lazy(() => import("@/pages/(home)/layout"));
 const ProtectionLayout = lazy(() => import("@/pages/layout.protect"));
 const Home = lazy(() => import("@/pages/(home)/page"));
 const AllProductsPage = lazy(() => import("@/pages/products/page"));
@@ -30,22 +30,24 @@ const ErrorPage = lazy(() => import("@/pages/error"));
 const VerificationSuccessPage = lazy(() => import("@/pages/auth/verify-email/success/page"));
 const VerifyEmailPage = lazy(() => import("@/pages/auth/verify-email/page"));
 const CheckVerificationTokenPage = lazy(() => import("@/pages/auth/verify-email/[token]/page"));
+const AboutPage = lazy(() => import("@/pages/about/page"));
 
-const sessionLoader = ($queryClient: QueryClient) => () => {
-	void $queryClient.prefetchQuery(sessionQuery());
+const sessionLoader = () => {
+	void queryClient.prefetchQuery(sessionQuery());
 
 	return null;
 };
 
 const routes = createRoutesFromElements(
 	<Route errorElement={<ErrorPage />}>
-		<Route path="/" element={<RootLayout />} loader={sessionLoader(queryClient)}>
+		<Route path="/" element={<HomeLayout />} loader={sessionLoader}>
 			<Route errorElement={<ErrorPage />}>
 				<Route index={true} element={<Home />} />
 
 				<Route path="products" element={<AllProductsPage />} />
 				<Route path="products/:category" element={<ProductCategoryPage />} />
 				<Route path="products/:category/:productId" element={<ProductItemPage />} />
+				<Route path="about" element={<AboutPage />} />
 			</Route>
 		</Route>
 

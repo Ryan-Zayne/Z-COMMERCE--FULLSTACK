@@ -105,6 +105,7 @@ const NavIcons = () => {
 				</DropDown.Root>
 
 				<button
+					type="button"
 					className="relative active:scale-[1.1] lg:text-[2.3rem]"
 					onClick={cartDisclosure.onOpen}
 				>

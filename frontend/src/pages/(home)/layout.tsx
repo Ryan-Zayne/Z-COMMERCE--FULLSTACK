@@ -3,7 +3,7 @@ import { Outlet, ScrollRestoration, useLocation } from "react-router";
 
 const productItemPathPattern = /^\/products\/[a-z]+\/\d+$/;
 
-function RootLayout() {
+function HomeLayout() {
 	const href = useLocation().pathname;
 	const isProductItemPage = productItemPathPattern.test(href);
 
@@ -18,4 +18,4 @@ function RootLayout() {
 	);
 }
 
-export default RootLayout;
+export default HomeLayout;

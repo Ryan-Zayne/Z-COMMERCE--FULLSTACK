@@ -5,7 +5,7 @@ type ImageComponentProps = React.ComponentPropsWithRef<"img"> & {
 	blurSrc?: string;
 	className?: string;
 	fetchPriority?: "auto" | "high" | "low";
-	imageType: "hasFallback" | "hasSkeleton";
+	imageType?: "hasFallback" | "hasSkeleton";
 	src: string;
 	wrapperClassName?: string;
 };
@@ -62,7 +62,7 @@ const IMAGE_TYPE_LOOKUP = {
 };
 
 function ImageComponent(props: ImageComponentProps) {
-	const { imageType, ...restOfProps } = props;
+	const { imageType = "hasSkeleton", ...restOfProps } = props;
 	const [isImageLoaded, setIsImageLoaded] = useState(false);
 
 	const { [imageType]: ImageType } = IMAGE_TYPE_LOOKUP;

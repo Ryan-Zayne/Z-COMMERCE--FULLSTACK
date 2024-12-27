@@ -62,7 +62,7 @@ function FooterDropDowns() {
 						isOpen={!isDesktop ? dropOne.isOpen : true}
 						classNames={{ panelList: semanticClasses.panelList }}
 					>
-						<li className="mt-[1rem] w-[27rem]">
+						<li className="mt-[1rem]">
 							<IconBox icon="mdi:map-marker" />
 							60, 29th Street, San Francisco, CA 94110, United States of America
 						</li>
@@ -98,7 +98,7 @@ function FooterDropDowns() {
 
 					<DropDown.Panel
 						classNames={{
-							panelList: `flex items-center gap-[2rem] pl-[2.5rem] text-[1.7rem] [&_li]:pt-[1.5rem]
+							panelList: `flex items-center gap-[2rem] text-[1.7rem] [&_li]:pt-[1.5rem]
 							lg:[&_li]:pb-[1.5rem]`,
 						}}
 						isOpen={isDesktop ? true : dropTwo.isOpen}
