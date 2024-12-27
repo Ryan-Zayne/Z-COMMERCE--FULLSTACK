@@ -30,7 +30,7 @@ const ErrorPage = lazy(() => import("@/pages/error"));
 const VerificationSuccessPage = lazy(() => import("@/pages/auth/verify-email/success/page"));
 const VerifyEmailPage = lazy(() => import("@/pages/auth/verify-email/page"));
 const CheckVerificationTokenPage = lazy(() => import("@/pages/auth/verify-email/[token]/page"));
-const AboutPage = lazy(() => import("@/pages/about/page"));
+const AboutPage = lazy(() => import("@/pages/(home)/about/page"));
 
 const sessionLoader = () => {
 	void queryClient.prefetchQuery(sessionQuery());
