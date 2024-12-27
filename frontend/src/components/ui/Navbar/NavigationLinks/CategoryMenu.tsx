@@ -4,7 +4,7 @@ import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useDisclosure } from "@zayne-labs/toolkit/react";
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router";
 
 const categories = [
 	{ path: "products", title: "All Products" },
@@ -49,7 +49,7 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 				className={cnJoin(
 					isDesktopDevice &&
 						`flex items-center justify-between py-[1rem]
-						[border-bottom:1px_solid_var(--color-primary)]`
+						[border-bottom:1px_solid_theme('colors.primary')]`
 				)}
 			>
 				<p>{category.title}</p>
@@ -64,12 +64,12 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 			<DropDown.Root id={"Shop-By-Categories DropDown"} className={"relative z-50 ml-[1rem]"}>
 				<DropDown.Trigger
 					className={`flex w-[28rem] cursor-pointer flex-row-reverse justify-end gap-[1rem]
-						rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-[--color-primary]`}
+						rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-primary`}
 					onClick={onToggle}
 				>
 					<h3 className="font-[500]">Shop By Category</h3>
 
-					<button className="text-[2rem]">
+					<button type="button" className="text-[2rem]">
 						<IconBox icon="bi:menu-button-fill" />
 					</button>
 				</DropDown.Trigger>
@@ -80,8 +80,8 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 					classNames={{
 						panelContainer: "absolute h-[48.5rem] w-full",
 						panelList: cnJoin(
-							`bg-body px-[2rem] font-[400] box-shadow-[0_1px_3px_0.3px_var(--color-primary)]
-							dark:box-shadow-[0_1px_3px_0.3px_var(--carousel-dot)]`,
+							`bg-body px-[2rem] font-[400] box-shadow-[0_1px_3px_0_theme(colors.primary)]
+							dark:box-shadow-[0_1px_3px_0.3px_theme(colors.carousel-dot)]`,
 
 							isOpen ? "pt-[5rem]" : "box-shadow-[none]"
 						),
@@ -101,6 +101,7 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 					<h4>Categories</h4>
 
 					<button
+						type="button"
 						className={cnJoin(
 							"text-[1.2rem] [transition:transform_350ms_ease]",
 							isOpen && "rotate-180"

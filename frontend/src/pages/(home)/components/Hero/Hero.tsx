@@ -88,8 +88,8 @@ function Hero() {
 							ref={(elem) => {
 								animatedElements.button = elem;
 							}}
-							text={"Shop Now"}
-							theme={"secondary"}
+							text="Shop Now"
+							theme="secondary"
 							className="z-50 text-[clamp(1.3rem,_1vw+1rem,_1.7rem)] font-[600] transition-shadow
 								duration-[400ms] hover:[box-shadow:0_10px_20px_hsl(43,100%,55%,0.4)]
 								active:scale-[1.04] max-sm:p-[1rem_2.8rem]"

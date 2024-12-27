@@ -1,4 +1,5 @@
 import { isObject } from "@zayne-labs/toolkit/type-helpers";
+import { consola } from "consola";
 import type { ErrorRequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { Error as MongooseError } from "mongoose";
@@ -54,7 +55,7 @@ const handleMongooseDuplicateFieldsError = (error: MongooseError) => {
 const handleTimeoutError = (error: Error) => new AppError(408, "Request timeout", { cause: error });
 
 // prettier-ignore
-const handleJWTError = (error: jwt.JsonWebTokenError) => new AppError(401, "Invalid token. Please log in again!", { cause: error });
+const handleJWTError = (error: jwt.JsonWebTokenError) => new AppError(401, "Invalid token!", { cause: error });
 
 // prettier-ignore
 const handleJWTExpiredError = (error: jwt.TokenExpiredError) => new AppError(401, "Your token has expired!", { cause: error });
@@ -114,8 +115,15 @@ const errorController: ErrorRequestHandler = (error: AppError, _req, res, _next)
 		...(Boolean(modifiedError.errors) && { errors: modifiedError.errors }),
 		stackTrace: isDevMode ? modifiedError.stack : "Just dey play",
 	};
-	/* eslint-enable perfectionist/sort-objects */
 
+	consola.error(`${error.name}:`, {
+		status: errorInfo.status,
+		message: errorInfo.message,
+		statusCode: errorInfo.statusCode,
+		...(Boolean(errorInfo.errors) && { errors: errorInfo.errors }),
+	});
+
+	/* eslint-enable perfectionist/sort-objects */
 	const ERROR_LOOKUP = new Map([
 		[errorCodes.BAD_REQUEST, () => AppResponse(res, 400, errorInfo)],
 

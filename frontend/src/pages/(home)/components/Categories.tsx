@@ -3,7 +3,7 @@ import Button from "@/components/primitives/Button";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { m } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const categories = [
 	{

@@ -1,5 +1,5 @@
 import { useQueries } from "@tanstack/react-query";
-import { getProductQuery, productKeys } from "./queryFactory";
+import { productKeys, productQuery } from "./queryFactory";
 
 const useGetAllProducts = () => {
 	const {
@@ -12,7 +12,7 @@ const useGetAllProducts = () => {
 			isError: resultsArray.some((item) => item.isError),
 			isPending: resultsArray.some((item) => item.isPending),
 		}),
-		queries: productKeys.map((key) => getProductQuery(key)),
+		queries: productKeys.map((key) => productQuery(key)),
 	});
 
 	const recentlyViewedProductsArray = allProductsArray.filter((item) => item?.category === "smartphones");

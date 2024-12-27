@@ -4,7 +4,7 @@ import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useSearch } from "@zayne-labs/toolkit/react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { IconBox } from "../primitives/IconBox";
 
 type SearchFormProps = Pick<ButtonProps, "size" | "text" | "theme" | "variant"> & {

@@ -1,4 +1,5 @@
 import type { UserType } from "@/app/users/types";
+import { ACCESS_JWT_EXPIRES_IN } from "@/constants";
 import { setCookie } from "@/utils";
 import type { HydratedDocument } from "mongoose";
 import { catchAsync } from "../catchAsyncErrors";
@@ -15,7 +16,7 @@ const protect = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res
 
 	if (newZayneAccessToken) {
 		setCookie(res, "zayneAccessToken", newZayneAccessToken, {
-			maxAge: 15 * 60 * 1000, // 15 minutes
+			maxAge: ACCESS_JWT_EXPIRES_IN,
 		});
 	}
 

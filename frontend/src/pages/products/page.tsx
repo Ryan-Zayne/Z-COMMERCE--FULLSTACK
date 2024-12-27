@@ -2,7 +2,7 @@ import { IconBox } from "@/components/primitives/IconBox";
 import { LoadingSkeleton, ProductCard } from "@/components/ui";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
 import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 function AllProductsPage() {
 	const { allProductsArray, isPending } = useGetAllProducts();
@@ -24,7 +24,7 @@ function AllProductsPage() {
 		<section className="mt-[3rem]">
 			<header className="flex flex-row-reverse items-center justify-center px-[3rem]">
 				<h1 className="mx-auto text-[3rem] font-[700] lg:text-[4rem]">All Products</h1>
-				<button className="text-[3rem]">
+				<button type="button" className="text-[3rem]">
 					<Link to={"/"}>
 						<IconBox icon="typcn:arrow-back" />
 					</Link>

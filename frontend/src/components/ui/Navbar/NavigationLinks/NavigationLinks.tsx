@@ -4,7 +4,7 @@ import Logo from "@/components/primitives/Logo";
 import Overlay from "@/components/primitives/Overlay";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import CategoryMenu from "./CategoryMenu";
 
 type NavItemsType = Array<

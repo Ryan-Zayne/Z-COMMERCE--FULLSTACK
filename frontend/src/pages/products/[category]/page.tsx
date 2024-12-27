@@ -2,11 +2,20 @@ import { getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { LoadingSkeleton, ProductCard } from "@/components/ui";
 import { useGetProductByCategory } from "@/store/react-query/useGetProductByCategory";
+import type { InferEnum } from "@zayne-labs/toolkit/type-helpers";
 import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router";
+
+// TODO - Remove once you start serving the products from your backend
+const productCategories = new Set(["smartphones", "laptops", "lighting", "watches", "vehicles"] as const);
 
 function ProductCategoryPage() {
-	const { category, isPending, productsArrayByCategory } = useGetProductByCategory();
+	const { category } = useParams<{ category: InferEnum<typeof productCategories> }>();
+
+	const { isPending, productsArrayByCategory } = useGetProductByCategory({
+		category,
+		productCategories,
+	});
 
 	const [ProductCategoryCardList] = getElementList();
 

@@ -3,14 +3,14 @@ import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown/DropDown";
 import SearchForm from "@/components/ui/SearchForm";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
-import { getSessionQuery } from "@/store/react-query/queryFactory";
+import { sessionQuery } from "@/store/react-query/queryFactory";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { useQuery } from "@tanstack/react-query";
 import { useDisclosure, useToggle } from "@zayne-labs/toolkit/react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import CartDrawer from "./Cart/CartDrawer";
 import HamBurgerButton from "./HamBurgerButton";
 import ThemeSwitchButton from "./ThemeSwitchButton";
@@ -26,7 +26,7 @@ const NavIcons = () => {
 	const cartDisclosure = useDisclosure({ hasScrollControl: true });
 	const dropDownDisclosure = useDisclosure();
 
-	const { data } = useQuery(getSessionQuery());
+	const { data } = useQuery(sessionQuery());
 
 	useEffect(() => {
 		if (!isMobile && isSearchShow) {

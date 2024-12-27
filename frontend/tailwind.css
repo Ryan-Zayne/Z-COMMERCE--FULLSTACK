@@ -13,7 +13,7 @@
 		--color-error: hsl(0, 84%, 60%);
 		--color-facebook: hsl(214, 89%, 53%);
 		--color-primary: hsl(206, 13%, 14%);
-		--color-secondary: hsl(43, 100%, 55%);
+		--color-secondary: var(--text-header);
 		--color-body: hsl(0, 0%, 100%);
 		--color-navbar: hsl(215, 19%, 35%, 0.8);
 		--carousel-btn: hsl(0, 0%, 80%, 0.4);
@@ -30,7 +30,6 @@
 		--text-body: whitesmoke;
 		--text-dark: hsl(30, 3%, 75%);
 		--color-facebook: hsl(214, 89%, 35%);
-		--color-secondary: hsl(43, 91%, 25%);
 		--color-navbar: hsl(215, 17%, 25%, 0.8);
 		--color-body: hsl(240, 6%, 7%);
 		--carousel-btn: hsl(196, 15%, 24%, 0.5);

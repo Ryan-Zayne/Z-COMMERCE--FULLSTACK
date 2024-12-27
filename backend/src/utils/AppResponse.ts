@@ -17,8 +17,8 @@ const AppResponse = <TExtraData extends Record<string, unknown>>(
 			? messageOrExtraData.message ?? "Success"
 			: messageOrExtraData ?? "Success",
 
-		...(isObject(messageOrExtraData) && messageOrExtraData),
-		...(Boolean(extraData) && extraData),
+		...(isObject(messageOrExtraData) && { data: messageOrExtraData }),
+		...(Boolean(extraData) && { data: extraData }),
 	};
 
 	res.status(statusCode).json(jsonResponse);

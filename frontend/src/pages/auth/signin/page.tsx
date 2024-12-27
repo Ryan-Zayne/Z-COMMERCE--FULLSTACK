@@ -1,10 +1,9 @@
 import { Button, Logo } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
-import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { AnimatePresence, m } from "motion/react";
-import { Link, useLocation } from "react-router-dom";
-import FormArea from "./components/FormArea/FormArea";
+import { Link, useLocation } from "react-router";
+import FormArea from "../components/FormArea";
 
 function LoginFormPage() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -18,9 +17,8 @@ function LoginFormPage() {
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
 					exit={{ opacity: 0, x: 20 }}
-					className={cnJoin(
-						"relative z-10 w-[min(100%,48rem)] rounded-[4px] bg-body p-[3rem_3rem] md:p-[2rem_5rem]"
-					)}
+					className="relative z-10 w-[min(100%,48rem)] rounded-[4px] bg-body p-[3rem_3rem]
+						md:p-[2rem_5rem]"
 				>
 					<header>
 						{!isDesktop && <Logo className={"ml-[-0.8rem] w-[16rem] md:w-full"} />}

@@ -7,7 +7,7 @@ import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/types";
 import { useToggle } from "@zayne-labs/toolkit/react";
 import { m } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type ProductCardProps = {
 	image: string;
@@ -55,7 +55,7 @@ function ProductCard(props: ProductCardProps) {
 		>
 			<Card.Root
 				className={cnMerge(
-					`group/card w-[min(100%,26rem)] rounded-[1.2rem]
+					`group/card h-full w-[min(100%,26rem)] rounded-[1.2rem]
 					transition-[transform,box-shadow,background-color] duration-[1000ms] ease-in-out
 					hover:scale-[1.03] hover:box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]`,
 					[isHearted && "scale-[1.03] box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]"],
@@ -108,7 +108,7 @@ function ProductCard(props: ProductCardProps) {
 							)}
 							src={image}
 							loading="lazy"
-							imageType={"hasSkeleton"}
+							imageType="hasSkeleton"
 							onClick={(e) => isMobile && e.preventDefault()}
 						/>
 					</Card.Header>
@@ -127,11 +127,10 @@ function ProductCard(props: ProductCardProps) {
 						<p className="mt-[0.5rem] min-h-[6rem] max-w-[30ch] text-[1.2rem]">
 							{productItem.description}
 						</p>
-
-						<StarRating rating={productItem.rating} />
 					</Card.Content>
 
 					<Card.Footer className="p-[1.3rem_1rem_1rem]">
+						<StarRating rating={productItem.rating} />
 						<hr
 							className={cnJoin(
 								"h-[1.8px] bg-carousel-dot group-hover/card:opacity-100",
@@ -140,11 +139,11 @@ function ProductCard(props: ProductCardProps) {
 						/>
 
 						<Button
-							variant={"cart"}
-							theme={"secondary"}
-							text={"Add to Cart"}
-							className={`mt-[1rem] p-[0.8rem_1.3rem] text-[1.3rem] font-[500]
-								active:translate-y-[0.15rem]`}
+							variant="cart"
+							theme="secondary"
+							text="Add to Cart"
+							className="mt-[1rem] p-[0.8rem_1.3rem] text-[1.3rem] font-[500]
+								active:translate-y-[0.15rem]"
 							onClick={handleAddToCart}
 						/>
 					</Card.Footer>

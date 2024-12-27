@@ -58,7 +58,7 @@ const handleAccessTokenRefresh = async (zayneRefreshToken: string) => {
 
 		const newZayneAccessToken = encodeJwtToken(
 			{ id: currentUser.id as string },
-			{ expiresIn: ACCESS_JWT_EXPIRES_IN }
+			{ expiresIn: ACCESS_JWT_EXPIRES_IN, secretKey: ENVIRONMENT.ACCESS_SECRET }
 		);
 
 		return {
@@ -94,7 +94,9 @@ const authenticateUser = async (tokens: RawSignedCookies) => {
 	}
 
 	try {
-		const decodedAccessPayload = decodeJwtToken(zayneAccessToken);
+		const decodedAccessPayload = decodeJwtToken(zayneAccessToken, {
+			secretKey: ENVIRONMENT.ACCESS_SECRET,
+		});
 
 		const currentUser = await verifyUser(decodedAccessPayload, zayneRefreshToken);
 

@@ -1,9 +1,9 @@
-import GlobalLayout from "@/pages/layout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { lazy } from "react";
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import { getSessionQuery } from "./store/react-query/queryFactory";
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router";
+import { useQueryClientStore } from "./store/react-query/queryClientStore";
+import { sessionQuery } from "./store/react-query/queryFactory";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -14,50 +14,67 @@ const queryClient = new QueryClient({
 	},
 });
 
-const AuthLayout = lazy(() => import("@/pages/AuthPage/layout"));
-const Home = lazy(() => import("@/pages/Home/page"));
-const AllProductsPage = lazy(() => import("@/pages/AllProductsPage"));
-const SignUpFormPage = lazy(() => import("@/pages/AuthPage/SignUpFormPage"));
-const SignInFormPage = lazy(() => import("@/pages/AuthPage/SignInFormPage"));
-const ProductCategoryPage = lazy(() => import("@/pages/ProductCategoryPage"));
-const ProductItemPage = lazy(() => import("@/pages/ProductItemPage"));
-const NotFoundPage = lazy(() => import("@/pages/404"));
+useQueryClientStore.setState({ queryClient });
+
+const AuthLayout = lazy(() => import("@/pages/auth/layout"));
+const RootLayout = lazy(() => import("@/pages/layout"));
+const ProtectionLayout = lazy(() => import("@/pages/layout.protect"));
+const Home = lazy(() => import("@/pages/(home)/page"));
+const AllProductsPage = lazy(() => import("@/pages/products/page"));
+const SignUpFormPage = lazy(() => import("@/pages/auth/signup/signup"));
+const SignInFormPage = lazy(() => import("@/pages/auth/signin/page"));
+const ProductCategoryPage = lazy(() => import("@/pages/products/[category]/page"));
+const ProductItemPage = lazy(() => import("@/pages/products/[category]/[productId]/page"));
+const NotFoundPage = lazy(() => import("@/pages/not-found"));
 const ErrorPage = lazy(() => import("@/pages/error"));
+const VerificationSuccessPage = lazy(() => import("@/pages/auth/verify-email/success/page"));
+const VerifyEmailPage = lazy(() => import("@/pages/auth/verify-email/page"));
+const CheckVerificationTokenPage = lazy(() => import("@/pages/auth/verify-email/[token]/page"));
 
 const sessionLoader = ($queryClient: QueryClient) => () => {
-	void $queryClient.prefetchQuery(getSessionQuery());
+	void $queryClient.prefetchQuery(sessionQuery());
 
 	return null;
 };
 
 const routes = createRoutesFromElements(
 	<Route errorElement={<ErrorPage />}>
-		<Route path="/" element={<GlobalLayout />} loader={sessionLoader(queryClient)}>
+		<Route path="/" element={<RootLayout />} loader={sessionLoader(queryClient)}>
 			<Route errorElement={<ErrorPage />}>
 				<Route index={true} element={<Home />} />
-				<Route path="products">
-					<Route index={true} element={<AllProductsPage />} />
-					<Route path=":category" element={<ProductCategoryPage />} />
-					<Route path=":category/:productId" element={<ProductItemPage />} />
-				</Route>
+
+				<Route path="products" element={<AllProductsPage />} />
+				<Route path="products/:category" element={<ProductCategoryPage />} />
+				<Route path="products/:category/:productId" element={<ProductItemPage />} />
 			</Route>
 		</Route>
 
-		<Route path="/auth" element={<AuthLayout />}>
-			<Route path="signup" element={<SignUpFormPage />} />
-			<Route path="signin" element={<SignInFormPage />} />
+		<Route element={<AuthLayout />}>
+			<Route path="auth/signup" element={<SignUpFormPage />} />
+			<Route path="auth/signin" element={<SignInFormPage />} />
+
+			<Route element={<ProtectionLayout />}>
+				<Route path="auth/verify-email" element={<VerifyEmailPage />} />
+				<Route path="auth/verify-email/:token" element={<CheckVerificationTokenPage />} />
+				<Route path="auth/verify-email/success" element={<VerificationSuccessPage />} />
+			</Route>
 		</Route>
 
 		<Route path="*" element={<NotFoundPage />} />
 	</Route>
 );
 
-const browserRouter = createBrowserRouter(routes);
+const browserRouter = createBrowserRouter(routes, {
+	future: {
+		startTransition: true,
+	},
+});
 
 export function Router() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<RouterProvider router={browserRouter} />
+
 			<ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
 		</QueryClientProvider>
 	);

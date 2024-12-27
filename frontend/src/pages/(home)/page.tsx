@@ -1,11 +1,11 @@
 import { Show } from "@/components/primitives";
 import { LoadingSkeleton } from "@/components/ui";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
-import Categories from "./Categories";
-import Hero from "./Hero";
-import HotSalesProducts from "./ProductSections/HotSalesProducts";
-import RecentProducts from "./ProductSections/RecentProducts";
-import SimilarProducts from "./ProductSections/SimilarProducts";
+import Categories from "./components/Categories";
+import Hero from "./components/Hero/Hero";
+import HotSalesProducts from "./components/ProductSections/HotSalesProducts";
+import RecentProducts from "./components/ProductSections/RecentProducts";
+import SimilarProducts from "./components/ProductSections/SimilarProducts";
 
 function Home() {
 	const {

@@ -3,7 +3,7 @@ import { IconBox } from "@/components/primitives/IconBox";
 import { Drawer, type DrawerContentProps, type DrawerStore } from "@/components/ui/Drawer";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import CartItem from "./CartItem";
 
 type CartDrawerProps = DrawerStore & { placement?: DrawerContentProps["placement"] };

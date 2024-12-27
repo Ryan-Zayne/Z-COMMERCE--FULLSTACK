@@ -1,5 +1,5 @@
 import BellSvg from "@/assets/BellSvg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router";
 
 const notFoundMessageDefaults = {
 	"/checkout": "Checkout page still under construction",
@@ -25,7 +25,7 @@ function NotFoundPage() {
 			<Link
 				className="navlink-transition relative mt-6 inline-flex items-center border-b border-dotted
 					border-dark font-medium text-heading hover:border-black/0"
-				to={"/"}
+				to="/"
 			>
 				Back to Home
 			</Link>

@@ -1,13 +1,10 @@
-import type { InferEnum } from "@zayne-labs/toolkit/type-helpers";
-import { useParams } from "react-router-dom";
 import { useGetAllProducts } from "./useGetAllProducts";
 
-// TODO - Remove once you start serving the products from your backend
-
-const productCategories = new Set(["smartphones", "laptops", "lighting", "watches", "vehicles"] as const);
-
-const useGetProductByCategory = () => {
-	const { category } = useParams<{ category: InferEnum<typeof productCategories> }>();
+const useGetProductByCategory = (options: {
+	category: string | undefined;
+	productCategories: Set<string>;
+}) => {
+	const { category, productCategories } = options;
 
 	if (!category || !productCategories.has(category)) {
 		throw new Error("Category not found!");

@@ -1,13 +1,15 @@
-import type { z } from "zod";
 import { envSchema } from "./schema";
 
 // == Disabling process.env globally via TS
 declare global {
 	// eslint-disable-next-line ts-eslint/no-namespace
 	namespace NodeJS {
-		/* eslint-disable ts-eslint/consistent-type-definitions */
+		// interface ProcessEnv extends z.infer<typeof envSchema> {}
 
-		interface ProcessEnv extends z.infer<typeof envSchema>, Record<string, undefined> {}
+		// eslint-disable-next-line ts-eslint/consistent-indexed-object-style, ts-eslint/consistent-type-definitions
+		interface ProcessEnv {
+			[key: string]: undefined;
+		}
 	}
 }
 

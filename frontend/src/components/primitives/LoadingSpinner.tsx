@@ -57,8 +57,8 @@ const LOADER_LOOKUP = {
 		</aside>
 	),
 };
-function LoadingSpinner({ type = "regular" }: { type?: "auth" | "regular" }) {
-	return LOADER_LOOKUP[type]();
+function LoadingSpinner({ variant = "regular" }: { variant?: "auth" | "regular" }) {
+	return LOADER_LOOKUP[variant]();
 }
 
 export default LoadingSpinner;

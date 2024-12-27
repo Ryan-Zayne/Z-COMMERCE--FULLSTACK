@@ -8,25 +8,30 @@ import type { Request } from "express";
 import jwt, { type SignOptions } from "jsonwebtoken";
 import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 
+type JwtOptions<TExtraOptions> = TExtraOptions & {
+	secretKey: string;
+};
+
 export type DecodedJwtPayload = {
 	id: string;
-	token?: string;
 };
 
-type JwtOptions<TExtraOptions> = TExtraOptions & {
-	secretKey?: string;
-};
+export const decodeJwtToken = <TDecodedPayload extends Record<string, unknown> = DecodedJwtPayload>(
+	token: string,
+	options: JwtOptions<jwt.VerifyOptions>
+) => {
+	const { secretKey, ...restOfOptions } = options;
 
-export const decodeJwtToken = (token: string, options: JwtOptions<jwt.VerifyOptions> = {}) => {
-	const { secretKey = ENVIRONMENT.ACCESS_SECRET, ...restOfOptions } = options;
-
-	const decodedPayload = jwt.verify(token, secretKey, restOfOptions) as DecodedJwtPayload;
+	const decodedPayload = jwt.verify(token, secretKey, restOfOptions) as TDecodedPayload;
 
 	return decodedPayload;
 };
 
-export const encodeJwtToken = (payload: DecodedJwtPayload, options?: JwtOptions<jwt.SignOptions>) => {
-	const { secretKey = ENVIRONMENT.ACCESS_SECRET, ...restOfOptions } = options ?? {};
+export const encodeJwtToken = <TDecodedPayload extends Record<string, unknown> = DecodedJwtPayload>(
+	payload: TDecodedPayload,
+	options: JwtOptions<jwt.SignOptions>
+) => {
+	const { secretKey, ...restOfOptions } = options;
 
 	const encodedToken = jwt.sign(payload, secretKey, restOfOptions);
 
@@ -38,7 +43,7 @@ export function generateAccessToken(this: HydratedUserType, options: SignOptions
 
 	const payLoad = { id: this.id };
 
-	const accessToken = encodeJwtToken(payLoad, { expiresIn });
+	const accessToken = encodeJwtToken(payLoad, { expiresIn, secretKey: ENVIRONMENT.ACCESS_SECRET });
 
 	return accessToken;
 }
@@ -48,10 +53,7 @@ export function generateRefreshToken(this: HydratedUserType, options: SignOption
 
 	const payLoad = { id: this.id };
 
-	const refreshToken = encodeJwtToken(payLoad, {
-		expiresIn,
-		secretKey: ENVIRONMENT.REFRESH_SECRET,
-	});
+	const refreshToken = encodeJwtToken(payLoad, { expiresIn, secretKey: ENVIRONMENT.REFRESH_SECRET });
 
 	return refreshToken;
 }
@@ -89,7 +91,7 @@ export const sendVerificationEmail = async (user: HydratedUserType, req: Request
 			email: user.email,
 			name: user.username,
 			to: user.email,
-			verificationLink: `${getDomainReferer(req)}/verify-email?token=${emailVerificationToken}`,
+			verificationLink: `${getDomainReferer("production")}/auth/verify-email/${emailVerificationToken}`,
 		},
 		type: "welcomeEmail",
 	});

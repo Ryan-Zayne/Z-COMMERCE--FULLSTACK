@@ -3,5 +3,6 @@
 	"eslint.workingDirectories": ["frontend", "backend"],
 	"cSpell.words": ["shadcn", "signin", "sonarjs", "Sonner", "stringifier"],
 	"terminal-keeper.killProcess": false,
-	"terminal-keeper.wslSupport": false
+	"terminal-keeper.wslSupport": false,
+	"tailwindCSS.rootFontSize": 10
 }

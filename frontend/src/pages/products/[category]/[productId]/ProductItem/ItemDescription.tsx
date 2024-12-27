@@ -3,7 +3,7 @@ import { IconBox } from "@/components/primitives/IconBox";
 import StarRating from "@/components/primitives/StarRating";
 import type { DummyResponseDataItem } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type ItemDescriptionProps = {
 	productItem: DummyResponseDataItem;
@@ -56,6 +56,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 						p-[0.6rem_1.1rem] text-[2.3rem] font-[600] md:w-[17rem] md:text-[2.6rem]"
 				>
 					<button
+						type="button"
 						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
 						disabled={productQuantityChosen === 0}
 						onClick={handleMinus}
@@ -66,6 +67,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 					<p className="font-roboto">{productQuantityChosen}</p>
 
 					<button
+						type="button"
 						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
 						disabled={productQuantityChosen === productItem.stock}
 						onClick={handlePlus}
@@ -105,7 +107,7 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 					theme={"ghost"}
 					variant={"shop"}
 					className={`w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out
-						[box-shadow:0_0_0_1.3px_var(--color-primary)] hover:scale-[1.1] hover:bg-heading
+						[box-shadow:0_0_0_1.3px_theme(colors.primary)] hover:scale-[1.1] hover:bg-heading
 						hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)]
 						active:scale-[1.17] lg:w-[20rem]`}
 					onClick={handlePlus}

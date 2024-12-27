@@ -4,9 +4,26 @@ type NoScrollOnOpenOptions = {
 	isActive: boolean;
 };
 
+const getScrollbarWidth = () => {
+	// == Store the initial overflow style
+	const initialOverflowValue = document.documentElement.style.overflow;
+
+	// == Get width without scrollbar
+	document.documentElement.style.overflow = "hidden";
+	const widthWithoutScrollbar = document.documentElement.clientWidth;
+
+	// == Get width with scrollbar
+	document.documentElement.style.overflow = "scroll";
+	const widthWithScrollbar = document.documentElement.clientWidth;
+
+	// == Restore the original overflow
+	document.documentElement.style.overflow = initialOverflowValue;
+
+	return widthWithoutScrollbar - widthWithScrollbar;
+};
+
 const noScrollOnOpen = ({ isActive }: NoScrollOnOpenOptions) => {
 	const isMobileOrTablet = checkIsDeviceMobileOrTablet();
-
 	const isDesktop = !isMobileOrTablet;
 
 	if (!isActive) {
@@ -17,12 +34,9 @@ const noScrollOnOpen = ({ isActive }: NoScrollOnOpenOptions) => {
 
 	document.body.style.setProperty("--overflow-y", "hidden");
 
-	const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-	isDesktop &&
-		document.body.style.setProperty(
-			"--scrollbar-padding",
-			`${scrollbarWidth > 0 ? scrollbarWidth : 10}px`
-		);
+	const scrollbarWidth = getScrollbarWidth();
+
+	isDesktop && document.body.style.setProperty("--scrollbar-padding", `${scrollbarWidth}px`);
 };
 
 export { noScrollOnOpen };

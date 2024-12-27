@@ -1,9 +1,9 @@
 import { Footer, Navbar, ScrollToTopButton } from "@/components/ui";
-import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
+import { Outlet, ScrollRestoration, useLocation } from "react-router";
 
 const productItemPathPattern = /^\/products\/[a-z]+\/\d+$/;
 
-function GlobalLayout() {
+function RootLayout() {
 	const href = useLocation().pathname;
 	const isProductItemPage = productItemPathPattern.test(href);
 
@@ -18,4 +18,4 @@ function GlobalLayout() {
 	);
 }
 
-export default GlobalLayout;
+export default RootLayout;

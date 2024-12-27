@@ -34,7 +34,7 @@ const signIn = catchAsync<{
 	}
 
 	if (!user.isEmailVerified) {
-		// when using queues later change void to await
+		// FIXME when using queues later change void to await
 		void sendVerificationEmail(user as HydratedUserType, req);
 	}
 
@@ -81,11 +81,7 @@ const signIn = catchAsync<{
 		{ new: true }
 	);
 
-	return AppResponse(res, 200, "Signed in successfully", {
-		data: {
-			user: omitSensitiveFields(updatedUser),
-		},
-	});
+	return AppResponse(res, 200, "Signed in successfully", { user: omitSensitiveFields(updatedUser) });
 });
 
 export { signIn };

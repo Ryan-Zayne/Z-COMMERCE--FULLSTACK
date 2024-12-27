@@ -1,11 +1,16 @@
 import { Button, Form, LoadingSpinner, Show, Switch } from "@/components/primitives";
+import {
+	type FormErrorResponseType,
+	type UserSessionData,
+	callBackendApi,
+} from "@/lib/api/callBackendApi";
 import { type FormSchemaType, LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
+import { isHTTPError } from "@zayne-labs/callapi/utils";
+import { noScrollOnOpen } from "@zayne-labs/toolkit/core";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { createOnSubmitFn } from "./createOnSubmit";
+import { Link, useNavigate } from "react-router";
 
 export type FormAreaProps = {
 	classNames?: { form?: string };
@@ -16,6 +21,10 @@ const semanticClasses = {
 	error: "border-b-error focus-within:border-b-error dark:focus-within:border-b-error",
 };
 
+const typedObjectEntries = <TObject extends Record<string, unknown>>(obj: TObject) => {
+	return Object.entries(obj) as Array<[keyof TObject, TObject[keyof TObject]]>;
+};
+
 function FormArea({ classNames, formVariant }: FormAreaProps) {
 	const navigate = useNavigate();
 
@@ -23,11 +32,64 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 		resolver: zodResolver(formVariant === "SignUp" ? SignUpSchema : LoginSchema),
 	});
 
-	const { control, formState, handleSubmit, reset, setError } = methods;
+	const { control, formState, handleSubmit, setError } = methods;
 
-	const queryClient = useQueryClient();
+	const onSubmit = async (formDataObj: FormSchemaType) => {
+		noScrollOnOpen({ isActive: true });
 
-	const onSubmit = createOnSubmitFn({ formVariant, navigate, queryClient, reset, setError });
+		const AUTH_URL = formVariant === "SignUp" ? `/auth/signup` : `/auth/signin`;
+
+		const { data, error } = await callBackendApi<UserSessionData, FormErrorResponseType>(AUTH_URL, {
+			body: formDataObj,
+			method: "POST",
+		});
+
+		noScrollOnOpen({ isActive: false });
+
+		if (isHTTPError(error) && error.errorData.errors) {
+			const zodErrorDetails = error.errorData.errors;
+
+			// == My Form.ErrorMessage component handles arrays as messages, hence the need for this cast
+			setError("root.serverError", {
+				message: zodErrorDetails.formErrors as unknown as string,
+			});
+
+			typedObjectEntries(zodErrorDetails.fieldErrors).forEach(([field, errorMessage]) => {
+				setError(field, {
+					message: errorMessage as unknown as string,
+				});
+			});
+
+			return;
+		}
+
+		if (isHTTPError(error)) {
+			const errorResponse = error.errorData;
+
+			setError("root.serverError", {
+				message: errorResponse.message,
+			});
+
+			return;
+		}
+
+		if (error) {
+			setError("root.caughtError", {
+				message: error.message,
+			});
+
+			return;
+		}
+
+		if (formVariant === "SignUp") {
+			void navigate("/auth/signin");
+			return;
+		}
+
+		if (!data.data?.user.isEmailVerified) {
+			void navigate("/auth/verify-email");
+		}
+	};
 
 	return (
 		<Form.Root
@@ -39,7 +101,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 			methods={methods}
 			onSubmit={(event) => void handleSubmit(onSubmit)(event)}
 		>
-			{formState.isSubmitting && <LoadingSpinner type={"auth"} />}
+			{formState.isSubmitting && <LoadingSpinner variant={"auth"} />}
 
 			<Show when={formVariant === "SignUp"}>
 				<Form.Item control={control} name="username">

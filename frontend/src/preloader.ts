@@ -15,9 +15,10 @@ const removePreloader = () => {
 
 	preloaderElement.style.opacity = "0";
 
+	noScrollOnOpen({ isActive: false });
+
 	on("transitionend", preloaderElement, () => {
 		preloaderElement.remove();
-		noScrollOnOpen({ isActive: false });
 	});
 };
 

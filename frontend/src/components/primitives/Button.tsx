@@ -1,8 +1,8 @@
 import { cnMerge } from "@/lib/utils/cn";
-import { forwardRef } from "react";
+import type { InferProps } from "@zayne-labs/toolkit/react/utils";
 import { Slot } from "./Slot";
 
-export type ButtonProps = React.ComponentPropsWithRef<"button"> & {
+export type ButtonProps = InferProps<"button"> & {
 	asChild?: boolean;
 	size?: keyof typeof semanticClasses.sizes;
 	text?: string;
@@ -22,7 +22,7 @@ const semanticClasses = {
 	themes: {
 		ghost: "bg-transparent text-dark",
 		primary: "bg-primary text-white",
-		secondary: "bg-secondary text-dark",
+		secondary: "bg-secondary text-primary",
 	},
 
 	variants: {
@@ -33,7 +33,7 @@ const semanticClasses = {
 	},
 };
 
-function Button(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) {
+function Button(props: ButtonProps) {
 	const {
 		asChild,
 		children,
@@ -56,10 +56,10 @@ function Button(props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) 
 	const Component = asChild ? Slot : "button";
 
 	return (
-		<Component ref={ref} className={BTN_CLASSES} {...otherValidBtnProps}>
+		<Component className={BTN_CLASSES} {...otherValidBtnProps}>
 			{children ?? text}
 		</Component>
 	);
 }
 
-export default forwardRef(Button);
+export default Button;

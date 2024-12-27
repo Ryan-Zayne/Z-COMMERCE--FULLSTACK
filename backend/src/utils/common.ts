@@ -2,7 +2,7 @@ import type { HydratedUserType, UserType } from "@/app/users/types";
 import { omitKeys } from "@zayne-labs/toolkit/core";
 import type { UnmaskType } from "@zayne-labs/toolkit/type-helpers";
 import { consola } from "consola";
-import type { CookieOptions, Request, Response } from "express";
+import type { CookieOptions, Response } from "express";
 import type { AnyObject } from "mongoose";
 import { ENVIRONMENT } from "../config/env";
 import { isProduction } from "../constants";
@@ -60,15 +60,15 @@ export const omitSensitiveFields = <TObject extends AnyObject, TOmitArray extend
 	return safeUserObject;
 };
 
-export const getDomainReferer = (req: Request, withReferer = isProduction) => {
+export const getDomainReferer = (env: typeof ENVIRONMENT.NODE_ENV) => {
 	try {
-		const referer = req.get("referer");
+		const devFrontendUrl = "http://localhost:5173";
 
-		if (!withReferer || !referer) {
+		if (env === "production") {
 			return ENVIRONMENT.FRONTEND_URL;
 		}
 
-		return referer;
+		return devFrontendUrl;
 	} catch (error) {
 		consola.error(error);
 		return null;

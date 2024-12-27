@@ -20,9 +20,7 @@ const signUp = catchAsync<{
 	void sendVerificationEmail(newUser as HydratedUserType, req);
 
 	return AppResponse(res, 201, "Account created successfully", {
-		data: {
-			user: omitSensitiveFields(newUser),
-		},
+		user: omitSensitiveFields(newUser, ["isDeleted"]),
 	});
 });
 
