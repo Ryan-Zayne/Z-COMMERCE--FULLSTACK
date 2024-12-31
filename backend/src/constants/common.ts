@@ -19,9 +19,3 @@ export const errorCodes = defineEnum({
 });
 
 export type ErrorCodesUnion = (typeof errorCodes)[keyof typeof errorCodes];
-
-const evaluateString = (value: string) => globalThis.eval(`"use strict";(${value})`) as number;
-
-export const ACCESS_JWT_EXPIRES_IN = evaluateString(ENVIRONMENT.ACCESS_JWT_EXPIRES_IN);
-
-export const REFRESH_JWT_EXPIRES_IN = evaluateString(ENVIRONMENT.REFRESH_JWT_EXPIRES_IN);

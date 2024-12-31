@@ -88,7 +88,10 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 
 		if (!data.data?.user.isEmailVerified) {
 			void navigate("/auth/verify-email");
+			return;
 		}
+
+		void navigate("/");
 	};
 
 	return (

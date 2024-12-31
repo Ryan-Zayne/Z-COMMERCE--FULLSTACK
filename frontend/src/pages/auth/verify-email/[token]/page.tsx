@@ -33,6 +33,7 @@ function CheckVerificationTokenPage() {
 				className="invisible flex flex-col items-center gap-[40px] text-center [grid-area:1/1]
 					group-data-[error=true]:visible"
 			>
+				{/* TODO Add an invalida token message for when token is invalid by checking if the error message includes error token */}
 				<div className="flex flex-col gap-[16px]">
 					<h1 className="text-[18px] font-bold">Something went wrong</h1>
 

@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { lazy } from "react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router";
+import { hardNavigate } from "./lib/utils/hardNavigate";
 import { useQueryClientStore } from "./store/react-query/queryClientStore";
 import { sessionQuery } from "./store/react-query/queryFactory";
 
@@ -27,13 +28,29 @@ const ProductCategoryPage = lazy(() => import("@/pages/products/[category]/page"
 const ProductItemPage = lazy(() => import("@/pages/products/[category]/[productId]/page"));
 const NotFoundPage = lazy(() => import("@/pages/not-found"));
 const ErrorPage = lazy(() => import("@/pages/error"));
-const VerificationSuccessPage = lazy(() => import("@/pages/auth/verify-email/success/page"));
-const VerifyEmailPage = lazy(() => import("@/pages/auth/verify-email/page"));
-const CheckVerificationTokenPage = lazy(() => import("@/pages/auth/verify-email/[token]/page"));
 const AboutPage = lazy(() => import("@/pages/(home)/about/page"));
+
+const VerifyEmailLayout = lazy(() => import("@/pages/auth/verify-email/layout"));
+const VerifyEmailPage = lazy(() => import("@/pages/auth/verify-email/page"));
+const VerificationSuccessPage = lazy(() => import("@/pages/auth/verify-email/success/page"));
+const CheckVerificationTokenPage = lazy(() => import("@/pages/auth/verify-email/[token]/page"));
 
 const sessionLoader = () => {
 	void queryClient.prefetchQuery(sessionQuery());
+
+	return null;
+};
+
+const verifyEmailLoader = () => {
+	void queryClient.prefetchQuery(
+		sessionQuery({
+			onSuccess: ({ data }) => {
+				if (data.data?.user.isEmailVerified) {
+					hardNavigate("/auth/verify-email/success");
+				}
+			},
+		})
+	);
 
 	return null;
 };
@@ -56,8 +73,11 @@ const routes = createRoutesFromElements(
 			<Route path="auth/signin" element={<SignInFormPage />} />
 
 			<Route element={<ProtectionLayout />}>
-				<Route path="auth/verify-email" element={<VerifyEmailPage />} />
-				<Route path="auth/verify-email/:token" element={<CheckVerificationTokenPage />} />
+				<Route element={<VerifyEmailLayout />} loader={verifyEmailLoader}>
+					<Route path="auth/verify-email" element={<VerifyEmailPage />} />
+					<Route path="auth/verify-email/:token" element={<CheckVerificationTokenPage />} />
+				</Route>
+
 				<Route path="auth/verify-email/success" element={<VerificationSuccessPage />} />
 			</Route>
 		</Route>

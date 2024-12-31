@@ -1,4 +1,5 @@
-export { signIn } from "./signin";
-export { signOut } from "./signout";
-export { signUp } from "./signup";
-export { verifyEmail } from "./verifyEmail";
+export * from "./signin";
+export * from "./signout";
+export * from "./signup";
+export * from "./verifyEmail";
+export * from "./resendVerificationEmail";

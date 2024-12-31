@@ -1,4 +1,20 @@
 import { Button, IconBox } from "@/components/primitives";
+import { callBackendApi } from "@/lib/api/callBackendApi";
+import { useQueryClientStore } from "@/store/react-query/queryClientStore";
+import { sessionQuery } from "@/store/react-query/queryFactory";
+
+const resendEmail = async () => {
+	const sessionQueryData = await useQueryClientStore
+		.getState()
+		.queryClient.ensureQueryData(sessionQuery());
+
+	void callBackendApi("/auth/resend-verification", {
+		body: {
+			email: sessionQueryData?.data?.user.email,
+		},
+		method: "POST",
+	});
+};
 
 function VerifyEmailPage() {
 	return (
@@ -25,7 +41,10 @@ function VerifyEmailPage() {
 				</div>
 			</section>
 
-			<Button theme="secondary">Resend Email</Button>
+			{/* TODO Add timer for resending email */}
+			<Button theme="secondary" onClick={() => void resendEmail()}>
+				Resend Email
+			</Button>
 		</main>
 	);
 }

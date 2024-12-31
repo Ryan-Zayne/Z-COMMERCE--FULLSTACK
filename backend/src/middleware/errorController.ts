@@ -4,7 +4,7 @@ import type { ErrorRequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { Error as MongooseError } from "mongoose";
 import { type ErrorCodesUnion, errorCodes, isDevMode } from "../constants";
-import { AppError, AppResponse } from "../utils";
+import { AppError } from "../utils";
 
 const handleMongooseCastError = (error: MongooseError.CastError) => {
 	const message = `Invalid ${error.path} value "${error.value}".`;
@@ -42,14 +42,14 @@ const handleMongooseDuplicateFieldsError = (error: MongooseError) => {
 	const [field, value] = firstKeyValueEntry;
 
 	const formattedField = field
-		.replaceAll(/([a-z])([A-Z])/g, "$1 $2") // Handle camelCase
-		.replaceAll(/^([A-Z])/g, (match) => match.toLowerCase()) // Handle PascalCase start
-		.toLowerCase()
-		.trim();
+		.replaceAll(/([a-z])([A-Z])/g, "$1 $2")
+		.split(/(?=[A-Z])/)
+		.map((word, index) =>
+			index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word.toLowerCase()
+		)
+		.join("");
 
-	const capitalizedField = formattedField.charAt(0).toUpperCase() + formattedField.slice(1);
-
-	return new AppError(409, `${capitalizedField} "${value}" has already been used!`, { cause: error });
+	return new AppError(409, `${formattedField} "${value}" has already been used!`, { cause: error });
 };
 
 const handleTimeoutError = (error: Error) => new AppError(408, "Request timeout", { cause: error });
@@ -125,30 +125,27 @@ const errorController: ErrorRequestHandler = (error: AppError, _req, res, _next)
 
 	/* eslint-enable perfectionist/sort-objects */
 	const ERROR_LOOKUP = new Map([
-		[errorCodes.BAD_REQUEST, () => AppResponse(res, 400, errorInfo)],
+		[errorCodes.BAD_REQUEST, () => res.status(400).json(errorInfo)],
 
-		[errorCodes.CONFLICT, () => AppResponse(res, 409, errorInfo)],
+		[errorCodes.CONFLICT, () => res.status(409).json(errorInfo)],
 
-		[errorCodes.FORBIDDEN, () => AppResponse(res, 403, errorInfo)],
+		[errorCodes.FORBIDDEN, () => res.status(403).json(errorInfo)],
 
-		[errorCodes.NOT_FOUND, () => AppResponse(res, 404, errorInfo)],
+		[errorCodes.NOT_FOUND, () => res.status(404).json(errorInfo)],
 
-		[errorCodes.REQUEST_TIMEOUT, () => AppResponse(res, 408, errorInfo)],
+		[errorCodes.REQUEST_TIMEOUT, () => res.status(408).json(errorInfo)],
 
-		[errorCodes.SERVER_ERROR, () => AppResponse(res, 500, errorInfo)],
+		[errorCodes.SERVER_ERROR, () => res.status(500).json(errorInfo)],
 
-		[errorCodes.UNAUTHORIZED, () => AppResponse(res, 401, errorInfo)],
+		[errorCodes.UNAUTHORIZED, () => res.status(401).json(errorInfo)],
 
-		[errorCodes.VALIDATION_ERROR, () => AppResponse(res, 422, errorInfo)],
+		[errorCodes.VALIDATION_ERROR, () => res.status(422).json(errorInfo)],
 	]) satisfies Map<ErrorCodesUnion, () => void>;
 
-	const statusCodeHandler = ERROR_LOOKUP.get(errorInfo.statusCode);
+	// prettier-ignore
+	const statusCodeHandler = ERROR_LOOKUP.get(errorInfo.statusCode) ?? (() => res.status(500).json(errorInfo));
 
-	if (!statusCodeHandler) {
-		return AppResponse(res, 500, errorInfo);
-	}
-
-	return statusCodeHandler();
+	statusCodeHandler();
 };
 
 export { errorController };

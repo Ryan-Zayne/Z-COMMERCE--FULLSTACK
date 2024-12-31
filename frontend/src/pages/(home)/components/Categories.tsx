@@ -9,7 +9,7 @@ const categories = [
 	{
 		bgDark: "bg-[hsl(27,96%,33%)]",
 		bgLight: "bg-orange-400",
-		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436586/smartphone-transformed_jbfngh_t4v6hj.webp",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436586/z-commerce/smartphone-transformed_jbfngh_t4v6hj.webp",
 		imageAspectRatio: "aspect-[0.83]",
 		path: "products/smartphones",
 		title: "SmartPhones",
@@ -17,7 +17,7 @@ const categories = [
 	{
 		bgDark: "bg-[hsl(200,6%,31%)]",
 		bgLight: "bg-gray-400",
-		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436585/laptop-transformed_dhamlu_dmts1f.webp",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436585/z-commerce/laptop-transformed_dhamlu_dmts1f.webp",
 		imageAspectRatio: "aspect-[1.33]",
 		path: "products/laptops",
 		title: "Laptops",
@@ -25,7 +25,7 @@ const categories = [
 	{
 		bgDark: "bg-[hsl(270,95%,25%)]",
 		bgLight: "bg-purple-400",
-		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436585/car-transformed_wegeou.webp",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436585/z-commerce/car-transformed_wegeou.webp",
 		imageAspectRatio: "aspect-[2.02]",
 		path: "products/vehicles",
 		title: "Vehicles",
@@ -33,7 +33,7 @@ const categories = [
 	{
 		bgDark: "bg-[hsl(188,86%,38%)]",
 		bgLight: "bg-cyan-400",
-		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436588/watches-transformed_tgsflz.webp",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436588/z-commerce/watches-transformed_tgsflz.webp",
 		imageAspectRatio: "aspect-[1.21]",
 		path: "products/watches",
 		title: "Watches",
@@ -41,7 +41,7 @@ const categories = [
 	{
 		bgDark: "bg-[hsl(151,76%,26%)]",
 		bgLight: "bg-green-300",
-		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436587/lighting-transformed_bzmi3h.webp",
+		image: "https://res.cloudinary.com/djvestif4/image/upload/v1685436587/z-commerce/lighting-transformed_bzmi3h.webp",
 		imageAspectRatio: "aspect-[1.03]",
 		path: "products/lighting",
 		title: "Digital Lighting",

@@ -3,7 +3,6 @@ import { UserModel } from "@/app/users/model";
 import { ENVIRONMENT } from "@/config/env";
 import { consola } from "consola";
 import jwt from "jsonwebtoken";
-import { ACCESS_JWT_EXPIRES_IN } from "../../constants";
 import { AppError } from "../../utils/AppError";
 
 /**
@@ -58,7 +57,7 @@ const handleAccessTokenRefresh = async (zayneRefreshToken: string) => {
 
 		const newZayneAccessToken = encodeJwtToken(
 			{ id: currentUser.id as string },
-			{ expiresIn: ACCESS_JWT_EXPIRES_IN, secretKey: ENVIRONMENT.ACCESS_SECRET }
+			{ expiresIn: ENVIRONMENT.ACCESS_JWT_EXPIRES_IN, secretKey: ENVIRONMENT.ACCESS_SECRET }
 		);
 
 		return {

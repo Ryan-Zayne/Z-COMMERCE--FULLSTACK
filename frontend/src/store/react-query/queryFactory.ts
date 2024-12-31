@@ -1,7 +1,12 @@
-import { type UserSessionData, callBackendApiForQuery } from "@/lib/api/callBackendApi";
+import {
+	type ApiSuccessType,
+	type UserSessionData,
+	callBackendApiForQuery,
+} from "@/lib/api/callBackendApi";
 import { callDummyApi } from "@/lib/api/callDummyApi";
 import { hardNavigate } from "@/lib/utils/hardNavigate";
 import { queryOptions } from "@tanstack/react-query";
+import type { CallApiExtraOptions } from "@zayne-labs/callapi";
 import { defineEnum } from "@zayne-labs/toolkit/type-helpers";
 import { toast } from "sonner";
 import { useQueryClientStore } from "./queryClientStore";
@@ -19,48 +24,60 @@ export const productKeys = defineEnum([
 	...vehiclesProductKeys,
 ]);
 
-export const keyFactory = {
-	getProductKey: <TKey extends (typeof productKeys)[number]>(key: TKey) => ({
-		url: `/product/category/${key}` as const,
-	}),
-	getVerifyEmailKey: (token: string | undefined) => ["verify-email", { token }] as const,
-	sessionKey: ["session"] as const,
-};
-
 export const productQuery = <TKey extends (typeof productKeys)[number]>(key: TKey) => {
+	const url = `/products/category/${key}`;
+
+	const productKey = [key, { url }];
+
 	return queryOptions({
-		queryFn: () => callDummyApi(keyFactory.getProductKey(key).url),
-		queryKey: [key, { url: keyFactory.getProductKey(key).url }],
-		select: (data) => data.products,
+		queryFn: () => callDummyApi(url),
+		queryKey: productKey,
+		select: (data) => data?.products,
 	});
 };
 
-export const sessionQuery = () => {
+export const sessionQuery = (
+	options?: Pick<
+		CallApiExtraOptions<ApiSuccessType<UserSessionData>>,
+		"meta" | "onRequestError" | "onResponseError" | "onSuccess"
+	>
+) => {
+	const sessionKey = ["session", options?.meta];
+
 	return queryOptions({
-		queryFn: () => callBackendApiForQuery<UserSessionData>("/auth/session"),
-		queryKey: keyFactory.sessionKey,
+		queryFn: () =>
+			callBackendApiForQuery<UserSessionData>("/auth/session", {
+				meta: { redirectOn404Error: false, ...options?.meta },
+				onRequestError: options?.onRequestError,
+				onResponseError: options?.onResponseError,
+				onSuccess: options?.onSuccess,
+			}),
+		// eslint-disable-next-line tanstack-query/exhaustive-deps -- Disabled cuz functions cannot be serialized
+		queryKey: sessionKey,
 		retry: false,
-		select: (data) => data.data,
+		select: (data) => data?.data,
 		staleTime: 1 * 60 * 1000,
 	});
 };
 
 export const verifyEmailQuery = (token: string | undefined) => {
+	const verifyEmailKey = ["verify-email", { token }];
+
 	return queryOptions({
 		enabled: Boolean(token),
 		queryFn: async () => {
-			const sessionQueryResult = await useQueryClientStore
+			const sessionQueryData = await useQueryClientStore
 				.getState()
 				.queryClient.ensureQueryData(sessionQuery());
 
-			if (sessionQueryResult.data?.user.isEmailVerified) {
+			if (sessionQueryData?.data?.user.isEmailVerified) {
 				hardNavigate("/auth/verify-email/success");
 				return;
 			}
 
 			return callBackendApiForQuery("/auth/verify-email", {
 				body: { token },
-				meta: { skip404Redirect: true },
+				meta: { redirectOn404Error: false },
 				method: "POST",
 
 				onError: ({ error }) => {
@@ -74,7 +91,7 @@ export const verifyEmailQuery = (token: string | undefined) => {
 				},
 			});
 		},
-		queryKey: keyFactory.getVerifyEmailKey(token),
+		queryKey: verifyEmailKey,
 		retry: false,
 	});
 };

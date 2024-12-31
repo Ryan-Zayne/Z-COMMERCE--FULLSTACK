@@ -1,6 +1,6 @@
 import { UserModel } from "@/app/users/model";
 import type { HydratedUserType } from "@/app/users/types";
-import { ACCESS_JWT_EXPIRES_IN, REFRESH_JWT_EXPIRES_IN } from "@/constants";
+import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
 import { differenceInHours } from "date-fns";
@@ -35,7 +35,7 @@ const signIn = catchAsync<{
 
 	if (!user.isEmailVerified) {
 		// FIXME when using queues later change void to await
-		void sendVerificationEmail(user as HydratedUserType, req);
+		void sendVerificationEmail(user as HydratedUserType);
 	}
 
 	if (user.isSuspended) {
@@ -58,11 +58,11 @@ const signIn = catchAsync<{
 	const newZayneRefreshToken = user.generateRefreshToken();
 
 	setCookie(res, "zayneAccessToken", newZayneAccessToken, {
-		maxAge: ACCESS_JWT_EXPIRES_IN,
+		maxAge: ENVIRONMENT.ACCESS_JWT_EXPIRES_IN,
 	});
 
 	setCookie(res, "zayneRefreshToken", newZayneRefreshToken, {
-		maxAge: REFRESH_JWT_EXPIRES_IN,
+		maxAge: ENVIRONMENT.REFRESH_JWT_EXPIRES_IN,
 	});
 
 	const existingRefreshTokenArray = user.refreshTokenArray.includes(zayneRefreshToken)

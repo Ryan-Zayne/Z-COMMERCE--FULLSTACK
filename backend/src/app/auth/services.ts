@@ -1,10 +1,8 @@
 import type { HydratedUserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
-import { ACCESS_JWT_EXPIRES_IN, REFRESH_JWT_EXPIRES_IN } from "@/constants";
 import { sendEmail } from "@/services/email";
 import { getDomainReferer } from "@/utils";
 import bcryptjs from "bcryptjs";
-import type { Request } from "express";
 import jwt, { type SignOptions } from "jsonwebtoken";
 import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 
@@ -39,7 +37,7 @@ export const encodeJwtToken = <TDecodedPayload extends Record<string, unknown> =
 };
 
 export function generateAccessToken(this: HydratedUserType, options: SignOptions = {}) {
-	const { expiresIn = ACCESS_JWT_EXPIRES_IN } = options;
+	const { expiresIn = ENVIRONMENT.ACCESS_JWT_EXPIRES_IN } = options;
 
 	const payLoad = { id: this.id };
 
@@ -49,7 +47,7 @@ export function generateAccessToken(this: HydratedUserType, options: SignOptions
 }
 
 export function generateRefreshToken(this: HydratedUserType, options: SignOptions = {}) {
-	const { expiresIn = REFRESH_JWT_EXPIRES_IN } = options;
+	const { expiresIn = ENVIRONMENT.REFRESH_JWT_EXPIRES_IN } = options;
 
 	const payLoad = { id: this.id };
 
@@ -78,7 +76,7 @@ export async function verifyPassword(this: HydratedUserType, plainPassword: stri
 	return isValidPassword;
 }
 
-export const sendVerificationEmail = async (user: HydratedUserType, req: Request) => {
+export const sendVerificationEmail = async (user: HydratedUserType) => {
 	const payload = { id: user.id };
 
 	const emailVerificationToken = encodeJwtToken(payload, {
