@@ -1,3 +1,4 @@
+import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown/DropDown";
@@ -61,29 +62,35 @@ const NavIcons = () => {
 				className="flex w-[clamp(19rem,_42vw,_22rem)] items-center justify-between text-[2rem]"
 			>
 				{isMobile && (
-					<button className="hover:text-heading active:scale-[1.25]" onClick={toggleSearchShow}>
+					<Button
+						unstyled={true}
+						className="hover:text-heading active:scale-[1.25]"
+						onClick={toggleSearchShow}
+					>
 						<IconBox icon="bx:search-alt-2" />
-					</button>
+					</Button>
 				)}
 
-				<button
+				<Button
+					unstyled={true}
 					className="hover:text-heading hover:[transform:rotateY(360deg)]
 						hover:[transition:transform_1000ms_ease-in-out] active:scale-[1.2] lg:text-[2.3rem]"
 				>
 					<Link to={"/wishlist"}>
 						<IconBox icon="bx:heart" />
 					</Link>
-				</button>
+				</Button>
 
 				<DropDown.Root className={"relative flex items-center justify-center"}>
 					<DropDown.Trigger asChild={true}>
-						<button
+						<Button
+							unstyled={true}
 							className="hover:text-heading hover:[transform:rotateY(360deg)]
 								hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
 							onClick={dropDownDisclosure.onToggle}
 						>
 							<IconBox icon="bx:user" />
-						</button>
+						</Button>
 					</DropDown.Trigger>
 
 					<DropDown.Panel
@@ -104,7 +111,8 @@ const NavIcons = () => {
 					</DropDown.Panel>
 				</DropDown.Root>
 
-				<button
+				<Button
+					unstyled={true}
 					type="button"
 					className="relative active:scale-[1.1] lg:text-[2.3rem]"
 					onClick={cartDisclosure.onOpen}
@@ -119,7 +127,7 @@ const NavIcons = () => {
 							{cart.length}
 						</span>
 					)}
-				</button>
+				</Button>
 
 				<CartDrawer
 					isOpen={cartDisclosure.isOpen}

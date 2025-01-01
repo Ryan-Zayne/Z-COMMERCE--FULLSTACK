@@ -1,62 +1,73 @@
-import { cnMerge } from "@/lib/utils/cn";
+import { type VariantProps, tv } from "@nextui-org/theme";
 import type { InferProps } from "@zayne-labs/toolkit/react/utils";
 import { Slot } from "./Slot";
 
-export type ButtonProps = InferProps<"button"> & {
-	asChild?: boolean;
-	size?: keyof typeof semanticClasses.sizes;
-	text?: string;
-	theme?: keyof typeof semanticClasses.themes;
-	variant?: keyof typeof semanticClasses.variants;
-};
+export type ButtonProps = InferProps<"button"> &
+	VariantProps<typeof button> & {
+		asChild?: boolean;
+		text?: string;
+		unstyled?: boolean;
+	};
 
-const semanticClasses = {
+const button = tv({
 	base: "flex items-center justify-center",
 
-	sizes: {
-		lg: "py-[1.1rem] px-[4.5rem]",
-		md: "py-[1.1rem] px-[3.5rem]",
-		sm: "py-[1.1rem] px-[1.3rem]",
-	},
-
-	themes: {
-		ghost: "bg-transparent text-dark",
-		primary: "bg-primary text-white",
-		secondary: "bg-secondary text-primary",
-	},
-
 	variants: {
-		cart: "rounded-[0.8rem]",
-		input: "rounded-[0_2.5rem_2.5rem_0]",
-		regular: "rounded-[0.5rem]",
-		shop: "rounded-[2.5rem]",
+		isDisabled: {
+			true: "cursor-not-allowed opacity-40",
+		},
+
+		size: {
+			lg: "px-[4.5rem] py-[1.1rem]",
+			md: "px-[3.5rem] py-[1.1rem]",
+			sm: "px-[1.3rem] py-[1.1rem]",
+		},
+
+		theme: {
+			ghost: "bg-transparent text-dark",
+			primary: "bg-primary text-white",
+			secondary: "bg-secondary text-primary",
+		},
+
+		variant: {
+			cart: "rounded-[0.8rem]",
+			input: "rounded-r-[2.5rem]",
+			regular: "rounded-[0.5rem]",
+			shop: "rounded-[2.5rem]",
+		},
 	},
-};
+
+	// eslint-disable-next-line perfectionist/sort-objects
+	defaultVariants: {
+		size: "md",
+		theme: "ghost",
+		variant: "regular",
+	},
+});
 
 function Button(props: ButtonProps) {
 	const {
 		asChild,
 		children,
-		className = "",
+		className,
+		disabled,
 		size = "md",
 		text,
 		theme = "ghost",
+		type = "button",
+		unstyled,
 		variant = "regular",
-		...otherValidBtnProps
+		...extraButtonProps
 	} = props;
-
-	const BTN_CLASSES = cnMerge(
-		semanticClasses.base,
-		semanticClasses.variants[variant],
-		semanticClasses.themes[theme],
-		semanticClasses.sizes[size],
-		className
-	);
 
 	const Component = asChild ? Slot : "button";
 
+	const BTN_CLASSES = !unstyled
+		? button({ className, isDisabled: disabled, size, theme, variant })
+		: className;
+
 	return (
-		<Component className={BTN_CLASSES} {...otherValidBtnProps}>
+		<Component type={type} disabled={disabled} className={BTN_CLASSES} {...extraButtonProps}>
 			{children ?? text}
 		</Component>
 	);

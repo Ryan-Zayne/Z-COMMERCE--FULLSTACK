@@ -1,6 +1,6 @@
 import { cnMerge } from "@/lib/utils/cn";
 import { useScrollObserver } from "@zayne-labs/toolkit/react";
-import { IconBox } from "../primitives";
+import { Button, IconBox } from "../primitives";
 
 function ScrollToTopButton() {
 	const { isScrolled, observedElementRef } = useScrollObserver<HTMLDivElement>({
@@ -13,7 +13,8 @@ function ScrollToTopButton() {
 			className="fixed bottom-[3rem] right-[3rem] z-[500]"
 			onClick={() => window.scrollTo(0, 0)}
 		>
-			<button
+			<Button
+				unstyled={true}
 				className={cnMerge(
 					`flex aspect-square w-[4rem] items-center justify-center
 					rounded-[62%_38%_46%_54%/60%_63%_37%_40%] bg-secondary text-[2rem] text-dark
@@ -22,7 +23,7 @@ function ScrollToTopButton() {
 				)}
 			>
 				<IconBox icon="bi:chevron-up" />
-			</button>
+			</Button>
 		</div>
 	);
 }

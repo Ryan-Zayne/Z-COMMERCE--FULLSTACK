@@ -22,7 +22,7 @@ export type ApiErrorType<TError = never> = {
 };
 
 type GlobalMeta = {
-	redirectOn404Error?:
+	redirectOn401Error?:
 		| boolean
 		| {
 				navigateFn?: AnyFunction;
@@ -56,9 +56,9 @@ const redirectOn401ErrorPlugin = defineCallApiPlugin(() => ({
 				!routesToSkipFrom401Redirect.some((route) => request.fullURL?.endsWith(route));
 
 			const redirectOn404Error =
-				options.meta?.redirectOn404Error === true
+				options.meta?.redirectOn401Error === true
 					? ({} as Record<string, never>)
-					: options.meta?.redirectOn404Error;
+					: options.meta?.redirectOn401Error;
 
 			if (!shouldRedirect || redirectOn404Error === false) return;
 

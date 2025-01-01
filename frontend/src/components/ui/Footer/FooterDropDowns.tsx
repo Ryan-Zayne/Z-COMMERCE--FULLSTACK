@@ -1,4 +1,4 @@
-import { Show } from "@/components/primitives";
+import { Button, Show } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown/DropDown";
@@ -47,14 +47,15 @@ function FooterDropDowns() {
 						>
 							<h4 className="text-[1.5rem] font-[500]">Contact Us</h4>
 
-							<button
+							<Button
+								unstyled={true}
 								type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropOne.isOpen,
 								})}
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
-							</button>
+							</Button>
 						</DropDown.Trigger>
 					</Show>
 
@@ -85,14 +86,15 @@ function FooterDropDowns() {
 						>
 							<h4 className="text-[1.5rem] font-[500]">Follow Us</h4>
 
-							<button
+							<Button
+								unstyled={true}
 								type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropTwo.isOpen,
 								})}
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
-							</button>
+							</Button>
 						</DropDown.Trigger>
 					</Show>
 
@@ -134,14 +136,15 @@ function FooterDropDowns() {
 						<h4 className="font-[500] lg:text-[1.8rem]">Information</h4>
 
 						<Show when={!isDesktop}>
-							<button
+							<Button
+								unstyled={true}
 								type="button"
 								className={cnJoin("font-[200] transition-transform duration-300", {
 									"rotate-180": dropThree.isOpen,
 								})}
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
-							</button>
+							</Button>
 						</Show>
 					</DropDown.Trigger>
 
@@ -170,14 +173,15 @@ function FooterDropDowns() {
 						<h4 className={"font-[500] lg:text-[1.8rem]"}>Our Services</h4>
 
 						<Show when={!isDesktop}>
-							<button
+							<Button
+								unstyled={true}
 								type="button"
 								className={cnJoin("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropFour.isOpen,
 								})}
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
-							</button>
+							</Button>
 						</Show>
 					</DropDown.Trigger>
 
@@ -206,14 +210,15 @@ function FooterDropDowns() {
 						<h4 className="font-[500] lg:text-[1.8rem]">My Account</h4>
 
 						<Show when={!isDesktop}>
-							<button
+							<Button
+								unstyled={true}
 								type="button"
 								className={cnMerge("text-[1.5rem] font-[200] transition-transform duration-300", {
 									"rotate-180": dropFive.isOpen,
 								})}
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
-							</button>
+							</Button>
 						</Show>
 					</DropDown.Trigger>
 

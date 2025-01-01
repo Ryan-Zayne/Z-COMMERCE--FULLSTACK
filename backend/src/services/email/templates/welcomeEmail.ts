@@ -215,7 +215,7 @@ const welcomeEmail = (data: WelcomeEmailData) => {
         color: ${theme.labelText};
       "
 			>
-				<p style="margin: 16px 0;">This link works its magic for 24 hours.</p>
+				<p style="margin: 16px 0;">This link works its magic for 20 minutes.</p>
 				<p style="margin: 16px 0;">
 					Didn't sign up for DigitalGenie?<br />
 					No worries - just ignore this email.

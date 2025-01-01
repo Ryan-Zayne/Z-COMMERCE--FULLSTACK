@@ -80,7 +80,7 @@ export const sendVerificationEmail = async (user: HydratedUserType) => {
 	const payload = { id: user.id };
 
 	const emailVerificationToken = encodeJwtToken(payload, {
-		expiresIn: "1d",
+		expiresIn: 20 * 60 * 1000, // 20 minutes
 		secretKey: ENVIRONMENT.EMAIL_SECRET,
 	});
 

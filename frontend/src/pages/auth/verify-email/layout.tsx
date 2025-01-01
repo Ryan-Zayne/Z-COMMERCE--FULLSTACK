@@ -1,19 +1,20 @@
 import { sessionQuery } from "@/store/react-query/queryFactory";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
+import { toast } from "sonner";
 
 function VerifyEmailLayout() {
 	const navigate = useNavigate();
 
-	useQuery(
-		sessionQuery({
-			onSuccess: ({ data }) => {
-				if (data.data?.user.isEmailVerified) {
-					void navigate("/auth/verify-email/success");
-				}
-			},
-		})
-	);
+	const sessionQueryResult = useQuery(sessionQuery());
+
+	useEffect(() => {
+		if (sessionQueryResult.data?.user.isEmailVerified) {
+			toast.success("Your email has already been verified");
+			void navigate("/auth/verify-email/success");
+		}
+	}, [navigate, sessionQueryResult.data?.user.isEmailVerified]);
 
 	return <Outlet />;
 }

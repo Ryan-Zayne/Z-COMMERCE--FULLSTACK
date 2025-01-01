@@ -1,3 +1,4 @@
+import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeActions, useThemeStore } from "@/store/zustand/themeStore";
@@ -7,7 +8,8 @@ function ThemeSwitchButton({ display = "" }: { display?: string }) {
 	const { toggleTheme } = useThemeActions();
 
 	return (
-		<button
+		<Button
+			unstyled={true}
 			className={`rounded-[5rem] bg-[hsl(229,28%,15%)] max-md:scale-[0.8] ${display}`}
 			onClick={toggleTheme}
 		>
@@ -26,7 +28,7 @@ function ThemeSwitchButton({ display = "" }: { display?: string }) {
 					)}
 				/>
 			</div>
-		</button>
+		</Button>
 	);
 }
 

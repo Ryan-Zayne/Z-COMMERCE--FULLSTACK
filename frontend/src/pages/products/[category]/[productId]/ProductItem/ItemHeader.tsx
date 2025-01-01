@@ -1,3 +1,4 @@
+import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import type { DummyResponseDataItem } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
@@ -22,17 +23,18 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 
 	return (
 		<>
-			<button className={"text-[3rem]"}>
+			<Button unstyled={true} className={"text-[3rem]"}>
 				<Link to={"/"}>
 					<IconBox icon="typcn:arrow-back" />
 				</Link>
-			</button>
+			</Button>
 
 			<h1 className="text-center font-roboto text-[2.7rem] font-600 capitalize lg:text-[3.8rem]">
 				{productItem.title}
 			</h1>
 
-			<button
+			<Button
+				unstyled={true}
 				className="flex size-[4rem] items-center justify-center rounded-[50%] bg-primary"
 				onClick={handleHeartClick}
 			>
@@ -47,7 +49,7 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 						className="size-[2.1rem] text-carousel-dot hover:text-heading active:scale-[1.23]"
 					/>
 				)}
-			</button>
+			</Button>
 		</>
 	);
 }

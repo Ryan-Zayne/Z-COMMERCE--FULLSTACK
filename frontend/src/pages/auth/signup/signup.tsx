@@ -1,10 +1,10 @@
 import { facebook } from "@/assets/authPageImages";
-import { Logo } from "@/components/primitives";
+import { Button, Logo } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { AnimatePresence, m } from "motion/react";
 import { Link, useLocation } from "react-router";
-import FormArea_1 from "../components/FormArea";
+import FormArea from "../components/FormArea";
 
 function SignUpFormPage() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -32,7 +32,7 @@ function SignUpFormPage() {
 						</h2>
 					</header>
 
-					<FormArea_1 formVariant="SignUp" />
+					<FormArea formVariant="SignUp" />
 
 					<div className="my-[3.3rem] flex items-center">
 						<span className="mr-[1rem] inline-block h-[1px] w-full bg-carousel-btn" />
@@ -42,19 +42,21 @@ function SignUpFormPage() {
 
 					<footer>
 						<div className="flex items-center justify-center gap-[3rem] text-[1.5rem]">
-							<button
+							<Button
+								unstyled={true}
 								type="button"
 								className="rounded-[50%] border-[2px] border-label bg-white p-[0.8rem]"
 							>
 								<IconBox icon="fa6-brands:google" className="text-[3rem]" />
-							</button>
+							</Button>
 
-							<button
+							<Button
+								unstyled={true}
 								type="button"
 								className={"rounded-[50%] border-[2px] border-facebook bg-facebook"}
 							>
 								<img className="aspect-square w-[5rem] brightness-[0.96]" src={facebook} alt="" />
-							</button>
+							</Button>
 						</div>
 
 						<p

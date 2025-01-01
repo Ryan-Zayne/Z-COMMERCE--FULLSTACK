@@ -55,25 +55,27 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 					className="flex w-[14rem] items-center justify-between rounded-[4rem] bg-carousel-btn
 						p-[0.6rem_1.1rem] text-[2.3rem] font-[600] md:w-[17rem] md:text-[2.6rem]"
 				>
-					<button
+					<Button
+						unstyled={true}
 						type="button"
 						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
 						disabled={productQuantityChosen === 0}
 						onClick={handleMinus}
 					>
 						<IconBox icon="mdi:minus-circle" />
-					</button>
+					</Button>
 
 					<p className="font-roboto">{productQuantityChosen}</p>
 
-					<button
+					<Button
+						unstyled={true}
 						type="button"
 						className="active:scale-[1.2] disabled:brightness-[0.5] disabled:active:transform-none"
 						disabled={productQuantityChosen === productItem.stock}
 						onClick={handlePlus}
 					>
 						<IconBox icon="mdi:plus-circle" />
-					</button>
+					</Button>
 				</div>
 
 				<div className="whitespace-nowrap">

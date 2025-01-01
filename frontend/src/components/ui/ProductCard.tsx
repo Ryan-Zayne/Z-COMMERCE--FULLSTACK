@@ -72,7 +72,8 @@ function ProductCard(props: ProductCardProps) {
 						as="div"
 						className="relative h-[18rem] w-full overflow-hidden rounded-[0.8rem_0.8rem_0_0]"
 					>
-						<button
+						<Button
+							unstyled={true}
 							type="button"
 							onClick={handleAddToWishList}
 							className={cnJoin(
@@ -98,7 +99,7 @@ function ProductCard(props: ProductCardProps) {
 										group-active/btn:scale-[1.23]"
 								/>
 							)}
-						</button>
+						</Button>
 
 						<ImageComponent
 							className={cnJoin(

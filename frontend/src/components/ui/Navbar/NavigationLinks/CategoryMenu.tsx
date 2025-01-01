@@ -1,3 +1,4 @@
+import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import DropDown from "@/components/ui/DropDown/DropDown";
 import { cnJoin } from "@/lib/utils/cn";
@@ -69,9 +70,9 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 				>
 					<h3 className="font-[500]">Shop By Category</h3>
 
-					<button type="button" className="text-[2rem]">
+					<Button unstyled={true} className="text-[2rem]">
 						<IconBox icon="bi:menu-button-fill" />
-					</button>
+					</Button>
 				</DropDown.Trigger>
 
 				<DropDown.Panel
@@ -100,7 +101,8 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 				>
 					<h4>Categories</h4>
 
-					<button
+					<Button
+						unstyled={true}
 						type="button"
 						className={cnJoin(
 							"text-[1.2rem] [transition:transform_350ms_ease]",
@@ -108,7 +110,7 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 						)}
 					>
 						<IconBox icon="basil:caret-down-outline" />
-					</button>
+					</Button>
 				</DropDown.Trigger>
 
 				<DropDown.Panel

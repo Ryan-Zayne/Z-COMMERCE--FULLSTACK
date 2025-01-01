@@ -1,7 +1,9 @@
-import { Button, IconBox } from "@/components/primitives";
+import { Button, IconBox, Show } from "@/components/primitives";
 import { callBackendApi } from "@/lib/api/callBackendApi";
 import { useQueryClientStore } from "@/store/react-query/queryClientStore";
 import { sessionQuery } from "@/store/react-query/queryFactory";
+import { Timer, useTimer } from "@ark-ui/react";
+import { useState } from "react";
 
 const resendEmail = async () => {
 	const sessionQueryData = await useQueryClientStore
@@ -17,6 +19,15 @@ const resendEmail = async () => {
 };
 
 function VerifyEmailPage() {
+	const [isResendEmailDisabled, setIsResendEmailDisabled] = useState(true);
+
+	const timer = useTimer({
+		autoStart: true,
+		countdown: true,
+		onComplete: () => setIsResendEmailDisabled(false),
+		startMs: 30 * 1000,
+	});
+
 	return (
 		<main
 			className="z-10 flex w-[min(100%,48rem)] flex-col items-center gap-[40px] rounded-[6px] bg-body
@@ -36,15 +47,33 @@ function VerifyEmailPage() {
 					</p>
 
 					<p className="mt-[8px] text-[12px] text-carousel-dot">
-						Don't see the email? Check your spam folder
+						Don't see the email? Check your spam folder or resend the verification email.
 					</p>
 				</div>
 			</section>
 
-			{/* TODO Add timer for resending email */}
-			<Button theme="secondary" onClick={() => void resendEmail()}>
-				Resend Email
-			</Button>
+			<section>
+				<Timer.RootProvider value={timer}>
+					<Button
+						className="text-[13px]"
+						theme="secondary"
+						disabled={isResendEmailDisabled}
+						onClick={() => {
+							void resendEmail();
+							timer.restart();
+							setIsResendEmailDisabled(true);
+						}}
+					>
+						<Show when={isResendEmailDisabled}>
+							<Timer.Area className="flex items-center gap-1 text-[13px]">
+								Resend in <Timer.Item type="seconds" /> seconds
+							</Timer.Area>
+
+							<Show.OtherWise>Resend Email</Show.OtherWise>
+						</Show>
+					</Button>
+				</Timer.RootProvider>
+			</section>
 		</main>
 	);
 }

@@ -3,21 +3,49 @@ import { verifyEmailQuery } from "@/store/react-query/queryFactory";
 import { icons as SvgSpinnerIcons } from "@iconify-json/svg-spinners";
 import { getIconData } from "@iconify/utils";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router";
+import { useState } from "react";
+import { Link, useParams } from "react-router";
 
 function CheckVerificationTokenPage() {
 	const { token } = useParams();
 
-	const verifyEmailQueryResult = useQuery(verifyEmailQuery(token));
+	const [tokenValue, setTokenValue] = useState<string | undefined>("");
+
+	const verifyEmailQueryResult = useQuery(verifyEmailQuery(tokenValue));
 
 	return (
 		<main
-			data-pending={verifyEmailQueryResult.isPending}
-			data-error={verifyEmailQueryResult.isError}
+			data-idle={
+				verifyEmailQueryResult.fetchStatus === "idle" && verifyEmailQueryResult.status !== "error"
+			}
+			data-pending={
+				verifyEmailQueryResult.status === "pending" && verifyEmailQueryResult.fetchStatus !== "idle"
+			}
+			data-error={verifyEmailQueryResult.status === "error"}
 			className="group z-10 grid w-[min(100%,48rem)] place-items-center rounded-[6px] bg-body p-[3rem]
 				md:px-[4rem]"
 		>
-			<div
+			<section
+				className="invisible flex flex-col items-center gap-[24px] text-center [grid-area:1/1]
+					group-data-[idle=true]:visible"
+			>
+				<span className="flex size-[70px] items-center justify-center rounded-full bg-primary">
+					<IconBox icon="material-symbols:mark-email-unread-rounded" className="size-12" />
+				</span>
+
+				<div className="flex flex-col gap-[12px]">
+					<h1 className="text-[18px] font-bold">Verify Your Email</h1>
+					<p className="text-[15px] text-white">
+						Click the button below to verify your email address and activate your account
+					</p>
+				</div>
+
+				<Button theme="secondary" onClick={() => setTokenValue(token)}>
+					Verify Email
+				</Button>
+			</section>
+
+			<section
 				className="invisible flex flex-col items-center gap-[24px] [grid-area:1/1]
 					group-data-[pending=true]:visible"
 			>
@@ -27,22 +55,30 @@ function CheckVerificationTokenPage() {
 				/>
 
 				<p>Verifying your email, please wait...</p>
-			</div>
+			</section>
 
 			<section
-				className="invisible flex flex-col items-center gap-[40px] text-center [grid-area:1/1]
+				className="invisible flex flex-col items-center gap-[24px] text-center [grid-area:1/1]
 					group-data-[error=true]:visible"
 			>
-				{/* TODO Add an invalida token message for when token is invalid by checking if the error message includes error token */}
-				<div className="flex flex-col gap-[16px]">
-					<h1 className="text-[18px] font-bold">Something went wrong</h1>
+				<span className="flex size-[70px] items-center justify-center rounded-full bg-red-500/20">
+					<IconBox icon="material-symbols:error-rounded" className="size-12 text-red-500" />
+				</span>
 
-					<p className="text-[15px] text-white">
-						We couldn't verify your email due to an error. You could try resending the email.
+				<div className="flex flex-col gap-[12px]">
+					<p className="text-[15px] font-semibold text-white">
+						We couldn't verify your email due to{" "}
+						{verifyEmailQueryResult.error?.message ?? "an error"}
+					</p>
+
+					<p className="mt-[6px] text-[12px] text-carousel-dot">
+						Please try again or request a new verification email
 					</p>
 				</div>
 
-				<Button theme="secondary">Resend Email</Button>
+				<Button theme="secondary" asChild={true}>
+					<Link to="/auth/verify-email">Back to Verify Email</Link>
+				</Button>
 			</section>
 		</main>
 	);

@@ -1,3 +1,4 @@
+import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { LoadingSkeleton, ProductCard } from "@/components/ui";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
@@ -24,11 +25,11 @@ function AllProductsPage() {
 		<section className="mt-[3rem]">
 			<header className="flex flex-row-reverse items-center justify-center px-[3rem]">
 				<h1 className="mx-auto text-[3rem] font-[700] lg:text-[4rem]">All Products</h1>
-				<button type="button" className="text-[3rem]">
+				<Button unstyled={true} className="text-[3rem]">
 					<Link to={"/"}>
 						<IconBox icon="typcn:arrow-back" />
 					</Link>
-				</button>
+				</Button>
 			</header>
 
 			<article className="mt-[8rem] px-[3rem]">

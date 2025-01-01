@@ -1,4 +1,4 @@
-import { Overlay, Teleport } from "@/components/primitives";
+import { Button, Overlay, Teleport } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { cnMerge } from "@/lib/utils/cn";
 import type {
@@ -59,9 +59,9 @@ function DrawerCloseButton(props: DrawerCloseProps) {
 	const onClose = useDrawerStore((state) => state.onClose);
 
 	return (
-		<button type="button" className={cnMerge(`absolute right-8 top-8 ${className}`)} onClick={onClose}>
+		<Button unstyled={true} className={cnMerge(`absolute right-8 top-8 ${className}`)} onClick={onClose}>
 			<IconBox icon={icon} />
-		</button>
+		</Button>
 	);
 }
 

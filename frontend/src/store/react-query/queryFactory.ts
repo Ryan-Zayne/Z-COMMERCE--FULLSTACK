@@ -9,7 +9,6 @@ import { queryOptions } from "@tanstack/react-query";
 import type { CallApiExtraOptions } from "@zayne-labs/callapi";
 import { defineEnum } from "@zayne-labs/toolkit/type-helpers";
 import { toast } from "sonner";
-import { useQueryClientStore } from "./queryClientStore";
 
 // TODO - Remove once you start serving the products from your backend
 
@@ -39,15 +38,15 @@ export const productQuery = <TKey extends (typeof productKeys)[number]>(key: TKe
 export const sessionQuery = (
 	options?: Pick<
 		CallApiExtraOptions<ApiSuccessType<UserSessionData>>,
-		"meta" | "onRequestError" | "onResponseError" | "onSuccess"
+		"meta" | "onError" | "onRequestError" | "onResponseError" | "onSuccess"
 	>
 ) => {
-	const sessionKey = ["session", options?.meta];
+	const sessionKey = ["session"];
 
 	return queryOptions({
 		queryFn: () =>
 			callBackendApiForQuery<UserSessionData>("/auth/session", {
-				meta: { redirectOn404Error: false, ...options?.meta },
+				meta: { redirectOn401Error: false, ...options?.meta },
 				onRequestError: options?.onRequestError,
 				onResponseError: options?.onResponseError,
 				onSuccess: options?.onSuccess,
@@ -65,19 +64,10 @@ export const verifyEmailQuery = (token: string | undefined) => {
 
 	return queryOptions({
 		enabled: Boolean(token),
-		queryFn: async () => {
-			const sessionQueryData = await useQueryClientStore
-				.getState()
-				.queryClient.ensureQueryData(sessionQuery());
-
-			if (sessionQueryData?.data?.user.isEmailVerified) {
-				hardNavigate("/auth/verify-email/success");
-				return;
-			}
-
+		queryFn: () => {
 			return callBackendApiForQuery("/auth/verify-email", {
 				body: { token },
-				meta: { redirectOn404Error: false },
+				meta: { redirectOn401Error: false },
 				method: "POST",
 
 				onError: ({ error }) => {

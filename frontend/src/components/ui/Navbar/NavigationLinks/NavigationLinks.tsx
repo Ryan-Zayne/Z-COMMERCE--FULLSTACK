@@ -1,4 +1,4 @@
-import { getElementList } from "@/components/primitives";
+import { Button, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import Logo from "@/components/primitives/Logo";
 import Overlay from "@/components/primitives/Overlay";
@@ -70,13 +70,14 @@ const NavigationLinks = () => {
 				)}
 			>
 				{!isDesktop && (
-					<button
+					<Button
+						unstyled={true}
 						type="button"
 						className={"absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600"}
 						onClick={toggleNavShow}
 					>
 						<IconBox icon="ri:close-fill" />
-					</button>
+					</Button>
 				)}
 
 				<NavLinksList

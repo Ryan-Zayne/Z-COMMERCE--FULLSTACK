@@ -1,4 +1,4 @@
-import { getElementList } from "@/components/primitives";
+import { Button, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { cnMerge } from "@/lib/utils/cn";
 import type { MyCustomCss, PolymorphicProps } from "@zayne-labs/toolkit/react/utils";
@@ -61,7 +61,8 @@ function CarouselButton(props: CarouselButtonsProps) {
 	);
 
 	return (
-		<button
+		<Button
+			unstyled={true}
 			type="button"
 			className={cnMerge(
 				"z-[30] flex h-full w-[15%] items-center",
@@ -78,7 +79,7 @@ function CarouselButton(props: CarouselButtonsProps) {
 					/>
 				)}
 			</span>
-		</button>
+		</Button>
 	);
 }
 
@@ -222,7 +223,8 @@ function CarouselIndicator(props: CarouselIndicatorProps) {
 
 	return (
 		<li className="inline-flex">
-			<button
+			<Button
+				unstyled={true}
 				type="button"
 				onClick={() => goToSlide(currentIndex)}
 				className={cnMerge(

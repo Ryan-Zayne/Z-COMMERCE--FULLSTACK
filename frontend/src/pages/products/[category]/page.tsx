@@ -1,4 +1,4 @@
-import { getElementList } from "@/components/primitives";
+import { Button, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { LoadingSkeleton, ProductCard } from "@/components/ui";
 import { useGetProductByCategory } from "@/store/react-query/useGetProductByCategory";
@@ -26,11 +26,11 @@ function ProductCategoryPage() {
 	return (
 		<section className="mt-[3rem] lg:mt-[5rem]">
 			<header className="flex items-center justify-center">
-				<button type="button" className="ml-[3rem] text-[3rem]">
+				<Button unstyled={true} className="ml-[3rem] text-[3rem]">
 					<Link to={"/"}>
 						<IconBox icon="typcn:arrow-back" />
 					</Link>
-				</button>
+				</Button>
 
 				<h1 className="mx-auto text-center text-[3rem] font-[700] capitalize lg:text-[4rem]">
 					{category === "lighting" ? "Digital Lighting" : category}
