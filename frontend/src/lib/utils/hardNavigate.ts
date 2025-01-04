@@ -1,3 +1,3 @@
-const hardNavigate = (route: `/${string}`) => window.location.replace(route);
+const hardNavigate = (route: `/${string}`) => window.location.assign(route);
 
 export { hardNavigate };

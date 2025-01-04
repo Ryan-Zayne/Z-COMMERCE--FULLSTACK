@@ -1,7 +1,6 @@
+import { BarScaleIcon } from "@/components/icons";
 import { Button, IconBox } from "@/components/primitives";
 import { verifyEmailQuery } from "@/store/react-query/queryFactory";
-import { icons as SvgSpinnerIcons } from "@iconify-json/svg-spinners";
-import { getIconData } from "@iconify/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link, useParams } from "react-router";
@@ -49,10 +48,7 @@ function CheckVerificationTokenPage() {
 				className="invisible flex flex-col items-center gap-[24px] [grid-area:1/1]
 					group-data-[pending=true]:visible"
 			>
-				<IconBox
-					icon={getIconData(SvgSpinnerIcons, "bars-scale") ?? "svg-spinners:bars-scale"}
-					className="size-[4rem]"
-				/>
+				<BarScaleIcon className="size-[4rem]" />
 
 				<p>Verifying your email, please wait...</p>
 			</section>
@@ -77,7 +73,7 @@ function CheckVerificationTokenPage() {
 				</div>
 
 				<Button theme="secondary" asChild={true}>
-					<Link to="/auth/verify-email">Back to Verify Email</Link>
+					<Link to="/auth/verify-email">Try Again</Link>
 				</Button>
 			</section>
 		</main>

@@ -8,7 +8,7 @@ import { type FormSchemaType, LoginSchema, SignUpSchema } from "@/lib/schemas/fo
 import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
-import { noScrollOnOpen } from "@zayne-labs/toolkit/core";
+import { lockScroll } from "@zayne-labs/toolkit/core";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 
@@ -35,7 +35,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 	const { control, formState, handleSubmit, setError } = methods;
 
 	const onSubmit = async (formDataObj: FormSchemaType) => {
-		noScrollOnOpen({ isActive: true });
+		lockScroll({ isActive: true });
 
 		const AUTH_URL = formVariant === "SignUp" ? `/auth/signup` : `/auth/signin`;
 
@@ -44,7 +44,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 			method: "POST",
 		});
 
-		noScrollOnOpen({ isActive: false });
+		lockScroll({ isActive: false });
 
 		if (isHTTPError(error) && error.errorData.errors) {
 			const zodErrorDetails = error.errorData.errors;

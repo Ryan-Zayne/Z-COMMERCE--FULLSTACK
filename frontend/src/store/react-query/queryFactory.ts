@@ -15,7 +15,7 @@ import { toast } from "sonner";
 const watchesProductKeys = defineEnum(["mens-watches", "womens-watches"]);
 const vehiclesProductKeys = defineEnum(["automotive", "motorcycle"]);
 
-export const productKeys = defineEnum([
+export const productKeyEnum = defineEnum([
 	"smartphones",
 	"laptops",
 	"tablets",
@@ -23,7 +23,7 @@ export const productKeys = defineEnum([
 	...vehiclesProductKeys,
 ]);
 
-export const productQuery = <TKey extends (typeof productKeys)[number]>(key: TKey) => {
+export const productQuery = <TKey extends (typeof productKeyEnum)[number]>(key: TKey) => {
 	const url = `/products/category/${key}`;
 
 	const productKey = [key, { url }];

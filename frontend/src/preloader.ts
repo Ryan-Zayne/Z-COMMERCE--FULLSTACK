@@ -1,5 +1,4 @@
-import { on } from "@zayne-labs/toolkit/core";
-import { noScrollOnOpen } from "./lib/utils/no-scroll-on-open";
+import { lockScroll, on } from "@zayne-labs/toolkit/core";
 import { useThemeStore } from "./store/zustand/themeStore";
 
 // NOTE - This prevents flicker of wrong theme onLoad
@@ -11,11 +10,11 @@ const removePreloader = () => {
 
 	if (!preloaderElement) return;
 
-	noScrollOnOpen({ isActive: true });
+	lockScroll({ isActive: true });
 
 	preloaderElement.style.opacity = "0";
 
-	noScrollOnOpen({ isActive: false });
+	lockScroll({ isActive: false });
 
 	on("transitionend", preloaderElement, () => {
 		preloaderElement.remove();

@@ -21,7 +21,14 @@ export const MEDIA_QUERY_LOOKUP = {
 };
 
 export const createMediaQuerySlice: StateCreator<GlobalStore, [], [], MediaQuerySlice> = (set, get) => ({
+	/* eslint-disable perfectionist/sort-objects */
+	isDesktop: MEDIA_QUERY_LOOKUP.desktop.queryList.matches,
+	isMobile: MEDIA_QUERY_LOOKUP.mobile.queryList.matches,
+	isTablet: MEDIA_QUERY_LOOKUP.tablet.queryList.matches,
+
 	actions: {
+		/* eslint-enable perfectionist/sort-objects */
+
 		handleQueryListeners: (action) => {
 			const { setQuery } = get().actions;
 			const { desktop, mobile, tablet } = MEDIA_QUERY_LOOKUP;
@@ -44,8 +51,4 @@ export const createMediaQuerySlice: StateCreator<GlobalStore, [], [], MediaQuery
 			set({ [queryKey]: queryList.matches });
 		},
 	},
-	isDesktop: MEDIA_QUERY_LOOKUP.desktop.queryList.matches,
-	isMobile: MEDIA_QUERY_LOOKUP.mobile.queryList.matches,
-
-	isTablet: MEDIA_QUERY_LOOKUP.tablet.queryList.matches,
 });
