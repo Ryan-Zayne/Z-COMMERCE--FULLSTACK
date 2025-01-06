@@ -1,7 +1,9 @@
 import { UserModel } from "@/app/users/model";
 import type { HydratedUserType } from "@/app/users/types";
+import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
-import { AppError, AppResponse, omitSensitiveFields } from "@/utils";
+import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
+import { sendVerificationEmail } from "../services";
 
 const signUp = catchAsync<{
 	body: Pick<HydratedUserType, "email" | "password" | "username">;
@@ -15,6 +17,20 @@ const signUp = catchAsync<{
 	}
 
 	const newUser = await UserModel.create({ email, password, username });
+
+	const newZayneAccessToken = newUser.generateAccessToken();
+
+	const newZayneRefreshToken = newUser.generateRefreshToken();
+
+	setCookie(res, "zayneAccessToken", newZayneAccessToken, {
+		maxAge: ENVIRONMENT.ACCESS_JWT_EXPIRES_IN,
+	});
+
+	setCookie(res, "zayneRefreshToken", newZayneRefreshToken, {
+		maxAge: ENVIRONMENT.REFRESH_JWT_EXPIRES_IN,
+	});
+
+	void sendVerificationEmail(newUser as HydratedUserType);
 
 	return AppResponse(res, 201, "Account created successfully", {
 		user: omitSensitiveFields(newUser, ["isDeleted"]),

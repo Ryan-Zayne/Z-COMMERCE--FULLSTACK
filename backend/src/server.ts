@@ -84,18 +84,14 @@ app.use(errorController);
  *  == UncaughtException handler
  */
 process.on("uncaughtException", (error) => {
-	consola.error("UNCAUGHT EXCEPTION! 💥 Server Shutting down...");
+	consola.error(new Error("UNCAUGHT EXCEPTION! 💥 Server Shutting down...", { cause: error }));
 
-	consola.error({
+	consola.info({
 		date: new Date().toLocaleString("en-Nigeria", {
 			dateStyle: "full",
 			timeStyle: "medium",
 			timeZone: "Africa/Lagos",
 		}),
-		message: error.message,
-		stackTrace: error.stack,
-
-		title: `Uncaught Exception: ${error.name}`,
 	});
 
 	// eslint-disable-next-line node/no-process-exit

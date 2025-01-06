@@ -9,9 +9,8 @@ function ProtectionLayout() {
 
 	const sessionQueryResult = useQuery(
 		sessionQuery({
-			meta: {
-				redirectOn401Error: { navigateFn: navigate },
-			},
+			meta: { redirectOn401Error: true },
+
 			onRequestError: ({ error }) => {
 				toast.error(error.message, { duration: 2000 });
 				void navigate("/auth/signin");
