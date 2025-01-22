@@ -2,7 +2,7 @@ import { Button, IconBox, Show } from "@/components/primitives";
 import { callBackendApi } from "@/lib/api/callBackendApi";
 import { useQueryClientStore } from "@/store/react-query/queryClientStore";
 import { sessionQuery } from "@/store/react-query/queryFactory";
-import { Timer, useTimer } from "@ark-ui/react";
+import { Timer } from "@ark-ui/react";
 import { useState } from "react";
 
 const resendEmail = async () => {
@@ -20,13 +20,6 @@ const resendEmail = async () => {
 
 function VerifyEmailPage() {
 	const [isResendEmailDisabled, setIsResendEmailDisabled] = useState(true);
-
-	const timer = useTimer({
-		autoStart: true,
-		countdown: true,
-		onComplete: () => setIsResendEmailDisabled(false),
-		startMs: 30 * 1000,
-	});
 
 	return (
 		<main
@@ -53,26 +46,35 @@ function VerifyEmailPage() {
 			</section>
 
 			<section>
-				<Timer.RootProvider value={timer}>
-					<Button
-						className="text-[13px]"
-						theme="secondary"
-						disabled={isResendEmailDisabled}
-						onClick={() => {
-							void resendEmail();
-							timer.restart();
-							setIsResendEmailDisabled(true);
-						}}
-					>
-						<Show when={isResendEmailDisabled}>
-							<Timer.Area className="flex items-center gap-1 text-[13px]">
-								Resend in <Timer.Item type="seconds" /> seconds
-							</Timer.Area>
+				<Timer.Root
+					autoStart={true}
+					countdown={true}
+					onComplete={() => setIsResendEmailDisabled(false)}
+					startMs={30 * 1000}
+				>
+					<Timer.Context>
+						{(context) => (
+							<Button
+								className="text-[13px]"
+								theme="secondary"
+								disabled={isResendEmailDisabled}
+								onClick={() => {
+									void resendEmail();
+									context.restart();
+									setIsResendEmailDisabled(true);
+								}}
+							>
+								<Show when={isResendEmailDisabled}>
+									<Timer.Area className="flex items-center gap-1 text-[13px]">
+										Resend in <Timer.Item type="seconds" /> seconds
+									</Timer.Area>
 
-							<Show.OtherWise>Resend Email</Show.OtherWise>
-						</Show>
-					</Button>
-				</Timer.RootProvider>
+									<Show.OtherWise>Resend Email</Show.OtherWise>
+								</Show>
+							</Button>
+						)}
+					</Timer.Context>
+				</Timer.Root>
 			</section>
 		</main>
 	);
