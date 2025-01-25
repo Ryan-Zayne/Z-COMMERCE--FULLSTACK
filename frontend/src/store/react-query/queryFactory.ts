@@ -31,7 +31,7 @@ export const productQuery = <TKey extends (typeof productKeyEnum)[number]>(key: 
 	return queryOptions({
 		queryFn: () => callDummyApi(url),
 		queryKey: productKey,
-		select: (data) => data?.products,
+		select: (data) => data.products,
 	});
 };
 
@@ -45,8 +45,9 @@ export const sessionQuery = (
 
 	return queryOptions({
 		queryFn: () =>
-			callBackendApiForQuery<UserSessionData>("/auth/session", {
+			callBackendApiForQuery("/auth/session", {
 				meta: { redirectOn401Error: false, ...options?.meta },
+				onError: options?.onError,
 				onRequestError: options?.onRequestError,
 				onResponseError: options?.onResponseError,
 				onSuccess: options?.onSuccess,

@@ -1,8 +1,8 @@
 import {
 	type CallApiParameters,
+	type CallApiPlugin,
 	type CallApiResultModeUnion,
 	createFetchClient,
-	defineCallApiPlugin,
 } from "@zayne-labs/callapi";
 import type { AnyFunction } from "@zayne-labs/toolkit/type-helpers";
 import { toast } from "sonner";
@@ -48,12 +48,21 @@ declare module "@zayne-labs/callapi" {
 
 const routesToSkipFrom401Redirect = ["/auth/signin", "/auth/signup"];
 
-const redirectOn401ErrorPlugin = defineCallApiPlugin(() => ({
+export const definePlugin = <
+	// eslint-disable-next-line perfectionist/sort-union-types -- I want the first one to be first
+	TPlugin extends CallApiPlugin<never, never> | AnyFunction<CallApiPlugin<never, never>>,
+>(
+	plugin: TPlugin
+) => {
+	return plugin;
+};
+
+const redirectOn401ErrorPlugin = definePlugin(() => ({
 	hooks: {
-		onResponseError: ({ options, request, response }) => {
+		onResponseError: ({ options, response }) => {
 			const shouldRedirect =
 				response.status === 401 &&
-				!routesToSkipFrom401Redirect.some((route) => request.fullURL?.endsWith(route));
+				!routesToSkipFrom401Redirect.some((route) => options.fullURL?.endsWith(route));
 
 			const redirectOn404Error =
 				options.meta?.redirectOn401Error === true

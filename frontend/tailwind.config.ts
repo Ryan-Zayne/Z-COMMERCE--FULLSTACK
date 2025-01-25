@@ -1,17 +1,13 @@
-import { nextui } from "@nextui-org/theme";
+import { heroui } from "@heroui/theme";
 import plugin from "tailwindcss/plugin";
 import type { Config } from "tailwindcss/types/config";
 
 const tailwindConfig = {
-	content: [
-		"./index.html",
-		"./src/**/*.{ts,tsx}",
-		"./node_modules/@nextui-org/theme/dist/components/pagination.js",
-	],
+	content: ["./index.html", "./src/**/*.{ts,tsx}"],
 	darkMode: ["class", '[data-theme="dark"]'],
 
 	plugins: [
-		nextui(),
+		heroui(),
 		plugin((pluginObj) => {
 			// eslint-disable-next-line ts-eslint/unbound-method
 			const { addComponents, matchUtilities, matchVariant } = pluginObj;

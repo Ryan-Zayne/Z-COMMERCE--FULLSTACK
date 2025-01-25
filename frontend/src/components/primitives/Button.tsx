@@ -1,5 +1,5 @@
-import { type VariantProps, tv } from "@nextui-org/theme";
 import type { InferProps } from "@zayne-labs/toolkit/react/utils";
+import { type VariantProps, tv } from "tailwind-variants";
 import { Slot } from "./Slot";
 
 export type ButtonProps = InferProps<"button"> &
@@ -24,7 +24,7 @@ const button = tv({
 		},
 
 		theme: {
-			ghost: "bg-transparent text-dark",
+			ghost: "text-dark bg-transparent",
 			primary: "bg-primary text-white",
 			secondary: "bg-secondary text-primary",
 		},

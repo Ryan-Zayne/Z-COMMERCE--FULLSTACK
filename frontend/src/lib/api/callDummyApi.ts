@@ -3,7 +3,7 @@ import { createFetchClient } from "@zayne-labs/callapi";
 
 const callDummyApi = createFetchClient<DummyResponseData, false>({
 	baseURL: "https://dummyjson.com",
-	resultMode: "onlySuccess",
+	resultMode: "onlySuccessWithException",
 	throwOnError: true,
 });
 
