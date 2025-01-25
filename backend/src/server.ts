@@ -55,22 +55,6 @@ app.use("/api/v1/:id", validateDataWithZod);
 app.use("/api/v1/auth", authRouter);
 
 /**
- *  == Serve Frontend if needed in production
- */
-if (isProduction) {
-	const pathToDistFolder = path.resolve("../", "frontend", "dist");
-
-	// Serve up dist folder as static files
-	app.use(express.static(pathToDistFolder));
-
-	// Serve up index.html file for all routes
-	app.get("/*", (_, res) => {
-		const pathToHtmlFile = path.resolve("../", "frontend", "dist", "index.html");
-		res.sendFile(pathToHtmlFile);
-	});
-}
-
-/**
  *  == Route 404 handler
  */
 app.all("*", notFoundController);
