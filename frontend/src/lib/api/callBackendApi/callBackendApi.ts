@@ -1,8 +1,8 @@
 import {
 	type CallApiParameters,
-	type CallApiPlugin,
-	type CallApiResultModeUnion,
+	type ResultModeUnion,
 	createFetchClient,
+	definePlugin,
 } from "@zayne-labs/callapi";
 import type { AnyFunction } from "@zayne-labs/toolkit/type-helpers";
 import { toast } from "sonner";
@@ -48,15 +48,6 @@ declare module "@zayne-labs/callapi" {
 
 const routesToSkipFrom401Redirect = ["/auth/signin", "/auth/signup"];
 
-export const definePlugin = <
-	// eslint-disable-next-line perfectionist/sort-union-types -- I want the first one to be first
-	TPlugin extends CallApiPlugin<never, never> | AnyFunction<CallApiPlugin<never, never>>,
->(
-	plugin: TPlugin
-) => {
-	return plugin;
-};
-
 const redirectOn401ErrorPlugin = definePlugin(() => ({
 	hooks: {
 		onResponseError: ({ options, response }) => {
@@ -99,22 +90,22 @@ const sharedFetchClient = createFetchClient({
 
 export const callBackendApi = <
 	TData = unknown,
-	TError = unknown,
-	TResultMode extends CallApiResultModeUnion = CallApiResultModeUnion,
+	TErrorData = unknown,
+	TResultMode extends ResultModeUnion = ResultModeUnion,
 >(
-	...parameters: CallApiParameters<ApiSuccessType<TData>, ApiErrorType<TError>, TResultMode>
+	...parameters: CallApiParameters<ApiSuccessType<TData>, ApiErrorType<TErrorData>, TResultMode>
 ) => {
 	return sharedFetchClient(...parameters);
 };
 
-export const callBackendApiForQuery = <TData = unknown, TError = unknown>(
-	...parameters: CallApiParameters<ApiSuccessType<TData>, ApiErrorType<TError>, "onlySuccess">
+export const callBackendApiForQuery = <TData = unknown>(
+	...parameters: CallApiParameters<ApiSuccessType<TData>, false>
 ) => {
 	const [url, config] = parameters;
 
 	return sharedFetchClient(url, {
 		...config,
-		resultMode: "onlySuccess",
+		resultMode: "onlySuccessWithException",
 		throwOnError: true,
 	});
 };

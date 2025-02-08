@@ -1,0 +1,10 @@
+{
+	"name": "z-commerce-root",
+	"packageManager": "pnpm@9.15.4",
+	"type": "module",
+	"version": "1.0.0",
+	"description": "",
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+}

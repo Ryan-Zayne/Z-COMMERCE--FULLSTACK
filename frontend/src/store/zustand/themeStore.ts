@@ -34,6 +34,7 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 			set({ isDarkMode: newTheme === "dark", theme: newTheme });
 		},
 	},
+	/* eslint-enable perfectionist/sort-objects */
 });
 
 const assertState = (state: unknown) => {

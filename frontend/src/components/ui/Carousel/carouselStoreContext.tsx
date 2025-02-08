@@ -2,7 +2,7 @@ import { useConstant } from "@zayne-labs/toolkit/react";
 import { createZustandContext } from "@zayne-labs/toolkit/react/zustand";
 import type { PrettyOmit } from "@zayne-labs/toolkit/type-helpers";
 import { useEffect } from "react";
-import { createWithEqualityFn } from "zustand/traditional";
+import { create } from "zustand";
 import type { CarouselProviderProps, CarouselStore, ImagesType } from "./carousel.types";
 
 const [Provider, useCarouselStore] = createZustandContext<CarouselStore>({
@@ -17,7 +17,7 @@ const createCarouselStore = <TImages extends ImagesType>(
 ) => {
 	const { images, onSlideBtnClick } = storeValues;
 
-	const useInitCarouselStore = createWithEqualityFn<CarouselStore<TImages>>()((set, get) => ({
+	const useInitCarouselStore = create<CarouselStore<TImages>>()((set, get) => ({
 		currentSlide: 0,
 		images,
 		maxSlide: images.length - 1,

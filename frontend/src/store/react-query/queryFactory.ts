@@ -55,7 +55,7 @@ export const sessionQuery = (
 		// eslint-disable-next-line tanstack-query/exhaustive-deps -- Disabled cuz functions cannot be serialized
 		queryKey: sessionKey,
 		retry: false,
-		select: (data) => data?.data,
+		select: (data) => data.data,
 		staleTime: 1 * 60 * 1000,
 	});
 };
