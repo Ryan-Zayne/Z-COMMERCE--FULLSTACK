@@ -99,7 +99,7 @@ export const callBackendApi = <
 };
 
 export const callBackendApiForQuery = <TData = unknown>(
-	...parameters: CallApiParameters<ApiSuccessType<TData>, false>
+	...parameters: CallApiParameters<ApiSuccessType<TData>, false | undefined>
 ) => {
 	const [url, config] = parameters;
 

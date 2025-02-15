@@ -6,7 +6,7 @@ import {
 } from "@/lib/api/callBackendApi";
 import { type FormSchemaType, LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
 import { lockScroll } from "@zayne-labs/toolkit/core";
 import { useForm } from "react-hook-form";
@@ -29,12 +29,12 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 	const navigate = useNavigate();
 
 	const methods = useForm<FormSchemaType>({
-		resolver: zodResolver(formVariant === "SignUp" ? SignUpSchema : LoginSchema),
+		resolver: standardSchemaResolver(formVariant === "SignUp" ? SignUpSchema : LoginSchema) as never,
 	});
 
 	const { control, formState, handleSubmit, setError } = methods;
 
-	const onSubmit = async (formDataObj: FormSchemaType) => {
+	const onSubmit = handleSubmit(async (formDataObj) => {
 		lockScroll({ isActive: true });
 
 		const AUTH_URL = formVariant === "SignUp" ? `/auth/signup` : `/auth/signin`;
@@ -87,7 +87,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 		}
 
 		void navigate("/");
-	};
+	});
 
 	return (
 		<Form.Root
@@ -97,7 +97,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 				classNames?.form
 			)}
 			methods={methods}
-			onSubmit={(event) => void handleSubmit(onSubmit)(event)}
+			onSubmit={(event) => void onSubmit(event)}
 		>
 			{formState.isSubmitting && <LoadingSpinner variant={"auth"} />}
 
