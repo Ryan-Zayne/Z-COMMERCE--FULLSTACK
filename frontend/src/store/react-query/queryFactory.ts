@@ -4,9 +4,9 @@ import {
 	callBackendApiForQuery,
 } from "@/lib/api/callBackendApi";
 import { callDummyApi } from "@/lib/api/callDummyApi";
-import { hardNavigate } from "@/lib/utils/hardNavigate";
 import { queryOptions } from "@tanstack/react-query";
 import type { CallApiExtraOptions } from "@zayne-labs/callapi";
+import { hardNavigate } from "@zayne-labs/toolkit/core";
 import { defineEnum } from "@zayne-labs/toolkit/type-helpers";
 import { toast } from "sonner";
 
@@ -52,6 +52,7 @@ export const sessionQuery = (
 				onResponseError: options?.onResponseError,
 				onSuccess: options?.onSuccess,
 			}),
+
 		// eslint-disable-next-line tanstack-query/exhaustive-deps -- Disabled cuz functions cannot be serialized
 		queryKey: sessionKey,
 		retry: false,
