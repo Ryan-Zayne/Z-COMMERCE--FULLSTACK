@@ -16,6 +16,8 @@
 		"@heroui/skeleton": "2.2.6",
 		"@heroui/theme": "2.4.6",
 		"@hookform/resolvers": "^4.1.0",
+		"@monicon/react": "^1.2.2",
+		"@monicon/vite": "^1.2.2",
 		"@tanstack/react-query": "^5.66.2",
 		"@zayne-labs/callapi": "1.6.6",
 		"@zayne-labs/toolkit": "^0.8.36",

@@ -22,3 +22,6 @@ dist-ssr
 *.sw?
 safurai.yml
 .env
+
+# monicon
+.monicon
