@@ -138,8 +138,8 @@ importers:
         specifier: 1.6.6
         version: 1.6.6(@standard-schema/spec@1.0.0)
       '@zayne-labs/toolkit':
-        specifier: ^0.8.36
-        version: 0.8.36(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zustand@5.0.3(@types/react@19.0.8)(react@19.0.0))
+        specifier: ^0.8.37
+        version: 0.8.37(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zustand@5.0.3(@types/react@19.0.8)(react@19.0.0))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1716,8 +1716,27 @@ packages:
     resolution: {integrity: sha512-hZkayEvl1q6aIW87ZSpmFs3Vyvge1LxA1yoEEsOJP4BFReLi40T+8zt5i06mj6/ubqNepD4bPEv+G7lPYdOcog==}
     engines: {node: '>=18.x'}
 
+  '@zayne-labs/toolkit-core@0.8.37':
+    resolution: {integrity: sha512-afX5NDq51tqMSjm5B0YY1iwgid/zFnAyAjsG0Hamw/7ThbhZ5s84qOoTOp1oJ+Ztp3A+5W1RxUHm4BJ0Na3Plg==}
+    engines: {node: '>=18.x'}
+
   '@zayne-labs/toolkit-react@0.8.36':
     resolution: {integrity: sha512-NtvZkCrMUPLWB0LW7Cq1UY3RdJxHd5GK/jhl0f6k4YyY1R9ytxuFkxo7UMY4n1L11ikYduX1NfoA2OoqXKwRFQ==}
+    engines: {node: '>=18.x'}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+      zustand: '>=4.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+      zustand:
+        optional: true
+
+  '@zayne-labs/toolkit-react@0.8.37':
+    resolution: {integrity: sha512-xdhiGLMutV3cN7tXPxaOGBq2eEfp/dUNxDniolI4CvqAj2vXMaSTVVpydkXMn1Vk6pgYxo/cCEpgKLGWZ1WrWA==}
     engines: {node: '>=18.x'}
     peerDependencies:
       react: '>=18.0.0'
@@ -1739,8 +1758,27 @@ packages:
     resolution: {integrity: sha512-1YEgwaHPLDFPLUfiT5X2ZLYytE7m5DAlk0fNhOE5vipLszJiIGzCCnTNP8Lyz94dKfevZ9IkhvaQBrjtKSp97g==}
     engines: {node: '>=18.x'}
 
+  '@zayne-labs/toolkit-type-helpers@0.8.37':
+    resolution: {integrity: sha512-jlJhAecCeYET4qJ0XdMYGyWj3IkiX+xr8QvsArtmr6xJB0ShaNWBDcFrW8HFxbp8SKD2Oa57GHpuFFBhBoPOpg==}
+    engines: {node: '>=18.x'}
+
   '@zayne-labs/toolkit@0.8.36':
     resolution: {integrity: sha512-7pAk3IAoWb9y1FW/JleoRzcX/sX85bcBDlCf0Ec8TBfswqcayoPC6gWuSKv3T941POxE1baJ7zm3vm39MPTYAw==}
+    engines: {node: '>=18.x'}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+      zustand: '>=4.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+      zustand:
+        optional: true
+
+  '@zayne-labs/toolkit@0.8.37':
+    resolution: {integrity: sha512-SVLplUD92jc/xwzaZ3nvOy0nVAJmNiAMoYpmMfp6aCW5nwNvcp+E5l6XIKRKuIcvdrDz/P5GOFhN1OL/E+iXmA==}
     engines: {node: '>=18.x'}
     peerDependencies:
       react: '>=18.0.0'
@@ -4406,7 +4444,7 @@ snapshots:
       '@heroui/react-utils': 2.1.4(react@19.0.0)
       '@heroui/system-rsc': 2.3.6(@heroui/theme@2.4.6(tailwindcss@3.4.17))(react@19.0.0)
       '@internationalized/date': 3.6.0
-      '@react-aria/i18n': 3.12.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@react-aria/i18n': 3.12.4(react@19.0.0)
       '@react-aria/overlays': 3.24.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/utils': 3.26.0(react@19.0.0)
       '@react-stately/utils': 3.10.5(react@19.0.0)
@@ -4591,19 +4629,17 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
-  '@react-aria/i18n@3.12.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@react-aria/i18n@3.12.4(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.7.0
+      '@internationalized/date': 3.6.0
       '@internationalized/message': 3.1.6
       '@internationalized/number': 3.6.0
       '@internationalized/string': 3.2.5
       '@react-aria/ssr': 3.9.7(react@19.0.0)
-      '@react-aria/utils': 3.27.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@react-aria/utils': 3.26.0(react@19.0.0)
       '@react-types/shared': 3.27.0(react@19.0.0)
       '@swc/helpers': 0.5.15
       react: 19.0.0
-    transitivePeerDependencies:
-      - react-dom
 
   '@react-aria/interactions@3.23.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
@@ -4617,10 +4653,10 @@ snapshots:
   '@react-aria/overlays@3.24.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@react-aria/focus': 3.19.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@react-aria/i18n': 3.12.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@react-aria/i18n': 3.12.4(react@19.0.0)
       '@react-aria/interactions': 3.23.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/ssr': 3.9.7(react@19.0.0)
-      '@react-aria/utils': 3.27.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@react-aria/utils': 3.26.0(react@19.0.0)
       '@react-aria/visually-hidden': 3.8.19(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-stately/overlays': 3.6.13(react@19.0.0)
       '@react-types/button': 3.10.2(react@19.0.0)
@@ -4688,7 +4724,7 @@ snapshots:
 
   '@react-types/datepicker@3.9.0(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.7.0
+      '@internationalized/date': 3.6.0
       '@react-types/calendar': 3.6.0(react@19.0.0)
       '@react-types/overlays': 3.8.12(react@19.0.0)
       '@react-types/shared': 3.27.0(react@19.0.0)
@@ -5651,6 +5687,10 @@ snapshots:
     dependencies:
       '@zayne-labs/toolkit-type-helpers': 0.8.36
 
+  '@zayne-labs/toolkit-core@0.8.37':
+    dependencies:
+      '@zayne-labs/toolkit-type-helpers': 0.8.37
+
   '@zayne-labs/toolkit-react@0.8.36(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zustand@5.0.3(@types/react@19.0.8)(react@19.0.0))':
     dependencies:
       '@zayne-labs/toolkit-core': 0.8.36
@@ -5660,15 +5700,36 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       zustand: 5.0.3(@types/react@19.0.8)(react@19.0.0)
 
+  '@zayne-labs/toolkit-react@0.8.37(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zustand@5.0.3(@types/react@19.0.8)(react@19.0.0))':
+    dependencies:
+      '@zayne-labs/toolkit-core': 0.8.37
+      '@zayne-labs/toolkit-type-helpers': 0.8.37
+    optionalDependencies:
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      zustand: 5.0.3(@types/react@19.0.8)(react@19.0.0)
+
   '@zayne-labs/toolkit-type-helpers@0.8.34': {}
 
   '@zayne-labs/toolkit-type-helpers@0.8.36': {}
+
+  '@zayne-labs/toolkit-type-helpers@0.8.37': {}
 
   '@zayne-labs/toolkit@0.8.36(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zustand@5.0.3(@types/react@19.0.8)(react@19.0.0))':
     dependencies:
       '@zayne-labs/toolkit-core': 0.8.36
       '@zayne-labs/toolkit-react': 0.8.36(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zustand@5.0.3(@types/react@19.0.8)(react@19.0.0))
       '@zayne-labs/toolkit-type-helpers': 0.8.36
+    optionalDependencies:
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      zustand: 5.0.3(@types/react@19.0.8)(react@19.0.0)
+
+  '@zayne-labs/toolkit@0.8.37(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zustand@5.0.3(@types/react@19.0.8)(react@19.0.0))':
+    dependencies:
+      '@zayne-labs/toolkit-core': 0.8.37
+      '@zayne-labs/toolkit-react': 0.8.37(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zustand@5.0.3(@types/react@19.0.8)(react@19.0.0))
+      '@zayne-labs/toolkit-type-helpers': 0.8.37
     optionalDependencies:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)

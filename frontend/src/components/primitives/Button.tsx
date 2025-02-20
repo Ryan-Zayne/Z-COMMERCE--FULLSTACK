@@ -1,4 +1,4 @@
-import type { InferProps } from "@zayne-labs/toolkit/react/utils";
+import type { InferProps, PolymorphicProps } from "@zayne-labs/toolkit/react/utils";
 import { type VariantProps, tv } from "tailwind-variants";
 import { Slot } from "./Slot";
 
@@ -24,7 +24,7 @@ const button = tv({
 		},
 
 		theme: {
-			ghost: "text-dark bg-transparent",
+			ghost: "bg-transparent text-dark",
 			primary: "bg-primary text-white",
 			secondary: "bg-secondary text-primary",
 		},
@@ -45,8 +45,11 @@ const button = tv({
 	},
 });
 
-function Button(props: ButtonProps) {
+function Button<TElement extends React.ElementType = "button">(
+	props: PolymorphicProps<TElement, ButtonProps>
+) {
 	const {
+		as: Element = "button",
 		asChild,
 		children,
 		className,
@@ -60,7 +63,7 @@ function Button(props: ButtonProps) {
 		...extraButtonProps
 	} = props;
 
-	const Component = asChild ? Slot : "button";
+	const Component = asChild ? Slot : Element;
 
 	const BTN_CLASSES = !unstyled
 		? button({ className, isDisabled: disabled, size, theme, variant })
