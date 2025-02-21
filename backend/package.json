@@ -20,8 +20,8 @@
 	},
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
-		"@zayne-labs/toolkit": "^0.8.36",
-		"bcryptjs": "^3.0.0",
+		"@zayne-labs/toolkit": "^0.8.39",
+		"bcryptjs": "^3.0.2",
 		"consola": "^3.3.3",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
@@ -37,7 +37,7 @@
 		"mongoose": "^8.10.1",
 		"morgan": "^1.10.0",
 		"nodemailer": "^6.9.16",
-		"tsx": "^4.19.2",
+		"tsx": "^4.19.3",
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {

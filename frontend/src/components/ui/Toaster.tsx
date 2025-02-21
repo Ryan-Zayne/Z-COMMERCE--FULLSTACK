@@ -14,7 +14,6 @@ const SonnerToaster = (props: ToasterProps) => {
 			position="bottom-right"
 			duration={3000}
 			closeButton={true}
-			pauseWhenPageIsHidden={true}
 			toastOptions={{
 				classNames: {
 					actionButton:
