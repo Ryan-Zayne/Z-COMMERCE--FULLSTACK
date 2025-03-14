@@ -48,15 +48,15 @@ const assertState = (state: unknown) => {
 // Store hook Creation
 export const useThemeStore = create<ThemeStore>()(
 	persist(themeStoreObjectFn, {
-		name: "colorScheme",
-		version: 1,
-
 		migrate(persistedState) {
 			const validPersistedState = assertState(persistedState);
 
 			return validPersistedState;
 		},
+		name: "colorScheme",
+
 		partialize: ({ theme }) => ({ theme }),
+		version: 1,
 	})
 );
 

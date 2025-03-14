@@ -12,7 +12,7 @@ const resendEmail = async () => {
 
 	void callBackendApi("/auth/resend-verification", {
 		body: {
-			email: sessionQueryData?.data?.user.email,
+			email: sessionQueryData.data?.user.email,
 		},
 		method: "POST",
 	});

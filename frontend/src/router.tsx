@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useMountEffect } from "@zayne-labs/toolkit/react";
 import { lazy } from "react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router";
 import { useQueryClientStore } from "./store/react-query/queryClientStore";
@@ -14,25 +15,8 @@ const queryClient = new QueryClient({
 	},
 });
 
-useQueryClientStore.setState({ queryClient });
-
-const AuthLayout = lazy(() => import("@/pages/auth/layout"));
-const HomeLayout = lazy(() => import("@/pages/(home)/layout"));
-// const ProtectionLayout = lazy(() => import("@/pages/layout.protect"));
-const Home = lazy(() => import("@/pages/(home)/page"));
-const AllProductsPage = lazy(() => import("@/pages/products/page"));
-const SignUpFormPage = lazy(() => import("@/pages/auth/signup/signup"));
-const SignInFormPage = lazy(() => import("@/pages/auth/signin/page"));
-const ProductCategoryPage = lazy(() => import("@/pages/products/[category]/page"));
-const ProductItemPage = lazy(() => import("@/pages/products/[category]/[productId]/page"));
 const NotFoundPage = lazy(() => import("@/pages/not-found"));
 const ErrorPage = lazy(() => import("@/pages/error"));
-const AboutPage = lazy(() => import("@/pages/(home)/about/page"));
-
-const VerifyEmailLayout = lazy(() => import("@/pages/auth/verify-email/layout"));
-const VerifyEmailPage = lazy(() => import("@/pages/auth/verify-email/page"));
-const VerificationSuccessPage = lazy(() => import("@/pages/auth/verify-email/success/page"));
-const CheckVerificationTokenPage = lazy(() => import("@/pages/auth/verify-email/[token]/page"));
 
 const sessionLoader = () => {
 	void queryClient.prefetchQuery(sessionQuery());
@@ -42,25 +26,38 @@ const sessionLoader = () => {
 
 const routes = createRoutesFromElements(
 	<Route errorElement={<ErrorPage />} loader={sessionLoader}>
-		<Route path="/" element={<HomeLayout />}>
-			<Route errorElement={<ErrorPage />}>
-				<Route index={true} element={<Home />} />
+		<Route Component={lazy(() => import("@/pages/(home)/layout"))} errorElement={<ErrorPage />}>
+			<Route path="/" Component={lazy(() => import("@/pages/(home)/page"))} />
 
-				<Route path="products" element={<AllProductsPage />} />
-				<Route path="products/:category" element={<ProductCategoryPage />} />
-				<Route path="products/:category/:productId" element={<ProductItemPage />} />
-				<Route path="about" element={<AboutPage />} />
-			</Route>
+			<Route path="/products" Component={lazy(() => import("@/pages/products/page"))} />
+			<Route
+				path="/products/:category"
+				Component={lazy(() => import("@/pages/products/[category]/page"))}
+			/>
+			<Route
+				path="/products/:category/:productId"
+				Component={lazy(() => import("@/pages/products/[category]/[productId]/page"))}
+			/>
+			<Route path="/about" Component={lazy(() => import("@/pages/(home)/about/page"))} />
 		</Route>
 
-		<Route element={<AuthLayout />}>
-			<Route path="auth/signup" element={<SignUpFormPage />} />
-			<Route path="auth/signin" element={<SignInFormPage />} />
+		<Route Component={lazy(() => import("@/pages/auth/layout"))}>
+			<Route path="/auth/signup" Component={lazy(() => import("@/pages/auth/signup/page"))} />
+			<Route path="/auth/signin" Component={lazy(() => import("@/pages/auth/signin/page"))} />
 
-			<Route element={<VerifyEmailLayout />}>
-				<Route path="auth/verify-email" element={<VerifyEmailPage />} />
-				<Route path="auth/verify-email/:token" element={<CheckVerificationTokenPage />} />
-				<Route path="auth/verify-email/success" element={<VerificationSuccessPage />} />
+			<Route Component={lazy(() => import("@/pages/auth/verify-email/layout"))}>
+				<Route
+					path="/auth/verify-email"
+					Component={lazy(() => import("@/pages/auth/verify-email/page"))}
+				/>
+				<Route
+					path="/auth/verify-email/:token"
+					Component={lazy(() => import("@/pages/auth/verify-email/[token]/page"))}
+				/>
+				<Route
+					path="/auth/verify-email/success"
+					Component={lazy(() => import("@/pages/auth/verify-email/success/page"))}
+				/>
 			</Route>
 		</Route>
 
@@ -68,13 +65,11 @@ const routes = createRoutesFromElements(
 	</Route>
 );
 
-const browserRouter = createBrowserRouter(routes, {
-	future: {
-		startTransition: true,
-	},
-});
+const browserRouter = createBrowserRouter(routes);
 
 export function Router() {
+	useMountEffect(() => useQueryClientStore.setState({ queryClient }));
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<RouterProvider router={browserRouter} />

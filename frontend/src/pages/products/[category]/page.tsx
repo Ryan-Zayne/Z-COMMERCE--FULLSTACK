@@ -2,7 +2,7 @@ import { Button, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { LoadingSkeleton, ProductCard } from "@/components/ui";
 import { useGetProductByCategory } from "@/store/react-query/useGetProductByCategory";
-import type { InferEnum } from "@zayne-labs/toolkit/type-helpers";
+import type { ExtractUnion } from "@zayne-labs/toolkit/type-helpers";
 import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
 import { Link, useParams } from "react-router";
 
@@ -10,7 +10,7 @@ import { Link, useParams } from "react-router";
 const productCategories = new Set(["smartphones", "laptops", "lighting", "watches", "vehicles"] as const);
 
 function ProductCategoryPage() {
-	const { category } = useParams<{ category: InferEnum<typeof productCategories> }>();
+	const { category } = useParams<{ category: ExtractUnion<typeof productCategories> }>();
 
 	const { isPending, productsArrayByCategory } = useGetProductByCategory({
 		category,

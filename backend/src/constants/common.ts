@@ -1,5 +1,5 @@
 import { ENVIRONMENT } from "@/config/env";
-import { defineEnum } from "@zayne-labs/toolkit/type-helpers";
+import { type ExtractUnion, defineEnum } from "@zayne-labs/toolkit/type-helpers";
 
 export const PORT = ENVIRONMENT.PORT;
 
@@ -18,4 +18,4 @@ export const errorCodes = defineEnum({
 	VALIDATION_ERROR: 422,
 });
 
-export type ErrorCodesUnion = (typeof errorCodes)[keyof typeof errorCodes];
+export type ErrorCodesUnion = ExtractUnion<typeof errorCodes>;

@@ -20,7 +20,7 @@
 	},
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
-		"@zayne-labs/toolkit": "^0.8.39",
+		"@zayne-labs/toolkit": "^0.8.45",
 		"bcryptjs": "^3.0.2",
 		"consola": "^3.3.3",
 		"cookie-parser": "^1.4.7",
@@ -28,7 +28,7 @@
 		"cross-env": "^7.0.3",
 		"date-fns": "^4.1.0",
 		"esm-module-alias": "^2.2.1",
-		"express": "^4.21.2",
+		"express": "5.0.1",
 		"express-mongo-sanitize": "^2.2.0",
 		"express-rate-limit": "^7.5.0",
 		"helmet": "^8.0.0",
@@ -42,7 +42,6 @@
 	},
 	"devDependencies": {
 		"@total-typescript/ts-reset": "^0.6.1",
-		"@types/bcryptjs": "^2.4.6",
 		"@types/cookie-parser": "^1.4.8",
 		"@types/cors": "^2.8.17",
 		"@types/express": "^5.0.0",
@@ -51,7 +50,7 @@
 		"@types/morgan": "^1.9.9",
 		"@types/node": "^22.13.4",
 		"@types/nodemailer": "^6.4.17",
-		"@zayne-labs/eslint-config": "^0.5.0",
+		"@zayne-labs/eslint-config": "^0.6.1",
 		"@zayne-labs/tsconfig": "^0.2.1",
 		"typescript": "^5.7.2"
 	}
