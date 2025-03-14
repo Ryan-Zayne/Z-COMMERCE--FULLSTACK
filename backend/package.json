@@ -15,8 +15,8 @@
 		"dev:watch": "tsx --env-file=.env --watch src/server.ts --clear-screen=false",
 		"format": "prettier --write .",
 		"lint": "eslint src/**/*.ts",
-		"start": "tsx --import=esm-module-alias/loader src/server.ts",
-		"start:test": "cross-env NODE_ENV=production tsx --env-file=.env --import=esm-module-alias/loader src/server.ts"
+		"start": "tsx src/server.ts",
+		"start:test": "cross-env NODE_ENV=production tsx --env-file=.env ./src/server.ts"
 	},
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
@@ -27,7 +27,6 @@
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
 		"date-fns": "^4.1.0",
-		"esm-module-alias": "^2.2.1",
 		"express": "5.0.1",
 		"express-mongo-sanitize": "^2.2.0",
 		"express-rate-limit": "^7.5.0",
@@ -38,6 +37,7 @@
 		"morgan": "^1.10.0",
 		"nodemailer": "^6.10.0",
 		"tsx": "^4.19.3",
+		"typescript": "^5.8.2",
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
@@ -51,7 +51,6 @@
 		"@types/node": "^22.13.10",
 		"@types/nodemailer": "^6.4.17",
 		"@zayne-labs/eslint-config": "^0.6.1",
-		"@zayne-labs/tsconfig": "^0.2.1",
-		"typescript": "^5.8.2"
+		"@zayne-labs/tsconfig": "^0.2.1"
 	}
 }

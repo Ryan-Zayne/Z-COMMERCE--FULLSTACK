@@ -34,9 +34,6 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
-      esm-module-alias:
-        specifier: ^2.2.1
-        version: 2.2.1
       express:
         specifier: 5.0.1
         version: 5.0.1
@@ -67,6 +64,9 @@ importers:
       tsx:
         specifier: ^4.19.3
         version: 4.19.3
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.2
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -104,9 +104,6 @@ importers:
       '@zayne-labs/tsconfig':
         specifier: ^0.2.1
         version: 0.2.1
-      typescript:
-        specifier: ^5.8.2
-        version: 5.8.2
 
   frontend:
     dependencies:
@@ -2193,9 +2190,6 @@ packages:
     peerDependenciesMeta:
       jiti:
         optional: true
-
-  esm-module-alias@2.2.1:
-    resolution: {integrity: sha512-CmxoWJb4ShzOQEHc5MBIgp7BUYSiyZkvUzGtJxQlCUZhLXJ/teO7LSyZa9gzPpM5HOarj14GW4DxRuTuCliV1w==}
 
   espree@10.3.0:
     resolution: {integrity: sha512-0QYC8b24HWY8zjRnDTL6RiHfDbAWn63qb4LMj1Z4b076A4une81+z03Kg7l7mn/48PUTqoLptSXez8oknU8Clg==}
@@ -4361,7 +4355,7 @@ snapshots:
       '@internationalized/number': 3.6.0
       '@internationalized/string': 3.2.5
       '@react-aria/ssr': 3.9.7(react@19.0.0)
-      '@react-aria/utils': 3.28.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@react-aria/utils': 3.28.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-types/shared': 3.28.0(react@19.0.0)
       '@swc/helpers': 0.5.15
       react: 19.0.0
@@ -4383,7 +4377,7 @@ snapshots:
       '@react-aria/i18n': 3.12.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/interactions': 3.24.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/ssr': 3.9.7(react@19.0.0)
-      '@react-aria/utils': 3.28.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@react-aria/utils': 3.28.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/visually-hidden': 3.8.21(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-stately/overlays': 3.6.14(react@19.0.0)
       '@react-types/button': 3.11.0(react@19.0.0)
@@ -6137,8 +6131,6 @@ snapshots:
       jiti: 1.21.7
     transitivePeerDependencies:
       - supports-color
-
-  esm-module-alias@2.2.1: {}
 
   espree@10.3.0:
     dependencies:
