@@ -115,6 +115,7 @@ const errorController: ErrorRequestHandler = (error: AppError, _req, res, _next)
 		...(Boolean(modifiedError.errors) && { errors: modifiedError.errors }),
 		stackTrace: isDevMode ? modifiedError.stack : "Just dey play",
 	};
+	/* eslint-enable ts-eslint/no-unnecessary-condition */
 
 	consola.error(`${error.name}:`, {
 		status: errorInfo.status,

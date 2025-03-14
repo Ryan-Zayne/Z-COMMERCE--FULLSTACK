@@ -1,5 +1,4 @@
 import "@colors/colors";
-import path from "node:path";
 import { consola } from "consola";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -12,7 +11,7 @@ import morgan from "morgan";
 import { authRouter } from "./app/auth/routes";
 import { corsOptions, helmetOptions, rateLimitOptions, setConnectionToDb } from "./config";
 import { ENVIRONMENT } from "./config/env";
-import { PORT, isProduction } from "./constants";
+import { PORT } from "./constants";
 import { errorController, notFoundController, validateDataWithZod } from "./middleware";
 import { AppResponse } from "./utils";
 
@@ -57,7 +56,7 @@ app.use("/api/v1/auth", authRouter);
 /**
  *  == Route 404 handler
  */
-app.all("*", notFoundController);
+app.all("*splat", notFoundController);
 
 /**
  *  == Central error handler

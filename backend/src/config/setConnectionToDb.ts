@@ -14,8 +14,7 @@ const setConnectionToDb = async () => {
 		consola.error(error);
 	}
 
-	/* eslint-disable ts-eslint/unbound-method */
-	/* eslint-disable ts-eslint/no-deprecated */
+	/* eslint-disable ts-eslint/unbound-method, ts-eslint/no-deprecated */
 	mongoose.connection.on("connected", () => {
 		console.info("MongoDB Atlas connected!".bold);
 	});
@@ -23,6 +22,7 @@ const setConnectionToDb = async () => {
 	mongoose.connection.on("disconnected", () => {
 		consola.error("MongoDB Atlas disconnected!".bold);
 	});
+	/* eslint-enable ts-eslint/unbound-method, ts-eslint/no-deprecated */
 };
 
 export { setConnectionToDb };

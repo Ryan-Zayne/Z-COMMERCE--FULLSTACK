@@ -20,7 +20,7 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
       consola:
-        specifier: ^3.3.3
+        specifier: ^3.4.0
         version: 3.4.0
       cookie-parser:
         specifier: ^1.4.7
@@ -56,13 +56,13 @@ importers:
         specifier: ^9.0.2
         version: 9.0.2
       mongoose:
-        specifier: ^8.10.1
+        specifier: ^8.12.1
         version: 8.12.1
       morgan:
         specifier: ^1.10.0
         version: 1.10.0
       nodemailer:
-        specifier: ^6.9.16
+        specifier: ^6.10.0
         version: 6.10.0
       tsx:
         specifier: ^4.19.3
@@ -87,13 +87,13 @@ importers:
         specifier: ^0.2.6
         version: 0.2.6
       '@types/jsonwebtoken':
-        specifier: ^9.0.7
+        specifier: ^9.0.9
         version: 9.0.9
       '@types/morgan':
         specifier: ^1.9.9
         version: 1.9.9
       '@types/node':
-        specifier: ^22.13.4
+        specifier: ^22.13.10
         version: 22.13.10
       '@types/nodemailer':
         specifier: ^6.4.17
@@ -105,7 +105,7 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1
       typescript:
-        specifier: ^5.7.2
+        specifier: ^5.8.2
         version: 5.8.2
 
   frontend:
@@ -1555,10 +1555,6 @@ packages:
         optional: true
       zustand:
         optional: true
-
-  '@zayne-labs/toolkit-type-helpers@0.8.39':
-    resolution: {integrity: sha512-q1gVwSGJl1syrOcVpUWduYaoazWYGRBWQrplPH6malAKcKyqzUzfJN1PLCMf7XmDYnIchDM7US2/GwvSUeZtZA==}
-    engines: {node: '>=18.x'}
 
   '@zayne-labs/toolkit-type-helpers@0.8.45':
     resolution: {integrity: sha512-34/tDT1c1CCk+CtLpmEXshGCJAqYj910xdjcAzspkfp7mjqMNCz1cxttDQyLuRqxV3OSrb7J6/NilEDiAw03fg==}
@@ -4365,7 +4361,7 @@ snapshots:
       '@internationalized/number': 3.6.0
       '@internationalized/string': 3.2.5
       '@react-aria/ssr': 3.9.7(react@19.0.0)
-      '@react-aria/utils': 3.28.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@react-aria/utils': 3.28.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-types/shared': 3.28.0(react@19.0.0)
       '@swc/helpers': 0.5.15
       react: 19.0.0
@@ -4387,7 +4383,7 @@ snapshots:
       '@react-aria/i18n': 3.12.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/interactions': 3.24.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/ssr': 3.9.7(react@19.0.0)
-      '@react-aria/utils': 3.28.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@react-aria/utils': 3.28.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/visually-hidden': 3.8.21(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-stately/overlays': 3.6.14(react@19.0.0)
       '@react-types/button': 3.11.0(react@19.0.0)
@@ -5357,7 +5353,7 @@ snapshots:
       '@eslint/js': 9.21.0
       '@stylistic/eslint-plugin': 4.1.0(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2)
       '@typescript-eslint/parser': 8.26.1(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2)
-      '@zayne-labs/toolkit-type-helpers': 0.8.39
+      '@zayne-labs/toolkit-type-helpers': 0.8.45
       eslint: 9.22.0(jiti@1.21.7)
       eslint-config-flat-gitignore: 2.1.0(eslint@9.22.0(jiti@1.21.7))
       eslint-flat-config-utils: 2.0.1
@@ -5402,8 +5398,6 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
       zustand: 5.0.3(@types/react@19.0.10)(react@19.0.0)
-
-  '@zayne-labs/toolkit-type-helpers@0.8.39': {}
 
   '@zayne-labs/toolkit-type-helpers@0.8.45': {}
 
@@ -7053,7 +7047,7 @@ snapshots:
 
   send@1.1.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.3.6
       destroy: 1.2.0
       encodeurl: 2.0.0
       escape-html: 1.0.3

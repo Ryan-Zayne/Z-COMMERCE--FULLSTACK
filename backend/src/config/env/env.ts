@@ -6,7 +6,7 @@ declare global {
 	namespace NodeJS {
 		// interface ProcessEnv extends z.infer<typeof envSchema> {}
 
-		// eslint-disable-next-line ts-eslint/consistent-indexed-object-style, ts-eslint/consistent-type-definitions
+		// eslint-disable-next-line ts-eslint/consistent-type-definitions
 		interface ProcessEnv {
 			[key: string]: undefined;
 		}
