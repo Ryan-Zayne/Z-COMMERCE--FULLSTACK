@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { create } from "zustand";
 import type { DrawerProviderProps, DrawerStore } from "./drawer.types";
 
-const [Provider, useDrawerStore] = createZustandContext<DrawerStore>({
+const [DrawerProvider, useDrawerStore] = createZustandContext<DrawerStore>({
 	hookName: "useDrawerStore",
 	name: "DrawerStoreContext",
 	providerName: "DrawerContextProvider",
@@ -28,7 +28,7 @@ export function DrawerContextProvider({ children, storeValues }: DrawerProviderP
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [storeValues.isOpen]);
 
-	return <Provider value={useInitDrawerStore}>{children}</Provider>;
+	return <DrawerProvider value={useInitDrawerStore}>{children}</DrawerProvider>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
