@@ -4,7 +4,7 @@ import { promisify } from "node:util";
 export const generateRandomBytes = async (
 	options: { encoding?: BufferEncoding; length?: number } = {}
 ) => {
-	const { encoding = "hex", length = 36 } = options;
+	const { encoding = "hex", length = 60 } = options;
 
 	const byteLength = Math.ceil(length / 2);
 
@@ -18,7 +18,7 @@ export const generateRandomBytes = async (
 };
 
 export const generateRandomBytesSync = (options: { encoding?: BufferEncoding; length?: number } = {}) => {
-	const { encoding = "hex", length = 36 } = options;
+	const { encoding = "hex", length = 60 } = options;
 
 	const byteLength = Math.ceil(length / 2);
 

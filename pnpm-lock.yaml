@@ -15,8 +15,8 @@ importers:
         specifier: ^5.66.1
         version: 5.68.0(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2)
       '@zayne-labs/eslint-config':
-        specifier: ^0.7.4
-        version: 0.7.4(@eslint-react/eslint-plugin@1.37.0(eslint@9.22.0(jiti@1.21.7))(ts-api-utils@2.1.0(typescript@5.8.2))(typescript@5.8.2))(@tanstack/eslint-plugin-query@5.68.0(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2))(eslint-plugin-react-hooks@5.2.0(eslint@9.22.0(jiti@1.21.7)))(eslint-plugin-react-refresh@0.4.19(eslint@9.22.0(jiti@1.21.7)))(eslint-plugin-tailwindcss@3.18.0(tailwindcss@3.4.17))(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2)
+        specifier: ^0.7.6
+        version: 0.7.6(@eslint-react/eslint-plugin@1.37.0(eslint@9.22.0(jiti@1.21.7))(ts-api-utils@2.1.0(typescript@5.8.2))(typescript@5.8.2))(@tanstack/eslint-plugin-query@5.68.0(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2))(eslint-plugin-react-hooks@5.2.0(eslint@9.22.0(jiti@1.21.7)))(eslint-plugin-react-refresh@0.4.19(eslint@9.22.0(jiti@1.21.7)))(eslint-plugin-tailwindcss@3.18.0(tailwindcss@3.4.17))(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2)
       eslint:
         specifier: ^9.22.0
         version: 9.22.0(jiti@1.21.7)
@@ -42,8 +42,8 @@ importers:
         specifier: ^0.8.48
         version: 0.8.48(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zustand@5.0.3(@types/react@19.0.12)(react@19.0.0))
       '@zayne-labs/tsconfig':
-        specifier: ^0.7.4
-        version: 0.7.4
+        specifier: ^0.7.6
+        version: 0.7.6
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.2
@@ -124,8 +124,8 @@ importers:
         specifier: ^6.4.17
         version: 6.4.17
       '@zayne-labs/prettier-config':
-        specifier: ^0.7.4
-        version: 0.7.4
+        specifier: ^0.7.6
+        version: 0.7.6
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
@@ -215,11 +215,11 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1(@swc/helpers@0.5.15)(vite@6.2.2(@types/node@22.13.11)(jiti@1.21.7)(tsx@4.19.3)(yaml@2.7.0))
       '@zayne-labs/prettier-config':
-        specifier: ^0.7.4
-        version: 0.7.4
+        specifier: ^0.7.6
+        version: 0.7.6
       '@zayne-labs/tsconfig':
-        specifier: ^0.7.4
-        version: 0.7.4
+        specifier: ^0.7.6
+        version: 0.7.6
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.21(postcss@8.5.3)
@@ -1557,8 +1557,8 @@ packages:
     peerDependencies:
       '@standard-schema/spec': ^1.0.0
 
-  '@zayne-labs/eslint-config@0.7.4':
-    resolution: {integrity: sha512-H0TlzDc1alu2GhThGBNmbtSS7KHt5tdvTWWbmk6IEIpaBXzm8kNfd2BYpxcIlsTf3Lgy+/LGdn7sieUUlwfoKQ==}
+  '@zayne-labs/eslint-config@0.7.6':
+    resolution: {integrity: sha512-u9aA7Moxlzb5BRhVXVmjmJ6Folr/hClKrJGPTSt2ORssmfRXsCieVw1q0ngFE1K4JLn6SuqBEPmQ/Fn67IZs4w==}
     engines: {node: '>=18.x'}
     peerDependencies:
       '@eslint-react/eslint-plugin': '>=1.15.0'
@@ -1603,8 +1603,8 @@ packages:
       vue-eslint-parser:
         optional: true
 
-  '@zayne-labs/prettier-config@0.7.4':
-    resolution: {integrity: sha512-z1nPZy+yj1ZFN2Al78rsrO7NYI/7u7w9M8MgbxBbnwEVCA2ZYBVFQHN0sfBBM6Vh0vqLxsmZpkG3yCdZQh9M2A==}
+  '@zayne-labs/prettier-config@0.7.6':
+    resolution: {integrity: sha512-fKcYN8wSShd3ZpYZxcPOIubCbUlUCPHpqwFqRmYohYJPbv++Bkz4Z1DOpnzkUCnoLNTTQKPuh76lNyrga/PMxA==}
     engines: {node: '>=18.x'}
 
   '@zayne-labs/toolkit-core@0.8.48':
@@ -1645,8 +1645,8 @@ packages:
       zustand:
         optional: true
 
-  '@zayne-labs/tsconfig@0.7.4':
-    resolution: {integrity: sha512-1QyHStfsfWdlnV0FbZ4MCcAYtkqCTKW6iy/mdMbpwjQFkForDClFQk/imROioM+r77ywflATauqidrfAO8fplA==}
+  '@zayne-labs/tsconfig@0.7.6':
+    resolution: {integrity: sha512-y2+QxpjkIBcApwWshe3LRr6DitrkI14G9RHuNdD+bxqEupdJg3hzb+NuHVFrDcfU1ofokQmafSWSC6eQ4U03ww==}
 
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
@@ -5468,7 +5468,7 @@ snapshots:
     dependencies:
       '@standard-schema/spec': 1.0.0
 
-  '@zayne-labs/eslint-config@0.7.4(@eslint-react/eslint-plugin@1.37.0(eslint@9.22.0(jiti@1.21.7))(ts-api-utils@2.1.0(typescript@5.8.2))(typescript@5.8.2))(@tanstack/eslint-plugin-query@5.68.0(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2))(eslint-plugin-react-hooks@5.2.0(eslint@9.22.0(jiti@1.21.7)))(eslint-plugin-react-refresh@0.4.19(eslint@9.22.0(jiti@1.21.7)))(eslint-plugin-tailwindcss@3.18.0(tailwindcss@3.4.17))(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2)':
+  '@zayne-labs/eslint-config@0.7.6(@eslint-react/eslint-plugin@1.37.0(eslint@9.22.0(jiti@1.21.7))(ts-api-utils@2.1.0(typescript@5.8.2))(typescript@5.8.2))(@tanstack/eslint-plugin-query@5.68.0(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2))(eslint-plugin-react-hooks@5.2.0(eslint@9.22.0(jiti@1.21.7)))(eslint-plugin-react-refresh@0.4.19(eslint@9.22.0(jiti@1.21.7)))(eslint-plugin-tailwindcss@3.18.0(tailwindcss@3.4.17))(eslint@9.22.0(jiti@1.21.7))(typescript@5.8.2)':
     dependencies:
       '@antfu/install-pkg': 1.0.0
       '@clack/prompts': 0.10.0
@@ -5510,7 +5510,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@zayne-labs/prettier-config@0.7.4':
+  '@zayne-labs/prettier-config@0.7.6':
     dependencies:
       '@zayne-labs/toolkit-type-helpers': 0.8.48
 
@@ -5539,7 +5539,7 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       zustand: 5.0.3(@types/react@19.0.12)(react@19.0.0)
 
-  '@zayne-labs/tsconfig@0.7.4': {}
+  '@zayne-labs/tsconfig@0.7.6': {}
 
   accepts@2.0.0:
     dependencies:

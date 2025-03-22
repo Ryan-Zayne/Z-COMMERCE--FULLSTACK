@@ -7,8 +7,6 @@
 		"build": "vite build",
 		"check-types": "tsc --pretty --incremental -p tsconfig.json",
 		"dev": "vite",
-		"format": "prettier --write .",
-		"lint": "eslint src/**/*.{ts,tsx} --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -41,8 +39,8 @@
 		"@types/react": "^19.0.12",
 		"@types/react-dom": "^19.0.4",
 		"@vitejs/plugin-react-swc": "^3.8.1",
-		"@zayne-labs/prettier-config": "^0.7.4",
-		"@zayne-labs/tsconfig": "^0.7.4",
+		"@zayne-labs/prettier-config": "^0.7.6",
+		"@zayne-labs/tsconfig": "^0.7.6",
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.5.3",
 		"prettier": "^3.5.1",
