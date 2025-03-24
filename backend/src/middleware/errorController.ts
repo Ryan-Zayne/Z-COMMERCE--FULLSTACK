@@ -1,3 +1,4 @@
+import { omitKeys } from "@zayne-labs/toolkit/core";
 import { isObject } from "@zayne-labs/toolkit/type-helpers";
 import { consola } from "consola";
 import type { ErrorRequestHandler } from "express";
@@ -60,7 +61,7 @@ const handleJWTError = (error: jwt.JsonWebTokenError) => new AppError(401, "Inva
 // prettier-ignore
 const handleJWTExpiredError = (error: jwt.TokenExpiredError) => new AppError(401, "Your token has expired!", { cause: error });
 
-const errorModifier = (error: AppError) => {
+const transformError = (error: AppError) => {
 	let modifiedError = error;
 
 	switch (true) {
@@ -104,25 +105,19 @@ const errorModifier = (error: AppError) => {
 };
 
 const errorController: ErrorRequestHandler = (error: AppError, _req, res, _next) => {
-	const modifiedError = errorModifier(error);
+	const modifiedError = transformError(error);
 
 	/* eslint-disable ts-eslint/no-unnecessary-condition */
 	/* eslint-disable perfectionist/sort-objects */
 	const errorInfo = {
 		status: "error",
 		message: modifiedError.message ?? "Something went very wrong!",
-		statusCode: modifiedError.statusCode ?? 500,
 		...(Boolean(modifiedError.errors) && { errors: modifiedError.errors }),
 		stackTrace: isDevMode ? modifiedError.stack : "Just dey play",
 	};
 	/* eslint-enable ts-eslint/no-unnecessary-condition */
 
-	consola.error(`${error.name}:`, {
-		status: errorInfo.status,
-		message: errorInfo.message,
-		statusCode: errorInfo.statusCode,
-		...(Boolean(errorInfo.errors) && { errors: errorInfo.errors }),
-	});
+	consola.error(`${error.name}:`, omitKeys(errorInfo, ["stackTrace"]));
 
 	/* eslint-enable perfectionist/sort-objects */
 	const ERROR_LOOKUP = new Map([
@@ -143,10 +138,10 @@ const errorController: ErrorRequestHandler = (error: AppError, _req, res, _next)
 		[errorCodes.VALIDATION_ERROR, () => res.status(422).json(errorInfo)],
 	]) satisfies Map<ErrorCodesUnion, () => void>;
 
-	// prettier-ignore
-	const statusCodeHandler = ERROR_LOOKUP.get(errorInfo.statusCode) ?? (() => res.status(500).json(errorInfo));
+	const statusCodeHandler =
+		ERROR_LOOKUP.get(modifiedError.statusCode) ?? ERROR_LOOKUP.get(errorCodes.SERVER_ERROR);
 
-	statusCodeHandler();
+	return statusCodeHandler?.() as never;
 };
 
 export { errorController };
