@@ -10,9 +10,9 @@ const prefersDarkMode = isBrowser() && globalThis.matchMedia("(prefers-color-sch
 const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 	isDarkMode: prefersDarkMode,
 
+	/* eslint-disable perfectionist/sort-objects */
 	theme: prefersDarkMode ? "dark" : "light",
 
-	/* eslint-disable perfectionist/sort-objects */
 	actions: {
 		initThemeOnLoad: () => {
 			const { theme: persistedTheme } = get();
@@ -39,7 +39,7 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 
 const assertState = (state: unknown) => {
 	if (!isObject(state)) {
-		throw new TypeError("Invalid app state");
+		throw new Error("Invalid app state");
 	}
 
 	return state;
@@ -48,11 +48,12 @@ const assertState = (state: unknown) => {
 // Store hook Creation
 export const useThemeStore = create<ThemeStore>()(
 	persist(themeStoreObjectFn, {
-		migrate(persistedState) {
+		migrate: (persistedState) => {
 			const validPersistedState = assertState(persistedState);
 
 			return validPersistedState;
 		},
+
 		name: "colorScheme",
 
 		partialize: ({ theme }) => ({ theme }),

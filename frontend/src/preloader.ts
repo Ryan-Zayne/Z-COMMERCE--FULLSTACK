@@ -16,12 +16,10 @@ const removePreloader = () => {
 
 	lockScroll({ isActive: false });
 
-	on("transitionend", preloaderElement, () => {
+	const cleanUpForTransitionEnd = on("transitionend", preloaderElement, () => {
 		preloaderElement.remove();
+		cleanUpForTransitionEnd();
 	});
 };
 
 on("DOMContentLoaded", document, removePreloader, { once: true });
-
-// NOTE - Scroll restoration for moxilla browser
-globalThis.history.scrollRestoration = "auto";
