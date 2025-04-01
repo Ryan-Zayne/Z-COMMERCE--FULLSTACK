@@ -29,7 +29,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 	const navigate = useNavigate();
 
 	const methods = useForm<FormSchemaType>({
-		resolver: standardSchemaResolver(formVariant === "SignUp" ? SignUpSchema : LoginSchema) as never,
+		resolver: standardSchemaResolver((formVariant === "SignUp" ? SignUpSchema : LoginSchema) as never),
 	});
 
 	const { control, formState, handleSubmit, setError } = methods;
