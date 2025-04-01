@@ -64,13 +64,13 @@ function VerifyEmailPage() {
 									setIsResendEmailDisabled(true);
 								}}
 							>
-								<Show when={isResendEmailDisabled}>
+								<Show.Root when={isResendEmailDisabled}>
 									<Timer.Area className="flex items-center gap-1 text-[13px]">
 										Resend in <Timer.Item type="seconds" /> seconds
 									</Timer.Area>
 
 									<Show.OtherWise>Resend Email</Show.OtherWise>
-								</Show>
+								</Show.Root>
 							</Button>
 						)}
 					</Timer.Context>

@@ -1,8 +1,8 @@
 import type { AnyAsyncFunction, Prettify } from "@zayne-labs/toolkit/type-helpers";
 import type { NextFunction, Request, Response } from "express";
 
-type ModifiedRequest<TRequestSupplement> = Omit<Request, "body" | "signedCookies"> &
-	Prettify<
+type ModifiedRequest<TRequestSupplement> = Omit<Request, "body" | "signedCookies">
+	& Prettify<
 		TRequestSupplement & {
 			body: Record<string, unknown> | undefined;
 			signedCookies: Record<string, string | undefined>;

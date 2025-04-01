@@ -1,11 +1,11 @@
 export { default as Button, type ButtonProps } from "./Button";
-export * as Card from "./Card";
+export * from "./Card";
 export * from "./For";
-export * as Form from "./Form";
+export * from "./Form";
 export * from "./Slot";
-export { default as Show } from "./Show";
+export * from "./Show";
 export { IconBox } from "./IconBox";
-export { Switch, Match, Default } from "./Switch";
+export * from "./Switch";
 export { default as ImageComponent } from "./ImageComponent";
 export { default as LoadingSpinner } from "./LoadingSpinner";
 export { default as Logo } from "./Logo";

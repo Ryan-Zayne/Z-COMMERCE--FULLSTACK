@@ -40,7 +40,7 @@ function FooterDropDowns() {
 				<Logo className={"dark:brightness-[0.8] dark:contrast-[1.8]"} />
 
 				<DropDown.Root className="mt-[1rem]">
-					<Show when={!isDesktop}>
+					<Show.Root when={!isDesktop}>
 						<DropDown.Trigger
 							className={"flex cursor-pointer items-center justify-between"}
 							onClick={handleDropDowns(dropOne)}
@@ -57,7 +57,7 @@ function FooterDropDowns() {
 								<IconBox icon="fa6-solid:chevron-down" />
 							</Button>
 						</DropDown.Trigger>
-					</Show>
+					</Show.Root>
 
 					<DropDown.Panel
 						isOpen={!isDesktop ? dropOne.isOpen : true}
@@ -79,7 +79,7 @@ function FooterDropDowns() {
 				</DropDown.Root>
 
 				<DropDown.Root className="mt-[2rem]">
-					<Show when={!isDesktop}>
+					<Show.Root when={!isDesktop}>
 						<DropDown.Trigger
 							className={"flex cursor-pointer items-center justify-between"}
 							onClick={handleDropDowns(dropTwo)}
@@ -96,7 +96,7 @@ function FooterDropDowns() {
 								<IconBox icon="fa6-solid:chevron-down" />
 							</Button>
 						</DropDown.Trigger>
-					</Show>
+					</Show.Root>
 
 					<DropDown.Panel
 						classNames={{
@@ -135,7 +135,7 @@ function FooterDropDowns() {
 					>
 						<h4 className="font-[500] lg:text-[1.8rem]">Information</h4>
 
-						<Show when={!isDesktop}>
+						<Show.Root when={!isDesktop}>
 							<Button
 								unstyled={true}
 								type="button"
@@ -145,7 +145,7 @@ function FooterDropDowns() {
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
 							</Button>
-						</Show>
+						</Show.Root>
 					</DropDown.Trigger>
 
 					<DropDown.Panel
@@ -172,7 +172,7 @@ function FooterDropDowns() {
 					>
 						<h4 className={"font-[500] lg:text-[1.8rem]"}>Our Services</h4>
 
-						<Show when={!isDesktop}>
+						<Show.Root when={!isDesktop}>
 							<Button
 								unstyled={true}
 								type="button"
@@ -182,7 +182,7 @@ function FooterDropDowns() {
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
 							</Button>
-						</Show>
+						</Show.Root>
 					</DropDown.Trigger>
 
 					<DropDown.Panel
@@ -209,7 +209,7 @@ function FooterDropDowns() {
 					>
 						<h4 className="font-[500] lg:text-[1.8rem]">My Account</h4>
 
-						<Show when={!isDesktop}>
+						<Show.Root when={!isDesktop}>
 							<Button
 								unstyled={true}
 								type="button"
@@ -219,7 +219,7 @@ function FooterDropDowns() {
 							>
 								<IconBox icon="fa6-solid:chevron-down" />
 							</Button>
-						</Show>
+						</Show.Root>
 					</DropDown.Trigger>
 
 					<DropDown.Panel

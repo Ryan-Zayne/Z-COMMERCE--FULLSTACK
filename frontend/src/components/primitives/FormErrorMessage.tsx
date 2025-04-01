@@ -1,7 +1,7 @@
 import { cnMerge } from "@/lib/utils/cn";
 import { useEffect, useRef } from "react";
 import { type Control, type FieldValues, useFormState } from "react-hook-form";
-import { getElementList } from "./For/getElementList";
+import { getElementList } from "./For";
 
 type ErrorParagraphProps<TValues extends FieldValues> =
 	| {

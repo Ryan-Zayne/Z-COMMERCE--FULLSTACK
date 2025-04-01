@@ -3,7 +3,6 @@ import { consola } from "consola";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
-import mongoSanitize from "express-mongo-sanitize";
 import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import hpp from "hpp";
@@ -31,7 +30,7 @@ app.use(cookieParser(ENVIRONMENT.COOKIE_SECRET));
 app.use(helmet(helmetOptions));
 app.use(cors(corsOptions)); // Cors
 app.use(rateLimit(rateLimitOptions)); // Rate Limiting
-app.use(mongoSanitize()); // Data sanitization against NoSQL query injection
+// app.use(mongoSanitize({ replaceWith: "_" })); // Data sanitization against NoSQL query injection - Incompatible with express v5
 app.use(hpp()); // Prevent Parameter Pollution
 app.use((_, res, next) => {
 	// Prevent browser from caching sensitive information
@@ -49,7 +48,7 @@ app.use(morgan("dev"));
 /**
  *  == Routes - v1
  */
-app.get("/api/v1/alive", (req, res) => AppResponse(res, 200, "Server is up and running"));
+app.get("/api/v1/alive", (_req, res) => AppResponse(res, 200, "Server is up and running"));
 app.use("/api/v1/:id", validateDataWithZod);
 app.use("/api/v1/auth", authRouter);
 

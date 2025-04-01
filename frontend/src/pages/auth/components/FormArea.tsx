@@ -101,8 +101,8 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 		>
 			{formState.isSubmitting && <LoadingSpinner variant={"auth"} />}
 
-			<Show when={formVariant === "SignUp"}>
-				<Form.Item control={control} name="username">
+			<Show.Root when={formVariant === "SignUp"}>
+				<Form.Field control={control} name="username">
 					<Form.Label>Username</Form.Label>
 
 					<Form.Input
@@ -115,10 +115,10 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 					/>
 
 					<Form.ErrorMessage control={control} className="text-error" errorField="username" />
-				</Form.Item>
-			</Show>
+				</Form.Field>
+			</Show.Root>
 
-			<Form.Item control={control} name="email">
+			<Form.Field control={control} name="email">
 				<Form.Label>Email address</Form.Label>
 
 				<Form.Input
@@ -131,9 +131,9 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 				/>
 
 				<Form.ErrorMessage control={control} className="text-error" errorField="email" />
-			</Form.Item>
+			</Form.Field>
 
-			<Form.Item className="relative" control={control} name="password">
+			<Form.Field className="relative" control={control} name="password">
 				<Form.Label>Password</Form.Label>
 
 				<Form.Input
@@ -146,10 +146,10 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 				/>
 
 				<Form.ErrorMessage control={control} className="text-error" errorField="password" />
-			</Form.Item>
+			</Form.Field>
 
-			<Show when={formVariant === "SignUp"}>
-				<Form.Item className="relative" control={control} name="confirmPassword">
+			<Show.Root when={formVariant === "SignUp"}>
+				<Form.Field className="relative" control={control} name="confirmPassword">
 					<Form.Label>Confirm Password</Form.Label>
 
 					<Form.Input
@@ -162,8 +162,8 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 					/>
 
 					<Form.ErrorMessage control={control} className="text-error" errorField="confirmPassword" />
-				</Form.Item>
-			</Show>
+				</Form.Field>
+			</Show.Root>
 
 			<Form.ErrorMessage
 				className="mb-[-0.7rem] mt-[-1rem] text-error"
@@ -177,14 +177,14 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 				type="root"
 			/>
 
-			<Form.Item
+			<Form.Field
 				className="flex flex-row flex-wrap gap-x-[1rem] text-[1.3rem] text-input"
 				control={control}
 				name={formVariant === "SignUp" ? "acceptTerms" : "rememberMe"}
 			>
 				<Form.Input type="checkbox" />
 
-				<Switch>
+				<Switch.Root>
 					<Switch.Match when={formVariant === "SignIn"}>
 						<p>Remember me</p>
 					</Switch.Match>
@@ -203,8 +203,8 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 
 						<Form.ErrorMessage control={control} className="text-error" errorField="acceptTerms" />
 					</Switch.Match>
-				</Switch>
-			</Form.Item>
+				</Switch.Root>
+			</Form.Field>
 
 			<Button
 				className={cnMerge(
