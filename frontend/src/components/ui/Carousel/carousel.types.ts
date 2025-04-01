@@ -1,4 +1,4 @@
-import type { EachProp, ForRenderProps } from "@/components/primitives/For/For";
+import type { ForRenderProps } from "@/components/primitives/For";
 import type { Prettify } from "@zayne-labs/toolkit/type-helpers";
 import type { StoreApi } from "zustand";
 
@@ -79,7 +79,7 @@ export type CarouselIndicatorProps = {
 	currentIndex: number;
 };
 
-type BaseWrapperProps<TArrayItem> = Prettify<ForRenderProps<TArrayItem> & Partial<EachProp<TArrayItem>>>;
+type BaseWrapperProps<TArrayItem> = Prettify<ForRenderProps<TArrayItem> & { each?: TArrayItem[] }>;
 
 export type CarouselWrapperProps<TArrayItem> = BaseWrapperProps<TArrayItem> & {
 	className?: string;

@@ -21,7 +21,7 @@ function Home() {
 			<Categories />
 
 			<section id="Products Section" className="flex flex-col gap-[6rem] px-[2rem] pt-[6rem]">
-				<Show when={!isPending}>
+				<Show.Root when={!isPending}>
 					<HotSalesProducts data={hotSalesProductsArray} />
 					<RecentProducts data={recentlyViewedProductsArray} />
 					<SimilarProducts data={similarProductsArray} />
@@ -29,7 +29,7 @@ function Home() {
 					<Show.Fallback>
 						<LoadingSkeleton count={15} />
 					</Show.Fallback>
-				</Show>
+				</Show.Root>
 			</section>
 		</>
 	);

@@ -41,7 +41,7 @@ function CartDrawer(props: CartDrawerProps) {
 				</Drawer.Header>
 
 				<Drawer.Body className={"px-[1.3rem] pt-[4rem] lg:px-[2rem]"}>
-					<Show when={cart.length > 0}>
+					<Show.Root when={cart.length > 0}>
 						<CartItemsList
 							className="flex min-h-[14rem] flex-col gap-[1rem]"
 							each={cart}
@@ -56,7 +56,7 @@ function CartDrawer(props: CartDrawerProps) {
 								</p>
 							</div>
 						</Show.Fallback>
-					</Show>
+					</Show.Root>
 
 					<div className="mt-[4rem] px-[1rem] lg:px-[2.6rem]">
 						<p className="flex justify-between text-[1.8rem] font-[600]">

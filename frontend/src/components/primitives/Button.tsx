@@ -2,8 +2,8 @@ import type { InferProps, PolymorphicProps } from "@zayne-labs/toolkit/react/uti
 import { type VariantProps, tv } from "tailwind-variants";
 import { Slot } from "./Slot";
 
-export type ButtonProps = InferProps<"button"> &
-	VariantProps<typeof button> & {
+export type ButtonProps = InferProps<"button">
+	& VariantProps<typeof button> & {
 		asChild?: boolean;
 		text?: string;
 		unstyled?: boolean;

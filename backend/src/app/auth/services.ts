@@ -3,7 +3,9 @@ import { ENVIRONMENT } from "@/config/env";
 import { sendEmail } from "@/services/email";
 import { getDomainReferer } from "@/utils";
 import bcryptjs from "bcryptjs";
-import jwt, { type SignOptions } from "jsonwebtoken";
+
+// eslint-disable-next-line import/default
+import jwt from "jsonwebtoken";
 import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 
 type JwtOptions<TExtraOptions> = TExtraOptions & {
@@ -36,7 +38,7 @@ export const encodeJwtToken = <TDecodedPayload extends Record<string, unknown> =
 	return encodedToken;
 };
 
-export function generateAccessToken(this: HydratedUserType, options: SignOptions = {}) {
+export function generateAccessToken(this: HydratedUserType, options: jwt.SignOptions = {}) {
 	const { expiresIn = ENVIRONMENT.ACCESS_JWT_EXPIRES_IN } = options;
 
 	const payLoad = { id: this.id };
@@ -46,7 +48,7 @@ export function generateAccessToken(this: HydratedUserType, options: SignOptions
 	return accessToken;
 }
 
-export function generateRefreshToken(this: HydratedUserType, options: SignOptions = {}) {
+export function generateRefreshToken(this: HydratedUserType, options: jwt.SignOptions = {}) {
 	const { expiresIn = ENVIRONMENT.REFRESH_JWT_EXPIRES_IN } = options;
 
 	const payLoad = { id: this.id };

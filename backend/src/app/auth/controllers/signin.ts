@@ -65,11 +65,13 @@ const signIn = catchAsync<{
 		maxAge: ENVIRONMENT.REFRESH_JWT_EXPIRES_IN,
 	});
 
-	const existingRefreshTokenArray = user.refreshTokenArray.includes(zayneRefreshToken)
-		? user.refreshTokenArray.filter((token) => token !== zayneRefreshToken)
-		: [];
+	// == If the refresh token is not present in the array, clear the user's refresh token array by returning an empty array (To prevent token reuse)
+	// == Else, remove the old refresh token from the array
+	const existingRefreshTokenArray = !user.refreshTokenArray.includes(zayneRefreshToken)
+		? []
+		: user.refreshTokenArray.filter((token) => token !== zayneRefreshToken);
 
-	// == update user loginRetries to 0 and lastLogin to current time
+	// == Update user loginRetries to 0 and lastLogin to current time
 	const updatedUser = await UserModel.findByIdAndUpdate(
 		user.id,
 		{

@@ -1,10 +1,10 @@
 import type { Response } from "express";
 
-const AppResponse = <TExtraData extends Record<string, unknown>>(
+const AppResponse = (
 	res: Response,
 	statusCode: number,
 	message?: string,
-	extraData?: TExtraData
+	extraData?: Record<string, unknown>
 ) => {
 	const jsonResponse = {
 		status: "success",

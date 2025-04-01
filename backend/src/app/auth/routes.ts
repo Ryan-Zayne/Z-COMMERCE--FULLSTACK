@@ -10,6 +10,7 @@ router.post("/signin", signIn);
 router.post("/verify-email", verifyEmail);
 router.post("/resend-verification", resendVerificationEmail);
 
+// == Protected routes
 // router.use("/:endpoint", protect); // This always ends up hitting routes i don't want
 router.get("/session", protect, session);
 router.get("/signout", protect, signOut);
