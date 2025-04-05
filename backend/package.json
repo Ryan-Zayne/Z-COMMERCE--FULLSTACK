@@ -44,7 +44,7 @@
 		"@types/hpp": "^0.2.6",
 		"@types/jsonwebtoken": "^9.0.9",
 		"@types/morgan": "^1.9.9",
-		"@types/node": "^22.13.16",
+		"@types/node": "^22.14.0",
 		"@types/nodemailer": "^6.4.17",
 		"typescript": "^5.8.2"
 	}

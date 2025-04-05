@@ -6,6 +6,8 @@ import type { HydratedDocument } from "mongoose";
 import { catchAsync } from "../catchAsyncErrors";
 import { authenticateUser } from "./authenticateUser";
 
+// Create a new service in auth/services.ts
+
 const protect = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res, next) => {
 	// == Get the cookies from the request headers
 	const { zayneAccessToken, zayneRefreshToken } = req.signedCookies;
@@ -31,16 +33,14 @@ const protect = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res
 		maxAge: ENVIRONMENT.REFRESH_JWT_EXPIRES_IN,
 	});
 
-	// == If the refresh token is not present in the array, clear the user's refresh token array by returning an empty array (To prevent token reuse)
-	// == Else, remove the old refresh token from the array
-	const existingRefreshTokenArray = !currentUser.refreshTokenArray.includes(newZayneRefreshToken)
-		? []
-		: currentUser.refreshTokenArray.filter((token) => token !== newZayneRefreshToken);
+	const updatedTokenArray = [
+		...currentUser.refreshTokenArray.filter((token) => token !== zayneRefreshToken),
+		newZayneRefreshToken,
+	];
 
-	// == Update user loginRetries to 0 and lastLogin to current time
 	const updatedUser = await UserModel.findByIdAndUpdate(
 		currentUser.id,
-		{ newZayneRefreshToken, refreshTokenArray: [...existingRefreshTokenArray, newZayneRefreshToken] },
+		{ refreshTokenArray: updatedTokenArray },
 		{ new: true }
 	);
 
