@@ -4,6 +4,11 @@ import { useGlobalStore } from "@/store/zustand/globalStore";
 import { preload } from "react-dom";
 import { Outlet, useLocation } from "react-router";
 
+const desktopImage =
+	"https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/glitter.webp";
+const mobileImage =
+	"https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/yellow-cart-bg.webp";
+
 function AuthLayout() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 
@@ -12,29 +17,13 @@ function AuthLayout() {
 	const isLoginOrSignUpPath = pathname.endsWith("signin") || pathname.endsWith("signup");
 
 	if (isDesktop) {
-		preload("https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/glitter.webp", {
-			as: "image",
-		});
-
-		preload(
-			"https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/yellow-cart-bg.webp",
-			{
-				as: "image",
-			}
-		);
+		preload(desktopImage, { as: "image" });
+		preload(mobileImage, { as: "image" });
 	}
 
 	if (!isDesktop) {
-		preload(
-			"https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/yellow-cart-bg.webp",
-			{
-				as: "image",
-			}
-		);
-
-		preload("https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/glitter.webp", {
-			as: "image",
-		});
+		preload(mobileImage, { as: "image" });
+		preload(desktopImage, { as: "image" });
 	}
 
 	return (

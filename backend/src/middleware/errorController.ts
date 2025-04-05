@@ -2,6 +2,8 @@ import { omitKeys } from "@zayne-labs/toolkit/core";
 import { isObject } from "@zayne-labs/toolkit/type-helpers";
 import { consola } from "consola";
 import type { ErrorRequestHandler } from "express";
+
+// eslint-disable-next-line import/default
 import jwt from "jsonwebtoken";
 import { Error as MongooseError } from "mongoose";
 import { type ErrorCodesUnion, errorCodes, isDevMode } from "../constants";

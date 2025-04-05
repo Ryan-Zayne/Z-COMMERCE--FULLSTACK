@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { Link } from "react-router";
 import { IconBox } from "../primitives/IconBox";
 
-type SearchFormProps = Pick<ButtonProps, "size" | "text" | "theme" | "variant"> & {
+type SearchFormProps = Pick<ButtonProps, "size" | "theme" | "variant"> & {
 	buttonIcon?: string;
 
 	classNames?: {
@@ -17,8 +17,10 @@ type SearchFormProps = Pick<ButtonProps, "size" | "text" | "theme" | "variant"> 
 		dropDown?: string;
 		input?: string;
 	};
+
 	isSearchShow?: boolean;
 	placeholder?: string;
+	text?: string;
 	type?: "search" | "subscribe";
 };
 

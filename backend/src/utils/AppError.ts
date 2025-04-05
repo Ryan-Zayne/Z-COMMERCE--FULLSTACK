@@ -11,12 +11,14 @@ class AppError extends Error {
 		message: string,
 		options: ErrorOptions & { errors?: unknown } = {}
 	) {
-		super(message, options);
+		const { cause, errors } = options;
+
+		super(message, { cause });
 
 		this.statusCode = statusCode;
 		this.status = String(statusCode).startsWith("5") ? "Failed" : "Error";
 		this.isOperational = true;
-		this.errors = options.errors;
+		this.errors = errors;
 
 		Error.captureStackTrace(this, this.constructor);
 	}
