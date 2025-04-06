@@ -6,8 +6,8 @@ import {
 import { callDummyApi } from "@/lib/api/callDummyApi";
 import { queryOptions } from "@tanstack/react-query";
 import type { CallApiExtraOptions } from "@zayne-labs/callapi";
-import { hardNavigate } from "@zayne-labs/toolkit/core";
-import { defineEnum } from "@zayne-labs/toolkit/type-helpers";
+import { hardNavigate } from "@zayne-labs/toolkit-core";
+import { defineEnum } from "@zayne-labs/toolkit-type-helpers";
 import { toast } from "sonner";
 
 // TODO - Remove once you start serving the products from your backend

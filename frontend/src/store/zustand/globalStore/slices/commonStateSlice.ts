@@ -1,4 +1,4 @@
-import { lockScroll } from "@zayne-labs/toolkit/core";
+import { lockScroll } from "@zayne-labs/toolkit-core";
 import type { StateCreator } from "zustand";
 import type { CommonStateSlice, GlobalStore } from "../../types";
 

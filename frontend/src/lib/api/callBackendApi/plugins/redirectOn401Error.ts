@@ -1,6 +1,6 @@
 import { definePlugin } from "@zayne-labs/callapi";
-import { hardNavigate } from "@zayne-labs/toolkit/core";
-import { isObject } from "@zayne-labs/toolkit/type-helpers";
+import { hardNavigate } from "@zayne-labs/toolkit-core";
+import { isObject } from "@zayne-labs/toolkit-type-helpers";
 import { toast } from "sonner";
 
 type Context = {

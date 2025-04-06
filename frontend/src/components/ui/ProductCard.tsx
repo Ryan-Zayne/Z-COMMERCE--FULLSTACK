@@ -5,7 +5,7 @@ import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/types";
-import { useToggle } from "@zayne-labs/toolkit/react";
+import { useToggle } from "@zayne-labs/toolkit-react";
 import { m } from "motion/react";
 import { Link } from "react-router";
 

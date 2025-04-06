@@ -4,7 +4,7 @@ import Logo from "@/components/primitives/Logo";
 import DropDown from "@/components/ui/DropDown/DropDown";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { useDisclosure } from "@zayne-labs/toolkit/react";
+import { useDisclosure } from "@zayne-labs/toolkit-react";
 import { m } from "motion/react";
 
 function FooterDropDowns() {

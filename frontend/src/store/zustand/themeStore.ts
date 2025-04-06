@@ -1,5 +1,5 @@
-import { isBrowser, on } from "@zayne-labs/toolkit/core";
-import { isObject } from "@zayne-labs/toolkit/type-helpers";
+import { isBrowser, on } from "@zayne-labs/toolkit-core";
+import { isObject } from "@zayne-labs/toolkit-type-helpers";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ThemeStore } from "./types";

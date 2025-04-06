@@ -1,5 +1,5 @@
-import { useConstant } from "@zayne-labs/toolkit/react";
-import { createZustandContext } from "@zayne-labs/toolkit/react/zustand";
+import { useConstant } from "@zayne-labs/toolkit-react";
+import { createZustandContext } from "@zayne-labs/toolkit-react/zustand";
 import { useEffect } from "react";
 import { create } from "zustand";
 import type { DrawerProviderProps, DrawerStore } from "./drawer.types";

@@ -1,6 +1,6 @@
 import { Slot } from "@/components/primitives";
 import { cnMerge } from "@/lib/utils/cn";
-import type { PolymorphicProps } from "@zayne-labs/toolkit/react/utils";
+import type { PolymorphicProps } from "@zayne-labs/toolkit-react/utils";
 
 type DropDownProps = React.ComponentPropsWithoutRef<"div">;
 

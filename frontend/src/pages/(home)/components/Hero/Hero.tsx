@@ -1,7 +1,7 @@
 import { Button, ImageComponent } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { Carousel } from "@/components/ui";
-import { useAnimateElementRefs } from "@zayne-labs/toolkit/react";
+import { useAnimateElementRefs } from "@zayne-labs/toolkit-react";
 import { slideImages } from "./images";
 
 function Hero() {

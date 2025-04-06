@@ -1,5 +1,5 @@
-import { omitKeys } from "@zayne-labs/toolkit/core";
-import { isObject } from "@zayne-labs/toolkit/type-helpers";
+import { omitKeys } from "@zayne-labs/toolkit-core";
+import { isObject } from "@zayne-labs/toolkit-type-helpers";
 import { consola } from "consola";
 import type { ErrorRequestHandler } from "express";
 

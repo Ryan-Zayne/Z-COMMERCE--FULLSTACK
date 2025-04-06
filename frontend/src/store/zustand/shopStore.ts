@@ -12,10 +12,12 @@ const toastMessages = {
 // Store Object creation
 const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 	cart: [],
+	/* eslint-disable perfectionist/sort-objects */
 	wishList: [],
 
-	// eslint-disable-next-line perfectionist/sort-objects
 	actions: {
+		/* eslint-enable perfectionist/sort-objects */
+
 		addToCart: (productItem) => {
 			const { cart } = get();
 

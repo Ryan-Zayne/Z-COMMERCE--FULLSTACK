@@ -1,5 +1,5 @@
 import { type CallApiParameters, type ResultModeUnion, createFetchClient } from "@zayne-labs/callapi";
-import type { AnyFunction } from "@zayne-labs/toolkit/type-helpers";
+import type { AnyFunction } from "@zayne-labs/toolkit-type-helpers";
 import { redirectOn401Error } from "./plugins";
 
 export type ApiSuccessType<TData> = {

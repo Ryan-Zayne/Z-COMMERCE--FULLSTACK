@@ -1,4 +1,4 @@
-import type { InferProps, PolymorphicProps } from "@zayne-labs/toolkit/react/utils";
+import type { InferProps, PolymorphicProps } from "@zayne-labs/toolkit-react/utils";
 import { type VariantProps, tv } from "tailwind-variants";
 import { SpinnerIcon } from "../icons";
 import { Slot, Slottable } from "./Slot";

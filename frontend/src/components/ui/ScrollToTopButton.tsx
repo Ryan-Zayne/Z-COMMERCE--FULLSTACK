@@ -1,5 +1,5 @@
 import { cnMerge } from "@/lib/utils/cn";
-import { useScrollObserver } from "@zayne-labs/toolkit/react";
+import { useScrollObserver } from "@zayne-labs/toolkit-react";
 import { Button, IconBox } from "../primitives";
 
 function ScrollToTopButton() {
