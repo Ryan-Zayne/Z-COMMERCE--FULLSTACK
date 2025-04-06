@@ -9,7 +9,7 @@ import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { useQuery } from "@tanstack/react-query";
-import { useDisclosure, useToggle } from "@zayne-labs/toolkit/react";
+import { useDisclosure, useToggle } from "@zayne-labs/toolkit-react";
 import { useEffect } from "react";
 import { Link } from "react-router";
 import CartDrawer from "./Cart/CartDrawer";
@@ -48,8 +48,8 @@ const NavIcons = () => {
 				isSearchShow={isSearchShow}
 				classNames={{
 					base: cnMerge(
-						isMobile &&
-							`absolute inset-x-0 top-[6.1rem] flex h-0 justify-center overflow-y-hidden
+						isMobile
+							&& `absolute inset-x-0 top-[6.1rem] flex h-0 justify-center overflow-y-hidden
 							rounded-[0_0_5px_5px] bg-body px-[2rem] transition-[height] duration-[400ms] ease-out`,
 						isSearchShow && "h-[8.1rem] duration-[600ms] ease-[ease]"
 					),

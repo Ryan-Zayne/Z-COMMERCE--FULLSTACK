@@ -1,9 +1,9 @@
 import { Icon, type IconProps } from "@iconify/react";
 import { Monicon, type MoniconProps } from "@monicon/react";
-import { isString } from "@zayne-labs/toolkit/type-helpers";
+import { isString } from "@zayne-labs/toolkit-type-helpers";
 
-type IconBoxProps = IconProps &
-	Omit<MoniconProps, "name"> & {
+type IconBoxProps = IconProps
+	& Omit<MoniconProps, "name"> & {
 		type?: "local" | "online";
 	};
 

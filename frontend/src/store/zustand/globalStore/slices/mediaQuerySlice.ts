@@ -1,5 +1,5 @@
 import { desktopQuery, mobileQuery, tabletQuery } from "@/lib/utils/constants";
-import { on } from "@zayne-labs/toolkit/core";
+import { on } from "@zayne-labs/toolkit-core";
 import type { StateCreator } from "zustand";
 import type { GlobalStore, MediaQuerySlice } from "../../types";
 

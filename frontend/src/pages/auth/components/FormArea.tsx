@@ -8,7 +8,7 @@ import { type FormSchemaType, LoginSchema, SignUpSchema } from "@/lib/schemas/fo
 import { cnMerge } from "@/lib/utils/cn";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
-import { lockScroll } from "@zayne-labs/toolkit/core";
+import { lockScroll } from "@zayne-labs/toolkit-core";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 
@@ -206,7 +206,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 				</Switch.Root>
 			</Form.Field>
 
-			<Form.StateSubscribe
+			<Form.SubscribeToFormState
 				render={(formState) => (
 					<Button
 						className={cnMerge(

@@ -10,7 +10,7 @@ const SCHEMA_LOOKUP = new Map<string, ZodSchema>([
 
 const methodsToSkip = new Set(["GET"]);
 
-const validateDataWithZod = catchAsync<{ path: string }>((req, res, next) => {
+const validateDataWithZod = catchAsync<{ path: string }>((req, _res, next) => {
 	const apiVersionRegex = /v\d+/;
 
 	// eslint-disable-next-line ts-eslint/no-non-null-assertion

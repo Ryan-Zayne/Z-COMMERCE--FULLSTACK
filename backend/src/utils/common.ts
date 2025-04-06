@@ -1,6 +1,6 @@
 import type { HydratedUserType, UserType } from "@/app/users/types";
-import { omitKeys } from "@zayne-labs/toolkit/core";
-import type { UnmaskType } from "@zayne-labs/toolkit/type-helpers";
+import { omitKeys } from "@zayne-labs/toolkit-core";
+import type { UnmaskType } from "@zayne-labs/toolkit-type-helpers";
 import { consola } from "consola";
 import type { CookieOptions, Response } from "express";
 import type { AnyObject } from "mongoose";

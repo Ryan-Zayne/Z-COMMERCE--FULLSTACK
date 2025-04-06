@@ -3,7 +3,7 @@ import { IconBox } from "@/components/primitives/IconBox";
 import DropDown from "@/components/ui/DropDown/DropDown";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { useDisclosure } from "@zayne-labs/toolkit/react";
+import { useDisclosure } from "@zayne-labs/toolkit-react";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router";
 
@@ -48,8 +48,8 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 			<Link
 				to={category.path}
 				className={cnJoin(
-					isDesktopDevice &&
-						`flex items-center justify-between py-[1rem]
+					isDesktopDevice
+						&& `flex items-center justify-between py-[1rem]
 						[border-bottom:1px_solid_theme('colors.primary')]`
 				)}
 			>

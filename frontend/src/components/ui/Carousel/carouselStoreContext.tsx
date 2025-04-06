@@ -1,6 +1,6 @@
-import { useConstant } from "@zayne-labs/toolkit/react";
-import { createZustandContext } from "@zayne-labs/toolkit/react/zustand";
-import type { PrettyOmit } from "@zayne-labs/toolkit/type-helpers";
+import { useConstant } from "@zayne-labs/toolkit-react";
+import { createZustandContext } from "@zayne-labs/toolkit-react/zustand";
+import type { PrettyOmit } from "@zayne-labs/toolkit-type-helpers";
 import { useEffect } from "react";
 import { create } from "zustand";
 import type { CarouselProviderProps, CarouselStore, ImagesType } from "./carousel.types";
@@ -19,11 +19,13 @@ const createCarouselStore = <TImages extends ImagesType>(
 
 	const useInitCarouselStore = create<CarouselStore<TImages>>()((set, get) => ({
 		currentSlide: 0,
+		/* eslint-disable perfectionist/sort-objects */
 		images,
 		maxSlide: images.length - 1,
 
-		// eslint-disable-next-line perfectionist/sort-objects
 		actions: {
+			/* eslint-enable perfectionist/sort-objects */
+
 			goToSlide: (newValue) => {
 				onSlideBtnClick?.();
 

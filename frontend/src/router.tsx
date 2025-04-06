@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useMountEffect } from "@zayne-labs/toolkit/react";
+import { useMountEffect } from "@zayne-labs/toolkit-react";
 import { lazy } from "react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router";
 import { useQueryClientStore } from "./store/react-query/queryClientStore";

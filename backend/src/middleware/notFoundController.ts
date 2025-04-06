@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils";
 
-const notFoundController = (req: Request, res: Response, next: NextFunction) => {
+const notFoundController = (req: Request, _res: Response, next: NextFunction) => {
 	const error = new AppError(
 		404,
 		`No '${req.method.toUpperCase()}' request handler defined for '${

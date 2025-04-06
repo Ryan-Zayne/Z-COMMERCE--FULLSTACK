@@ -7,16 +7,17 @@
 		"node": ">=20.0.0"
 	},
 	"scripts": {
-		"check-types": "tsc --incremental --pretty p tsconfig.json ",
 		"dev": "tsx --env-file=.env src/server.ts --clear-screen=false",
 		"dev:watch": "tsx --env-file=.env --watch src/server.ts --clear-screen=false",
+		"lint:type-check": "tsc --pretty --incremental -p tsconfig.json",
 		"start": "tsx src/server.ts",
 		"start:test": "cross-env NODE_ENV=production tsx --env-file=.env ./src/server.ts"
 	},
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
 		"@z-commerce/shared": "workspace:*",
-		"@zayne-labs/toolkit": "^0.9.2",
+		"@zayne-labs/toolkit-core": "^0.9.2",
+		"@zayne-labs/toolkit-type-helpers": "^0.9.2",
 		"@zayne-labs/tsconfig": "^0.7.9",
 		"bcryptjs": "^3.0.2",
 		"consola": "^3.4.2",

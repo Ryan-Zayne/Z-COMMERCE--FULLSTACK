@@ -2,7 +2,7 @@ import { Button, type ButtonProps, getElementList } from "@/components/primitive
 import { cnMerge } from "@/lib/utils/cn";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { useSearch } from "@zayne-labs/toolkit/react";
+import { useSearch } from "@zayne-labs/toolkit-react";
 import { useEffect } from "react";
 import { Link } from "react-router";
 import { IconBox } from "../primitives/IconBox";
