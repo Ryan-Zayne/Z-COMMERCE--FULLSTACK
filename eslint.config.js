@@ -22,6 +22,7 @@ export default zayne(
 	{
 		files: ["backend/src/**/*.ts"],
 		rules: {
+			"import/default": "off",
 			"import/no-named-as-default-member": "off",
 		},
 	}

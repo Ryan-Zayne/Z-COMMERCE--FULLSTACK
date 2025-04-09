@@ -5,8 +5,6 @@ import { ENVIRONMENT } from "@/config/env";
 import { AppError } from "@/utils";
 import { defineEnum } from "@zayne-labs/toolkit-type-helpers";
 import { consola } from "consola";
-
-// eslint-disable-next-line import/default
 import jwt from "jsonwebtoken";
 import type { HydratedDocument } from "mongoose";
 

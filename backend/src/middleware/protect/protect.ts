@@ -34,7 +34,9 @@ const protect = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res
 	});
 
 	const updatedTokenArray = [
-		...currentUser.refreshTokenArray.filter((token) => token !== zayneRefreshToken),
+		...(zayneRefreshToken
+			? currentUser.refreshTokenArray.filter((t) => t !== zayneRefreshToken)
+			: currentUser.refreshTokenArray),
 		newZayneRefreshToken,
 	];
 

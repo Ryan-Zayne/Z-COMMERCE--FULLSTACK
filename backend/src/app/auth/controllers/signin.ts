@@ -1,73 +1,10 @@
 import { UserModel } from "@/app/users/model";
-import type { HydratedUserType, UserType } from "@/app/users/types";
+import type { HydratedUserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
 import { differenceInHours } from "date-fns";
-import type { HydratedDocument } from "mongoose";
-import { decodeJwtToken, sendVerificationEmail } from "../services";
-
-// eslint-disable-next-line import/default
-import jwt from "jsonwebtoken";
-
-type Context = {
-	currentUser: HydratedDocument<UserType>;
-	newZayneRefreshToken: string;
-	zayneRefreshToken: string;
-};
-
-const manageTokenRefresh = async (context: Context) => {
-	const { currentUser, newZayneRefreshToken, zayneRefreshToken } = context;
-
-	// If there's no reuse, simply filter
-	if (currentUser.refreshTokenArray.includes(zayneRefreshToken)) {
-		const updatedTokenArray = [
-			...currentUser.refreshTokenArray.filter((t) => t !== zayneRefreshToken),
-			newZayneRefreshToken,
-		];
-
-		const updatedUser = await UserModel.findByIdAndUpdate(
-			currentUser.id,
-			{ refreshTokenArray: updatedTokenArray },
-			{ new: true }
-		);
-
-		return updatedUser;
-	}
-
-	try {
-		decodeJwtToken(zayneRefreshToken, {
-			secretKey: ENVIRONMENT.REFRESH_SECRET,
-		});
-
-		const updatedTokenArray = [newZayneRefreshToken];
-
-		// If we get here, token is valid but not in array - security breach!
-		// Clear all tokens and only keep the new one
-		const updatedUser = await UserModel.findByIdAndUpdate(
-			currentUser.id,
-			{ refreshTokenArray: updatedTokenArray },
-			{ new: true }
-		);
-
-		return updatedUser;
-
-		// If the token is invalid or expired, add the new token
-	} catch (error) {
-		if (error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError) {
-			// Token is invalid or expired - just add the new token
-			const updatedUser = await UserModel.findByIdAndUpdate(
-				currentUser.id,
-				{ refreshTokenArray: [...currentUser.refreshTokenArray, newZayneRefreshToken] },
-				{ new: true }
-			);
-
-			return updatedUser;
-		}
-
-		throw error;
-	}
-};
+import { sendVerificationEmail } from "../services";
 
 // @route POST /api/auth/login
 // @access Public
@@ -129,17 +66,19 @@ const signIn = catchAsync<{
 	});
 
 	const updatedTokenArray = [
-		...currentUser.refreshTokenArray.filter((t) => t !== zayneRefreshToken),
+		...(zayneRefreshToken
+			? currentUser.refreshTokenArray.filter((t) => t !== zayneRefreshToken)
+			: currentUser.refreshTokenArray),
 		newZayneRefreshToken,
 	];
 
 	const updatedUser = await UserModel.findByIdAndUpdate(
 		currentUser.id,
 		{
-			lastLogin: Date.now(),
 			// == Update user loginRetries to 0 and lastLogin to current time
 			loginRetries: 0,
-			newZayneRefreshToken,
+			// eslint-disable-next-line perfectionist/sort-objects
+			lastLogin: Date.now(),
 			refreshTokenArray: updatedTokenArray,
 		},
 		{ new: true }
