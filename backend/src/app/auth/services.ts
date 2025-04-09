@@ -3,8 +3,6 @@ import { ENVIRONMENT } from "@/config/env";
 import { sendEmail } from "@/services/email";
 import { getDomainReferer } from "@/utils";
 import bcryptjs from "bcryptjs";
-
-// eslint-disable-next-line import/default
 import jwt from "jsonwebtoken";
 import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 
