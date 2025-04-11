@@ -1,93 +1,70 @@
-import { isBrowser, on } from "@zayne-labs/toolkit-core";
-import { isObject } from "@zayne-labs/toolkit-type-helpers";
+import { isBrowser } from "@zayne-labs/toolkit-core";
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type ThemeStore = {
 	actions: {
 		initThemeOnLoad: () => void;
+		setTheme: (newTheme: "dark" | "light") => void;
 		toggleTheme: () => void;
 	};
 	isDarkMode: boolean;
+
+	systemTheme: "dark" | "light";
 
 	theme: "dark" | "light" | "system";
 };
 
 const prefersDarkMode = isBrowser() && globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
 
-const systemTheme = prefersDarkMode ? "dark" : "light";
-
-// Store Object Initializtion
+// Store Object Initialization
 const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
-	isDarkMode: systemTheme === "dark",
+	isDarkMode: prefersDarkMode,
 
 	/* eslint-disable perfectionist/sort-objects */
-	theme: systemTheme,
+	theme: "system",
+
+	systemTheme: prefersDarkMode ? "dark" : "light",
 
 	actions: {
 		initThemeOnLoad: () => {
-			const { theme: persistedTheme } = get();
+			const { theme: persistedTheme, systemTheme } = get();
 
-			if (persistedTheme === "system") {
-				document.documentElement.dataset.theme = systemTheme;
-				return;
-			}
+			document.documentElement.dataset.theme =
+				persistedTheme === "system" ? systemTheme : persistedTheme;
+		},
 
-			document.documentElement.dataset.theme = persistedTheme;
+		setTheme: (newTheme: "dark" | "light") => {
+			document.documentElement.dataset.theme = newTheme;
+
+			set({ isDarkMode: newTheme === "dark", theme: newTheme });
 		},
 
 		toggleTheme: () => {
-			const { theme: persistedTheme } = get();
+			const {
+				theme: persistedTheme,
+				systemTheme,
+				actions: { setTheme },
+			} = get();
 
-			if (persistedTheme === "system") {
-				document.documentElement.dataset.theme = systemTheme;
+			const currentTheme = persistedTheme === "system" ? systemTheme : persistedTheme;
 
-				on("transitionend", document.documentElement, () => {
-					document.documentElement.removeAttribute("class");
-				});
+			const newTheme = currentTheme === "light" ? "dark" : "light";
 
-				set({ isDarkMode: systemTheme === "dark", theme: systemTheme });
-
-				return;
-			}
-
-			const newTheme = persistedTheme === "light" ? "dark" : "light";
-
-			document.documentElement.dataset.theme = newTheme;
-
-			on("transitionend", document.documentElement, () => {
-				document.documentElement.removeAttribute("class");
-			});
-
-			set({ isDarkMode: newTheme === "dark", theme: newTheme });
+			setTheme(newTheme);
 		},
 	},
 	/* eslint-enable perfectionist/sort-objects */
 });
 
-const assertState = (state: unknown) => {
-	if (!isObject(state)) {
-		throw new Error("Invalid app state");
-	}
-
-	return state;
-};
-
 // Store hook Creation
 export const useThemeStore = create<ThemeStore>()(
 	persist(themeStoreObjectFn, {
-		migrate: (persistedState) => {
-			const validPersistedState = assertState(persistedState);
-
-			return validPersistedState;
-		},
+		migrate: (persistedState) => persistedState,
 
 		name: "colorScheme",
 
-		partialize: ({ theme }) => ({ theme }),
+		partialize: ({ isDarkMode, theme }) => ({ isDarkMode, theme }),
 		version: 1,
 	})
 );
-
-// Actions hook
-export const useThemeActions = () => useThemeStore((state) => state.actions);

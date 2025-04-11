@@ -69,7 +69,7 @@ function VerifyEmailPage() {
 										Resend in <Timer.Item type="seconds" /> seconds
 									</Timer.Area>
 
-									<Show.OtherWise>Resend Email</Show.OtherWise>
+									<Show.Otherwise>Resend Email</Show.Otherwise>
 								</Show.Root>
 							</Button>
 						)}

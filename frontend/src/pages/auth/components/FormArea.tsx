@@ -207,14 +207,14 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 			</Form.Field>
 
 			<Form.SubscribeToFormState
-				render={(formState) => (
+				render={({ isSubmitting }) => (
 					<Button
 						className={cnMerge(
 							"mt-[1.5rem] rounded-[1rem] text-[1.7rem] font-[600]",
-							formState.isSubmitting && "cursor-not-allowed brightness-[0.5]"
+							isSubmitting && "cursor-not-allowed brightness-[0.5]"
 						)}
-						isLoading={formState.isSubmitting}
-						disabled={formState.isSubmitting}
+						isLoading={isSubmitting}
+						disabled={isSubmitting}
 						theme="secondary"
 						type="submit"
 					>
