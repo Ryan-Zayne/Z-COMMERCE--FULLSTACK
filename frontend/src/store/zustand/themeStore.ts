@@ -19,16 +19,19 @@ const prefersDarkMode = isBrowser() && globalThis.matchMedia("(prefers-color-sch
 
 // Store Object Initialization
 const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
-	isDarkMode: prefersDarkMode,
-
 	/* eslint-disable perfectionist/sort-objects */
+
 	theme: "system",
 
 	systemTheme: prefersDarkMode ? "dark" : "light",
 
+	isDarkMode: prefersDarkMode,
+
 	actions: {
+		/* eslint-enable perfectionist/sort-objects */
+
 		initThemeOnLoad: () => {
-			const { theme: persistedTheme, systemTheme } = get();
+			const { systemTheme, theme: persistedTheme } = get();
 
 			document.documentElement.dataset.theme =
 				persistedTheme === "system" ? systemTheme : persistedTheme;
@@ -41,20 +44,15 @@ const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
 		},
 
 		toggleTheme: () => {
-			const {
-				theme: persistedTheme,
-				systemTheme,
-				actions: { setTheme },
-			} = get();
+			const { actions, systemTheme, theme: persistedTheme } = get();
 
 			const currentTheme = persistedTheme === "system" ? systemTheme : persistedTheme;
 
 			const newTheme = currentTheme === "light" ? "dark" : "light";
 
-			setTheme(newTheme);
+			actions.setTheme(newTheme);
 		},
 	},
-	/* eslint-enable perfectionist/sort-objects */
 });
 
 // Store hook Creation
