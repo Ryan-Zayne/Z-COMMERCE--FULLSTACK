@@ -1,6 +1,13 @@
-import type { QueryClient } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { create } from "zustand";
 
-export const useQueryClientStore = create<{ queryClient: QueryClient }>()(() => ({
-	queryClient: null as never,
-}));
+export const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			gcTime: 10 * (60 * 1000),
+			staleTime: Infinity,
+		},
+	},
+});
+
+export const useQueryClientStore = create<{ queryClient: QueryClient }>()(() => ({ queryClient }));
