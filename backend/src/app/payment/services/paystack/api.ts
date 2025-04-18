@@ -65,6 +65,7 @@ export const verifyTransaction = async (reference: string) => {
 
 	return {
 		data: payload,
+		message: "Transaction verified successfully",
 		success: true,
 	};
 };

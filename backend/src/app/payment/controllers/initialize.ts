@@ -20,7 +20,7 @@ const initialize = catchAsync<{
 	});
 
 	if (!transactionResult.success || !transactionResult.data) {
-		throw new AppError(500, "Error processing payment, try again later");
+		throw new AppError(400, "Error processing payment, try again later");
 	}
 
 	const payment = await PaymentModel.create({

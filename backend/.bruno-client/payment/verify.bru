@@ -1,0 +1,17 @@
+meta {
+  name: verify
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL-dev}}/payment/paystack/verify
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "reference": "Z-RF_effb1ca4-eebb-4746-93c5-0bcaf6411810"
+  }
+}
