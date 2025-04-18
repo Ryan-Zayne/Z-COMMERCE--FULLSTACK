@@ -10,6 +10,8 @@ export const PaymentBodySchema = z.object({
 			quantity: z.number(),
 		})
 	),
+	customerEmail: z.string().email(),
+	customerId: z.string(),
 	redirectURL: z.string().url({ message: "Invalid redirect URL" }).optional(),
 });
 
