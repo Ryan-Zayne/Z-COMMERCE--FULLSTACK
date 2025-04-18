@@ -1,14 +1,14 @@
-import { Button, Form, LoadingSpinner, Show, Switch } from "@/components/primitives";
+import { Button, Form, Show, Switch } from "@/components/primitives";
 import {
 	type FormErrorResponseType,
 	type UserSessionData,
 	callBackendApi,
 } from "@/lib/api/callBackendApi";
-import { type FormSchemaType, LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
+import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
-import { lockScroll } from "@zayne-labs/toolkit/core";
+import { lockScroll } from "@zayne-labs/toolkit-core";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 
@@ -28,11 +28,13 @@ const typedObjectEntries = <TObject extends Record<string, unknown>>(obj: TObjec
 function FormArea({ classNames, formVariant }: FormAreaProps) {
 	const navigate = useNavigate();
 
-	const methods = useForm<FormSchemaType>({
-		resolver: standardSchemaResolver((formVariant === "SignUp" ? SignUpSchema : LoginSchema) as never),
+	const methods = useForm<FormBodySchemaType>({
+		resolver: standardSchemaResolver(
+			(formVariant === "SignUp" ? SignupBodySchema : SigninBodySchema) as never
+		),
 	});
 
-	const { control, formState, handleSubmit, setError } = methods;
+	const { control, handleSubmit, setError } = methods;
 
 	const onSubmit = handleSubmit(async (formDataObj) => {
 		lockScroll({ isActive: true });
@@ -49,7 +51,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 		if (isHTTPError(error) && error.errorData.errors) {
 			const zodErrorDetails = error.errorData.errors;
 
-			// == My Form.ErrorMessage component handles arrays as messages, hence the need for this cast
+			// == Form.ErrorMessage component handles arrays as messages, hence the need for this cast
 			setError("root.serverError", {
 				message: zodErrorDetails.formErrors as unknown as string,
 			});
@@ -91,16 +93,14 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 
 	return (
 		<Form.Root
+			methods={methods}
 			className={cnMerge(
-				`mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.8rem] lg:[&_input]:text-[1.6rem]
+				`mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.4rem] lg:[&_input]:text-[1.6rem]
 				[&_label]:text-[1.2rem]`,
 				classNames?.form
 			)}
-			methods={methods}
 			onSubmit={(event) => void onSubmit(event)}
 		>
-			{formState.isSubmitting && <LoadingSpinner variant={"auth"} />}
-
 			<Show.Root when={formVariant === "SignUp"}>
 				<Form.Field control={control} name="username">
 					<Form.Label>Username</Form.Label>
@@ -139,8 +139,9 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 				<Form.Input
 					classNames={{
 						error: semanticClasses.error,
-						inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
-						text-input focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
+						input: "min-h-[3.2rem]",
+						inputGroup: `border-b-[2px] border-b-carousel-btn bg-transparent text-input
+						focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 					}}
 					type="password"
 				/>
@@ -184,37 +185,44 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 			>
 				<Form.Input type="checkbox" />
 
-				<Switch.Root>
-					<Switch.Match when={formVariant === "SignIn"}>
-						<p>Remember me</p>
+				<Switch.Root condition={formVariant}>
+					<Switch.Match when="SignIn">
+						<Form.Label>Remember me</Form.Label>
 					</Switch.Match>
 
-					<Switch.Match when={formVariant === "SignUp"}>
+					<Switch.Match when="SignUp">
 						<div className="flex">
-							<p>I agree to all</p>
-
-							<Link
-								className={"ml-[0.5rem] font-[500] underline hover:text-[hsl(214,89%,53%)]"}
-								to="#terms"
-							>
-								Terms & Conditions
-							</Link>
+							<Form.Label>
+								I agree to all
+								<Link
+									className="ml-[0.5rem] font-[500] underline hover:text-[hsl(214,89%,53%)]"
+									to="#terms"
+								>
+									Terms & Conditions
+								</Link>
+							</Form.Label>
 						</div>
 
-						<Form.ErrorMessage control={control} className="text-error" errorField="acceptTerms" />
+						<Form.ErrorMessage control={control} className="text-error" />
 					</Switch.Match>
 				</Switch.Root>
 			</Form.Field>
 
-			<Button
-				className={cnMerge(
-					"mt-[1.5rem] rounded-[1rem] text-[1.7rem] font-[600]",
-					formState.isSubmitting && "cursor-not-allowed brightness-[0.5]"
+			<Form.SubscribeToFormState
+				render={({ isSubmitting }) => (
+					<Button
+						className={cnMerge(
+							"mt-[1.5rem] rounded-[1rem] text-[1.7rem] font-[600]",
+							isSubmitting && "cursor-not-allowed brightness-[0.5]"
+						)}
+						isLoading={isSubmitting}
+						disabled={isSubmitting}
+						theme="secondary"
+						type="submit"
+					>
+						{formVariant === "SignIn" ? "Sign In" : "Sign Up"}
+					</Button>
 				)}
-				disabled={formState.isSubmitting}
-				text={formVariant === "SignIn" ? "Sign In" : "Sign Up"}
-				theme={"secondary"}
-				type={"submit"}
 			/>
 		</Form.Root>
 	);

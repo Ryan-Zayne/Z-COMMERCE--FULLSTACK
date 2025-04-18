@@ -1,4 +1,4 @@
-import { lockScroll, on } from "@zayne-labs/toolkit/core";
+import { lockScroll, on } from "@zayne-labs/toolkit-core";
 import { useThemeStore } from "./store/zustand/themeStore";
 
 // NOTE - This prevents flicker of wrong theme onLoad

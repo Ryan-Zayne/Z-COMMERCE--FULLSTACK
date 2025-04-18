@@ -2,8 +2,8 @@ import { Button, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
 import { LoadingSkeleton, ProductCard } from "@/components/ui";
 import { useGetProductByCategory } from "@/store/react-query/useGetProductByCategory";
-import type { ExtractUnion } from "@zayne-labs/toolkit/type-helpers";
-import { assertDefined } from "@zayne-labs/toolkit/type-helpers";
+import type { ExtractUnion } from "@zayne-labs/toolkit-type-helpers";
+import { assertDefined } from "@zayne-labs/toolkit-type-helpers";
 import { Link, useParams } from "react-router";
 
 // TODO - Remove once you start serving the products from your backend

@@ -1,5 +1,5 @@
 import { ENVIRONMENT } from "@/config/env";
-import { type ExtractUnion, defineEnum } from "@zayne-labs/toolkit/type-helpers";
+import { type ExtractUnion, defineEnum } from "@zayne-labs/toolkit-type-helpers";
 
 export const PORT = ENVIRONMENT.PORT;
 

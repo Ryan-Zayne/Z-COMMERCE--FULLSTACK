@@ -16,6 +16,7 @@ type CallBackFnType = (err: Error | null, value: number) => void;
 const crypto = await import("node:crypto");
 
 function randomIntOverload(max: number): number;
+// eslint-disable-next-line ts-eslint/unified-signatures
 function randomIntOverload(min: number, max: number): number;
 function randomIntOverload(max: number, callback: (err: Error | null, value: number) => void): void;
 function randomIntOverload(

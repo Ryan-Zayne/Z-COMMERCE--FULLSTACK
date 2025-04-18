@@ -1,35 +1,26 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useMountEffect } from "@zayne-labs/toolkit/react";
-import { lazy } from "react";
+import { useMountEffect } from "@zayne-labs/toolkit-react";
+import { Suspense, lazy } from "react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router";
-import { useQueryClientStore } from "./store/react-query/queryClientStore";
-import { sessionQuery } from "./store/react-query/queryFactory";
+import { LoadingSpinner } from "./components/primitives";
+import { productLoader, sessionLoader } from "./store/react-query/loaders";
+import { queryClient, useQueryClientStore } from "./store/react-query/queryClientStore";
 
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			gcTime: 10 * (60 * 1000),
-			staleTime: Infinity,
-		},
-	},
-});
+// Layouts
+const HomeLayout = lazy(() => import("@/pages/(home)/layout"));
+const AuthLayout = lazy(() => import("@/pages/auth/layout"));
 
 const NotFoundPage = lazy(() => import("@/pages/not-found"));
 const ErrorPage = lazy(() => import("@/pages/error"));
 
-const sessionLoader = () => {
-	void queryClient.prefetchQuery(sessionQuery());
-
-	return null;
-};
-
 const routes = createRoutesFromElements(
 	<Route errorElement={<ErrorPage />} loader={sessionLoader}>
-		<Route Component={lazy(() => import("@/pages/(home)/layout"))} errorElement={<ErrorPage />}>
+		<Route Component={HomeLayout} loader={productLoader} errorElement={<ErrorPage />}>
 			<Route path="/" Component={lazy(() => import("@/pages/(home)/page"))} />
 
 			<Route path="/products" Component={lazy(() => import("@/pages/products/page"))} />
+
 			<Route
 				path="/products/:category"
 				Component={lazy(() => import("@/pages/products/[category]/page"))}
@@ -41,7 +32,7 @@ const routes = createRoutesFromElements(
 			<Route path="/about" Component={lazy(() => import("@/pages/(home)/about/page"))} />
 		</Route>
 
-		<Route Component={lazy(() => import("@/pages/auth/layout"))}>
+		<Route Component={AuthLayout}>
 			<Route path="/auth/signup" Component={lazy(() => import("@/pages/auth/signup/page"))} />
 			<Route path="/auth/signin" Component={lazy(() => import("@/pages/auth/signin/page"))} />
 
@@ -72,7 +63,9 @@ export function Router() {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<RouterProvider router={browserRouter} />
+			<Suspense fallback={<LoadingSpinner />}>
+				<RouterProvider router={browserRouter} />
+			</Suspense>
 
 			<ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
 		</QueryClientProvider>

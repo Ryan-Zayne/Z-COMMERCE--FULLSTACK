@@ -1,5 +1,5 @@
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { useAnimationInterval, useCallbackRef } from "@zayne-labs/toolkit/react";
+import { useAnimationInterval, useCallbackRef } from "@zayne-labs/toolkit-react";
 import { useState } from "react";
 import { useCarouselStore } from "./carouselStoreContext";
 

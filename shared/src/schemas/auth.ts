@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SignUpSchema = z
+export const SignupBodySchema = z
 	.object({
 		acceptTerms: z.boolean().refine((val) => val, "Please accept the terms and conditions"),
 		confirmPassword: z.string().min(1, "Password confirmation is required!"),
@@ -26,7 +26,7 @@ export const SignUpSchema = z
 		path: ["confirmPassword"],
 	});
 
-export const LoginSchema = z
+export const SigninBodySchema = z
 	.object({
 		email: z.string().min(1, "Email is a required field"),
 		password: z.string().min(1, "Password is a required field"),
@@ -34,4 +34,8 @@ export const LoginSchema = z
 	})
 	.strict();
 
-export type FormSchemaType = z.infer<typeof LoginSchema> & z.infer<typeof SignUpSchema>;
+export type SigninBodySchemaType = z.infer<typeof SigninBodySchema>;
+
+export type SignupBodySchemaType = z.infer<typeof SignupBodySchema>;
+
+export type FormBodySchemaType = SigninBodySchemaType & SignupBodySchemaType;

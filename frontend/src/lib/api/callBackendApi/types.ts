@@ -1,4 +1,4 @@
-import type { FormSchemaType } from "@/lib/schemas/formSchema";
+import type { FormBodySchemaType } from "@/lib/schemas/formSchema";
 
 export type UserSessionData = {
 	user: {
@@ -12,6 +12,6 @@ export type UserSessionData = {
 };
 
 export type FormErrorResponseType = {
-	fieldErrors: Record<keyof FormSchemaType, string[]>;
+	fieldErrors: Record<keyof FormBodySchemaType, string[]>;
 	formErrors: string[];
 };

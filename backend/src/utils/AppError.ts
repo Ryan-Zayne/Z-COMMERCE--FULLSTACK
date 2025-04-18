@@ -2,8 +2,8 @@ import type { ErrorCodesUnion } from "../constants";
 
 class AppError extends Error {
 	errors?: unknown;
+	errorStatus: string;
 	isOperational: boolean;
-	status: string;
 	statusCode: ErrorCodesUnion;
 
 	constructor(
@@ -11,12 +11,14 @@ class AppError extends Error {
 		message: string,
 		options: ErrorOptions & { errors?: unknown } = {}
 	) {
-		super(message, options);
+		const { cause, errors } = options;
+
+		super(message, { cause });
 
 		this.statusCode = statusCode;
-		this.status = String(statusCode).startsWith("5") ? "Failed" : "Error";
+		this.errorStatus = String(statusCode).startsWith("5") ? "Failed" : "Error";
 		this.isOperational = true;
-		this.errors = options.errors;
+		this.errors = errors;
 
 		Error.captureStackTrace(this, this.constructor);
 	}

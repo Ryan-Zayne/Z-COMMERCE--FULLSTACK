@@ -23,18 +23,6 @@ export type MediaQuerySlice = {
 
 export type GlobalStore = CommonStateSlice & MediaQuerySlice;
 
-// ThemeState Types
-export type ThemeStore = {
-	actions: {
-		initThemeOnLoad: () => void;
-		toggleTheme: () => void;
-	};
-
-	isDarkMode: boolean;
-
-	theme: string;
-};
-
 // ShopState Types
 export type ResponseDataItemInCart = DummyResponseDataItem & { quantity: number };
 

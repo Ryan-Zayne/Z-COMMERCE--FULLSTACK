@@ -1,8 +1,7 @@
 import { configWithTailwind } from "@zayne-labs/prettier-config";
 
- const config = {
+const config = {
 	...configWithTailwind,
-}
+};
 
-
-export default config
+export default config;

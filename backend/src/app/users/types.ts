@@ -1,4 +1,4 @@
-import type { Roles } from "@/constants/enums";
+import type { RolesEnum } from "@/constants/enums";
 import type { SignOptions } from "jsonwebtoken";
 import type { HydratedDocumentFromSchema, Model, Schema } from "mongoose";
 
@@ -20,7 +20,7 @@ export type UserType = {
 	passwordResetToken: string;
 	phoneNumber: string;
 	refreshTokenArray: string[];
-	role: (typeof Roles)[number];
+	role: keyof typeof RolesEnum;
 	updatedAt: Date;
 	username: string;
 };

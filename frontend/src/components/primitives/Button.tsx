@@ -1,11 +1,11 @@
-import type { InferProps, PolymorphicProps } from "@zayne-labs/toolkit/react/utils";
+import type { InferProps, PolymorphicProps } from "@zayne-labs/toolkit-react/utils";
 import { type VariantProps, tv } from "tailwind-variants";
-import { Slot } from "./Slot";
+import { SpinnerIcon } from "../icons";
+import { Slot, Slottable } from "./Slot";
 
 export type ButtonProps = InferProps<"button">
 	& VariantProps<typeof button> & {
 		asChild?: boolean;
-		text?: string;
 		unstyled?: boolean;
 	};
 
@@ -14,7 +14,11 @@ const button = tv({
 
 	variants: {
 		isDisabled: {
-			true: "cursor-not-allowed opacity-40",
+			true: "cursor-not-allowed brightness-50",
+		},
+
+		isLoading: {
+			true: "grid",
 		},
 
 		size: {
@@ -54,8 +58,9 @@ function Button<TElement extends React.ElementType = "button">(
 		children,
 		className,
 		disabled,
+		isDisabled = disabled,
+		isLoading,
 		size = "md",
-		text,
 		theme = "ghost",
 		type = "button",
 		unstyled,
@@ -66,12 +71,25 @@ function Button<TElement extends React.ElementType = "button">(
 	const Component = asChild ? Slot : Element;
 
 	const BTN_CLASSES = !unstyled
-		? button({ className, isDisabled: disabled, size, theme, variant })
+		? button({ className, isDisabled, isLoading, size, theme, variant })
 		: className;
+
+	// == This technique helps prevents content shift when replacing children with spinner icon
+	const childrenWithIcon = (
+		<>
+			<span className="flex justify-center [grid-area:1/1]">
+				<SpinnerIcon className="text-white" />
+			</span>
+
+			<Slottable>
+				<div className="invisible [grid-area:1/1]">{children}</div>
+			</Slottable>
+		</>
+	);
 
 	return (
 		<Component type={type} disabled={disabled} className={BTN_CLASSES} {...extraButtonProps}>
-			{children ?? text}
+			{isLoading ? childrenWithIcon : children}
 		</Component>
 	);
 }

@@ -1,39 +1,37 @@
 import { type CallApiParameters, type ResultModeUnion, createFetchClient } from "@zayne-labs/callapi";
-import type { AnyFunction } from "@zayne-labs/toolkit/type-helpers";
+import type { AnyFunction } from "@zayne-labs/toolkit-type-helpers";
 import { redirectOn401Error } from "./plugins";
 
 export type ApiSuccessType<TData> = {
 	data: TData | null;
 	message: string;
 	status: "success";
+	success: true;
 };
 
 export type ApiErrorType<TError = never> = {
 	errors?: TError;
 	message: string;
-	stackTrace: string;
 	status: "error";
+	success: false;
+};
+
+type GlobalMeta = {
+	redirectOn401Error?:
+		| boolean
+		| {
+				navigateFn?: AnyFunction;
+				onRedirect: () => void;
+				path?: never;
+		  }
+		| {
+				navigateFn?: AnyFunction;
+				onRedirect?: never;
+				path?: `/${string}`;
+		  };
 };
 
 declare module "@zayne-labs/callapi" {
-	type GlobalMeta = {
-		redirectOn401Error?:
-			| boolean
-			| {
-					navigateFn?: AnyFunction;
-					onRedirect: () => void;
-					path?: never;
-			  }
-			| {
-					navigateFn?: AnyFunction;
-					onRedirect?: never;
-					path?: `/${string}`;
-			  };
-		toast?: {
-			success: boolean;
-		};
-	};
-
 	// eslint-disable-next-line ts-eslint/consistent-type-definitions
 	interface Register {
 		meta: GlobalMeta;
@@ -42,9 +40,7 @@ declare module "@zayne-labs/callapi" {
 
 const sharedFetchClient = createFetchClient({
 	baseURL: "/api/v1",
-
 	credentials: "same-origin",
-
 	plugins: [redirectOn401Error()],
 });
 
@@ -55,7 +51,9 @@ export const callBackendApi = <
 >(
 	...parameters: CallApiParameters<ApiSuccessType<TData>, ApiErrorType<TErrorData>, TResultMode>
 ) => {
-	return sharedFetchClient(...parameters);
+	const [url, config] = parameters;
+
+	return sharedFetchClient(url, config);
 };
 
 export const callBackendApiForQuery = <TData = unknown>(
@@ -64,8 +62,8 @@ export const callBackendApiForQuery = <TData = unknown>(
 	const [url, config] = parameters;
 
 	return sharedFetchClient(url, {
-		...config,
 		resultMode: "onlySuccessWithException",
 		throwOnError: true,
+		...config,
 	});
 };

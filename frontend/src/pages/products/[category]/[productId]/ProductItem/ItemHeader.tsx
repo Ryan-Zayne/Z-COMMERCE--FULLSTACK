@@ -3,7 +3,7 @@ import { IconBox } from "@/components/primitives/IconBox";
 import type { DummyResponseDataItem } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
 import type { ShopStore } from "@/store/zustand/types";
-import { useToggle } from "@zayne-labs/toolkit/react";
+import { useToggle } from "@zayne-labs/toolkit-react";
 import { Link } from "react-router";
 
 type ItemHeaderProps = {

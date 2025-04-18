@@ -1,14 +1,12 @@
 {
-	"trailingSlash": false,
-
 	"rewrites": [
 		{
-			"source": "/(.*)",
-			"destination": "/"
+			"source": "/api/:path*",
+			"destination": "https://api-zayne-commerce.onrender.com/api/:path*"
 		},
 		{
-			"source": "/api/v1/:match*",
-			"destination": "https://api-zayne-commerce.onrender.com/api/v1/:match*"
+			"source": "/(.*)",
+			"destination": "/index.html"
 		}
 	]
 }

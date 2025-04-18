@@ -1,6 +1,6 @@
 import type { HydratedUserType, UserType } from "@/app/users/types";
-import { omitKeys } from "@zayne-labs/toolkit/core";
-import type { UnmaskType } from "@zayne-labs/toolkit/type-helpers";
+import { omitKeys } from "@zayne-labs/toolkit-core";
+import type { UnmaskType } from "@zayne-labs/toolkit-type-helpers";
 import { consola } from "consola";
 import type { CookieOptions, Response } from "express";
 import type { AnyObject } from "mongoose";
@@ -31,22 +31,24 @@ export const removeCookie = (res: Response, name: PossibleCookieNames) => {
 
 export const omitSensitiveFields = <TObject extends AnyObject, TOmitArray extends Array<keyof UserType>>(
 	userObject: TObject | null,
-	keysToOmit: TOmitArray = [] as never
+	keysToOmit?: TOmitArray | null,
+	options?: { replaceId?: boolean }
 ) => {
 	if (!userObject) {
 		return null;
 	}
 
+	const { replaceId } = options ?? {};
+
 	// == Use JSON.parse and JSON.stringify to clone the user object, to prevent omitKeys from transforming the object to mongodb nonsense
 	// eslint-disable-next-line unicorn/prefer-structured-clone
-	const clonedUserObject = JSON.parse(JSON.stringify(userObject)) as Omit<HydratedUserType, "id">;
+	const clonedUserObject = JSON.parse(JSON.stringify(userObject)) as HydratedUserType;
 
-	const cloneObjectWithId = {
-		id: clonedUserObject._id as unknown as string,
-		...clonedUserObject,
-	} satisfies HydratedUserType;
+	if (replaceId) {
+		clonedUserObject.id = clonedUserObject._id as unknown as string;
+	}
 
-	const safeUserObject = omitKeys(cloneObjectWithId, [
+	const safeUserObject = omitKeys(clonedUserObject, [
 		"_id",
 		"updatedAt",
 		"createdAt",
@@ -54,7 +56,8 @@ export const omitSensitiveFields = <TObject extends AnyObject, TOmitArray extend
 		"refreshTokenArray",
 		"loginRetries",
 		"password",
-		...keysToOmit,
+		"__v",
+		...(keysToOmit ?? []),
 	]);
 
 	return safeUserObject;

@@ -1,5 +1,5 @@
-import type { AnyAsyncFunction, Prettify } from "@zayne-labs/toolkit/type-helpers";
-import type { NextFunction, Request, Response } from "express";
+import type { Prettify } from "@zayne-labs/toolkit-type-helpers";
+import type { RequestHandler as ExpressRequestHandler, NextFunction, Request, Response } from "express";
 
 type ModifiedRequest<TRequestSupplement> = Omit<Request, "body" | "signedCookies">
 	& Prettify<
@@ -30,7 +30,7 @@ const catchAsync = <TRequestSupplement>(handlerFn: RequestHandler<TRequestSupple
 		}
 	};
 
-	return safeControllerFn as AnyAsyncFunction;
+	return safeControllerFn as ExpressRequestHandler;
 };
 
 export { catchAsync };

@@ -5,7 +5,7 @@ import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/types";
-import { useToggle } from "@zayne-labs/toolkit/react";
+import { useToggle } from "@zayne-labs/toolkit-react";
 import { m } from "motion/react";
 import { Link } from "react-router";
 
@@ -61,9 +61,9 @@ function ProductCard(props: ProductCardProps) {
 					[isHearted && "scale-[1.03] box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]"],
 					[isDarkMode && "hover:bg-primary hover:box-shadow-[0_0_6px_0px_var(--carousel-dot)]"],
 					[
-						isHearted &&
-							isDarkMode &&
-							"scale-[1.03] bg-primary [box-shadow:0_0_6px_0px_var(--carousel-dot)]",
+						isHearted
+							&& isDarkMode
+							&& "scale-[1.03] bg-primary [box-shadow:0_0_6px_0px_var(--carousel-dot)]",
 					]
 				)}
 			>
@@ -142,11 +142,12 @@ function ProductCard(props: ProductCardProps) {
 						<Button
 							variant="cart"
 							theme="secondary"
-							text="Add to Cart"
 							className="mt-[1rem] p-[0.8rem_1.3rem] text-[1.3rem] font-[500]
 								active:translate-y-[0.15rem]"
 							onClick={handleAddToCart}
-						/>
+						>
+							Add to Cart
+						</Button>
 					</Card.Footer>
 				</Link>
 			</Card.Root>
