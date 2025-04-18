@@ -1,7 +1,5 @@
 import { ENVIRONMENT } from "@/config/env";
 import { consola } from "consola";
-
-// eslint-disable-next-line import/default
 import nodemailer from "nodemailer";
 import { TEMPLATES_LOOKUP } from "./templates/lookup";
 import type { WelcomeEmailData } from "./templates/types";

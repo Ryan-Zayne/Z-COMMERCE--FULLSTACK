@@ -2,7 +2,7 @@ import type { HydratedUserType } from "@/app/users/types";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields } from "@/utils";
 import type { PaymentBodySchemaType } from "@/validation";
-import { PaymentModel, PaymentStatusEnum } from "../model";
+import { PaymentModel } from "../model";
 import { generateUniqueReference, initializeTransaction } from "../services";
 
 const initialize = catchAsync<{
@@ -26,7 +26,7 @@ const initialize = catchAsync<{
 		reference,
 	});
 
-	if (!transactionResult.status) {
+	if (!transactionResult.success || !transactionResult.data) {
 		throw new AppError(500, "Error processing payment, try again later");
 	}
 
@@ -35,13 +35,12 @@ const initialize = catchAsync<{
 		cartItems,
 		customerId: currentUser.id,
 		email: currentUser.email,
-		paymentStatus: PaymentStatusEnum.UNPAID,
 		reference,
 	});
 
 	return AppResponse(res, 200, "Payment initialized successfully", {
 		paymentDetails: omitSensitiveFields(payment),
-		paymentUrl: transactionResult.data?.authorization_url,
+		paymentUrl: transactionResult.data.authorization_url,
 	});
 });
 

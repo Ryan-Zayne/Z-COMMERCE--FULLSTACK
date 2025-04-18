@@ -7,7 +7,9 @@ const AppResponse = (
 	extraData?: Record<string, unknown>
 ) => {
 	const jsonResponse = {
-		status: true,
+		status: "success",
+		// eslint-disable-next-line perfectionist/sort-objects
+		success: true,
 		// eslint-disable-next-line perfectionist/sort-objects
 		message,
 

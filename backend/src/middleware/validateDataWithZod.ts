@@ -1,28 +1,27 @@
 import type { ZodSchema } from "zod";
 import { AppError } from "../utils";
-import { PaymentBodySchema, SigninBodySchema, SignupBodySchema } from "../validation/formSchema";
+import { SigninBodySchema, SignupBodySchema } from "../validation/formSchema";
 import { catchAsync } from "./catchAsyncErrors";
 
 const SCHEMA_LOOKUP = new Map<string, ZodSchema>([
 	["/auth/signin", SigninBodySchema],
 	["/auth/signup", SignupBodySchema],
-	["/payment/initialize", PaymentBodySchema],
 ]);
 
 const methodsToSkip = new Set(["GET"]);
 
 export const validateBodyWithZodGlobal = catchAsync<{ path: string }>((req, res, next) => {
-	const baseURLWithoutApiVersion = `/${req.baseUrl.split("/").at(-1)}`;
-
-	const mainPath = `${baseURLWithoutApiVersion}${req.path}`;
-
-	if (methodsToSkip.has(req.method) || !SCHEMA_LOOKUP.has(mainPath)) {
+	if (methodsToSkip.has(req.method)) {
 		next();
 		return;
 	}
 
-	// eslint-disable-next-line ts-eslint/no-non-null-assertion
-	const selectedSchema = SCHEMA_LOOKUP.get(mainPath)!;
+	const selectedSchema = SCHEMA_LOOKUP.entries().find(([key]) => req.originalUrl.endsWith(key))?.[1];
+
+	if (!selectedSchema) {
+		next();
+		return;
+	}
 
 	void validateBodyWithZod(selectedSchema)(req, res, next);
 });

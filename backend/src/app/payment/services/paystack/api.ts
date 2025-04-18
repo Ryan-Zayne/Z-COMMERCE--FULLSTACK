@@ -1,7 +1,7 @@
 import { ENVIRONMENT } from "@/config/env";
-import { generateRandomUUID } from "@/utils";
 import type { PaymentBodySchemaType } from "@/validation";
 import { createFetchClient } from "@zayne-labs/callapi";
+import type { PaymentSuccessPayload, PaystackChargeSuccessEvent, PaystackInitResponse } from "./types";
 
 const callPaystackApi = createFetchClient({
 	auth: ENVIRONMENT.PAYSTACK_SECRET_KEY,
@@ -20,16 +20,6 @@ export type InitTransactionBody = {
 	reference: string;
 };
 
-export type PaystackInitResponse = {
-	data: {
-		access_code: string;
-		authorization_url: string;
-		reference: string;
-	};
-	message: string;
-	status: boolean;
-};
-
 export const initializeTransaction = async (data: InitTransactionBody) => {
 	const result = await callPaystackApi<PaystackInitResponse>("/transaction/initialize", {
 		body: data,
@@ -40,20 +30,41 @@ export const initializeTransaction = async (data: InitTransactionBody) => {
 		return {
 			data: null,
 			message: "Error fetching banks",
-			status: false,
+			success: false,
 		};
 	}
 
 	return {
 		data: result.data.data,
 		message: result.data.message,
-		status: true,
+		success: true,
 	};
 };
 
-export const generateUniqueReference = () => {
-	const prefix = "Z-RF";
-	const randomCharacters = generateRandomUUID();
+export const verifyTransaction = async (reference: string) => {
+	const result = await callPaystackApi<PaystackChargeSuccessEvent>(`/transaction/verify/:reference`, {
+		params: { reference },
+	});
 
-	return `${prefix}_${randomCharacters}`;
+	if (result.error) {
+		return {
+			data: null,
+			message: result.error.message || "Error fetching transaction details",
+			success: false,
+		};
+	}
+
+	const payload = {
+		amount: Number(result.data.data.amount) / 100,
+		cartItems: result.data.data.metadata.cartItems,
+		customerId: result.data.data.metadata.customerId,
+		paidAt: result.data.data.paid_at,
+		reference: result.data.data.reference,
+		status: result.data.data.status,
+	} satisfies PaymentSuccessPayload;
+
+	return {
+		data: payload,
+		success: true,
+	};
 };

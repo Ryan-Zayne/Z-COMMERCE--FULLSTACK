@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{baseURL-dev}}/payment/initialize
+  url: {{baseURL-dev}}/payment/paystack/initialize
   body: json
   auth: inherit
 }
@@ -13,6 +13,13 @@ post {
 body:json {
   {
     "amount": 200,
-    "cartItems": [{"name": "beans"}]
+    "cartItems": [
+      {
+        "name": "beans",
+        "price": 100,
+        "quantity": 4,
+        "id": "35ew"
+      }
+    ]
   }
 }

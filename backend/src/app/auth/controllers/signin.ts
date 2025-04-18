@@ -85,7 +85,9 @@ const signIn = catchAsync<{
 		{ new: true }
 	);
 
-	return AppResponse(res, 200, "Signed in successfully", { user: omitSensitiveFields(updatedUser) });
+	return AppResponse(res, 200, "Signed in successfully", {
+		user: omitSensitiveFields(updatedUser, ["isDeleted"], { replaceId: true }),
+	});
 });
 
 export { signIn };
