@@ -30,7 +30,7 @@ export const generateRandomBytesSync = (options: { encoding?: BufferEncoding; le
 export const generateRandomUUID = (options: { length?: number } = {}) => {
 	const { length } = options;
 
-	const randomUUID = crypto.randomUUID().slice(0, length);
+	const randomUUID = length ? crypto.randomUUID().slice(0, length) : crypto.randomUUID();
 
 	return randomUUID;
 };

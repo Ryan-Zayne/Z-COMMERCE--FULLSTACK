@@ -3,10 +3,11 @@ import type { HydratedUserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
+import type { SignupBodySchemaType } from "@/validation";
 import { sendVerificationEmail } from "../services";
 
 const signUp = catchAsync<{
-	body: Pick<HydratedUserType, "email" | "password" | "username">;
+	body: SignupBodySchemaType;
 }>(async (req, res) => {
 	const { email, password, username } = req.body;
 

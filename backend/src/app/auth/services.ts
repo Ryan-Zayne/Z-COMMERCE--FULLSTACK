@@ -2,11 +2,11 @@ import type { HydratedUserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
 import { sendEmail } from "@/services/email";
 import { getDomainReferer } from "@/utils";
-import bcryptjs from "bcryptjs";
+import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 
-type JwtOptions<TExtraOptions> = TExtraOptions & {
+export type JwtOptions<TExtraOptions> = TExtraOptions & {
 	secretKey: string;
 };
 
@@ -56,26 +56,6 @@ export function generateRefreshToken(this: HydratedUserType, options: jwt.SignOp
 	return refreshToken;
 }
 
-export async function hashPassword(this: HydratedUserType, next: CallbackWithoutResultAndOptionalError) {
-	if (!this.isModified("password")) {
-		next();
-	}
-
-	const saltRounds = 12;
-
-	this.password = await bcryptjs.hash(this.password, saltRounds);
-}
-
-export async function verifyPassword(this: HydratedUserType, plainPassword: string) {
-	if (!this.password) {
-		return false;
-	}
-
-	const isValidPassword = await bcryptjs.compare(plainPassword, this.password);
-
-	return isValidPassword;
-}
-
 export const sendVerificationEmail = async (user: HydratedUserType) => {
 	const payload = { id: user.id };
 
@@ -94,3 +74,23 @@ export const sendVerificationEmail = async (user: HydratedUserType) => {
 		type: "welcomeEmail",
 	});
 };
+
+export async function hashPassword(this: HydratedUserType, next: CallbackWithoutResultAndOptionalError) {
+	if (!this.isModified("password")) {
+		next();
+	}
+
+	// const saltRounds = 12;
+
+	this.password = await argon2.hash(this.password);
+}
+
+export async function verifyPassword(this: HydratedUserType, plainPassword: string) {
+	if (!this.password) {
+		return false;
+	}
+
+	const isValidPassword = await argon2.verify(this.password, plainPassword);
+
+	return isValidPassword;
+}

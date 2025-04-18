@@ -4,7 +4,7 @@ import {
 	hashPassword,
 	verifyPassword,
 } from "@/app/auth/services";
-import { Roles } from "@/constants/enums";
+import { RolesEnum } from "@/constants/enums";
 import mongoose from "mongoose";
 import type { UserMethods, UserModelType, UserType } from "./types";
 
@@ -63,8 +63,8 @@ const UserSchema = new mongoose.Schema<UserType, unknown, UserMethods>(
 		},
 
 		role: {
-			default: "member",
-			enum: Roles,
+			default: RolesEnum.member,
+			enum: Object.values(RolesEnum),
 			type: String,
 		},
 
@@ -84,7 +84,7 @@ UserSchema.method("generateAccessToken", generateAccessToken);
 UserSchema.method("generateRefreshToken", generateRefreshToken);
 
 const UserModel =
-	(mongoose.models.User as UserModelType | undefined) ??
-	mongoose.model<UserType, UserModelType>("User", UserSchema);
+	(mongoose.models.User as UserModelType | undefined)
+	?? mongoose.model<UserType, UserModelType>("User", UserSchema);
 
 export { UserModel };

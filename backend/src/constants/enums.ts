@@ -1,3 +1,6 @@
 import { defineEnum } from "@zayne-labs/toolkit-type-helpers";
 
-export const Roles = defineEnum(["member", "admin"]);
+export const RolesEnum = defineEnum({
+	admin: "admin",
+	member: "member",
+});

@@ -10,9 +10,7 @@ useGlobalStore.getState().actions.handleQueryListeners("add");
 function App() {
 	return (
 		<LazyMotion features={domAnimation} strict={true}>
-			<Suspense fallback={<LoadingSpinner />}>
-				<Router />
-			</Suspense>
+			<Router />
 
 			<SonnerToaster />
 		</LazyMotion>

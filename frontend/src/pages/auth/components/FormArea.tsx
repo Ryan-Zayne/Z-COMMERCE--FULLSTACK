@@ -4,7 +4,7 @@ import {
 	type UserSessionData,
 	callBackendApi,
 } from "@/lib/api/callBackendApi";
-import { type FormSchemaType, LoginSchema, SignUpSchema } from "@/lib/schemas/formSchema";
+import { type FormBodySchemaType, SignUpSchema, SigninBodySchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
@@ -28,8 +28,10 @@ const typedObjectEntries = <TObject extends Record<string, unknown>>(obj: TObjec
 function FormArea({ classNames, formVariant }: FormAreaProps) {
 	const navigate = useNavigate();
 
-	const methods = useForm<FormSchemaType>({
-		resolver: standardSchemaResolver((formVariant === "SignUp" ? SignUpSchema : LoginSchema) as never),
+	const methods = useForm<FormBodySchemaType>({
+		resolver: standardSchemaResolver(
+			(formVariant === "SignUp" ? SignUpSchema : SigninBodySchema) as never
+		),
 	});
 
 	const { control, handleSubmit, setError } = methods;

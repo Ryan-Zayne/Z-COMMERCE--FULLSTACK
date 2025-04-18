@@ -3,13 +3,14 @@ import type { HydratedUserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
+import type { SigninBodySchemaType } from "@/validation";
 import { differenceInHours } from "date-fns";
 import { sendVerificationEmail } from "../services";
 
 // @route POST /api/auth/login
 // @access Public
 const signIn = catchAsync<{
-	body: Pick<HydratedUserType, "email" | "password">;
+	body: SigninBodySchemaType;
 	signedCookies: {
 		zayneRefreshToken: string;
 	};

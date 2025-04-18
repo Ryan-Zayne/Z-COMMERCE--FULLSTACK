@@ -5,14 +5,14 @@ import { redirectOn401Error } from "./plugins";
 export type ApiSuccessType<TData> = {
 	data: TData | null;
 	message: string;
-	status: "success";
+	status: true;
 };
 
 export type ApiErrorType<TError = never> = {
 	errors?: TError;
 	message: string;
 	stackTrace: string;
-	status: "error";
+	status: false;
 };
 
 declare module "@zayne-labs/callapi" {
@@ -42,9 +42,7 @@ declare module "@zayne-labs/callapi" {
 
 const sharedFetchClient = createFetchClient({
 	baseURL: "/api/v1",
-
 	credentials: "same-origin",
-
 	plugins: [redirectOn401Error()],
 });
 
@@ -55,7 +53,9 @@ export const callBackendApi = <
 >(
 	...parameters: CallApiParameters<ApiSuccessType<TData>, ApiErrorType<TErrorData>, TResultMode>
 ) => {
-	return sharedFetchClient(...parameters);
+	const [url, config] = parameters;
+
+	return sharedFetchClient(url, config);
 };
 
 export const callBackendApiForQuery = <TData = unknown>(
@@ -64,8 +64,8 @@ export const callBackendApiForQuery = <TData = unknown>(
 	const [url, config] = parameters;
 
 	return sharedFetchClient(url, {
-		...config,
 		resultMode: "onlySuccessWithException",
 		throwOnError: true,
+		...config,
 	});
 };
