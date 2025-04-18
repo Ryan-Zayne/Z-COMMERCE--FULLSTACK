@@ -1,8 +1,9 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useMountEffect } from "@zayne-labs/toolkit-react";
-import { lazy } from "react";
+import { Suspense, lazy } from "react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router";
+import { LoadingSpinner } from "./components/primitives";
 import { productLoader, sessionLoader } from "./store/react-query/loaders";
 import { queryClient, useQueryClientStore } from "./store/react-query/queryClientStore";
 
@@ -62,7 +63,9 @@ export function Router() {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<RouterProvider router={browserRouter} />
+			<Suspense fallback={<LoadingSpinner />}>
+				<RouterProvider router={browserRouter} />
+			</Suspense>
 
 			<ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
 		</QueryClientProvider>

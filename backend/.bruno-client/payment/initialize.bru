@@ -1,0 +1,18 @@
+meta {
+  name: initialize
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseURL-dev}}/payment/initialize
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "amount": 200,
+    "cartItems": [{"name": "beans"}]
+  }
+}

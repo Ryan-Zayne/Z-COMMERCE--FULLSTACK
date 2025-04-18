@@ -110,7 +110,7 @@ const errorController: ErrorRequestHandler = (error: AppError, _req, res, _next)
 	/* eslint-disable ts-eslint/no-unnecessary-condition */
 	/* eslint-disable perfectionist/sort-objects */
 	const errorInfo = {
-		status: "error",
+		status: false,
 		message: modifiedError.message ?? "Something went very wrong!",
 		...(Boolean(modifiedError.errors) && { errors: modifiedError.errors }),
 		stackTrace: isDevMode ? modifiedError.stack : "Just dey play",
