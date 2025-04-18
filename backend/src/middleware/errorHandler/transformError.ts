@@ -1,11 +1,8 @@
-import { omitKeys } from "@zayne-labs/toolkit-core";
 import { isObject } from "@zayne-labs/toolkit-type-helpers";
-import { consola } from "consola";
-import type { ErrorRequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { Error as MongooseError } from "mongoose";
-import { type ErrorCodesUnion, errorCodes, isDevMode } from "../constants";
-import { AppError } from "../utils";
+import { errorCodes } from "../../constants";
+import { AppError } from "../../utils";
 
 const handleMongooseCastError = (error: MongooseError.CastError) => {
 	const message = `Invalid ${error.path} value "${error.value}".`;
@@ -61,7 +58,7 @@ const handleJWTError = (error: jwt.JsonWebTokenError) => new AppError(401, "Inva
 // prettier-ignore
 const handleJWTExpiredError = (error: jwt.TokenExpiredError) => new AppError(401, "Your token has expired!", { cause: error });
 
-const transformError = (error: AppError) => {
+export const transformError = (error: AppError) => {
 	let modifiedError = error;
 
 	switch (true) {
@@ -103,45 +100,3 @@ const transformError = (error: AppError) => {
 
 	return modifiedError;
 };
-
-const errorController: ErrorRequestHandler = (error: AppError, _req, res, _next) => {
-	const modifiedError = transformError(error);
-
-	/* eslint-disable ts-eslint/no-unnecessary-condition */
-	/* eslint-disable perfectionist/sort-objects */
-	const errorInfo = {
-		status: false,
-		message: modifiedError.message ?? "Something went very wrong!",
-		...(Boolean(modifiedError.errors) && { errors: modifiedError.errors }),
-		stackTrace: isDevMode ? modifiedError.stack : "Just dey play",
-	};
-	/* eslint-enable ts-eslint/no-unnecessary-condition */
-
-	consola.error(`${error.name}:`, omitKeys(errorInfo, ["stackTrace"]));
-
-	/* eslint-enable perfectionist/sort-objects */
-	const ERROR_LOOKUP = new Map([
-		[errorCodes.BAD_REQUEST, () => res.status(400).json(errorInfo)],
-
-		[errorCodes.CONFLICT, () => res.status(409).json(errorInfo)],
-
-		[errorCodes.FORBIDDEN, () => res.status(403).json(errorInfo)],
-
-		[errorCodes.NOT_FOUND, () => res.status(404).json(errorInfo)],
-
-		[errorCodes.REQUEST_TIMEOUT, () => res.status(408).json(errorInfo)],
-
-		[errorCodes.SERVER_ERROR, () => res.status(500).json(errorInfo)],
-
-		[errorCodes.UNAUTHORIZED, () => res.status(401).json(errorInfo)],
-
-		[errorCodes.VALIDATION_ERROR, () => res.status(422).json(errorInfo)],
-	]) satisfies Map<ErrorCodesUnion, () => void>;
-
-	const statusCodeHandler =
-		ERROR_LOOKUP.get(modifiedError.statusCode) ?? ERROR_LOOKUP.get(errorCodes.SERVER_ERROR);
-
-	return statusCodeHandler?.() as never;
-};
-
-export { errorController };

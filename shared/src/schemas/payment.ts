@@ -10,7 +10,7 @@ export const PaymentBodySchema = z.object({
 			quantity: z.number(),
 		})
 	),
-	redirectURL: z.string().url({ message: "Invalid redirect URL" }),
+	redirectURL: z.string().url({ message: "Invalid redirect URL" }).optional(),
 });
 
 export type PaymentBodySchemaType = z.infer<typeof PaymentBodySchema>;

@@ -5,35 +5,33 @@ import { redirectOn401Error } from "./plugins";
 export type ApiSuccessType<TData> = {
 	data: TData | null;
 	message: string;
-	status: true;
+	status: "success";
+	success: true;
 };
 
 export type ApiErrorType<TError = never> = {
 	errors?: TError;
 	message: string;
-	stackTrace: string;
-	status: false;
+	status: "error";
+	success: false;
+};
+
+type GlobalMeta = {
+	redirectOn401Error?:
+		| boolean
+		| {
+				navigateFn?: AnyFunction;
+				onRedirect: () => void;
+				path?: never;
+		  }
+		| {
+				navigateFn?: AnyFunction;
+				onRedirect?: never;
+				path?: `/${string}`;
+		  };
 };
 
 declare module "@zayne-labs/callapi" {
-	type GlobalMeta = {
-		redirectOn401Error?:
-			| boolean
-			| {
-					navigateFn?: AnyFunction;
-					onRedirect: () => void;
-					path?: never;
-			  }
-			| {
-					navigateFn?: AnyFunction;
-					onRedirect?: never;
-					path?: `/${string}`;
-			  };
-		toast?: {
-			success: boolean;
-		};
-	};
-
 	// eslint-disable-next-line ts-eslint/consistent-type-definitions
 	interface Register {
 		meta: GlobalMeta;

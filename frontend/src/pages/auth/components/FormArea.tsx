@@ -4,7 +4,7 @@ import {
 	type UserSessionData,
 	callBackendApi,
 } from "@/lib/api/callBackendApi";
-import { type FormBodySchemaType, SignUpSchema, SigninBodySchema } from "@/lib/schemas/formSchema";
+import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
@@ -30,7 +30,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 
 	const methods = useForm<FormBodySchemaType>({
 		resolver: standardSchemaResolver(
-			(formVariant === "SignUp" ? SignUpSchema : SigninBodySchema) as never
+			(formVariant === "SignUp" ? SignupBodySchema : SigninBodySchema) as never
 		),
 	});
 
@@ -51,7 +51,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 		if (isHTTPError(error) && error.errorData.errors) {
 			const zodErrorDetails = error.errorData.errors;
 
-			// == My Form.ErrorMessage component handles arrays as messages, hence the need for this cast
+			// == Form.ErrorMessage component handles arrays as messages, hence the need for this cast
 			setError("root.serverError", {
 				message: zodErrorDetails.formErrors as unknown as string,
 			});

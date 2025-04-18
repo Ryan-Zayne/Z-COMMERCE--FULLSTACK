@@ -1,15 +1,7 @@
+import { PaymentStatusEnum } from "@/constants";
 import type { PaymentBodySchemaType } from "@/validation";
-import { defineEnum } from "@zayne-labs/toolkit-type-helpers";
 import type { Model, SchemaDefinitionProperty } from "mongoose";
 import mongoose from "mongoose";
-
-export const PaymentStatusEnum = defineEnum({
-	FAILED: "FAILED",
-	PAID: "PAID",
-	"REFUND-FAILED": "REFUND-FAILED",
-	REFUNDED: "REFUNDED",
-	UNPAID: "UNPAID",
-});
 
 type PaymentType = {
 	amount: number;

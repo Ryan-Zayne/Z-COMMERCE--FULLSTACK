@@ -34,7 +34,7 @@ const signUp = catchAsync<{
 	void sendVerificationEmail(newUser as HydratedUserType);
 
 	return AppResponse(res, 201, "Account created successfully", {
-		user: omitSensitiveFields(newUser, ["isDeleted"]),
+		user: omitSensitiveFields(newUser, ["isDeleted"], { replaceId: true }),
 	});
 });
 
