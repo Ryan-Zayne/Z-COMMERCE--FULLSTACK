@@ -65,11 +65,11 @@ export const omitSensitiveFields = <TObject extends AnyObject, TOmitArray extend
 
 export const getDomainReferer = (env: typeof ENVIRONMENT.NODE_ENV) => {
 	try {
-		const devFrontendUrl = "http://localhost:5173";
-
 		if (env === "production") {
 			return ENVIRONMENT.FRONTEND_URL;
 		}
+
+		const devFrontendUrl = "http://localhost:5173";
 
 		return devFrontendUrl;
 	} catch (error) {
