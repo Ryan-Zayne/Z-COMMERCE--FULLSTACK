@@ -30,6 +30,8 @@ export type ShopStore = {
 	actions: {
 		addToCart: (productItem: DummyResponseDataItem) => void;
 
+		clearCart: () => void;
+
 		decrementProductQuantity: (productId: DummyResponseDataItem["id"]) => void;
 
 		incrementProductQuantity: (productId: DummyResponseDataItem["id"]) => void;

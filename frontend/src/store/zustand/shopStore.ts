@@ -36,6 +36,8 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 			toast.success(toastMessages.added, { position: "top-center" });
 		},
 
+		clearCart: () => set({ cart: [] }),
+
 		decrementProductQuantity: (productId) => {
 			const { removeProductFromCart, updateProductQuantity } = get().actions;
 

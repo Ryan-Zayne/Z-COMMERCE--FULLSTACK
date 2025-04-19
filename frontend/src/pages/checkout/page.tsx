@@ -22,6 +22,8 @@ const [CartItemsList] = getElementList();
 
 function CheckoutPage() {
 	const cart = useShopStore((state) => state.cart);
+	const cartActions = useShopStore((state) => state.actions);
+
 	const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0); // Compute total price via zustand store subscription in future
 
 	const sessionQueryResult = useQuery(sessionQuery());
@@ -73,6 +75,8 @@ function CheckoutPage() {
 			});
 			return;
 		}
+
+		cartActions.clearCart();
 
 		result.data.data?.paymentUrl && hardNavigate(result.data.data.paymentUrl);
 	});
