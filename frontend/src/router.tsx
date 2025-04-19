@@ -11,6 +11,7 @@ import { queryClient, useQueryClientStore } from "./store/react-query/queryClien
 const HomeLayout = lazy(() => import("@/pages/(home)/layout"));
 const AuthLayout = lazy(() => import("@/pages/auth/layout"));
 const VerifyEmailLayout = lazy(() => import("@/pages/auth/verify-email/layout"));
+const ProtectionLayout = lazy(() => import("@/pages/layout.protect"));
 
 const NotFoundPage = lazy(() => import("@/pages/not-found"));
 const ErrorPage = lazy(() => import("@/pages/error"));
@@ -32,6 +33,10 @@ const routes = createRoutesFromElements(
 				Component={lazy(() => import("@/pages/products/[category]/[productId]/page"))}
 			/>
 			<Route path="/about" Component={lazy(() => import("@/pages/(home)/about/page"))} />
+
+			<Route Component={ProtectionLayout}>
+				<Route path="/user/account" Component={lazy(() => import("@/pages/user/account/page"))} />
+			</Route>
 
 			<Route path="/checkout" Component={lazy(() => import("@/pages/checkout/page"))} />
 			<Route path="/checkout/success" Component={lazy(() => import("@/pages/checkout/success/page"))} />

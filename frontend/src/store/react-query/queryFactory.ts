@@ -41,7 +41,7 @@ export const sessionQuery = (
 		"meta" | "onError" | "onRequestError" | "onResponseError" | "onSuccess"
 	>
 ) => {
-	const sessionKey = ["session"];
+	const sessionKey = ["session", options?.meta?.redirectOn401Error];
 
 	return queryOptions({
 		queryFn: () =>

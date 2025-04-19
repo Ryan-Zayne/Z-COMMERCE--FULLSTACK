@@ -25,9 +25,9 @@ const NavIcons = () => {
 	const cart = useShopStore((state) => state.cart);
 
 	const drawerCtx = useDisclosure({ hasScrollControl: true });
-	const dropDownDisclosure = useDisclosure();
+	const dropDownCtx = useDisclosure();
 
-	const { data } = useQuery(sessionQuery());
+	const sessionQueryResult = useQuery(sessionQuery());
 
 	useEffect(() => {
 		if (!isMobile && isSearchShow) {
@@ -87,27 +87,27 @@ const NavIcons = () => {
 							unstyled={true}
 							className="hover:text-heading hover:[transform:rotateY(360deg)]
 								hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
-							onClick={dropDownDisclosure.onToggle}
+							onClick={dropDownCtx.onToggle}
 						>
 							<IconBox icon="bx:user" />
 						</Button>
 					</DropDown.Trigger>
 
 					<DropDown.Panel
-						isOpen={dropDownDisclosure.isOpen}
+						isOpen={dropDownCtx.isOpen}
 						classNames={{
 							panelContainer: "absolute top-[5.1rem] z-[100] w-[15rem]",
 							panelList: cnJoin(
 								`flex flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem]
 								text-[1.3rem] [&_>_a:hover]:navlink-transition [&_>_a]:relative`,
 
-								dropDownDisclosure.isOpen && "py-[1.5rem]"
+								dropDownCtx.isOpen && "py-[1.5rem]"
 							),
 						}}
 					>
-						{data && <Link to="user/account">My Account</Link>}
-						<Link to="/checkout">Checkout</Link>
-						{!data && <Link to="/auth/signin">User Login</Link>}
+						{sessionQueryResult.data && <Link to="user/account">My Account</Link>}
+						{cart.length > 0 && <Link to="/checkout">Checkout</Link>}
+						{!sessionQueryResult.data && <Link to="/auth/signin">User Login</Link>}
 					</DropDown.Panel>
 				</DropDown.Root>
 
