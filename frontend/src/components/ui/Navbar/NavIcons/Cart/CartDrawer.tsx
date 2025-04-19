@@ -6,10 +6,10 @@ import { useThemeStore } from "@/store/zustand/themeStore";
 import { Link } from "react-router";
 import CartItem from "./CartItem";
 
-type CartDrawerProps = DrawerStore & { placement?: DrawerContentProps["placement"] };
+type CartDrawerProps = { drawerCtx: DrawerStore; placement?: DrawerContentProps["placement"] };
 
 function CartDrawer(props: CartDrawerProps) {
-	const { isOpen, onClose, onOpen, placement = "right" } = props;
+	const { drawerCtx, placement = "right" } = props;
 
 	const cart = useShopStore((state) => state.cart);
 	const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -17,7 +17,7 @@ function CartDrawer(props: CartDrawerProps) {
 	const [CartItemsList] = getElementList();
 
 	return (
-		<Drawer.Root {...{ isOpen, onClose, onOpen }}>
+		<Drawer.Root value={drawerCtx}>
 			<Drawer.Overlay />
 
 			<Drawer.Content
@@ -72,11 +72,13 @@ function CartDrawer(props: CartDrawerProps) {
 
 				<Drawer.Footer className={"px-[1.3rem] pt-[3rem] lg:px-[2rem]"}>
 					<Button
-						theme={"secondary"}
-						className={`w-full text-[1.7rem] font-[600] [transition:box-shadow_300ms_ease]
-							hover:box-shadow-[0_4px_20px_rgb(51,62,72,0.4)]`}
+						theme="secondary"
+						className="w-full text-[1.7rem] font-[600] [transition:box-shadow_300ms_ease]
+							hover:box-shadow-[0_4px_20px_rgb(51,62,72,0.4)]"
 					>
-						<Link to={"checkout"}>Checkout</Link>
+						<Link to="/checkout" onClick={drawerCtx.onClose}>
+							Checkout
+						</Link>
 					</Button>
 				</Drawer.Footer>
 			</Drawer.Content>

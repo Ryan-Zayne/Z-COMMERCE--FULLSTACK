@@ -5,12 +5,10 @@ export type DrawerStore = {
 	onOpen: () => void;
 	onToggle?: () => void;
 };
-export type DrawerProviderProps = { children: React.ReactNode; storeValues: DrawerStore };
 
-// Drawer component types
-export type DrawerRootProps = DrawerStore & Pick<DrawerProviderProps, "children">;
+export type DrawerRootProviderProps = { children: React.ReactNode; value: DrawerStore };
 
-export type DrawerContentProps = Pick<DrawerProviderProps, "children"> & {
+export type DrawerContentProps = Pick<DrawerRootProviderProps, "children"> & {
 	className?: string;
 	placement?: "left" | "right";
 };

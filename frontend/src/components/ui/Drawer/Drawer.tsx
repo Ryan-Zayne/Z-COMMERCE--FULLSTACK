@@ -4,15 +4,15 @@ import { cnMerge } from "@/lib/utils/cn";
 import type {
 	DrawerCloseProps,
 	DrawerContentProps,
-	DrawerRootProps,
+	DrawerRootProviderProps,
 	OtherDrawerProps,
 } from "./drawer.types";
 import { DrawerContextProvider, useDrawerStore } from "./drawerStoreContext";
 
-function DrawerRoot({ children, ...restOfDrawerProps }: DrawerRootProps) {
+function DrawerRootProvider({ children, value }: DrawerRootProviderProps) {
 	return (
 		<Teleport>
-			<DrawerContextProvider storeValues={restOfDrawerProps}>
+			<DrawerContextProvider value={value}>
 				<aside data-id="Drawer-Portal">{children}</aside>
 			</DrawerContextProvider>
 		</Teleport>
@@ -96,7 +96,7 @@ const Drawer = {
 	Footer: DrawerFooter,
 	Header: DrawerHeader,
 	Overlay: DrawerOverlay,
-	Root: DrawerRoot,
+	Root: DrawerRootProvider,
 };
 
 export default Drawer;

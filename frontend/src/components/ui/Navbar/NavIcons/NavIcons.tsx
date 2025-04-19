@@ -24,7 +24,7 @@ const NavIcons = () => {
 
 	const cart = useShopStore((state) => state.cart);
 
-	const cartDisclosure = useDisclosure({ hasScrollControl: true });
+	const drawerCtx = useDisclosure({ hasScrollControl: true });
 	const dropDownDisclosure = useDisclosure();
 
 	const { data } = useQuery(sessionQuery());
@@ -115,7 +115,7 @@ const NavIcons = () => {
 					unstyled={true}
 					type="button"
 					className="relative active:scale-[1.1] lg:text-[2.3rem]"
-					onClick={cartDisclosure.onOpen}
+					onClick={drawerCtx.onOpen}
 				>
 					<IconBox icon="bx:cart-alt" className="hover:text-heading" />
 
@@ -129,11 +129,7 @@ const NavIcons = () => {
 					)}
 				</Button>
 
-				<CartDrawer
-					isOpen={cartDisclosure.isOpen}
-					onOpen={cartDisclosure.onOpen}
-					onClose={cartDisclosure.onClose}
-				/>
+				<CartDrawer drawerCtx={drawerCtx} />
 
 				<ThemeSwitchButton />
 

@@ -40,7 +40,7 @@ export const omitSensitiveFields = <TObject extends AnyObject, TOmitArray extend
 
 	const { replaceId } = options ?? {};
 
-	// == Use JSON.parse and JSON.stringify to clone the user object, to prevent omitKeys from transforming the object to mongodb nonsense
+	// == Use JSON.parse and JSON.stringify to clone the user object, to prevent `omitKeys` from transforming the object to mongodb nonsense
 	// eslint-disable-next-line unicorn/prefer-structured-clone
 	const clonedUserObject = JSON.parse(JSON.stringify(userObject)) as HydratedUserType;
 

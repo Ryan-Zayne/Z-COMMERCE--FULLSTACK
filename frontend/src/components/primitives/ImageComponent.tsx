@@ -4,9 +4,12 @@ import { useState } from "react";
 type ImageComponentProps = React.ComponentPropsWithRef<"img"> & {
 	blurSrc?: string;
 	className?: string;
+	classNames?: {
+		image: string;
+		wrapper: string;
+	};
 	fetchPriority?: "auto" | "high" | "low";
 	imageType?: "hasFallback" | "hasSkeleton";
-	src: string;
 	wrapperClassName?: string;
 };
 
@@ -31,15 +34,14 @@ const IMAGE_TYPE_LOOKUP = {
 	},
 
 	hasSkeleton: (props: ImageTypeProps) => {
-		const { className, handleImageLoad, isImageLoaded, onClick, src, wrapperClassName, ...restOfProps } =
+		const { className, classNames, handleImageLoad, isImageLoaded, onClick, src, ...restOfProps } =
 			props;
 
 		return (
 			<div
 				className={cnMerge(
-					"size-full",
 					!isImageLoaded && "relative bg-white/[0.17] invert dark:bg-black/[0.17] dark:invert-0",
-					wrapperClassName
+					classNames?.wrapper
 				)}
 				onClick={onClick}
 			>
@@ -50,7 +52,7 @@ const IMAGE_TYPE_LOOKUP = {
 				/>
 
 				<img
-					className={cnMerge("h-full object-cover", className)}
+					className={cnMerge("h-full object-cover", classNames?.image, className)}
 					onLoad={handleImageLoad}
 					src={src}
 					alt=""
