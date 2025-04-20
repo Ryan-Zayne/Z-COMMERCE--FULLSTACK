@@ -51,7 +51,7 @@ app.use(morgan("dev"));
  */
 
 // Health check
-app.get("/api/v1/alive", (_req, res) => AppResponse(res, 200, "Server is up and running"));
+app.get("/api/alive", (_req, res) => AppResponse(res, 200, "Server is up and running"));
 
 // Global request body validator
 app.use("/api/v1/*splat", validateBodyWithZodGlobal);
