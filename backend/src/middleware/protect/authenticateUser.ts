@@ -86,7 +86,11 @@ const getRenewedUserSession = async (zayneRefreshToken: string) => {
 			throw error;
 		}
 
-		throw new AppError(401, AUTH_ERRORS.SESSION_EXPIRED, { cause: error });
+		if (error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError) {
+			throw new AppError(401, AUTH_ERRORS.SESSION_EXPIRED, { cause: error });
+		}
+
+		throw new AppError(401, AUTH_ERRORS.GENERIC_ERROR, { cause: error });
 	}
 };
 

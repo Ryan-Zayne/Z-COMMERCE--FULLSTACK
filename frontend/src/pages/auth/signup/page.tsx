@@ -4,7 +4,7 @@ import { IconBox } from "@/components/primitives/IconBox";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { AnimatePresence, m } from "motion/react";
 import { Link, useLocation } from "react-router";
-import FormArea from "../components/FormArea";
+import { SharedForm } from "../components";
 
 function SignUpFormPage() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -32,7 +32,7 @@ function SignUpFormPage() {
 						</h2>
 					</header>
 
-					<FormArea formVariant="SignUp" />
+					<SharedForm formVariant="signup" />
 
 					<div className="my-[3.3rem] flex items-center">
 						<span className="mr-[1rem] inline-block h-[1px] w-full bg-carousel-btn" />

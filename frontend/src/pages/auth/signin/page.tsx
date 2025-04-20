@@ -3,7 +3,7 @@ import { IconBox } from "@/components/primitives/IconBox";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { AnimatePresence, m } from "motion/react";
 import { Link, useLocation } from "react-router";
-import FormArea from "../components/FormArea";
+import { SharedForm } from "../components";
 
 function LoginFormPage() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
@@ -31,7 +31,7 @@ function LoginFormPage() {
 						</h2>
 					</header>
 
-					<FormArea classNames={{ form: "mt-[3rem]" }} formVariant="SignIn" />
+					<SharedForm classNames={{ form: "mt-[3rem]" }} formVariant="signin" />
 
 					<div className="my-[3rem] flex items-center justify-center text-input">
 						<span className="mr-[1rem] inline-block h-[1px] w-full bg-carousel-btn" />

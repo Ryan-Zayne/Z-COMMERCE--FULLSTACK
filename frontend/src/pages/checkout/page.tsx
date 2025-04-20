@@ -78,7 +78,7 @@ function CheckoutPage() {
 
 		cartActions.clearCart();
 
-		result.data.data?.paymentUrl && hardNavigate(result.data.data.paymentUrl);
+		hardNavigate(result.data.data?.paymentUrl as string);
 	});
 
 	return (
@@ -88,119 +88,161 @@ function CheckoutPage() {
 			</header>
 
 			<section
-				className="mt-[2rem] flex flex-col gap-[2rem] md:mt-[4rem] md:flex-row-reverse md:gap-[4rem]"
+				className="mt-[2rem] flex flex-col gap-[3rem] md:mt-[4rem] md:flex-row-reverse md:gap-[4rem]"
 			>
 				<Form.Root
 					methods={methods}
-					className="mt-[2rem] flex w-full flex-col gap-[1.6rem] text-[1.4rem] md:mt-[2.5rem]
-						md:gap-[1.8rem] md:text-[1.6rem]"
+					className="mt-[2rem] flex flex-col gap-[2.4rem] text-[1.4rem] md:mt-[2.5rem] md:gap-[1.8rem]
+						md:text-[1.6rem]"
 					onSubmit={(event) => void onSubmit(event)}
 				>
-					<div className="grid gap-[1.6rem] md:grid-cols-2 md:gap-[2rem]">
+					<div className="grid gap-[2.4rem] md:grid-cols-2 md:gap-[2rem]">
 						<div className="md:col-span-2">
 							<Form.Field control={control} name="username">
-								<Form.Label className="font-medium">Username</Form.Label>
+								<Form.Label
+									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
+								>
+									Username
+								</Form.Label>
 								<Form.Input
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
-										text-input focus-within:border-b-navbar
-										dark:focus-within:border-b-carousel-dot`,
+										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
+										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										duration-200 placeholder:text-gray-400 focus-within:border-navbar
+										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
 									placeholder="John Doe"
 								/>
-								<Form.ErrorMessage className="text-error" />
+								<Form.ErrorMessage
+									className="mt-[0.4rem] text-[1.3rem] text-error md:text-[1.4rem]"
+								/>
 							</Form.Field>
 						</div>
 
 						<div className="md:col-span-2">
 							<Form.Field control={control} name="email">
-								<Form.Label className="font-medium">Email</Form.Label>
+								<Form.Label
+									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
+								>
+									Email
+								</Form.Label>
 								<Form.Input
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
-										text-input focus-within:border-b-navbar
-										dark:focus-within:border-b-carousel-dot`,
+										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
+										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										duration-200 placeholder:text-gray-400 focus-within:border-navbar
+										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
 									placeholder="johndoe@example.com"
 								/>
-								<Form.ErrorMessage className="text-error" />
+								<Form.ErrorMessage
+									className="mt-[0.4rem] text-[1.3rem] text-error md:text-[1.4rem]"
+								/>
 							</Form.Field>
 						</div>
 
 						<div className="md:col-span-2">
 							<Form.Field control={control} name="address">
-								<Form.Label className="font-medium">Address</Form.Label>
+								<Form.Label
+									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
+								>
+									Address
+								</Form.Label>
 								<Form.Input
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
-										text-input focus-within:border-b-navbar
-										dark:focus-within:border-b-carousel-dot`,
+										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
+										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										duration-200 placeholder:text-gray-400 focus-within:border-navbar
+										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
 									placeholder="123 Main St"
 								/>
-								<Form.ErrorMessage className="text-error" />
+								<Form.ErrorMessage
+									className="mt-[0.4rem] text-[1.3rem] text-error md:text-[1.4rem]"
+								/>
 							</Form.Field>
 						</div>
 
 						<div>
 							<Form.Field control={control} name="city">
-								<Form.Label className="font-medium">City</Form.Label>
+								<Form.Label
+									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
+								>
+									City
+								</Form.Label>
 								<Form.Input
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
-										text-input focus-within:border-b-navbar
-										dark:focus-within:border-b-carousel-dot`,
+										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
+										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										duration-200 placeholder:text-gray-400 focus-within:border-navbar
+										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
 									placeholder="New York"
 								/>
-								<Form.ErrorMessage className="text-error" />
+								<Form.ErrorMessage
+									className="mt-[0.4rem] text-[1.3rem] text-error md:text-[1.4rem]"
+								/>
 							</Form.Field>
 						</div>
 
 						<div>
 							<Form.Field control={control} name="country">
-								<Form.Label className="font-medium">Country</Form.Label>
+								<Form.Label
+									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
+								>
+									Country
+								</Form.Label>
 								<Form.Input
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
-										text-input focus-within:border-b-navbar
-										dark:focus-within:border-b-carousel-dot`,
+										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
+										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										duration-200 placeholder:text-gray-400 focus-within:border-navbar
+										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
 									placeholder="United States"
 								/>
-								<Form.ErrorMessage className="text-error" />
+								<Form.ErrorMessage
+									className="mt-[0.4rem] text-[1.3rem] text-error md:text-[1.4rem]"
+								/>
 							</Form.Field>
 						</div>
 
 						<div>
 							<Form.Field control={control} name="zipCode">
-								<Form.Label className="font-medium">ZIP Code</Form.Label>
+								<Form.Label
+									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
+								>
+									ZIP Code
+								</Form.Label>
 								<Form.Input
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
-										text-input focus-within:border-b-navbar
-										dark:focus-within:border-b-carousel-dot`,
+										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
+										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										duration-200 placeholder:text-gray-400 focus-within:border-navbar
+										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
 									placeholder="10001"
 								/>
-								<Form.ErrorMessage className="text-error" />
+								<Form.ErrorMessage
+									className="mt-[0.4rem] text-[1.3rem] text-error md:text-[1.4rem]"
+								/>
 							</Form.Field>
 						</div>
 
 						<Form.ErrorMessage
-							className="text-center text-[1.4rem] text-error"
+							className="text-center text-[1.4rem] font-medium text-error"
 							errorField="caughtError"
 							type="root"
 						/>
@@ -218,10 +260,11 @@ function CheckoutPage() {
 									theme="primary"
 									disabled={isSubmitting}
 									isLoading={isSubmitting}
-									className="mt-[1.6rem] w-full rounded-[0.8rem] bg-navbar py-[1.2rem]
-										text-[1.4rem] font-medium text-white hover:bg-primary
-										disabled:cursor-not-allowed disabled:brightness-75 md:mt-[2rem]
-										md:rounded-[1rem] md:py-[1.5rem] md:text-[1.6rem]"
+									className="mt-[2rem] w-full rounded-[0.8rem] bg-navbar py-[1.4rem] text-[1.5rem]
+										font-[600] text-white shadow-sm transition-all hover:bg-primary
+										hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed
+										disabled:brightness-75 md:mt-[2.4rem] md:rounded-[1rem] md:py-[1.6rem]
+										md:text-[1.6rem]"
 								>
 									Place Order
 								</Button>

@@ -6,7 +6,7 @@ import {
 } from "@/lib/api/callBackendApi";
 import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
-import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
 import { lockScroll } from "@zayne-labs/toolkit-core";
 import { useForm } from "react-hook-form";
@@ -14,7 +14,7 @@ import { Link, useNavigate } from "react-router";
 
 export type FormAreaProps = {
 	classNames?: { form?: string };
-	formVariant: "SignIn" | "SignUp";
+	formVariant: "signin" | "signup";
 };
 
 const semanticClasses = {
@@ -25,13 +25,12 @@ const typedObjectEntries = <TObject extends Record<string, unknown>>(obj: TObjec
 	return Object.entries(obj) as Array<[keyof TObject, TObject[keyof TObject]]>;
 };
 
-function FormArea({ classNames, formVariant }: FormAreaProps) {
+function SharedForm(props: FormAreaProps) {
+	const { classNames, formVariant } = props;
 	const navigate = useNavigate();
 
 	const methods = useForm<FormBodySchemaType>({
-		resolver: standardSchemaResolver(
-			(formVariant === "SignUp" ? SignupBodySchema : SigninBodySchema) as never
-		),
+		resolver: zodResolver(formVariant === "signup" ? SignupBodySchema : SigninBodySchema) as never,
 	});
 
 	const { control, handleSubmit, setError } = methods;
@@ -39,7 +38,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 	const onSubmit = handleSubmit(async (formDataObj) => {
 		lockScroll({ isActive: true });
 
-		const AUTH_URL = formVariant === "SignUp" ? `/auth/signup` : `/auth/signin`;
+		const AUTH_URL = formVariant === "signup" ? `/auth/signup` : `/auth/signin`;
 
 		const { data, error } = await callBackendApi<UserSessionData, FormErrorResponseType>(AUTH_URL, {
 			body: formDataObj,
@@ -101,7 +100,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 			)}
 			onSubmit={(event) => void onSubmit(event)}
 		>
-			<Show.Root when={formVariant === "SignUp"}>
+			<Show.Root when={formVariant === "signup"}>
 				<Form.Field control={control} name="username">
 					<Form.Label>Username</Form.Label>
 
@@ -149,7 +148,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 				<Form.ErrorMessage control={control} className="text-error" errorField="password" />
 			</Form.Field>
 
-			<Show.Root when={formVariant === "SignUp"}>
+			<Show.Root when={formVariant === "signup"}>
 				<Form.Field className="relative" control={control} name="confirmPassword">
 					<Form.Label>Confirm Password</Form.Label>
 
@@ -181,16 +180,16 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 			<Form.Field
 				className="flex flex-row flex-wrap gap-x-[1rem] text-[1.3rem] text-input"
 				control={control}
-				name={formVariant === "SignUp" ? "acceptTerms" : "rememberMe"}
+				name={formVariant === "signup" ? "acceptTerms" : "rememberMe"}
 			>
 				<Form.Input type="checkbox" />
 
-				<Switch.Root condition={formVariant}>
-					<Switch.Match when="SignIn">
+				<Switch.Root>
+					<Switch.Match when={formVariant === "signin"}>
 						<Form.Label>Remember me</Form.Label>
 					</Switch.Match>
 
-					<Switch.Match when="SignUp">
+					<Switch.Match when={formVariant === "signup"}>
 						<div className="flex">
 							<Form.Label>
 								I agree to all
@@ -220,7 +219,7 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 						theme="secondary"
 						type="submit"
 					>
-						{formVariant === "SignIn" ? "Sign In" : "Sign Up"}
+						{formVariant === "signin" ? "Sign In" : "Sign Up"}
 					</Button>
 				)}
 			/>
@@ -228,4 +227,4 @@ function FormArea({ classNames, formVariant }: FormAreaProps) {
 	);
 }
 
-export default FormArea;
+export default SharedForm;
