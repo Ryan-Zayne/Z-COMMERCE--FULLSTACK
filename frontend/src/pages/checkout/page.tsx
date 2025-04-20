@@ -1,4 +1,4 @@
-import { Button, Form, ImageComponent, Show, getElementList } from "@/components/primitives";
+import { Button, Form, ImageComponent, getElementList } from "@/components/primitives";
 import { callBackendApi } from "@/lib/api/callBackendApi";
 import { sessionQuery } from "@/store/react-query/queryFactory";
 import { useShopStore } from "@/store/zustand/shopStore";
@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
 import { hardNavigate } from "@zayne-labs/toolkit-core";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { z } from "zod";
 
 const CheckoutSchema = z.object({
@@ -23,6 +24,7 @@ const [CartItemsList] = getElementList();
 function CheckoutPage() {
 	const cart = useShopStore((state) => state.cart);
 	const cartActions = useShopStore((state) => state.actions);
+	const navigate = useNavigate();
 
 	const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0); // Compute total price via zustand store subscription in future
 
@@ -81,6 +83,28 @@ function CheckoutPage() {
 		hardNavigate(result.data.data?.paymentUrl as string);
 	});
 
+	if (cart.length === 0) {
+		return (
+			<main className="mx-auto max-w-[120rem] px-[1.6rem] py-[2rem] md:px-[4rem] md:py-[3rem]">
+				<header className="flex items-center justify-between border-b pb-[1.6rem] md:pb-[2rem]">
+					<h1 className="text-[2.4rem] font-[700] md:text-[3.2rem]">Checkout</h1>
+				</header>
+
+				<div className="mt-[4rem] flex flex-col items-center justify-center gap-[2rem] text-center">
+					<p className="text-[1.8rem] font-[500] text-gray-400">Your cart is empty</p>
+					<Button
+						theme="primary"
+						className="rounded-[0.8rem] bg-navbar px-[2rem] py-[1rem] text-[1.6rem] font-[500]
+							text-white transition-all hover:bg-primary"
+						onClick={() => void navigate("/")}
+					>
+						Continue Shopping
+					</Button>
+				</div>
+			</main>
+		);
+	}
+
 	return (
 		<main className="mx-auto max-w-[120rem] px-[1.6rem] py-[2rem] md:px-[4rem] md:py-[3rem]">
 			<header className="flex items-center justify-between border-b pb-[1.6rem] md:pb-[2rem]">
@@ -99,9 +123,7 @@ function CheckoutPage() {
 					<div className="grid gap-[2.4rem] md:grid-cols-2 md:gap-[2rem]">
 						<div className="md:col-span-2">
 							<Form.Field control={control} name="username">
-								<Form.Label
-									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
-								>
+								<Form.Label className="text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]">
 									Username
 								</Form.Label>
 								<Form.Input
@@ -109,7 +131,7 @@ function CheckoutPage() {
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
 										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
-										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										bg-transparent px-[1.2rem] text-[1.4rem] text-input transition-colors
 										duration-200 placeholder:text-gray-400 focus-within:border-navbar
 										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
@@ -123,9 +145,7 @@ function CheckoutPage() {
 
 						<div className="md:col-span-2">
 							<Form.Field control={control} name="email">
-								<Form.Label
-									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
-								>
+								<Form.Label className="text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]">
 									Email
 								</Form.Label>
 								<Form.Input
@@ -133,7 +153,7 @@ function CheckoutPage() {
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
 										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
-										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										bg-transparent px-[1.2rem] text-[1.4rem] text-input transition-colors
 										duration-200 placeholder:text-gray-400 focus-within:border-navbar
 										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
@@ -147,9 +167,7 @@ function CheckoutPage() {
 
 						<div className="md:col-span-2">
 							<Form.Field control={control} name="address">
-								<Form.Label
-									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
-								>
+								<Form.Label className="text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]">
 									Address
 								</Form.Label>
 								<Form.Input
@@ -157,7 +175,7 @@ function CheckoutPage() {
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
 										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
-										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										bg-transparent px-[1.2rem] text-[1.4rem] text-input transition-colors
 										duration-200 placeholder:text-gray-400 focus-within:border-navbar
 										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
@@ -171,9 +189,7 @@ function CheckoutPage() {
 
 						<div>
 							<Form.Field control={control} name="city">
-								<Form.Label
-									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
-								>
+								<Form.Label className="text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]">
 									City
 								</Form.Label>
 								<Form.Input
@@ -181,7 +197,7 @@ function CheckoutPage() {
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
 										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
-										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										bg-transparent px-[1.2rem] text-[1.4rem] text-input transition-colors
 										duration-200 placeholder:text-gray-400 focus-within:border-navbar
 										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
@@ -194,10 +210,12 @@ function CheckoutPage() {
 						</div>
 
 						<div>
-							<Form.Field control={control} name="country">
-								<Form.Label
-									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
-								>
+							<Form.Field
+								control={control}
+								name="country"
+								className="text-[1.5rem] md:text-[1.6rem]"
+							>
+								<Form.Label className="text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]">
 									Country
 								</Form.Label>
 								<Form.Input
@@ -205,7 +223,7 @@ function CheckoutPage() {
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
 										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
-										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										bg-transparent px-[1.2rem] text-[1.4rem] text-input transition-colors
 										duration-200 placeholder:text-gray-400 focus-within:border-navbar
 										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
@@ -219,9 +237,7 @@ function CheckoutPage() {
 
 						<div>
 							<Form.Field control={control} name="zipCode">
-								<Form.Label
-									className="block text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]"
-								>
+								<Form.Label className="text-[1.5rem] font-medium tracking-tight md:text-[1.6rem]">
 									ZIP Code
 								</Form.Label>
 								<Form.Input
@@ -229,7 +245,7 @@ function CheckoutPage() {
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
 										input: `min-h-[4rem] rounded-[0.8rem] border-[1px] border-carousel-btn
-										bg-transparent px-[1.2rem] text-[1.5rem] text-input transition-colors
+										bg-transparent px-[1.2rem] text-[1.4rem] text-input transition-colors
 										duration-200 placeholder:text-gray-400 focus-within:border-navbar
 										dark:focus-within:border-carousel-dot md:min-h-[4.4rem] md:text-[1.6rem]`,
 									}}
@@ -242,13 +258,13 @@ function CheckoutPage() {
 						</div>
 
 						<Form.ErrorMessage
-							className="text-center text-[1.4rem] font-medium text-error"
+							className="text-center text-[1.3rem] font-medium text-error"
 							errorField="caughtError"
 							type="root"
 						/>
 
 						<Form.ErrorMessage
-							className="text-center text-[1.4rem] text-error"
+							className="text-center text-[1.3rem] text-error"
 							errorField="serverError"
 							type="root"
 						/>
@@ -279,35 +295,40 @@ function CheckoutPage() {
 						<CartItemsList
 							each={cart}
 							render={(item) => (
-								<div key={item.id} className="flex gap-[1.6rem] pt-[2rem]">
-									<div
-										className="size-[7rem] shrink-0 overflow-hidden rounded-[0.8rem] bg-gray-800"
-									>
-										<img
-											src={item.images[0]}
-											alt={item.title}
-											className="size-full object-cover"
-										/>
-									</div>
+								<div>
+									<div key={item.id} className="flex gap-[1.6rem] pt-[2rem]">
+										<div
+											className="size-[7rem] shrink-0 overflow-hidden rounded-[0.8rem]
+												bg-gray-800"
+										>
+											<ImageComponent
+												src={item.images[0]}
+												alt={item.title}
+												className="size-full object-cover"
+											/>
+										</div>
 
-									<div className="flex flex-1 justify-between gap-[1rem]">
-										<div>
-											<h3 className="text-[1.5rem] font-[500] leading-tight">{item.title}</h3>
-											<p className="mt-[0.4rem] text-[1.3rem] text-gray-400">
-												Quantity: {item.quantity}
+										<div className="flex flex-1 justify-between gap-[1rem]">
+											<div>
+												<h3 className="text-[1.5rem] font-[500] leading-tight">
+													{item.title}
+												</h3>
+												<p className="mt-[0.4rem] text-[1.3rem] text-gray-400">
+													Quantity: {item.quantity}
+												</p>
+											</div>
+											<p className="shrink-0 text-[1.5rem] font-[500]">
+												${item.price.toLocaleString()}
 											</p>
 										</div>
-										<p className="shrink-0 text-[1.5rem] font-[500]">
-											${item.price.toLocaleString()}
-										</p>
 									</div>
 								</div>
 							)}
 						/>
 
-						<div className="flex items-center justify-between pt-[2rem]">
-							<p className="text-[1.6rem] font-[600]">Total</p>
-							<p className="text-[1.6rem] font-[600]">${totalPrice.toLocaleString()}</p>
+						<div className="flex items-center justify-between pt-[2rem] text-base font-semibold">
+							<p>Total</p>
+							<p>${totalPrice.toLocaleString()}</p>
 						</div>
 					</div>
 				</aside>
