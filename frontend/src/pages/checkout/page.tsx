@@ -88,12 +88,12 @@ function CheckoutPage() {
 			</header>
 
 			<section
-				className="mt-[2rem] flex flex-col gap-[3rem] md:mt-[4rem] md:flex-row-reverse md:gap-[4rem]"
+				className="mx-auto mt-[2rem] flex max-w-[120rem] flex-col gap-[3rem] px-[2rem] md:mt-[4rem]
+					md:flex-row md:items-center md:gap-[4rem]"
 			>
 				<Form.Root
 					methods={methods}
-					className="mt-[2rem] flex flex-col gap-[2.4rem] text-[1.4rem] md:mt-[2.5rem] md:gap-[1.8rem]
-						md:text-[1.6rem]"
+					className="w-full gap-[2.4rem]"
 					onSubmit={(event) => void onSubmit(event)}
 				>
 					<div className="grid gap-[2.4rem] md:grid-cols-2 md:gap-[2rem]">
@@ -260,11 +260,10 @@ function CheckoutPage() {
 									theme="primary"
 									disabled={isSubmitting}
 									isLoading={isSubmitting}
-									className="mt-[2rem] w-full rounded-[0.8rem] bg-navbar py-[1.4rem] text-[1.5rem]
+									className="mt-[2rem] h-[4.4rem] w-full rounded-[0.8rem] bg-navbar text-[1.5rem]
 										font-[600] text-white shadow-sm transition-all hover:bg-primary
 										hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed
-										disabled:brightness-75 md:mt-[2.4rem] md:rounded-[1rem] md:py-[1.6rem]
-										md:text-[1.6rem]"
+										disabled:brightness-75 md:mt-[2.4rem] md:rounded-[1rem] md:text-[1.6rem]"
 								>
 									Place Order
 								</Button>
@@ -273,63 +272,44 @@ function CheckoutPage() {
 					</div>
 				</Form.Root>
 
-				{/* Order Summary */}
-				<aside className="w-full rounded-lg bg-gray-50 p-[1.6rem] dark:bg-gray-800 md:p-[2rem]">
-					<h2 className="mb-[1.6rem] text-[1.8rem] font-medium md:mb-[2rem] md:text-[2rem]">
-						Order Summary
-					</h2>
+				<aside className="rounded-[0.8rem] bg-[#1c2128] p-[2rem] md:w-[50rem]">
+					<h2 className="mb-[2rem] text-[1.8rem] font-[600]">Order Summary</h2>
 
-					<Show.Root when={cart.length > 0}>
-						<div className="flex flex-col gap-[2rem]">
-							<CartItemsList
-								className="mt-[1.6rem] flex flex-col gap-[1.2rem] md:mt-[2rem] md:gap-[1.5rem]"
-								each={cart}
-								render={(item) => (
+					<div className="flex flex-col gap-[2rem] divide-y-[1px] divide-carousel-btn">
+						<CartItemsList
+							each={cart}
+							render={(item) => (
+								<div key={item.id} className="flex gap-[1.6rem] pt-[2rem]">
 									<div
-										key={item.id}
-										className="flex items-center gap-[1.2rem] border-b pb-[1.2rem]
-											md:gap-[1.5rem] md:pb-[1.5rem]"
+										className="size-[7rem] shrink-0 overflow-hidden rounded-[0.8rem] bg-gray-800"
 									>
-										<ImageComponent
+										<img
 											src={item.images[0]}
 											alt={item.title}
-											classNames={{
-												image: "size-[6rem] rounded-md object-cover md:size-[8rem]",
-												wrapper: "size-fit",
-											}}
+											className="size-full object-cover"
 										/>
+									</div>
 
+									<div className="flex flex-1 justify-between gap-[1rem]">
 										<div>
-											<h3 className="text-[1.4rem] font-[500] md:text-[1.6rem]">
-												{item.title}
-											</h3>
-											<p
-												className="text-[1.2rem] text-gray-600 dark:text-gray-400
-													md:text-[1.4rem]"
-											>
+											<h3 className="text-[1.5rem] font-[500] leading-tight">{item.title}</h3>
+											<p className="mt-[0.4rem] text-[1.3rem] text-gray-400">
 												Quantity: {item.quantity}
 											</p>
-											<p className="text-[1.4rem] font-[600] md:text-[1.6rem]">
-												${item.price * item.quantity}
-											</p>
 										</div>
+										<p className="shrink-0 text-[1.5rem] font-[500]">
+											${item.price.toLocaleString()}
+										</p>
 									</div>
-								)}
-							/>
+								</div>
+							)}
+						/>
 
-							<div
-								className="mt-[1.2rem] flex items-center justify-between text-[1.6rem]
-									md:mt-[1.6rem] md:text-[1.8rem]"
-							>
-								<span>Total</span>
-								<span className="font-medium">${totalPrice}</span>
-							</div>
+						<div className="flex items-center justify-between pt-[2rem]">
+							<p className="text-[1.6rem] font-[600]">Total</p>
+							<p className="text-[1.6rem] font-[600]">${totalPrice.toLocaleString()}</p>
 						</div>
-
-						<Show.Otherwise>
-							<p className="text-[1.6rem] font-[600] md:text-[1.8rem]">Your cart is empty</p>
-						</Show.Otherwise>
-					</Show.Root>
+					</div>
 				</aside>
 			</section>
 		</main>
