@@ -1,12 +1,11 @@
-import type { NextFunction, Request, Response } from "express";
+import type { Request } from "express";
 import { AppError } from "../utils";
+import { catchAsync } from "./catchAsyncErrors";
 
-const notFoundHandler = (req: Request, _res: Response, next: NextFunction) => {
+const notFoundHandler = catchAsync((req: Request) => {
 	const message = `No '${req.method.toUpperCase()}' request handler defined for '${req.originalUrl}'. Check the API documentation for more details.`;
 
-	const error = new AppError(404, message);
-
-	next(error);
-};
+	throw new AppError(404, message);
+});
 
 export { notFoundHandler };

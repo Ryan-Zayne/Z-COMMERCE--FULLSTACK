@@ -1,7 +1,7 @@
 import { ENVIRONMENT } from "@/config/env";
 import { type ExtractUnion, defineEnum } from "@zayne-labs/toolkit-type-helpers";
 
-export const PORT = ENVIRONMENT.PORT;
+export const PORT = ENVIRONMENT.PORT || 8000;
 
 export const isDevMode = ENVIRONMENT.NODE_ENV === "development";
 

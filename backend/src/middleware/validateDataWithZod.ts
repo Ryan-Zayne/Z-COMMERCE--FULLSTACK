@@ -10,7 +10,7 @@ const SCHEMA_LOOKUP = new Map<string, ZodSchema>([
 
 const methodsToSkip = new Set(["GET"]);
 
-export const validateBodyWithZodGlobal = catchAsync<{ path: string }>((req, res, next) => {
+export const validateBodyWithZodGlobal = catchAsync((req, res, next) => {
 	if (methodsToSkip.has(req.method)) {
 		next();
 		return;
