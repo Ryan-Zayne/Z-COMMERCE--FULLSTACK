@@ -1,11 +1,14 @@
-import { Button, Logo, Show, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
+import { Logo } from "@/components/primitives/Logo";
+import { Button } from "@/components/primitives/button";
 import { Drawer, type DrawerContentProps, type DrawerStore } from "@/components/ui/Drawer";
 import { cnJoin } from "@/lib/utils/cn";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
+import { getElementList } from "@zayne-labs/ui-react/common/for";
+import { Show } from "@zayne-labs/ui-react/common/show";
 import { Link } from "react-router";
-import CartItem from "./CartItem";
+import { CartItem } from "./CartItem";
 
 type CartDrawerProps = { drawerCtx: DrawerStore; placement?: DrawerContentProps["placement"] };
 
@@ -89,4 +92,4 @@ function CartDrawer(props: CartDrawerProps) {
 	);
 }
 
-export default CartDrawer;
+export { CartDrawer };

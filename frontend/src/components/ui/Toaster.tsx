@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "sonner";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
-const SonnerToaster = (props: ToasterProps) => {
+function SonnerToaster(props: ToasterProps) {
 	const theme = useThemeStore((state) => state.theme as ToasterProps["theme"]);
 
 	return (
@@ -40,6 +40,6 @@ const SonnerToaster = (props: ToasterProps) => {
 			{...props}
 		/>
 	);
-};
+}
 
-export default SonnerToaster;
+export { SonnerToaster };

@@ -1,0 +1,6 @@
+import{j as e,L as r}from"./index-CtoIyiXC.js";import{B as m}from"./Button-CJczChup.js";function a(){return e.jsx("main",{className:`mx-auto flex min-h-[calc(100vh-8rem)] max-w-[120rem] flex-col items-center
+				justify-center px-[1.6rem] py-[2rem] md:px-[4rem] md:py-[3rem]`,children:e.jsxs("div",{className:`flex max-w-[50rem] flex-col items-center gap-[2rem] rounded-lg bg-gray-50 p-[2rem]
+					text-center dark:bg-gray-800 md:p-[4rem]`,children:[e.jsx("div",{className:`flex size-[8rem] items-center justify-center rounded-full bg-success text-[4rem]
+						text-white`,children:"✓"}),e.jsxs("div",{className:"flex flex-col gap-[1rem]",children:[e.jsx("h1",{className:"text-[2.4rem] font-[700] md:text-[3.2rem]",children:"Payment Successful!"}),e.jsx("p",{className:"text-[1.4rem] text-gray-600 dark:text-gray-400 md:text-[1.6rem]",children:"Thank you for your order. Your payment has been processed successfully."})]}),e.jsx(m,{asChild:!0,theme:"primary",className:`mt-[1rem] w-full rounded-[0.8rem] bg-navbar py-[1.2rem] text-[1.4rem] font-medium
+						text-white hover:bg-primary md:mt-[2rem] md:rounded-[1rem] md:py-[1.5rem]
+						md:text-[1.6rem]`,children:e.jsx(r,{to:"/",children:"Continue Shopping"})})]})})}export{a as default};

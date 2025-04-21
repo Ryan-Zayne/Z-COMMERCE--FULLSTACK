@@ -1,5 +1,5 @@
-import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
+import { Button } from "@/components/primitives/button";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 
 function HamBurgerButton() {
@@ -11,4 +11,4 @@ function HamBurgerButton() {
 		</Button>
 	);
 }
-export default HamBurgerButton;
+export { HamBurgerButton };

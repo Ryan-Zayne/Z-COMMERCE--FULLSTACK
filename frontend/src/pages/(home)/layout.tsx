@@ -1,11 +1,12 @@
-import { Footer, Navbar, ScrollToTopButton } from "@/components/ui";
+import { Footer } from "@/components/ui/Footer";
+import { Navbar } from "@/components/ui/Navbar";
+import { ScrollToTopButton } from "@/components/ui/ScrollToTopButton";
 import { Outlet, ScrollRestoration, useLocation } from "react-router";
-
-const productItemPathPattern = /^\/products\/[a-z]+\/\d+$/;
 
 function HomeLayout() {
 	const href = useLocation().pathname;
-	const isProductItemPage = productItemPathPattern.test(href);
+
+	const withoutFooter = href.startsWith("/products") || href.startsWith("/user");
 
 	return (
 		<>
@@ -13,7 +14,7 @@ function HomeLayout() {
 			<ScrollToTopButton />
 			<Navbar />
 			<Outlet />
-			{!isProductItemPage && <Footer />}
+			{!withoutFooter && <Footer />}
 		</>
 	);
 }

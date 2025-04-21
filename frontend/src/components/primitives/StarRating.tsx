@@ -33,4 +33,4 @@ function StarRating(props: StarRatingProps) {
 	);
 }
 
-export default StarRating;
+export { StarRating };

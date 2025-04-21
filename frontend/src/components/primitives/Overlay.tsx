@@ -18,4 +18,4 @@ function Overlay({ isOpen, onClose, "z-index": zIndex = "z-[200]" }: OverlayProp
 	);
 }
 
-export default Overlay;
+export { Overlay };

@@ -1,5 +1,7 @@
-import { Button, ImageComponent, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
+import { ImageComponent } from "@/components/primitives/ImageComponent";
+import { Button } from "@/components/primitives/button";
+import { getElementList } from "@zayne-labs/ui-react/common/for";
 import { m } from "motion/react";
 
 const coreValues = [

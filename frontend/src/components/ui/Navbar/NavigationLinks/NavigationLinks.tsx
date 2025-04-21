@@ -1,9 +1,10 @@
-import { Button, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
-import Logo from "@/components/primitives/Logo";
-import Overlay from "@/components/primitives/Overlay";
+import { Logo } from "@/components/primitives/Logo";
+import { Overlay } from "@/components/primitives/Overlay";
+import { Button } from "@/components/primitives/button";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
+import { getElementList } from "@zayne-labs/ui-react/common/for";
 import { NavLink } from "react-router";
 import CategoryMenu from "./CategoryMenu";
 
@@ -21,7 +22,7 @@ type NavItemsType = Array<
 	  }
 >;
 
-const NavigationLinks = () => {
+function NavigationLinks() {
 	const isDesktop = useGlobalStore((state) => state.isDesktop);
 	const isNavShow = useGlobalStore((state) => state.isNavShow);
 	const { toggleNavShow } = useGlobalStore((state) => state.actions);
@@ -115,6 +116,6 @@ const NavigationLinks = () => {
 			)}
 		</nav>
 	);
-};
+}
 
-export default NavigationLinks;
+export { NavigationLinks };

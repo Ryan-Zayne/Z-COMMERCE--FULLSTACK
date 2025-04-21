@@ -1,4 +1,7 @@
-import { Button, Form, Show, Switch } from "@/components/primitives";
+import { Button } from "@/components/primitives/button";
+import { Form } from "@/components/primitives/form";
+import { Show } from "@/components/primitives/show";
+import { Switch } from "@/components/primitives/switch";
 import {
 	type FormErrorResponseType,
 	type UserSessionData,
@@ -30,7 +33,7 @@ function SharedForm(props: FormAreaProps) {
 	const navigate = useNavigate();
 
 	const methods = useForm<FormBodySchemaType>({
-		resolver: zodResolver(formVariant === "signup" ? SignupBodySchema : SigninBodySchema) as never,
+		resolver: zodResolver((formVariant === "signup" ? SignupBodySchema : SigninBodySchema) as never),
 	});
 
 	const { control, handleSubmit, setError } = methods;

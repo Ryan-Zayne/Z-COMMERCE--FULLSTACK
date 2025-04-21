@@ -1,0 +1,61 @@
+import { IconBox } from "@/components/primitives/IconBox";
+import { Button } from "@/components/primitives/button";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { ProductCard } from "@/components/ui/ProductCard";
+import { useGetProductByCategory } from "@/store/react-query/useGetProductByCategory";
+import type { ExtractUnion } from "@zayne-labs/toolkit-type-helpers";
+import { assertDefined } from "@zayne-labs/toolkit-type-helpers";
+import { getElementList } from "@zayne-labs/ui-react/common/for";
+import { Link, useParams } from "react-router";
+
+// TODO - Remove once you start serving the products from your backend
+const productCategories = new Set(["smartphones", "laptops", "lighting", "watches", "vehicles"] as const);
+
+function ProductCategoryPage() {
+	const { category } = useParams<{ category: ExtractUnion<typeof productCategories> }>();
+
+	const { isPending, productsArrayByCategory } = useGetProductByCategory({
+		category,
+		productCategories,
+	});
+
+	const [ProductCategoryCardList] = getElementList();
+
+	if (isPending) {
+		return <LoadingSkeleton count={category === "watches" || category === "vehicles" ? 10 : 5} />;
+	}
+
+	return (
+		<section className="mt-[3rem] lg:mt-[5rem]">
+			<header className="flex items-center justify-center">
+				<Button unstyled={true} className="ml-[3rem] text-[3rem]">
+					<Link to={"/"}>
+						<IconBox icon="typcn:arrow-back" />
+					</Link>
+				</Button>
+
+				<h1 className="mx-auto text-center text-[3rem] font-[700] capitalize lg:text-[4rem]">
+					{category === "lighting" ? "Digital Lighting" : category}
+				</h1>
+			</header>
+
+			<article className="mt-[4rem] px-[3rem]">
+				<ProductCategoryCardList
+					className="grid grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))] justify-items-center
+						gap-[5rem_2rem]"
+					each={productsArrayByCategory}
+					render={(product) => (
+						<ProductCard
+							key={product?.id}
+							link={`/products/${product?.category}/${product?.id}`}
+							image={product?.images[1] ?? ""}
+							productItem={assertDefined(product)}
+						/>
+					)}
+				/>
+			</article>
+		</section>
+	);
+}
+
+export default ProductCategoryPage;

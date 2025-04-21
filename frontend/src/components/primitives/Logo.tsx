@@ -16,4 +16,5 @@ function Logo({ className = "" }: { className?: string }) {
 		</Link>
 	);
 }
-export default Logo;
+
+export { Logo };

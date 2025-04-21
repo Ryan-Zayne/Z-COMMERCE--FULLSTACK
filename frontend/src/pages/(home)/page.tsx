@@ -1,11 +1,11 @@
-import { Show } from "@/components/primitives";
-import { LoadingSkeleton } from "@/components/ui";
+import { Show } from "@/components/primitives/show";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
-import Categories from "./components/Categories";
-import Hero from "./components/Hero/Hero";
-import HotSalesProducts from "./components/ProductSections/HotSalesProducts";
-import RecentProducts from "./components/ProductSections/RecentProducts";
-import SimilarProducts from "./components/ProductSections/SimilarProducts";
+import Categories from "./_components/Categories";
+import Hero from "./_components/Hero/Hero";
+import HotSalesProducts from "./_components/ProductSections/HotSalesProducts";
+import RecentProducts from "./_components/ProductSections/RecentProducts";
+import SimilarProducts from "./_components/ProductSections/SimilarProducts";
 
 function Home() {
 	const {

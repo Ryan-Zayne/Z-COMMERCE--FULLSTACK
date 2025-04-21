@@ -1,6 +1,7 @@
 import { cnMerge } from "@/lib/utils/cn";
 import { useScrollObserver } from "@zayne-labs/toolkit-react";
-import { Button, IconBox } from "../primitives";
+import { IconBox } from "../primitives/IconBox";
+import { Button } from "../primitives/button";
 
 function ScrollToTopButton() {
 	const { isScrolled, observedElementRef } = useScrollObserver<HTMLDivElement>({
@@ -28,4 +29,4 @@ function ScrollToTopButton() {
 	);
 }
 
-export default ScrollToTopButton;
+export { ScrollToTopButton };

@@ -1,13 +1,15 @@
-import { Button, Overlay, Teleport } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
+import { Overlay } from "@/components/primitives/Overlay";
+import { Button } from "@/components/primitives/button";
+import { Teleport } from "@/components/primitives/teleport";
 import { cnMerge } from "@/lib/utils/cn";
+import { DrawerContextProvider, useDrawerStore } from "./drawer-context";
 import type {
 	DrawerCloseProps,
 	DrawerContentProps,
 	DrawerRootProviderProps,
 	OtherDrawerProps,
-} from "./drawer.types";
-import { DrawerContextProvider, useDrawerStore } from "./drawerStoreContext";
+} from "./types";
 
 function DrawerRootProvider({ children, value }: DrawerRootProviderProps) {
 	return (
@@ -89,7 +91,7 @@ function DrawerFooter({ children, className = "" }: OtherDrawerProps) {
 	);
 }
 
-const Drawer = {
+export const Drawer = {
 	Body: DrawerBody,
 	CloseButton: DrawerCloseButton,
 	Content: DrawerContent,
@@ -98,5 +100,3 @@ const Drawer = {
 	Overlay: DrawerOverlay,
 	Root: DrawerRootProvider,
 };
-
-export default Drawer;

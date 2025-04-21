@@ -1,5 +1,6 @@
 import { BarScaleIcon } from "@/components/icons";
-import { Button, IconBox } from "@/components/primitives";
+import { IconBox } from "@/components/primitives/IconBox";
+import { Button } from "@/components/primitives/button";
 import { verifyEmailQuery } from "@/store/react-query/queryFactory";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";

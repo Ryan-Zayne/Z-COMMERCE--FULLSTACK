@@ -1,7 +1,8 @@
-import { Button, getElementList } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
+import { Button } from "@/components/primitives/button";
 import { cnMerge } from "@/lib/utils/cn";
 import type { MyCustomCss, PolymorphicProps } from "@zayne-labs/toolkit-react/utils";
+import { getElementList } from "@zayne-labs/ui-react/common/for";
 import type {
 	CarouselButtonsProps,
 	CarouselContentProps,

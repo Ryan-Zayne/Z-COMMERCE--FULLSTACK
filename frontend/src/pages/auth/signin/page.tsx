@@ -1,5 +1,6 @@
-import { Button, Logo } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
+import { Logo } from "@/components/primitives/Logo";
+import { Button } from "@/components/primitives/button";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { AnimatePresence, m } from "motion/react";
 import { Link, useLocation } from "react-router";

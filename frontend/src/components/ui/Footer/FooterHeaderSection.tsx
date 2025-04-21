@@ -1,5 +1,5 @@
 import { IconBox } from "@/components/primitives/IconBox";
-import SearchForm from "@/components/ui/SearchForm";
+import { SearchForm } from "@/components/ui/SearchForm";
 import { m } from "motion/react";
 import { NewsletterIcon, getOnApple, getOnGoogle } from "./images";
 
@@ -76,4 +76,4 @@ function FooterHeaderSection() {
 	);
 }
 
-export default FooterHeaderSection;
+export { FooterHeaderSection };

@@ -1,4 +1,4 @@
-import type { ForRenderProps } from "@/components/primitives/For";
+import type { ForRenderProps } from "@/components/primitives/for";
 import type { Prettify } from "@zayne-labs/toolkit-type-helpers";
 import type { StoreApi } from "zustand";
 

@@ -1,8 +1,10 @@
-import { Button, IconBox, Show } from "@/components/primitives";
+import { IconBox } from "@/components/primitives/IconBox";
+import { Button } from "@/components/primitives/button";
 import { callBackendApi } from "@/lib/api/callBackendApi";
 import { useQueryClientStore } from "@/store/react-query/queryClientStore";
 import { sessionQuery } from "@/store/react-query/queryFactory";
 import { Timer } from "@ark-ui/react";
+import { Show } from "@zayne-labs/ui-react/common/show";
 import { useState } from "react";
 
 const resendEmail = async () => {

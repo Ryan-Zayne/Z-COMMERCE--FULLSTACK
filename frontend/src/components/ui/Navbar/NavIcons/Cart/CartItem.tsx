@@ -1,5 +1,5 @@
-import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
+import { Button } from "@/components/primitives/button";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ShopStore } from "@/store/zustand/types";
@@ -51,4 +51,4 @@ function CartItem({ product }: CartItemProps) {
 	);
 }
 
-export default CartItem;
+export { CartItem };

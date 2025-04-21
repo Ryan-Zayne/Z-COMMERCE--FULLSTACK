@@ -78,4 +78,4 @@ function ImageComponent(props: ImageComponentProps) {
 	);
 }
 
-export default ImageComponent;
+export { ImageComponent };

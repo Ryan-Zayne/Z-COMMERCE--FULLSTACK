@@ -1,5 +1,5 @@
-import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
+import { Button } from "@/components/primitives/button";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
 
@@ -37,4 +37,4 @@ function ThemeSwitchButton() {
 	);
 }
 
-export default ThemeSwitchButton;
+export { ThemeSwitchButton };

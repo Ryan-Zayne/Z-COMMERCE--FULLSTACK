@@ -1,7 +1,7 @@
 import type { InferProps, PolymorphicProps } from "@zayne-labs/toolkit-react/utils";
 import { type VariantProps, tv } from "tailwind-variants";
 import { SpinnerIcon } from "../icons";
-import { Slot, Slottable } from "./Slot";
+import { Slot, Slottable } from "./slot";
 
 export type ButtonProps = InferProps<"button">
 	& VariantProps<typeof button> & {
@@ -94,4 +94,4 @@ function Button<TElement extends React.ElementType = "button">(
 	);
 }
 
-export default Button;
+export { Button };

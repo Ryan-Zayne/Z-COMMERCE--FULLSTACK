@@ -1,5 +1,5 @@
 import { type CallApiParameters, type ResultModeUnion, createFetchClient } from "@zayne-labs/callapi";
-import type { AnyFunction } from "@zayne-labs/toolkit-type-helpers";
+import type { AnyFunction, UnionDiscriminator } from "@zayne-labs/toolkit-type-helpers";
 import { redirectOn401Error } from "./plugins";
 
 export type ApiSuccessType<TData> = {
@@ -19,16 +19,20 @@ export type ApiErrorType<TError = never> = {
 type GlobalMeta = {
 	redirectOn401Error?:
 		| boolean
-		| {
-				navigateFn?: AnyFunction;
-				onRedirect: () => void;
-				path?: never;
-		  }
-		| {
-				navigateFn?: AnyFunction;
-				onRedirect?: never;
-				path?: `/${string}`;
-		  };
+		| UnionDiscriminator<
+				[
+					{
+						errorMessage?: string | null;
+						navigateFn?: AnyFunction;
+						onError: () => void;
+					},
+					{
+						errorMessage?: string | null;
+						navigateFn?: AnyFunction;
+						path?: `/${string}`;
+					},
+				]
+		  >;
 };
 
 declare module "@zayne-labs/callapi" {

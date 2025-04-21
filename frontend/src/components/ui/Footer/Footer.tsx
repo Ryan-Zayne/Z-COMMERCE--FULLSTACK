@@ -1,5 +1,5 @@
-import FooterDropDowns from "./FooterDropDowns";
-import FooterHeaderSection from "./FooterHeaderSection";
+import { FooterDropDowns } from "./FooterDropDowns";
+import { FooterHeaderSection } from "./FooterHeaderSection";
 
 function Footer() {
 	return (
@@ -17,4 +17,4 @@ function Footer() {
 	);
 }
 
-export default Footer;
+export { Footer };

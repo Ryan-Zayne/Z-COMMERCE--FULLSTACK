@@ -1,4 +1,4 @@
-import { Logo } from "@/components/primitives";
+import { Logo } from "@/components/primitives/Logo";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { preload } from "react-dom";

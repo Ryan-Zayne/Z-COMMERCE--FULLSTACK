@@ -1,5 +1,5 @@
-import NavIcons from "./NavIcons/NavIcons";
-import NavigationLinks from "./NavigationLinks/NavigationLinks";
+import { NavIconsHeader } from "./NavIcons/NavIconsHeader";
+import { NavigationLinks } from "./NavigationLinks/NavigationLinks";
 
 function Navbar() {
 	return (
@@ -7,10 +7,10 @@ function Navbar() {
 			id="Navbar"
 			className="flex flex-wrap justify-center pt-[1rem] max-md:pb-[2rem] md:gap-[2rem]"
 		>
-			<NavIcons />
+			<NavIconsHeader />
 			<NavigationLinks />
 		</header>
 	);
 }
 
-export default Navbar;
+export { Navbar };

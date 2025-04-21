@@ -41,7 +41,7 @@ export const sessionQuery = (
 		"meta" | "onError" | "onRequestError" | "onResponseError" | "onSuccess"
 	>
 ) => {
-	const sessionKey = ["session", options?.meta?.redirectOn401Error];
+	const sessionKey = ["session"];
 
 	return queryOptions({
 		queryFn: () =>
@@ -53,7 +53,7 @@ export const sessionQuery = (
 				onSuccess: options?.onSuccess,
 			}),
 
-		// eslint-disable-next-line tanstack-query/exhaustive-deps -- Disabled cuz functions cannot be serialized
+		// eslint-disable-next-line tanstack-query/exhaustive-deps
 		queryKey: sessionKey,
 		retry: false,
 		select: (data) => data.data,

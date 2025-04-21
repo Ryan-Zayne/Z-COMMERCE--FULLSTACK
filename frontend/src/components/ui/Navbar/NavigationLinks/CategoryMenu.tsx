@@ -1,6 +1,6 @@
-import { Button } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
-import DropDown from "@/components/ui/DropDown/DropDown";
+import { Button } from "@/components/primitives/button";
+import { DropDown } from "@/components/ui/DropDown";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useDisclosure } from "@zayne-labs/toolkit-react";

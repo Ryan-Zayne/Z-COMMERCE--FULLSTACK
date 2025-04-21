@@ -1,4 +1,4 @@
-import { Slot } from "@/components/primitives";
+import { Slot } from "@/components/primitives/slot";
 import { cnMerge } from "@/lib/utils/cn";
 import type { PolymorphicProps } from "@zayne-labs/toolkit-react/utils";
 
@@ -49,10 +49,8 @@ function DropDownPanel(props: DropDownPanelProps) {
 	);
 }
 
-const DropDown = {
+export const DropDown = {
 	Panel: DropDownPanel,
 	Root: DropDownRoot,
 	Trigger: DropDownTrigger,
 };
-
-export default DropDown;

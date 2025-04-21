@@ -1,7 +1,8 @@
-import { Button, Show } from "@/components/primitives";
 import { IconBox } from "@/components/primitives/IconBox";
-import Logo from "@/components/primitives/Logo";
-import DropDown from "@/components/ui/DropDown/DropDown";
+import { Logo } from "@/components/primitives/Logo";
+import { Button } from "@/components/primitives/button";
+import { Show } from "@/components/primitives/show";
+import { DropDown } from "@/components/ui/DropDown";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useDisclosure } from "@zayne-labs/toolkit-react";
@@ -238,4 +239,4 @@ function FooterDropDowns() {
 	);
 }
 
-export default FooterDropDowns;
+export { FooterDropDowns };

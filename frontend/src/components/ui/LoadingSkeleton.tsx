@@ -2,7 +2,7 @@
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { getElementList } from "../primitives";
+import { getElementList } from "../primitives/for";
 
 type SkeletonProps = {
 	count?: number;
@@ -30,7 +30,8 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 							<li
 								key={id}
 								className={cnMerge(
-									"rounded-[1.2rem w-[min(100%,25rem)] box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)]"
+									`rounded-[1.2rem w-[min(100%,25rem)]
+									box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)]`
 								)}
 							>
 								<SkeletonTheme
@@ -91,4 +92,4 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 	return SKELETON_LOOKUP[variant]();
 }
 
-export default LoadingSkeleton;
+export { LoadingSkeleton };

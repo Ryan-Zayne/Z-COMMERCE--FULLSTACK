@@ -1,5 +1,4 @@
 import { definePlugin } from "@zayne-labs/callapi";
-import { hardNavigate } from "@zayne-labs/toolkit-core";
 import { isObject } from "@zayne-labs/toolkit-type-helpers";
 import { toast } from "sonner";
 
@@ -24,16 +23,18 @@ export const redirectOn401Error = definePlugin((context?: Context) => {
 					? options.meta.redirectOn401Error
 					: {};
 
-				const { navigateFn = hardNavigate, onRedirect, path } = redirectOn401ErrorMeta;
+				const { navigateFn, onError, path } = redirectOn401ErrorMeta;
 
-				if (onRedirect) {
-					onRedirect();
+				if (onError) {
+					onError();
 					return;
 				}
 
-				toast.error("Unauthorized! Redirecting `to sign in page...", { duration: 2000 });
+				const message = redirectOn401ErrorMeta.errorMessage;
 
-				navigateFn(path ?? "/auth/signin");
+				message && toast.error(message, { duration: 2000 });
+
+				navigateFn?.(path ?? "/auth/signin");
 			},
 		},
 
