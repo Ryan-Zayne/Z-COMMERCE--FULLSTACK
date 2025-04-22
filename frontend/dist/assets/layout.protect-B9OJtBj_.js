@@ -1,1 +1,0 @@
-import{j as s,O as t,l as e,s as r}from"./index-CtoIyiXC.js";import{u as o}from"./useQuery-BY2eLaKI.js";import"./suspense-CbsXQd16.js";function m(){return o(r()).data?s.jsx(t,{}):s.jsx(e,{})}export{m as default};
