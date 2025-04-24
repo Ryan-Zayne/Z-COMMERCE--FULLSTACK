@@ -1,7 +1,7 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import { ImageComponent } from "@/components/primitives/ImageComponent";
 import { Button } from "@/components/primitives/button";
-import { Carousel } from "@/components/ui/Carousel";
+import { Carousel } from "@/components/ui/carousel";
 import { useAnimateElementRefs } from "@zayne-labs/toolkit-react";
 import { slideImages } from "./images";
 
@@ -45,7 +45,7 @@ function Hero() {
 						}}
 					/>
 
-					<Carousel.ItemWrapper<(typeof slideImages)[number]>
+					<Carousel.ItemGroup<(typeof slideImages)[number]>
 						render={(image) => (
 							<Carousel.Item key={image.src} className="brightness-[0.6]">
 								<ImageComponent
@@ -98,8 +98,18 @@ function Hero() {
 						</Button>
 					</Carousel.Caption>
 
-					<Carousel.IndicatorWrapper<(typeof slideImages)[number]>
-						render={(image, index) => <Carousel.Indicator key={image.src} currentIndex={index} />}
+					<Carousel.IndicatorGroup<(typeof slideImages)[number]>
+						render={(image, index) => (
+							<Carousel.Indicator
+								key={image.src}
+								currentIndex={index}
+								classNames={{
+									base: `bg-carousel-btn hover:bg-carousel-dot
+									hover:[box-shadow:0_0_5px_var(--carousel-dot)]`,
+									isActive: "bg-carousel-dot",
+								}}
+							/>
+						)}
 					/>
 				</Carousel.Content>
 			</Carousel.Root>

@@ -1,6 +1,6 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import { ImageComponent } from "@/components/primitives/ImageComponent";
-import { Carousel, type CarouselProviderProps } from "@/components/ui/Carousel";
+import { Carousel, type CarouselProviderProps } from "@/components/ui/carousel";
 
 type ItemHeroProps = {
 	slideImages: Extract<CarouselProviderProps["images"], string[]>;
@@ -28,7 +28,7 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 					}}
 				/>
 
-				<Carousel.ItemWrapper<(typeof slideImages)[number]>
+				<Carousel.ItemGroup<(typeof slideImages)[number]>
 					className={"brightness-[0.65]"}
 					render={(image) => (
 						<Carousel.Item key={image}>
@@ -37,16 +37,15 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 					)}
 				/>
 
-				<Carousel.IndicatorWrapper<(typeof slideImages)[number]>
+				<Carousel.IndicatorGroup<(typeof slideImages)[number]>
 					render={(image, index) => (
 						<Carousel.Indicator
 							key={image}
 							currentIndex={index}
 							classNames={{
-								activeBtn: "w-[0.6rem] bg-[hsl(220,62%,31%)] p-[0.4rem]",
-
 								base: `bg-[hsl(198,14%,14%)] hover:bg-[hsl(220,62%,31%)]
 								hover:box-shadow-[0_0_5px_hsl(220,62%,31%)]`,
+								isActive: "w-[0.6rem] bg-[hsl(220,62%,31%)] p-[0.4rem]",
 							}}
 						/>
 					)}
