@@ -36,11 +36,15 @@ const validateUserStatus = async (decodedPayload: DecodedJwtPayload, zayneRefres
 		throw new AppError(404, AUTH_ERRORS.USER_NOT_FOUND);
 	}
 
-	// At this point, the refresh token is still valid but is not in the array
-	// So it can be seen as a token reuse situation
-	// So log out the user from all devices to reduce the risk of another token reuse attack
+	// == At this point, the refresh token is still valid but is not in the array
+	// == So it can be seen as a token reuse situation
+	// == So log out the user from all devices to reduce the risk of another token reuse attack
 	if (!currentUser.refreshTokenArray.includes(zayneRefreshToken)) {
-		consola.error("Token reuse detected!");
+		consola.warn({
+			message: "Possible token reuse detected!",
+			timestamp: new Date().toISOString(),
+			userId: currentUser.id as string,
+		});
 
 		void currentUser.updateOne({ refreshTokenArray: [] });
 

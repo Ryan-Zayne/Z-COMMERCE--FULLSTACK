@@ -1,2 +1,3 @@
-export { Drawer } from "./Drawer";
+export * as Drawer from "./Drawer";
+
 export type * from "./types";

@@ -32,6 +32,7 @@ function FooterDropDowns() {
 		<m.section
 			initial={{ opacity: 0, y: 100 }}
 			whileInView={{ opacity: 1, y: 0 }}
+			viewport={{ once: true }}
 			transition={{ duration: 0.6 }}
 			id="DropDown Section"
 			className="flex flex-col gap-[2rem] p-[6rem_1.5rem_4rem] lg:flex-row lg:justify-between

@@ -4,12 +4,12 @@ import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useSearch } from "@zayne-labs/toolkit-react";
 import { useEffect } from "react";
 import { Link } from "react-router";
-import { IconBox } from "../primitives/IconBox";
+import { IconBox, type MoniconIconBoxProps } from "../primitives/IconBox";
 import { Button, type ButtonProps } from "../primitives/button";
 import { getElementList } from "../primitives/for";
 
 type SearchFormProps = Pick<ButtonProps, "size" | "theme" | "variant"> & {
-	buttonIcon?: string;
+	buttonIcon?: MoniconIconBoxProps["icon"];
 
 	classNames?: {
 		base?: string;

@@ -4,7 +4,7 @@ import { catchAsync } from "@/middleware";
 import { AppResponse, removeCookie } from "@/utils";
 import type { HydratedDocument } from "mongoose";
 
-// @route GET /api/auth/logout
+// @route GET /api/auth/signout
 // @access Private
 const signOut = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res) => {
 	const currentUser = req.user;

@@ -1,13 +1,18 @@
-import { heroui } from "@heroui/theme";
+// import { heroui } from "@heroui/theme";
 import plugin from "tailwindcss/plugin";
 import type { Config } from "tailwindcss/types/config";
 
 const tailwindConfig = {
-	content: ["./index.html", "./src/**/*.{ts,tsx}"],
-	darkMode: ["class", '[data-theme="dark"]'],
+	content: [
+		"./index.html",
+		"./src/**/*.{ts,tsx}",
+		"./node_modules/@zayne-labs/ui-react/dist/esm/**/*.{js,ts,tsx}",
+	],
+
+	darkMode: ["class", "[data-theme='dark']"],
 
 	plugins: [
-		heroui(),
+		// heroui(),
 		plugin((pluginObj) => {
 			// eslint-disable-next-line ts-eslint/unbound-method
 			const { addComponents, matchUtilities, matchVariant } = pluginObj;
@@ -60,6 +65,8 @@ const tailwindConfig = {
 						opacity: "1",
 						width: "calc(100% + 0.2rem)",
 					},
+
+					position: "relative",
 				},
 			});
 
@@ -114,6 +121,12 @@ const tailwindConfig = {
 				error: "var(--color-error)",
 				facebook: "var(--color-facebook)",
 				heading: "var(--text-header)",
+
+				heroui: {
+					content: "hsl(240 3.7% 15.88%)",
+					default: "hsl(240 5.03% 64.9%)",
+				},
+
 				input: "var(--text-input)",
 				label: "var(--text-label)",
 				light: "var(--text-light)",

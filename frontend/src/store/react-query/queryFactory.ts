@@ -1,6 +1,6 @@
 import {
-	type ApiSuccessType,
-	type UserSessionData,
+	type ApiSuccessResponse,
+	type SessionData,
 	callBackendApiForQuery,
 } from "@/lib/api/callBackendApi";
 import { callDummyApi } from "@/lib/api/callDummyApi";
@@ -23,6 +23,31 @@ export const productKeyEnum = defineEnum([
 	...vehiclesProductKeys,
 ]);
 
+export const sessionQuery = (
+	options?: Pick<
+		CallApiExtraOptions<ApiSuccessResponse<SessionData>>,
+		"meta" | "onError" | "onRequestError" | "onResponseError" | "onSuccess"
+	>
+) => {
+	const sessionKey = ["session"];
+
+	return queryOptions({
+		queryFn: () => {
+			return callBackendApiForQuery("/auth/session", {
+				meta: { redirectOn401Error: false, ...options?.meta },
+				onError: options?.onError,
+				onRequestError: options?.onRequestError,
+				onResponseError: options?.onResponseError,
+				onSuccess: options?.onSuccess,
+			});
+		},
+		// eslint-disable-next-line tanstack-query/exhaustive-deps
+		queryKey: sessionKey,
+		retry: false,
+		staleTime: 1 * 60 * 1000,
+	});
+};
+
 export const productQuery = <TKey extends (typeof productKeyEnum)[number]>(key: TKey) => {
 	const url = `/products/category/${key}`;
 
@@ -32,32 +57,6 @@ export const productQuery = <TKey extends (typeof productKeyEnum)[number]>(key: 
 		queryFn: () => callDummyApi(url),
 		queryKey: productKey,
 		select: (data) => data.products,
-	});
-};
-
-export const sessionQuery = (
-	options?: Pick<
-		CallApiExtraOptions<ApiSuccessType<UserSessionData>>,
-		"meta" | "onError" | "onRequestError" | "onResponseError" | "onSuccess"
-	>
-) => {
-	const sessionKey = ["session"];
-
-	return queryOptions({
-		queryFn: () =>
-			callBackendApiForQuery("/auth/session", {
-				meta: { redirectOn401Error: false, ...options?.meta },
-				onError: options?.onError,
-				onRequestError: options?.onRequestError,
-				onResponseError: options?.onResponseError,
-				onSuccess: options?.onSuccess,
-			}),
-
-		// eslint-disable-next-line tanstack-query/exhaustive-deps
-		queryKey: sessionKey,
-		retry: false,
-		select: (data) => data.data,
-		staleTime: 1 * 60 * 1000,
 	});
 };
 

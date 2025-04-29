@@ -1,5 +1,5 @@
-import type { DummyResponseDataItem } from "@/store/react-query/types";
+import type { ProductItem } from "@/store/react-query/types";
 
 export type DataArrayProp = {
-	data: Array<DummyResponseDataItem | undefined>;
+	data: Array<ProductItem | undefined>;
 };

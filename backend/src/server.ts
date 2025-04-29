@@ -33,7 +33,7 @@ app.use(cors(corsOptions)); // Cors
 app.use(rateLimit(rateLimitOptions)); // Rate Limiting
 // app.use(mongoSanitize({ replaceWith: "_" })); // Data sanitization against NoSQL query injection - Incompatible with express v5
 app.use(hpp()); // Prevent Parameter Pollution
-app.use((_, res, next) => {
+app.use((_req, res, next) => {
 	// Prevent browser from caching sensitive information
 	res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
 	res.set("Pragma", "no-cache");
@@ -43,6 +43,7 @@ app.use((_, res, next) => {
 
 /**
  *  == Middleware - Logger
+ *  FIXME: Add winston later following guide for logging in brave tabs
  */
 app.use(morgan("dev"));
 

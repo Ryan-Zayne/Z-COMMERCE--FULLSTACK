@@ -20,33 +20,35 @@ const ErrorPage = lazy(() => import("@/pages/error"));
 /* eslint-disable react/no-nested-lazy-component-declarations */
 const routes = createRoutesFromElements(
 	<Route errorElement={<ErrorPage />}>
-		<Route Component={HomeLayout} errorElement={<ErrorPage />}>
-			<Route loader={composeLoaders(sessionLoader, productLoader)}>
-				<Route path="/" Component={lazy(() => import("@/pages/(home)/page"))} />
+		<Route
+			loader={composeLoaders(sessionLoader, productLoader)}
+			Component={HomeLayout}
+			errorElement={<ErrorPage />}
+		>
+			<Route path="/" Component={lazy(() => import("@/pages/(home)/page"))} />
 
-				<Route path="/products" Component={lazy(() => import("@/pages/(home)/products/page"))} />
+			<Route path="/products" Component={lazy(() => import("@/pages/(home)/products/page"))} />
 
-				<Route
-					path="/products/:category"
-					Component={lazy(() => import("@/pages/(home)/products/[category]/page"))}
-				/>
+			<Route
+				path="/products/:category"
+				Component={lazy(() => import("@/pages/(home)/products/[category]/page"))}
+			/>
 
-				<Route
-					path="/products/:category/:productId"
-					Component={lazy(() => import("@/pages/(home)/products/[category]/[productId]/page"))}
-				/>
+			<Route
+				path="/products/:category/:productId"
+				Component={lazy(() => import("@/pages/(home)/products/[category]/[productId]/page"))}
+			/>
 
-				<Route path="/about" Component={lazy(() => import("@/pages/(home)/about/page"))} />
+			<Route path="/about" Component={lazy(() => import("@/pages/(home)/about/page"))} />
 
-				<Route path="/checkout" Component={lazy(() => import("@/pages/(home)/checkout/page"))} />
+			<Route path="/checkout" Component={lazy(() => import("@/pages/(home)/checkout/page"))} />
 
-				<Route
-					path="/checkout/success"
-					Component={lazy(() => import("@/pages/(home)/checkout/success/page"))}
-				/>
-			</Route>
+			<Route
+				path="/checkout/success"
+				Component={lazy(() => import("@/pages/(home)/checkout/success/page"))}
+			/>
 
-			<Route loader={sessionLoader} Component={ProtectionLayout}>
+			<Route Component={ProtectionLayout}>
 				<Route
 					path="/user/account"
 					Component={lazy(() => import("@/pages/(home)/user/account/page"))}
@@ -58,7 +60,7 @@ const routes = createRoutesFromElements(
 			<Route path="/auth/signup" Component={lazy(() => import("@/pages/auth/signup/page"))} />
 			<Route path="/auth/signin" Component={lazy(() => import("@/pages/auth/signin/page"))} />
 
-			<Route Component={VerifyEmailLayout}>
+			<Route Component={VerifyEmailLayout} loader={sessionLoader}>
 				<Route
 					path="/auth/verify-email"
 					Component={lazy(() => import("@/pages/auth/verify-email/page"))}

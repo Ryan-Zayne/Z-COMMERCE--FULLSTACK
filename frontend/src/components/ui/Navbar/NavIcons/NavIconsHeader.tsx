@@ -3,16 +3,17 @@ import { Logo } from "@/components/primitives/Logo";
 import { Button } from "@/components/primitives/button";
 import { DropDown } from "@/components/ui/DropDown";
 import { SearchForm } from "@/components/ui/SearchForm";
+import { callBackendApi } from "@/lib/api/callBackendApi";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { sessionQuery } from "@/store/react-query/queryFactory";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDisclosure, useToggle } from "@zayne-labs/toolkit-react";
 import { useEffect } from "react";
 import { Link } from "react-router";
-import { CartDrawer } from "./Cart/CartDrawer";
+import { CartDrawerAndButton } from "./Cart/CartDrawer";
 import { HamBurgerButton } from "./HamBurgerButton";
 import { ThemeSwitchButton } from "./ThemeSwitchButton";
 
@@ -24,7 +25,6 @@ function NavIconsHeader() {
 
 	const cart = useShopStore((state) => state.cart);
 
-	const drawerCtx = useDisclosure({ hasScrollControl: true });
 	const dropDownCtx = useDisclosure();
 
 	const sessionQueryResult = useQuery(sessionQuery());
@@ -35,6 +35,19 @@ function NavIconsHeader() {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isMobile, isSearchShow]);
+
+	const queryClient = useQueryClient();
+
+	const logout = () => {
+		void callBackendApi("/auth/signout", {
+			meta: {
+				toast: { success: true },
+			},
+			onSuccess: () => {
+				queryClient.removeQueries({ queryKey: sessionQuery().queryKey });
+			},
+		});
+	};
 
 	return (
 		<div
@@ -99,37 +112,29 @@ function NavIconsHeader() {
 							panelContainer: "absolute top-[5.1rem] z-[100] w-[15rem]",
 							panelList: cnJoin(
 								`flex flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem]
-								text-[1.3rem] [&_>_a:hover]:navlink-transition [&_>_a]:relative`,
-
+								text-[1.3rem] [&_>_*:hover]:navlink-transition`,
 								dropDownCtx.isOpen && "py-[1.5rem]"
 							),
 						}}
 					>
 						{sessionQueryResult.data && <Link to="user/account">My Account</Link>}
+						{sessionQueryResult.data && (
+							<Button
+								unstyled={true}
+								onClick={() => {
+									logout();
+									dropDownCtx.onClose();
+								}}
+							>
+								Logout
+							</Button>
+						)}
 						{cart.length > 0 && <Link to="/checkout">Checkout</Link>}
-						{!sessionQueryResult.data && <Link to="/auth/signin">User Login</Link>}
+						{!sessionQueryResult.data && <Link to="/auth/signin">Sign in</Link>}
 					</DropDown.Panel>
 				</DropDown.Root>
 
-				<Button
-					unstyled={true}
-					type="button"
-					className="relative active:scale-[1.1] lg:text-[2.3rem]"
-					onClick={drawerCtx.onOpen}
-				>
-					<IconBox icon="bx:cart-alt" className="hover:text-heading" />
-
-					{cart.length > 0 && (
-						<span
-							className="absolute right-[-1rem] top-[-0.6rem] inline-flex size-[1.7rem] items-center
-								justify-center rounded-[50%] bg-secondary text-[1.2rem] font-[500]"
-						>
-							{cart.length}
-						</span>
-					)}
-				</Button>
-
-				<CartDrawer drawerCtx={drawerCtx} />
+				<CartDrawerAndButton />
 
 				<ThemeSwitchButton />
 

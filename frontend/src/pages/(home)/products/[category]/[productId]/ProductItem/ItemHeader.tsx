@@ -1,13 +1,13 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import { Button } from "@/components/primitives/button";
-import type { DummyResponseDataItem } from "@/store/react-query/types";
+import type { ProductItem } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
 import type { ShopStore } from "@/store/zustand/types";
 import { useToggle } from "@zayne-labs/toolkit-react";
 import { Link } from "react-router";
 
 type ItemHeaderProps = {
-	productItem: DummyResponseDataItem | ShopStore["cart"][number];
+	productItem: ProductItem | ShopStore["cart"][number];
 };
 
 function ItemHeader({ productItem }: ItemHeaderProps) {

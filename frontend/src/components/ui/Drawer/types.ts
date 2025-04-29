@@ -1,10 +1,7 @@
+import type { useDisclosure } from "@zayne-labs/toolkit-react";
+
 // Drawer store types
-export type DrawerStore = {
-	isOpen: boolean;
-	onClose: () => void;
-	onOpen: () => void;
-	onToggle?: () => void;
-};
+export type DrawerStore = ReturnType<typeof useDisclosure>;
 
 export type DrawerRootProviderProps = { children: React.ReactNode; value: DrawerStore };
 
@@ -14,4 +11,3 @@ export type DrawerContentProps = Pick<DrawerRootProviderProps, "children"> & {
 };
 
 export type DrawerCloseProps = Pick<DrawerContentProps, "className"> & { icon?: string };
-export type OtherDrawerProps = Omit<DrawerContentProps, "placement">;

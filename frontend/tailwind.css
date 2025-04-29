@@ -90,9 +90,10 @@
 	}
 
 	body {
-		overflow-y: var(--overflow-y, auto);
-		padding-right: var(--scrollbar-padding, 0);
-
+		--scrollbar-padding: 0px;
+		--overflow-y: auto;
+		overflow-y: var(--overflow-y);
+		padding-right: var(--scrollbar-padding);
 		position: relative;
 		font-size: 1.6rem;
 		font-family: theme("fontFamily.rubik");

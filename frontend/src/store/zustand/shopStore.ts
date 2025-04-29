@@ -1,5 +1,6 @@
+import { createWithSubscribe } from "@zayne-labs/toolkit-react/zustand";
 import { toast } from "sonner";
-import { type StateCreator, create } from "zustand";
+import type { StateCreator } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ShopStore } from "./types";
 
@@ -14,6 +15,10 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 	cart: [],
 	/* eslint-disable perfectionist/sort-objects */
 	wishList: [],
+
+	totalPrice: 0,
+
+	getTotalPrice: () => get().cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
 
 	actions: {
 		/* eslint-enable perfectionist/sort-objects */
@@ -103,11 +108,18 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 });
 
 // Store hook Creation
-export const useShopStore = create(
+export const useShopStore = createWithSubscribe(
 	persist(shopStateObjectFn, {
 		name: "shop",
 		// eslint-disable-next-line ts-eslint/no-unused-vars
 		partialize: ({ actions, ...actualState }) => actualState,
 		version: 1,
 	})
+);
+
+// Computed State
+useShopStore.subscribe.withSelector(
+	(state) => state.cart,
+	() => useShopStore.setState({ totalPrice: useShopStore.getState().getTotalPrice() }),
+	{ fireListenerImmediately: true }
 );

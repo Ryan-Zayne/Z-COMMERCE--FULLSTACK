@@ -1,4 +1,4 @@
-export type DummyResponseDataItem = {
+export type ProductItem = {
 	brand: string;
 	category: string;
 	description: string;
@@ -12,5 +12,5 @@ export type DummyResponseDataItem = {
 };
 
 export type DummyResponseData = {
-	products: DummyResponseDataItem[];
+	products: ProductItem[];
 };

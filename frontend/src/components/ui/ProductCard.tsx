@@ -1,5 +1,5 @@
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
-import type { DummyResponseDataItem } from "@/store/react-query/types";
+import type { ProductItem } from "@/store/react-query/types";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
@@ -16,7 +16,7 @@ import { Button } from "../primitives/button";
 type ProductCardProps = {
 	image: string;
 	link: string;
-	productItem: DummyResponseDataItem | ResponseDataItemInCart;
+	productItem: ProductItem | ResponseDataItemInCart;
 };
 
 function ProductCard(props: ProductCardProps) {

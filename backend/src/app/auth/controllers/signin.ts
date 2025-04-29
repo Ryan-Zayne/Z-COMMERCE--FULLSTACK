@@ -4,6 +4,7 @@ import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
 import type { SigninBodySchemaType } from "@/validation";
+import { consola } from "consola";
 import { differenceInHours } from "date-fns";
 import { sendVerificationEmail } from "../services";
 
@@ -66,12 +67,7 @@ const signIn = catchAsync<{
 		maxAge: ENVIRONMENT.REFRESH_JWT_EXPIRES_IN,
 	});
 
-	const updatedTokenArray = [
-		...(zayneRefreshToken
-			? currentUser.refreshTokenArray.filter((t) => t !== zayneRefreshToken)
-			: currentUser.refreshTokenArray),
-		newZayneRefreshToken,
-	];
+	const updatedTokenArray = getUpdatedTokenArray(currentUser as HydratedUserType, zayneRefreshToken);
 
 	const updatedUser = await UserModel.findByIdAndUpdate(
 		currentUser.id,
@@ -80,7 +76,7 @@ const signIn = catchAsync<{
 			loginRetries: 0,
 			// eslint-disable-next-line perfectionist/sort-objects
 			lastLogin: Date.now(),
-			refreshTokenArray: updatedTokenArray,
+			refreshTokenArray: [...updatedTokenArray, newZayneRefreshToken],
 		},
 		{ new: true }
 	);
@@ -91,3 +87,27 @@ const signIn = catchAsync<{
 });
 
 export { signIn };
+
+const getUpdatedTokenArray = (currentUser: HydratedUserType, zayneRefreshToken: string): string[] => {
+	if (!zayneRefreshToken) {
+		return currentUser.refreshTokenArray;
+	}
+
+	if (currentUser.refreshTokenArray.includes(zayneRefreshToken)) {
+		const updatedTokenArray = currentUser.refreshTokenArray.filter((t) => t !== zayneRefreshToken);
+
+		return updatedTokenArray;
+	}
+
+	// == At this point where the refreshToken is not in the array, the question is why would a user be signing in with a refreshToken that is not in the array?
+	// == So it can be seen as a token reuse situation. Whether it's valid or not is not even up for question.
+	// == Is it a possible token reuse attack or not? E no concern me.
+	// == Just log out the user from all devices by removing all tokens from the array to avoid any possible wahala
+	consola.warn({
+		message: "Possible token reuse detected!",
+		timestamp: new Date().toISOString(),
+		userId: currentUser.id,
+	});
+
+	return [];
+};

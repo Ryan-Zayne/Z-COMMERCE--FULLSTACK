@@ -1,5 +1,5 @@
 import { definePlugin } from "@zayne-labs/callapi";
-import { isObject } from "@zayne-labs/toolkit-type-helpers";
+import { type AnyFunction, type UnionDiscriminator, isObject } from "@zayne-labs/toolkit-type-helpers";
 import { toast } from "sonner";
 
 type Context = {
@@ -8,7 +8,26 @@ type Context = {
 
 const defaultRoutesToSkip = ["/auth/signin", "/auth/signup"];
 
-export const redirectOn401Error = definePlugin((context?: Context) => {
+export type RedirectOn401ErrorPluginMeta = {
+	redirectOn401Error?:
+		| boolean
+		| UnionDiscriminator<
+				[
+					{
+						errorMessage?: string | null;
+						navigateFn?: AnyFunction;
+						onError: () => void;
+					},
+					{
+						errorMessage?: string | null;
+						navigateFn?: AnyFunction;
+						path?: `/${string}`;
+					},
+				]
+		  >;
+};
+
+export const redirectOn401ErrorPlugin = definePlugin((context?: Context) => {
 	const routesToSkip = [...defaultRoutesToSkip, ...(context?.routesToSkip ?? [])];
 
 	return {

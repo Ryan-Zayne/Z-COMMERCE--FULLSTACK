@@ -1,6 +1,6 @@
 import type { FormBodySchemaType } from "@/lib/schemas/formSchema";
 
-export type UserSessionData = {
+export type SessionData = {
 	user: {
 		email: string;
 		id: string;

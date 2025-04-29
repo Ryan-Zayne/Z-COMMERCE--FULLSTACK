@@ -26,10 +26,10 @@ const [CartItemsList] = getElementList();
 
 function CheckoutPage() {
 	const cart = useShopStore((state) => state.cart);
+	const totalPrice = useShopStore((state) => state.totalPrice);
+
 	const cartActions = useShopStore((state) => state.actions);
 	const navigate = useNavigate();
-
-	const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0); // Compute total price via zustand store subscription in future
 
 	const sessionQueryResult = useQuery(sessionQuery());
 
@@ -40,8 +40,8 @@ function CheckoutPage() {
 			address: "",
 			city: "",
 			country: "",
-			email: sessionQueryResult.data?.user.email ?? "",
-			username: sessionQueryResult.data?.user.username ?? "",
+			email: sessionQueryResult.data?.data?.user.email ?? "",
+			username: sessionQueryResult.data?.data?.user.username ?? "",
 			zipCode: "",
 		},
 	});
@@ -58,7 +58,7 @@ function CheckoutPage() {
 				quantity: item.quantity,
 			})),
 			customerEmail: formData.email,
-			customerId: sessionQueryResult.data?.user.id ?? "",
+			customerId: sessionQueryResult.data?.data?.user.id ?? "",
 			redirectURL: `${window.location.origin}/checkout/success`,
 		};
 
@@ -298,34 +298,29 @@ function CheckoutPage() {
 						<CartItemsList
 							each={cart}
 							render={(item) => (
-								<div>
-									<div key={item.id} className="flex gap-[1.6rem] pt-[2rem]">
-										<div
-											className="size-[7rem] shrink-0 overflow-hidden rounded-[0.8rem]
-												bg-gray-800"
-										>
-											<ImageComponent
-												src={item.images[0]}
-												alt={item.title}
-												className="size-full object-cover"
-											/>
-										</div>
+								<li key={item.id} className="flex gap-[1.6rem] pt-[2rem]">
+									<div
+										className="size-[7rem] shrink-0 overflow-hidden rounded-[0.8rem] bg-gray-800"
+									>
+										<ImageComponent
+											src={item.images[0]}
+											alt={item.title}
+											className="size-full object-cover"
+										/>
+									</div>
 
-										<div className="flex flex-1 justify-between gap-[1rem]">
-											<div>
-												<h3 className="text-[1.5rem] font-[500] leading-tight">
-													{item.title}
-												</h3>
-												<p className="mt-[0.4rem] text-[1.3rem] text-gray-400">
-													Quantity: {item.quantity}
-												</p>
-											</div>
-											<p className="shrink-0 text-[1.5rem] font-[500]">
-												${item.price.toLocaleString()}
+									<div className="flex flex-1 justify-between gap-[1rem]">
+										<div>
+											<h3 className="text-[1.5rem] font-[500] leading-tight">{item.title}</h3>
+											<p className="mt-[0.4rem] text-[1.3rem] text-gray-400">
+												Quantity: {item.quantity}
 											</p>
 										</div>
+										<p className="shrink-0 text-[1.5rem] font-[500]">
+											${item.price.toLocaleString()}
+										</p>
 									</div>
-								</div>
+								</li>
 							)}
 						/>
 

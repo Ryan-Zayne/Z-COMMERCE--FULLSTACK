@@ -4,7 +4,7 @@ import { Teleport } from "./teleport";
 
 const LOADER_LOOKUP = {
 	auth: () => (
-		<Teleport>
+		<Teleport to="body">
 			<aside
 				className="fixed inset-0 z-[700] flex select-none items-center justify-center bg-black/60
 					backdrop-blur-[1.5px]"

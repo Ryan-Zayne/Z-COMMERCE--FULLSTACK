@@ -2,11 +2,7 @@ import { Button } from "@/components/primitives/button";
 import { Form } from "@/components/primitives/form";
 import { Show } from "@/components/primitives/show";
 import { Switch } from "@/components/primitives/switch";
-import {
-	type FormErrorResponseType,
-	type UserSessionData,
-	callBackendApi,
-} from "@/lib/api/callBackendApi";
+import { type FormErrorResponseType, type SessionData, callBackendApi } from "@/lib/api/callBackendApi";
 import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,16 +35,12 @@ function SharedForm(props: FormAreaProps) {
 	const { control, handleSubmit, setError } = methods;
 
 	const onSubmit = handleSubmit(async (formDataObj) => {
-		lockScroll({ isActive: true });
-
 		const AUTH_URL = formVariant === "signup" ? `/auth/signup` : `/auth/signin`;
 
-		const { data, error } = await callBackendApi<UserSessionData, FormErrorResponseType>(AUTH_URL, {
+		const { data, error } = await callBackendApi<SessionData, FormErrorResponseType>(AUTH_URL, {
 			body: formDataObj,
 			method: "POST",
 		});
-
-		lockScroll({ isActive: false });
 
 		if (isHTTPError(error) && error.errorData.errors) {
 			const zodErrorDetails = error.errorData.errors;

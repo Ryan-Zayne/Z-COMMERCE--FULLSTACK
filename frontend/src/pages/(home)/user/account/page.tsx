@@ -6,10 +6,6 @@ import { Link } from "react-router";
 function UserAccountPage() {
 	const sessionQueryResult = useQuery(sessionQuery());
 
-	if (!sessionQueryResult.data?.user) {
-		throw new Error("User not found");
-	}
-
 	return (
 		<main className="mx-auto max-w-[120rem] px-[1.6rem] py-[2rem] md:px-[4rem] md:py-[3rem]">
 			<header className="flex items-center justify-between border-b pb-[1.6rem] md:pb-[2rem]">
@@ -27,21 +23,21 @@ function UserAccountPage() {
 						<div>
 							<span className="font-medium">Username:</span>
 							<p className="mt-[0.4rem] text-gray-600 dark:text-gray-400">
-								{sessionQueryResult.data.user.username}
+								{sessionQueryResult.data?.data?.user.username}
 							</p>
 						</div>
 
 						<div>
 							<span className="font-medium">Email:</span>
 							<p className="mt-[0.4rem] text-gray-600 dark:text-gray-400">
-								{sessionQueryResult.data.user.email}
+								{sessionQueryResult.data?.data?.user.email}
 							</p>
 						</div>
 
 						<div>
 							<span className="font-medium">Email Verified:</span>
 							<p className="mt-[0.4rem] text-gray-600 dark:text-gray-400">
-								{sessionQueryResult.data.user.isEmailVerified ? "Yes" : "No"}
+								{sessionQueryResult.data?.data?.user.isEmailVerified ? "Yes" : "No"}
 							</p>
 						</div>
 					</div>

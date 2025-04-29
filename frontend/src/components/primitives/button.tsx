@@ -49,7 +49,7 @@ const button = tv({
 	},
 });
 
-function Button<TElement extends React.ElementType = "button">(
+function Button<TElement extends React.ElementType<ButtonProps> = "button">(
 	props: PolymorphicProps<TElement, ButtonProps>
 ) {
 	const {
@@ -61,7 +61,7 @@ function Button<TElement extends React.ElementType = "button">(
 		isDisabled = disabled,
 		isLoading,
 		size = "md",
-		theme = "ghost",
+		theme,
 		type = "button",
 		unstyled,
 		variant = "regular",

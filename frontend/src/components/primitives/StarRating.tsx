@@ -1,5 +1,5 @@
 import { cnMerge } from "@/lib/utils/cn";
-import { IconBox } from "./IconBox";
+import { IconBox, type MoniconIconBoxProps } from "./IconBox";
 
 type StarRatingProps = {
 	className?: string;
@@ -11,15 +11,17 @@ type StarRatingProps = {
 function StarRating(props: StarRatingProps) {
 	const { className = "", icon = "ant-design:star-filled", rating, text = "" } = props;
 
+	const iconName = icon as MoniconIconBoxProps["icon"];
+
 	const star5 = [...Array(5).keys()].map((id) => (
-		<IconBox icon={icon} key={id} color="var(--text-header)" />
+		<IconBox icon={iconName} key={id} color="var(--text-header)" />
 	));
 
 	const star4 = [...Array(5).keys()].map((id, index) =>
 		index === 4 ? (
-			<IconBox icon={icon} key={id} color="var(--text-dark)" />
+			<IconBox icon={iconName} key={id} color="var(--text-dark)" />
 		) : (
-			<IconBox icon={icon} key={id} color="var(--text-header)" />
+			<IconBox icon={iconName} key={id} color="var(--text-header)" />
 		)
 	);
 

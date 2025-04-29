@@ -1,12 +1,12 @@
 import { IconBox } from "@/components/primitives/IconBox";
 import { StarRating } from "@/components/primitives/StarRating";
 import { Button } from "@/components/primitives/button";
-import type { DummyResponseDataItem } from "@/store/react-query/types";
+import type { ProductItem } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { Link } from "react-router";
 
 type ItemDescriptionProps = {
-	productItem: DummyResponseDataItem;
+	productItem: ProductItem;
 };
 
 function ItemDescription({ productItem }: ItemDescriptionProps) {
@@ -95,23 +95,23 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 
 			<div className="mt-[4rem] flex gap-[3rem] font-[500] md:mt-auto md:justify-between">
 				<Button
-					theme={"secondary"}
-					variant={"shop"}
-					className={`w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out
+					theme="secondary"
+					variant="shop"
+					className="w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out
 						[box-shadow:0_0_0_1.3px_var(--color-secondary)] hover:scale-[1.1] hover:bg-heading
 						hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)]
-						active:scale-[1.1] lg:w-[20rem]`}
+						active:scale-[1.1] lg:w-[20rem]"
 				>
-					<Link to={"/checkout"}>Buy Now</Link>
+					<Link to="/checkout">Buy Now</Link>
 				</Button>
 
 				<Button
-					theme={"ghost"}
-					variant={"shop"}
-					className={`w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out
+					theme="ghost"
+					variant="shop"
+					className="w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out
 						[box-shadow:0_0_0_1.3px_theme(colors.primary)] hover:scale-[1.1] hover:bg-heading
 						hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)]
-						active:scale-[1.17] lg:w-[20rem]`}
+						active:scale-[1.17] lg:w-[20rem]"
 					onClick={handlePlus}
 				>
 					<IconBox icon="mdi:cart-outline" className="mr-[1rem] text-[2rem]" />
