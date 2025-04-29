@@ -1,7 +1,7 @@
 import { createCustomContext, useDisclosure } from "@zayne-labs/toolkit-react";
-import type { DrawerStore } from "./types";
+import type { DrawerContext } from "./types";
 
-export const [DrawerContextProvider, useDrawerContext] = createCustomContext<DrawerStore>({
+export const [DrawerContextProvider, useDrawerContext] = createCustomContext<DrawerContext>({
 	hookName: "useDrawerContext",
 	name: "DrawerContext",
 	providerName: "DrawerContextProvider",

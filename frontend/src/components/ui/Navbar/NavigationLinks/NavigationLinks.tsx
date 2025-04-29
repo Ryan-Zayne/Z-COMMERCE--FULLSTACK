@@ -51,7 +51,7 @@ function NavigationLinks() {
 		<nav className="relative flex w-full items-center justify-between font-[500] lg:pr-[2rem]">
 			{isDesktop && <CategoryMenu deviceType={"desktop"} />}
 
-			<Overlay isOpen={!isDesktop && isNavShow} onClose={toggleNavShow} z-index={"z-[100]"} />
+			<Overlay isOpen={!isDesktop && isNavShow} onClose={toggleNavShow} className="z-[100]" />
 
 			<ul
 				id="Navigation List"

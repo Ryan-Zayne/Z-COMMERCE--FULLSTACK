@@ -10,7 +10,7 @@ import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useDisclosure, useToggle } from "@zayne-labs/toolkit-react";
+import { useToggle } from "@zayne-labs/toolkit-react";
 import { useEffect } from "react";
 import { Link } from "react-router";
 import { CartDrawerAndButton } from "./Cart/CartDrawer";
@@ -24,8 +24,6 @@ function NavIconsHeader() {
 	const [isSearchShow, toggleSearchShow] = useToggle(false);
 
 	const cart = useShopStore((state) => state.cart);
-
-	const dropDownCtx = useDisclosure();
 
 	const sessionQueryResult = useQuery(sessionQuery());
 
@@ -95,43 +93,43 @@ function NavIconsHeader() {
 				</Button>
 
 				<DropDown.Root className={"relative flex items-center justify-center"}>
-					<DropDown.Trigger asChild={true}>
-						<Button
-							unstyled={true}
-							className="hover:text-heading hover:[transform:rotateY(360deg)]
-								hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
-							onClick={dropDownCtx.onToggle}
-						>
-							<IconBox icon="bx:user" />
-						</Button>
+					<DropDown.Trigger
+						asChild={true}
+						className="hover:text-heading hover:[transform:rotateY(360deg)]
+							hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
+					>
+						<IconBox icon="bx:user" />
 					</DropDown.Trigger>
 
-					<DropDown.Panel
-						isOpen={dropDownCtx.isOpen}
-						classNames={{
-							panelContainer: "absolute top-[5.1rem] z-[100] w-[15rem]",
-							panelList: cnJoin(
-								`flex flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem]
-								text-[1.3rem] [&_>_*:hover]:navlink-transition`,
-								dropDownCtx.isOpen && "py-[1.5rem]"
-							),
-						}}
-					>
-						{sessionQueryResult.data && <Link to="user/account">My Account</Link>}
-						{sessionQueryResult.data && (
-							<Button
-								unstyled={true}
-								onClick={() => {
-									logout();
-									dropDownCtx.onClose();
+					<DropDown.Context>
+						{(ctx) => (
+							<DropDown.Content
+								classNames={{
+									base: "absolute top-[5.1rem] z-[100] w-[15rem]",
+									listContainer: cnJoin(
+										`flex flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem]
+										text-[1.3rem] [&_>_*:hover]:navlink-transition`,
+										ctx.isOpen && "py-[1.5rem]"
+									),
 								}}
 							>
-								Logout
-							</Button>
+								{sessionQueryResult.data && <Link to="user/account">My Account</Link>}
+								{sessionQueryResult.data && (
+									<Button
+										unstyled={true}
+										onClick={() => {
+											logout();
+											ctx.onClose();
+										}}
+									>
+										Logout
+									</Button>
+								)}
+								{cart.length > 0 && <Link to="/checkout">Checkout</Link>}
+								{!sessionQueryResult.data && <Link to="/auth/signin">Sign in</Link>}
+							</DropDown.Content>
 						)}
-						{cart.length > 0 && <Link to="/checkout">Checkout</Link>}
-						{!sessionQueryResult.data && <Link to="/auth/signin">Sign in</Link>}
-					</DropDown.Panel>
+					</DropDown.Context>
 				</DropDown.Root>
 
 				<CartDrawerAndButton />

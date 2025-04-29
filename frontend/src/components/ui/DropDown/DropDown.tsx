@@ -1,40 +1,67 @@
 import { Slot } from "@/components/primitives/slot";
 import { cnMerge } from "@/lib/utils/cn";
-import { createCustomContext, useDisclosure } from "@zayne-labs/toolkit-react";
-import type { PolymorphicProps } from "@zayne-labs/toolkit-react/utils";
+import {
+	type DiscriminatedRenderProps,
+	type InferProps,
+	type PolymorphicProps,
+	composeTwoEventHandlers,
+} from "@zayne-labs/toolkit-react/utils";
+import {
+	type DropdownContext,
+	DropdownContextProvider,
+	useDropdown,
+	useDropdownContext,
+} from "./dropdown-context";
 
 type DropDownProps = React.ComponentPropsWithoutRef<"div">;
 
-type DropDownHeaderProps = React.ComponentPropsWithoutRef<"header"> & {
-	asChild?: boolean;
-};
+export function DropDownRootProvider<TElement extends React.ElementType = "div">(
+	props: PolymorphicProps<TElement, DropDownProps> & { value: DropdownContext }
+) {
+	const { as: Element = "div", value, ...restOfProps } = props;
 
-type DropDownPanelProps = Pick<DropDownProps, "children" | "id"> & {
-	classNames?: {
-		panelContainer?: string;
-		panelList?: string;
-	};
-	isOpen: boolean;
-};
+	return (
+		<DropdownContextProvider value={value}>
+			<Element {...restOfProps} />
+		</DropdownContextProvider>
+	);
+}
 
 export function DropDownRoot<TElement extends React.ElementType = "div">(
-	props: PolymorphicProps<TElement, DropDownProps>
+	props: Omit<InferProps<typeof DropDownRootProvider<TElement>>, "value">
 ) {
-	const { as: Element = "div", children, ...restOfProps } = props;
+	const dropdown = useDropdown();
 
-	const dropDownCtx = useDropDown();
-
-	return <Element {...restOfProps}>{children}</Element>;
+	return <DropDownRootProvider value={dropdown} {...(props as object)} />;
 }
 
-export function DropDownTrigger({ asChild, children, ...restOfProps }: DropDownHeaderProps) {
-	const Component = asChild ? Slot : "header";
+export function DropDownTrigger(props: InferProps<"button"> & { asChild?: boolean }) {
+	const { asChild = false, className, ...restOfProps } = props;
 
-	return <Component {...restOfProps}>{children}</Component>;
+	const Component = asChild ? Slot : "button";
+
+	const { onToggle } = useDropdownContext();
+
+	return (
+		<Component
+			{...restOfProps}
+			className={cnMerge("w-full", className)}
+			onClick={composeTwoEventHandlers(onToggle, restOfProps.onClick)}
+		/>
+	);
 }
 
-export function DropDownPanel(props: DropDownPanelProps) {
-	const { children, classNames, id = "", isOpen = false } = props;
+type DropDownContentProps = Pick<DropDownProps, "children" | "id"> & {
+	classNames?: {
+		base?: string;
+		listContainer?: string;
+	};
+};
+
+export function DropDownContent(props: DropDownContentProps) {
+	const { children, classNames, id = "" } = props;
+
+	const { isOpen } = useDropdownContext();
 
 	return (
 		<div
@@ -42,18 +69,31 @@ export function DropDownPanel(props: DropDownPanelProps) {
 			className={cnMerge(
 				"invisible grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-[500ms]",
 				isOpen && "visible grid-rows-[1fr]",
-				classNames?.panelContainer
+				classNames?.base
 			)}
 		>
-			<ul className={cnMerge("overflow-y-hidden [transition:padding_500ms]", classNames?.panelList)}>
+			<ul
+				className={cnMerge("overflow-y-hidden [transition:padding_500ms]", classNames?.listContainer)}
+			>
 				{children}
 			</ul>
 		</div>
 	);
 }
 
-export const Panel = DropDownPanel;
-export const Trigger = DropDownTrigger;
-export const Root = DropDownRoot;
+function DropDownContext(props: DiscriminatedRenderProps<(ctx: DropdownContext) => React.ReactNode>) {
+	const { children, render } = props;
+	const dropDownCtx = useDropdownContext();
 
-export const useDropDown = () => useDisclosure();
+	if (typeof children === "function") {
+		return children(dropDownCtx);
+	}
+
+	return render(dropDownCtx);
+}
+
+export const Context = DropDownContext;
+export const Content = DropDownContent;
+export const Trigger = DropDownTrigger;
+export const RootProvider = DropDownRootProvider;
+export const Root = DropDownRoot;

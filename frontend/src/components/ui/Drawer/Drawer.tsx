@@ -26,12 +26,10 @@ export function DrawerRootProvider(props: DrawerRootProviderProps) {
 	);
 }
 
-export function DrawerRoot(props: Pick<DrawerRootProviderProps, "children">) {
-	const { children } = props;
-
+export function DrawerRoot(props: Omit<InferProps<typeof DrawerRootProvider>, "value">) {
 	const drawer = useDrawer();
 
-	return <DrawerRootProvider value={drawer}>{children}</DrawerRootProvider>;
+	return <DrawerRootProvider value={drawer} {...props} />;
 }
 
 export function DrawerOverlay() {

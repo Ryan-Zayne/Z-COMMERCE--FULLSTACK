@@ -6,7 +6,7 @@ function HamBurgerButton() {
 	const { toggleNavShow } = useGlobalStore((state) => state.actions);
 
 	return (
-		<Button unstyled={true} id="Hamburger" className={"w-[2.6rem]"} onClick={toggleNavShow}>
+		<Button unstyled={true} id="Hamburger" className="w-[2.6rem]" onClick={toggleNavShow}>
 			<IconBox icon="ri:menu-3-fill" />
 		</Button>
 	);
