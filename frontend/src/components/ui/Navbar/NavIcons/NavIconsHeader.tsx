@@ -92,7 +92,7 @@ function NavIconsHeader() {
 					</Link>
 				</Button>
 
-				<DropDown.Root className={"relative flex items-center justify-center"}>
+				<DropDown.Root className="relative flex items-center justify-center">
 					<DropDown.Trigger
 						asChild={true}
 						className="hover:text-heading hover:[transform:rotateY(360deg)]
@@ -107,8 +107,9 @@ function NavIconsHeader() {
 								classNames={{
 									base: "absolute top-[5.1rem] z-[100] w-[15rem]",
 									listContainer: cnJoin(
-										`flex flex-col items-start gap-[1.5rem] rounded-[5px] bg-body px-[2rem]
-										text-[1.3rem] [&_>_*:hover]:navlink-transition`,
+										`flex flex-col items-start gap-[1.5rem] rounded-[8px] bg-body px-[2rem]
+										text-[1.3rem] [&_>_*:hover]:navlink-transition
+										lg:dark:shadow-[0_0px_7px_1px_theme(colors.primary)]`,
 										ctx.isOpen && "py-[1.5rem]"
 									),
 								}}

@@ -68,10 +68,10 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 				className={"relative z-50 ml-[1rem]"}
 			>
 				<DropDown.Trigger
-					className={`flex w-[28rem] cursor-pointer flex-row-reverse justify-end gap-[1rem]
-						rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-primary`}
+					className="flex w-[28rem] cursor-pointer flex-row-reverse justify-end gap-[1rem]
+						rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-primary"
 				>
-					<h3 className="font-[500]">Shop By Category</h3>
+					<h3 className="font-medium">Shop By Category</h3>
 
 					<span className="text-[2rem]">
 						<IconBox icon="bi:menu-button-fill" />
@@ -83,9 +83,9 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 					classNames={{
 						base: "absolute h-[48.5rem] w-full",
 						listContainer: cnJoin(
-							`bg-body px-[2rem] font-[400] box-shadow-[0_1px_3px_0_theme(colors.primary)]
-							dark:box-shadow-[0_1px_3px_0.3px_theme(colors.carousel-dot)]`,
-							dropdown.isOpen ? "pt-[5rem]" : "box-shadow-[none]"
+							`bg-body px-[2rem] shadow-[0_1px_3px_0_theme(colors.primary)]
+							dark:shadow-[0_1px_3px_0.3px_theme(colors.carousel-dot)]`,
+							dropdown.isOpen ? "pt-[5rem]" : "shadow-none"
 						),
 					}}
 				>
