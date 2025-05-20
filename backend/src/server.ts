@@ -11,8 +11,8 @@ import { authRouter } from "./app/auth/routes";
 import { paymentRouter } from "./app/payment/routes";
 import { corsOptions, helmetOptions, rateLimitOptions, setConnectionToDb } from "./config";
 import { ENVIRONMENT } from "./config/env";
-import { PORT } from "./constants";
 import { errorHandler, notFoundHandler, validateBodyWithZodGlobal } from "./middleware";
+import { swaggerRouter } from "./swagger";
 import { AppResponse } from "./utils";
 
 const app = express();
@@ -51,7 +51,30 @@ app.use(morgan("dev"));
  *  == Routes - v1
  */
 
-// Health check
+app.use("/api/docs", swaggerRouter);
+
+// Health Check
+/**
+ * @swagger
+ * /api/alive:
+ *   get:
+ *     summary: Health check endpoint
+ *     tags: [Health]
+ *     responses:
+ *       200:
+ *         description: Server is healthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 message:
+ *                   type: string
+ *                   example: Server is up and running
+ */
 app.get("/api/alive", (_req, res) => AppResponse(res, 200, "Server is up and running"));
 
 // Global request body validator
@@ -92,7 +115,7 @@ process.on("uncaughtException", (error) => {
 /**
  *  == Connect to DataBase and Listen for server
  */
-app.listen(PORT, () => {
+app.listen(ENVIRONMENT.PORT, () => {
 	void setConnectionToDb();
-	console.info(`Server listening at port ${PORT}`.yellow.italic);
+	console.info(`Server listening at ${ENVIRONMENT.BACKEND_URL}`.yellow.italic);
 });

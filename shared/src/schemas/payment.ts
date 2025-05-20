@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
-export const PaymentBodySchema = z.object({
+export const InitializePaymentSchema = z.object({
 	amount: z.number(),
 	cartItems: z.array(
 		z.object({
@@ -10,9 +10,13 @@ export const PaymentBodySchema = z.object({
 			quantity: z.number(),
 		})
 	),
-	customerEmail: z.string().email(),
+	customerEmail: z.email(),
 	customerId: z.string(),
-	redirectURL: z.string().url({ message: "Invalid redirect URL" }).optional(),
+	redirectURL: z.url({ error: "Invalid redirect URL" }).optional(),
 });
 
-export type PaymentBodySchemaType = z.infer<typeof PaymentBodySchema>;
+export type InitializePaymentSchemaType = z.infer<typeof InitializePaymentSchema>;
+
+export const VerifyPaymentSchema = z.object({
+	reference: z.string(),
+});

@@ -1,7 +1,7 @@
 import type { InferProps, PolymorphicProps } from "@zayne-labs/toolkit-react/utils";
 import { type VariantProps, tv } from "tailwind-variants";
 import { SpinnerIcon } from "../icons";
-import { Slot, Slottable } from "./slot";
+import { Slot } from "./slot";
 
 export type ButtonProps = InferProps<"button">
 	& VariantProps<typeof button> & {
@@ -68,7 +68,7 @@ function Button<TElement extends React.ElementType<ButtonProps> = "button">(
 		...extraButtonProps
 	} = props;
 
-	const Component = asChild ? Slot : Element;
+	const Component = asChild ? Slot.Root : Element;
 
 	const BTN_CLASSES = !unstyled
 		? button({ className, isDisabled, isLoading, size, theme, variant })
@@ -81,9 +81,9 @@ function Button<TElement extends React.ElementType<ButtonProps> = "button">(
 				<SpinnerIcon className="text-white" />
 			</span>
 
-			<Slottable>
+			<Slot.Slottable>
 				<div className="invisible [grid-area:1/1]">{children}</div>
-			</Slottable>
+			</Slot.Slottable>
 		</>
 	);
 

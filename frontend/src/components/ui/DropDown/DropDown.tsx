@@ -38,12 +38,13 @@ export function DropDownRoot<TElement extends React.ElementType = "div">(
 export function DropDownTrigger(props: InferProps<"button"> & { asChild?: boolean }) {
 	const { asChild = false, className, ...restOfProps } = props;
 
-	const Component = asChild ? Slot : "button";
+	const Component = asChild ? Slot.Root : "button";
 
 	const { onToggle } = useDropdownContext();
 
 	return (
 		<Component
+			type="button"
 			{...restOfProps}
 			className={cnMerge("w-full", className)}
 			onClick={composeTwoEventHandlers(onToggle, restOfProps.onClick)}

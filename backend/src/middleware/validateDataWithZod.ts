@@ -1,9 +1,9 @@
-import type { ZodSchema } from "zod";
+import { z } from "zod/v4";
 import { AppError } from "../utils";
 import { SigninBodySchema, SignupBodySchema } from "../validation/formSchema";
 import { catchAsync } from "./catchAsyncErrors";
 
-const SCHEMA_LOOKUP = new Map<string, ZodSchema>([
+const SCHEMA_LOOKUP = new Map<string, z.ZodType>([
 	["/auth/signin", SigninBodySchema],
 	["/auth/signup", SignupBodySchema],
 ]);
@@ -26,18 +26,16 @@ export const validateBodyWithZodGlobal = catchAsync((req, res, next) => {
 	void validateBodyWithZod(selectedSchema)(req, res, next);
 });
 
-export const validateBodyWithZod = (schema: ZodSchema) => {
+export const validateBodyWithZod = (schema: z.ZodType) => {
 	const handler = catchAsync((req, _res, next) => {
 		const rawData = req.body;
 
 		const result = schema.safeParse(rawData);
 
 		if (!result.success) {
-			const { fieldErrors, formErrors } = result.error.flatten();
+			const errorTree = z.treeifyError(result.error);
 
-			const zodErrorDetails = { fieldErrors, rootErrors: formErrors };
-
-			throw new AppError(422, "Validation Failed", { errors: zodErrorDetails });
+			throw new AppError(422, "Validation Failed", { errors: errorTree });
 		}
 
 		req.body = result.data as Record<string, unknown>;

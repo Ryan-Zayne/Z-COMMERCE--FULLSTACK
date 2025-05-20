@@ -87,17 +87,13 @@ function NavIconsHeader() {
 					className="hover:text-heading hover:[transform:rotateY(360deg)]
 						hover:[transition:transform_1000ms_ease-in-out] active:scale-[1.2] lg:text-[2.3rem]"
 				>
-					<Link to={"/wishlist"}>
+					<Link to="/wishlist">
 						<IconBox icon="bx:heart" />
 					</Link>
 				</Button>
 
 				<DropDown.Root className="relative flex items-center justify-center">
-					<DropDown.Trigger
-						asChild={true}
-						className="hover:text-heading hover:[transform:rotateY(360deg)]
-							hover:[transition:transform_1000ms_ease-in-out] lg:text-[2.3rem]"
-					>
+					<DropDown.Trigger className="hover:text-heading lg:text-[2.3rem]">
 						<IconBox icon="bx:user" />
 					</DropDown.Trigger>
 

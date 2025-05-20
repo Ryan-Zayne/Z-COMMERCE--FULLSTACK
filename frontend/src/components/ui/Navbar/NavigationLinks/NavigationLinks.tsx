@@ -4,22 +4,28 @@ import { Overlay } from "@/components/primitives/Overlay";
 import { Button } from "@/components/primitives/button";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
+import type { UnionDiscriminator } from "@zayne-labs/toolkit-type-helpers";
 import { getElementList } from "@zayne-labs/ui-react/common/for";
+import { Show } from "@zayne-labs/ui-react/common/show";
 import { NavLink } from "react-router";
 import CategoryMenu from "./CategoryMenu";
 
 type NavItemsType = Array<
-	| {
-			childElement: React.ReactNode;
-			className?: string;
-			id: number;
-			shouldShow: boolean;
-	  }
-	| {
-			className?: string;
-			path: string;
-			title: string;
-	  }
+	UnionDiscriminator<
+		[
+			{
+				childElement: React.ReactNode;
+				className?: string;
+				id: number;
+				shouldShow: boolean;
+			},
+			{
+				className?: string;
+				path: string;
+				title: string;
+			},
+		]
+	>
 >;
 
 function NavigationLinks() {
@@ -84,25 +90,25 @@ function NavigationLinks() {
 				<NavLinksList
 					each={navLinkInfoArray}
 					render={(navLinkInfo) => {
-						if ("shouldShow" in navLinkInfo) {
-							const { childElement, className, id, shouldShow } = navLinkInfo;
+						const { childElement, className, id, path, shouldShow, title } = navLinkInfo;
 
+						if (!path) {
 							return (
-								shouldShow && (
+								<Show.Root when={shouldShow}>
 									<li key={id} className={className}>
 										{childElement}
 									</li>
-								)
+								</Show.Root>
 							);
 						}
 
 						return (
 							<li
-								key={navLinkInfo.title}
+								key={title}
 								className="max-lg:pl-[4rem]"
 								onClick={!isDesktop ? toggleNavShow : undefined}
 							>
-								<NavLink to={navLinkInfo.path}>{navLinkInfo.title}</NavLink>
+								<NavLink to={path}>{title}</NavLink>
 							</li>
 						);
 					}}

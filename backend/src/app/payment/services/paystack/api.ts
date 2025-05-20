@@ -1,5 +1,5 @@
 import { ENVIRONMENT } from "@/config/env";
-import type { PaymentBodySchemaType } from "@/validation";
+import type { InitializePaymentSchemaType } from "@/validation";
 import { createFetchClient } from "@zayne-labs/callapi";
 import type { PaymentSuccessPayload, PaystackChargeSuccessEvent, PaystackInitResponse } from "./types";
 
@@ -14,7 +14,7 @@ export type InitTransactionBody = {
 	callback_url?: string;
 	email: string;
 	metadata?: {
-		cartItems: PaymentBodySchemaType["cartItems"];
+		cartItems: InitializePaymentSchemaType["cartItems"];
 		customerId: string;
 	};
 	reference: string;

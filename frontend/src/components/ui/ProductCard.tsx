@@ -1,3 +1,4 @@
+import { Card } from "@/components/primitives/card";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import type { ProductItem } from "@/store/react-query/types";
 import { useGlobalStore } from "@/store/zustand/globalStore";
@@ -5,7 +6,6 @@ import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/types";
 import { useToggle } from "@zayne-labs/toolkit-react";
-import { Card } from "@zayne-labs/ui-react/card";
 import { m } from "motion/react";
 import { Link } from "react-router";
 import { IconBox } from "../primitives/IconBox";

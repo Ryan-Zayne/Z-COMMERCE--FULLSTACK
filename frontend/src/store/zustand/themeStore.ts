@@ -15,26 +15,29 @@ type ThemeStore = {
 	theme: "dark" | "light" | "system";
 };
 
-const prefersDarkMode = isBrowser() && globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+const getPrefersDarkMode = () => {
+	return isBrowser() && globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+};
 
 // Store Object Initialization
 const themeStoreObjectFn: StateCreator<ThemeStore> = (set, get) => ({
-	/* eslint-disable perfectionist/sort-objects */
+	/* eslint-disable perfectionist/sort-objects -- Ignore sort here */
 
 	theme: "system",
 
-	systemTheme: prefersDarkMode ? "dark" : "light",
+	systemTheme: getPrefersDarkMode() ? "dark" : "light",
 
-	isDarkMode: prefersDarkMode,
+	isDarkMode: getPrefersDarkMode(),
 
 	actions: {
-		/* eslint-enable perfectionist/sort-objects */
+		/* eslint-enable perfectionist/sort-objects -- Ignore sort here */
 
 		initThemeOnLoad: () => {
 			const { systemTheme, theme: persistedTheme } = get();
 
-			document.documentElement.dataset.theme =
-				persistedTheme === "system" ? systemTheme : persistedTheme;
+			isBrowser()
+				&& (document.documentElement.dataset.theme =
+					persistedTheme === "system" ? systemTheme : persistedTheme);
 		},
 
 		setTheme: (newTheme: "dark" | "light") => {

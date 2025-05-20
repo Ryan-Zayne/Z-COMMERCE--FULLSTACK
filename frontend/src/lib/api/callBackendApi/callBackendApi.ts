@@ -7,7 +7,7 @@ import {
 } from "./plugins";
 
 export type ApiSuccessResponse<TData> = {
-	data: TData | null;
+	data?: TData;
 	message: string;
 	status: "success";
 	success: true;

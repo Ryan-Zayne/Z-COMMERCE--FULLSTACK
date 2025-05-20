@@ -1,11 +1,11 @@
 import { PaymentStatusEnum } from "@/constants";
-import type { PaymentBodySchemaType } from "@/validation";
+import type { InitializePaymentSchemaType } from "@/validation";
 import type { Model, SchemaDefinitionProperty } from "mongoose";
 import mongoose from "mongoose";
 
 type PaymentType = {
 	amount: number;
-	cartItems: PaymentBodySchemaType["cartItems"];
+	cartItems: InitializePaymentSchemaType["cartItems"];
 	customerId: SchemaDefinitionProperty;
 	paymentDate: string;
 	paymentMeta: Record<string, unknown>;
@@ -13,7 +13,7 @@ type PaymentType = {
 	reference: string;
 };
 
-const cartItemsSchema = new mongoose.Schema<PaymentBodySchemaType["cartItems"][number]>(
+const cartItemsSchema = new mongoose.Schema<InitializePaymentSchemaType["cartItems"][number]>(
 	{
 		id: {
 			type: String,

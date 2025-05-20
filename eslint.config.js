@@ -24,6 +24,7 @@ export default zayne(
 		rules: {
 			"import/default": "off",
 			"import/no-named-as-default-member": "off",
+			"node/no-process-env": "error",
 		},
 	}
 );

@@ -11,7 +11,7 @@ const AppResponse = (
 		status: "success",
 		success: true,
 		message,
-		data: data ?? null,
+		...(Boolean(data) && { data }),
 		/* eslint-enable perfectionist/sort-objects */
 	};
 

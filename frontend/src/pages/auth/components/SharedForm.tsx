@@ -5,9 +5,8 @@ import { Switch } from "@/components/primitives/switch";
 import { type FormErrorResponseType, type SessionData, callBackendApi } from "@/lib/api/callBackendApi";
 import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
-import { lockScroll } from "@zayne-labs/toolkit-core";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 
@@ -20,16 +19,14 @@ const semanticClasses = {
 	error: "border-b-error focus-within:border-b-error dark:focus-within:border-b-error",
 };
 
-const typedObjectEntries = <TObject extends Record<string, unknown>>(obj: TObject) => {
-	return Object.entries(obj) as Array<[keyof TObject, TObject[keyof TObject]]>;
-};
-
 function SharedForm(props: FormAreaProps) {
 	const { classNames, formVariant } = props;
 	const navigate = useNavigate();
 
 	const methods = useForm<FormBodySchemaType>({
-		resolver: zodResolver((formVariant === "signup" ? SignupBodySchema : SigninBodySchema) as never),
+		resolver: standardSchemaResolver(
+			(formVariant === "signup" ? SignupBodySchema : SigninBodySchema) as never
+		),
 	});
 
 	const { control, handleSubmit, setError } = methods;
@@ -45,16 +42,16 @@ function SharedForm(props: FormAreaProps) {
 		if (isHTTPError(error) && error.errorData.errors) {
 			const zodErrorDetails = error.errorData.errors;
 
-			// == Form.ErrorMessage component handles arrays as messages, hence the need for this cast
+			// Form.ErrorMessage component handles arrays as messages, hence the need for this cast
 			setError("root.serverError", {
-				message: zodErrorDetails.formErrors as unknown as string,
+				message: zodErrorDetails.errors as unknown as string,
 			});
 
-			typedObjectEntries(zodErrorDetails.fieldErrors).forEach(([field, errorMessage]) => {
-				setError(field, {
-					message: errorMessage as unknown as string,
+			for (const [field, errorInfo] of Object.entries(zodErrorDetails.properties ?? {})) {
+				setError(field as keyof FormBodySchemaType, {
+					message: errorInfo?.errors as unknown as string,
 				});
-			});
+			}
 
 			return;
 		}
@@ -70,7 +67,7 @@ function SharedForm(props: FormAreaProps) {
 		}
 
 		if (error) {
-			setError("root.caughtError", {
+			setError("root.unCaughtError", {
 				message: error.message,
 			});
 
@@ -108,7 +105,7 @@ function SharedForm(props: FormAreaProps) {
 						type="text"
 					/>
 
-					<Form.ErrorMessage control={control} className="text-error" errorField="username" />
+					<Form.ErrorMessage className="text-error" />
 				</Form.Field>
 			</Show.Root>
 
@@ -124,7 +121,7 @@ function SharedForm(props: FormAreaProps) {
 					type="email"
 				/>
 
-				<Form.ErrorMessage control={control} className="text-error" errorField="email" />
+				<Form.ErrorMessage className="text-error" />
 			</Form.Field>
 
 			<Form.Field className="relative" control={control} name="password">
@@ -140,7 +137,7 @@ function SharedForm(props: FormAreaProps) {
 					type="password"
 				/>
 
-				<Form.ErrorMessage control={control} className="text-error" errorField="password" />
+				<Form.ErrorMessage className="text-error" />
 			</Form.Field>
 
 			<Show.Root when={formVariant === "signup"}>
@@ -156,7 +153,7 @@ function SharedForm(props: FormAreaProps) {
 						type="password"
 					/>
 
-					<Form.ErrorMessage control={control} className="text-error" errorField="confirmPassword" />
+					<Form.ErrorMessage className="text-error" />
 				</Form.Field>
 			</Show.Root>
 
@@ -168,7 +165,7 @@ function SharedForm(props: FormAreaProps) {
 
 			<Form.ErrorMessage
 				className="mb-[-0.7rem] mt-[-1rem] text-error"
-				errorField="caughtError"
+				errorField="unCaughtError"
 				type="root"
 			/>
 
@@ -197,7 +194,7 @@ function SharedForm(props: FormAreaProps) {
 							</Form.Label>
 						</div>
 
-						<Form.ErrorMessage control={control} className="text-error" />
+						<Form.ErrorMessage className="text-error" />
 					</Switch.Match>
 				</Switch.Root>
 			</Form.Field>

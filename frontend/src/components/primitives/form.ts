@@ -1,1 +1,1 @@
-export * from "@zayne-labs/ui-react/form";
+export * from "@zayne-labs/ui-react/ui/form";

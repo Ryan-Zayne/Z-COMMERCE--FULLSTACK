@@ -45,7 +45,7 @@ export function DrawerTrigger<TElement extends React.ElementType = "button">(
 
 	const { onToggle } = useDrawerContext();
 
-	const Component = asChild ? Slot : Element;
+	const Component = asChild ? Slot.Root : Element;
 
 	return (
 		<Component {...restOfProps} onClick={composeTwoEventHandlers(onToggle, restOfProps.onClick)}>

@@ -1,4 +1,4 @@
-import type { FormBodySchemaType } from "@/lib/schemas/formSchema";
+import type { $ZodErrorTree } from "zod/v4/core";
 
 export type SessionData = {
 	user: {
@@ -11,7 +11,4 @@ export type SessionData = {
 	};
 };
 
-export type FormErrorResponseType = {
-	fieldErrors: Record<keyof FormBodySchemaType, string[]>;
-	formErrors: string[];
-};
+export type FormErrorResponseType = $ZodErrorTree<Record<string, unknown>>;

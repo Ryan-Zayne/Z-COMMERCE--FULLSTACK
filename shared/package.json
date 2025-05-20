@@ -11,10 +11,10 @@
 		"dev": "tsup --watch"
 	},
 	"dependencies": {
-		"zod": "^3.24.3"
+		"zod": "^3.25.3"
 	},
 	"devDependencies": {
-		"@zayne-labs/tsconfig": "^0.8.1",
+		"@zayne-labs/tsconfig": "^0.8.2",
 		"typescript": "^5.8.3"
 	}
 }
