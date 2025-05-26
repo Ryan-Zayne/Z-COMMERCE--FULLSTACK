@@ -16,7 +16,6 @@
 		"@heroui/theme": "2.4.15",
 		"@hookform/resolvers": "^5.0.1",
 		"@monicon/icon-loader": "^1.2.2",
-		"@monicon/react": "^1.2.2",
 		"@monicon/vite": "^1.2.2",
 		"@tanstack/react-query": "^5.76.1",
 		"@z-commerce/shared": "workspace:*",

@@ -177,9 +177,6 @@ importers:
       '@monicon/icon-loader':
         specifier: ^1.2.2
         version: 1.2.2
-      '@monicon/react':
-        specifier: ^1.2.2
-        version: 1.2.2(react@19.1.0)
       '@monicon/vite':
         specifier: ^1.2.2
         version: 1.2.2(vite@6.3.5(@types/node@22.15.19)(jiti@1.21.7)(tsx@4.19.4)(yaml@2.7.1))
@@ -900,11 +897,6 @@ packages:
 
   '@monicon/icon-loader@1.2.2':
     resolution: {integrity: sha512-awp9Bc2fdWcA++ZTUsjHxLfCDqll7Lw/ch3LAl0At+ASqjBIuBaUbyMulIFzCm/+TxqmZ+R449CRTfmFSIu6+w==}
-
-  '@monicon/react@1.2.2':
-    resolution: {integrity: sha512-EpOwTMqSNf+PPPFNNybEXZ4Y+PTPa1525DhHPpD4x9zKidkz89Lm4qXjtjGqJ3PTF44DMi6DDrKJh14DRiBQXA==}
-    peerDependencies:
-      react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
   '@monicon/vite@1.2.2':
     resolution: {integrity: sha512-j8IP5opNinjCw2kCwxQe64k3pZ3kf7SI1PpPFa5OKyfQMA24I7GdU5vxHwiT/eeFrQWRuNeu2x7KF4TCOLX0uw==}
@@ -4736,14 +4728,6 @@ snapshots:
       lodash: 4.17.21
       svgson: 5.3.1
 
-  '@monicon/react@1.2.2(react@19.1.0)':
-    dependencies:
-      '@monicon/core': 1.2.2
-      '@monicon/icon-loader': 1.2.2
-      react: 19.1.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@monicon/vite@1.2.2(vite@6.3.5(@types/node@22.15.19)(jiti@1.21.7)(tsx@4.19.4)(yaml@2.7.1))':
     dependencies:
       '@monicon/core': 1.2.2
@@ -4789,12 +4773,12 @@ snapshots:
 
   '@react-aria/i18n@3.12.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@internationalized/date': 3.7.0
+      '@internationalized/date': 3.8.1
       '@internationalized/message': 3.1.7
       '@internationalized/number': 3.6.2
       '@internationalized/string': 3.2.6
       '@react-aria/ssr': 3.9.8(react@19.1.0)
-      '@react-aria/utils': 3.28.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@react-aria/utils': 3.29.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@react-types/shared': 3.29.1(react@19.1.0)
       '@swc/helpers': 0.5.17
       react: 19.1.0
@@ -4816,7 +4800,7 @@ snapshots:
       '@react-aria/i18n': 3.12.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@react-aria/interactions': 3.25.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@react-aria/ssr': 3.9.8(react@19.1.0)
-      '@react-aria/utils': 3.28.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@react-aria/utils': 3.29.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@react-aria/visually-hidden': 3.8.23(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@react-stately/overlays': 3.6.16(react@19.1.0)
       '@react-types/button': 3.12.1(react@19.1.0)
@@ -4835,7 +4819,7 @@ snapshots:
     dependencies:
       '@react-aria/ssr': 3.9.8(react@19.1.0)
       '@react-stately/flags': 3.1.1
-      '@react-stately/utils': 3.10.5(react@19.1.0)
+      '@react-stately/utils': 3.10.6(react@19.1.0)
       '@react-types/shared': 3.29.1(react@19.1.0)
       '@swc/helpers': 0.5.17
       clsx: 2.1.1
@@ -4896,7 +4880,7 @@ snapshots:
 
   '@react-types/datepicker@3.11.0(react@19.1.0)':
     dependencies:
-      '@internationalized/date': 3.7.0
+      '@internationalized/date': 3.8.1
       '@react-types/calendar': 3.7.1(react@19.1.0)
       '@react-types/overlays': 3.8.15(react@19.1.0)
       '@react-types/shared': 3.29.1(react@19.1.0)
