@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import { z } from "@z-commerce/shared/zod";
 import { AppError } from "../utils";
 import { SigninBodySchema, SignupBodySchema } from "../validation/formSchema";
 import { catchAsync } from "./catchAsyncErrors";
@@ -33,9 +33,11 @@ export const validateBodyWithZod = (schema: z.ZodType) => {
 		const result = schema.safeParse(rawData);
 
 		if (!result.success) {
-			const errorTree = z.treeifyError(result.error);
+			const errorMessage = z.prettifyError(result.error);
 
-			throw new AppError(422, "Validation Failed", { errors: errorTree });
+			const errorObject = z.flattenError(result.error).fieldErrors;
+
+			throw new AppError(422, errorMessage, { errors: errorObject });
 		}
 
 		req.body = result.data as Record<string, unknown>;

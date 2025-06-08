@@ -2,10 +2,10 @@ import { Button } from "@/components/primitives/button";
 import { Form } from "@/components/primitives/form";
 import { Show } from "@/components/primitives/show";
 import { Switch } from "@/components/primitives/switch";
-import { type FormErrorResponseType, type SessionData, callBackendApi } from "@/lib/api/callBackendApi";
+import { type FormErrorData, type SessionData, callBackendApi } from "@/lib/api/callBackendApi";
 import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/formSchema";
 import { cnMerge } from "@/lib/utils/cn";
-import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
@@ -24,9 +24,7 @@ function SharedForm(props: FormAreaProps) {
 	const navigate = useNavigate();
 
 	const methods = useForm<FormBodySchemaType>({
-		resolver: standardSchemaResolver(
-			(formVariant === "signup" ? SignupBodySchema : SigninBodySchema) as never
-		),
+		resolver: zodResolver((formVariant === "signup" ? SignupBodySchema : SigninBodySchema) as never),
 	});
 
 	const { control, handleSubmit, setError } = methods;
@@ -34,22 +32,22 @@ function SharedForm(props: FormAreaProps) {
 	const onSubmit = handleSubmit(async (formDataObj) => {
 		const AUTH_URL = formVariant === "signup" ? `/auth/signup` : `/auth/signin`;
 
-		const { data, error } = await callBackendApi<SessionData, FormErrorResponseType>(AUTH_URL, {
+		const { data, error } = await callBackendApi<SessionData, FormErrorData>(AUTH_URL, {
 			body: formDataObj,
 			method: "POST",
 		});
 
 		if (isHTTPError(error) && error.errorData.errors) {
-			const zodErrorDetails = error.errorData.errors;
+			const zodFieldErrors = error.errorData.errors;
 
 			// Form.ErrorMessage component handles arrays as messages, hence the need for this cast
 			setError("root.serverError", {
-				message: zodErrorDetails.errors as unknown as string,
+				message: error.errorData.message,
 			});
 
-			for (const [field, errorInfo] of Object.entries(zodErrorDetails.properties ?? {})) {
+			for (const [field, errorMessages] of Object.entries(zodFieldErrors)) {
 				setError(field as keyof FormBodySchemaType, {
-					message: errorInfo?.errors as unknown as string,
+					message: errorMessages as unknown as string,
 				});
 			}
 

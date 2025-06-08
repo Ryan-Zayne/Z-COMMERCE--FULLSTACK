@@ -1,6 +1,7 @@
 import {
 	type CallApiResultErrorVariant,
 	type ErrorContext,
+	type RequestContext,
 	type SuccessContext,
 	definePlugin,
 } from "@zayne-labs/callapi";
@@ -26,7 +27,7 @@ export const toastPlugin = definePlugin(() => ({
 	hooks: {
 		/* eslint-enable perfectionist/sort-objects */
 
-		onError: (ctx: ErrorContext<ApiErrorResponse>) => {
+		onError: (ctx: ErrorContext<ApiErrorResponse> & RequestContext) => {
 			const toastMeta = ctx.options.meta?.toast;
 
 			const shouldSkipError =
@@ -45,7 +46,7 @@ export const toastPlugin = definePlugin(() => ({
 			errorMessage && toast.error(errorMessage);
 		},
 
-		onSuccess: (ctx: SuccessContext<ApiSuccessResponse<unknown>>) => {
+		onSuccess: (ctx: RequestContext & SuccessContext<ApiSuccessResponse<unknown>>) => {
 			const successMessage = ctx.data.message;
 
 			const shouldDisplayToast = Boolean(successMessage) && ctx.options.meta?.toast?.success;

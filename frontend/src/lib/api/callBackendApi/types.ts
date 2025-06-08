@@ -1,4 +1,4 @@
-import type { $ZodErrorTree } from "zod/v4/core";
+import { z } from "@z-commerce/shared/zod";
 
 export type SessionData = {
 	user: {
@@ -11,4 +11,4 @@ export type SessionData = {
 	};
 };
 
-export type FormErrorResponseType = $ZodErrorTree<Record<string, unknown>>;
+export type FormErrorData = z.inferFlattenedErrors<z.ZodType<Record<string, unknown>>>["fieldErrors"];
