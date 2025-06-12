@@ -1,5 +1,5 @@
 {
-	"typescript.tsdk": "frontend\\node_modules\\typescript\\lib",
+	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"cSpell.words": ["shadcn", "signin", "sonarjs", "Sonner", "stringifier", "womens"],
 	"terminal-keeper.killProcess": false,
 	"terminal-keeper.wslSupport": false,

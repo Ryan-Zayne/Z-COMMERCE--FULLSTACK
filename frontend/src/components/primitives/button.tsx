@@ -75,21 +75,22 @@ function Button<TElement extends React.ElementType<ButtonProps> = "button">(
 		: className;
 
 	// == This technique helps prevents content shift when replacing children with spinner icon
-	const childrenWithIcon = (
-		<>
-			<span className="flex justify-center [grid-area:1/1]">
-				<SpinnerIcon className="text-white" />
-			</span>
 
-			<Slot.Slottable>
-				<div className="invisible [grid-area:1/1]">{children}</div>
-			</Slot.Slottable>
-		</>
+	const childrenWithSlottable = (
+		<Slot.Slottable>
+			<div className="invisible [grid-area:1/1]">{children}</div>
+		</Slot.Slottable>
 	);
 
 	return (
-		<Component type={type} disabled={disabled} className={BTN_CLASSES} {...extraButtonProps}>
-			{isLoading ? childrenWithIcon : children}
+		<Component type={type} className={BTN_CLASSES} disabled={disabled} {...extraButtonProps}>
+			{isLoading ? childrenWithSlottable : children}
+
+			{isLoading && (
+				<span className="flex justify-center [grid-area:1/1]">
+					<SpinnerIcon className="text-white" />
+				</span>
+			)}
 		</Component>
 	);
 }

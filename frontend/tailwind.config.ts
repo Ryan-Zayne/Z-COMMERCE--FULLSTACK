@@ -1,4 +1,3 @@
-// import { heroui } from "@heroui/theme";
 import plugin from "tailwindcss/plugin";
 import type { Config } from "tailwindcss/types/config";
 
@@ -12,7 +11,6 @@ const tailwindConfig = {
 	darkMode: ["class", "[data-theme='dark']"],
 
 	plugins: [
-		// heroui(),
 		plugin((pluginObj) => {
 			// eslint-disable-next-line ts-eslint/unbound-method
 			const { addComponents, matchUtilities, matchVariant } = pluginObj;
