@@ -94,10 +94,8 @@ function NavigationLinks() {
 
 						if (!path) {
 							return (
-								<Show.Root when={shouldShow}>
-									<li key={id} className={className}>
-										{childElement}
-									</li>
+								<Show.Root key={id} when={shouldShow}>
+									<li className={className}>{childElement}</li>
 								</Show.Root>
 							);
 						}

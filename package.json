@@ -8,6 +8,8 @@
 	"license": "ISC",
 	"keywords": [],
 	"scripts": {
+		"dev:client": "pnpm --filter @z-commerce/frontend dev",
+		"dev:server": "pnpm --filter @z-commerce/backend dev",
 		"inspect:eslint-config": "pnpx @eslint/config-inspector@latest",
 		"lint:eslint": "eslint . --max-warnings 0",
 		"lint:eslint:interactive": "pnpx eslint-interactive@latest . --fix --max-warnings 0",

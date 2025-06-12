@@ -84,13 +84,15 @@ function Button<TElement extends React.ElementType<ButtonProps> = "button">(
 
 	return (
 		<Component type={type} className={BTN_CLASSES} disabled={disabled} {...extraButtonProps}>
-			{isLoading ? childrenWithSlottable : children}
+			<>
+				{isLoading ? childrenWithSlottable : children}
 
-			{isLoading && (
-				<span className="flex justify-center [grid-area:1/1]">
-					<SpinnerIcon className="text-white" />
-				</span>
-			)}
+				{isLoading && (
+					<span className="flex justify-center [grid-area:1/1]">
+						<SpinnerIcon className="text-white" />
+					</span>
+				)}
+			</>
 		</Component>
 	);
 }
