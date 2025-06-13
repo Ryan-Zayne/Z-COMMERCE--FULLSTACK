@@ -24,7 +24,7 @@
 		--text-label: hsl(0, 0%, 45%);
 	}
 
-	:root[data-theme="dark"] {
+	[data-theme="dark"] {
 		--text-header: hsl(43, 67%, 50%);
 		--text-light: hsl(34, 5%, 71%);
 		--text-body: whitesmoke;
