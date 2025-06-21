@@ -1,27 +1,27 @@
-import { Button } from "@/components/primitives/button";
 import { Link } from "react-router";
+import { Button } from "@/components/primitives/button";
 
 function CheckoutSuccessPage() {
 	return (
 		<main
-			className="mx-auto flex min-h-[calc(100vh-8rem)] max-w-[120rem] flex-col items-center
-				justify-center px-[1.6rem] py-[2rem] md:px-[4rem] md:py-[3rem]"
+			className="mx-auto flex min-h-[calc(100vh-80px)] max-w-[1200px] flex-col items-center
+				justify-center px-[16px] py-[20px] md:px-[40px] md:py-[30px]"
 		>
 			<div
-				className="flex max-w-[50rem] flex-col items-center gap-[2rem] rounded-lg bg-gray-50 p-[2rem]
-					text-center dark:bg-gray-800 md:p-[4rem]"
+				className="flex max-w-[500px] flex-col items-center gap-[20px] rounded-lg bg-gray-50 p-[20px]
+					text-center dark:bg-gray-800 md:p-[40px]"
 			>
 				<div
-					className="flex size-[8rem] items-center justify-center rounded-full bg-success text-[4rem]
+					className="bg-success flex size-[80px] items-center justify-center rounded-full text-[40px]
 						text-white"
 				>
 					✓
 				</div>
 
-				<div className="flex flex-col gap-[1rem]">
-					<h1 className="text-[2.4rem] font-[700] md:text-[3.2rem]">Payment Successful!</h1>
+				<div className="flex flex-col gap-[10px]">
+					<h1 className="text-[24px] font-[700] md:text-[32px]">Payment Successful!</h1>
 
-					<p className="text-[1.4rem] text-gray-600 dark:text-gray-400 md:text-[1.6rem]">
+					<p className="text-[14px] text-gray-600 dark:text-gray-400 md:text-[16px]">
 						Thank you for your order. Your payment has been processed successfully.
 					</p>
 				</div>
@@ -29,9 +29,8 @@ function CheckoutSuccessPage() {
 				<Button
 					asChild={true}
 					theme="primary"
-					className="mt-[1rem] w-full rounded-[0.8rem] bg-navbar py-[1.2rem] text-[1.4rem] font-medium
-						text-white hover:bg-primary md:mt-[2rem] md:rounded-[1rem] md:py-[1.5rem]
-						md:text-[1.6rem]"
+					className="mt-[10px] w-full rounded-[8px] bg-navbar py-[12px] text-[14px] font-medium
+						text-white hover:bg-primary md:mt-[20px] md:rounded-[10px] md:py-[15px] md:text-[16px]"
 				>
 					<Link to="/">Continue Shopping</Link>
 				</Button>

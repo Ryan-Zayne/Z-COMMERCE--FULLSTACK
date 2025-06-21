@@ -89,7 +89,7 @@ export function DrawerCloseButton(props: DrawerCloseProps & InferProps<"button">
 	return (
 		<Button
 			unstyled={true}
-			className={cnMerge("absolute right-8 top-8", className)}
+			className={cnMerge("absolute right-[80px] top-[80px]", className)}
 			{...restOfProps}
 			onClick={composeTwoEventHandlers(onClose, restOfProps.onClick)}
 		>

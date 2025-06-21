@@ -1,14 +1,14 @@
-import { Button } from "@/components/primitives/button";
-import { Form } from "@/components/primitives/form";
-import { Show } from "@/components/primitives/show";
-import { Switch } from "@/components/primitives/switch";
-import { type FormErrorData, type SessionData, callBackendApi } from "@/lib/api/callBackendApi";
-import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/formSchema";
-import { cnMerge } from "@/lib/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isHTTPError } from "@zayne-labs/callapi/utils";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { Button } from "@/components/primitives/button";
+import { Form } from "@/components/primitives/form";
+import { Show } from "@/components/primitives/show";
+import { Switch } from "@/components/primitives/switch";
+import { callBackendApi, type FormErrorData, type SessionData } from "@/lib/api/callBackendApi";
+import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/formSchema";
+import { cnMerge } from "@/lib/utils/cn";
 
 export type FormAreaProps = {
 	classNames?: { form?: string };
@@ -84,8 +84,8 @@ function SharedForm(props: FormAreaProps) {
 		<Form.Root
 			methods={methods}
 			className={cnMerge(
-				`mt-[2.5rem] flex flex-col gap-[1.8rem] [&_input]:text-[1.4rem] lg:[&_input]:text-[1.6rem]
-				[&_label]:text-[1.2rem]`,
+				`mt-[25px] flex flex-col gap-[18px] [&_input]:text-[14px] lg:[&_input]:text-[16px]
+				[&_label]:text-[12px]`,
 				classNames?.form
 			)}
 			onSubmit={(event) => void onSubmit(event)}
@@ -97,7 +97,7 @@ function SharedForm(props: FormAreaProps) {
 					<Form.Input
 						classNames={{
 							error: semanticClasses.error,
-							input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
+							input: `min-h-[32px] border-b-[2px] border-b-carousel-btn bg-transparent text-input
 							focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 						}}
 						type="text"
@@ -113,7 +113,7 @@ function SharedForm(props: FormAreaProps) {
 				<Form.Input
 					classNames={{
 						error: semanticClasses.error,
-						input: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent text-input
+						input: `min-h-[32px] border-b-[2px] border-b-carousel-btn bg-transparent text-input
 						focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 					}}
 					type="email"
@@ -128,7 +128,7 @@ function SharedForm(props: FormAreaProps) {
 				<Form.Input
 					classNames={{
 						error: semanticClasses.error,
-						input: "min-h-[3.2rem]",
+						input: "min-h-[32px]",
 						inputGroup: `border-b-[2px] border-b-carousel-btn bg-transparent text-input
 						focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 					}}
@@ -145,7 +145,7 @@ function SharedForm(props: FormAreaProps) {
 					<Form.Input
 						classNames={{
 							error: semanticClasses.error,
-							inputGroup: `min-h-[3.2rem] border-b-[2px] border-b-carousel-btn bg-transparent
+							inputGroup: `min-h-[32px] border-b-[2px] border-b-carousel-btn bg-transparent
 							text-input focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 						}}
 						type="password"
@@ -156,19 +156,19 @@ function SharedForm(props: FormAreaProps) {
 			</Show.Root>
 
 			<Form.ErrorMessage
-				className="mb-[-0.7rem] mt-[-1rem] text-error"
+				className="mb-[-7px] mt-[-10px] text-error"
 				errorField="serverError"
 				type="root"
 			/>
 
 			<Form.ErrorMessage
-				className="mb-[-0.7rem] mt-[-1rem] text-error"
+				className="mb-[-7px] mt-[-10px] text-error"
 				errorField="unCaughtError"
 				type="root"
 			/>
 
 			<Form.Field
-				className="flex flex-row flex-wrap gap-x-[1rem] text-[1.3rem] text-input"
+				className="flex flex-row flex-wrap gap-x-[10px] text-[13px] text-input"
 				control={control}
 				name={formVariant === "signup" ? "acceptTerms" : "rememberMe"}
 			>
@@ -184,7 +184,7 @@ function SharedForm(props: FormAreaProps) {
 							<Form.Label>
 								I agree to all
 								<Link
-									className="ml-[0.5rem] font-[500] underline hover:text-[hsl(214,89%,53%)]"
+									className="ml-[5px] font-[500] underline hover:text-[hsl(214,89%,53%)]"
 									to="#terms"
 								>
 									Terms & Conditions
@@ -201,7 +201,7 @@ function SharedForm(props: FormAreaProps) {
 				render={({ isSubmitting }) => (
 					<Button
 						className={cnMerge(
-							"mt-[1.5rem] rounded-[1rem] text-[1.7rem] font-[600]",
+							"mt-[15px] rounded-[10px] text-[17px] font-[600]",
 							isSubmitting && "cursor-not-allowed brightness-[0.5]"
 						)}
 						isLoading={isSubmitting}

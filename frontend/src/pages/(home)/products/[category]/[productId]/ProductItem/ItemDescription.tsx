@@ -1,9 +1,9 @@
+import { Link } from "react-router";
+import { Button } from "@/components/primitives/button";
 import { IconBox } from "@/components/primitives/IconBox";
 import { StarRating } from "@/components/primitives/StarRating";
-import { Button } from "@/components/primitives/button";
 import type { ProductItem } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
-import { Link } from "react-router";
 
 type ItemDescriptionProps = {
 	productItem: ProductItem;
@@ -24,36 +24,36 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 
 	return (
 		<article
-			className="mt-[2.5rem] flex max-w-[46rem] flex-col max-md:mx-auto md:mt-0 lg:gap-[2rem]
-				lg:pb-[0.5rem]"
+			className="mt-[25px] flex max-w-[460px] flex-col max-md:mx-auto md:mt-0 lg:gap-[20px]
+				lg:pb-[5px]"
 		>
 			<div className="flex items-center justify-between lg:w-[90%]">
 				<div>
-					<h2 className="text-[2.5rem] font-[600] lg:text-[3.4rem]">{productItem.brand}</h2>
+					<h2 className="text-[25px] font-[600] lg:text-[34px]">{productItem.brand}</h2>
 					<StarRating
-						className="mt-[0.4rem] text-[1.6rem]"
+						className="mt-[4px] text-[16px]"
 						rating={productItem.rating}
 						text={"reviews"}
 					/>
 				</div>
-				<p className="text-[2.3rem] font-[500] lg:text-[3rem]">
+				<p className="text-[23px] font-[500] lg:text-[30px]">
 					<sup>$</sup>
 					{productItem.price}
 					<sup>.00</sup>
 				</p>
 			</div>
 
-			<div className="mt-[2rem]">
-				<h2 className="text-[2.5rem] font-[600] lg:text-[3.4rem]">Description</h2>
-				<p className="mt-[0.4rem] text-[1.5rem] font-[300] lg:text-[1.55rem]">
+			<div className="mt-[20px]">
+				<h2 className="text-[25px] font-[600] lg:text-[34px]">Description</h2>
+				<p className="mt-[4px] text-[15px] font-[300] lg:text-[15.5px]">
 					{productItem.description}
 				</p>
 			</div>
 
-			<div className="mt-[3.5rem] flex items-center gap-[4rem] md:mt-[4.5rem] lg:gap-[6rem]">
+			<div className="mt-[35px] flex items-center gap-[40px] md:mt-[45px] lg:gap-[60px]">
 				<div
-					className="flex w-[14rem] items-center justify-between rounded-[4rem] bg-carousel-btn
-						p-[0.6rem_1.1rem] text-[2.3rem] font-[600] md:w-[17rem] md:text-[2.6rem]"
+					className="flex w-[140px] items-center justify-between rounded-[40px] bg-carousel-btn
+						p-[6px_11px] text-[23px] font-[600] md:w-[170px] md:text-[26px]"
 				>
 					<Button
 						unstyled={true}
@@ -79,10 +79,10 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 				</div>
 
 				<div className="whitespace-nowrap">
-					<p className="text-[1.4rem] font-[300] tracking-wide md:text-[1.7rem]">
+					<p className="text-[14px] font-[300] tracking-wide md:text-[17px]">
 						Only
 						<span
-							className="inline-block min-w-[3.8rem] text-center text-[1.8rem] font-[500]
+							className="inline-block min-w-[38px] text-center text-[18px] font-[500]
 								text-[hsl(43,67%,50%)]"
 						>
 							{quantityLeftInStock}
@@ -93,14 +93,14 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 				</div>
 			</div>
 
-			<div className="mt-[4rem] flex gap-[3rem] font-[500] md:mt-auto md:justify-between">
+			<div className="mt-[40px] flex gap-[30px] font-[500] md:mt-auto md:justify-between">
 				<Button
 					theme="secondary"
 					variant="shop"
-					className="w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out
+					className="w-[150px] p-[10px_0] transition-[transform] duration-[200ms] ease-in-out
 						[box-shadow:0_0_0_1.3px_var(--color-secondary)] hover:scale-[1.1] hover:bg-heading
 						hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)]
-						active:scale-[1.1] lg:w-[20rem]"
+						active:scale-[1.1] lg:w-[200px]"
 				>
 					<Link to="/checkout">Buy Now</Link>
 				</Button>
@@ -108,13 +108,13 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 				<Button
 					theme="ghost"
 					variant="shop"
-					className="w-[15rem] p-[1rem_0] transition-[transform] duration-[200ms] ease-in-out
+					className="w-[150px] p-[10px_0] transition-[transform] duration-[200ms] ease-in-out
 						[box-shadow:0_0_0_1.3px_theme(colors.primary)] hover:scale-[1.1] hover:bg-heading
 						hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)]
-						active:scale-[1.17] lg:w-[20rem]"
+						active:scale-[1.17] lg:w-[200px]"
 					onClick={handlePlus}
 				>
-					<IconBox icon="mdi:cart-outline" className="mr-[1rem] text-[2rem]" />
+					<IconBox icon="mdi:cart-outline" className="mr-[10px] text-[20px]" />
 					<p>Add to Cart</p>
 				</Button>
 			</div>

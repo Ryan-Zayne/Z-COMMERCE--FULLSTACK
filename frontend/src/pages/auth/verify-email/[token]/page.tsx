@@ -18,8 +18,8 @@ function CheckVerificationTokenPage() {
 			data-idle={verifyEmailQueryResult.fetchStatus === "idle" && !verifyEmailQueryResult.isError}
 			data-loading={verifyEmailQueryResult.isLoading}
 			data-error={verifyEmailQueryResult.isError}
-			className="group z-10 grid w-[min(100%,48rem)] place-items-center rounded-[6px] bg-body p-[3rem]
-				md:px-[4rem]"
+			className="group z-10 grid w-[min(100%,480px)] place-items-center rounded-[6px] bg-body p-[30px]
+				md:px-[40px]"
 		>
 			<section
 				className="invisible flex flex-col items-center gap-[24px] text-center [grid-area:1/1]
@@ -45,7 +45,7 @@ function CheckVerificationTokenPage() {
 				className="invisible flex flex-col items-center gap-[24px] [grid-area:1/1]
 					group-data-[loading=true]:visible"
 			>
-				<BarScaleIcon className="size-[4rem]" />
+				<BarScaleIcon className="size-[40px]" />
 
 				<p>Verifying your email, please wait...</p>
 			</section>

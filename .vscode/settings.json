@@ -2,6 +2,5 @@
 	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"cSpell.words": ["shadcn", "signin", "sonarjs", "Sonner", "stringifier", "womens"],
 	"terminal-keeper.killProcess": false,
-	"terminal-keeper.wslSupport": false,
-	"tailwindCSS.rootFontSize": 10
+	"terminal-keeper.wslSupport": false
 }

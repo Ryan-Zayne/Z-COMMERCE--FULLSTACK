@@ -9,7 +9,7 @@ function Logo({ className = "" }: { className?: string }) {
 	return (
 		<Link
 			id={`Logo-${reactId}`}
-			className={cnMerge(`block h-[4.47rem] w-[13rem] md:h-[5.5rem] md:w-[16rem] ${className}`)}
+			className={cnMerge(`block h-[44.7px] w-[130px] md:h-[55px] md:w-[160px] ${className}`)}
 			to={"/"}
 		>
 			<img className="h-full" src={logo} alt="" />

@@ -1,12 +1,12 @@
-import { cnMerge } from "@/lib/utils/cn";
-import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
-import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useSearch } from "@zayne-labs/toolkit-react";
 import { useEffect } from "react";
 import { Link } from "react-router";
-import { IconBox, type MoniconIconBoxProps } from "../primitives/IconBox";
+import { cnMerge } from "@/lib/utils/cn";
+import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
+import { useGlobalStore } from "@/store/zustand/globalStore";
 import { Button, type ButtonProps } from "../primitives/button";
 import { getElementList } from "../primitives/for";
+import { IconBox, type MoniconIconBoxProps } from "../primitives/IconBox";
 
 type SearchFormProps = Pick<ButtonProps, "size" | "theme" | "variant"> & {
 	buttonIcon?: MoniconIconBoxProps["icon"];
@@ -64,11 +64,11 @@ function SearchForm(props: SearchFormProps) {
 			>
 				<input
 					className={cnMerge(
-						`w-full rounded-[2.5rem_0_0_2.5rem] border-y-2 border-l-2 border-secondary
-						bg-[--color-body,_white] py-[0.6rem] pl-[2.3rem] transition-[box-shadow] duration-200
+						`w-full rounded-[25px_0_0_25px] border-y-2 border-l-2 border-secondary
+						bg-[--color-body,_white] py-[6px] pl-[23px] transition-[box-shadow] duration-200
 						placeholder:font-[500] placeholder:text-placeholder
 						focus-within:shadow-[1px_0_10px_2px_var(--color-secondary)]
-						max-sm:placeholder:text-[1.4rem]`,
+						max-sm:placeholder:text-[15px]`,
 						classNames?.input
 					)}
 					type={type === "search" ? "search" : "email"}
@@ -80,7 +80,7 @@ function SearchForm(props: SearchFormProps) {
 				<Button
 					type="button"
 					className={cnMerge(
-						`h-full min-w-[6rem] p-0 text-[1.8rem] transition-[colors,scale] duration-300
+						`h-full min-w-[60px] p-0 text-[18px] transition-[colors,scale] duration-300
 						hover:bg-primary hover:text-heading active:scale-[1.08]`,
 						classNames?.btn
 					)}
@@ -94,26 +94,26 @@ function SearchForm(props: SearchFormProps) {
 			{type === "search" && data.length > 0 && query !== "" && (
 				<SearchItemsList
 					className={cnMerge(
-						`custom-scrollbar absolute top-[14rem] z-[100] flex max-h-[50rem] w-[min(100%,_40rem)]
-						flex-col gap-[1rem] overflow-y-auto rounded-[1rem] bg-body p-[2rem] text-[1.2rem]`,
+						`custom-scrollbar absolute top-[81px] z-[100] flex max-h-[500px] w-[min(100%,_400px)]
+						flex-col gap-[10px] overflow-y-auto rounded-[10px] bg-body px-[20px] text-[12px]`,
 						isMobile && "inset-x-0 mx-auto",
-						!isMobile && "top-[8.1rem]"
+						!isMobile && "top-[81px]"
 					)}
 					each={data}
 					render={(item, index) => (
 						<li key={item?.id ?? index}>
 							<Link
 								to={`/products/${item?.category}/${item?.id}`}
-								className="flex items-center rounded-[5px] p-[1rem]
-									box-shadow-[0_1px_10px_hsl(0,0%,0%,0.6)] lg:p-[1.6rem]"
+								className="flex items-center rounded-[5px] p-[10px]
+									box-shadow-[0_1px_10px_hsl(0,0%,0%,0.6)] lg:p-[16px]"
 							>
 								<img
-									className="aspect-square w-[5rem] rounded-full object-cover"
+									className="aspect-square w-[50px] rounded-full object-cover"
 									src={item?.images[0]}
 									width="64"
 									alt=""
 								/>
-								<div className="ml-[1rem] font-medium">{item?.title}</div>
+								<div className="ml-[10px] font-medium">{item?.title}</div>
 
 								<div className="ml-auto font-semibold">${item?.price}</div>
 							</Link>

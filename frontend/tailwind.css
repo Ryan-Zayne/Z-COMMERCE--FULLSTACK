@@ -64,7 +64,6 @@
 	}
 
 	html {
-		font-size: 62.5%;
 		scroll-behavior: smooth;
 		-webkit-tap-highlight-color: transparent;
 	}
@@ -95,7 +94,6 @@
 		overflow-y: var(--overflow-y);
 		padding-right: var(--scrollbar-padding);
 		position: relative;
-		font-size: 1.6rem;
 		font-family: theme("fontFamily.rubik");
 		background-color: var(--color-body);
 		color: var(--text-body);

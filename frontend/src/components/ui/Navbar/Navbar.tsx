@@ -5,7 +5,7 @@ function Navbar() {
 	return (
 		<header
 			id="Navbar"
-			className="flex flex-wrap justify-center pt-[1rem] max-md:pb-[2rem] md:gap-[2rem]"
+			className="flex flex-wrap justify-center pt-[10px] max-md:pb-[14px] md:gap-[20px]"
 		>
 			<NavIconsHeader />
 			<NavigationLinks />

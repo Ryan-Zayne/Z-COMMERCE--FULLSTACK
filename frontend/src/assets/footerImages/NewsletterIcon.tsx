@@ -5,7 +5,7 @@ function NewsletterIcon() {
 			viewBox="0 0 64 64"
 			stroke="currentColor"
 			fill="currentColor"
-			className={"mr-[0.3rem] aspect-square w-[3rem] text-heading lg:w-[4rem]"}
+			className="mr-[3px] aspect-square w-[30px] text-heading lg:w-[40px]"
 		>
 			<g id="Layer_95" data-name="Layer 95">
 				<path d="M53.06,10.94a1.5,1.5,0,0,0-1.53-.36l-40,13.33a1.51,1.51,0,0,0-.06,2.83l18.7,7.09,7.09,18.7a1.51,1.51,0,0,0,1.44,1,1.49,1.49,0,0,0,1.39-1l13.33-40A1.5,1.5,0,0,0,53.06,10.94ZM38.58,47.53,33.08,33l4.72-4.72a1.5,1.5,0,0,0-2.12-2.12L31,30.92l-14.49-5.5L49.63,14.37Z" />

@@ -1,7 +1,6 @@
-/* eslint-disable tailwindcss/no-custom-classname */
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { getElementList } from "../primitives/for";
 
 type SkeletonProps = {
@@ -20,18 +19,17 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 		},
 
 		genericPage: () => (
-			<section className="mt-[8rem] flex flex-col gap-[6rem] pt-[6rem]">
-				<article className="flex flex-col gap-[3rem] px-[3rem]">
+			<section className="mt-[80px] flex flex-col gap-[60px] pt-[60px]">
+				<article className="flex flex-col gap-[30px] px-[30px]">
 					<SkeletonCardList
-						className="grid grid-cols-[repeat(auto-fit,_minmax(23rem,1fr))] justify-items-center
-							gap-[3rem_1.5rem]"
+						className="grid grid-cols-[repeat(auto-fit,_minmax(230px,1fr))] justify-items-center
+							gap-[30px_15px]"
 						each={[...Array(count).keys()]}
 						render={(id) => (
 							<li
 								key={id}
 								className={cnMerge(
-									`rounded-[1.2rem w-[min(100%,25rem)]
-									box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)]`
+									"rounded-[12px w-[min(100%,250px)] box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)]"
 								)}
 							>
 								<SkeletonTheme
@@ -39,25 +37,28 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 									baseColor={cnJoin(isDarkMode && "#232628")}
 								>
 									<div>
-										<Skeleton className={"block h-[18rem] w-full rounded-[0.8rem_0.8rem_0_0]"} />
+										<Skeleton className={"block h-[180px] w-full rounded-[8px_8px_0_0]"} />
 									</div>
 
-									<div className="px-[1.4rem] pb-[1rem]">
-										<header className="flex items-center justify-between gap-[1rem]">
+									<div className="px-[14px] pb-[10px]">
+										<header className="flex items-center justify-between gap-[10px]">
 											<Skeleton count={2} width={148} height={6} />
 											<span>
 												<Skeleton width={58} height={23} />
 											</span>
 										</header>
-										<p className="mt-[2rem]">
-											<Skeleton className="gap-[3rem]" count={3} width={"93%"} height={6} />
+										<p className="mt-[20px]">
+											<Skeleton className="gap-[30px]" count={3} width={"930px"} height={6} />
 										</p>
-										<div className={"mt-[1rem] flex items-center gap-[1.3rem]"}>
+										<p className="mt-[20px]">
+											<Skeleton className="gap-[13px]" count={3} width={"93%"} height={6} />
+										</p>
+										<div className={"mt-[10px] flex items-center gap-[13px]"}>
 											<Skeleton width={75} height={19} />
 											<Skeleton width={34} height={18} />
 										</div>
 										<Skeleton
-											className="mt-[2rem] rounded-[8px] p-[1rem_1.2rem]"
+											className="mt-[20px] rounded-[8px] p-[10px_12px]"
 											width={97}
 											height={35}
 										/>
@@ -71,18 +72,18 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 		),
 
 		productItemPage: () => (
-			<section className="p-[1rem_2rem_3rem] lg:pt-[3rem]">
+			<section className="p-[10px_20px_30px] lg:pt-[30px]">
 				<div
-					className="mt-[3rem] flex flex-col items-center gap-[4rem] overflow-hidden md:mt-[4.5rem]
-						md:h-[47rem] md:flex-row md:items-start md:justify-around md:px-[1rem] lg:mt-[6rem]
-						lg:flex-row lg:gap-[8rem]"
+					className="mt-[30px] flex flex-col items-center gap-[40px] overflow-hidden md:mt-[45px]
+						md:h-[470px] md:flex-row md:items-start md:justify-around md:px-[10px] lg:mt-[60px]
+						lg:flex-row lg:gap-[80px]"
 				>
 					<SkeletonTheme
 						highlightColor={cnJoin(isDarkMode && "#1e2021")}
 						baseColor={cnJoin(isDarkMode && "#232628")}
 					>
-						<Skeleton className="h-[35rem] w-[40rem] md:h-[47rem] lg:min-w-[50rem]" />
-						<Skeleton className="h-[47rem] w-[46rem] max-md:mx-auto" />
+						<Skeleton className="h-[350px] w-[400px] md:h-[470px] lg:min-w-[500px]" />
+						<Skeleton className="h-[470px] w-[460px] max-md:mx-auto" />
 					</SkeletonTheme>
 				</div>
 			</section>

@@ -12,15 +12,15 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 			<Carousel.Content
 				as="div"
 				classNames={{
-					base: "h-[35rem] w-[min(100%,50rem)] max-md:mx-auto md:h-full",
-					scrollContainer: "rounded-[0.7rem] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]",
+					base: "h-[350px] w-[min(100%,500px)] max-md:mx-auto md:h-full",
+					scrollContainer: "rounded-[7px] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]",
 				}}
 			>
 				<Carousel.Controls
 					classNames={{
-						base: "px-[0.8rem] lg:px-[2rem]",
-						iconContainer: `rounded-[5px] bg-carousel-btn p-[0.8rem_0.5rem] transition-transform
-						hover:box-shadow-[0_0_5px_var(--text-dark)] active:scale-[1.11] lg:p-[1.3rem_0.9rem]`,
+						base: "px-[8px] lg:px-[20px]",
+						iconContainer: `rounded-[5px] bg-carousel-btn p-[8px_5px] transition-transform
+						hover:box-shadow-[0_0_5px_var(--text-dark)] active:scale-[1.11] lg:p-[13px_9px]`,
 					}}
 					icon={{
 						icon: <IconBox icon="bi:chevron-right" />,
@@ -45,7 +45,7 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 							classNames={{
 								base: `bg-[hsl(198,14%,14%)] hover:bg-[hsl(220,62%,31%)]
 								hover:box-shadow-[0_0_5px_hsl(220,62%,31%)]`,
-								isActive: "w-[0.6rem] bg-[hsl(220,62%,31%)] p-[0.4rem]",
+								isActive: "w-[6px] bg-[hsl(220,62%,31%)] p-[4px]",
 							}}
 						/>
 					)}

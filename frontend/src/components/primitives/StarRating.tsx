@@ -26,7 +26,7 @@ function StarRating(props: StarRatingProps) {
 	);
 
 	return (
-		<div className={cnMerge("flex items-center gap-[1rem] text-[1.2rem]", className)}>
+		<div className={cnMerge("flex items-center gap-[10px] text-[12px]", className)}>
 			<span className="flex">{rating > 4.5 ? star5 : star4}</span>
 			<span>
 				{rating} {text}

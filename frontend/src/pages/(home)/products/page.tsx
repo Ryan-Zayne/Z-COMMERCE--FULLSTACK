@@ -23,20 +23,20 @@ function AllProductsPage() {
 	));
 
 	return (
-		<section className="mt-[3rem]">
-			<header className="flex flex-row-reverse items-center justify-center px-[3rem]">
-				<h1 className="mx-auto text-[3rem] font-[700] lg:text-[4rem]">All Products</h1>
-				<Button unstyled={true} className="text-[3rem]">
+		<section className="mt-[30px]">
+			<header className="flex flex-row-reverse items-center justify-center px-[30px]">
+				<h1 className="mx-auto text-[30px] font-[700] lg:text-[40px]">All Products</h1>
+				<Button unstyled={true} className="text-[30px]">
 					<Link to={"/"}>
 						<IconBox icon="typcn:arrow-back" />
 					</Link>
 				</Button>
 			</header>
 
-			<article className="mt-[8rem] px-[3rem]">
+			<article className="mt-[80px] px-[30px]">
 				<ul
-					className="grid grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))] justify-items-center
-						gap-[5rem_2rem]"
+					className="grid grid-cols-[repeat(auto-fit,_minmax(240px,1fr))] justify-items-center
+						gap-[50px_20px]"
 				>
 					{allProductCards}
 				</ul>

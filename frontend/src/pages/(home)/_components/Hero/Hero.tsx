@@ -1,8 +1,8 @@
+import { useAnimateElementRefs } from "@zayne-labs/toolkit-react";
+import { Button } from "@/components/primitives/button";
 import { IconBox } from "@/components/primitives/IconBox";
 import { ImageComponent } from "@/components/primitives/ImageComponent";
-import { Button } from "@/components/primitives/button";
 import { Carousel } from "@/components/ui/carousel";
-import { useAnimateElementRefs } from "@zayne-labs/toolkit-react";
 import { slideImages } from "./images";
 
 function Hero() {
@@ -26,8 +26,8 @@ function Hero() {
 			<Carousel.Root images={slideImages} onSlideBtnClick={handleElementsAnimation}>
 				<Carousel.Content
 					classNames={{
-						base: "mx-[1rem] h-[33rem] md:h-[41.4rem] lg:h-[48.5rem]",
-						scrollContainer: "rounded-[0.7rem] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]",
+						base: "mx-[10px] h-[330px] md:h-[414px] lg:h-[485px]",
+						scrollContainer: "rounded-[7px] dark:box-shadow-[0_0_7px_-1px_hsl(0,0%,40%,0.6)]",
 					}}
 					autoSlideInterval={8000}
 					hasAutoSlide={true}
@@ -35,12 +35,12 @@ function Hero() {
 				>
 					<Carousel.Controls
 						classNames={{
-							base: "px-[0.7rem] md:px-[0.8rem] lg:pl-[30rem] lg:pr-[2rem]",
-							iconContainer: `rounded-[5px] bg-carousel-btn p-[0.8rem_0.5rem]
-							hover:box-shadow-[0_0_5px_var(--text-dark)] lg:p-[1.3rem_0.9rem]`,
+							base: "px-[7px] md:px-[8px] lg:pl-[300px] lg:pr-[20px]",
+							iconContainer: `rounded-[5px] bg-carousel-btn p-[8px_5px]
+							hover:box-shadow-[0_0_5px_var(--text-dark)] lg:p-[13px_9px]`,
 						}}
 						icon={{
-							icon: <IconBox icon="radix-icons:paper-plane" className="lg:text-[1.7rem]" />,
+							icon: <IconBox icon="radix-icons:paper-plane" className="lg:text-[20px]" />,
 							iconType: "nextIcon",
 						}}
 					/>
@@ -49,25 +49,25 @@ function Hero() {
 						render={(image) => (
 							<Carousel.Item key={image.src} className="brightness-[0.6]">
 								<ImageComponent
-									className={"size-full"}
-									imageType={"hasFallback"}
+									className="size-full"
+									imageType="hasFallback"
 									src={image.src}
 									blurSrc={image.blurSrc}
-									fetchPriority={"high"}
+									fetchPriority="high"
 								/>
 							</Carousel.Item>
 						)}
 					/>
 
 					<Carousel.Caption
-						className="ml-[4.5rem] mt-[3.7rem] flex flex-col items-start text-light md:ml-[7.5rem]
-							lg:ml-[36rem] lg:mt-[8rem]"
+						className="ml-[45px] mt-[37px] flex flex-col items-start text-light md:ml-[75px]
+							lg:ml-[360px] lg:mt-[80px]"
 					>
 						<h1
 							ref={(elem) => {
 								animatedElements.heading = elem;
 							}}
-							className="w-[17ch] font-roboto text-[clamp(2rem,_4vw+1rem,_3rem)] font-600
+							className="w-[17ch] font-roboto text-[clamp(20px,4vw+10px,30px)] font-600
 								text-heading"
 						>
 							Explore the Future of Technology
@@ -77,9 +77,8 @@ function Hero() {
 							ref={(elem) => {
 								animatedElements.paragraph = elem;
 							}}
-							className="z-20 w-[30ch] text-[clamp(1.3rem,_1vw+1rem,_1.7rem)]
-								[margin-block:1rem_3rem] md:[margin-block:1.8rem_3.7rem] lg:w-[40ch]
-								lg:text-[clamp(1.5rem,_1vw+1rem,_2rem)]"
+							className="z-20 w-[30ch] text-[clamp(13px,1vw+10px,17px)] [margin-block:10px_30px]
+								md:[margin-block:18px_37px] lg:w-[40ch] lg:text-[clamp(15px,1vw+10px,20px)]"
 						>
 							Discover the Latest and most Exquisite Tech Products for Your Home, Office, and
 							On-the-go Needs.
@@ -90,9 +89,9 @@ function Hero() {
 								animatedElements.button = elem;
 							}}
 							theme="secondary"
-							className="z-50 text-[clamp(1.3rem,_1vw+1rem,_1.7rem)] font-[600] transition-shadow
+							className="z-50 text-[clamp(13px,1vw+10px,17px)] font-[600] transition-shadow
 								duration-[400ms] hover:[box-shadow:0_10px_20px_hsl(43,100%,55%,0.4)]
-								active:scale-[1.04] max-sm:p-[1rem_2.8rem]"
+								active:scale-[1.04] max-sm:p-[10px_28px]"
 						>
 							Shop Now
 						</Button>

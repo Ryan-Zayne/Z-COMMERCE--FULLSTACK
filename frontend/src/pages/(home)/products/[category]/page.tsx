@@ -26,23 +26,23 @@ function ProductCategoryPage() {
 	}
 
 	return (
-		<section className="mt-[3rem] lg:mt-[5rem]">
+		<section className="mt-[30px] lg:mt-[50px]">
 			<header className="flex items-center justify-center">
-				<Button unstyled={true} className="ml-[3rem] text-[3rem]">
+				<Button unstyled={true} className="ml-[30px] text-[30px]">
 					<Link to={"/"}>
 						<IconBox icon="typcn:arrow-back" />
 					</Link>
 				</Button>
 
-				<h1 className="mx-auto text-center text-[3rem] font-[700] capitalize lg:text-[4rem]">
+				<h1 className="mx-auto text-center text-[30px] font-[700] capitalize lg:text-[40px]">
 					{category === "lighting" ? "Digital Lighting" : category}
 				</h1>
 			</header>
 
-			<article className="mt-[4rem] px-[3rem]">
+			<article className="mt-[40px] px-[30px]">
 				<ProductCategoryCardList
-					className="grid grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))] justify-items-center
-						gap-[5rem_2rem]"
+					className="grid grid-cols-[repeat(auto-fit,_minmax(240px,1fr))] justify-items-center
+						gap-[50px_20px]"
 					each={productsArrayByCategory}
 					render={(product) => (
 						<ProductCard

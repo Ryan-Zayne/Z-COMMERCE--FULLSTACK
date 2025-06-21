@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import loadingSpinner from "@/assets/loadingSpinner.svg";
 import { Teleport } from "./teleport";
 
@@ -10,7 +9,7 @@ const LOADER_LOOKUP = {
 					backdrop-blur-[1.5px]"
 			>
 				<img
-					className="aspect-square w-[30rem] max-md:translate-y-[-4rem] lg:w-[30%]"
+					className="aspect-square w-[300px] max-md:translate-y-[-40px] lg:w-[30%]"
 					src={loadingSpinner}
 					alt=""
 				/>

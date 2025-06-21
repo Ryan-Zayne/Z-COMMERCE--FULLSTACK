@@ -1,7 +1,7 @@
-import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
-import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
 import { assertDefined } from "@zayne-labs/toolkit-type-helpers";
 import { useParams } from "react-router";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
 import ItemDescription from "./ProductItem/ItemDescription";
 import ItemHeader from "./ProductItem/ItemHeader";
 import ItemHero from "./ProductItem/ItemHero";
@@ -22,14 +22,14 @@ function ProductItemPage() {
 	}
 
 	return (
-		<section className="p-[1rem_2rem_8rem] lg:pt-[3rem]">
-			<header className="mx-[0.5rem] flex items-center justify-between lg:mx-[3rem]">
+		<section className="p-[10px_20px_80px] lg:pt-[30px]">
+			<header className="mx-[5px] flex items-center justify-between lg:mx-[30px]">
 				<ItemHeader productItem={assertDefined(productItem)} />
 			</header>
 
 			<div
-				className="mt-[3rem] md:mt-[4.5rem] md:flex md:h-[47rem] md:justify-around md:gap-[4rem]
-					md:px-[1rem] lg:mt-[6rem] lg:gap-[8rem]"
+				className="mt-[30px] md:mt-[45px] md:flex md:h-[470px] md:justify-around md:gap-[40px]
+					md:px-[10px] lg:mt-[60px] lg:gap-[80px]"
 			>
 				<ItemHero slideImages={productItem.images} />
 

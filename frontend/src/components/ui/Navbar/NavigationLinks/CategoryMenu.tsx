@@ -1,9 +1,9 @@
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router";
 import { IconBox } from "@/components/primitives/IconBox";
 import { DropDown } from "@/components/ui/DropDown";
 import { cnJoin } from "@/lib/utils/cn";
 import { useGlobalStore } from "@/store/zustand/globalStore";
-import { useEffect } from "react";
-import { Link, useLocation } from "react-router";
 import { useDropdown } from "../../DropDown/dropdown-context";
 
 const categories = [
@@ -49,7 +49,7 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 				to={category.path}
 				className={cnJoin(
 					isDesktopDevice
-						&& `flex items-center justify-between py-[1rem]
+						&& `flex items-center justify-between py-[10px]
 						[border-bottom:1px_solid_theme('colors.primary')]`
 				)}
 			>
@@ -65,15 +65,15 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 			<DropDown.RootProvider
 				value={dropdown}
 				id={"Shop-By-Categories DropDown"}
-				className={"relative z-50 ml-[1rem]"}
+				className={"relative z-50 ml-[10px]"}
 			>
 				<DropDown.Trigger
-					className="flex w-[28rem] cursor-pointer flex-row-reverse justify-end gap-[1rem]
-						rounded-[0.5rem_0.5rem_0_0] bg-heading p-[1rem_1.5rem] text-primary"
+					className="flex w-[280px] cursor-pointer flex-row-reverse justify-end gap-[10px]
+						rounded-[5px_5px_0_0] bg-heading p-[10px_15px] text-primary"
 				>
 					<h3 className="font-medium">Shop By Category</h3>
 
-					<span className="text-[2rem]">
+					<span className="text-[16px]">
 						<IconBox icon="bi:menu-button-fill" />
 					</span>
 				</DropDown.Trigger>
@@ -81,11 +81,11 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 				<DropDown.Content
 					id="Category List"
 					classNames={{
-						base: "absolute h-[48.5rem] w-full",
+						base: "absolute h-[485px] w-full",
 						listContainer: cnJoin(
-							`bg-body px-[2rem] shadow-[0_1px_3px_0_theme(colors.primary)]
+							`bg-body px-[20px] shadow-[0_1px_3px_0_theme(colors.primary)]
 							dark:shadow-[0_1px_3px_0.3px_theme(colors.carousel-dot)]`,
-							dropdown.isOpen ? "pt-[5rem]" : "shadow-none"
+							dropdown.isOpen ? "pt-[50px]" : "shadow-none"
 						),
 					}}
 				>
@@ -96,12 +96,12 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 
 		mobile: () => (
 			<DropDown.RootProvider value={dropdown} id="Mobile-Categories dropdown">
-				<DropDown.Trigger className="relative flex cursor-pointer items-center gap-[0.5rem]">
+				<DropDown.Trigger className="relative flex cursor-pointer items-center gap-[5px]">
 					<h4>Categories</h4>
 
 					<span
 						className={cnJoin(
-							"text-[1.2rem] [transition:transform_350ms_ease]",
+							"text-[12px] [transition:transform_350ms_ease]",
 							dropdown.isOpen && "rotate-180"
 						)}
 					>
@@ -111,12 +111,12 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 
 				<DropDown.Content
 					classNames={{
-						base: `absolute inset-x-0 z-[50] m-[0.5rem_2rem_0] rounded-[5px]
-						bg-[hsl(215,19%,35%,0.9)] [backdrop-filter:blur(4rem)]`,
+						base: `absolute inset-x-0 z-[50] m-[5px_20px_0] rounded-[5px]
+						bg-[hsl(215,19%,35%,0.9)] [backdrop-filter:blur(40px)]`,
 
 						listContainer: cnJoin(
-							"flex flex-col gap-[1.5rem] pl-[3rem] text-[1.4rem]",
-							dropdown.isOpen && "py-[2rem]"
+							"flex flex-col gap-[15px] pl-[30px] text-[14px]",
+							dropdown.isOpen && "py-[20px]"
 						),
 					}}
 				>

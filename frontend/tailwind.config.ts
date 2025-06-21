@@ -18,18 +18,18 @@ const tailwindConfig = {
 			addComponents({
 				".custom-scrollbar": {
 					"&::-webkit-scrollbar": {
-						width: "1rem",
+						width: "10px",
 					},
 
 					"&::-webkit-scrollbar-thumb": {
 						backgroundColor: "hsl(206, 13%, 14%)",
 						border: "1px solid hsl(0, 0%, 76%)",
-						borderRadius: "1rem",
+						borderRadius: "10px",
 					},
 
 					"&::-webkit-scrollbar-track": {
 						backgroundColor: "hsl(0, 0%, 76%)",
-						borderRadius: "1rem 1rem 0 0",
+						borderRadius: "10px 10px 0 0",
 					},
 				},
 			});
@@ -39,9 +39,9 @@ const tailwindConfig = {
 					"&::before": {
 						backgroundColor: "var(--brand-inverse)",
 						borderRadius: "50%",
-						bottom: "2rem",
+						bottom: "20px",
 						content: '""',
-						height: " 0.5rem",
+						height: "5px",
 						left: "50%",
 						opacity: "0",
 						position: "absolute",
@@ -53,15 +53,15 @@ const tailwindConfig = {
 							border-radius 0.2s ease 0.4s,
 							width 0.5s ease 0.4s
 							`,
-						width: "0.5rem",
+						width: "5px",
 					},
 
 					"&:hover::before": {
-						borderRadius: "2rem",
-						bottom: "-0.5rem",
-						height: "0.3rem",
+						borderRadius: "20px",
+						bottom: "-5px",
+						height: "3px",
 						opacity: "1",
-						width: "calc(100% + 0.2rem)",
+						width: "calc(100% + 2px)",
 					},
 
 					position: "relative",
@@ -198,9 +198,9 @@ const tailwindConfig = {
 				},
 
 				shake: {
-					"0%, 100%": { transform: "translateX(0rem)" },
-					"25%": { transform: "translateX(0.6rem)" },
-					"75%": { transform: "translateX(-0.6rem)" },
+					"0%, 100%": { transform: "translateX(0px)" },
+					"25%": { transform: "translateX(6px)" },
+					"75%": { transform: "translateX(-6px)" },
 				},
 
 				zoom: {

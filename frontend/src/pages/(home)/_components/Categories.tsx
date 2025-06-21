@@ -1,9 +1,9 @@
+import { m } from "motion/react";
+import { Link } from "react-router";
 import { Button } from "@/components/primitives/button";
 import { getElementList } from "@/components/primitives/for";
 import { cnJoin } from "@/lib/utils/cn";
 import { useThemeStore } from "@/store/zustand/themeStore";
-import { m } from "motion/react";
-import { Link } from "react-router";
 
 const categories = [
 	{
@@ -54,13 +54,13 @@ function Categories() {
 	const [CategoryLinksList] = getElementList();
 
 	return (
-		<main id="Categories" className="mt-[6rem] flex flex-col px-[4rem] lg:items-center">
-			<h2 className="text-center text-[2.5rem] font-[600] lg:text-[4rem]">All Categories</h2>
+		<section id="Categories" className="mt-[60px] flex flex-col px-[40px] lg:items-center">
+			<h2 className="text-center text-[25px] font-[600] lg:text-[40px]">All Categories</h2>
 
 			<CategoryLinksList
-				className="mt-[3rem] grid auto-rows-[20rem] grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))]
-					justify-items-center gap-[3rem] lg:auto-rows-[23rem]
-					lg:grid-cols-[repeat(3,_minmax(30rem,1fr))] lg:gap-[4rem]"
+				className="mt-[30px] grid auto-rows-[200px] grid-cols-[repeat(auto-fit,_minmax(240px,1fr))]
+					justify-items-center gap-[30px] lg:auto-rows-[230px]
+					lg:grid-cols-[repeat(3,_minmax(300px,1fr))] lg:gap-[40px]"
 				each={categories}
 				render={(category) => (
 					<m.li
@@ -74,28 +74,28 @@ function Categories() {
 						viewport={{ margin: "-20px 0px 0px", once: true }}
 						whileHover={{ scale: 1.09, transition: { duration: 0.3 } }}
 						className={cnJoin(
-							`flex w-[min(100%,27rem)] justify-between gap-[1.5rem] rounded-[5rem] p-[2rem]
-							lg:w-full lg:rounded-[6rem]`,
+							`flex w-[min(100%,270px)] justify-between gap-[15px] rounded-[50px] p-[20px] lg:w-full
+							lg:rounded-[60px]`,
 							[isDarkMode ? category.bgDark : category.bgLight]
 						)}
 					>
 						<div
-							className="flex min-w-[12rem] shrink-0 flex-col justify-center gap-[0.5rem]
-								lg:gap-[1rem]"
+							className="flex min-w-[120px] shrink-0 flex-col justify-center gap-[5px]
+								lg:gap-[10px]"
 						>
-							<h3 className="text-center text-[1.8rem] lg:text-[2rem]">{category.title}</h3>
+							<h3 className="text-center text-[18px] lg:text-[20px]">{category.title}</h3>
 
 							<Button
 								variant={"shop"}
-								className={`w-full bg-body p-[0.8rem] text-[--text-body]
-								active:translate-y-[0.15rem] lg:p-[0.8rem_2.7rem] lg:text-[2rem]`}
+								className="w-full bg-body p-[8px] text-[--text-body] active:translate-y-[1.5px]
+									lg:p-[8px_27px] lg:text-[20px]"
 								asChild={true}
 							>
 								<Link to={category.path}>Shop Now</Link>
 							</Button>
 						</div>
 
-						<div className="flex w-[12rem] items-center lg:w-[15rem]">
+						<div className="flex w-[120px] items-center lg:w-[150px]">
 							<img
 								className={category.imageAspectRatio}
 								src={category.image}
@@ -106,7 +106,7 @@ function Categories() {
 					</m.li>
 				)}
 			/>
-		</main>
+		</section>
 	);
 }
 export default Categories;

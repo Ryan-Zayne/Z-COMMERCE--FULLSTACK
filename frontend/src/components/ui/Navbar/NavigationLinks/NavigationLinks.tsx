@@ -1,13 +1,13 @@
-import { IconBox } from "@/components/primitives/IconBox";
-import { Logo } from "@/components/primitives/Logo";
-import { Overlay } from "@/components/primitives/Overlay";
-import { Button } from "@/components/primitives/button";
-import { cnJoin } from "@/lib/utils/cn";
-import { useGlobalStore } from "@/store/zustand/globalStore";
 import type { UnionDiscriminator } from "@zayne-labs/toolkit-type-helpers";
 import { getElementList } from "@zayne-labs/ui-react/common/for";
 import { Show } from "@zayne-labs/ui-react/common/show";
 import { NavLink } from "react-router";
+import { Button } from "@/components/primitives/button";
+import { IconBox } from "@/components/primitives/IconBox";
+import { Logo } from "@/components/primitives/Logo";
+import { Overlay } from "@/components/primitives/Overlay";
+import { cnJoin } from "@/lib/utils/cn";
+import { useGlobalStore } from "@/store/zustand/globalStore";
 import CategoryMenu from "./CategoryMenu";
 
 type NavItemsType = Array<
@@ -37,14 +37,14 @@ function NavigationLinks() {
 
 	const navLinkInfoArray: NavItemsType = [
 		{
-			childElement: <Logo className={"mb-[2rem] ml-[4rem]"} />,
+			childElement: <Logo className={"mb-[20px] ml-[40px]"} />,
 			id: 1,
 			shouldShow: !isDesktop,
 		},
 		{ path: "/", title: "Home" },
 		{
 			childElement: <CategoryMenu deviceType={"mobile"} />,
-			className: "max-lg:pl-[4rem]",
+			className: "max-lg:pl-[40px]",
 			id: 2,
 			shouldShow: !isDesktop,
 		},
@@ -54,7 +54,7 @@ function NavigationLinks() {
 	];
 
 	return (
-		<nav className="relative flex w-full items-center justify-between font-[500] lg:pr-[2rem]">
+		<nav className="relative flex w-full items-center justify-between font-[500] lg:pr-[20px]">
 			{isDesktop && <CategoryMenu deviceType={"desktop"} />}
 
 			<Overlay isOpen={!isDesktop && isNavShow} onClose={toggleNavShow} className="z-[100]" />
@@ -62,15 +62,15 @@ function NavigationLinks() {
 			<ul
 				id="Navigation List"
 				className={cnJoin(
-					`flex gap-[3.2rem] [&_>_li_>_a:not(:has(img))]:navlink-transition
+					`flex gap-[32px] [&_>_li_>_a:not(:has(img))]:navlink-transition
 					[&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative`,
 
-					isDesktop && "relative gap-[12rem]",
+					isDesktop && "relative gap-[10px]",
 
 					!isDesktop && [
-						`fixed inset-[0_0_0_auto] z-[150] w-[min(22rem,80%)] flex-col bg-navbar pt-[7rem]
-						text-[1.4rem] text-nav-text transition-transform ease-slide-out
-						[backdrop-filter:blur(2rem)_saturate(5)] md:w-[24rem] md:text-[1.6rem]`,
+						`fixed inset-[0_0_0_auto] z-[150] w-[min(220px,80%)] flex-col bg-navbar pt-[70px]
+						text-[14px] text-nav-text transition-transform ease-slide-out
+						[backdrop-filter:blur(20px)_saturate(5)] md:w-[240px] md:text-[16px]`,
 
 						isNavShow ? "translate-x-0 duration-[600ms]" : "translate-x-full duration-[250ms]",
 					]
@@ -80,7 +80,7 @@ function NavigationLinks() {
 					<Button
 						unstyled={true}
 						type="button"
-						className={"absolute right-[1rem] top-[2.3rem] text-[3rem] text-rose-600"}
+						className={"absolute right-[10px] top-[23px] text-[18px] text-rose-600"}
 						onClick={toggleNavShow}
 					>
 						<IconBox icon="ri:close-fill" />
@@ -103,7 +103,7 @@ function NavigationLinks() {
 						return (
 							<li
 								key={title}
-								className="max-lg:pl-[4rem]"
+								className="max-lg:pl-[40px]"
 								onClick={!isDesktop ? toggleNavShow : undefined}
 							>
 								<NavLink to={path}>{title}</NavLink>

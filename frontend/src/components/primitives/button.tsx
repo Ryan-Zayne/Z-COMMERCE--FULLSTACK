@@ -1,5 +1,5 @@
 import type { InferProps, PolymorphicProps } from "@zayne-labs/toolkit-react/utils";
-import { type VariantProps, tv } from "tailwind-variants";
+import { tv, type VariantProps } from "tailwind-variants";
 import { SpinnerIcon } from "../icons";
 import { Slot } from "./slot";
 
@@ -22,9 +22,9 @@ const button = tv({
 		},
 
 		size: {
-			lg: "px-[4.5rem] py-[1.1rem]",
-			md: "px-[3.5rem] py-[1.1rem]",
-			sm: "px-[1.3rem] py-[1.1rem]",
+			lg: "px-[45px] py-[11px]",
+			md: "px-[35px] py-[11px]",
+			sm: "px-[13px] py-[11px]",
 		},
 
 		theme: {
@@ -34,10 +34,10 @@ const button = tv({
 		},
 
 		variant: {
-			cart: "rounded-[0.8rem]",
-			input: "rounded-r-[2.5rem]",
-			regular: "rounded-[0.5rem]",
-			shop: "rounded-[2.5rem]",
+			cart: "rounded-[8px]",
+			input: "rounded-r-[25px]",
+			regular: "rounded-[5px]",
+			shop: "rounded-[25px]",
 		},
 	},
 
