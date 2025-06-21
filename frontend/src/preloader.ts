@@ -1,4 +1,4 @@
-import { lockScroll, on } from "@zayne-labs/toolkit-core";
+import { on } from "@zayne-labs/toolkit-core";
 import { useThemeStore } from "./store/zustand/themeStore";
 
 // NOTE - This prevents flicker of wrong theme onLoad
@@ -10,11 +10,7 @@ const removePreloader = () => {
 
 	if (!preloaderElement) return;
 
-	lockScroll({ isActive: true });
-
 	preloaderElement.style.opacity = "0";
-
-	lockScroll({ isActive: false });
 
 	const cleanUpForTransitionEnd = on("transitionend", preloaderElement, () => {
 		preloaderElement.remove();

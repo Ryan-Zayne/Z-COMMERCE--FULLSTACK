@@ -33,6 +33,8 @@ const errorHandler: ErrorRequestHandler = (error: AppError, _req, res, _next) =>
 
 		[errorCodes.NOT_FOUND, () => res.status(404).json(errorInfo)],
 
+		[errorCodes.PAYMENT_REQUIRED, () => res.status(402).json(errorInfo)],
+
 		[errorCodes.REQUEST_TIMEOUT, () => res.status(408).json(errorInfo)],
 
 		[errorCodes.SERVER_ERROR, () => res.status(500).json(errorInfo)],

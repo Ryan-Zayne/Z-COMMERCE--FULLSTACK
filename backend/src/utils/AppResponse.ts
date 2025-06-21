@@ -4,16 +4,15 @@ const AppResponse = (
 	res: Response,
 	statusCode: number,
 	message?: string,
-	extraData?: Record<string, unknown>
+	data?: Record<string, unknown>
 ) => {
+	/* eslint-disable perfectionist/sort-objects */
 	const jsonResponse = {
 		status: "success",
-		// eslint-disable-next-line perfectionist/sort-objects
 		success: true,
-		// eslint-disable-next-line perfectionist/sort-objects
 		message,
-
-		...(Boolean(extraData) && { data: extraData }),
+		...(Boolean(data) && { data }),
+		/* eslint-enable perfectionist/sort-objects */
 	};
 
 	res.status(statusCode).json(jsonResponse);

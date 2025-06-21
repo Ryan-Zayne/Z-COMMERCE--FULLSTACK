@@ -1,0 +1,23 @@
+meta {
+  name: signin
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseURL-dev}}/auth/signin
+  body: json
+  auth: none
+}
+
+body:json {
+  // {
+  //   "email": "phoenixastro97@gmail.com",
+  //   "password": "Veldora97"
+  // }
+  
+  {
+    "email": "ferdinandchidera49@gmail.com",
+    "password": "Superman"
+  }
+}

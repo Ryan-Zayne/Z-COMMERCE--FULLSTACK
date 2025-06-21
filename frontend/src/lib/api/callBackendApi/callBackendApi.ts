@@ -1,35 +1,26 @@
 import { type CallApiParameters, type ResultModeUnion, createFetchClient } from "@zayne-labs/callapi";
-import type { AnyFunction } from "@zayne-labs/toolkit-type-helpers";
-import { redirectOn401Error } from "./plugins";
+import {
+	type RedirectOn401ErrorPluginMeta,
+	type ToastPluginMeta,
+	redirectOn401ErrorPlugin,
+	toastPlugin,
+} from "./plugins";
 
-export type ApiSuccessType<TData> = {
-	data: TData | null;
+export type ApiSuccessResponse<TData> = {
+	data?: TData;
 	message: string;
 	status: "success";
 	success: true;
 };
 
-export type ApiErrorType<TError = never> = {
+export type ApiErrorResponse<TError = Record<string, string>> = {
 	errors?: TError;
 	message: string;
 	status: "error";
 	success: false;
 };
 
-type GlobalMeta = {
-	redirectOn401Error?:
-		| boolean
-		| {
-				navigateFn?: AnyFunction;
-				onRedirect: () => void;
-				path?: never;
-		  }
-		| {
-				navigateFn?: AnyFunction;
-				onRedirect?: never;
-				path?: `/${string}`;
-		  };
-};
+type GlobalMeta = RedirectOn401ErrorPluginMeta & ToastPluginMeta;
 
 declare module "@zayne-labs/callapi" {
 	// eslint-disable-next-line ts-eslint/consistent-type-definitions
@@ -41,7 +32,7 @@ declare module "@zayne-labs/callapi" {
 const sharedFetchClient = createFetchClient({
 	baseURL: "/api/v1",
 	credentials: "same-origin",
-	plugins: [redirectOn401Error()],
+	plugins: [redirectOn401ErrorPlugin(), toastPlugin()],
 });
 
 export const callBackendApi = <
@@ -49,7 +40,7 @@ export const callBackendApi = <
 	TErrorData = unknown,
 	TResultMode extends ResultModeUnion = ResultModeUnion,
 >(
-	...parameters: CallApiParameters<ApiSuccessType<TData>, ApiErrorType<TErrorData>, TResultMode>
+	...parameters: CallApiParameters<ApiSuccessResponse<TData>, ApiErrorResponse<TErrorData>, TResultMode>
 ) => {
 	const [url, config] = parameters;
 
@@ -57,7 +48,7 @@ export const callBackendApi = <
 };
 
 export const callBackendApiForQuery = <TData = unknown>(
-	...parameters: CallApiParameters<ApiSuccessType<TData>, false | undefined>
+	...parameters: CallApiParameters<ApiSuccessResponse<TData>, false | undefined>
 ) => {
 	const [url, config] = parameters;
 

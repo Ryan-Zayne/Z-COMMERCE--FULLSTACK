@@ -1,33 +1,61 @@
-import { Button, Overlay, Teleport } from "@/components/primitives";
-import { IconBox } from "@/components/primitives/IconBox";
+import { IconBox, type MoniconIconBoxProps } from "@/components/primitives/IconBox";
+import { Overlay as OverlayPrimitive } from "@/components/primitives/Overlay";
+import { Button } from "@/components/primitives/button";
+import { Teleport } from "@/components/primitives/teleport";
 import { cnMerge } from "@/lib/utils/cn";
-import type {
-	DrawerCloseProps,
-	DrawerContentProps,
-	DrawerRootProps,
-	OtherDrawerProps,
-} from "./drawer.types";
-import { DrawerContextProvider, useDrawerStore } from "./drawerStoreContext";
+import {
+	type InferProps,
+	type PolymorphicProps,
+	composeTwoEventHandlers,
+} from "@zayne-labs/toolkit-react/utils";
+import { Slot } from "@zayne-labs/ui-react/common/slot";
+import { DrawerContextProvider, useDrawer, useDrawerContext } from "./drawer-context";
+import type { DrawerCloseProps, DrawerContentProps, DrawerRootProviderProps } from "./types";
 
-function DrawerRoot({ children, ...restOfDrawerProps }: DrawerRootProps) {
+export function DrawerRootProvider(props: DrawerRootProviderProps) {
+	const { children, value } = props;
+
 	return (
-		<Teleport>
-			<DrawerContextProvider storeValues={restOfDrawerProps}>
-				<aside data-id="Drawer-Portal">{children}</aside>
-			</DrawerContextProvider>
-		</Teleport>
+		<DrawerContextProvider value={value}>
+			<Teleport to="body > #portal-holder">
+				<aside data-id="Drawer-Portal" className="isolate z-[1000]">
+					{children}
+				</aside>
+			</Teleport>
+		</DrawerContextProvider>
 	);
 }
 
-function DrawerOverlay() {
-	const isOpen = useDrawerStore((state) => state.isOpen);
-	const onClose = useDrawerStore((state) => state.onClose);
+export function DrawerRoot(props: Omit<InferProps<typeof DrawerRootProvider>, "value">) {
+	const drawer = useDrawer();
 
-	return <Overlay isOpen={isOpen} onClose={onClose} />;
+	return <DrawerRootProvider value={drawer} {...props} />;
 }
 
-function DrawerContent({ children, className, placement = "right" }: DrawerContentProps) {
-	const isOpen = useDrawerStore((state) => state.isOpen);
+export function DrawerOverlay() {
+	const { isOpen, onClose } = useDrawerContext();
+
+	return <OverlayPrimitive className="z-10" isOpen={isOpen} onClose={onClose} />;
+}
+
+export function DrawerTrigger<TElement extends React.ElementType = "button">(
+	props: PolymorphicProps<TElement, { as?: TElement; asChild?: boolean }>
+) {
+	const { as: Element = "button", asChild = false, children, ...restOfProps } = props;
+
+	const { onToggle } = useDrawerContext();
+
+	const Component = asChild ? Slot.Root : Element;
+
+	return (
+		<Component {...restOfProps} onClick={composeTwoEventHandlers(onToggle, restOfProps.onClick)}>
+			{children}
+		</Component>
+	);
+}
+
+export function DrawerContent({ children, className, placement = "right" }: DrawerContentProps) {
+	const { isOpen } = useDrawerContext();
 
 	const placementClasses = {
 		left: "left-0 translate-x-[-100%]",
@@ -38,12 +66,12 @@ function DrawerContent({ children, className, placement = "right" }: DrawerConte
 		<main
 			data-id="Drawer Content Container"
 			className={cnMerge(
-				`custom-scrollbar fixed inset-y-0 z-[500] flex flex-col overflow-y-auto bg-body
+				`custom-scrollbar fixed inset-y-0 z-50 flex flex-col overflow-y-auto bg-body
 				transition-transform ease-slide-out`,
 
 				placementClasses[placement],
 
-				isOpen ? "translate-x-0 duration-[600ms]" : "duration-250 ease-slide-out",
+				isOpen ? "translate-x-0 duration-[600ms]" : "duration-[250ms] ease-slide-out",
 
 				className
 			)}
@@ -53,50 +81,31 @@ function DrawerContent({ children, className, placement = "right" }: DrawerConte
 	);
 }
 
-function DrawerCloseButton(props: DrawerCloseProps) {
-	const { className = "", icon = "ri:close-fill" } = props;
+export function DrawerCloseButton(props: DrawerCloseProps & InferProps<"button">) {
+	const { className = "", icon = "ri:close-fill", ...restOfProps } = props;
 
-	const onClose = useDrawerStore((state) => state.onClose);
+	const { onClose } = useDrawerContext();
 
 	return (
-		<Button unstyled={true} className={cnMerge(`absolute right-8 top-8 ${className}`)} onClick={onClose}>
-			<IconBox icon={icon} />
+		<Button
+			unstyled={true}
+			className={cnMerge("absolute right-[80px] top-[80px]", className)}
+			{...restOfProps}
+			onClick={composeTwoEventHandlers(onClose, restOfProps.onClick)}
+		>
+			<IconBox icon={icon as MoniconIconBoxProps["icon"]} />
 		</Button>
 	);
 }
 
-function DrawerHeader({ children, className = "" }: OtherDrawerProps) {
-	return (
-		<header data-id="Drawer Header" className={className}>
-			{children}
-		</header>
-	);
-}
+export const Trigger = DrawerTrigger;
 
-function DrawerBody({ children, className = "" }: OtherDrawerProps) {
-	return (
-		<div data-id="Drawer Body" className={className}>
-			{children}
-		</div>
-	);
-}
+export const CloseButton = DrawerCloseButton;
 
-function DrawerFooter({ children, className = "" }: OtherDrawerProps) {
-	return (
-		<footer data-id="Drawer Footer" className={className}>
-			{children}
-		</footer>
-	);
-}
+export const Content = DrawerContent;
 
-const Drawer = {
-	Body: DrawerBody,
-	CloseButton: DrawerCloseButton,
-	Content: DrawerContent,
-	Footer: DrawerFooter,
-	Header: DrawerHeader,
-	Overlay: DrawerOverlay,
-	Root: DrawerRoot,
-};
+export const Overlay = DrawerOverlay;
 
-export default Drawer;
+export const Root = DrawerRoot;
+
+export const RootProvider = DrawerRootProvider;

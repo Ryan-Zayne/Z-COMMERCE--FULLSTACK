@@ -8,25 +8,27 @@ const useGetAllProducts = () => {
 		isPending,
 	} = useQueries({
 		combine: (resultsArray) => ({
-			data: resultsArray.flatMap((item) => item.data),
-			isError: resultsArray.some((item) => item.isError),
-			isPending: resultsArray.some((item) => item.isPending),
+			data: resultsArray.flatMap((result) => result.data),
+			isError: resultsArray.some((result) => result.isError),
+			isPending: resultsArray.some((result) => result.isPending),
 		}),
 		queries: productKeyEnum.map((key) => productQuery(key)),
 	});
 
-	const recentlyViewedProductsArray = allProductsArray.filter((item) => item?.category === "smartphones");
+	const recentlyViewedProductsArray = allProductsArray.filter(
+		(product) => product?.category === "smartphones"
+	);
 
-	const hotSalesProductsArray = allProductsArray.filter((item) => item?.category === "laptops");
+	const hotSalesProductsArray = allProductsArray.filter((product) => product?.category === "laptops");
 
 	const vehiclesProductsArray = [
-		...allProductsArray.filter((item) => item?.category === "motorcycle"),
-		...allProductsArray.filter((item) => item?.category === "automotive"),
+		...allProductsArray.filter((product) => product?.category === "motorcycle"),
+		...allProductsArray.filter((product) => product?.category === "automotive"),
 	];
 
 	const watchesProductsArray = [
-		...allProductsArray.filter((item) => item?.category === "mens-watches"),
-		...allProductsArray.filter((item) => item?.category === "womens-watches"),
+		...allProductsArray.filter((product) => product?.category === "mens-watches"),
+		...allProductsArray.filter((product) => product?.category === "womens-watches"),
 	];
 
 	return {

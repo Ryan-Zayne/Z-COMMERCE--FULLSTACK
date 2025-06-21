@@ -1,4 +1,4 @@
-import type { DummyResponseDataItem } from "../react-query/types";
+import type { ProductItem } from "../react-query/types";
 import type { MEDIA_QUERY_LOOKUP } from "./globalStore/slices/mediaQuerySlice";
 
 // Global State Types
@@ -24,27 +24,30 @@ export type MediaQuerySlice = {
 export type GlobalStore = CommonStateSlice & MediaQuerySlice;
 
 // ShopState Types
-export type ResponseDataItemInCart = DummyResponseDataItem & { quantity: number };
+export type ResponseDataItemInCart = ProductItem & { quantity: number };
 
 export type ShopStore = {
 	actions: {
-		addToCart: (productItem: DummyResponseDataItem) => void;
+		addToCart: (productItem: ProductItem) => void;
 
-		decrementProductQuantity: (productId: DummyResponseDataItem["id"]) => void;
+		clearCart: () => void;
 
-		incrementProductQuantity: (productId: DummyResponseDataItem["id"]) => void;
+		decrementProductQuantity: (productId: ProductItem["id"]) => void;
 
-		removeProductFromCart: (productId: DummyResponseDataItem["id"]) => void;
+		incrementProductQuantity: (productId: ProductItem["id"]) => void;
 
-		toggleAddToWishList: (productItem: DummyResponseDataItem) => void;
+		removeProductFromCart: (productId: ProductItem["id"]) => void;
 
-		updateProductQuantity: (
-			productId: DummyResponseDataItem["id"],
-			newData: { updatedQuantity: number }
-		) => void;
+		toggleAddToWishList: (productItem: ProductItem) => void;
+
+		updateProductQuantity: (productId: ProductItem["id"], newData: { updatedQuantity: number }) => void;
 	};
 
 	cart: ResponseDataItemInCart[];
 
-	wishList: DummyResponseDataItem[];
+	getTotalPrice: () => number;
+
+	totalPrice: number;
+
+	wishList: ProductItem[];
 };

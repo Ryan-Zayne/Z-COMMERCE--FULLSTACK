@@ -1,7 +1,5 @@
 import { LazyMotion, domAnimation } from "motion/react";
-import { Suspense } from "react";
-import { LoadingSpinner } from "./components/primitives";
-import { SonnerToaster } from "./components/ui";
+import { SonnerToaster } from "./components/ui/Toaster";
 import { Router } from "./router";
 import { useGlobalStore } from "./store/zustand/globalStore";
 

@@ -1,8 +1,8 @@
-import { Logo } from "@/components/primitives";
-import { cnJoin } from "@/lib/utils/cn";
-import { useGlobalStore } from "@/store/zustand/globalStore";
 import { preload } from "react-dom";
 import { Outlet, useLocation } from "react-router";
+import { Logo } from "@/components/primitives/Logo";
+import { cnJoin } from "@/lib/utils/cn";
+import { useGlobalStore } from "@/store/zustand/globalStore";
 
 const desktopImage =
 	"https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/glitter.webp";
@@ -30,7 +30,7 @@ function AuthLayout() {
 		<div
 			className={cnJoin(
 				`relative flex min-h-svh items-center justify-center overflow-x-hidden bg-yellow-cart bg-cover
-				bg-no-repeat px-[2rem] md:py-[2rem] lg:bg-glitter-image lg:px-[10rem]`,
+				bg-no-repeat px-[20px] md:py-[30px] lg:bg-glitter-image lg:px-[100px]`,
 				isLoginOrSignUpPath && "lg:justify-between"
 			)}
 		>
@@ -38,8 +38,8 @@ function AuthLayout() {
 
 			{isDesktop && isLoginOrSignUpPath && (
 				<Logo
-					className={`relative bottom-[1rem] z-10 ml-[-0.8rem] w-[20rem] brightness-[0.8]
-					contrast-[1.7] lg:left-[4rem]`}
+					className={`relative bottom-[10px] z-10 ml-[-8px] w-[200px] brightness-[0.8]
+					contrast-[1.7] lg:left-[40px]`}
 				/>
 			)}
 

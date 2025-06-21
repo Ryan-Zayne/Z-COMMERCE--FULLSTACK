@@ -4,6 +4,7 @@
 	"version": "1.0.0",
 	"exports": {
 		".": null,
+		"./zod": "./src/zod.ts",
 		"./schemas": "./src/schemas/index.ts"
 	},
 	"scripts": {
@@ -11,10 +12,10 @@
 		"dev": "tsup --watch"
 	},
 	"dependencies": {
-		"zod": "^3.24.3"
+		"zod": "^3.25.63"
 	},
 	"devDependencies": {
-		"@zayne-labs/tsconfig": "^0.8.1",
+		"@zayne-labs/tsconfig": "^0.9.1",
 		"typescript": "^5.8.3"
 	}
 }

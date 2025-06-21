@@ -9,7 +9,7 @@ export const createCommonStateSlice: StateCreator<GlobalStore, [], [], CommonSta
 	actions: {
 		toggleNavShow: () => {
 			set((state) => ({ isNavShow: !state.isNavShow }));
-			lockScroll({ isActive: get().isNavShow });
+			lockScroll({ lock: get().isNavShow });
 		},
 	},
 });

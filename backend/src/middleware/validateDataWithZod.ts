@@ -1,16 +1,16 @@
-import type { ZodSchema } from "zod";
+import { z } from "@z-commerce/shared/zod";
 import { AppError } from "../utils";
 import { SigninBodySchema, SignupBodySchema } from "../validation/formSchema";
 import { catchAsync } from "./catchAsyncErrors";
 
-const SCHEMA_LOOKUP = new Map<string, ZodSchema>([
+const SCHEMA_LOOKUP = new Map<string, z.ZodType>([
 	["/auth/signin", SigninBodySchema],
 	["/auth/signup", SignupBodySchema],
 ]);
 
 const methodsToSkip = new Set(["GET"]);
 
-export const validateBodyWithZodGlobal = catchAsync<{ path: string }>((req, res, next) => {
+export const validateBodyWithZodGlobal = catchAsync((req, res, next) => {
 	if (methodsToSkip.has(req.method)) {
 		next();
 		return;
@@ -26,18 +26,18 @@ export const validateBodyWithZodGlobal = catchAsync<{ path: string }>((req, res,
 	void validateBodyWithZod(selectedSchema)(req, res, next);
 });
 
-export const validateBodyWithZod = (schema: ZodSchema) => {
+export const validateBodyWithZod = (schema: z.ZodType) => {
 	const handler = catchAsync((req, _res, next) => {
 		const rawData = req.body;
 
 		const result = schema.safeParse(rawData);
 
 		if (!result.success) {
-			const { fieldErrors, formErrors } = result.error.flatten();
+			const errorMessage = z.prettifyError(result.error);
 
-			const zodErrorDetails = { fieldErrors, rootErrors: formErrors };
+			const errorObject = z.flattenError(result.error).fieldErrors;
 
-			throw new AppError(422, "Validation Failed", { errors: zodErrorDetails });
+			throw new AppError(422, errorMessage, { errors: errorObject });
 		}
 
 		req.body = result.data as Record<string, unknown>;

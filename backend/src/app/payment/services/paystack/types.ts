@@ -25,6 +25,12 @@ export type PaystackChargeSuccessEvent = {
 	event: "charge.success" | AnyString;
 };
 
+export type PaystackVerifyTransactionResponse = {
+	data: PaystackChargeSuccessData;
+	message: string;
+	status: boolean;
+};
+
 type PaystackChargeSuccessData = {
 	amount: number;
 	authorization: {
@@ -77,5 +83,15 @@ type PaystackChargeSuccessData = {
 	paid_at: string;
 	plan: Record<string, never>;
 	reference: string;
-	status: string;
+	status: PaystackTransactionStatus;
 };
+
+export type PaystackTransactionStatus =
+	| "abandoned" // Customer has not completed the transaction
+	| "failed" // Transaction failed
+	| "ongoing" // Waiting for customer action (OTP/transfer)
+	| "pending" // Transaction in progress
+	| "processing" // Similar to pending, specific to direct debit
+	| "queued" // Transaction queued for later processing
+	| "reversed" // Transaction reversed/refunded
+	| "success"; // Transaction successful

@@ -1,13 +1,16 @@
-import { heroui } from "@heroui/theme";
 import plugin from "tailwindcss/plugin";
 import type { Config } from "tailwindcss/types/config";
 
 const tailwindConfig = {
-	content: ["./index.html", "./src/**/*.{ts,tsx}"],
-	darkMode: ["class", '[data-theme="dark"]'],
+	content: [
+		"./index.html",
+		"./src/**/*.{ts,tsx}",
+		"./node_modules/@zayne-labs/ui-react/dist/esm/**/*.{js,ts,tsx}",
+	],
+
+	darkMode: ["class", "[data-theme='dark']"],
 
 	plugins: [
-		heroui(),
 		plugin((pluginObj) => {
 			// eslint-disable-next-line ts-eslint/unbound-method
 			const { addComponents, matchUtilities, matchVariant } = pluginObj;
@@ -15,18 +18,18 @@ const tailwindConfig = {
 			addComponents({
 				".custom-scrollbar": {
 					"&::-webkit-scrollbar": {
-						width: "1rem",
+						width: "10px",
 					},
 
 					"&::-webkit-scrollbar-thumb": {
 						backgroundColor: "hsl(206, 13%, 14%)",
 						border: "1px solid hsl(0, 0%, 76%)",
-						borderRadius: "1rem",
+						borderRadius: "10px",
 					},
 
 					"&::-webkit-scrollbar-track": {
 						backgroundColor: "hsl(0, 0%, 76%)",
-						borderRadius: "1rem 1rem 0 0",
+						borderRadius: "10px 10px 0 0",
 					},
 				},
 			});
@@ -36,9 +39,9 @@ const tailwindConfig = {
 					"&::before": {
 						backgroundColor: "var(--brand-inverse)",
 						borderRadius: "50%",
-						bottom: "2rem",
+						bottom: "20px",
 						content: '""',
-						height: " 0.5rem",
+						height: "5px",
 						left: "50%",
 						opacity: "0",
 						position: "absolute",
@@ -50,16 +53,18 @@ const tailwindConfig = {
 							border-radius 0.2s ease 0.4s,
 							width 0.5s ease 0.4s
 							`,
-						width: "0.5rem",
+						width: "5px",
 					},
 
 					"&:hover::before": {
-						borderRadius: "2rem",
-						bottom: "-0.5rem",
-						height: "0.3rem",
+						borderRadius: "20px",
+						bottom: "-5px",
+						height: "3px",
 						opacity: "1",
-						width: "calc(100% + 0.2rem)",
+						width: "calc(100% + 2px)",
 					},
+
+					position: "relative",
 				},
 			});
 
@@ -114,6 +119,12 @@ const tailwindConfig = {
 				error: "var(--color-error)",
 				facebook: "var(--color-facebook)",
 				heading: "var(--text-header)",
+
+				heroui: {
+					content: "hsl(240 3.7% 15.88%)",
+					default: "hsl(240 5.03% 64.9%)",
+				},
+
 				input: "var(--text-input)",
 				label: "var(--text-label)",
 				light: "var(--text-light)",
@@ -187,9 +198,9 @@ const tailwindConfig = {
 				},
 
 				shake: {
-					"0%, 100%": { transform: "translateX(0rem)" },
-					"25%": { transform: "translateX(0.6rem)" },
-					"75%": { transform: "translateX(-0.6rem)" },
+					"0%, 100%": { transform: "translateX(0px)" },
+					"25%": { transform: "translateX(6px)" },
+					"75%": { transform: "translateX(-6px)" },
 				},
 
 				zoom: {

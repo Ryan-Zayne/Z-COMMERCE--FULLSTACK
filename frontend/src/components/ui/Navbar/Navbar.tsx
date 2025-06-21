@@ -1,16 +1,16 @@
-import NavIcons from "./NavIcons/NavIcons";
-import NavigationLinks from "./NavigationLinks/NavigationLinks";
+import { NavIconsHeader } from "./NavIcons/NavIconsHeader";
+import { NavigationLinks } from "./NavigationLinks/NavigationLinks";
 
 function Navbar() {
 	return (
 		<header
 			id="Navbar"
-			className="flex flex-wrap justify-center pt-[1rem] max-md:pb-[2rem] md:gap-[2rem]"
+			className="flex flex-wrap justify-center pt-[10px] max-md:pb-[14px] md:gap-[20px]"
 		>
-			<NavIcons />
+			<NavIconsHeader />
 			<NavigationLinks />
 		</header>
 	);
 }
 
-export default Navbar;
+export { Navbar };

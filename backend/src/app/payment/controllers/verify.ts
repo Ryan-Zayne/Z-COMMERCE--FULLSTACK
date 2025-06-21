@@ -15,8 +15,12 @@ export const verifyWithApi = catchAsync<{ body: { reference: string } }>(async (
 
 	const result = await verifyTransaction(reference);
 
-	if (!result.success || !result.data) {
-		throw new AppError(500, result.message ?? "Error verifying transaction");
+	if (!result.data) {
+		throw new AppError(400, result.message);
+	}
+
+	if (result.data.status !== "success") {
+		throw new AppError(402, "Transaction incomplete", { errors: { status: result.data.status } });
 	}
 
 	await processPayment(result.data);

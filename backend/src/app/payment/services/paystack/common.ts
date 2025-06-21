@@ -18,7 +18,6 @@ export const processPayment = async (payload: PaymentSuccessPayload) => {
 			paymentDate: payload.paidAt,
 			paymentMeta: {
 				cartItems: payload.cartItems,
-				customerId: payload.customerId,
 			},
 			paymentStatus: PaymentStatusEnum.PAID,
 		},

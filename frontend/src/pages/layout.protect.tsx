@@ -1,27 +1,27 @@
-import { LoadingSpinner } from "@/components/primitives";
+import { LoadingSpinner } from "@/components/primitives/LoadingSpinner";
 import { sessionQuery } from "@/store/react-query/queryFactory";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 function ProtectionLayout() {
 	const navigate = useNavigate();
 
-	const sessionQueryResult = useQuery(
-		sessionQuery({
-			meta: { redirectOn401Error: true },
+	const sessionQueryResult = useQuery(sessionQuery());
 
-			onRequestError: ({ error }) => {
-				toast.error(error.message, { duration: 2000 });
-				void navigate("/auth/signin");
-			},
-		})
-	);
+	useEffect(() => {
+		if (sessionQueryResult.isError) {
+			toast.error("Unauthorized! Please sign in to continue");
+			void navigate("/auth/signin");
+		}
+	}, [navigate, sessionQueryResult.isError]);
 
-	if (sessionQueryResult.isPending) {
-		return <LoadingSpinner />;
+	if (sessionQueryResult.data) {
+		return <Outlet />;
 	}
 
-	return <Outlet />;
+	return <LoadingSpinner />;
 }
+
 export default ProtectionLayout;

@@ -1,6 +1,6 @@
-import type { FormBodySchemaType } from "@/lib/schemas/formSchema";
+import { z } from "@z-commerce/shared/zod";
 
-export type UserSessionData = {
+export type SessionData = {
 	user: {
 		email: string;
 		id: string;
@@ -11,7 +11,4 @@ export type UserSessionData = {
 	};
 };
 
-export type FormErrorResponseType = {
-	fieldErrors: Record<keyof FormBodySchemaType, string[]>;
-	formErrors: string[];
-};
+export type FormErrorData = z.inferFlattenedErrors<z.ZodType<Record<string, unknown>>>["fieldErrors"];

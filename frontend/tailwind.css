@@ -24,7 +24,7 @@
 		--text-label: hsl(0, 0%, 45%);
 	}
 
-	:root[data-theme="dark"] {
+	[data-theme="dark"] {
 		--text-header: hsl(43, 67%, 50%);
 		--text-light: hsl(34, 5%, 71%);
 		--text-body: whitesmoke;
@@ -64,9 +64,13 @@
 	}
 
 	html {
-		font-size: 62.5%;
 		scroll-behavior: smooth;
 		-webkit-tap-highlight-color: transparent;
+	}
+
+	/* Enabling theme transition */
+	:where(html.theme-transition *) {
+		transition: background-color 250ms ease-in-out;
 	}
 
 	input:focus-visible {
@@ -84,17 +88,12 @@
 		outline: transparent;
 	}
 
-	/* Enabling theme transition */
-	:where(html.theme-transition *) {
-		transition: background-color 250ms ease-in-out;
-	}
-
 	body {
-		overflow-y: var(--overflow-y, auto);
-		padding-right: var(--scrollbar-padding, 0);
-
+		--scrollbar-padding: 0px;
+		--overflow-y: auto;
+		overflow-y: var(--overflow-y);
+		padding-right: var(--scrollbar-padding);
 		position: relative;
-		font-size: 1.6rem;
 		font-family: theme("fontFamily.rubik");
 		background-color: var(--color-body);
 		color: var(--text-body);

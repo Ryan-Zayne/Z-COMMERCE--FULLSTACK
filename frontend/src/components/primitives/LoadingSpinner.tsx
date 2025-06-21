@@ -1,16 +1,15 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import loadingSpinner from "@/assets/loadingSpinner.svg";
-import Teleport from "@/components/primitives/Teleport";
+import { Teleport } from "./teleport";
 
 const LOADER_LOOKUP = {
 	auth: () => (
-		<Teleport>
+		<Teleport to="body">
 			<aside
-				className="fixed inset-0 z-[600] flex select-none items-center justify-center bg-black/60
+				className="fixed inset-0 z-[700] flex select-none items-center justify-center bg-black/60
 					backdrop-blur-[1.5px]"
 			>
 				<img
-					className="aspect-square w-[30rem] max-md:translate-y-[-4rem] lg:w-[30%]"
+					className="aspect-square w-[300px] max-md:translate-y-[-40px] lg:w-[30%]"
 					src={loadingSpinner}
 					alt=""
 				/>
@@ -61,4 +60,4 @@ function LoadingSpinner({ variant = "regular" }: { variant?: "auth" | "regular" 
 	return LOADER_LOOKUP[variant]();
 }
 
-export default LoadingSpinner;
+export { LoadingSpinner };

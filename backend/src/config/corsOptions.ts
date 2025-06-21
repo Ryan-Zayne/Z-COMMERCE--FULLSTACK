@@ -5,8 +5,8 @@ const corsOptions = {
 	optionsSuccessStatus: 200,
 	origin: [
 		"http://localhost:5173",
-		"https://zayne-commerce.vercel.app",
-		"https://www.zayne-commerce.vercel.app",
+		"https://digital-genie.vercel.app",
+		"https://digital-genie.netlify.app",
 	],
 } satisfies CorsOptions;
 
