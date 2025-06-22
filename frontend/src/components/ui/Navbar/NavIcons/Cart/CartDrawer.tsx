@@ -37,8 +37,8 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 
 				{cart.length > 0 && (
 					<span
-						className="absolute right-[-10px] top-[-6px] inline-flex size-[17px] items-center
-							justify-center rounded-[50%] bg-secondary text-[12px] font-[500]"
+						className="absolute top-[-6px] right-[-10px] inline-flex size-[17px] items-center
+							justify-center rounded-[50%] bg-secondary text-[12px] font-medium"
 					>
 						{cart.length}
 					</span>
@@ -57,7 +57,7 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 					/>
 
 					<header
-						className="mx-[13px] flex items-center gap-[20px] border-b-[1px] border-b-dark
+						className="mx-[13px] flex items-center gap-[20px] border-b border-b-dark
 							p-[70px_0_20px_20px] lg:pl-[45px]"
 					>
 						<Logo />
@@ -78,7 +78,7 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 
 							<Show.Fallback>
 								<div className="text-center italic">
-									<h4 className="text-[28px] font-[500]">Why here go dey empty?!</h4>
+									<h4 className="text-[28px] font-medium">Why here go dey empty?!</h4>
 									<p className="mt-[7px] text-[16px]">
 										Shey na window shopping you come do or abi wetin?😐
 									</p>
@@ -88,9 +88,7 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 					</section>
 
 					<footer className="flex flex-col gap-[10px]">
-						<p
-							className="mt-[10px] flex justify-between px-[10px] text-[18px] font-[600]"
-						>
+						<p className="mt-[10px] flex justify-between px-[10px] text-[18px] font-semibold">
 							Total:
 							<span className="text-[20px]">
 								<sup>$</sup>
@@ -103,8 +101,8 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 							<Drawer.Trigger
 								as={Button}
 								theme="secondary"
-								className="mx-[13px] text-[14px] font-[600] [transition:box-shadow_300ms_ease]
-									hover:box-shadow-[0_4px_20px_rgb(51,62,72,0.4)] lg:mx-[20px]"
+								className="mx-[13px] text-[14px] font-semibold [transition:box-shadow_300ms_ease]
+									hover:shadow-[0_4px_20px_rgb(51,62,72,0.4)] lg:mx-[20px]"
 							>
 								<Link to="/checkout">Checkout</Link>
 							</Drawer.Trigger>

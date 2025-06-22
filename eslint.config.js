@@ -4,14 +4,9 @@ export default zayne(
 	{
 		ignores: ["frontend/dist"],
 		react: true,
-		// tailwindcss: {
-		// 	overrides: {
-		// 		"tailwindcss/no-unnecessary-arbitrary-value": "off", // Turned off cuz using a custom root font-size (10px)
-		// 	},
-		// 	settings: {
-		// 		config: "frontend/tailwind.config.ts",
-		// 	},
-		// },
+		tailwindcssBetter: {
+			settings: { entryPoint: "frontend/tailwind.css" },
+		},
 		tanstack: {
 			query: true,
 		},

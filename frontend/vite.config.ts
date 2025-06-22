@@ -1,4 +1,5 @@
 import { monicon } from "@monicon/vite";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
 import viteTsconfigPaths from "vite-tsconfig-paths";
@@ -48,6 +49,7 @@ const icons = [
 export default defineConfig({
 	plugins: [
 		react(),
+		tailwindcss(),
 		viteTsconfigPaths(),
 		monicon({
 			icons,

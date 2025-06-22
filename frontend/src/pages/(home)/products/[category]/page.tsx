@@ -34,14 +34,14 @@ function ProductCategoryPage() {
 					</Link>
 				</Button>
 
-				<h1 className="mx-auto text-center text-[30px] font-[700] capitalize lg:text-[40px]">
+				<h1 className="mx-auto text-center text-[30px] font-bold capitalize lg:text-[40px]">
 					{category === "lighting" ? "Digital Lighting" : category}
 				</h1>
 			</header>
 
 			<article className="mt-[40px] px-[30px]">
 				<ProductCategoryCardList
-					className="grid grid-cols-[repeat(auto-fit,_minmax(240px,1fr))] justify-items-center
+					className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] justify-items-center
 						gap-[50px_20px]"
 					each={productsArrayByCategory}
 					render={(product) => (

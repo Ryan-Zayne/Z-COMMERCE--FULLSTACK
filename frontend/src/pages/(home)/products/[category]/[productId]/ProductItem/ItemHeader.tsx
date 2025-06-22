@@ -29,7 +29,7 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 				</Link>
 			</Button>
 
-			<h1 className="text-center font-roboto text-[27px] font-600 capitalize lg:text-[38px]">
+			<h1 className="text-center font-roboto text-[27px] font-semibold capitalize lg:text-[38px]">
 				{productItem.title}
 			</h1>
 
@@ -38,17 +38,16 @@ function ItemHeader({ productItem }: ItemHeaderProps) {
 				className="flex size-[40px] items-center justify-center rounded-[50%] bg-primary"
 				onClick={handleHeartClick}
 			>
-				{isHearted ? (
+				{isHearted ?
 					<IconBox
 						icon="ant-design:heart-filled"
 						className="size-[2.10px] text-heading active:scale-[1.23]"
 					/>
-				) : (
-					<IconBox
+				:	<IconBox
 						icon="ant-design:heart-outlined"
 						className="size-[2.10px] text-carousel-dot hover:text-heading active:scale-[1.23]"
 					/>
-				)}
+				}
 			</Button>
 		</>
 	);

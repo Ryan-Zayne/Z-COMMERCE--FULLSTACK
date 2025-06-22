@@ -1,6 +1,6 @@
+import { createFetchClient } from "@zayne-labs/callapi";
 import { ENVIRONMENT } from "@/config/env";
 import type { InitializePaymentSchemaType } from "@/validation";
-import { createFetchClient } from "@zayne-labs/callapi";
 import type { PaymentSuccessPayload, PaystackChargeSuccessEvent, PaystackInitResponse } from "./types";
 
 const callPaystackApi = createFetchClient({
@@ -55,7 +55,7 @@ export const verifyTransaction = async (reference: string) => {
 	}
 
 	const payload = {
-		amount: Number(result.data.data.amount) / 100,
+		amount: result.data.data.amount / 100,
 		cartItems: result.data.data.metadata.cartItems,
 		customerId: result.data.data.metadata.customerId,
 		paidAt: result.data.data.paid_at,

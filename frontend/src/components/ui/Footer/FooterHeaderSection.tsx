@@ -10,14 +10,14 @@ function FooterHeaderSection() {
 			whileInView={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.7 }}
 			viewport={{ margin: "-20px 0px 0px" }}
-			className="flex flex-col bg-slate-900 bg-footer-image bg-cover bg-no-repeat p-[30px_20px]
-				[background-position:center] lg:flex-row lg:justify-between lg:px-[clamp(30px,9vw,180px)]"
+			className="flex flex-col bg-slate-900 bg-footer-image bg-cover bg-center bg-no-repeat
+				p-[30px_20px] lg:flex-row lg:justify-between lg:px-[clamp(30px,9vw,180px)]"
 		>
 			<div className="flex flex-col items-center gap-[10px] lg:gap-[25px]">
 				<header className="flex items-center">
 					<NewsletterIcon />
 
-					<h4 className="text-[17px] font-[500] text-heading lg:text-[24px]">
+					<h4 className="text-[17px] font-medium text-heading lg:text-[24px]">
 						Sign Up For NewsLetter
 					</h4>
 				</header>
@@ -28,7 +28,7 @@ function FooterHeaderSection() {
 					type="subscribe"
 					classNames={{
 						base: "w-[min(100%,400px)] lg:w-[450px]",
-						btn: "p-[9.1px_15px] text-[14.5px] font-[500] lg:p-[12px_26px]",
+						btn: "p-[9.1px_15px] text-[14.5px] font-medium lg:p-[12px_26px]",
 						input: "lg:py-[9px]",
 					}}
 					placeholder={"Enter Your Email address..."}
@@ -38,10 +38,10 @@ function FooterHeaderSection() {
 				<p className="text-[12px] lg:text-[14px]">Updates on promotions and coupons.</p>
 			</div>
 
-			<span className="block bg-carousel-btn max-lg:my-[30px] max-lg:h-[1px] lg:w-[1px]" />
+			<span className="block bg-carousel-btn max-lg:my-[30px] max-lg:h-px lg:w-px" />
 
 			<div className="flex flex-col items-center gap-[10px] lg:gap-[25px]">
-				<h4 className="flex items-center text-[17px] font-[500] text-heading lg:text-[24px]">
+				<h4 className="flex items-center text-[17px] font-medium text-heading lg:text-[24px]">
 					Download App On Mobile
 				</h4>
 
@@ -63,7 +63,7 @@ function FooterHeaderSection() {
 				</span>
 
 				<span
-					className="flex gap-[20px] text-[20px] [&_svg:hover]:text-secondary [&_svg]:cursor-pointer"
+					className="flex gap-[20px] text-[20px] [&_svg]:cursor-pointer [&_svg:hover]:text-secondary"
 				>
 					<IconBox icon="bi:facebook" />
 					<IconBox icon="bi:twitter" />

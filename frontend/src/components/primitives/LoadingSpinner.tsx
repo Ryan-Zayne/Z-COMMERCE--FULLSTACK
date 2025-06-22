@@ -5,8 +5,8 @@ const LOADER_LOOKUP = {
 	auth: () => (
 		<Teleport to="body">
 			<aside
-				className="fixed inset-0 z-[700] flex select-none items-center justify-center bg-black/60
-					backdrop-blur-[1.5px]"
+				className="fixed inset-0 z-700 flex items-center justify-center bg-black/60
+					backdrop-blur-[1.5px] select-none"
 			>
 				<img
 					className="aspect-square w-[300px] max-md:translate-y-[-40px] lg:w-[30%]"

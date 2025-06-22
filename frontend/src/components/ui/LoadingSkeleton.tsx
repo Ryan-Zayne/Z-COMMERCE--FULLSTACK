@@ -22,14 +22,14 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 			<section className="mt-[80px] flex flex-col gap-[60px] pt-[60px]">
 				<article className="flex flex-col gap-[30px] px-[30px]">
 					<SkeletonCardList
-						className="grid grid-cols-[repeat(auto-fit,_minmax(230px,1fr))] justify-items-center
+						className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] justify-items-center
 							gap-[30px_15px]"
 						each={[...Array(count).keys()]}
 						render={(id) => (
 							<li
 								key={id}
 								className={cnMerge(
-									"rounded-[12px w-[min(100%,250px)] box-shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)]"
+									"rounded-[12px w-[min(100%,250px)] shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)]"
 								)}
 							>
 								<SkeletonTheme

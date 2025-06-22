@@ -1,7 +1,37 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "@zayne-Labs/ui-react/css/preset.css";
 
+/* ------------------*/
+/* App Theme         */
+/*-------------------*/
+@custom-variant dark (&:is([data-theme='dark'] *));
+
+@theme {
+	--color-body: var(--color-body);
+	--color-brand-inverse: var(--brand-inverse);
+	--color-carousel-btn: var(--carousel-btn);
+	--color-carousel-dot: var(--carousel-dot);
+	--color-dark: var(--text-dark);
+	--color-dark-ball: var(--dark-mode-ball);
+	--color-error: var(--color-error);
+	--color-facebook: var(--color-facebook);
+	--color-heading: var(--text-header);
+	--color-input: var(--text-input);
+	--color-label: var(--text-label);
+	--color-light: var(--text-light);
+	--color-nav-text: var(--text-navbar);
+	--color-navbar: var(--color-navbar);
+	--color-placeholder: var(--text-placeholder);
+	--color-primary: var(--color-primary);
+	--color-secondary: var(--color-secondary);
+
+	--color-heroui-content: hsl(240 3.7% 15.88%);
+	--color-heroui-default: hsl(240 5.03% 64.9%);
+}
+
+/* ------------------*/
+/* Custom Properties */
+/*-------------------*/
 @layer base {
 	:root {
 		--text-header: hsl(43, 100%, 55%);
@@ -41,19 +71,194 @@
 	}
 }
 
+/* ------------------*/
+/* Fonts */
+/*-------------------*/
+@theme {
+	--font-roboto: Roboto Slab, Helvetica;
+	--font-rubik: Rubik, Trebuchet MS;
+}
+
+/* ------------------*/
+/* Main Theme */
+/*-------------------*/
+@theme {
+	--background-image-footer-image: url("https://res.cloudinary.com/djvestif4/image/upload/v1700101462/z-commerce/newsletter-bg_yqqx6n.webp");
+	--background-image-glitter-image: url("https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/glitter.webp");
+	--background-image-yellow-cart: url("https://res.cloudinary.com/djvestif4/image/upload/v1700101265/z-commerce/yellow-cart-bg.webp");
+
+	--breakpoint-lg: 1000px;
+	--breakpoint-md: 768px;
+	--breakpoint-sm: 480px;
+	--breakpoint-xl: 1280px;
+
+	--animate-fade-in-down: fade-in-down 1.3s;
+	--animate-fade-in-up: fade-in-up 1.7s ease-out;
+	--animate-fade-in-up-2: fade-in-up-2 1.3s ease-out;
+	--animate-flicker: flicker 3s linear infinite;
+	--animate-shake: shake 0.2s ease-in-out 0s 3;
+	--animate-zoom: zoom 3s infinite linear;
+
+	--ease-slide-in: cubic-bezier(0.51, 0.03, 0.64, 0.28);
+	--ease-slide-out: cubic-bezier(0.33, 0.85, 0.56, 1.02);
+
+	@keyframes fade-in-down {
+		from {
+			opacity: 0;
+			transform: translateY(-80%);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	@keyframes fade-in-up {
+		from {
+			opacity: 0;
+			transform: translateY(100%);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	@keyframes fade-in-up-2 {
+		from {
+			opacity: 0;
+			transform: translateY(150%);
+		}
+		to {
+			opacity: 0.86;
+			transform: translateY(0);
+		}
+	}
+	@keyframes flicker {
+		0%,
+		19.999%,
+		22%,
+		62.999%,
+		64%,
+		64.999%,
+		70%,
+		to {
+			filter: drop-shadow(0 0 1px rgba(252, 211, 77)) drop-shadow(0 0 15px rgba(245, 158, 11))
+				drop-shadow(0 0 1px rgba(252, 211, 77));
+			opacity: 0.99;
+		}
+		20%,
+		21.999%,
+		63%,
+		63.999%,
+		65%,
+		69.999% {
+			filter: none;
+			opacity: 0.4;
+		}
+	}
+	@keyframes shake {
+		0%,
+		100% {
+			transform: translateX(0px);
+		}
+		25% {
+			transform: translateX(6px);
+		}
+		75% {
+			transform: translateX(-6px);
+		}
+	}
+	@keyframes zoom {
+		from {
+			transform: translateX(-300%);
+		}
+		to {
+			transform: translateX(100%);
+		}
+	}
+}
+
+/* ------------------*/
+/* Shadcn Theme      */
+/*-------------------*/
+@theme {
+	--color-shadcn-background: hsl(0, 0%, 100%);
+	--color-shadcn-foreground: hsl(222.2, 47.4%, 11.2%);
+
+	--color-shadcn-primary: hsl(222.2, 47.4%, 11.2%);
+	--color-shadcn-primary-foreground: hsl(210, 40%, 98%);
+
+	--color-shadcn-secondary: hsl(210, 40%, 96.1%);
+	--color-shadcn-secondary-foreground: hsl(222.2, 47.4%, 11.2%);
+
+	--color-shadcn-popover: hsl(0, 0%, 100%);
+	--color-shadcn-popover-foreground: hsl(222.2, 47.4%, 11.2%);
+
+	--color-shadcn-accent: hsl(210, 40%, 96.1%);
+	--color-shadcn-accent-foreground: hsl(222.2, 47.4%, 11.2%);
+
+	--color-shadcn-muted: hsl(210, 40%, 96.1%);
+	--color-shadcn-muted-foreground: hsl(215.4, 16.3%, 46.9%);
+
+	--color-shadcn-input: hsl(214.3, 31.8%, 91.4%);
+	--color-shadcn-border: hsl(214.3, 31.8%, 91.4%);
+	--color-shadcn-ring: hsl(215, 20.2%, 65.1%);
+
+	--color-shadcn-destructive: hsl(0 100% 50%);
+	--color-shadcn-destructive-foreground: hsl(210 40% 98%);
+
+	--color-sonner-success-bg: hsl(150, 100%, 6%);
+	--color-sonner-success-text: hsl(150, 100%, 90%);
+	--color-sonner-success-border: hsl(147, 100%, 12%);
+
+	--color-sonner-error-bg: hsl(358, 76%, 10%);
+	--color-sonner-error-text: hsl(358, 100%, 81%);
+	--color-sonner-error-border: hsl(357, 89%, 16%);
+}
+
+/* ------------------*/
+/* Shadcn Theme      */
+/*-------------------*/
+@theme {
+	--color-shadcn-background: hsl(0, 0%, 100%);
+	--color-shadcn-foreground: hsl(222.2, 47.4%, 11.2%);
+
+	--color-shadcn-primary: hsl(222.2, 47.4%, 11.2%);
+	--color-shadcn-primary-foreground: hsl(210, 40%, 98%);
+
+	--color-shadcn-secondary: hsl(210, 40%, 96.1%);
+	--color-shadcn-secondary-foreground: hsl(222.2, 47.4%, 11.2%);
+
+	--color-shadcn-popover: hsl(0, 0%, 100%);
+	--color-shadcn-popover-foreground: hsl(222.2, 47.4%, 11.2%);
+
+	--color-shadcn-accent: hsl(210, 40%, 96.1%);
+	--color-shadcn-accent-foreground: hsl(222.2, 47.4%, 11.2%);
+
+	--color-shadcn-muted: hsl(210, 40%, 96.1%);
+	--color-shadcn-muted-foreground: hsl(215.4, 16.3%, 46.9%);
+
+	--color-shadcn-input: hsl(214.3, 31.8%, 91.4%);
+	--color-shadcn-border: hsl(214.3, 31.8%, 91.4%);
+	--color-shadcn-ring: hsl(215, 20.2%, 65.1%);
+
+	--color-sonner-success-bg: hsl(150, 100%, 6%);
+	--color-sonner-success-text: hsl(150, 100%, 90%);
+	--color-sonner-success-border: hsl(147, 100%, 12%);
+
+	--color-sonner-error-bg: hsl(358, 76%, 10%);
+	--color-sonner-error-text: hsl(358, 100%, 81%);
+	--color-sonner-error-border: hsl(357, 89%, 16%);
+}
+
+/* ------------------*/
+/* General CSS Reset */
+/*-------------------*/
 @layer base {
-	/* ------------------*/
-	/* General CSS Reset */
-	/*-------------------*/
 	* {
 		margin: 0;
 		padding: 0;
 		box-sizing: border-box;
 	}
-
-	/* -------------------------- */
-	/* Making basic style resets */
-	/* ------------------------- */
 
 	html {
 		height: 100%;
@@ -66,11 +271,10 @@
 	html {
 		scroll-behavior: smooth;
 		-webkit-tap-highlight-color: transparent;
-	}
-
-	/* Enabling theme transition */
-	:where(html.theme-transition *) {
-		transition: background-color 250ms ease-in-out;
+		font-synthesis: none;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 
 	input:focus-visible {
@@ -88,16 +292,78 @@
 		outline: transparent;
 	}
 
+	button:not(:disabled) {
+		cursor: pointer;
+	}
+
+	/* Enabling theme transition */
+	:where(html.theme-transition *) {
+		transition: background-color 250ms ease-in-out;
+	}
+
+	body {
+		font-family: var(--font-rubik);
+		background-color: var(--color-body);
+		color: var(--text-body);
+	}
+
 	body {
 		--scrollbar-padding: 0px;
 		--overflow-y: auto;
 		overflow-y: var(--overflow-y);
 		padding-right: var(--scrollbar-padding);
-		position: relative;
-		font-family: theme("fontFamily.rubik");
-		background-color: var(--color-body);
-		color: var(--text-body);
 		scrollbar-gutter: stable;
+	}
+}
+
+@utility custom-scrollbar {
+	&::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: hsl(0, 0%, 76%);
+		border-radius: 10px 10px 0 0;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: hsl(0, 0%, 76%);
+		border-radius: 10px;
+	}
+}
+
+@utility nav-link-transition {
+	&::before {
+		content: "";
+		position: absolute;
+		bottom: 20px;
+		left: 50%;
+		background-color: var(--color-brand-inverse);
+		opacity: 0;
+		transform: translateX(-50%);
+		height: 2px;
+		width: 2px;
+		border-radius: 50%;
+		transition:
+			opacity 0.4s ease 0s,
+			bottom 0.3s ease 0.1s,
+			height 0.5s ease 0.3s,
+			border-radius 0.2s ease 0.4s,
+			width 0.5s ease 0.4s;
+	}
+
+	@media (width < 800px) {
+		&.nav-mobile::before {
+			background-color: white;
+		}
+	}
+
+	&:hover::before {
+		bottom: -0.7px;
+		height: 2px;
+		width: calc(100% + 2px);
+		border-radius: 20px;
+		opacity: 1;
 	}
 }
 
@@ -120,42 +386,40 @@
 		overflow: hidden;
 		z-index: 1;
 		/* Necessary for overflow: hidden to work correctly in Safari */
-	}
 
-	.react-loading-skeleton::after {
-		content: " ";
-		display: var(--pseudo-element-display);
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 100%;
-		background-repeat: no-repeat;
-		background-image: linear-gradient(
-			90deg,
-			var(--base-color),
-			var(--highlight-color),
-			var(--base-color)
-		);
-		transform: translateX(-100%);
+		&::after {
+			content: " ";
+			display: var(--pseudo-element-display);
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 100%;
+			background-repeat: no-repeat;
+			background-image: linear-gradient(
+				90deg,
+				var(--base-color),
+				var(--highlight-color),
+				var(--base-color)
+			);
+			transform: translateX(-100%);
 
-		animation-name: react-loading-skeleton;
-		animation-direction: var(--animation-direction);
-		animation-duration: var(--animation-duration);
-		animation-timing-function: ease-in-out;
-		animation-iteration-count: infinite;
+			animation-name: react-loading-skeleton;
+			animation-direction: var(--animation-direction);
+			animation-duration: var(--animation-duration);
+			animation-timing-function: ease-in-out;
+			animation-iteration-count: infinite;
+		}
+
+		@media (prefers-reduced-motion) {
+			--pseudo-element-display: none;
+			/* Disable animation */
+		}
 	}
 
 	@keyframes react-loading-skeleton {
 		100% {
 			transform: translateX(100%);
-		}
-	}
-
-	@media (prefers-reduced-motion) {
-		.react-loading-skeleton {
-			--pseudo-element-display: none;
-			/* Disable animation */
 		}
 	}
 }

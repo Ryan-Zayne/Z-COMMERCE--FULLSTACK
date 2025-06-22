@@ -6,7 +6,6 @@ import { cnJoin, cnMerge } from "@/lib/utils/cn";
 import type { ProductItem } from "@/store/react-query/types";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
-import { useThemeStore } from "@/store/zustand/themeStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/types";
 import { Button } from "../primitives/button";
 import { IconBox } from "../primitives/IconBox";
@@ -21,8 +20,6 @@ type ProductCardProps = {
 
 function ProductCard(props: ProductCardProps) {
 	const { image, link = "", productItem } = props;
-
-	const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
 	const isMobile = useGlobalStore((state) => state.isMobile);
 
@@ -60,14 +57,12 @@ function ProductCard(props: ProductCardProps) {
 		>
 			<Card.Root
 				className={cnMerge(
-					`group/card size-full rounded-[12px] transition-[transform,box-shadow,background-color]
-					duration-[1000ms] ease-in-out hover:scale-[1.03]
-					hover:box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]`,
-					isHearted && "scale-[1.03] box-shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]",
-					isDarkMode && "hover:bg-primary hover:box-shadow-[0_0_6px_0px_var(--carousel-dot)]",
+					`group/card size-full rounded-[12px] transition-[scale,box-shadow,background-color]
+					duration-1000 ease-in-out hover:scale-[1.03] hover:shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)]
+					dark:hover:bg-primary dark:hover:shadow-[0_0_6px_0px_var(--carousel-dot)]`,
 					isHearted
-						&& isDarkMode
-						&& "scale-[1.03] bg-primary [box-shadow:0_0_6px_0px_var(--carousel-dot)]"
+						&& `scale-[1.03] shadow-[0_0_6px_0_hsl(60,_100%,_0%,_1)] dark:scale-[1.03]
+						dark:shadow-[0_0_6px_0px_var(--carousel-dot)]`
 				)}
 			>
 				<Link to={link} className="flex size-full flex-col justify-between">
@@ -80,32 +75,31 @@ function ProductCard(props: ProductCardProps) {
 							type="button"
 							onClick={handleAddToWishList}
 							className={cnJoin(
-								`group/btn absolute bottom-[110px] right-[13px] z-[100] rounded-[50%] bg-primary
+								`group/btn absolute right-[13px] bottom-[110px] z-100 rounded-[50%] bg-primary
 								p-[7px]`,
 
-								isHearted
-									? "translate-y-0 opacity-100"
-									: `translate-y-[50px] opacity-0 transition-[opacity,transform] duration-[1s]
-										group-hover/card:translate-y-[0] group-hover/card:opacity-100`
+								isHearted ?
+									"translate-y-0 opacity-100"
+								:	`translate-y-[50px] opacity-0 transition-[opacity,translate] duration-1000
+									group-hover/card:translate-y-0 group-hover/card:opacity-100`
 							)}
 						>
-							{isHearted ? (
+							{isHearted ?
 								<IconBox
 									icon="ant-design:heart-filled"
 									className="scale-[1.16] text-[16px] text-heading group-active/btn:scale-[1.23]"
 								/>
-							) : (
-								<IconBox
+							:	<IconBox
 									icon="ant-design:heart-outlined"
 									className="text-[16px] text-carousel-dot group-hover/btn:text-heading
 										group-active/btn:scale-[1.23]"
 								/>
-							)}
+							}
 						</Button>
 
 						<ImageComponent
 							className={cnJoin(
-								`rounded-[8px_8px_0_0] brightness-[0.9] transition-[transform] duration-[800ms]
+								`rounded-[8px_8px_0_0] brightness-[0.9] transition-transform duration-800
 								ease-in-out group-hover/card:scale-[1.17]`,
 								isHearted && "scale-[1.17]"
 							)}
@@ -117,7 +111,9 @@ function ProductCard(props: ProductCardProps) {
 					</Card.Header>
 
 					<Card.Content className="px-[14px] pt-[10px]">
-						<header className="flex min-h-[72px] items-center justify-between gap-[10px] font-[600]">
+						<header
+							className="flex min-h-[72px] items-center justify-between gap-[10px] font-semibold"
+						>
 							<h3 className="capitalize">{productItem.title}</h3>
 							<span className="text-[18px]">
 								<sup className="text-[14px]">$</sup>+ {productItem.price}
@@ -132,6 +128,7 @@ function ProductCard(props: ProductCardProps) {
 
 					<Card.Footer className="p-[13px_10px_10px]">
 						<StarRating rating={productItem.rating} />
+
 						<hr
 							className={cnJoin(
 								"h-[1.8px] bg-carousel-dot group-hover/card:opacity-100",
@@ -142,7 +139,7 @@ function ProductCard(props: ProductCardProps) {
 						<Button
 							variant="cart"
 							theme="secondary"
-							className="mt-[10px] p-[8px_13px] text-[13px] font-[500] active:translate-y-[1.5px]"
+							className="mt-[10px] p-[8px_13px] text-[13px] font-medium active:translate-y-[1.5px]"
 							onClick={handleAddToCart}
 						>
 							Add to Cart

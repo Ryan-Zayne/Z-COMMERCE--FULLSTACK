@@ -34,12 +34,12 @@ function AuthLayout() {
 				isLoginOrSignUpPath && "lg:justify-between"
 			)}
 		>
-			<span id="Background Overlay" className="absolute inset-0 z-[1] bg-[hsl(0,0%,0%,0.45)]" />
+			<span id="Background Overlay" className="absolute inset-0 z-1 bg-[hsl(0,0%,0%,0.45)]" />
 
 			{isDesktop && isLoginOrSignUpPath && (
 				<Logo
-					className={`relative bottom-[10px] z-10 ml-[-8px] w-[200px] brightness-[0.8]
-					contrast-[1.7] lg:left-[40px]`}
+					className={`relative bottom-[10px] z-10 ml-[-8px] w-[200px] brightness-[0.8] contrast-[1.7]
+					lg:left-[40px]`}
 				/>
 			)}
 

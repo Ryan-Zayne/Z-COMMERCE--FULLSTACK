@@ -9,7 +9,7 @@ function CheckoutSuccessPage() {
 		>
 			<div
 				className="flex max-w-[500px] flex-col items-center gap-[20px] rounded-lg bg-gray-50 p-[20px]
-					text-center dark:bg-gray-800 md:p-[40px]"
+					text-center md:p-[40px] dark:bg-gray-800"
 			>
 				<div
 					className="bg-success flex size-[80px] items-center justify-center rounded-full text-[40px]
@@ -19,9 +19,9 @@ function CheckoutSuccessPage() {
 				</div>
 
 				<div className="flex flex-col gap-[10px]">
-					<h1 className="text-[24px] font-[700] md:text-[32px]">Payment Successful!</h1>
+					<h1 className="text-[24px] font-bold md:text-[32px]">Payment Successful!</h1>
 
-					<p className="text-[14px] text-gray-600 dark:text-gray-400 md:text-[16px]">
+					<p className="text-[14px] text-gray-600 md:text-[16px] dark:text-gray-400">
 						Thank you for your order. Your payment has been processed successfully.
 					</p>
 				</div>

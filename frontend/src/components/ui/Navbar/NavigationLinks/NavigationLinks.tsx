@@ -54,25 +54,25 @@ function NavigationLinks() {
 	];
 
 	return (
-		<nav className="relative flex w-full items-center justify-between font-[500] lg:pr-[20px]">
+		<nav className="relative flex w-full items-center justify-between font-medium lg:pr-[20px]">
 			{isDesktop && <CategoryMenu deviceType={"desktop"} />}
 
-			<Overlay isOpen={!isDesktop && isNavShow} onClose={toggleNavShow} className="z-[100]" />
+			<Overlay isOpen={!isDesktop && isNavShow} onClose={toggleNavShow} className="z-100" />
 
 			<ul
 				id="Navigation List"
 				className={cnJoin(
-					`flex gap-[32px] [&_>_li_>_a:not(:has(img))]:navlink-transition
-					[&_>_li_>_a.active]:text-brand-inverse [&_>_li_>_a]:relative`,
+					`[&_>_li_>_a:not(:has(img))]:navlink-transition flex gap-[32px] [&_>_li_>_a]:relative
+					[&_>_li_>_a.active]:text-brand-inverse`,
 
 					isDesktop && "relative gap-[10px]",
 
 					!isDesktop && [
-						`fixed inset-[0_0_0_auto] z-[150] w-[min(220px,80%)] flex-col bg-navbar pt-[70px]
-						text-[14px] text-nav-text transition-transform ease-slide-out
-						[backdrop-filter:blur(20px)_saturate(5)] md:w-[240px] md:text-[16px]`,
+						`fixed inset-[0_0_0_auto] z-150 w-[min(220px,80%)] flex-col bg-navbar pt-[70px]
+						text-[14px] text-nav-text [backdrop-filter:blur(20px)_saturate(5)] transition-transform
+						ease-slide-out md:w-[240px] md:text-[16px]`,
 
-						isNavShow ? "translate-x-0 duration-[600ms]" : "translate-x-full duration-[250ms]",
+						isNavShow ? "translate-x-0 duration-600" : "translate-x-full duration-250",
 					]
 				)}
 			>
@@ -80,7 +80,7 @@ function NavigationLinks() {
 					<Button
 						unstyled={true}
 						type="button"
-						className={"absolute right-[10px] top-[23px] text-[18px] text-rose-600"}
+						className={"absolute top-[23px] right-[10px] text-[18px] text-rose-600"}
 						onClick={toggleNavShow}
 					>
 						<IconBox icon="ri:close-fill" />

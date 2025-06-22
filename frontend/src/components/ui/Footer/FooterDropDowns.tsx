@@ -53,7 +53,7 @@ function FooterDropDowns() {
 	};
 
 	const semanticClasses = {
-		listContainer: `flex flex-col gap-[10px] pl-[15px] text-[14px] font-[300] lg:gap-[16px] lg:pl-0 lg:font-[400]`,
+		listContainer: `flex flex-col gap-[10px] pl-[15px] text-[14px] font-light lg:gap-[16px] lg:pl-0 lg:font-normal`,
 	};
 
 	return (
@@ -75,11 +75,11 @@ function FooterDropDowns() {
 							className="flex cursor-pointer items-center justify-between"
 							onClick={handleDropDowns(dropOne)}
 						>
-							<h4 className="text-[15px] font-[500]">Contact Us</h4>
+							<h4 className="text-[15px] font-medium">Contact Us</h4>
 
 							<span
 								className={cnJoin(
-									"text-[15px] font-[200] transition-transform duration-300",
+									"text-[15px] font-extralight transition-transform duration-300",
 									dropOne.isOpen && "rotate-180"
 								)}
 							>
@@ -110,11 +110,11 @@ function FooterDropDowns() {
 							className="flex cursor-pointer items-center justify-between"
 							onClick={handleDropDowns(dropTwo)}
 						>
-							<h4 className="text-[15px] font-[500]">Follow Us</h4>
+							<h4 className="text-[15px] font-medium">Follow Us</h4>
 
 							<span
 								className={cnJoin(
-									"text-[15px] font-[200] transition-transform duration-300",
+									"text-[15px] font-extralight transition-transform duration-300",
 									dropOne.isOpen && "rotate-180"
 								)}
 							>
@@ -155,12 +155,12 @@ function FooterDropDowns() {
 							lg:dark:text-heading"
 						onClick={handleDropDowns(dropThree)}
 					>
-						<h4 className="font-[500] lg:text-[18px]">Information</h4>
+						<h4 className="font-medium lg:text-[18px]">Information</h4>
 
 						<Show.Root when={!isDesktop}>
 							<span
 								className={cnJoin(
-									"text-[15px] font-[200] transition-transform duration-300",
+									"text-[15px] font-extralight transition-transform duration-300",
 									dropThree.isOpen && "rotate-180"
 								)}
 							>
@@ -186,12 +186,12 @@ function FooterDropDowns() {
 							lg:dark:text-heading"
 						onClick={handleDropDowns(dropFour)}
 					>
-						<h4 className="font-[500] lg:text-[18px]">Our Services</h4>
+						<h4 className="font-medium lg:text-[18px]">Our Services</h4>
 
 						<Show.Root when={!isDesktop}>
 							<span
 								className={cnJoin(
-									"text-[15px] font-[200] transition-transform duration-300",
+									"text-[15px] font-extralight transition-transform duration-300",
 									dropOne.isOpen && "rotate-180"
 								)}
 							>
@@ -217,12 +217,12 @@ function FooterDropDowns() {
 							lg:dark:text-heading"
 						onClick={handleDropDowns(dropFive)}
 					>
-						<h4 className="font-[500] lg:text-[18px]">My Account</h4>
+						<h4 className="font-medium lg:text-[18px]">My Account</h4>
 
 						<Show.Root when={!isDesktop}>
 							<span
 								className={cnJoin(
-									"text-[15px] font-[200] transition-transform duration-300",
+									"text-[15px] font-extralight transition-transform duration-300",
 									dropFive.isOpen && "rotate-180"
 								)}
 							>

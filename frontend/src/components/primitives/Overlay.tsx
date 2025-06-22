@@ -13,7 +13,7 @@ function Overlay(props: OverlayProps) {
 		<div
 			onClick={onClose}
 			className={cnMerge(
-				"fixed z-[200] bg-[hsl(0,0%,0%,0.6)] [backdrop-filter:blur(4px)] [inset:0_0_0_auto]",
+				"fixed inset-[0_0_0_auto] z-200 bg-[hsl(0,0%,0%,0.6)] [backdrop-filter:blur(4px)]",
 				className,
 				isOpen ? "w-screen" : "w-0"
 			)}

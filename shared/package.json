@@ -15,7 +15,7 @@
 		"zod": "^3.25.63"
 	},
 	"devDependencies": {
-		"@zayne-labs/tsconfig": "^0.9.1",
+		"@zayne-labs/tsconfig": "^0.9.3",
 		"typescript": "^5.8.3"
 	}
 }

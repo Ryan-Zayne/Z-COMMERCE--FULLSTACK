@@ -68,7 +68,7 @@ export function DropDownContent(props: DropDownContentProps) {
 		<div
 			id={id}
 			className={cnMerge(
-				"invisible grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-[500ms]",
+				"invisible grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-500",
 				isOpen && "visible grid-rows-[1fr]",
 				classNames?.base
 			)}

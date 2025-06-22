@@ -90,14 +90,14 @@ function CheckoutPage() {
 		return (
 			<main className="mx-auto max-w-[1200px] px-[16px] py-[20px] md:px-[30px] md:py-[30px]">
 				<header className="flex items-center justify-between border-b pb-[16px] md:pb-[20px]">
-					<h1 className="text-[25px] font-[700] md:text-[32px]">Checkout</h1>
+					<h1 className="text-[25px] font-bold md:text-[32px]">Checkout</h1>
 				</header>
 
 				<div className="mt-[30px] flex flex-col items-center justify-center gap-[20px] text-center">
-					<p className="text-[18px] font-[500] text-gray-400">Your cart is empty</p>
+					<p className="text-[18px] font-medium text-gray-400">Your cart is empty</p>
 					<Button
 						theme="primary"
-						className="rounded-[4px] bg-navbar px-[20px] py-[10px] text-[16px] font-[500] text-white
+						className="rounded-[4px] bg-navbar px-[20px] py-[10px] text-[16px] font-medium text-white
 							transition-all hover:bg-primary"
 						onClick={() => void navigate("/")}
 					>
@@ -111,7 +111,7 @@ function CheckoutPage() {
 	return (
 		<main className="mx-auto max-w-[1200px] px-[16px] py-[20px] md:px-[30px] md:py-[30px]">
 			<header className="flex items-center justify-between border-b pb-[16px] md:pb-[20px]">
-				<h1 className="text-[25px] font-[700] md:text-[32px]">Checkout</h1>
+				<h1 className="text-[25px] font-bold md:text-[32px]">Checkout</h1>
 			</header>
 
 			<section
@@ -133,10 +133,10 @@ function CheckoutPage() {
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[40px] rounded-[4px] border-[1px] border-carousel-btn
-										bg-transparent px-[12px] text-[14px] text-input transition-colors
-										duration-200 placeholder:text-gray-400 focus-within:border-navbar
-										dark:focus-within:border-carousel-dot md:min-h-[44px] md:text-[16px]`,
+										input: `min-h-[40px] rounded-[4px] border border-carousel-btn bg-transparent
+										px-[12px] text-[14px] text-input transition-colors duration-200
+										placeholder:text-gray-400 focus-within:border-navbar md:min-h-[44px]
+										md:text-[16px] dark:focus-within:border-carousel-dot`,
 									}}
 									placeholder="John Doe"
 								/>
@@ -153,10 +153,10 @@ function CheckoutPage() {
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[40px] rounded-[4px] border-[1px] border-carousel-btn
-										bg-transparent px-[12px] text-[14px] text-input transition-colors
-										duration-200 placeholder:text-gray-400 focus-within:border-navbar
-										dark:focus-within:border-carousel-dot md:min-h-[44px] md:text-[16px]`,
+										input: `min-h-[40px] rounded-[4px] border border-carousel-btn bg-transparent
+										px-[12px] text-[14px] text-input transition-colors duration-200
+										placeholder:text-gray-400 focus-within:border-navbar md:min-h-[44px]
+										md:text-[16px] dark:focus-within:border-carousel-dot`,
 									}}
 									placeholder="johndoe@example.com"
 								/>
@@ -173,10 +173,10 @@ function CheckoutPage() {
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[40px] rounded-[4px] border-[1px] border-carousel-btn
-										bg-transparent px-[12px] text-[14px] text-input transition-colors
-										duration-200 placeholder:text-gray-400 focus-within:border-navbar
-										dark:focus-within:border-carousel-dot md:min-h-[44px] md:text-[16px]`,
+										input: `min-h-[40px] rounded-[4px] border border-carousel-btn bg-transparent
+										px-[12px] text-[14px] text-input transition-colors duration-200
+										placeholder:text-gray-400 focus-within:border-navbar md:min-h-[44px]
+										md:text-[16px] dark:focus-within:border-carousel-dot`,
 									}}
 									placeholder="123 Main St"
 								/>
@@ -193,10 +193,10 @@ function CheckoutPage() {
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[40px] rounded-[4px] border-[1px] border-carousel-btn
-										bg-transparent px-[12px] text-[14px] text-input transition-colors
-										duration-200 placeholder:text-gray-400 focus-within:border-navbar
-										dark:focus-within:border-carousel-dot md:min-h-[44px] md:text-[16px]`,
+										input: `min-h-[40px] rounded-[4px] border border-carousel-btn bg-transparent
+										px-[12px] text-[14px] text-input transition-colors duration-200
+										placeholder:text-gray-400 focus-within:border-navbar md:min-h-[44px]
+										md:text-[16px] dark:focus-within:border-carousel-dot`,
 									}}
 									placeholder="New York"
 								/>
@@ -213,10 +213,10 @@ function CheckoutPage() {
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[40px] rounded-[4px] border-[1px] border-carousel-btn
-										bg-transparent px-[12px] text-[14px] text-input transition-colors
-										duration-200 placeholder:text-gray-400 focus-within:border-navbar
-										dark:focus-within:border-carousel-dot md:min-h-[44px] md:text-[16px]`,
+										input: `min-h-[40px] rounded-[4px] border border-carousel-btn bg-transparent
+										px-[12px] text-[14px] text-input transition-colors duration-200
+										placeholder:text-gray-400 focus-within:border-navbar md:min-h-[44px]
+										md:text-[16px] dark:focus-within:border-carousel-dot`,
 									}}
 									placeholder="United States"
 								/>
@@ -233,10 +233,10 @@ function CheckoutPage() {
 									classNames={{
 										error: `border-b-error focus-within:border-b-error
 										dark:focus-within:border-b-error`,
-										input: `min-h-[40px] rounded-[4px] border-[1px] border-carousel-btn
-										bg-transparent px-[12px] text-[14px] text-input transition-colors
-										duration-200 placeholder:text-gray-400 focus-within:border-navbar
-										dark:focus-within:border-carousel-dot md:min-h-[44px] md:text-[16px]`,
+										input: `min-h-[40px] rounded-[4px] border border-carousel-btn bg-transparent
+										px-[12px] text-[14px] text-input transition-colors duration-200
+										placeholder:text-gray-400 focus-within:border-navbar md:min-h-[44px]
+										md:text-[16px] dark:focus-within:border-carousel-dot`,
 									}}
 									placeholder="10001"
 								/>
@@ -264,7 +264,7 @@ function CheckoutPage() {
 									disabled={isSubmitting}
 									isLoading={isSubmitting}
 									className="mt-[20px] h-[44px] w-full rounded-[4px] bg-navbar text-[15px]
-										font-[600] text-white shadow-sm transition-all hover:bg-primary
+										font-semibold text-white shadow-xs transition-all hover:bg-primary
 										hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed
 										disabled:brightness-75 md:mt-[24px] md:rounded-[10px] md:text-[16px]"
 								>
@@ -276,9 +276,9 @@ function CheckoutPage() {
 				</Form.Root>
 
 				<aside className="rounded-[4px] bg-[#1c2128] p-[20px] md:w-[500px]">
-					<h2 className="mb-[20px] text-[18px] font-[600]">Order Summary</h2>
+					<h2 className="mb-[20px] text-[18px] font-semibold">Order Summary</h2>
 
-					<div className="flex flex-col gap-[20px] divide-y-[1px] divide-carousel-btn">
+					<div className="flex flex-col gap-[20px] divide-y divide-carousel-btn">
 						<CartItemsList
 							each={cart}
 							render={(item) => (
@@ -293,12 +293,12 @@ function CheckoutPage() {
 
 									<div className="flex flex-1 justify-between gap-[10px]">
 										<div>
-											<h3 className="text-[15px] font-[500] leading-tight">{item.title}</h3>
+											<h3 className="text-[15px] leading-tight font-medium">{item.title}</h3>
 											<p className="mt-[4px] text-[13px] text-gray-400">
 												Quantity: {item.quantity}
 											</p>
 										</div>
-										<p className="shrink-0 text-[15px] font-[500]">
+										<p className="shrink-0 text-[15px] font-medium">
 											${item.price.toLocaleString()}
 										</p>
 									</div>

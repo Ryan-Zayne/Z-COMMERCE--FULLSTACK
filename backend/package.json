@@ -16,10 +16,10 @@
 	"dependencies": {
 		"@colors/colors": "^1.6.0",
 		"@z-commerce/shared": "workspace:*",
-		"@zayne-labs/callapi": "1.8.7",
+		"@zayne-labs/callapi": "1.8.9",
 		"@zayne-labs/toolkit-core": "^0.9.48",
 		"@zayne-labs/toolkit-type-helpers": "^0.9.48",
-		"@zayne-labs/tsconfig": "^0.9.1",
+		"@zayne-labs/tsconfig": "^0.9.3",
 		"argon2": "^0.43.0",
 		"consola": "^3.4.2",
 		"cookie-parser": "^1.4.7",

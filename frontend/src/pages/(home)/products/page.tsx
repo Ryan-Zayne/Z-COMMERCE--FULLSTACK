@@ -25,7 +25,7 @@ function AllProductsPage() {
 	return (
 		<section className="mt-[30px]">
 			<header className="flex flex-row-reverse items-center justify-center px-[30px]">
-				<h1 className="mx-auto text-[30px] font-[700] lg:text-[40px]">All Products</h1>
+				<h1 className="mx-auto text-[30px] font-bold lg:text-[40px]">All Products</h1>
 				<Button unstyled={true} className="text-[30px]">
 					<Link to={"/"}>
 						<IconBox icon="typcn:arrow-back" />
@@ -35,7 +35,7 @@ function AllProductsPage() {
 
 			<article className="mt-[80px] px-[30px]">
 				<ul
-					className="grid grid-cols-[repeat(auto-fit,_minmax(240px,1fr))] justify-items-center
+					className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] justify-items-center
 						gap-[50px_20px]"
 				>
 					{allProductCards}

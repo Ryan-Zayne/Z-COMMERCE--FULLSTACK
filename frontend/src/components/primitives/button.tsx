@@ -70,9 +70,8 @@ function Button<TElement extends React.ElementType<ButtonProps> = "button">(
 
 	const Component = asChild ? Slot.Root : Element;
 
-	const BTN_CLASSES = !unstyled
-		? button({ className, isDisabled, isLoading, size, theme, variant })
-		: className;
+	const BTN_CLASSES =
+		!unstyled ? button({ className, isDisabled, isLoading, size, theme, variant }) : className;
 
 	const withIcon = (
 		<>

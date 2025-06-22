@@ -97,7 +97,7 @@ function SharedForm(props: FormAreaProps) {
 					<Form.Input
 						classNames={{
 							error: semanticClasses.error,
-							input: `min-h-[32px] border-b-[2px] border-b-carousel-btn bg-transparent text-input
+							input: `min-h-[32px] border-b-2 border-b-carousel-btn bg-transparent text-input
 							focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 						}}
 						type="text"
@@ -113,7 +113,7 @@ function SharedForm(props: FormAreaProps) {
 				<Form.Input
 					classNames={{
 						error: semanticClasses.error,
-						input: `min-h-[32px] border-b-[2px] border-b-carousel-btn bg-transparent text-input
+						input: `min-h-[32px] border-b-2 border-b-carousel-btn bg-transparent text-input
 						focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 					}}
 					type="email"
@@ -129,7 +129,7 @@ function SharedForm(props: FormAreaProps) {
 					classNames={{
 						error: semanticClasses.error,
 						input: "min-h-[32px]",
-						inputGroup: `border-b-[2px] border-b-carousel-btn bg-transparent text-input
+						inputGroup: `border-b-2 border-b-carousel-btn bg-transparent text-input
 						focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 					}}
 					type="password"
@@ -145,8 +145,8 @@ function SharedForm(props: FormAreaProps) {
 					<Form.Input
 						classNames={{
 							error: semanticClasses.error,
-							inputGroup: `min-h-[32px] border-b-[2px] border-b-carousel-btn bg-transparent
-							text-input focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
+							inputGroup: `min-h-[32px] border-b-2 border-b-carousel-btn bg-transparent text-input
+							focus-within:border-b-navbar dark:focus-within:border-b-carousel-dot`,
 						}}
 						type="password"
 					/>
@@ -156,13 +156,13 @@ function SharedForm(props: FormAreaProps) {
 			</Show.Root>
 
 			<Form.ErrorMessage
-				className="mb-[-7px] mt-[-10px] text-error"
+				className="mt-[-10px] mb-[-7px] text-error"
 				errorField="serverError"
 				type="root"
 			/>
 
 			<Form.ErrorMessage
-				className="mb-[-7px] mt-[-10px] text-error"
+				className="mt-[-10px] mb-[-7px] text-error"
 				errorField="unCaughtError"
 				type="root"
 			/>
@@ -184,7 +184,7 @@ function SharedForm(props: FormAreaProps) {
 							<Form.Label>
 								I agree to all
 								<Link
-									className="ml-[5px] font-[500] underline hover:text-[hsl(214,89%,53%)]"
+									className="ml-[5px] font-medium underline hover:text-[hsl(214,89%,53%)]"
 									to="#terms"
 								>
 									Terms & Conditions
@@ -201,7 +201,7 @@ function SharedForm(props: FormAreaProps) {
 				render={({ isSubmitting }) => (
 					<Button
 						className={cnMerge(
-							"mt-[15px] rounded-[10px] text-[17px] font-[600]",
+							"mt-[15px] rounded-[10px] text-[17px] font-semibold",
 							isSubmitting && "cursor-not-allowed brightness-[0.5]"
 						)}
 						isLoading={isSubmitting}
