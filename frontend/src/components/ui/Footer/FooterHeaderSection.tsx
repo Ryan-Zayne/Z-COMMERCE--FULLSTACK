@@ -28,7 +28,7 @@ function FooterHeaderSection() {
 					type="subscribe"
 					classNames={{
 						base: "w-[min(100%,400px)] lg:w-[450px]",
-						btn: "p-[9.1px_15px] text-[14.5px] font-medium lg:p-[12px_26px]",
+						btn: "p-[9px_15px] text-[14.5px] font-medium lg:p-[12px_26px]",
 						input: "lg:py-[9px]",
 					}}
 					placeholder={"Enter Your Email address..."}

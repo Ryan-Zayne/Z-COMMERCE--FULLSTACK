@@ -6,7 +6,7 @@
 /*-------------------*/
 @custom-variant dark (&:is([data-theme='dark'] *));
 
-@theme {
+@theme inline {
 	--color-body: var(--color-body);
 	--color-brand-inverse: var(--brand-inverse);
 	--color-carousel-btn: var(--carousel-btn);
@@ -15,7 +15,7 @@
 	--color-dark-ball: var(--dark-mode-ball);
 	--color-error: var(--color-error);
 	--color-facebook: var(--color-facebook);
-	--color-heading: var(--text-header);
+	--color-heading: var(--text-heading);
 	--color-input: var(--text-input);
 	--color-label: var(--text-label);
 	--color-light: var(--text-light);
@@ -34,7 +34,7 @@
 /*-------------------*/
 @layer base {
 	:root {
-		--text-header: hsl(43, 100%, 55%);
+		--text-heading: hsl(43, 100%, 55%);
 		--text-light: hsl(0, 17%, 93%);
 		--text-body: black;
 		--text-dark: hsl(212, 11%, 23%);
@@ -43,7 +43,7 @@
 		--color-error: hsl(0, 84%, 60%);
 		--color-facebook: hsl(214, 89%, 53%);
 		--color-primary: hsl(206, 13%, 14%);
-		--color-secondary: var(--text-header);
+		--color-secondary: var(--text-heading);
 		--color-body: hsl(0, 0%, 100%);
 		--color-navbar: hsl(215, 19%, 35%, 0.8);
 		--carousel-btn: hsl(0, 0%, 80%, 0.4);
@@ -55,7 +55,7 @@
 	}
 
 	[data-theme="dark"] {
-		--text-header: hsl(43, 67%, 50%);
+		--text-heading: hsl(43, 67%, 50%);
 		--text-light: hsl(34, 5%, 71%);
 		--text-body: whitesmoke;
 		--text-dark: hsl(30, 3%, 75%);
@@ -65,7 +65,7 @@
 		--carousel-btn: hsl(196, 15%, 24%, 0.5);
 		--carousel-dot: hsl(212, 8%, 64%);
 		--dark-mode-ball: hsl(0, 0%, 26%);
-		--brand-inverse: var(--text-header);
+		--brand-inverse: var(--text-heading);
 		--text-label: hsl(34, 10%, 58%);
 		--text-input: hsl(36, 9%, 68%);
 	}
