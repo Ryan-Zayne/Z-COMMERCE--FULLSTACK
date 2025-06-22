@@ -84,9 +84,10 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 			const { wishList } = get();
 			const isItemInWishList = wishList.some((item) => item.id === productItem.id);
 
-			const newWishList = !isItemInWishList
-				? [...wishList, productItem]
-				: wishList.filter((item) => item.id !== productItem.id);
+			const newWishList =
+				!isItemInWishList ?
+					[...wishList, productItem]
+				:	wishList.filter((item) => item.id !== productItem.id);
 
 			set({ wishList: newWishList });
 		},

@@ -8,12 +8,12 @@ function SimilarProducts({ data }: DataArrayProp) {
 
 	return (
 		<article id="Similar Products You Might Like" className="flex flex-col gap-[30px] px-[30px]">
-			<h2 className="text-[25px] font-[700] max-md:text-center lg:text-[30px]">
+			<h2 className="text-[25px] font-bold max-md:text-center lg:text-[30px]">
 				Similar Products You Might Like
 			</h2>
 
 			<ProductCardsList
-				className="grid grid-cols-[repeat(auto-fit,_minmax(236px,1fr))] justify-items-center gap-[30px]
+				className="grid grid-cols-[repeat(auto-fit,minmax(236px,1fr))] justify-items-center gap-[30px]
 					lg:gap-[50px]"
 				each={data}
 				render={(product) => (

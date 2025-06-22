@@ -6,7 +6,7 @@ function TestDynamicTailwind() {
 
 	return (
 		<div
-			className="w-[--dynamic-width] text-[--dynamic-color]"
+			className="w-(--dynamic-width) text-(--dynamic-color)"
 			style={
 				{
 					"--dynamic-color": dynamicText,

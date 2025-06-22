@@ -38,9 +38,8 @@ export const redirectOn401ErrorPlugin = definePlugin((context?: Context) => {
 
 				if (!shouldRedirect || options.meta?.redirectOn401Error === false) return;
 
-				const redirectOn401ErrorMeta = isObject(options.meta?.redirectOn401Error)
-					? options.meta.redirectOn401Error
-					: {};
+				const redirectOn401ErrorMeta =
+					isObject(options.meta?.redirectOn401Error) ? options.meta.redirectOn401Error : {};
 
 				const { navigateFn, onError, path } = redirectOn401ErrorMeta;
 

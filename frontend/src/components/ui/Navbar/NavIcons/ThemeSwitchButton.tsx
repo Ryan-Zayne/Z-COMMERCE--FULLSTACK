@@ -17,17 +17,17 @@ function ThemeSwitchButton() {
 			onClick={toggleTheme}
 		>
 			<div
-				className="relative flex h-[22px] w-[43px] items-center justify-between gap-[6px]
-					[padding-block:3px] [padding-inline:6px_5px]"
+				className="relative flex h-[22px] w-[43px] items-center justify-between gap-[6px] px-[6px_5px]
+					py-[3px]"
 			>
-				<IconBox icon="fa6-solid:sun" className="text-[12px] text-[var(--text-header)]" />
+				<IconBox icon="fa6-solid:sun" className="text-[12px] text-(--text-header)" />
 
 				<IconBox icon="bi:moon-stars-fill" className="text-[10px] text-[pink]" />
 
 				<span
 					className={cnJoin(
 						`absolute bottom-[3.7px] aspect-square w-[15px] rounded-[50%] bg-dark-ball
-						transition-transform duration-[300ms] ease-linear`,
+						transition-transform duration-300 ease-linear`,
 						theme === "dark" && "translate-x-[17.5px]",
 						theme === "system" && systemTheme === "dark" && "translate-x-[17.5px]"
 					)}

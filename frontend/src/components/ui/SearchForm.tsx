@@ -56,17 +56,13 @@ function SearchForm(props: SearchFormProps) {
 	return (
 		<div className={cnMerge("flex justify-center", classNames?.container)}>
 			<form
-				className={cnMerge(
-					"flex w-full items-center",
-					type === "search" && "z-[100]",
-					classNames?.base
-				)}
+				className={cnMerge("flex w-full items-center", type === "search" && "z-100", classNames?.base)}
 			>
 				<input
 					className={cnMerge(
 						`w-full rounded-[25px_0_0_25px] border-y-2 border-l-2 border-secondary
-						bg-[--color-body,_white] py-[6px] pl-[23px] transition-[box-shadow] duration-200
-						placeholder:font-[500] placeholder:text-placeholder
+						bg-(--color-body,white) py-[6px] pl-[23px] transition-shadow duration-200
+						placeholder:font-medium placeholder:text-placeholder
 						focus-within:shadow-[1px_0_10px_2px_var(--color-secondary)]
 						max-sm:placeholder:text-[15px]`,
 						classNames?.input
@@ -80,7 +76,7 @@ function SearchForm(props: SearchFormProps) {
 				<Button
 					type="button"
 					className={cnMerge(
-						`h-full min-w-[60px] p-0 text-[18px] transition-[colors,scale] duration-300
+						`h-full min-w-[60px] p-0 text-[18px] transition-[color,scale] duration-300
 						hover:bg-primary hover:text-heading active:scale-[1.08]`,
 						classNames?.btn
 					)}
@@ -94,7 +90,7 @@ function SearchForm(props: SearchFormProps) {
 			{type === "search" && data.length > 0 && query !== "" && (
 				<SearchItemsList
 					className={cnMerge(
-						`custom-scrollbar absolute top-[81px] z-[100] flex max-h-[500px] w-[min(100%,_400px)]
+						`absolute top-[81px] z-100 flex max-h-[500px] custom-scrollbar w-[min(100%,400px)]
 						flex-col gap-[10px] overflow-y-auto rounded-[10px] bg-body px-[20px] text-[12px]`,
 						isMobile && "inset-x-0 mx-auto",
 						!isMobile && "top-[81px]"
@@ -105,7 +101,7 @@ function SearchForm(props: SearchFormProps) {
 							<Link
 								to={`/products/${item?.category}/${item?.id}`}
 								className="flex items-center rounded-[5px] p-[10px]
-									box-shadow-[0_1px_10px_hsl(0,0%,0%,0.6)] lg:p-[16px]"
+									shadow-[0_1px_10px_hsl(0,0%,0%,0.6)] lg:p-[16px]"
 							>
 								<img
 									className="aspect-square w-[50px] rounded-full object-cover"

@@ -18,7 +18,7 @@ export function DrawerRootProvider(props: DrawerRootProviderProps) {
 	return (
 		<DrawerContextProvider value={value}>
 			<Teleport to="body > #portal-holder">
-				<aside data-id="Drawer-Portal" className="isolate z-[1000]">
+				<aside data-id="Drawer-Portal" className="isolate z-1000">
 					{children}
 				</aside>
 			</Teleport>
@@ -58,7 +58,7 @@ export function DrawerContent({ children, className, placement = "right" }: Draw
 	const { isOpen } = useDrawerContext();
 
 	const placementClasses = {
-		left: "left-0 translate-x-[-100%]",
+		left: "left-0 -translate-x-full",
 		right: "right-0 translate-x-full",
 	};
 
@@ -71,7 +71,7 @@ export function DrawerContent({ children, className, placement = "right" }: Draw
 
 				placementClasses[placement],
 
-				isOpen ? "translate-x-0 duration-[600ms]" : "duration-[250ms] ease-slide-out",
+				isOpen ? "translate-x-0 duration-600" : "duration-250 ease-slide-out",
 
 				className
 			)}
@@ -89,7 +89,7 @@ export function DrawerCloseButton(props: DrawerCloseProps & InferProps<"button">
 	return (
 		<Button
 			unstyled={true}
-			className={cnMerge("absolute right-[80px] top-[80px]", className)}
+			className={cnMerge("absolute top-[80px] right-[80px]", className)}
 			{...restOfProps}
 			onClick={composeTwoEventHandlers(onClose, restOfProps.onClick)}
 		>

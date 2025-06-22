@@ -50,7 +50,7 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 				className={cnJoin(
 					isDesktopDevice
 						&& `flex items-center justify-between py-[10px]
-						[border-bottom:1px_solid_theme('colors.primary')]`
+						[border-bottom:1px_solid_var(--color-primary)]`
 				)}
 			>
 				<p>{category.title}</p>
@@ -83,8 +83,8 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 					classNames={{
 						base: "absolute h-[485px] w-full",
 						listContainer: cnJoin(
-							`bg-body px-[20px] shadow-[0_1px_3px_0_theme(colors.primary)]
-							dark:shadow-[0_1px_3px_0.3px_theme(colors.carousel-dot)]`,
+							`bg-body px-[20px] shadow-[0_1px_3px_0_var(--color-primary)]
+							dark:shadow-[0_1px_3px_0.3px_var(--color-carousel-dot)]`,
 							dropdown.isOpen ? "pt-[50px]" : "shadow-none"
 						),
 					}}
@@ -111,8 +111,8 @@ function CategoryMenu({ deviceType }: { deviceType: "desktop" | "mobile" }) {
 
 				<DropDown.Content
 					classNames={{
-						base: `absolute inset-x-0 z-[50] m-[5px_20px_0] rounded-[5px]
-						bg-[hsl(215,19%,35%,0.9)] [backdrop-filter:blur(40px)]`,
+						base: `absolute inset-x-0 z-50 m-[5px_20px_0] rounded-[5px] bg-[hsl(215,19%,35%,0.9)]
+						[backdrop-filter:blur(40px)]`,
 
 						listContainer: cnJoin(
 							"flex flex-col gap-[15px] pl-[30px] text-[14px]",

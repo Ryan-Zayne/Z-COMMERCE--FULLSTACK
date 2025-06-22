@@ -24,19 +24,14 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 
 	return (
 		<article
-			className="mt-[25px] flex max-w-[460px] flex-col max-md:mx-auto md:mt-0 lg:gap-[20px]
-				lg:pb-[5px]"
+			className="mt-[25px] flex max-w-[460px] flex-col max-md:mx-auto md:mt-0 lg:gap-[20px] lg:pb-[5px]"
 		>
 			<div className="flex items-center justify-between lg:w-[90%]">
 				<div>
-					<h2 className="text-[25px] font-[600] lg:text-[34px]">{productItem.brand}</h2>
-					<StarRating
-						className="mt-[4px] text-[16px]"
-						rating={productItem.rating}
-						text={"reviews"}
-					/>
+					<h2 className="text-[25px] font-semibold lg:text-[34px]">{productItem.brand}</h2>
+					<StarRating className="mt-[4px] text-[16px]" rating={productItem.rating} text={"reviews"} />
 				</div>
-				<p className="text-[23px] font-[500] lg:text-[30px]">
+				<p className="text-[23px] font-medium lg:text-[30px]">
 					<sup>$</sup>
 					{productItem.price}
 					<sup>.00</sup>
@@ -44,16 +39,14 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 			</div>
 
 			<div className="mt-[20px]">
-				<h2 className="text-[25px] font-[600] lg:text-[34px]">Description</h2>
-				<p className="mt-[4px] text-[15px] font-[300] lg:text-[15.5px]">
-					{productItem.description}
-				</p>
+				<h2 className="text-[25px] font-semibold lg:text-[34px]">Description</h2>
+				<p className="mt-[4px] text-[15px] font-light lg:text-[15.5px]">{productItem.description}</p>
 			</div>
 
 			<div className="mt-[35px] flex items-center gap-[40px] md:mt-[45px] lg:gap-[60px]">
 				<div
 					className="flex w-[140px] items-center justify-between rounded-[40px] bg-carousel-btn
-						p-[6px_11px] text-[23px] font-[600] md:w-[170px] md:text-[26px]"
+						p-[6px_11px] text-[23px] font-semibold md:w-[170px] md:text-[26px]"
 				>
 					<Button
 						unstyled={true}
@@ -79,28 +72,28 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 				</div>
 
 				<div className="whitespace-nowrap">
-					<p className="text-[14px] font-[300] tracking-wide md:text-[17px]">
+					<p className="text-[14px] font-light tracking-wide md:text-[17px]">
 						Only
 						<span
-							className="inline-block min-w-[38px] text-center text-[18px] font-[500]
+							className="inline-block min-w-[38px] text-center text-[18px] font-medium
 								text-[hsl(43,67%,50%)]"
 						>
 							{quantityLeftInStock}
 						</span>
 						Items Left
 					</p>
-					<span className="font-[500]">{`Don't miss it`}!</span>
+					<span className="font-medium">{`Don't miss it`}!</span>
 				</div>
 			</div>
 
-			<div className="mt-[40px] flex gap-[30px] font-[500] md:mt-auto md:justify-between">
+			<div className="mt-[40px] flex gap-[30px] font-medium md:mt-auto md:justify-between">
 				<Button
 					theme="secondary"
 					variant="shop"
-					className="w-[150px] p-[10px_0] transition-[transform] duration-[200ms] ease-in-out
-						[box-shadow:0_0_0_1.3px_var(--color-secondary)] hover:scale-[1.1] hover:bg-heading
-						hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)]
-						active:scale-[1.1] lg:w-[200px]"
+					className="w-[150px] p-[10px_0] shadow-[0_0_0_1.3px_var(--color-secondary)]
+						transition-transform duration-200 ease-in-out hover:scale-[1.1] hover:bg-heading
+						hover:text-primary hover:shadow-[0_0_0_1.3px_var(--color-secondary)] active:scale-[1.1]
+						lg:w-[200px]"
 				>
 					<Link to="/checkout">Buy Now</Link>
 				</Button>
@@ -108,10 +101,10 @@ function ItemDescription({ productItem }: ItemDescriptionProps) {
 				<Button
 					theme="ghost"
 					variant="shop"
-					className="w-[150px] p-[10px_0] transition-[transform] duration-[200ms] ease-in-out
-						[box-shadow:0_0_0_1.3px_theme(colors.primary)] hover:scale-[1.1] hover:bg-heading
-						hover:text-primary hover:box-shadow-[0_0_0_1.3px_var(--color-secondary)]
-						active:scale-[1.17] lg:w-[200px]"
+					className="w-[150px] p-[10px_0] shadow-[0_0_0_1.3px_var(--color-primary)]
+						transition-transform duration-200 ease-in-out hover:scale-[1.1] hover:bg-heading
+						hover:text-primary hover:shadow-[0_0_0_1.3px_var(--color-secondary)] active:scale-[1.17]
+						lg:w-[200px]"
 					onClick={handlePlus}
 				>
 					<IconBox icon="mdi:cart-outline" className="mr-[10px] text-[20px]" />

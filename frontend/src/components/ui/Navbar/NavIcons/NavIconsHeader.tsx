@@ -50,7 +50,7 @@ function NavIconsHeader() {
 	return (
 		<div
 			id="Nav Icons and Logo"
-			className="relative flex w-full select-none items-center justify-between gap-[10px] px-[10px]
+			className="relative flex w-full items-center justify-between gap-[10px] px-[10px] select-none
 				lg:pr-[40px]"
 		>
 			<Logo className={cnJoin(isDarkMode && "brightness-[0.8] contrast-[1.8]")} />
@@ -61,16 +61,16 @@ function NavIconsHeader() {
 					base: cnMerge(
 						isMobile
 							&& `absolute inset-x-0 top-[6.10px] flex h-0 justify-center overflow-y-hidden
-							rounded-[0_0_5px_5px] bg-body px-[20px] transition-[height] duration-[400ms] ease-out`,
-						isSearchShow && "h-[8.10px] duration-[600ms] ease-[ease]"
+							rounded-[0_0_5px_5px] bg-body px-[20px] transition-[height] duration-400 ease-out`,
+						isSearchShow && "h-[8.10px] duration-600 ease-[ease]"
 					),
-					container: cnJoin(!isMobile && "w-[min(100%,_54vw)]"),
+					container: cnJoin(!isMobile && "w-[min(100%,54vw)]"),
 				}}
 			/>
 
 			<div
 				id="NavIcons"
-				className="flex w-[clamp(190px,_42vw,_220px)] items-center justify-between text-[20px]"
+				className="flex w-[clamp(190px,42vw,220px)] items-center justify-between text-[20px]"
 			>
 				{isMobile && (
 					<Button
@@ -84,7 +84,7 @@ function NavIconsHeader() {
 
 				<Button
 					unstyled={true}
-					className="hover:text-heading hover:[transform:rotateY(360deg)]
+					className="hover:[transform:rotateY(360deg)] hover:text-heading
 						hover:[transition:transform_1000ms_ease-in-out] active:scale-[1.2] lg:text-[23px]"
 				>
 					<Link to="/wishlist">
@@ -101,11 +101,11 @@ function NavIconsHeader() {
 						{(ctx) => (
 							<DropDown.Content
 								classNames={{
-									base: "absolute top-[51px] z-[100] w-[150px]",
+									base: "absolute top-[51px] z-100 w-[150px]",
 									listContainer: cnJoin(
-										`flex flex-col items-start gap-[15px] rounded-[8px] bg-body px-[20px]
-										text-[16px] [&_>_*:hover]:navlink-transition
-										lg:dark:shadow-[0_0px_7px_1px_theme(colors.primary)]`,
+										`[&_>_*:hover]:navlink-transition flex flex-col items-start gap-[15px]
+										rounded-[8px] bg-body px-[20px] text-[16px]
+										lg:dark:shadow-[0_0px_7px_1px_var(--color-primary)]`,
 										ctx.isOpen && "py-[15px]"
 									),
 								}}

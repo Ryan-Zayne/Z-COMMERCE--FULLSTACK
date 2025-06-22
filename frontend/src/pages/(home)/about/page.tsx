@@ -91,8 +91,8 @@ function AboutPage() {
 
 						<Button
 							size="lg"
-							className="hover:bg-primary/90 bg-primary px-8 py-4 text-[14px] font-medium
-								text-white"
+							className="bg-primary px-8 py-4 text-[14px] font-medium text-white
+								hover:bg-primary/90"
 						>
 							Learn More
 						</Button>

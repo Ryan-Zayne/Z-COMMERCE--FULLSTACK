@@ -18,11 +18,9 @@ function StarRating(props: StarRatingProps) {
 	));
 
 	const star4 = [...Array(5).keys()].map((id, index) =>
-		index === 4 ? (
+		index === 4 ?
 			<IconBox icon={iconName} key={id} color="var(--text-dark)" />
-		) : (
-			<IconBox icon={iconName} key={id} color="var(--text-header)" />
-		)
+		:	<IconBox icon={iconName} key={id} color="var(--text-header)" />
 	);
 
 	return (

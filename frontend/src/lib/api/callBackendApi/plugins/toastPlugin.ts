@@ -39,9 +39,10 @@ export const toastPlugin = definePlugin(() => ({
 
 			const errorMessageField = ctx.options.meta?.toast?.errorMessageField ?? "message";
 
-			const errorMessage = isHTTPError(ctx.error)
-				? (ctx.error.errorData.errors?.[errorMessageField] ?? ctx.error.message)
-				: ctx.error.message;
+			const errorMessage =
+				isHTTPError(ctx.error) ?
+					(ctx.error.errorData.errors?.[errorMessageField] ?? ctx.error.message)
+				:	ctx.error.message;
 
 			errorMessage && toast.error(errorMessage);
 		},

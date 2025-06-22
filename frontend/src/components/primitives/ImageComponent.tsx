@@ -40,14 +40,14 @@ const IMAGE_TYPE_LOOKUP = {
 		return (
 			<div
 				className={cnMerge(
-					!isImageLoaded && "relative bg-white/[0.17] invert dark:bg-black/[0.17] dark:invert-0",
+					!isImageLoaded && "relative bg-white/17 invert dark:bg-black/17 dark:invert-0",
 					classNames?.wrapper
 				)}
 				onClick={onClick}
 			>
 				<span
-					className="absolute inset-0 z-[1] hidden animate-zoom
-						[background-image:linear-gradient(100deg,_transparent_20%,_hsla(0,0%,100%,0.3)_50%,_transparent_80%)]
+					className="absolute inset-0 z-1 hidden animate-zoom
+						bg-[linear-gradient(100deg,transparent_20%,hsla(0,0%,100%,0.3)_50%,transparent_80%)]
 						only:inline-block"
 				/>
 

@@ -25,8 +25,8 @@ function LoginFormPage() {
 						{!isDesktop && <Logo className={"ml-[-8px] w-[160px] md:w-full"} />}
 
 						<h2
-							className={`font-roboto text-[38px] font-[800] text-[color:hsl(0,0%,20%)]
-							dark:text-[color:hsl(38,9%,76%)] max-lg:mt-[15px]`}
+							className={`font-roboto text-[38px] font-extrabold text-[hsl(0,0%,20%)]
+							max-lg:mt-[15px] dark:text-[hsl(38,9%,76%)]`}
 						>
 							Login
 						</h2>
@@ -35,24 +35,24 @@ function LoginFormPage() {
 					<SharedForm classNames={{ form: "mt-[30px]" }} formVariant="signin" />
 
 					<div className="my-[30px] flex items-center justify-center text-input">
-						<span className="mr-[10px] inline-block h-[1px] w-full bg-carousel-btn" />
+						<span className="mr-[10px] inline-block h-px w-full bg-carousel-btn" />
 						Or
-						<span className="ml-[10px] inline-block h-[1px] w-full bg-carousel-btn" />
+						<span className="ml-[10px] inline-block h-px w-full bg-carousel-btn" />
 					</div>
 
 					<footer>
 						<div className="flex flex-col items-center text-[15px]">
 							<Button
 								theme={"ghost"}
-								className={`w-[max(80%,270px)] gap-[10px] rounded-[100px] border-[2px]
-								border-gray-400 dark:border-carousel-btn`}
+								className={`w-[max(80%,270px)] gap-[10px] rounded-[100px] border-2 border-gray-400
+								dark:border-carousel-btn`}
 							>
 								<IconBox icon="fa:google" className="text-[18px]" />
 								Continue with Google
 							</Button>
 
 							<Button
-								className={`mt-[15px] w-[max(80%,270px)] gap-[10px] rounded-[100px] border-[2px]
+								className={`mt-[15px] w-[max(80%,270px)] gap-[10px] rounded-[100px] border-2
 								border-carousel-btn bg-[hsl(214,89%,38%)] text-light`}
 							>
 								<IconBox icon="fa:facebook" className="text-[18px]" />
@@ -60,7 +60,7 @@ function LoginFormPage() {
 							</Button>
 						</div>
 
-						<p className="mx-auto mt-[40px] text-center text-[13px] font-[500] text-input">
+						<p className="mx-auto mt-[40px] text-center text-[13px] font-medium text-input">
 							New user?
 							<Link
 								className="ml-[4px] text-[hsl(214,89%,53%)] hover:text-[hsl(214,89%,60%)]"

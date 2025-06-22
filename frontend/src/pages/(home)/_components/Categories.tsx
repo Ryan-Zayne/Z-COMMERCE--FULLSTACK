@@ -55,12 +55,12 @@ function Categories() {
 
 	return (
 		<section id="Categories" className="mt-[60px] flex flex-col px-[40px] lg:items-center">
-			<h2 className="text-center text-[25px] font-[600] lg:text-[40px]">All Categories</h2>
+			<h2 className="text-center text-[25px] font-semibold lg:text-[40px]">All Categories</h2>
 
 			<CategoryLinksList
-				className="mt-[30px] grid auto-rows-[200px] grid-cols-[repeat(auto-fit,_minmax(240px,1fr))]
+				className="mt-[30px] grid auto-rows-[200px] grid-cols-[repeat(auto-fit,minmax(240px,1fr))]
 					justify-items-center gap-[30px] lg:auto-rows-[230px]
-					lg:grid-cols-[repeat(3,_minmax(300px,1fr))] lg:gap-[40px]"
+					lg:grid-cols-[repeat(3,minmax(300px,1fr))] lg:gap-[40px]"
 				each={categories}
 				render={(category) => (
 					<m.li
@@ -87,7 +87,7 @@ function Categories() {
 
 							<Button
 								variant={"shop"}
-								className="w-full bg-body p-[8px] text-[--text-body] active:translate-y-[1.5px]
+								className="w-full bg-body p-[8px] text-(--text-body) active:translate-y-[1.5px]
 									lg:p-[8px_27px] lg:text-[20px]"
 								asChild={true}
 							>

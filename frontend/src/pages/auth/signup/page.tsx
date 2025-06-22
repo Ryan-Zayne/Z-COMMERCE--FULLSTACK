@@ -26,8 +26,8 @@ function SignUpFormPage() {
 						{!isDesktop && <Logo className={"ml-[-8px] w-[160px] md:w-full"} />}
 
 						<h2
-							className="font-roboto text-[38px] font-[800] text-[color:hsl(0,0%,20%)]
-								dark:text-[color:hsl(38,9%,76%)] max-lg:mt-[20px]"
+							className="font-roboto text-[38px] font-extrabold text-[hsl(0,0%,20%)]
+								max-lg:mt-[20px] dark:text-[hsl(38,9%,76%)]"
 						>
 							Sign Up
 						</h2>
@@ -36,9 +36,9 @@ function SignUpFormPage() {
 					<SharedForm formVariant="signup" />
 
 					<div className="my-[33px] flex items-center">
-						<span className="mr-[10px] inline-block h-[1px] w-full bg-carousel-btn" />
+						<span className="mr-[10px] inline-block h-px w-full bg-carousel-btn" />
 						<p className="shrink-0 text-[15px] text-input">Or create an account with</p>
-						<span className="ml-[10px] inline-block h-[1px] w-full bg-carousel-btn" />
+						<span className="ml-[10px] inline-block h-px w-full bg-carousel-btn" />
 					</div>
 
 					<footer>
@@ -46,7 +46,7 @@ function SignUpFormPage() {
 							<Button
 								unstyled={true}
 								type="button"
-								className="rounded-[50%] border-[2px] border-label bg-white p-[8px]"
+								className="rounded-[50%] border-2 border-label bg-white p-[8px]"
 							>
 								<IconBox icon="fa6-brands:google" className="text-[30px]" />
 							</Button>
@@ -54,14 +54,14 @@ function SignUpFormPage() {
 							<Button
 								unstyled={true}
 								type="button"
-								className={"rounded-[50%] border-[2px] border-facebook bg-facebook"}
+								className={"rounded-[50%] border-2 border-facebook bg-facebook"}
 							>
 								<img className="aspect-square w-[50px] brightness-[0.96]" src={facebook} alt="" />
 							</Button>
 						</div>
 
 						<p
-							className="mx-auto mt-[40px] text-center text-[14px] font-[500] text-input
+							className="mx-auto mt-[40px] text-center text-[14px] font-medium text-input
 								lg:mt-[30px]"
 						>
 							Already have an account?
