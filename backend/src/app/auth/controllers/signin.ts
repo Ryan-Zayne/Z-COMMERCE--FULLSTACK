@@ -1,11 +1,11 @@
+import { consola } from "consola";
+import { differenceInHours } from "date-fns";
 import { UserModel } from "@/app/users/model";
 import type { HydratedUserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
 import type { SigninBodySchemaType } from "@/validation";
-import { consola } from "consola";
-import { differenceInHours } from "date-fns";
 import { sendVerificationEmail } from "../services";
 
 // @route POST /api/auth/login
@@ -26,7 +26,7 @@ const signIn = catchAsync<{
 		throw new AppError(401, "Email or password is incorrect");
 	}
 
-	const isValidPassword = Boolean(await currentUser.verifyPassword(password));
+	const isValidPassword = await currentUser.verifyPassword(password);
 
 	if (!isValidPassword) {
 		// == For every time the password is gotten wrong, increment the login retries by 1

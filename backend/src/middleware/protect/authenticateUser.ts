@@ -1,12 +1,12 @@
+import { defineEnum } from "@zayne-labs/toolkit-type-helpers";
+import { consola } from "consola";
+import jwt from "jsonwebtoken";
+import type { HydratedDocument } from "mongoose";
 import { type DecodedJwtPayload, decodeJwtToken } from "@/app/auth/services";
 import { UserModel } from "@/app/users/model";
 import type { UserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
 import { AppError } from "@/utils";
-import { defineEnum } from "@zayne-labs/toolkit-type-helpers";
-import { consola } from "consola";
-import jwt from "jsonwebtoken";
-import type { HydratedDocument } from "mongoose";
 
 // Error messages
 const AUTH_ERRORS = defineEnum({
@@ -90,6 +90,7 @@ const getRenewedUserSession = async (zayneRefreshToken: string) => {
 			throw error;
 		}
 
+		// == If the refresh token is invalid, throw an error
 		if (error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError) {
 			throw new AppError(401, AUTH_ERRORS.SESSION_EXPIRED, { cause: error });
 		}

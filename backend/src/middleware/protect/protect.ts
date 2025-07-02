@@ -1,8 +1,8 @@
+import type { HydratedDocument } from "mongoose";
 import { UserModel } from "@/app/users/model";
 import type { UserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
 import { setCookie } from "@/utils";
-import type { HydratedDocument } from "mongoose";
 import { catchAsync } from "../catchAsyncErrors";
 import { authenticateUser } from "./authenticateUser";
 

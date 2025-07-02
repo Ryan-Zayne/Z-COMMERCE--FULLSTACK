@@ -1,5 +1,5 @@
-import { protect } from "@/middleware";
 import express from "express";
+import { protect } from "@/middleware";
 import { resendVerificationEmail, session, signIn, signOut, signUp, verifyEmail } from "./controllers";
 
 const router = express.Router();

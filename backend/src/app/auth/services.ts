@@ -1,10 +1,10 @@
+import argon2 from "@node-rs/argon2";
+import jwt from "jsonwebtoken";
+import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 import type { HydratedUserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
 import { sendEmail } from "@/services/email";
 import { getDomainReferer } from "@/utils";
-import argon2 from "argon2";
-import jwt from "jsonwebtoken";
-import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 
 export type JwtOptions<TExtraOptions> = TExtraOptions & {
 	secretKey: string;
@@ -82,7 +82,12 @@ export async function hashPassword(this: HydratedUserType, next: CallbackWithout
 
 	// const saltRounds = 12;
 
-	this.password = await argon2.hash(this.password);
+	this.password = await argon2.hash(this.password, {
+		memoryCost: 19456,
+		outputLen: 32,
+		parallelism: 1,
+		timeCost: 2,
+	});
 }
 
 export async function verifyPassword(this: HydratedUserType, plainPassword: string) {

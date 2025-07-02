@@ -1,8 +1,8 @@
+import type { HydratedDocument } from "mongoose";
 import { UserModel } from "@/app/users/model";
 import type { UserType } from "@/app/users/types";
 import { catchAsync } from "@/middleware";
 import { AppResponse, removeCookie } from "@/utils";
-import type { HydratedDocument } from "mongoose";
 
 // @route GET /api/auth/signout
 // @access Private
