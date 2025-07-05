@@ -1,0 +1,1 @@
+import{r as t,j as s,L as a}from"./index-BwfLVWqJ.js";import{c as e}from"./cn-CWeWvVdN.js";const c="/assets/logo-BWwaden3.svg";function x({className:o=""}){const r=t.useId();return s.jsx(a,{id:`Logo-${r}`,className:e(`block h-[44.7px] w-[130px] md:h-[55px] md:w-[160px] ${o}`),to:"/",children:s.jsx("img",{className:"h-full",src:c,alt:""})})}export{x as L};
