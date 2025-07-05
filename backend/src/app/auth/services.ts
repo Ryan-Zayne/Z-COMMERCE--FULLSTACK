@@ -80,8 +80,6 @@ export async function hashPassword(this: HydratedUserType, next: CallbackWithout
 		next();
 	}
 
-	// const saltRounds = 12;
-
 	this.password = await argon2.hash(this.password, {
 		memoryCost: 19456,
 		outputLen: 32,
