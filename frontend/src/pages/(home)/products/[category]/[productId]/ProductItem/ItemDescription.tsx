@@ -2,11 +2,11 @@ import { Link } from "react-router";
 import { Button } from "@/components/primitives/button";
 import { IconBox } from "@/components/primitives/IconBox";
 import { StarRating } from "@/components/primitives/StarRating";
-import type { ProductItem } from "@/store/react-query/types";
+import type { ProductItemSchemaType } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
 
 type ItemDescriptionProps = {
-	productItem: ProductItem;
+	productItem: ProductItemSchemaType;
 };
 
 function ItemDescription({ productItem }: ItemDescriptionProps) {

@@ -1,14 +1,14 @@
-import {
-	type ApiSuccessResponse,
-	type SessionData,
-	callBackendApiForQuery,
-} from "@/lib/api/callBackendApi";
-import { callDummyApi } from "@/lib/api/callDummyApi";
 import { queryOptions } from "@tanstack/react-query";
 import type { CallApiExtraOptions } from "@zayne-labs/callapi";
 import { hardNavigate } from "@zayne-labs/toolkit-core";
 import { defineEnum } from "@zayne-labs/toolkit-type-helpers";
 import { toast } from "sonner";
+import {
+	type ApiSuccessResponse,
+	callBackendApiForQuery,
+	type SessionData,
+} from "@/lib/api/callBackendApi";
+import { callDummyApi } from "@/lib/api/callDummyApi";
 
 // TODO - Remove once you start serving the products from your backend
 
@@ -49,12 +49,10 @@ export const sessionQuery = (
 };
 
 export const productQuery = <TKey extends (typeof productKeyEnum)[number]>(key: TKey) => {
-	const url = `/products/category/${key}`;
-
-	const productKey = [key, { url }];
+	const productKey = [key, { url: `/products/category/${key}` }];
 
 	return queryOptions({
-		queryFn: () => callDummyApi(url),
+		queryFn: () => callDummyApi("/products/category/:key", { params: { key } }),
 		queryKey: productKey,
 		select: (data) => data.products,
 	});

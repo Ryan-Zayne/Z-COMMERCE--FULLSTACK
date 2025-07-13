@@ -1,9 +1,16 @@
-import { createFetchClient } from "@zayne-labs/callapi";
-import type { DummyResponseData } from "@/store/react-query/types";
+import { createFetchClient, defineSchema } from "@zayne-labs/callapi";
+import { DummyResponseDataSchema } from "@/store/react-query/schema";
 
-const callDummyApi = createFetchClient<DummyResponseData, false>({
+const baseSchema = defineSchema({
+	"/products/category/:key": {
+		data: DummyResponseDataSchema,
+	},
+});
+
+const callDummyApi = createFetchClient({
 	baseURL: "https://dummyjson.com",
 	resultMode: "onlySuccessWithException",
+	schema: baseSchema,
 	throwOnError: true,
 });
 

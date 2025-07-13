@@ -1,16 +1,6 @@
-export type ProductItem = {
-	brand: string;
-	category: string;
-	description: string;
-	id: number;
-	images: string[];
-	price: number;
-	rating: number;
-	stock: number;
-	thumbnail: string;
-	title: string;
-};
+import type { z } from "zod";
+import type { DummyResponseDataSchema, ProductItemSchema } from "./schema";
 
-export type DummyResponseData = {
-	products: ProductItem[];
-};
+export type ProductItemSchemaType = z.infer<typeof ProductItemSchema>;
+
+export type DummyResponseDataSchemaType = z.infer<typeof DummyResponseDataSchema>;

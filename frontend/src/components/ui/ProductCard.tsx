@@ -3,7 +3,7 @@ import { m } from "motion/react";
 import { Link } from "react-router";
 import { Card } from "@/components/primitives/card";
 import { cnJoin, cnMerge } from "@/lib/utils/cn";
-import type { ProductItem } from "@/store/react-query/types";
+import type { ProductItemSchemaType } from "@/store/react-query/types";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import type { ResponseDataItemInCart } from "@/store/zustand/types";
@@ -15,7 +15,7 @@ import { StarRating } from "../primitives/StarRating";
 type ProductCardProps = {
 	image: string;
 	link: string;
-	productItem: ProductItem | ResponseDataItemInCart;
+	productItem: ProductItemSchemaType | ResponseDataItemInCart;
 };
 
 function ProductCard(props: ProductCardProps) {

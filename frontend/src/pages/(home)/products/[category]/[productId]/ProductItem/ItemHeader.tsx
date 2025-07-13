@@ -2,12 +2,12 @@ import { useToggle } from "@zayne-labs/toolkit-react";
 import { Link } from "react-router";
 import { Button } from "@/components/primitives/button";
 import { IconBox } from "@/components/primitives/IconBox";
-import type { ProductItem } from "@/store/react-query/types";
+import type { ProductItemSchemaType } from "@/store/react-query/types";
 import { useShopStore } from "@/store/zustand/shopStore";
 import type { ShopStore } from "@/store/zustand/types";
 
 type ItemHeaderProps = {
-	productItem: ProductItem | ShopStore["cart"][number];
+	productItem: ProductItemSchemaType | ShopStore["cart"][number];
 };
 
 function ItemHeader({ productItem }: ItemHeaderProps) {
