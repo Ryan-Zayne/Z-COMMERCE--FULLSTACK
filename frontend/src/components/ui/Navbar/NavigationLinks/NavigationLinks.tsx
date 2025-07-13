@@ -62,8 +62,8 @@ function NavigationLinks() {
 			<ul
 				id="Navigation List"
 				className={cnJoin(
-					`[&_>_li_>_a:not(:has(img))]:navlink-transition flex gap-[32px] [&_>_li_>_a]:relative
-					[&_>_li_>_a.active]:text-brand-inverse`,
+					`flex gap-[32px] [&_>_li_>_a]:relative [&_>_li_>_a.active]:text-brand-inverse
+					[&_>_li_>_a:not(:has(img))]:nav-link-transition`,
 
 					isDesktop && "relative gap-[10px]",
 

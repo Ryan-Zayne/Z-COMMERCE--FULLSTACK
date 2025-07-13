@@ -1,4 +1,4 @@
-import { z } from "@z-commerce/shared/zod";
+import { z } from "zod";
 import { AppError } from "../utils";
 import { SigninBodySchema, SignupBodySchema } from "../validation/formSchema";
 import { catchAsync } from "./catchAsyncErrors";
@@ -46,4 +46,18 @@ export const validateBodyWithZod = (schema: z.ZodType) => {
 	});
 
 	return handler;
+};
+
+export const readValidatedBody = <TSchema extends z.ZodType>(req: Request, schema: TSchema) => {
+	const result = schema.safeParse(req.body);
+
+	if (!result.success) {
+		const errorMessage = z.prettifyError(result.error);
+
+		const errorObject = z.flattenError(result.error).fieldErrors;
+
+		throw new AppError(422, errorMessage, { errors: errorObject });
+	}
+
+	return result.data;
 };

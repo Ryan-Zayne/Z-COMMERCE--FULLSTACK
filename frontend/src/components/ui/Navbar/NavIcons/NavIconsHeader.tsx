@@ -103,9 +103,9 @@ function NavIconsHeader() {
 								classNames={{
 									base: "absolute top-[51px] z-100 w-[150px]",
 									listContainer: cnJoin(
-										`[&_>_*:hover]:navlink-transition flex flex-col items-start gap-[15px]
-										rounded-[8px] bg-body px-[20px] text-[16px]
-										lg:dark:shadow-[0_0px_7px_1px_var(--color-primary)]`,
+										`flex flex-col items-start gap-[15px] rounded-[8px] bg-body px-[20px]
+										text-[16px] lg:dark:shadow-[0_0px_7px_1px_var(--color-primary)]
+										[&_>_*:hover]:nav-link-transition`,
 										ctx.isOpen && "py-[15px]"
 									),
 								}}

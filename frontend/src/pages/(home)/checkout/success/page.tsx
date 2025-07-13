@@ -12,7 +12,7 @@ function CheckoutSuccessPage() {
 					text-center md:p-[40px] dark:bg-gray-800"
 			>
 				<div
-					className="bg-success flex size-[80px] items-center justify-center rounded-full text-[40px]
+					className="flex size-[80px] items-center justify-center rounded-full bg-success text-[40px]
 						text-white"
 				>
 					✓

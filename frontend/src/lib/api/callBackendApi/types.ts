@@ -1,4 +1,4 @@
-import { z } from "@z-commerce/shared/zod";
+import { z } from "zod";
 
 export type SessionData = {
 	user: {

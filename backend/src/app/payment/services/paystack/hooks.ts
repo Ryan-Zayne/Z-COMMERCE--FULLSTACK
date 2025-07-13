@@ -1,8 +1,8 @@
 import crypto from "node:crypto";
-import { ENVIRONMENT } from "@/config/env";
-import { AppError } from "@/utils";
 import { consola } from "consola";
 import type { Request } from "express";
+import { ENVIRONMENT } from "@/config/env";
+import { AppError } from "@/utils";
 import type { PaymentSuccessPayload, PaystackChargeSuccessEvent } from "./types";
 
 type SuccessEventContext = {
@@ -32,7 +32,7 @@ export const paystackHook = async (req: Request, options: PaystackHookOptions) =
 	switch (event.event) {
 		case "charge.success": {
 			const payload = {
-				amount: Number(event.data.amount) / 100,
+				amount: event.data.amount / 100,
 				cartItems: event.data.metadata.cartItems,
 				customerId: event.data.metadata.customerId,
 				paidAt: event.data.paid_at,

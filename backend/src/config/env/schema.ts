@@ -1,5 +1,5 @@
+import { z } from "zod";
 import { evaluateString } from "@/utils";
-import { z } from "@z-commerce/shared/zod";
 
 export const envSchema = z.object({
 	ACCESS_JWT_EXPIRES_IN: z.string().transform((value) => evaluateString<number>(value)),

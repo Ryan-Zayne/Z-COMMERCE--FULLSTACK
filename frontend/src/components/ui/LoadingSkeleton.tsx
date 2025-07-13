@@ -29,7 +29,7 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 							<li
 								key={id}
 								className={cnMerge(
-									"rounded-[12px w-[min(100%,250px)] shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)]"
+									"w-[min(100%,250px)] rounded-[12px] shadow-[0_0_3px_hsl(60,_100%,_0%,_0.3)]"
 								)}
 							>
 								<SkeletonTheme
@@ -37,7 +37,7 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 									baseColor={cnJoin(isDarkMode && "#232628")}
 								>
 									<div>
-										<Skeleton className={"block h-[180px] w-full rounded-[8px_8px_0_0]"} />
+										<Skeleton className="block h-[180px] w-full rounded-[8px_8px_0_0]" />
 									</div>
 
 									<div className="px-[14px] pb-[10px]">
@@ -53,7 +53,7 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 										<p className="mt-[20px]">
 											<Skeleton className="gap-[13px]" count={3} width={"93%"} height={6} />
 										</p>
-										<div className={"mt-[10px] flex items-center gap-[13px]"}>
+										<div className="mt-[10px] flex items-center gap-[13px]">
 											<Skeleton width={75} height={19} />
 											<Skeleton width={34} height={18} />
 										</div>

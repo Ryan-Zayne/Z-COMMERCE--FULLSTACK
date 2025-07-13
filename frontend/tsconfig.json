@@ -8,6 +8,6 @@
 		}
 	},
 
-	"include": ["src/**/*", "**/*"],
+	"include": ["src/**/*", "**/*", ".monicon/types.d.ts"],
 	"exclude": ["dist", "node_modules/**"]
 }

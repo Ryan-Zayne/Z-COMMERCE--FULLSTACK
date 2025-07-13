@@ -1,5 +1,5 @@
-import { type IconProps, Icon as IconifyIcon, type IconifyIcon as IconifyIconType } from "@iconify/react";
-import { type MoniconProps, camelCasedProps, getIconDetails } from "@monicon/icon-loader";
+import { Icon as IconifyIcon, type IconifyIcon as IconifyIconType, type IconProps } from "@iconify/react";
+import { camelCasedProps, getIconDetails, type MoniconProps } from "@monicon/icon-loader";
 import type { InferProps } from "@zayne-labs/toolkit-react/utils";
 import { isString } from "@zayne-labs/toolkit-type-helpers";
 import { useMemo } from "react";
@@ -47,7 +47,10 @@ export function Monicon(props: Omit<MoniconIconBoxProps, "type">) {
 		[color, icon, size, strokeWidth]
 	);
 
-	const attributes = useMemo(() => camelCasedProps(details.attributes), [details.attributes]);
+	const attributes = useMemo(
+		() => camelCasedProps(details.attributes) as Record<string, unknown>,
+		[details.attributes]
+	);
 
 	return (
 		<svg

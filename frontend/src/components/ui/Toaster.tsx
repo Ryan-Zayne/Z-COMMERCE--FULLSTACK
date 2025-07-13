@@ -1,5 +1,5 @@
-import { useThemeStore } from "@/store/zustand/themeStore";
 import { Toaster as Sonner } from "sonner";
+import { useThemeStore } from "@/store/zustand/themeStore";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
@@ -9,7 +9,7 @@ function SonnerToaster(props: ToasterProps) {
 	return (
 		<Sonner
 			theme={theme}
-			// eslint-disable-next-line tailwindcss/no-custom-classname
+			// eslint-disable-next-line tailwindcss-better/no-unregistered-classes
 			className="toaster group max-md:inset-x-0 max-md:flex max-md:w-full max-md:justify-center"
 			position="bottom-right"
 			duration={3000}

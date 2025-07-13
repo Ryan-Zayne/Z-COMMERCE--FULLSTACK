@@ -4,7 +4,7 @@
 /* ------------------*/
 /* App Theme         */
 /*-------------------*/
-@custom-variant dark (&:is([data-theme='dark'] *));
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme inline {
 	--color-body: var(--color-body);
@@ -19,6 +19,7 @@
 	--color-input: var(--text-input);
 	--color-label: var(--text-label);
 	--color-light: var(--text-light);
+	--color-success: var(--color-success);
 	--color-nav-text: var(--text-navbar);
 	--color-navbar: var(--color-navbar);
 	--color-placeholder: var(--text-placeholder);
@@ -44,6 +45,7 @@
 		--color-facebook: hsl(214, 89%, 53%);
 		--color-primary: hsl(206, 13%, 14%);
 		--color-secondary: var(--text-heading);
+		--color-success: hsl(129, 72%, 43%);
 		--color-body: hsl(0, 0%, 100%);
 		--color-navbar: hsl(215, 19%, 35%, 0.8);
 		--carousel-btn: hsl(0, 0%, 80%, 0.4);
@@ -63,6 +65,7 @@
 		--color-navbar: hsl(215, 17%, 25%, 0.8);
 		--color-body: hsl(240, 6%, 7%);
 		--carousel-btn: hsl(196, 15%, 24%, 0.5);
+		--color-success: hsl(129, 72%, 24%);
 		--carousel-dot: hsl(212, 8%, 64%);
 		--dark-mode-ball: hsl(0, 0%, 26%);
 		--brand-inverse: var(--text-heading);
@@ -216,41 +219,6 @@
 }
 
 /* ------------------*/
-/* Shadcn Theme      */
-/*-------------------*/
-@theme {
-	--color-shadcn-background: hsl(0, 0%, 100%);
-	--color-shadcn-foreground: hsl(222.2, 47.4%, 11.2%);
-
-	--color-shadcn-primary: hsl(222.2, 47.4%, 11.2%);
-	--color-shadcn-primary-foreground: hsl(210, 40%, 98%);
-
-	--color-shadcn-secondary: hsl(210, 40%, 96.1%);
-	--color-shadcn-secondary-foreground: hsl(222.2, 47.4%, 11.2%);
-
-	--color-shadcn-popover: hsl(0, 0%, 100%);
-	--color-shadcn-popover-foreground: hsl(222.2, 47.4%, 11.2%);
-
-	--color-shadcn-accent: hsl(210, 40%, 96.1%);
-	--color-shadcn-accent-foreground: hsl(222.2, 47.4%, 11.2%);
-
-	--color-shadcn-muted: hsl(210, 40%, 96.1%);
-	--color-shadcn-muted-foreground: hsl(215.4, 16.3%, 46.9%);
-
-	--color-shadcn-input: hsl(214.3, 31.8%, 91.4%);
-	--color-shadcn-border: hsl(214.3, 31.8%, 91.4%);
-	--color-shadcn-ring: hsl(215, 20.2%, 65.1%);
-
-	--color-sonner-success-bg: hsl(150, 100%, 6%);
-	--color-sonner-success-text: hsl(150, 100%, 90%);
-	--color-sonner-success-border: hsl(147, 100%, 12%);
-
-	--color-sonner-error-bg: hsl(358, 76%, 10%);
-	--color-sonner-error-text: hsl(358, 100%, 81%);
-	--color-sonner-error-border: hsl(357, 89%, 16%);
-}
-
-/* ------------------*/
 /* General CSS Reset */
 /*-------------------*/
 @layer base {
@@ -315,6 +283,10 @@
 		scrollbar-gutter: stable;
 	}
 }
+
+/* ------------------*/
+/* Custom Utilities */
+/*-------------------*/
 
 @utility custom-scrollbar {
 	&::-webkit-scrollbar {

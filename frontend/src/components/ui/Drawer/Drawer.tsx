@@ -1,14 +1,14 @@
-import { IconBox, type MoniconIconBoxProps } from "@/components/primitives/IconBox";
-import { Overlay as OverlayPrimitive } from "@/components/primitives/Overlay";
-import { Button } from "@/components/primitives/button";
-import { Teleport } from "@/components/primitives/teleport";
-import { cnMerge } from "@/lib/utils/cn";
 import {
+	composeTwoEventHandlers,
 	type InferProps,
 	type PolymorphicProps,
-	composeTwoEventHandlers,
 } from "@zayne-labs/toolkit-react/utils";
 import { Slot } from "@zayne-labs/ui-react/common/slot";
+import { Button } from "@/components/primitives/button";
+import { IconBox, type MoniconIconBoxProps } from "@/components/primitives/IconBox";
+import { Overlay as OverlayPrimitive } from "@/components/primitives/Overlay";
+import { Teleport } from "@/components/primitives/teleport";
+import { cnMerge } from "@/lib/utils/cn";
 import { DrawerContextProvider, useDrawer, useDrawerContext } from "./drawer-context";
 import type { DrawerCloseProps, DrawerContentProps, DrawerRootProviderProps } from "./types";
 
@@ -66,7 +66,7 @@ export function DrawerContent({ children, className, placement = "right" }: Draw
 		<main
 			data-id="Drawer Content Container"
 			className={cnMerge(
-				`custom-scrollbar fixed inset-y-0 z-50 flex flex-col overflow-y-auto bg-body
+				`fixed inset-y-0 z-50 flex custom-scrollbar flex-col overflow-y-auto bg-body
 				transition-transform ease-slide-out`,
 
 				placementClasses[placement],

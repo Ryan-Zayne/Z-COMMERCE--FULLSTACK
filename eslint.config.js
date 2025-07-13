@@ -2,7 +2,7 @@ import { zayne } from "@zayne-labs/eslint-config";
 
 export default zayne(
 	{
-		ignores: ["frontend/dist"],
+		ignores: ["frontend/dist", "frontend/.monicon"],
 		react: true,
 		tailwindcssBetter: {
 			settings: { entryPoint: "frontend/tailwind.css" },

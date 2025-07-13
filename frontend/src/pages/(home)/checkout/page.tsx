@@ -17,7 +17,7 @@ const CheckoutSchema = z.object({
 	address: z.string().min(10, "Please enter your full address"),
 	city: z.string().min(2, "Please enter your city"),
 	country: z.string().min(2, "Please enter your country"),
-	email: z.string().email("Please enter a valid email"),
+	email: z.email("Please enter a valid email"),
 	username: z.string().min(1, "Username is required"),
 	zipCode: z.string().min(4, "Please enter a valid zip code"),
 });

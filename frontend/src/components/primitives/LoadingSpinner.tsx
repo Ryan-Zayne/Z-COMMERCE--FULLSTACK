@@ -19,6 +19,7 @@ const LOADER_LOOKUP = {
 
 	regular: () => (
 		<aside id="preloader">
+			{/* eslint-disable tailwindcss-better/no-unregistered-classes */}
 			<div className="dank-ass-loader">
 				<div className="row">
 					<div className="arrow up outer outer-18" />
@@ -53,6 +54,7 @@ const LOADER_LOOKUP = {
 					<div className="arrow down outer outer-9" />
 				</div>
 			</div>
+			{/* eslint-enable tailwindcss-better/no-unregistered-classes */}
 		</aside>
 	),
 };

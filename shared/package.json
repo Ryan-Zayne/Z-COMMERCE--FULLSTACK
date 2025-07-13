@@ -4,18 +4,13 @@
 	"version": "1.0.0",
 	"exports": {
 		".": null,
-		"./zod": "./src/zod.ts",
 		"./schemas": "./src/schemas/index.ts"
 	},
-	"scripts": {
-		"check-types": "tsc --noEmit",
-		"dev": "tsup --watch"
-	},
 	"dependencies": {
-		"zod": "^3.25.69"
+		"zod": "^4.0.5"
 	},
 	"devDependencies": {
-		"@zayne-labs/tsconfig": "^0.9.4",
+		"@zayne-labs/tsconfig": "^0.9.5",
 		"typescript": "^5.8.3"
 	}
 }
