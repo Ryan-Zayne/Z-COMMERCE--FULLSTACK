@@ -1,1 +1,0 @@
-import{m as e,r as o,t as a,j as r,O as i,n,s as u}from"./index-BwfLVWqJ.js";import{u as f}from"./useQuery-DUjfuTnv.js";import"./suspense-d-BcEOpp.js";function x(){const t=e(),s=f(u());return o.useEffect(()=>{s.isError&&(a.error("Unauthorized! Please sign in to continue"),t("/auth/signin"))},[t,s.isError]),s.data?r.jsx(i,{}):r.jsx(n,{})}export{x as default};

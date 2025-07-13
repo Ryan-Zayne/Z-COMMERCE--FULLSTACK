@@ -1,5 +1,5 @@
-import type { DummyResponseData } from "@/store/react-query/types";
 import { createFetchClient } from "@zayne-labs/callapi";
+import type { DummyResponseData } from "@/store/react-query/types";
 
 const callDummyApi = createFetchClient<DummyResponseData, false>({
 	baseURL: "https://dummyjson.com",

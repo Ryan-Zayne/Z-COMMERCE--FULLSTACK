@@ -7,7 +7,7 @@ import { Form } from "@/components/primitives/form";
 import { Show } from "@/components/primitives/show";
 import { Switch } from "@/components/primitives/switch";
 import { callBackendApi, type FormErrorData, type SessionData } from "@/lib/api/callBackendApi";
-import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/formSchema";
+import { type FormBodySchemaType, SigninBodySchema, SignupBodySchema } from "@/lib/schemas/auth";
 import { cnMerge } from "@/lib/utils/cn";
 
 export type FormAreaProps = {
