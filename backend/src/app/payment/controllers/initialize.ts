@@ -1,11 +1,7 @@
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, readValidatedBody } from "@/utils";
 import { PaymentModel } from "../model";
-import {
-	generateUniqueReference,
-	InitializePaymentSchema,
-	initializeTransaction,
-} from "../services/paystack";
+import { generateUniqueReference, InitializePaymentSchema, paystackApi } from "../services/paystack";
 
 const initialize = catchAsync(async (req, res) => {
 	const { amount, cartItems, customerEmail, customerId, redirectURL } = readValidatedBody(
@@ -15,7 +11,7 @@ const initialize = catchAsync(async (req, res) => {
 
 	const reference = generateUniqueReference();
 
-	const transactionResult = await initializeTransaction({
+	const transactionResult = await paystackApi.initTransaction({
 		amount: amount * 100,
 		callback_url: redirectURL,
 		email: customerEmail,

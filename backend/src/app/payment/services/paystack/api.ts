@@ -8,26 +8,26 @@ import {
 } from "./schemas";
 import type { PaymentSuccessPayload, PaystackInitTransactionBodySchemaType } from "./types";
 
-const schema = defineSchema({
-	"/transaction/initialize": {
-		body: PaystackInitTransactionBodySchema,
-		data: PaystackInitTransactionResponseSchema,
-		method: z.literal("POST"),
-	},
-
-	"/transaction/verify/:reference": {
-		data: PaystackChargeSuccessEventSchema,
-	},
-});
-
 const callPaystackApi = createFetchClient({
 	auth: ENVIRONMENT.PAYSTACK_SECRET_KEY,
 	baseURL: ENVIRONMENT.PAYSTACK_HOST,
-	schema,
+
+	schema: defineSchema({
+		"/transaction/initialize": {
+			body: PaystackInitTransactionBodySchema,
+			data: PaystackInitTransactionResponseSchema,
+			method: z.literal("POST"),
+		},
+
+		"/transaction/verify/:reference": {
+			data: PaystackChargeSuccessEventSchema,
+		},
+	}),
+
 	timeout: 2 * 60 * 1000,
 });
 
-export const initializeTransaction = async (body: PaystackInitTransactionBodySchemaType) => {
+export const initTransaction = async (body: PaystackInitTransactionBodySchemaType) => {
 	const result = await callPaystackApi("/transaction/initialize", {
 		body,
 		method: "POST",

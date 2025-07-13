@@ -1,4 +1,4 @@
-export * from "./api";
+export * as paystackApi from "./api";
 export * from "./common";
 export * from "./hooks";
 export * from "./schemas";
