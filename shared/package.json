@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"exports": {
 		".": null,
-		"./schemas": "./src/schemas/index.ts"
+		"./schemas/*": "./src/schemas/*.ts"
 	},
 	"dependencies": {
 		"zod": "^4.0.5"

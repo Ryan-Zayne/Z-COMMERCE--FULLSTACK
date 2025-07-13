@@ -5,8 +5,7 @@ import type { HydratedUserType } from "@/app/users/types";
 import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
-import type { SigninBodySchemaType } from "@/validation";
-import { sendVerificationEmail } from "../services";
+import { type SigninBodySchemaType, sendVerificationEmail } from "../services";
 
 // @route POST /api/auth/login
 // @access Public

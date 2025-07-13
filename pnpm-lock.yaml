@@ -57,8 +57,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@zayne-labs/callapi':
-        specifier: 1.8.10
-        version: 1.8.10
+        specifier: 1.8.12
+        version: 1.8.12
       '@zayne-labs/toolkit-core':
         specifier: ^0.10.3
         version: 0.10.3
@@ -184,8 +184,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@zayne-labs/callapi':
-        specifier: 1.8.10
-        version: 1.8.10
+        specifier: 1.8.12
+        version: 1.8.12
       '@zayne-labs/toolkit-core':
         specifier: ^0.10.3
         version: 0.10.3
@@ -1675,8 +1675,8 @@ packages:
   '@zag-js/utils@1.18.2':
     resolution: {integrity: sha512-tGrG2Qnm5qf95VJEBHunrEDHO0OJZGU81FoZU2VNC+YkRmD4C1phcvyxVLklDFT569rNxIHmFn/6gr9D7HmPrQ==}
 
-  '@zayne-labs/callapi@1.8.10':
-    resolution: {integrity: sha512-eG40ltxeZGhJ2puYi2MS1bxYBKX31DcqDTTx/9XJNjKHuacUKZkkb3LEiCKm6cDE+XziSFyRbHh0iCS7HRQCpQ==}
+  '@zayne-labs/callapi@1.8.12':
+    resolution: {integrity: sha512-BRlnFAx29SCEPP7N3DgwrP741TlHStlngTRuVOzjJuqQixc6cZDqQwgeshCO+GdX23RpFq/r8FM3+ZCLgaWhVg==}
     engines: {node: '>=v18.17.0'}
 
   '@zayne-labs/eslint-config@0.9.5':
@@ -5485,7 +5485,7 @@ snapshots:
 
   '@zag-js/utils@1.18.2': {}
 
-  '@zayne-labs/callapi@1.8.10': {}
+  '@zayne-labs/callapi@1.8.12': {}
 
   '@zayne-labs/eslint-config@0.9.5(@eslint-react/eslint-plugin@1.52.3(eslint@9.31.0(jiti@2.4.2))(ts-api-utils@2.1.0(typescript@5.8.3))(typescript@5.8.3))(@tanstack/eslint-plugin-query@5.81.2(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3))(@typescript-eslint/utils@8.36.0(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3))(eslint-plugin-better-tailwindcss@3.5.2(eslint@9.31.0(jiti@2.4.2))(tailwindcss@4.1.11))(eslint-plugin-react-hooks@5.2.0(eslint@9.31.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.20(eslint@9.31.0(jiti@2.4.2)))(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:

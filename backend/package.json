@@ -17,7 +17,7 @@
 		"@colors/colors": "^1.6.0",
 		"@node-rs/argon2": "^2.0.2",
 		"@z-commerce/shared": "workspace:*",
-		"@zayne-labs/callapi": "1.8.10",
+		"@zayne-labs/callapi": "1.8.12",
 		"@zayne-labs/toolkit-core": "^0.10.3",
 		"@zayne-labs/toolkit-type-helpers": "^0.10.3",
 		"@zayne-labs/tsconfig": "^0.9.5",

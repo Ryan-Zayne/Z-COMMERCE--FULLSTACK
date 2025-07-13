@@ -1,5 +1,3 @@
-import { validateBodyWithZod } from "@/middleware";
-import { InitializePaymentSchema, VerifyPaymentSchema } from "@/validation";
 import express from "express";
 import { IpFilter } from "express-ipfilter";
 import { initialize, verifyWithApi, verifyWithHook } from "./controllers";
@@ -61,7 +59,7 @@ const router = express.Router();
  *       400:
  *         description: Invalid request body
  */
-router.post("/paystack/initialize", validateBodyWithZod(InitializePaymentSchema), initialize);
+router.post("/paystack/initialize", initialize);
 
 /**
  * @swagger
@@ -129,6 +127,6 @@ router.post(
  *       404:
  *         description: Transaction not found
  */
-router.post("/paystack/verify", validateBodyWithZod(VerifyPaymentSchema), verifyWithApi);
+router.post("/paystack/verify", verifyWithApi);
 
 export { router as paymentRouter };

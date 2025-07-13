@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { AppError } from "../utils";
-import { SigninBodySchema, SignupBodySchema } from "../validation/formSchema";
+import { SigninBodySchema, SignupBodySchema } from "@/app/auth/services";
+import { readValidatedBody } from "../utils";
 import { catchAsync } from "./catchAsyncErrors";
 
-const SCHEMA_LOOKUP = new Map<string, z.ZodType>([
+const SCHEMA_LOOKUP = new Map<string, z.ZodType<Record<string, unknown>>>([
 	["/auth/signin", SigninBodySchema],
 	["/auth/signup", SignupBodySchema],
 ]);
@@ -26,38 +26,14 @@ export const validateBodyWithZodGlobal = catchAsync((req, res, next) => {
 	void validateBodyWithZod(selectedSchema)(req, res, next);
 });
 
-export const validateBodyWithZod = (schema: z.ZodType) => {
+export const validateBodyWithZod = (schema: z.ZodType<Record<string, unknown>>) => {
 	const handler = catchAsync((req, _res, next) => {
-		const rawData = req.body;
+		const validatedBody = readValidatedBody(req, schema);
 
-		const result = schema.safeParse(rawData);
-
-		if (!result.success) {
-			const errorMessage = z.prettifyError(result.error);
-
-			const errorObject = z.flattenError(result.error).fieldErrors;
-
-			throw new AppError(422, errorMessage, { errors: errorObject });
-		}
-
-		req.body = result.data as Record<string, unknown>;
+		req.body = validatedBody;
 
 		next();
 	});
 
 	return handler;
-};
-
-export const readValidatedBody = <TSchema extends z.ZodType>(req: Request, schema: TSchema) => {
-	const result = schema.safeParse(req.body);
-
-	if (!result.success) {
-		const errorMessage = z.prettifyError(result.error);
-
-		const errorObject = z.flattenError(result.error).fieldErrors;
-
-		throw new AppError(422, errorMessage, { errors: errorObject });
-	}
-
-	return result.data;
 };

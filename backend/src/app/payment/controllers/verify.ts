@@ -1,6 +1,11 @@
 import { catchAsync } from "@/middleware";
-import { AppError, AppResponse } from "@/utils";
-import { paystackHook, processPayment, verifyTransaction } from "../services";
+import { AppError, AppResponse, readValidatedBody } from "@/utils";
+import {
+	paystackHook,
+	processPayment,
+	VerifyPaymentSchema,
+	verifyTransaction,
+} from "../services/paystack";
 
 export const verifyWithHook = catchAsync(async (req, res) => {
 	await paystackHook(req, {
@@ -11,7 +16,7 @@ export const verifyWithHook = catchAsync(async (req, res) => {
 });
 
 export const verifyWithApi = catchAsync<{ body: { reference: string } }>(async (req, res) => {
-	const { reference } = req.body;
+	const { reference } = readValidatedBody(req, VerifyPaymentSchema);
 
 	const result = await verifyTransaction(reference);
 

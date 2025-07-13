@@ -1,15 +1,11 @@
 import { UserModel } from "@/app/users/model";
 import type { HydratedUserType } from "@/app/users/types";
 import { catchAsync } from "@/middleware";
-import { AppError, AppResponse } from "@/utils";
-import { sendVerificationEmail } from "../services";
+import { AppError, AppResponse, readValidatedBody } from "@/utils";
+import { sendVerificationEmail, ResendVerificationEmailSchema } from "../services";
 
-const resendVerificationEmail = catchAsync<{ body: { email: string | undefined } }>(async (req, res) => {
-	const { email } = req.body;
-
-	if (!email) {
-		throw new AppError(422, "Email is required");
-	}
+const resendVerificationEmail = catchAsync(async (req, res) => {
+	const { email } = readValidatedBody(req, ResendVerificationEmailSchema);
 
 	const user = await UserModel.findOne({ email });
 

@@ -15,10 +15,8 @@ export const processPayment = async (payload: PaymentSuccessPayload) => {
 		{ reference: payload.reference },
 		{
 			amount: payload.amount,
-			paymentDate: payload.paidAt,
-			paymentMeta: {
-				cartItems: payload.cartItems,
-			},
+			paymentDate: payload.paid_at,
+			paymentMeta: { cartItems: payload.cartItems },
 			paymentStatus: PaymentStatusEnum.PAID,
 		},
 		{ new: true }

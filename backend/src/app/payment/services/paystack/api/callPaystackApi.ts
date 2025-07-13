@@ -1,27 +1,34 @@
-import { createFetchClient } from "@zayne-labs/callapi";
+import { createFetchClient, defineSchema } from "@zayne-labs/callapi";
+import { z } from "zod";
 import { ENVIRONMENT } from "@/config/env";
-import type { InitializePaymentSchemaType } from "@/validation";
-import type { PaymentSuccessPayload, PaystackChargeSuccessEvent, PaystackInitResponse } from "./types";
+import {
+	PaystackChargeSuccessEventSchema,
+	PaystackInitTransactionBodySchema,
+	PaystackInitTransactionResponseSchema,
+} from "../schemas";
+import type { PaymentSuccessPayload, PaystackInitTransactionBodySchemaType } from "../types";
+
+const baseSchema = defineSchema({
+	"/transaction/initialize": {
+		body: PaystackInitTransactionBodySchema,
+		data: PaystackInitTransactionResponseSchema,
+		method: z.literal("POST"),
+	},
+
+	"/transaction/verify/:reference": {
+		data: PaystackChargeSuccessEventSchema,
+	},
+});
 
 const callPaystackApi = createFetchClient({
 	auth: ENVIRONMENT.PAYSTACK_SECRET_KEY,
 	baseURL: ENVIRONMENT.PAYSTACK_HOST,
+	schema: baseSchema,
 	timeout: 2 * 60 * 1000,
 });
 
-export type InitTransactionBody = {
-	amount: number;
-	callback_url?: string;
-	email: string;
-	metadata?: {
-		cartItems: InitializePaymentSchemaType["cartItems"];
-		customerId: string;
-	};
-	reference: string;
-};
-
-export const initializeTransaction = async (data: InitTransactionBody) => {
-	const result = await callPaystackApi<PaystackInitResponse>("/transaction/initialize", {
+export const initializeTransaction = async (data: PaystackInitTransactionBodySchemaType) => {
+	const result = await callPaystackApi("/transaction/initialize", {
 		body: data,
 		method: "POST",
 	});
@@ -42,9 +49,7 @@ export const initializeTransaction = async (data: InitTransactionBody) => {
 };
 
 export const verifyTransaction = async (reference: string) => {
-	const result = await callPaystackApi<PaystackChargeSuccessEvent>(`/transaction/verify/:reference`, {
-		params: { reference },
-	});
+	const result = await callPaystackApi(`/transaction/verify/:reference`, { params: { reference } });
 
 	if (result.error) {
 		return {
@@ -58,7 +63,7 @@ export const verifyTransaction = async (reference: string) => {
 		amount: result.data.data.amount / 100,
 		cartItems: result.data.data.metadata.cartItems,
 		customerId: result.data.data.metadata.customerId,
-		paidAt: result.data.data.paid_at,
+		paid_at: result.data.data.paid_at,
 		reference: result.data.data.reference,
 		status: result.data.data.status,
 	} satisfies PaymentSuccessPayload;

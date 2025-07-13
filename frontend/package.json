@@ -18,7 +18,7 @@
 		"@monicon/vite": "^1.2.2",
 		"@tanstack/react-query": "^5.83.0",
 		"@z-commerce/shared": "workspace:*",
-		"@zayne-labs/callapi": "1.8.10",
+		"@zayne-labs/callapi": "1.8.12",
 		"@zayne-labs/toolkit-core": "^0.10.3",
 		"@zayne-labs/toolkit-react": "^0.10.3",
 		"@zayne-labs/toolkit-type-helpers": "^0.10.3",

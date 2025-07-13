@@ -1,7 +1,7 @@
 import type { Model, SchemaDefinitionProperty } from "mongoose";
 import mongoose from "mongoose";
 import { PaymentStatusEnum } from "@/constants";
-import type { InitializePaymentSchemaType } from "@/validation";
+import type { InitializePaymentSchemaType } from "./services/paystack";
 
 type PaymentType = {
 	amount: number;
