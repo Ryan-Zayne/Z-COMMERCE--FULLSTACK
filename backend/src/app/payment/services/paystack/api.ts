@@ -5,10 +5,10 @@ import {
 	PaystackChargeSuccessEventSchema,
 	PaystackInitTransactionBodySchema,
 	PaystackInitTransactionResponseSchema,
-} from "../schemas";
-import type { PaymentSuccessPayload, PaystackInitTransactionBodySchemaType } from "../types";
+} from "./schemas";
+import type { PaymentSuccessPayload, PaystackInitTransactionBodySchemaType } from "./types";
 
-const baseSchema = defineSchema({
+const schema = defineSchema({
 	"/transaction/initialize": {
 		body: PaystackInitTransactionBodySchema,
 		data: PaystackInitTransactionResponseSchema,
@@ -23,13 +23,13 @@ const baseSchema = defineSchema({
 const callPaystackApi = createFetchClient({
 	auth: ENVIRONMENT.PAYSTACK_SECRET_KEY,
 	baseURL: ENVIRONMENT.PAYSTACK_HOST,
-	schema: baseSchema,
+	schema,
 	timeout: 2 * 60 * 1000,
 });
 
-export const initializeTransaction = async (data: PaystackInitTransactionBodySchemaType) => {
+export const initializeTransaction = async (body: PaystackInitTransactionBodySchemaType) => {
 	const result = await callPaystackApi("/transaction/initialize", {
-		body: data,
+		body,
 		method: "POST",
 	});
 
@@ -49,7 +49,7 @@ export const initializeTransaction = async (data: PaystackInitTransactionBodySch
 };
 
 export const verifyTransaction = async (reference: string) => {
-	const result = await callPaystackApi(`/transaction/verify/:reference`, { params: { reference } });
+	const result = await callPaystackApi("/transaction/verify/:reference", { params: { reference } });
 
 	if (result.error) {
 		return {
