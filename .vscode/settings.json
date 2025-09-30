@@ -1,6 +1,15 @@
 {
 	"typescript.tsdk": "node_modules\\typescript\\lib",
-	"cSpell.words": ["rolldown", "shadcn", "signin", "sonarjs", "Sonner", "stringifier", "womens"],
+	"cSpell.words": [
+		"Paystack",
+		"rolldown",
+		"shadcn",
+		"signin",
+		"sonarjs",
+		"Sonner",
+		"stringifier",
+		"womens"
+	],
 	"terminal-keeper.killProcess": false,
 	"terminal-keeper.wslSupport": false
 }

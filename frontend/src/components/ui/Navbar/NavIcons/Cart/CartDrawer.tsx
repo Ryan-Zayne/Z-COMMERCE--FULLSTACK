@@ -73,7 +73,7 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 							<CartItemsList
 								className="flex min-h-[140px] flex-col gap-[10px]"
 								each={cart}
-								render={(item) => <CartItem key={item.title} product={item} />}
+								renderItem={(item) => <CartItem key={item.title} product={item} />}
 							/>
 
 							<Show.Fallback>

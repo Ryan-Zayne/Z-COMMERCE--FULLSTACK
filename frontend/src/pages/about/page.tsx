@@ -1,8 +1,8 @@
-import { IconBox } from "@/components/primitives/IconBox";
-import { ImageComponent } from "@/components/primitives/ImageComponent";
-import { Button } from "@/components/primitives/button";
 import { getElementList } from "@zayne-labs/ui-react/common/for";
 import { m } from "motion/react";
+import { Button } from "@/components/primitives/button";
+import { IconBox } from "@/components/primitives/IconBox";
+import { ImageComponent } from "@/components/primitives/ImageComponent";
 
 const coreValues = [
 	{
@@ -121,7 +121,7 @@ function AboutPage() {
 				<CoreValuesList
 					className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
 					each={coreValues}
-					render={(value) => (
+					renderItem={(value) => (
 						<m.li
 							key={value.title}
 							initial={{ opacity: 0, scale: 0.9 }}
@@ -158,7 +158,7 @@ function AboutPage() {
 				<TeamList
 					className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
 					each={team}
-					render={(member) => (
+					renderItem={(member) => (
 						<m.li
 							key={member.role}
 							initial={{ opacity: 0, scale: 0.9 }}
@@ -200,7 +200,7 @@ function AboutPage() {
 					className="grid gap-8 rounded-2xl bg-heroui-content/50 p-12 text-center sm:grid-cols-2
 						lg:grid-cols-4"
 					each={stats}
-					render={(stat) => (
+					renderItem={(stat) => (
 						<li key={stat.label}>
 							<p className="mb-2 text-[24px] font-bold text-primary dark:text-secondary">
 								{stat.number}

@@ -62,7 +62,7 @@ function Categories() {
 					justify-items-center gap-[30px] lg:auto-rows-[230px]
 					lg:grid-cols-[repeat(3,minmax(300px,1fr))] lg:gap-[40px]"
 				each={categories}
-				render={(category) => (
+				renderItem={(category) => (
 					<m.li
 						key={category.title}
 						initial={{ opacity: 0, y: 70 }}

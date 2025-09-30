@@ -281,7 +281,7 @@ function CheckoutPage() {
 					<div className="flex flex-col gap-[20px] divide-y divide-carousel-btn">
 						<CartItemsList
 							each={cart}
-							render={(item) => (
+							renderItem={(item) => (
 								<li key={item.id} className="flex gap-[16px] pt-[20px]">
 									<div className="size-[70px] shrink-0 overflow-hidden rounded-[4px] bg-gray-800">
 										<ImageComponent

@@ -1,8 +1,8 @@
-import { type CallApiParameters, type ResultModeUnion, createFetchClient } from "@zayne-labs/callapi";
+import { type CallApiParameters, createFetchClient, type ResultModeUnion } from "@zayne-labs/callapi";
 import {
 	type RedirectOn401ErrorPluginMeta,
-	type ToastPluginMeta,
 	redirectOn401ErrorPlugin,
+	type ToastPluginMeta,
 	toastPlugin,
 } from "./plugins";
 
@@ -53,7 +53,7 @@ export const callBackendApiForQuery = <TData = unknown>(
 	const [url, config] = parameters;
 
 	return sharedFetchClient(url, {
-		resultMode: "onlySuccessWithException",
+		resultMode: "onlyData",
 		throwOnError: true,
 		...config,
 	});

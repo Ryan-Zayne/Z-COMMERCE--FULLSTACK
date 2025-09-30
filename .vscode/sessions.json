@@ -1,26 +1,30 @@
 {
-	"$schema": "https://cdn.statically.io/gh/nguyenngoclongdev/cdn/main/schema/v10/terminal-keeper.json",
-	"theme": "dice",
-	"active": "default",
-	"activateOnStartup": false,
-	"keepExistingTerminals": false,
-	"noClear": true,
-	"sessions": {
-		"default": [
-			{
-				"autoExecuteCommands": false,
-				"cwd": "frontend",
-				"icon": "browser",
-				"name": "dev:client",
-				"commands": ["pnpm dev"]
-			},
-			{
-				"autoExecuteCommands": false,
-				"cwd": "backend",
-				"icon": "server",
-				"name": "dev:server",
-				"commands": ["pnpm dev:watch"]
-			}
-		]
-	}
+   "$schema": "https://cdn.statically.io/gh/nguyenngoclongdev/cdn/main/schema/v11/terminal-keeper.json",
+   "theme": "dice",
+   "active": "default",
+   "activateOnStartup": false,
+   "keepExistingTerminals": false,
+   "noClear": true,
+   "sessions": {
+      "default": [
+         {
+            "autoExecuteCommands": false,
+            "cwd": "frontend",
+            "icon": "browser",
+            "name": "dev:client",
+            "commands": [
+               "pnpm dev"
+            ]
+         },
+         {
+            "autoExecuteCommands": false,
+            "cwd": "backend",
+            "icon": "server",
+            "name": "dev:server",
+            "commands": [
+               "pnpm dev:watch"
+            ]
+         }
+      ]
+   }
 }

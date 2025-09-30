@@ -1,13 +1,14 @@
 import crypto from "node:crypto";
 import { consola } from "consola";
 import type { Request } from "express";
+import type { z } from "zod";
 import { ENVIRONMENT } from "@/config/env";
 import { AppError, readValidatedBody } from "@/utils";
-import { PaystackChargeSuccessEventSchema } from "./schemas";
-import type { PaymentSuccessPayload, PaystackChargeSuccessEventSchemaType } from "./types";
+import type { PaymentSuccessPayload } from "./api";
+import { paystackApiSchema } from "./schemas";
 
 type SuccessEventContext = {
-	event: PaystackChargeSuccessEventSchemaType;
+	event: z.infer<(typeof paystackApiSchema)["routes"]["/transaction/verify/:reference"]["data"]>;
 	payload: PaymentSuccessPayload;
 };
 
@@ -28,7 +29,10 @@ export const paystackHook = async (req: Request, options: PaystackHookOptions) =
 		throw new AppError(400, "Invalid Event signature");
 	}
 
-	const validBody = readValidatedBody(req, PaystackChargeSuccessEventSchema);
+	const validBody = readValidatedBody(
+		req,
+		paystackApiSchema.routes["/transaction/verify/:reference"].data
+	);
 
 	switch (validBody.event) {
 		case "charge.success": {

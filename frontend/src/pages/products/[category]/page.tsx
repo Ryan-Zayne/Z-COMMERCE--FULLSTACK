@@ -1,12 +1,12 @@
-import { IconBox } from "@/components/primitives/IconBox";
-import { Button } from "@/components/primitives/button";
-import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
-import { ProductCard } from "@/components/ui/ProductCard";
-import { useGetProductByCategory } from "@/store/react-query/useGetProductByCategory";
 import type { ExtractUnion } from "@zayne-labs/toolkit-type-helpers";
 import { assertDefined } from "@zayne-labs/toolkit-type-helpers";
 import { getElementList } from "@zayne-labs/ui-react/common/for";
 import { Link, useParams } from "react-router";
+import { Button } from "@/components/primitives/button";
+import { IconBox } from "@/components/primitives/IconBox";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { ProductCard } from "@/components/ui/ProductCard";
+import { useGetProductByCategory } from "@/store/react-query/useGetProductByCategory";
 
 // TODO - Remove once you start serving the products from your backend
 const productCategories = new Set(["smartphones", "laptops", "lighting", "watches", "vehicles"] as const);
@@ -44,7 +44,7 @@ function ProductCategoryPage() {
 					className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] justify-items-center
 						gap-[50px_20px]"
 					each={productsArrayByCategory}
-					render={(product) => (
+					renderItem={(product) => (
 						<ProductCard
 							key={product?.id}
 							link={`/products/${product?.category}/${product?.id}`}

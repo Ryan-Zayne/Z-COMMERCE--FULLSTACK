@@ -1,7 +1,7 @@
 import { PaymentStatusEnum } from "@/constants";
 import { AppError, generateRandomUUID } from "@/utils";
 import { PaymentModel } from "../../model";
-import type { PaymentSuccessPayload } from "./types";
+import type { PaymentSuccessPayload } from "./api";
 
 export const generateUniqueReference = () => {
 	const prefix = "Z-RF";

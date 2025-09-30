@@ -96,7 +96,7 @@ function SearchForm(props: SearchFormProps) {
 						!isMobile && "top-[81px]"
 					)}
 					each={data}
-					render={(item, index) => (
+					renderItem={(item, index) => (
 						<li key={item?.id ?? index}>
 							<Link
 								to={`/products/${item?.category}/${item?.id}`}

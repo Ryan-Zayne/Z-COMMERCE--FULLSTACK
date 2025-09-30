@@ -46,7 +46,7 @@ function ProductCard(props: ProductCardProps) {
 
 	return (
 		<m.li
-			className="h-full w-[min(100%,260px)]"
+			className="w-[min(100%,260px)]"
 			initial={{ opacity: 0, y: 200 }}
 			whileInView={{
 				opacity: 1,

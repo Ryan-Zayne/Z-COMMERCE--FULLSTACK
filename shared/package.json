@@ -7,10 +7,10 @@
 		"./schemas/*": "./src/schemas/*.ts"
 	},
 	"dependencies": {
-		"zod": "^4.0.5"
+		"zod": "^4.1.11"
 	},
 	"devDependencies": {
-		"@zayne-labs/tsconfig": "^0.9.5",
-		"typescript": "^5.8.3"
+		"@zayne-labs/tsconfig": "^0.10.3",
+		"typescript": "^5.9.2"
 	}
 }

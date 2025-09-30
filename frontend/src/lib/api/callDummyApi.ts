@@ -9,7 +9,7 @@ const baseSchema = defineSchema({
 
 const callDummyApi = createFetchClient({
 	baseURL: "https://dummyjson.com",
-	resultMode: "onlySuccessWithException",
+	resultMode: "onlyData",
 	schema: baseSchema,
 	throwOnError: true,
 });

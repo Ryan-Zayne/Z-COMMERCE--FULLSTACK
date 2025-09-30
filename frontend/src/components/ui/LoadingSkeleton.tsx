@@ -25,7 +25,7 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 						className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] justify-items-center
 							gap-[30px_15px]"
 						each={[...Array(count).keys()]}
-						render={(id) => (
+						renderItem={(id) => (
 							<li
 								key={id}
 								className={cnMerge(

@@ -18,9 +18,10 @@ function Home() {
 	return (
 		<>
 			<Hero />
+
 			<Categories />
 
-			<section id="Products Section" className="flex flex-col gap-[30px] px-[30px] pt-[60px]">
+			<section id="Products Section" className="flex flex-col gap-[100px] px-[30px] pt-[60px]">
 				<Show.Root when={!isPending}>
 					<HotSalesProducts data={hotSalesProductsArray} />
 					<RecentProducts data={recentlyViewedProductsArray} />

@@ -1,3 +1,4 @@
+import { defineSchema } from "@zayne-labs/callapi";
 import type { AnyString } from "@zayne-labs/toolkit-type-helpers";
 import { z } from "zod";
 
@@ -15,8 +16,6 @@ export const InitializePaymentSchema = z.object({
 	customerId: z.string(),
 	redirectURL: z.url({ error: "Invalid redirect URL" }).optional(),
 });
-
-export type InitializePaymentSchemaType = z.infer<typeof InitializePaymentSchema>;
 
 export const VerifyPaymentSchema = z.object({
 	reference: z.string(),
@@ -51,7 +50,7 @@ export const PaystackInitTransactionBodySchema = z.object({
 	reference: z.string(),
 });
 
-export const PaystackTransactionStatusEnum = z.enum([
+const PaystackTransactionStatusEnum = z.literal([
 	"abandoned", // Customer has not completed the transaction
 	"failed", // Transaction failed
 	"ongoing", // Waiting for customer action (OTP/transfer)
@@ -120,10 +119,20 @@ const PaystackChargeSuccessDataSchema = z.object({
 });
 
 const PaystackChargeEventTypeEnum = z
-	.enum(["charge.success"])
+	.literal("charge.success")
 	.or(z.string().transform<AnyString>((val) => val));
 
-export const PaystackChargeSuccessEventSchema = z.object({
-	data: PaystackChargeSuccessDataSchema,
-	event: PaystackChargeEventTypeEnum,
+export const paystackApiSchema = defineSchema({
+	"/transaction/initialize": {
+		body: PaystackInitTransactionBodySchema,
+		data: PaystackInitTransactionResponseSchema,
+		method: z.literal("POST"),
+	},
+
+	"/transaction/verify/:reference": {
+		data: z.object({
+			data: PaystackChargeSuccessDataSchema,
+			event: PaystackChargeEventTypeEnum,
+		}),
+	},
 });

@@ -89,7 +89,7 @@ function NavigationLinks() {
 
 				<NavLinksList
 					each={navLinkInfoArray}
-					render={(navLinkInfo) => {
+					renderItem={(navLinkInfo) => {
 						const { childElement, className, id, path, shouldShow, title } = navLinkInfo;
 
 						if (!path) {

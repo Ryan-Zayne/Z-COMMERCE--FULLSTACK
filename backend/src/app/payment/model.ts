@@ -1,11 +1,16 @@
 import type { Model, SchemaDefinitionProperty } from "mongoose";
 import mongoose from "mongoose";
+import type { z } from "zod";
 import { PaymentStatusEnum } from "@/constants";
-import type { InitializePaymentSchemaType } from "./services/paystack";
+import { paystackApiSchema } from "./services/paystack/schemas";
+
+type CartItems = z.infer<
+	(typeof paystackApiSchema)["routes"]["/transaction/verify/:reference"]["data"]
+>["data"]["metadata"]["cartItems"];
 
 type PaymentType = {
 	amount: number;
-	cartItems: InitializePaymentSchemaType["cartItems"];
+	cartItems: CartItems;
 	customerId: SchemaDefinitionProperty;
 	paymentDate: string;
 	paymentMeta: Record<string, unknown>;
@@ -13,7 +18,7 @@ type PaymentType = {
 	reference: string;
 };
 
-const cartItemsSchema = new mongoose.Schema<InitializePaymentSchemaType["cartItems"][number]>(
+const cartItemsSchema = new mongoose.Schema<CartItems[number]>(
 	{
 		id: {
 			type: String,

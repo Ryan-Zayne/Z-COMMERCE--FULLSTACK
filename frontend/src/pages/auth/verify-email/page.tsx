@@ -1,27 +1,25 @@
-import { IconBox } from "@/components/primitives/IconBox";
-import { Button } from "@/components/primitives/button";
-import { callBackendApi } from "@/lib/api/callBackendApi";
-import { useQueryClientStore } from "@/store/react-query/queryClientStore";
-import { sessionQuery } from "@/store/react-query/queryFactory";
 import { Timer } from "@ark-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { Show } from "@zayne-labs/ui-react/common/show";
 import { useState } from "react";
-
-const resendEmail = async () => {
-	const sessionQueryData = await useQueryClientStore
-		.getState()
-		.queryClient.ensureQueryData(sessionQuery());
-
-	void callBackendApi("/auth/resend-verification", {
-		body: {
-			email: sessionQueryData.data?.user.email,
-		},
-		method: "POST",
-	});
-};
+import { Button } from "@/components/primitives/button";
+import { IconBox } from "@/components/primitives/IconBox";
+import { callBackendApi } from "@/lib/api/callBackendApi";
+import { sessionQuery } from "@/store/react-query/queryFactory";
 
 function VerifyEmailPage() {
 	const [isResendEmailDisabled, setIsResendEmailDisabled] = useState(true);
+
+	const sessionQueryResult = useQuery(sessionQuery());
+
+	const resendEmail = () => {
+		void callBackendApi("/auth/resend-verification", {
+			body: {
+				email: sessionQueryResult.data?.data?.user.email,
+			},
+			method: "POST",
+		});
+	};
 
 	return (
 		<main
@@ -61,7 +59,7 @@ function VerifyEmailPage() {
 								theme="secondary"
 								disabled={isResendEmailDisabled}
 								onClick={() => {
-									void resendEmail();
+									resendEmail();
 									context.restart();
 									setIsResendEmailDisabled(true);
 								}}
