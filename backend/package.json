@@ -7,8 +7,7 @@
 		"node": ">=20.0.0"
 	},
 	"scripts": {
-		"dev": "tsx --env-file=.env src/server.ts --clear-screen=false",
-		"dev:watch": "tsx --env-file=.env --watch src/server.ts --clear-screen=false",
+		"dev": "tsx watch --env-file=.env src/server.ts --clear-screen=false",
 		"lint:type-check": "tsc --pretty --incremental -p tsconfig.json",
 		"start": "tsx src/server.ts",
 		"start:test": "cross-env NODE_ENV=production tsx --env-file=.env ./src/server.ts"
@@ -20,7 +19,7 @@
 		"@zayne-labs/callapi": "1.10.6",
 		"@zayne-labs/toolkit-core": "^0.11.17",
 		"@zayne-labs/toolkit-type-helpers": "^0.11.17",
-		"@zayne-labs/tsconfig": "^0.10.3",
+		"@zayne-labs/tsconfig": "^0.10.10",
 		"consola": "^3.4.2",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
@@ -49,10 +48,10 @@
 		"@types/hpp": "^0.2.6",
 		"@types/jsonwebtoken": "^9.0.9",
 		"@types/morgan": "^1.9.10",
-		"@types/node": "^24.6.0",
+		"@types/node": "^24.8.1",
 		"@types/nodemailer": "^7.0.2",
 		"@types/swagger-jsdoc": "^6.0.4",
 		"@types/swagger-ui-express": "^4.1.8",
-		"typescript": "^5.9.2"
+		"typescript": "^5.9.3"
 	}
 }

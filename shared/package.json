@@ -3,14 +3,13 @@
 	"type": "module",
 	"version": "1.0.0",
 	"exports": {
-		".": null,
-		"./schemas/*": "./src/schemas/*.ts"
+		"./*": "./src/*.ts"
 	},
 	"dependencies": {
 		"zod": "^4.1.11"
 	},
 	"devDependencies": {
-		"@zayne-labs/tsconfig": "^0.10.3",
-		"typescript": "^5.9.2"
+		"@zayne-labs/tsconfig": "^0.10.10",
+		"typescript": "^5.9.3"
 	}
 }

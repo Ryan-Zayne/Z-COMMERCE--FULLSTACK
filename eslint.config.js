@@ -3,6 +3,9 @@ import { zayne } from "@zayne-labs/eslint-config";
 export default zayne(
 	{
 		ignores: ["frontend/dist", "frontend/.monicon"],
+		node: {
+			security: true,
+		},
 		react: true,
 		tailwindcssBetter: {
 			settings: { entryPoint: "frontend/tailwind.css" },
@@ -22,4 +25,8 @@ export default zayne(
 			"node/no-process-env": "error",
 		},
 	}
-);
+).overrides({
+	"zayne/node/security/recommended": {
+		files: ["backend/src/**/*.ts"],
+	},
+});

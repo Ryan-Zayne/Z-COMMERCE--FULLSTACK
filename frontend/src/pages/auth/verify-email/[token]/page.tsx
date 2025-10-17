@@ -1,10 +1,10 @@
-import { BarScaleIcon } from "@/components/icons";
-import { IconBox } from "@/components/primitives/IconBox";
-import { Button } from "@/components/primitives/button";
-import { verifyEmailQuery } from "@/store/react-query/queryFactory";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link, useParams } from "react-router";
+import { BarScaleIcon } from "@/components/icons";
+import { Button } from "@/components/primitives/button";
+import { IconBox } from "@/components/primitives/IconBox";
+import { verifyEmailQuery } from "@/store/react-query/queryFactory";
 
 function CheckVerificationTokenPage() {
 	const { token } = useParams();

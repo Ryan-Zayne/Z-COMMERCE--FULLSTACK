@@ -12,7 +12,7 @@ const initialize = catchAsync(async (req, res) => {
 	const reference = generateUniqueReference();
 
 	const transactionResult = await paystackApi.initTransaction({
-		amount: amount * 100,
+		amount: Math.round(amount) * 100,
 		callback_url: redirectURL,
 		email: customerEmail,
 		metadata: { cartItems, customerId },

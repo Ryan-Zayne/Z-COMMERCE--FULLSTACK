@@ -23,7 +23,7 @@ export const initTransaction = async (
 	if (error) {
 		return {
 			data: null,
-			message: "Error fetching banks",
+			message: error.message || "Error initializing payment",
 			success: false,
 		};
 	}
