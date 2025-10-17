@@ -49,6 +49,11 @@ function CheckoutPage() {
 	const { control } = methods;
 
 	const onSubmit = methods.handleSubmit(async (formData) => {
+		if (!sessionQueryResult.data) {
+			void navigate("/auth/signin");
+			return;
+		}
+
 		const payload = {
 			amount: totalPrice,
 			cartItems: cart.map((item) => ({
@@ -58,7 +63,7 @@ function CheckoutPage() {
 				quantity: item.quantity,
 			})),
 			customerEmail: formData.email,
-			customerId: sessionQueryResult.data?.data?.user.id ?? "",
+			customerId: sessionQueryResult.data.data?.user.id ?? "",
 			redirectURL: `${window.location.origin}/checkout/success`,
 		};
 
@@ -263,10 +268,10 @@ function CheckoutPage() {
 									theme="primary"
 									disabled={isSubmitting}
 									isLoading={isSubmitting}
-									className="mt-[20px] h-[44px] w-full rounded-[4px] bg-navbar text-[15px]
+									className="h-[44px] w-full self-end rounded-[4px] bg-navbar text-[15px]
 										font-semibold text-white shadow-xs transition-all hover:bg-primary
 										hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed
-										disabled:brightness-75 md:mt-[24px] md:rounded-[10px] md:text-[16px]"
+										disabled:brightness-75 md:rounded-[10px] md:text-[16px]"
 								>
 									Place Order
 								</Button>

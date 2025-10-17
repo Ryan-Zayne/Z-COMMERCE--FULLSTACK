@@ -48,7 +48,7 @@ function LoadingSkeleton({ count = 5, variant = "genericPage" }: SkeletonProps) 
 											</span>
 										</header>
 										<p className="mt-[20px]">
-											<Skeleton className="gap-[30px]" count={3} width={"930px"} height={6} />
+											<Skeleton className="gap-[30px]" count={3} width={"93%"} height={6} />
 										</p>
 										<p className="mt-[20px]">
 											<Skeleton className="gap-[13px]" count={3} width={"93%"} height={6} />
