@@ -5,7 +5,7 @@ import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
 import { consola } from "consola";
 import { differenceInHours } from "date-fns";
-import { sendVerificationEmail } from "../services/utils";
+import { sendVerificationEmail } from "../services/common";
 import type { SigninBodySchemaType } from "../services/validation";
 
 // @route POST /api/auth/login

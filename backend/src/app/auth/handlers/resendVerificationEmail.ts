@@ -2,7 +2,7 @@ import { UserModel } from "@/app/auth/model";
 import type { HydratedUserType } from "@/app/auth/types";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, readValidatedBody } from "@/utils";
-import { sendVerificationEmail } from "../services/utils";
+import { sendVerificationEmail } from "../services/common";
 import { ResendVerificationEmailSchema } from "../services/validation";
 
 const resendVerificationEmail = catchAsync(async (req, res) => {
