@@ -1,6 +1,6 @@
-import { m } from "motion/react";
 import { IconBox } from "@/components/primitives/IconBox";
 import { SearchForm } from "@/components/ui/SearchForm";
+import { m } from "motion/react";
 import { getOnApple, getOnGoogle, NewsletterIcon } from "./images";
 
 function FooterHeaderSection() {
@@ -9,7 +9,8 @@ function FooterHeaderSection() {
 			initial={{ opacity: 0, y: 100 }}
 			whileInView={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.7 }}
-			viewport={{ margin: "-20px 0px 0px" }}
+			// viewport={{ margin: "-20px 0px 0px" }}
+			viewport={{ once: true }}
 			className="flex flex-col bg-slate-900 bg-footer-image bg-cover bg-center bg-no-repeat
 				p-[30px_20px] lg:flex-row lg:justify-between lg:px-[clamp(30px,9vw,180px)]"
 		>
