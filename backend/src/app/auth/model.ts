@@ -3,7 +3,7 @@ import {
 	generateRefreshToken,
 	hashPassword,
 	verifyPassword,
-} from "@/app/auth/services/common";
+} from "@/app/auth/services/utils";
 import { RolesEnum } from "@/constants/enums";
 import mongoose from "mongoose";
 import type { UserMethods, UserModelType, UserType } from "./types";

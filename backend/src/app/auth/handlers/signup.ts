@@ -3,7 +3,8 @@ import type { HydratedUserType } from "@/app/auth/types";
 import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";
-import { type SignupBodySchemaType, sendVerificationEmail } from "../services";
+import { sendVerificationEmail } from "../services/utils";
+import type { SignupBodySchemaType } from "../services/validation";
 
 const signUp = catchAsync<{
 	body: SignupBodySchemaType;

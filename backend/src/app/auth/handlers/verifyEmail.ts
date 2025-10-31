@@ -2,7 +2,7 @@ import { UserModel } from "@/app/auth/model";
 import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse } from "@/utils";
-import { decodeJwtToken } from "../services/common";
+import { decodeJwtToken } from "../services/utils";
 
 const verifyEmail = catchAsync<{ body: { token: string } }>(async (req, res) => {
 	const { token } = req.body;

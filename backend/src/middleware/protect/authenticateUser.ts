@@ -1,5 +1,5 @@
 import { UserModel } from "@/app/auth/model";
-import { type DecodedJwtPayload, decodeJwtToken } from "@/app/auth/services/common";
+import { type DecodedJwtPayload, decodeJwtToken } from "@/app/auth/services/utils";
 import type { UserType } from "@/app/auth/types";
 import { ENVIRONMENT } from "@/config/env";
 import { AppError } from "@/utils";

@@ -1,6 +1,6 @@
 import express from "express";
 import { IpFilter } from "express-ipfilter";
-import { initialize, verifyWithApi, verifyWithHook } from "./controllers";
+import { initialize, verifyWithApi, verifyWithHook } from "./handlers";
 
 const allowedDevPaystackIPs = ["127.0.0.1", "::1", "::ffff:127.0.0.1"];
 

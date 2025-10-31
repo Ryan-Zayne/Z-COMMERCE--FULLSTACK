@@ -1,6 +1,6 @@
-import express from "express";
 import { protect } from "@/middleware";
-import { resendVerificationEmail, session, signIn, signOut, signUp, verifyEmail } from "./controllers";
+import express from "express";
+import { resendVerificationEmail, session, signIn, signOut, signUp, verifyEmail } from "./handlers";
 
 const router = express.Router();
 
@@ -101,8 +101,6 @@ router.post("/verify-email", verifyEmail);
  *         description: User not found
  */
 router.post("/resend-verification", resendVerificationEmail);
-
-// == Protected Routes
 
 /**
  * @swagger
