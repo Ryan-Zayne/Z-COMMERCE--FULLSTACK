@@ -1,4 +1,4 @@
-import { UserModel } from "@/app/users/model";
+import { UserModel } from "@/app/auth/model";
 import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse } from "@/utils";

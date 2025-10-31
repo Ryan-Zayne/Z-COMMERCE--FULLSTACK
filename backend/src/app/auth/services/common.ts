@@ -1,10 +1,10 @@
-import argon2 from "@node-rs/argon2";
-import jwt from "jsonwebtoken";
-import type { CallbackWithoutResultAndOptionalError } from "mongoose";
-import type { HydratedUserType } from "@/app/users/types";
+import type { HydratedUserType } from "@/app/auth/types";
 import { ENVIRONMENT } from "@/config/env";
 import { sendEmail } from "@/services/email";
 import { getDomainReferer } from "@/utils";
+import argon2 from "@node-rs/argon2";
+import jwt from "jsonwebtoken";
+import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 
 export type JwtOptions<TExtraOptions> = TExtraOptions & {
 	secretKey: string;

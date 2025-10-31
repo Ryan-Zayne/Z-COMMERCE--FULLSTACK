@@ -1,4 +1,4 @@
-import type { HydratedUserType } from "@/app/users/types";
+import type { HydratedUserType } from "@/app/auth/types";
 import { catchAsync } from "@/middleware";
 import { AppResponse, omitSensitiveFields } from "@/utils";
 

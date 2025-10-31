@@ -1,5 +1,5 @@
-import { UserModel } from "@/app/users/model";
-import type { HydratedUserType } from "@/app/users/types";
+import { UserModel } from "@/app/auth/model";
+import type { HydratedUserType } from "@/app/auth/types";
 import { ENVIRONMENT } from "@/config/env";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, setCookie } from "@/utils";

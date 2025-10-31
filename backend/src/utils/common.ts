@@ -1,4 +1,4 @@
-import type { HydratedUserType, UserType } from "@/app/users/types";
+import type { HydratedUserType, UserType } from "@/app/auth/types";
 import { omitKeys } from "@zayne-labs/toolkit-core";
 import type { UnmaskType } from "@zayne-labs/toolkit-type-helpers";
 import { consola } from "consola";

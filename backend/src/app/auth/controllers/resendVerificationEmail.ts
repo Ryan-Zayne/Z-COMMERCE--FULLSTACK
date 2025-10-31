@@ -1,5 +1,5 @@
-import { UserModel } from "@/app/users/model";
-import type { HydratedUserType } from "@/app/users/types";
+import { UserModel } from "@/app/auth/model";
+import type { HydratedUserType } from "@/app/auth/types";
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, readValidatedBody } from "@/utils";
 import { ResendVerificationEmailSchema, sendVerificationEmail } from "../services";
