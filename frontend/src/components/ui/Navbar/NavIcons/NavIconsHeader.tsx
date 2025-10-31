@@ -1,7 +1,3 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useToggle } from "@zayne-labs/toolkit-react";
-import { useEffect } from "react";
-import { Link } from "react-router";
 import { Button } from "@/components/primitives/button";
 import { IconBox } from "@/components/primitives/IconBox";
 import { Logo } from "@/components/primitives/Logo";
@@ -13,7 +9,11 @@ import { sessionQuery } from "@/store/react-query/queryFactory";
 import { useGlobalStore } from "@/store/zustand/globalStore";
 import { useShopStore } from "@/store/zustand/shopStore";
 import { useThemeStore } from "@/store/zustand/themeStore";
-import { CartDrawerAndButton } from "./Cart/CartDrawer";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useToggle } from "@zayne-labs/toolkit-react";
+import { useEffect } from "react";
+import { Link } from "react-router";
+import { CartDrawer } from "./Cart/CartDrawer";
 import { HamBurgerButton } from "./HamBurgerButton";
 import { ThemeSwitchButton } from "./ThemeSwitchButton";
 
@@ -129,7 +129,7 @@ function NavIconsHeader() {
 					</DropDown.Context>
 				</DropDown.Root>
 
-				<CartDrawerAndButton />
+				<CartDrawer />
 
 				<ThemeSwitchButton />
 

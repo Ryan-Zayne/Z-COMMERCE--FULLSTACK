@@ -1,4 +1,4 @@
-import { definePlugin } from "@zayne-labs/callapi";
+import { definePlugin } from "@zayne-labs/callapi/utils";
 import { type AnyFunction, type UnionDiscriminator, isObject } from "@zayne-labs/toolkit-type-helpers";
 import { toast } from "sonner";
 
@@ -27,10 +27,10 @@ export type RedirectOn401ErrorPluginMeta = {
 		  >;
 };
 
-export const redirectOn401ErrorPlugin = definePlugin((context?: Context) => {
+export const redirectOn401ErrorPlugin = (context?: Context) => {
 	const routesToSkip = [...defaultRoutesToSkip, ...(context?.routesToSkip ?? [])];
 
-	return {
+	return definePlugin({
 		hooks: {
 			onResponseError: ({ options, response }) => {
 				const shouldRedirect =
@@ -59,5 +59,5 @@ export const redirectOn401ErrorPlugin = definePlugin((context?: Context) => {
 		id: "redirect-on-401-error",
 
 		name: "redirectOn401ErrorPlugin",
-	};
-});
+	});
+};

@@ -1,14 +1,14 @@
+import { Button } from "@/components/primitives/button";
+import { IconBox, type MoniconIconBoxProps } from "@/components/primitives/IconBox";
+import { Overlay as OverlayPrimitive } from "@/components/primitives/Overlay";
+import { Teleport } from "@/components/primitives/teleport";
+import { cnMerge } from "@/lib/utils/cn";
 import {
 	composeTwoEventHandlers,
 	type InferProps,
 	type PolymorphicProps,
 } from "@zayne-labs/toolkit-react/utils";
 import { Slot } from "@zayne-labs/ui-react/common/slot";
-import { Button } from "@/components/primitives/button";
-import { IconBox, type MoniconIconBoxProps } from "@/components/primitives/IconBox";
-import { Overlay as OverlayPrimitive } from "@/components/primitives/Overlay";
-import { Teleport } from "@/components/primitives/teleport";
-import { cnMerge } from "@/lib/utils/cn";
 import { DrawerContextProvider, useDrawer, useDrawerContext } from "./drawer-context";
 import type { DrawerCloseProps, DrawerContentProps, DrawerRootProviderProps } from "./types";
 
@@ -82,18 +82,17 @@ export function DrawerContent({ children, className, placement = "right" }: Draw
 }
 
 export function DrawerCloseButton(props: DrawerCloseProps & InferProps<"button">) {
-	const { className = "", icon = "ri:close-fill", ...restOfProps } = props;
+	const { children, icon = "ri:close-fill", ...restOfProps } = props;
 
 	const { onClose } = useDrawerContext();
 
 	return (
 		<Button
 			unstyled={true}
-			className={cnMerge("absolute top-[80px] right-[80px]", className)}
 			{...restOfProps}
 			onClick={composeTwoEventHandlers(onClose, restOfProps.onClick)}
 		>
-			<IconBox icon={icon as MoniconIconBoxProps["icon"]} />
+			{children ?? <IconBox icon={icon as MoniconIconBoxProps["icon"]} />}
 		</Button>
 	);
 }

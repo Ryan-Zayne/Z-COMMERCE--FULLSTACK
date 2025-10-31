@@ -47,10 +47,6 @@ app.use((_req, res, next) => {
  */
 app.use(morgan("dev"));
 
-/**
- *  == Routes - v1
- */
-
 app.use("/api/docs", swaggerRouter);
 
 // Health Check

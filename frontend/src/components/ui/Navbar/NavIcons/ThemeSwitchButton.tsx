@@ -20,7 +20,7 @@ function ThemeSwitchButton() {
 				className="relative flex h-[22px] w-[43px] items-center justify-between gap-[6px] px-[6px_5px]
 					py-[3px]"
 			>
-				<IconBox icon="fa6-solid:sun" className="text-[12px] text-(--text-header)" />
+				<IconBox icon="fa6-solid:sun" className="text-[12px] text-heading" />
 
 				<IconBox icon="bi:moon-stars-fill" className="text-[10px] text-[pink]" />
 

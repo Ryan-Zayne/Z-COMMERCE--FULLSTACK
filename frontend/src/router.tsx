@@ -34,8 +34,8 @@ const routes = createRoutesFromElements(
 			/>
 
 			<Route
-				path="/products/:category/:productId"
-				Component={lazy(() => import("@/pages/products/[category]/[productId]/page"))}
+				path="/products/:category/:id"
+				Component={lazy(() => import("@/pages/products/[category]/[id]/page"))}
 			/>
 
 			<Route path="/about" Component={lazy(() => import("@/pages/about/page"))} />

@@ -261,7 +261,7 @@ function CheckoutPage() {
 							type="root"
 						/>
 
-						<Form.SubscribeToFormState
+						<Form.WatchFormState
 							render={({ isSubmitting }) => (
 								<Button
 									type="submit"

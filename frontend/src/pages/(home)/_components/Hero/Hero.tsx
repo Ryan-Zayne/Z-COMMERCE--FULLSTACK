@@ -1,8 +1,8 @@
-import { useAnimateElementRefs } from "@zayne-labs/toolkit-react";
 import { Button } from "@/components/primitives/button";
 import { IconBox } from "@/components/primitives/IconBox";
 import { ImageComponent } from "@/components/primitives/ImageComponent";
 import { Carousel } from "@/components/ui/carousel";
+import { useAnimateElementRefs } from "@zayne-labs/toolkit-react";
 import { slideImages } from "./images";
 
 function Hero() {
@@ -46,7 +46,7 @@ function Hero() {
 					}}
 				/>
 
-				<Carousel.ItemList<(typeof slideImages)[number]>>
+				<Carousel.ItemList<typeof slideImages>>
 					{({ image }) => (
 						<Carousel.Item key={image.src} className="brightness-[0.6]">
 							<ImageComponent
@@ -65,8 +65,8 @@ function Hero() {
 						lg:mt-[80px] lg:ml-[360px]"
 				>
 					<h1
-						ref={(elem) => {
-							animatedElements.heading = elem;
+						ref={(node) => {
+							animatedElements.heading = node;
 						}}
 						className="w-[17ch] font-roboto text-[clamp(20px,4vw+10px,30px)] font-semibold
 							text-heading"
@@ -75,8 +75,8 @@ function Hero() {
 					</h1>
 
 					<p
-						ref={(elem) => {
-							animatedElements.paragraph = elem;
+						ref={(node) => {
+							animatedElements.paragraph = node;
 						}}
 						className="z-20 my-[10px_30px] w-[30ch] text-[clamp(13px,1vw+10px,17px)]
 							md:my-[18px_37px] lg:w-[40ch] lg:text-[clamp(15px,1vw+10px,20px)]"
@@ -86,8 +86,8 @@ function Hero() {
 					</p>
 
 					<Button
-						ref={(elem) => {
-							animatedElements.button = elem;
+						ref={(node) => {
+							animatedElements.button = node;
 						}}
 						theme="secondary"
 						className="z-50 text-[clamp(13px,1vw+10px,17px)] font-semibold transition-shadow
@@ -98,7 +98,7 @@ function Hero() {
 					</Button>
 				</Carousel.Caption>
 
-				<Carousel.IndicatorList<(typeof slideImages)[number]>>
+				<Carousel.IndicatorList<typeof slideImages>>
 					{({ image, index }) => (
 						<Carousel.Indicator
 							key={image.src}

@@ -28,7 +28,7 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 				}}
 			/>
 
-			<Carousel.ItemList<(typeof slideImages)[number]> className={"brightness-[0.65]"}>
+			<Carousel.ItemList<typeof slideImages> className={"brightness-[0.65]"}>
 				{({ image }) => (
 					<Carousel.Item key={image}>
 						<ImageComponent imageType={"hasSkeleton"} src={image} />
@@ -36,7 +36,7 @@ function ItemHero({ slideImages }: ItemHeroProps) {
 				)}
 			</Carousel.ItemList>
 
-			<Carousel.IndicatorList<(typeof slideImages)[number]>>
+			<Carousel.IndicatorList<typeof slideImages>>
 				{({ image, index }) => (
 					<Carousel.Indicator
 						key={image}

@@ -1,4 +1,4 @@
-import { defineSchema } from "@zayne-labs/callapi";
+import { defineSchema } from "@zayne-labs/callapi/utils";
 import type { AnyString } from "@zayne-labs/toolkit-type-helpers";
 import { z } from "zod";
 

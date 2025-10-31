@@ -1,19 +1,18 @@
+import { Button, buttonVariants } from "@/components/primitives/button";
+import { IconBox } from "@/components/primitives/IconBox";
+import { Drawer, type DrawerContentProps } from "@/components/ui/Drawer";
+import { useDrawer } from "@/components/ui/Drawer/drawer-context";
+import { cnJoin, cnMerge } from "@/lib/utils/cn";
+import { useShopStore } from "@/store/zustand/shopStore";
+import { useThemeStore } from "@/store/zustand/themeStore";
 import { getElementList } from "@zayne-labs/ui-react/common/for";
 import { Show } from "@zayne-labs/ui-react/common/show";
 import { Link } from "react-router";
-import { Button } from "@/components/primitives/button";
-import { IconBox } from "@/components/primitives/IconBox";
-import { Logo } from "@/components/primitives/Logo";
-import { Drawer, type DrawerContentProps } from "@/components/ui/Drawer";
-import { useDrawer } from "@/components/ui/Drawer/drawer-context";
-import { cnJoin } from "@/lib/utils/cn";
-import { useShopStore } from "@/store/zustand/shopStore";
-import { useThemeStore } from "@/store/zustand/themeStore";
 import { CartItem } from "./CartItem";
 
 type CartDrawerProps = { placement?: DrawerContentProps["placement"] };
 
-function CartDrawerAndButton(props: CartDrawerProps) {
+function CartDrawer(props: CartDrawerProps) {
 	const { placement = "right" } = props;
 
 	const cart = useShopStore((state) => state.cart);
@@ -52,19 +51,17 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 					placement={placement}
 					className="w-[min(100%,320px)] pb-[16px] lg:min-w-[400px]"
 				>
-					<Drawer.CloseButton
-						className="rounded-[4px] bg-heading p-[2px] text-[26px] text-primary lg:scale-[1.2]"
-					/>
-
 					<header
-						className="mx-[13px] flex items-center gap-[20px] border-b border-b-dark
+						className="mx-[13px] flex items-center justify-between gap-[20px] border-b border-b-dark
 							p-[70px_0_20px_20px] lg:pl-[45px]"
 					>
-						<Logo />
-
 						<IconBox
 							icon="mdi:cart"
 							className={cnJoin("text-[45px]", isDarkMode ? "text-carousel-dot" : "text-primary")}
+						/>
+
+						<Drawer.CloseButton
+							className="rounded-[4px] bg-heading p-[2px] text-[26px] text-primary lg:scale-[1.2]"
 						/>
 					</header>
 
@@ -78,16 +75,16 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 
 							<Show.Fallback>
 								<div className="text-center italic">
-									<h4 className="text-[28px] font-medium">Why here go dey empty?!</h4>
-									<p className="mt-[7px] text-[16px]">
-										Shey na window shopping you come do or abi wetin?😐
+									<h4 className="text-[28px] font-medium">Why this place go dey empty?</h4>
+									<p className="mt-3 text-[16px]">
+										Shey na window shopping you come dey do or abi wetin?😐
 									</p>
 								</div>
 							</Show.Fallback>
 						</Show.Root>
 					</section>
 
-					<footer className="flex flex-col gap-[10px]">
+					<footer className="mt-12 flex flex-col gap-[10px]">
 						<p className="mt-[10px] flex justify-between px-[10px] text-[18px] font-semibold">
 							Total:
 							<span className="text-[20px]">
@@ -99,10 +96,12 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 
 						<Show.Root when={cart.length > 0}>
 							<Drawer.Trigger
-								as={Button}
-								theme="secondary"
-								className="mx-[13px] text-[14px] font-semibold [transition:box-shadow_300ms_ease]
-									hover:shadow-[0_4px_20px_rgb(51,62,72,0.4)] lg:mx-[20px]"
+								className={cnMerge(
+									buttonVariants({ theme: "secondary" }),
+									`mx-[13px] text-[14px] font-semibold [transition:box-shadow_300ms_ease]
+									hover:shadow-[0_4px_20px_rgb(51,62,72,0.4)] lg:mx-[20px]`
+								)}
+								asChild={true}
 							>
 								<Link to="/checkout">Checkout</Link>
 							</Drawer.Trigger>
@@ -114,4 +113,4 @@ function CartDrawerAndButton(props: CartDrawerProps) {
 	);
 }
 
-export { CartDrawerAndButton };
+export { CartDrawer };

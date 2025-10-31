@@ -1,13 +1,13 @@
-import { assertDefined } from "@zayne-labs/toolkit-type-helpers";
-import { useParams } from "react-router";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 import { useGetAllProducts } from "@/store/react-query/useGetAllProducts";
+import { assertDefined } from "@zayne-labs/toolkit-type-helpers";
+import { useParams } from "react-router";
 import ItemDescription from "./ProductItem/ItemDescription";
 import ItemHeader from "./ProductItem/ItemHeader";
 import ItemHero from "./ProductItem/ItemHero";
 
 function ProductItemPage() {
-	const { productId } = useParams();
+	const { id: productId } = useParams();
 
 	const { allProductsArray, isPending } = useGetAllProducts();
 

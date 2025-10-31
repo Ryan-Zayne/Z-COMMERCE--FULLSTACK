@@ -1,4 +1,4 @@
-import { createWithSubscribe } from "@zayne-labs/toolkit-react/zustand";
+import { createReactStore } from "@zayne-labs/toolkit-react/zustand-compat";
 import { toast } from "sonner";
 import type { StateCreator } from "zustand";
 import { persist } from "zustand/middleware";
@@ -17,8 +17,6 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 	wishList: [],
 
 	totalPrice: 0,
-
-	getTotalPrice: () => get().cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
 
 	actions: {
 		/* eslint-enable perfectionist/sort-objects */
@@ -93,7 +91,9 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 		},
 
 		updateProductQuantity: (productId, { updatedQuantity }) => {
-			const updatedCart = get().cart.map((item) => {
+			const { cart } = get();
+
+			const updatedCart = cart.map((item) => {
 				if (item.id === productId) {
 					return {
 						...item,
@@ -108,19 +108,19 @@ const shopStateObjectFn: StateCreator<ShopStore> = (set, get) => ({
 	},
 });
 
-// Store hook Creation
-export const useShopStore = createWithSubscribe(
+export const useShopStore = createReactStore(
 	persist(shopStateObjectFn, {
 		name: "shop",
-		// eslint-disable-next-line ts-eslint/no-unused-vars
-		partialize: ({ actions, ...actualState }) => actualState,
+		partialize: ({ actions: _ignoredActions, ...actualState }) => actualState,
 		version: 1,
 	})
 );
 
-// Computed State
 useShopStore.subscribe.withSelector(
 	(state) => state.cart,
-	() => useShopStore.setState({ totalPrice: useShopStore.getState().getTotalPrice() }),
-	{ fireListenerImmediately: true }
+	(cart) => {
+		const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+		useShopStore.setState({ totalPrice });
+	}
 );

@@ -48,8 +48,6 @@ export type ShopStore = {
 
 	cart: ResponseDataItemInCart[];
 
-	getTotalPrice: () => number;
-
 	totalPrice: number;
 
 	wishList: ProductItemSchemaType[];

@@ -8,21 +8,21 @@
    "sessions": {
       "default": [
          {
-            "autoExecuteCommands": false,
+            "autoExecuteCommands": true,
             "cwd": "frontend",
             "icon": "browser",
-            "name": "dev:client",
+            "name": "dev:frontend",
             "commands": [
                "pnpm dev"
             ]
          },
          {
-            "autoExecuteCommands": false,
+            "autoExecuteCommands": true,
             "cwd": "backend",
             "icon": "server",
-            "name": "dev:server",
+            "name": "dev:backend",
             "commands": [
-               "pnpm dev:watch"
+               "pnpm dev"
             ]
          }
       ]
