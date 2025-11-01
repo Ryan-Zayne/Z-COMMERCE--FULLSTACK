@@ -1,11 +1,11 @@
-import crypto from "node:crypto";
-import { consola } from "consola";
-import type { Request } from "express";
-import type { z } from "zod";
 import { ENVIRONMENT } from "@/config/env";
 import { AppError, readValidatedBody } from "@/utils";
+import { consola } from "consola";
+import type { Request } from "express";
+import crypto from "node:crypto";
+import type { z } from "zod";
 import type { PaymentSuccessPayload } from "./api";
-import { paystackApiSchema } from "./schemas";
+import { paystackApiSchema } from "./apiSchema";
 
 type SuccessEventContext = {
 	event: z.infer<(typeof paystackApiSchema)["routes"]["/transaction/verify/:reference"]["data"]>;

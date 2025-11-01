@@ -1,6 +1,7 @@
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, readValidatedBody } from "@/utils";
-import { paystackApi, paystackHook, processPayment, VerifyPaymentSchema } from "../services/paystack";
+import { paystackApi, paystackHook, processPayment } from "../services/paystack";
+import { VerifyPaymentSchema } from "../services/paystack/apiSchema";
 
 export const verifyWithHook = catchAsync(async (req, res) => {
 	await paystackHook(req, { onSuccess: (ctx) => processPayment(ctx.payload) });

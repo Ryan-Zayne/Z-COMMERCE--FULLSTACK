@@ -1,7 +1,8 @@
 import { catchAsync } from "@/middleware";
 import { AppError, AppResponse, omitSensitiveFields, readValidatedBody } from "@/utils";
 import { PaymentModel } from "../model";
-import { generateUniqueReference, InitializePaymentSchema, paystackApi } from "../services/paystack";
+import { generateUniqueReference, paystackApi } from "../services/paystack";
+import { InitializePaymentSchema } from "../services/paystack/apiSchema";
 
 const initialize = catchAsync(async (req, res) => {
 	const { amount, cartItems, customerEmail, customerId, redirectURL } = readValidatedBody(

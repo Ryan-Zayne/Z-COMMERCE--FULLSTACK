@@ -1,8 +1,8 @@
+import { PaymentStatusEnum } from "@/constants";
 import type { Model, SchemaDefinitionProperty } from "mongoose";
 import mongoose from "mongoose";
 import type { z } from "zod";
-import { PaymentStatusEnum } from "@/constants";
-import { paystackApiSchema } from "./services/paystack/schemas";
+import { paystackApiSchema } from "./services/paystack/apiSchema";
 
 type CartItems = z.infer<
 	(typeof paystackApiSchema)["routes"]["/transaction/verify/:reference"]["data"]

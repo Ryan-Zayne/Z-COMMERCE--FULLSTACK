@@ -1,7 +1,7 @@
+import { ENVIRONMENT } from "@/config/env";
 import { createFetchClient } from "@zayne-labs/callapi";
 import type { z } from "zod";
-import { ENVIRONMENT } from "@/config/env";
-import { paystackApiSchema } from "./schemas";
+import { paystackApiSchema } from "./apiSchema";
 
 const callPaystackApi = createFetchClient({
 	auth: ENVIRONMENT.PAYSTACK_SECRET_KEY,
