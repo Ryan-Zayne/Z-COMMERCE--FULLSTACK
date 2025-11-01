@@ -7,7 +7,7 @@
 		"build": "vite build",
 		"dev": "vite",
 		"lint:eslint": "eslint . --max-warnings 0",
-		"lint:type-check": "tsc --pretty --incremental -p tsconfig.json",
+		"lint:type-check": "tsc --pretty  -p tsconfig.json",
 		"preview": "vite preview"
 	},
 	"dependencies": {
