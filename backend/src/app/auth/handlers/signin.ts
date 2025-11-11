@@ -94,7 +94,9 @@ const getUpdatedTokenArray = (currentUser: HydratedUserType, zayneRefreshToken: 
 	}
 
 	if (currentUser.refreshTokenArray.includes(zayneRefreshToken)) {
-		const updatedTokenArray = currentUser.refreshTokenArray.filter((t) => t !== zayneRefreshToken);
+		const updatedTokenArray = currentUser.refreshTokenArray.filter(
+			(token) => token !== zayneRefreshToken
+		);
 
 		return updatedTokenArray;
 	}
