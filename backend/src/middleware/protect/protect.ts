@@ -2,7 +2,7 @@ import { UserModel } from "@/app/auth/model";
 import { getUpdatedTokenArray } from "@/app/auth/services/common";
 import type { UserType } from "@/app/auth/types";
 import { ENVIRONMENT } from "@/config/env";
-import { setCookie } from "@/utils";
+import { AppError, setCookie } from "@/utils";
 import type { HydratedDocument } from "mongoose";
 import { catchAsync } from "../catchAsyncErrors";
 import { validateUserSession } from "./validateUserSession";
@@ -42,8 +42,12 @@ const protect = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res
 		{ new: true }
 	);
 
+	if (!updatedUser) {
+		throw new AppError(404, "Failed to grant access");
+	}
+
 	// == Attach the updated user to the request object
-	req.user = updatedUser as typeof currentUser;
+	req.user = updatedUser;
 
 	next();
 });
