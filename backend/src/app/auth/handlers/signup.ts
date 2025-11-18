@@ -19,9 +19,11 @@ const signUp = catchAsync<{
 
 	const newUser = await UserModel.create({ email, password, username });
 
-	const newZayneAccessToken = newUser.generateAccessToken();
-
 	const newZayneRefreshToken = newUser.generateRefreshToken();
+
+	await UserModel.updateOne({ id: newUser.id }, { refreshTokenArray: [newZayneRefreshToken] });
+
+	const newZayneAccessToken = newUser.generateAccessToken();
 
 	setCookie(res, "zayneAccessToken", newZayneAccessToken, {
 		maxAge: ENVIRONMENT.ACCESS_JWT_EXPIRES_IN,

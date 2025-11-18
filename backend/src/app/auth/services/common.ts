@@ -1,10 +1,11 @@
-import type { HydratedUserType } from "@/app/auth/types";
+import type { HydratedUserType, UserType } from "@/app/auth/types";
 import { ENVIRONMENT } from "@/config/env";
 import { sendEmail } from "@/services/email";
 import { getDomainReferer } from "@/utils";
 import argon2 from "@node-rs/argon2";
+import { consola } from "consola";
 import jwt from "jsonwebtoken";
-import type { CallbackWithoutResultAndOptionalError } from "mongoose";
+import type { CallbackWithoutResultAndOptionalError, HydratedDocument } from "mongoose";
 
 export type JwtOptions<TExtraOptions> = TExtraOptions & {
 	secretKey: string;
@@ -97,3 +98,30 @@ export async function verifyPassword(this: HydratedUserType, plainPassword: stri
 
 	return isValidPassword;
 }
+
+export const getUpdatedTokenArray = (
+	currentUser: HydratedDocument<UserType>,
+	zayneRefreshToken: string | undefined
+): string[] => {
+	if (!zayneRefreshToken) {
+		return currentUser.refreshTokenArray;
+	}
+
+	// == If it turns out that the refreshToken is not in the whitelist array, the question is why would a user be signing in with a refreshToken that is not in the array?
+	// == So it can be seen as a token reuse situation. Whether it's valid or not is of no concern rn.
+	// == Is it a possible token reuse attack or not? E no concern me.
+	// == Just log out the user from all devices by removing all tokens from the array to avoid any possible wahala
+	if (!currentUser.refreshTokenArray.includes(zayneRefreshToken)) {
+		consola.warn({
+			message: "Possible token reuse detected!",
+			timestamp: new Date().toISOString(),
+			userId: currentUser._id,
+		});
+
+		return [];
+	}
+
+	const updatedTokenArray = currentUser.refreshTokenArray.filter((token) => token !== zayneRefreshToken);
+
+	return updatedTokenArray;
+};

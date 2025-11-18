@@ -1,10 +1,11 @@
 import { UserModel } from "@/app/auth/model";
+import { getUpdatedTokenArray } from "@/app/auth/services/common";
 import type { UserType } from "@/app/auth/types";
 import { ENVIRONMENT } from "@/config/env";
 import { setCookie } from "@/utils";
 import type { HydratedDocument } from "mongoose";
 import { catchAsync } from "../catchAsyncErrors";
-import { authenticateUser } from "./authenticateUser";
+import { validateUserSession } from "./validateUserSession";
 
 // Create a new service in auth/services.ts
 
@@ -12,7 +13,7 @@ const protect = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res
 	// == Get the cookies from the request headers
 	const { zayneAccessToken, zayneRefreshToken } = req.signedCookies;
 
-	const { currentUser, newZayneAccessToken, newZayneRefreshToken } = await authenticateUser({
+	const { currentUser, newZayneAccessToken, newZayneRefreshToken } = await validateUserSession({
 		zayneAccessToken,
 		zayneRefreshToken,
 	});
@@ -33,16 +34,11 @@ const protect = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res
 		maxAge: ENVIRONMENT.REFRESH_JWT_EXPIRES_IN,
 	});
 
-	const updatedTokenArray = [
-		...(zayneRefreshToken ?
-			currentUser.refreshTokenArray.filter((t) => t !== zayneRefreshToken)
-		:	currentUser.refreshTokenArray),
-		newZayneRefreshToken,
-	];
+	const updatedTokenArray = getUpdatedTokenArray(currentUser, zayneRefreshToken);
 
 	const updatedUser = await UserModel.findByIdAndUpdate(
 		currentUser.id,
-		{ refreshTokenArray: updatedTokenArray },
+		{ refreshTokenArray: [...updatedTokenArray, newZayneRefreshToken] },
 		{ new: true }
 	);
 
