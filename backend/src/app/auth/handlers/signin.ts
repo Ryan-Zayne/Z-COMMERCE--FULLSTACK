@@ -73,11 +73,11 @@ const signIn = catchAsync<{
 	const newZayneAccessToken = currentUser.generateAccessToken();
 
 	setCookie(res, "zayneAccessToken", newZayneAccessToken, {
-		maxAge: ENVIRONMENT.ACCESS_JWT_EXPIRES_IN,
+		expires: new Date(Date.now() + ENVIRONMENT.ACCESS_JWT_EXPIRES_IN),
 	});
 
 	setCookie(res, "zayneRefreshToken", newZayneRefreshToken, {
-		maxAge: ENVIRONMENT.REFRESH_JWT_EXPIRES_IN,
+		expires: new Date(Date.now() + ENVIRONMENT.REFRESH_JWT_EXPIRES_IN),
 	});
 
 	return AppResponse(res, 200, "Signed in successfully", {

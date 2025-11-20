@@ -26,11 +26,11 @@ const signUp = catchAsync<{
 	const newZayneAccessToken = newUser.generateAccessToken();
 
 	setCookie(res, "zayneAccessToken", newZayneAccessToken, {
-		maxAge: ENVIRONMENT.ACCESS_JWT_EXPIRES_IN,
+		expires: new Date(Date.now() + ENVIRONMENT.ACCESS_JWT_EXPIRES_IN),
 	});
 
 	setCookie(res, "zayneRefreshToken", newZayneRefreshToken, {
-		maxAge: ENVIRONMENT.REFRESH_JWT_EXPIRES_IN,
+		expires: new Date(Date.now() + ENVIRONMENT.REFRESH_JWT_EXPIRES_IN),
 	});
 
 	void sendVerificationEmail(newUser as HydratedUserType);

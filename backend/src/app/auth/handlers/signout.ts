@@ -18,7 +18,7 @@ const signOut = catchAsync<{ user: HydratedDocument<UserType> }>(async (req, res
 	removeCookie(res, "zayneAccessToken");
 	removeCookie(res, "zayneRefreshToken");
 
-	return AppResponse(res, 200, "Logout successful");
+	return AppResponse(res, 200, "Signed out successfully");
 });
 
 export { signOut };

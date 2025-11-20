@@ -1,4 +1,4 @@
-import { protect } from "@/middleware";
+import { authMiddleware } from "@/middleware";
 import express from "express";
 import { resendVerificationEmail, session, signIn, signOut, signUp, verifyEmail } from "./handlers";
 
@@ -121,7 +121,7 @@ router.post("/resend-verification", resendVerificationEmail);
  *       401:
  *         description: Unauthorized
  */
-router.get("/session", protect, session);
+router.get("/session", authMiddleware, session);
 
 /**
  * @swagger
@@ -137,6 +137,6 @@ router.get("/session", protect, session);
  *       401:
  *         description: Unauthorized
  */
-router.get("/signout", protect, signOut);
+router.get("/signout", authMiddleware, signOut);
 
 export { router as authRouter };
