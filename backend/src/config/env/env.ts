@@ -15,22 +15,26 @@ declare global {
 	}
 }
 
-// eslint-disable-next-line node/no-process-env
-const result = envSchema.safeParse(process.env);
+export const getBackendEnv = () => {
+	// eslint-disable-next-line node/no-process-env
+	const result = envSchema.safeParse(process.env);
 
-if (!result.success) {
-	const missingKeys = Object.keys(z.flattenError(result.error).fieldErrors);
+	if (!result.success) {
+		const missingKeys = Object.keys(z.flattenError(result.error).fieldErrors);
 
-	const errorMessage = `Missing required environment variable(s):\n → ${missingKeys.join("\n → ")}`;
+		const errorMessage = `Missing required environment variable(s):\n → ${missingKeys.join("\n → ")}`;
 
-	const error = new Error(errorMessage, { cause: z.flattenError(result.error).fieldErrors });
+		const error = new Error(errorMessage, { cause: z.flattenError(result.error).fieldErrors });
 
-	error.stack = "";
+		error.stack = "";
 
-	consola.error(error);
+		consola.error(error);
 
-	// eslint-disable-next-line node/no-process-exit, unicorn/no-process-exit
-	process.exit(1);
-}
+		// eslint-disable-next-line node/no-process-exit, unicorn/no-process-exit
+		process.exit(1);
+	}
 
-export const ENVIRONMENT = result.data;
+	return result.data;
+};
+
+export const ENVIRONMENT = getBackendEnv();

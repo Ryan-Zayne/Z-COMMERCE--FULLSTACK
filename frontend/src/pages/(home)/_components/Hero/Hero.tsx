@@ -41,7 +41,7 @@ function Hero() {
 						hover:shadow-[0_0_5px_var(--text-dark)] lg:p-[13px_9px]`,
 					}}
 					icon={{
-						icon: <IconBox icon="radix-icons:paper-plane" className="lg:text-[20px]" />,
+						icon: <IconBox icon="lucide:chevron-right" className="lg:text-[20px]" />,
 						iconType: "nextIcon",
 					}}
 				/>

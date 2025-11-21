@@ -5,7 +5,6 @@ import { consola } from "consola";
 import type { CookieOptions, Response } from "express";
 import type { AnyObject } from "mongoose";
 import { ENVIRONMENT } from "../config/env";
-import { isProduction } from "../constants";
 
 type PossibleCookieNames = UnmaskType<"zayneAccessToken" | "zayneRefreshToken">;
 
@@ -15,6 +14,8 @@ export const setCookie = (
 	value: number | string,
 	options: CookieOptions = {}
 ) => {
+	const isProduction = ENVIRONMENT.NODE_ENV === "production";
+
 	res.cookie(name, value, {
 		httpOnly: true,
 		partitioned: isProduction,

@@ -1,12 +1,11 @@
 import { ENVIRONMENT } from "@/config/env";
 import { consola } from "consola";
 import mongoose from "mongoose";
-import { isProduction } from "../constants";
 
 const setConnectionToDb = async () => {
 	try {
 		const connect = await mongoose.connect(ENVIRONMENT.MONGO_URI, {
-			autoIndex: isProduction,
+			autoIndex: ENVIRONMENT.NODE_ENV === "production",
 		});
 
 		console.info(`MongoDB Atlas connected at: ${connect.connection.host}`.cyan.italic.underline);

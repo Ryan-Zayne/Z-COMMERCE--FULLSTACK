@@ -1,9 +1,9 @@
-import { type CallApiParameters, createFetchClient, type ResultModeUnion } from "@zayne-labs/callapi";
+import { type CallApiParameters, createFetchClient, type ResultModeType } from "@zayne-labs/callapi";
 import {
-	type RedirectOn401ErrorPluginMeta,
 	redirectOn401ErrorPlugin,
-	type ToastPluginMeta,
+	type RedirectOn401ErrorPluginMeta,
 	toastPlugin,
+	type ToastPluginMeta,
 } from "./plugins";
 
 export type ApiSuccessResponse<TData> = {
@@ -29,16 +29,28 @@ declare module "@zayne-labs/callapi" {
 	}
 }
 
+const REMOTE_BACKEND_HOST = "https://api-zayne-commerce.onrender.com";
+// const REMOTE_BACKEND_HOST = "";
+
+const LOCAL_BACKEND_HOST = "http://localhost:8000";
+// const LOCAL_BACKEND_HOST = "";
+
+const BACKEND_HOST = process.env.NODE_ENV === "development" ? LOCAL_BACKEND_HOST : REMOTE_BACKEND_HOST;
+// const BACKEND_HOST = REMOTE_BACKEND_HOST;
+
+const BASE_API_URL = `${BACKEND_HOST}/api/v1`;
+
 const sharedFetchClient = createFetchClient({
-	baseURL: "/api/v1",
-	credentials: "same-origin",
+	baseURL: BASE_API_URL,
+	// credentials: "same-origin",
+	credentials: "include",
 	plugins: [redirectOn401ErrorPlugin(), toastPlugin()],
 });
 
 export const callBackendApi = <
 	TData = unknown,
 	TErrorData = unknown,
-	TResultMode extends ResultModeUnion = ResultModeUnion,
+	TResultMode extends ResultModeType = ResultModeType,
 >(
 	...parameters: CallApiParameters<ApiSuccessResponse<TData>, ApiErrorResponse<TErrorData>, TResultMode>
 ) => {

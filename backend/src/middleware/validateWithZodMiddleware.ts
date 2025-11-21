@@ -10,7 +10,7 @@ const SCHEMA_LOOKUP = new Map<string, z.ZodType<Record<string, unknown>>>([
 
 const methodsToSkip = new Set(["GET"]);
 
-export const validateBodyWithZodGlobal = catchAsync((req, res, next) => {
+export const validateWithZodGlobal = catchAsync((req, res, next) => {
 	if (methodsToSkip.has(req.method)) {
 		next();
 		return;
@@ -23,10 +23,10 @@ export const validateBodyWithZodGlobal = catchAsync((req, res, next) => {
 		return;
 	}
 
-	void validateBodyWithZod(selectedSchema)(req, res, next);
+	void validateWithZod(selectedSchema)(req, res, next);
 });
 
-export const validateBodyWithZod = (schema: z.ZodType<Record<string, unknown>>) => {
+export const validateWithZod = (schema: z.ZodType<Record<string, unknown>>) => {
 	const handler = catchAsync((req, _res, next) => {
 		const validatedBody = readValidatedBody(req, schema);
 

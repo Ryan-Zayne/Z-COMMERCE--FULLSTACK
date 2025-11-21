@@ -31,6 +31,7 @@ const icons = [
 	"material-symbols:mark-email-unread-rounded",
 	"material-symbols:error-rounded",
 	"ant-design:star-filled",
+	"lucide:chevron-right",
 	"mdi:cart",
 	"ant-design:heart-outlined",
 	"mdi:cart-outline",
@@ -57,12 +58,12 @@ export default defineConfig({
 		}),
 	],
 
-	server: {
-		proxy: {
-			"/api": {
-				changeOrigin: true,
-				target: "http://localhost:8000",
-			},
-		},
-	},
+	// server: {
+	// 	proxy: {
+	// 		"/api": {
+	// 			changeOrigin: true,
+	// 			target: "http://localhost:8000",
+	// 		},
+	// 	},
+	// },
 });

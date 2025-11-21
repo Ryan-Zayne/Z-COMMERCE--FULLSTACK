@@ -1,9 +1,4 @@
 import { defineEnum } from "@zayne-labs/toolkit-type-helpers";
-import { ENVIRONMENT } from "@/config/env";
-
-export const isDevMode = ENVIRONMENT.NODE_ENV === "development";
-
-export const isProduction = ENVIRONMENT.NODE_ENV === "production";
 
 export const errorCodes = defineEnum(
 	{

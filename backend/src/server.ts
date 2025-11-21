@@ -11,7 +11,7 @@ import { authRouter } from "./app/auth/routes";
 import { paymentRouter } from "./app/payment/routes";
 import { corsOptions, helmetOptions, rateLimitOptions, setConnectionToDb } from "./config";
 import { ENVIRONMENT } from "./config/env";
-import { errorHandler, notFoundHandler, validateBodyWithZodGlobal } from "./middleware";
+import { errorHandler, notFoundHandler, validateWithZodGlobal } from "./middleware";
 import { swaggerRouter } from "./swagger";
 import { AppResponse } from "./utils";
 
@@ -52,7 +52,7 @@ app.use("/api/docs", swaggerRouter);
 // Health Check
 /**
  * @swagger
- * /api/alive:
+ * /:
  *   get:
  *     summary: Health check endpoint
  *     tags: [Health]
@@ -71,10 +71,10 @@ app.use("/api/docs", swaggerRouter);
  *                   type: string
  *                   example: Server is up and running
  */
-app.get("/api/alive", (_req, res) => AppResponse(res, 200, "Server is up and running"));
+app.get("/", (_req, res) => AppResponse(res, 200, "Server is up and running"));
 
 // Global request body validator
-app.use("/api/v1/*splat", validateBodyWithZodGlobal);
+app.use("/api/v1/*splat", validateWithZodGlobal);
 
 // API Routes
 app.use("/api/v1/auth", authRouter);
@@ -113,5 +113,5 @@ process.on("uncaughtException", (error) => {
  */
 app.listen(ENVIRONMENT.PORT, () => {
 	void setConnectionToDb();
-	console.info(`Server listening at ${ENVIRONMENT.BACKEND_URL}`.yellow.italic);
+	console.info(`Server listening at http://localhost:${ENVIRONMENT.PORT}`.yellow.italic);
 });

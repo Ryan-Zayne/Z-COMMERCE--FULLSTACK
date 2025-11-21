@@ -9,7 +9,6 @@ const AppResponse = (
 	/* eslint-disable perfectionist/sort-objects */
 	const jsonResponse = {
 		status: "success",
-		success: true,
 		message,
 		...(Boolean(data) && { data }),
 		/* eslint-enable perfectionist/sort-objects */

@@ -1,1 +1,1 @@
-export * from "@z-commerce/shared/schemas/auth";
+export * from "@z-commerce/shared/validation/auth";

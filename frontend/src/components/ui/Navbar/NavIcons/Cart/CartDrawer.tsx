@@ -52,8 +52,8 @@ function CartDrawer(props: CartDrawerProps) {
 					className="w-[min(100%,320px)] pb-[16px] lg:min-w-[400px]"
 				>
 					<header
-						className="mx-[13px] flex items-center justify-between gap-[20px] border-b border-b-dark
-							p-[70px_0_20px_20px] lg:pl-[45px]"
+						className="mx-3 flex items-center justify-between gap-[20px] border-b border-b-dark p-4
+							pt-[70px]"
 					>
 						<IconBox
 							icon="mdi:cart"

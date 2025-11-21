@@ -11,7 +11,6 @@ const errorHandler: ErrorRequestHandler = (error: AppError, _req, res, _next) =>
 	/* eslint-disable perfectionist/sort-objects */
 	const errorInfo = {
 		status: "error",
-		success: false,
 		message: modifiedError.message ?? "Something went very wrong!",
 		...(Boolean(modifiedError.errors) && { errors: modifiedError.errors }),
 	};

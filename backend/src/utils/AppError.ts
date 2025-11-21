@@ -3,7 +3,6 @@ import type { ErrorCodesUnion } from "../constants";
 class AppError extends Error {
 	errors?: unknown;
 	errorStatus: string;
-	isOperational: boolean;
 	statusCode: ErrorCodesUnion;
 
 	constructor(
@@ -17,10 +16,7 @@ class AppError extends Error {
 
 		this.statusCode = statusCode;
 		this.errorStatus = String(statusCode).startsWith("5") ? "Failed" : "Error";
-		this.isOperational = true;
 		this.errors = errors;
-
-		Error.captureStackTrace(this, this.constructor);
 	}
 }
 
